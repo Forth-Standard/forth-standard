@@ -440,11 +440,11 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{u_2} and \param{true}. Otherwise return \param{u_1} and
 	\param{false}.
 
-\note \place{ed}{%
+\note
 	The keyboard may lack some of the keys, or the capability to report
 	them. Programs should be written such that they also work (although
 	less conveniently or with less functionality) if these key numbers
-	cannot be produced.}
+	cannot be produced.
 
 \see \wref{facility:EKEY}{EKEY},
 	\wref{facility:K-DELETE}{K-DELETE},
@@ -495,16 +495,13 @@ to provide all of the Facility and Facility Extensions word sets.
 		a way that they will continue to work without these additional
 		keys. Albeit with a limited or reduced functionality.
 
-		The \replace{ed}{following}{\texttt{K-}{\ldots}} words produce
-		the same values that \place{ed}{the sequence} \word{EKEY}
-		\word{EKEYtoFKEY} may produce when the user presses the
-		corresponding keys}. Note that\replace{ed}{, even
-		if this extension is present, the keyboard may}{ some systems
-		may} lack some of the keys, or the system the capability to
-		report them\replace{ed}{, so programs}{. Programs} should be written
-		such that they \replace{ed}{also}{continue to} work (although
-		less conveniently or with less functionality) if these key
-		\replace{ed}{numbers}{combinations} cannot be produced.
+		The \texttt{K-}{\ldots} words produce the same values that the
+		sequence \word{EKEY} \word{EKEYtoFKEY} may produce when the
+		user presses the corresponding keys. Note that some systems
+		may lack some of the keys, or the system the capability to
+		report them. Programs should be written such that they continue
+		to work (although less conveniently or with less functionality)
+		if these key combinations cannot be produced.
 
 		Typical Use:
 
@@ -525,30 +522,16 @@ to provide all of the Facility and Facility Extensions word sets.
 
 	\item[\word{EKEY} return values] ~\\
 		The intention behind \word{EKEY} was that it would return the
-		implementation defined keyboard scan code.
-		\remove{ed}{Unfortunately there are some systems where the scan
-		code is larger than a single cell.}
-		The implementation defined nature of the value means that a
-		standard program may not use the value \replace{ae}{is}{in} any way, other than
-		passing it on to \word{EKEYtoCHAR} to convert it into an ASCII
-		character.
+		implementation defined keyboard scan code. The implementation
+		defined nature of the value means that a standard program may
+		not use the value in any way, other than passing it on to
+		\word{EKEYtoCHAR} to convert it into an ASCII character.
 
 		\word{EKEYtoFKEY} has been designed to be used in a similar
-		manner. It provides \replace{ed}{a}{an} implementation defined
-		value which corresponds to \place{ed}{non-ASCII keys, or} a
-		combination \replace{ed}{of keys}{thereof}. A standard program
-		\replace{ed}{can}{may}
-		check which key combination has been used via a set of
-		pre-defined constants.
-
-		\remove{ae}{%
-		\replace{ed}{A system where the scan code is larger than a
-		single cell}{There are some systems where the scan code is
-		larger than a single cell, such systems} may
-		approach this in one of two ways. It may manipulate the scan
-		code \place{ed}{returned from \word{EKEY}} to produce a single
-		cell value.  Alternatively it may return the address of a
-		buffer which contains the actual scan code.}
+		manner. It provides an implementation defined value which
+		corresponds to non-ASCII keys, or a combination thereof. A
+		standard program may check which key combination has been used
+		via a set of pre-defined constants.
 
 %		There was a discussion about what the standard says about
 %		EKEY return values. In particular, the non-specification
@@ -567,21 +550,14 @@ to provide all of the Facility and Facility Extensions word sets.
 
 %		Programming advice
 
-		\remove{ed}{%
-		Note that many environments do not have or do not report all
-		these keys and key combinations, so it is a good idea to write
-		a program such that it is still useful even if these keys and
-		key combinations cannot be pressed or are not recognised.}
-
 	\item[Shift keys] ~\\
 		Note that, as defined, the shift key masks
 		(\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
 		 \wref{facility:K-CTRL-MASK}{K-CTRL-MASK} and
 		 \wref{facility:K-ALT-MASK}{K-ALT-MASK})
 		are only useful for recognising shifted cursor and function
-		keys, because these are the only
-		\replace{ed}{keys that \word{EKEY} return values are defined
-		for.}{values defined for use with \word{EKEYtoFKEY}.}
+		keys, because these are the only values defined for use with
+		\word{EKEYtoFKEY}.
 		E.g., a standard program cannot recognise \textsc{Alt-T},
 		because no \word{EKEY} return value for \texttt{T} has been
 		defined.

@@ -40,7 +40,7 @@ if not x%1 == xps goto end
 :ps
 if not exist forth.dvi goto dvi
 
-dvips -Pcmz -Pamz -Ppdf -K -t A4 forth
+dvips -K -t A4 forth
 goto end
 
 :html
@@ -83,8 +83,8 @@ rem forth.4ct	ToC postfix
 rem forth.4tc	ToC prefix
 rem forth.idv	Fonts extract
 rem forth.lg	tex4th log file
-rem forth.tmp
 rem forth.xref	tex4th Cross references
+rem forth*.tmp
 
 for %%x in (4ct 4tc idv lg tmp xref) do if exist forth.%%x del forth.%%x
 

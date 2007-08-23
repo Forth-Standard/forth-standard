@@ -1239,6 +1239,10 @@
 	\end{center}
 	\chaptermark{#1}
     \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}
+	%
+	% Set up variables for \label
+	\def\@currentlabel{\thechapter}%
+	\edef\@currentlabelname{#1}%
 }
 
 % ========================================
