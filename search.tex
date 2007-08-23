@@ -1,0 +1,600 @@
+\chapter{The optional Search-Order word set} % 16
+\wordlist{search}
+
+\begin{intro}
+\section{The optional Search-Order word set} % A.16
+
+Search-order specification and control mechanisms vary widely. The
+FIG-Forth, Forth-79, polyFORTH, and Forth-83 vocabulary and search
+order mechanisms are all mutually incompatible. The complete list of
+incompatible mechanisms, in use or proposed, is much longer. The
+(\word{ALSO}/\word{ONLY}) scheme described in a Forth-83 Experimental
+Proposal has substantial community support. However, many consider it
+to be fundamentally flawed, and oppose it vigorously.
+
+Recognizing this variation, this Standard specifies a new ``primitive''
+set of tools from which various schemes may be constructed. This
+primitive search-order word set is intended to be a portable
+``construction set'' from which search-order words may be built,
+rather than a user interface. \word{ALSO}/\word{ONLY} or the various
+``vocabulary'' schemes supported by the major Forth vendors can be
+defined in terms of the primitive search-order word set.
+
+The encoding for word list identifiers \emph{wid} might be a
+small-integer index into an array of word-list definition records, the
+data-space address of such a record, a user-area offset, the execution
+token of a Forth-83 style sealed vocabulary, the link-field address of
+the first definition in a word list, or anything else. It is entirely
+up to the system implementor.
+
+In some systems the interpretation of numeric literals is controlled
+by including ``pseudo word lists'' that recognize numbers at the end
+of the search order. This technique is accommodated by the ``default
+search order'' behavior of \word{SET-ORDER} when given an argument of
+-1. In a system using the traditional implementation of
+\word{ALSO}/\word{ONLY}, the minimum search order would be equivalent
+to the word \word{ONLY}.
+
+There has never been a portable way to restore a saved search order.
+F83 (not Forth 83) introduced the word \word{PREVIOUS}, which almost
+made it possible to ``unload'' the search order by repeatedly executing
+the phrase \texttt{CONTEXT} \word[core]{@} \word{PREVIOUS}. The search
+order could be ``reloaded'' by repeating \word{ALSO} \texttt{CONTEXT}
+\word[core]{!}. Unfortunately there was no portable way to determine
+how many word lists were in the search order.
+
+ANS Forth has removed the word \texttt{CONTEXT} because in many systems
+its contents refer to more than one word list, compounding portability
+problems.
+
+\setwordlist{core}
+Note that \word{:} (colon) no longer affects the search order. The
+previous behavior, where the compilation word list replaces the first
+word list of the search order, can be emulated with the following
+redefinition of \word{:} (colon).
+
+\begin{quote}\ttfamily
+	\word{:} \word{:} \word[search]{GET-ORDER} \word{SWAP} \word{DROP}
+		~ \word[search]{GET-CURRENT} ~
+		\word{SWAP} \word[search]{SET-ORDER} \word{:}
+	\word{;}
+\end{quote}
+\setwordlist{search}
+\end{intro}
+
+\section{Introduction} % 16.1
+
+\section{Additional terms and notation} % 16.2
+
+\begin{description}
+\item[compilation word list:]
+	The word list into which new definition names are placed.
+
+\item[search order:]
+	A list of word lists specifying the order in which the
+	dictionary will be searched.
+\end{description}
+
+\begin{intro}
+\subsubsection{Additional terms} % A.16.2
+
+\textbf{search order}
+
+Note that the use of the term ``list'' does not necessarily imply
+implementation as a linked list
+\end{intro}
+
+\section{Additional usage requirements} % 16.3
+
+\subsection{Data types} % 16.3.1
+
+Word list identifiers are implementation-dependent single-cell
+values that identify word lists.
+
+Append table \ref{search:types} to table \ref{table:datatypes}.
+
+\begin{table}[h]
+  \begin{center}
+	\caption{Data types}
+	\label{search:types}
+	\begin{tabular}{llr}
+	\hline\hline
+	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
+	\hline
+	\emph{wid}		& word list identifiers	& 1 cell \\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+See: \xref[3.1 Data types]{usage:data},
+\xref[3.4.2 Finding definition names]{usage:find},
+\xref[3.4 The Forth text interpreter]{usage:command}.
+
+\subsection{Environmental queries} % 16.3.2
+
+Append table \ref{search:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{search:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{SEARCH-ORDER}		& \emph{flag}	& no	&
+			search-order word set present \\
+		\texttt{SEARCH-ORDER-EXT}	& \emph{flag}	& no	&
+			search-order extensions word set present \\
+		\texttt{WORDLISTS}			& \emph{n}		& yes	&
+			maximum number of word lists usable in the search order\\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Finding definition names} % 16.3.3
+\label{search:find}
+
+When searching a word list for a definition name, the system shall
+search each word list from its last definition to its first. The
+search may encompass only a single word list, as with
+\word{SEARCH-WORDLIST}, or all the word lists in the search order,
+as with the text interpreter and \word{FIND}.
+
+Changing the search order shall only affect the subsequent finding
+of definition names in the dictionary. A system with the Search-Order
+word set shall allow at least eight word lists in the search order.
+
+An ambiguous condition exists if a program changes the compilation
+word list during the compilation of a definition or before
+modification of the behavior of the most recently compiled definition
+with \word[tools]{;CODE}, \word[core]{DOES}, or
+\word[core]{IMMEDIATE}.
+
+A program that requires more than eight word lists in the search
+order has an environmental dependency.
+
+See: \xref[3.4.2 Finding definition names]{usage:find}.
+
+\begin{intro}
+\subsubsection{Finding definition names} % A.16.3.3
+
+In other words, the following is not guaranteed to work:
+
+\setwordlist{core}
+\begin{quote}\ttfamily
+	\word{:} FOO {\ldots}
+		\word{[} {\ldots} \word[search]{SET-CURRENT} \word{]}
+		{\ldots} \word{RECURSE} {\ldots} \\
+	\word{;} \word{IMMEDIATE}
+\end{quote}
+\word{RECURSE}, \word{;} (semicolon), and \word{IMMEDIATE} may or may
+not need information stored in the compilation word list.
+\setwordlist{search}
+\end{intro}
+
+\subsection{Contiguous regions} % 16.3.4
+
+The regions of data space produced by the operations described in
+\xref[3.3.3.2 Contiguous regions]{usage:contiguous} may be
+non-contiguous if \word{WORDLIST} is executed between allocations.
+
+\section{Additional documentation requirements} % 16.4
+
+\subsection{System documentation} % 16.4.1
+
+\subsubsection{Implementation-defined options} % 16.4.1.1
+
+\begin{itemize}
+\item maximum number of word lists in the search order
+	(\xref[16.3.3 Finding definition names]{search:find},
+	 \wref{search:SET-ORDER}{SET-ORDER});
+\item minimum search order
+	(\wref{search:SET-ORDER}{SET-ORDER},
+	 \wref{search:ONLY}{ONLY}).
+\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 16.4.1.2
+
+\begin{itemize}
+\item changing the compilation word list
+	(\xref[16.3.3 Finding definition names]{search:find});
+\item search order empty
+	(\wref{search:PREVIOUS}{PREVIOUS});
+\item too many word lists in search order
+	(\wref{search:ALSO}{ALSO}).
+\end{itemize}
+
+\subsubsection{Other system documentation} % 16.4.1.3
+
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsection{Program documentation} % 16.4.2
+
+\subsubsection{Environmental dependencies} % 16.4.2.1
+
+\begin{itemize}
+\item requiring more than eight word-lists in the search order
+	(\xref[16.3.3 Finding definition names]{search:find}).
+\end{itemize}
+
+\subsubsection{Other program documentation} % 16.4.2.2
+
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+
+\section{Compliance and labeling} % 16.5
+
+\subsection{ANS Forth systems} % 16.5.1
+
+The phrase ``Providing the Search-Order word set'' shall be
+appended to the label of any Standard System that provides all of
+the Search-Order word set.
+
+The phrase ``Providing \emph{name(s)} from the Search-Order
+Extensions word set'' shall be appended to the label of any
+Standard System that provides portions of the Search-Order
+Extensions word set.
+
+The phrase ``Providing the Search-Order Extensions word set'' shall
+be appended to the label of any Standard System that provides all of
+the Search-Order and Search-Order Extensions word sets.
+
+\subsection{ANS Forth programs} % 16.5.2
+
+The phrase ``Requiring the Search-Order word set'' shall be appended
+to the label of Standard Programs that require the system to provide
+the Search-Order word set.
+
+The phrase ``Requiring \emph{name(s)} from the Search-Order
+Extensions word set'' shall be appended to the label of Standard
+Programs that require the system to provide portions of the
+Search-Order Extensions word set.
+
+The phrase ``Requiring the Search-Order Extensions word set'' shall
+be appended to the label of Standard Programs that require the system
+to provide all of the Search-Order and Search-Order Extensions word
+sets.
+
+
+\section{Glossary} % 16.6
+
+\begin{intro}
+\subsection{Glossary} % A.16.6
+\end{intro}
+
+\subsection{Search-Order words} % 16.6.1
+
+\begin{worddef}{1180}{DEFINITIONS}
+\item \stack{}{}
+
+	Make the compilation word list the same as the first word list
+	in the search order. Specifies that the names of subsequent
+	definitions will be placed in the compilation word list.
+	Subsequent changes in the search order will not affect the
+	compilation word list.
+
+\see \xref[16.3.3 Finding Definition Names]{search:find}.
+\end{worddef}
+
+
+\begin{worddef}{1550}{FIND}
+\item Extend the semantics of \wref{core:FIND}{FIND} to be:
+
+	\stack{c-addr}{c-addr 0 | xt 1 | xt -1}
+
+	Find the definition named in the counted string at \param{c-addr}.
+	If the definition is not found after searching all the word lists
+	in the search order, return \param{c-addr} and zero. If
+	the definition is found, return \param{xt}. If the definition is
+	immediate, also return one (\param{1}); otherwise also return
+	minus-one (\param{-1}). For a given string, the values returned
+	by \word{FIND} while compiling may differ from those returned
+	while not compiling.
+
+\see \xref[3.4.2 Finding definition names]{usage:find},
+	\wref{core:'}{'},
+	\wref{core:FIND}{FIND},
+	\wref{core:POSTPONE}{POSTPONE},
+	\wref{core:[']}{[']},
+	\xref[D.6.7 Immediacy]{diff:immediate}.
+\end{worddef}
+
+
+\begin{worddef}{1595}{FORTH-WORDLIST}
+\item \stack{}{wid}
+
+	Return \param{wid}, the identifier of the word list that includes
+	all standard words provided by the implementation. This word list
+	is initially the compilation word list and is part of the initial
+	search order.
+\end{worddef}
+
+
+\begin{worddef}{1643}{GET-CURRENT}
+\item \stack{}{wid}
+
+	Return \param{wid}, the identifier of the compilation word list.
+\end{worddef}
+
+
+\begin{worddef}{1647}{GET-ORDER}
+\item \stack{}{wid_n {\ldots} wid_1 n}
+
+	Returns the number of word lists \param{n} in the search order
+	and the word list identifiers \param{wid_n} {\ldots} \param{wid_1}
+	identifying these word lists. \param{wid_1} identifies the word
+	list that is searched first, and \param{wid_n} the word list that
+	is searched last. The search order is unaffected.
+\end{worddef}
+
+
+\begin{worddef}{2192}{SEARCH-WORDLIST}
+\item \stack{c-addr u wid}{0 | xt 1 | xt -1}
+
+	Find the definition identified by the string \param{c-addr u} in
+	the word list identified by \param{wid}. If the definition is not
+	found, return zero. If the definition is found, return its
+	execution token \param{xt} and one (\param{1}) if the definition is
+	immediate, minus-one (\param{-1}) otherwise.
+
+	\begin{defer}
+	\rationale % A.16.6.1.219  SEARCH-WORDLIST
+		The string argument to \word{SEARCH-WORDLIST} is represented
+		by \param{c-addr u}, rather than by just \param{c-addr} as
+		with \word{FIND}. The committee wishes to establish
+		\param{c-addr u} as the preferred representation of a string
+		on the stack, and has adopted that representation for all new
+		functions that accept string arguments. While this decision
+		may cause the implementation of \word{SEARCH-WORDLIST} to be
+		somewhat more difficult in existing systems, the committee
+		feels that the additional difficulty is minor.
+
+		When \word{SEARCH-WORDLIST} fails to find the word, it does
+		not return the string, as does \word{FIND}. This is in
+		accordance with the general principle that Forth words consume
+		their arguments.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2195}{SET-CURRENT}
+\item \stack{wid}{}
+
+	Set the compilation word list to the word list identified by
+	\param{wid}.
+\end{worddef}
+
+
+\begin{worddef}{2197}{SET-ORDER}
+\item \stack{wid_n {\ldots} wid_1 n}{}
+
+	Set the search order to the word lists identified by
+	\param{wid_n} {\ldots} \param{wid_1}. Subsequently, word list
+	\param{wid_1} will be searched first, and word list \param{wid_n}
+	searched last. If \param{n} is zero, empty the search order. If
+	\param{n} is minus one, set the search order to the
+	implementation-defined minimum search order. The minimum search
+	order shall include the words \word{FORTH-WORDLIST} and
+	\word{SET-ORDER}. A system shall allow \param{n} to be at least
+	eight.
+\end{worddef}
+
+
+\begin{worddef}{2460}{WORDLIST}
+\item \stack{}{wid}
+
+	Create a new empty word list, returning its word list identifier
+	\param{wid}. The new word list may be returned from a pool of
+	preallocated word lists or may be dynamically allocated in data
+	space. A system shall allow the creation of at least 8 new word
+	lists in addition to any provided as part of the system.
+\end{worddef}
+
+
+\subsection{Search-Order extension words} % 16.6.2
+\extended
+
+\begin{worddef}{0715}{ALSO}
+\item \stack{}{}
+
+	Transform the search order consisting of \param{wid_n}, {\ldots}
+	\param{wid_2}, \param{wid_1} (where \param{wid_1} is searched
+	first) into \param{wid_n}, {\ldots} \param{wid_2}, \param{wid_1},
+	\param{wid_1}. An ambiguous condition exists if there are too
+	many word lists in the search order.
+
+	\begin{defer}
+	\rationale % A.16.6.2.0715 ALSO
+		Here is an implementation of \word{ALSO}/\word{ONLY} in terms
+		of the primitive search-order word set.
+		\setwordlist{core}
+		\begin{quote}\ttfamily
+		\word[search]{WORDLIST} \word{CONSTANT} ROOT ~
+		ROOT \word[search]{SET-CURRENT}
+
+		\word{:} DO-VOCABULARY~~\word{p} -- )
+			\word{bs} Implementation factor \\
+		\tab\word{DOES}~~\word{@} \word{toR}
+				~~~~~~~~~\word{p} ) \word{p} R: widnew ) \\
+		\tab~\word[search]{GET-ORDER} \word{SWAP} \word{DROP}
+				\word{p} wid1 {\ldots} widn-1 n ) \\
+		\tab~\word{Rfrom} \word{SWAP} \word[search]{SET-ORDER} \\
+		\word{;}
+
+		\word{:} DISCARD~~\word{p} x1 {\ldots} xu u -- )
+			\word{bs} Implementation factor \\
+		\tab 0 \word{qDO} \word{DROP} \word{LOOP}
+			~~~~~~~~~~~~\word{bs} DROP u+1 stack items \\
+		\word{;}
+
+		\word{CREATE} \word[search]{FORTH} ~
+		\word[search]{FORTH-WORDLIST} \word{,} DO-VOCABULARY
+
+		\word{:} VOCABULARY ~~~\word{p} name -- )
+			\word[search]{WORDLIST} \word{CREATE} \word{,} ~ DO-VOCABULARY
+		\word{;}
+
+		\word{:} \word[search]{ALSO} ~~~~~~~~~\word{p} -- )
+			\word[search]{GET-ORDER} ~ \word{OVER}
+			\word{SWAP} 1+ \word[search]{SET-ORDER}
+		\word{;}
+
+		\word{:} \word[search]{PREVIOUS} ~~~~~\word{p} -- )
+			\word[search]{GET-ORDER} ~ \word{SWAP}
+			\word{DROP} 1- \word[search]{SET-ORDER}
+		\word{;}
+
+		\word{:} \word[search]{DEFINITIONS} ~~\word{p} -- )
+			\word[search]{GET-ORDER} ~ \word{OVER}
+			\word[search]{SET-CURRENT} DISCARD
+		\word{;}
+
+		\word{:} \word[search]{ONLY} ~~~~~~~~~\word{p} -- )
+			ROOT ROOT ~ 2 \word[search]{SET-ORDER}
+		\word{;}
+
+		\word{bs} Forth-83 version; just removes ONLY
+
+		\word{:} SEAL \word{p} -- )
+			\word[search]{GET-ORDER} \word{1-}
+			\word[search]{SET-ORDER} \word{DROP}
+		\word{;}
+
+		\word{bs} F83 and F-PC version; leaves only CONTEXT
+
+		\word{:} SEAL \word{p} -- )
+			\word[search]{GET-ORDER} \word{OVER}
+			1 \word[search]{SET-ORDER} DISCARD
+		\word{;}
+		\end{quote}
+		\setwordlist{search}
+
+		The preceding definition of \word{ONLY} in terms of a
+		``\texttt{ROOT}'' word list follows F83 usage, and assumes
+		that the default search order just includes \texttt{ROOT} and
+		\word{FORTH}. A more portable definition of \word{FORTH} and
+		\word{ONLY}, without the assumptions, is:
+		\begin{quote}\ttfamily
+		<omit the {\ldots}
+			\word{WORDLIST} \word[core]{CONSTANT} ROOT
+		{\ldots} line>
+
+		\word[core]{CREATE} \word{FORTH} \word{GET-ORDER}
+			\word[core]{OVER} \word[core]{,} DISCARD DO-VOCABULARY
+
+		\word[core]{:} \word{ONLY} \word[core]{p} -- )
+			-1 \word{SET-ORDER}
+		\word[core]{;}
+		\end{quote}
+
+		Here is a simple implementation of \word{GET-ORDER} and
+		\word{SET-ORDER}, including a corresponding definition of
+		\word{FIND}. The implementations of \word{WORDLIST},
+		\word{SEARCH-WORDLIST}, \word{GET-CURRENT} and
+		\word{SET-CURRENT} depend on system details and are not given
+		here.
+
+		\setwordlist{core}
+		\begin{quote}\ttfamily
+		16 \word{CONSTANT} \#VOCS
+
+		\word{VARIABLE} \#ORDER
+
+		\word{CREATE} CONTEXT ~ \#VOCS \word{CELLS} \word{ALLOT}
+
+		\word{:} \word[search]{GET-ORDER}~~\word{p} -- wid1 {\ldots} widn n ) \\
+		\tab \#ORDER \word{@} 0 \word{qDO} \\
+		\tab~ \#ORDER \word{@} ~ \word{I} \word{-}
+			  \word{1-} \word{CELLS} CONTEXT \word{+} \word{@} \\
+		\tab \word{LOOP} \\
+		\tab \#ORDER \word{@} \\
+		\word{;}
+
+		\word{:} \word[search]{SET-ORDER}~~\word{p} wid1 {\ldots} widn n -- ) \\
+		\tab \word{DUP} -1 \word{=} \word{IF} \\
+		\tab~ \word{DROP} <push system default word lists and n> \\
+		\tab \word{THEN} \\
+		\tab \word{DUP} \#ORDER \word{!} \\
+		\tab 0 \word{qDO} ~
+			\word{I} \word{CELLS} CONTEXT \word{+} \word{!}
+		\word{LOOP} \\
+		\word{;}
+
+		\begin{tabbing}
+		\tab \= \tab \= \tab \= \hspace{10.5em} \= \kill
+		\+ \word{:} \word[search]{FIND}~ \word{p} c-addr -- c-addr 0 | w 1 | w -1 ) \\
+				0												\>\>\> \word{p} c-addr 0 ) \\
+			\+	\#ORDER \word{@} 0 \word{qDO} \\
+				\word{OVER} \word{COUNT}						\>\> \word{p} c-addr 0 c-addr' u ) \\
+				\word{I} \word{CELLS} CONTEXT \word{+} \word{@}	\>\> \word{p} c-addr 0 c-addr' u wid) \\
+				\word[search]{SEARCH-WORDLIST}					\>\> \word{p} c-addr 0; 0 | w 1 | w -1 ) \\
+				\word{qDUP} \word{IF}							\>\> \word{p} c-addr 0; w 1 | w -1 ) \\
+				\> \word{2SWAP} \word{2DROP} \word{LEAVE}		\>	 \word{p} w 1 | w -1 ) \\
+			\-	\word{THEN}										\>\> \word{p} c-addr 0 ) \\
+		\-	\word{LOOP}											\>\>\> \word{p} c-addr 0 | w 1 | w -1 ) \\
+		\word{;}
+		\end{tabbing}
+		\end{quote}
+		\setwordlist{search}
+
+		In an implementation where the dictionary search mechanism
+		uses a hash table or lookup cache to reduce the search time,
+		\word{SET-ORDER} might need to reconstruct the hash table or
+		flush the cache.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1590}{FORTH}
+\item \stack{}{}
+
+	Transform the search order consisting of \param{wid_n}, {\ldots}
+	\param{wid_2}, \param{wid_1} (where \param{wid_1} is searched
+	first) into \param{wid_n}, {\ldots} \param{wid_2},
+	\param{wid_{\word{FORTH-WORDLIST}}}.
+\end{worddef}
+
+
+\begin{worddef}{1965}{ONLY}
+\item \stack{}{}
+
+	Set the search order to the implementation-defined minimum search
+	order. The minimum search order shall include the words
+	\word{FORTH-WORDLIST} and \word{SET-ORDER}.
+\end{worddef}
+
+
+\begin{worddef}{1985}{ORDER}
+\item \stack{}{}
+
+	Display the word lists in the search order in their search order
+	sequence, from first searched to last searched. Also display the
+	word list into which new definitions will be placed. The display
+	format is implementation dependent.
+
+	\word{ORDER} may be implemented using pictured numeric output
+	words. Consequently, its use may corrupt the transient region
+	identified by \word[core]{num-end}.
+
+\see \xref[3.3.3.6 Other Transient Regions]{usage:transient}.
+\end{worddef}
+
+
+\begin{worddef}{2037}{PREVIOUS}
+\item \stack{}{}
+
+	Transform the search order consisting of \param{wid_n}, {\ldots}
+	\param{wid_2}, \param{wid_1} (where \param{wid_1} is searched
+	first) into \param{wid_n}, {\ldots} \param{wid_2}. An ambiguous
+	condition exists if the search order was empty before
+	\word{PREVIOUS} was executed.
+\end{worddef}

@@ -1,0 +1,398 @@
+\chapter{Documentation requirements}
+\label{doc}
+
+When it is impossible or infeasible for a system or program to
+define a particular behavior itself, it is permissible to state
+that the behavior is unspecifiable and to explain the circumstances
+and reasons why this is so.
+
+\section{System documentation} % 4.1
+\label{doc:system}
+
+\subsection{Implementation-defined options} % 4.1.1
+
+The implementation-defined items in the following list represent
+characteristics and choices left to the discretion of the
+implementor, provided that the requirements of this Standard are
+met. A system shall document the values for, or behaviors of, each
+item.
+
+\begin{itemize}
+\item aligned address requirements \xref[Addresses]{usage:addr};
+
+\item behavior of \wref{core:EMIT}{EMIT} for non-graphic characters;
+
+\item character editing of \wref{core:ACCEPT}{ACCEPT} and
+	\wref{core:EXPECT}{EXPECT};
+
+\item character set (\xref[Character types]{usage:char},
+	\wref{core:EMIT}{EMIT}, \wref{core:KEY}{KEY});
+
+\item character-aligned address requirements
+	(\xref[Addresses]{usage:addr});
+
+\item character-set-extensions matching characteristics
+	(\xref[Finding definition names]{usage:find});
+
+\item conditions under which control characters match a space
+	delimiter (\xref[Delimiters]{usage:delim});
+
+\item format of the control-flow stack
+	(\xref[Control-flow stack]{usage:controlstack});
+
+\item conversion of digits larger than thirty-five
+	(\xref[Digit conversion]{usage:digits});
+
+\item display after input terminates in \wref{core:ACCEPT}{ACCEPT}
+	and \wref{core:EXPECT}{EXPECT};
+
+\item exception abort sequence (as in \wref{core:ABORTq}{ABORT"});
+
+\item input line terminator (\xref[User input device]{usage:input});
+
+\item maximum size of a counted string, in characters
+	(\xref[Counted strings]{usage:cstring}, \wref{core:WORD}{WORD});
+
+\item maximum size of a parsed string
+	(\xref[Parsing]{usage:parsing});
+
+\item maximum size of a definition name, in characters
+	(\xref[Definition names]{usage:names});
+
+\item maximum string length for
+	\wref{core:ENVIRONMENTq}{ENVIRONMENT?}, in characters;
+
+\item method of selecting \xref[User input device]{usage:input};
+
+\item method of selecting \xref[User output device]{usage:output};
+
+\item methods of dictionary compilation
+	(\xref[The Forth dictionary]{usage:dict});
+
+\item number of bits in one address unit
+	(\xref[Addresses]{usage:addr});
+
+\item number representation and arithmetic
+	(\xref[Internal number representation]{usage:number});
+
+\item ranges for \param{n}, \param{+n}, \param{u}, \param{d},
+	\param{+d}, and \param{ud}
+	(\xref[Single-cell types]{usage:cell},
+	 \xref[Cell-pair types]{usage:2cell});
+
+\item read-only data-space regions
+	(\xref[Data space]{usage:dataspace});
+
+\item size of buffer at \wref{core:WORD}{WORD}
+	(\xref[Other transient regions]{usage:transient});
+
+\item size of one cell in address units
+	(\xref[Single-cell types]{usage:cell});
+
+\item size of one character in address units
+	(\xref[Character types]{usage:char});
+
+\item size of the keyboard terminal input buffer
+	(\xref[Input buffers]{usage:inbuf});
+
+\item size of the pictured numeric output string buffer
+	(\xref[Other transient regions]{usage:transient});
+
+\item size of the scratch area whose address is returned by
+	\wref{core:PAD}{PAD} (\xref[Other transient regions]{usage:transient});
+
+\item system case-sensitivity characteristics
+	(\xref[Finding definition names]{usage:find});
+
+\item system prompt (\xref[The Forth text interpreter]{usage:dict},
+	\wref{core:QUIT}{QUIT});
+
+\item type of division rounding (\xref[Integer division]{usage:div},
+	\wref{core:*/}{*/}, \wref{core:*/MOD}{*/MOD}, \wref{core:/}{/},
+	\wref{core:/MOD}{/MOD}, \wref{core:MOD}{MOD});
+
+\item values of \wref{core:STATE}{STATE} when true;
+
+\item values returned after arithmetic overflow
+	(\xref[Other integer operations]{usage:intops});
+
+\item whether the current definition can be found after
+	\wref{core:DOES}{DOES>} (\wref{core::}{:}).
+
+\end{itemize}
+
+
+
+\subsection{Ambiguous conditions} % 4.1.2 ===========================
+
+A system shall document the system action taken upon each of the
+general or specific ambiguous conditions identified in this
+Standard. See \xref[Possible actions on an ambiguous condition]{usage:ambiguous}.
+
+The following general ambiguous conditions could occur because of a
+combination of factors:
+
+\begin{itemize}
+
+\item a \emph{name} is neither a valid definition name nor a valid
+	number during text interpretation (\xref[The Forth text
+	interpreter]{usage:command});
+
+\item a definition name exceeded the maximum length allowed
+	(\xref[Definition names]{usage:names});
+
+\item addressing a region not listed in \xref[Data Space]{usage:dataspace};
+
+\item argument type incompatible with specified input parameter,
+	e.g., passing a \emph{flag} to a word expecting an \emph{n}
+	(\xref[Data types]{usage:data});
+
+\item attempting to obtain the execution token, (e.g., with
+	\wref{core:'}{'}, \wref{core:FIND}{FIND}, etc. of a definition
+	with undefined interpretation semantics;
+
+\item dividing by zero
+	(\wref{core:*/}{*/},
+	 \wref{core:*/MOD}{*/MOD},
+	 \wref{core:/}{/},
+	 \wref{core:/MOD}{/MOD},
+	 \wref{core:FM/MOD}{FM/MOD},
+	 \wref{core:MOD}{MOD},
+	 \wref{core:SM/REM}{SM/REM},
+	 \wref{core:UM/MOD}{UM/MOD},
+	 \wref{double:M*/}{M*/});
+
+\item insufficient data-stack space or return-stack space (stack
+	overflow);
+
+\item insufficient space for loop-control parameters;
+
+\item insufficient space in the dictionary;
+
+\item interpretating a word with undefined interpretation semantics;
+
+\item modifying the contents of the input buffer or a string literal
+	(\xref[Text-literal regions]{usage:"literal},
+	\xref[Input buffers]{usage:inbuf});
+
+\item overflow of a pictured numeric output string;
+
+\item parsed string overflow;
+
+\item producing a result out of range, e.g., multiplication
+	(using \word{*}) results in a value too big to be represented by
+	a single-cell integer
+	(\wref{core:*}{*},
+	 \wref{core:*/}{*/},
+	 \wref{core:*/MOD}{*/MOD},
+	 \wref{core:toNUMBER}{>NUMBER},
+	 \wref{core:FM/MOD}{FM/MOD},
+	 \wref{core:SM/REM}{SM/REM},
+	 \wref{core:UM/MOD}{UM/MOD},
+	 \wref{core:CONVERT}{CONVERT},
+	 \wref{double:M*/}{M*/});
+
+\item reading from an empty data stack or return stack
+	(stack underflow);
+
+\item unexpected end of input buffer, resulting in an attempt to
+	use a zero-length string as a \emph{name};
+
+\end{itemize}
+
+
+The following specific ambiguous conditions are noted in the
+glossary entries of the relevant words:
+
+\begin{itemize}
+
+\item \word{toIN} greater than size of input buffer
+	(\xref[Parsing]{usage:parsing});
+
+\item \wref{core:RECURSE}{RECURSE} appears after
+	\wref{core:DOES}{DOES>};
+
+\item argument input source different than current input source for
+	\wref{core:RESTORE-INPUT}{RESTORE-INPUT};
+
+\item data space containing definitions is de-allocated
+	(\xref[Contiguous regions]{usage:contiguous});
+
+\item data space read/write with incorrect alignment
+	(\xref[Address alignment]{usage:aaddr});
+
+\item data-space pointer not properly aligned
+	(\wref{core:,}{,}, \wref{core:C,}{C,});
+
+\item less than \param{u}+2 stack items (\wref{core:PICK}{PICK},
+	\wref{core:ROLL}{ROLL});
+
+\item loop-control parameters not available
+	(\wref{core:+LOOP}{+LOOP},
+	 \wref{core:I}{I},
+	 \wref{core:J}{J},
+	 \wref{core:LEAVE}{LEAVE},
+	 \wref{core:LOOP}{LOOP},
+	 \wref{core:UNLOOP}{UNLOOP});
+
+\item most recent definition does not have a \emph{name}
+	(\wref{core:IMMEDIATE}{IMMEDIATE});
+
+\item \remove{x:to}{\emph{name} not defined by \wref{core:VALUE}{VALUE}
+	used by \wref{core:TO}{TO};}
+
+\item \place{x:to}{\wref{core:TO}{TO} applied to a \emph{name} not
+	defined by a word with a ``\word{TO} \emph{name} run-time''
+	semantics (\wref{core:VALUE}{VALUE} and
+	\wref{local:LOCAL}{(LOCAL)});}
+
+\item \emph{name} not found \wref{core:'}{'},
+	\wref{core:POSTPONE}{POSTPONE}, \wref{core:[']}{[']},
+	\wref{core:[COMPILE]}{[COMPILE]});
+
+\item parameters are not of the same type \wref{core:DO}{DO},
+	\wref{core:qDO}{?DO}, \wref{core:WITHIN}{WITHIN});
+
+\item \wref{core:POSTPONE}{POSTPONE}\replace{x:to}{ or}{,}
+	\wref{core:[COMPILE]}{[COMPILE]}\place{x:to}{,
+	\wref{core:'}{'} or
+	\wref{core:[']}{[']}}
+	applied to \wref{core:TO}{TO};
+
+\item string longer than a counted string returned by
+	\wref{core:WORD}{WORD};
+
+\item $u$ greater than or equal to the number of bits in a cell
+	(\wref{core:LSHIFT}{LSHIFT}, \wref{core:RSHIFT}{RSHIFT});
+
+\item word not defined via \wref{core:CREATE}{CREATE}
+	(\wref{core:toBODY}{>BODY}, \wref{core:DOES}{DOES>});
+
+\item words improperly used outside
+	\wref{core:num-start}{<\num} and \wref{core:num-end}{\num>}
+	(\wref{core:num}{\num}, \wref{core:numS}{\num{}S},
+	 \wref{core:HOLD}{HOLD}, \wref{core:SIGN}{SIGN}).
+\end{itemize}
+
+The following specific ambiguous conditions are have been introduced
+as a consequence of specific extensions.
+
+\begin{description}
+
+% ==== X:Deferred ====
+
+\item[\textsf{X:deferrd}] ~
+	\begin{itemize}
+\item access to a deferred word, a word defined by \wref{core:DEFER}{DEFER},
+	which has yet to be associated with an \param{xt}.
+
+\item access to a deferred word, a word defined by \wref{core:DEFER}{DEFER},
+	which was not defined by \wref{core:DEFER}{DEFER}.
+
+\item \wref{core:POSTPONE}{POSTPONE}, \wref{core:[COMPILE]}{[COMPILE]},
+	\wref{core:[']}{[']} or \wref{core:'}{'} applied to \wref{core:ACTION-OF}{ACTION-OF}
+	or \wref{core:IS}{IS}.
+	\end{itemize}
+
+% ==== X: Required ====
+
+\item[\textsf{X:required}] \cbstart\marginpar{\tiny x:required} ~
+	\begin{itemize}
+\item a file is required while it is being \word[file]{REQUIRED}
+	(\ref{file:REQUIRED}) or \word[file]{INCLUDED} (\ref{file:INCLUDED}).
+
+\item a marker is defined outside and executed inside a file or vice
+	versa, and the file is \word[file]{REQUIRED} (\ref{file:REQUIRED})
+	again.
+
+\item the same file is required twice using different names (e.g.,
+	through symbolic links), or different files with the same name are
+	provided to \wref{file:REQUIRED}{REQUIRED} (by doing some renaming
+	between the invocations of \word[file]{REQUIRED}).
+
+\item the stack effect of including with \wref{file:REQUIRED}{REQUIRED}
+	the file is not \stack{i*x}{i*x}.
+	\end{itemize}
+\end{description}
+\cbend
+
+\subsection{Other system documentation} % 4.1.3
+
+A system shall provide the following information:
+
+\begin{itemize}
+
+\item list of non-standard words using \wref{core:PAD}{PAD}
+	(\xref[Other transient regions]{usage:transient});
+
+\item operator's terminal facilities available;
+
+\item program data space available, in address units;
+
+\item return stack space available, in cells;
+
+\item stack space available, in cells;
+
+\item system dictionary space required, in address units.
+\end{itemize}
+
+
+
+\section{Program documentation} % 4.2 ===============================
+\label{doc:program}
+
+\subsection{Environmental dependencies} % 4.2.1
+
+A program shall document the following environmental dependencies,
+where they apply, and should document other known environmental
+dependencies:
+
+\begin{itemize}
+
+\item considering the pictured numeric output string buffer a fixed
+	area with unchanging access parameters
+	(\xref[Other transient regions]{usage:transient});
+
+\item depending on the presence or absence of non-graphic characters
+	in a received string (\wref{core:ACCEPT}{ACCEPT},
+	\wref{core:EXPECT}{EXPECT});
+
+\item relying on a particular rounding direction
+	(\xref[Integer division]{usage:div});
+
+\item requiring a particular number representation and arithmetic
+	(\xref[Internal number representation]{usage:number});
+
+\item requiring non-standard words or techniques
+	(\xref[Usage requirements]{usage});
+
+\item requiring the ability to send or receive control characters
+	(\xref[Control characters]{usage:control},
+	\wref{core:KEY}{KEY});
+
+\item using control characters to perform specific functions
+	\wref{core:EMIT}{EMIT}, \wref{core:TYPE}{TYPE});
+
+\item using flags as arithmetic operands
+	(\xref[Flags]{usage:flags});
+
+\item using lower case for standard definition names or depending
+	on the case sensitivity of a system
+	(\xref[Definition names]{usage:names});
+
+\item using the graphic character with a value of hex 24
+	(\xref[Graphic characters]{usage:ASCII}).
+
+\end{itemize}
+
+\subsection{Other program documentation} % 4.2.2
+
+A program shall also document:
+
+\begin{itemize}
+
+\item minimum operator's terminal facilities required;
+
+\item whether a Standard System exists after the program is loaded.
+
+\end{itemize}

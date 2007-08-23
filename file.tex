@@ -1,0 +1,1108 @@
+\chapter{The optional File-Access word set} % 11
+\wordlist{file}
+
+\begin{intro}
+\section{The optional File-Access word set}
+
+Many Forth systems support access to a host file system, and many of
+these support interpretation of Forth from source text files. The
+Forth-83 Standard did not address host OS files. Nevertheless, a degree
+of similarity exists among modern implementations.
+
+For example, files must be opened and closed, created and deleted.
+Forth file-system implementations differ mostly in the treatment and
+disposition of the exception codes, and in the format of the
+file-identification strings. The underlying mechanism for creating
+file-control blocks might or might not be visible. We have chosen to
+keep it invisible.
+
+Files must also be read and written. Text files, if supported, must
+be read and written one line at a time. Interpretation of text files
+implies that they are somehow integrated into the text interpreter
+input mechanism. These and other requirements have shaped the
+file-access extensions word set.
+
+Most of the existing implementations studied use simple English words
+for common host file functions: \texttt{OPEN}, \texttt{CLOSE},
+\texttt{READ}, etc. Although we would have preferred to do likewise,
+there were so many minor variations in implementation of these words
+that adopting any particular meaning would have broken much existing
+code. We have used names with a suffix \texttt{-FILE} for most of these
+words. We encourage implementors to conform their single-word primitives
+to the ANS behaviors, and hope that if this is done on a widespread
+basis we can adopt better definition names in a future standard.
+
+Specific rationales for members of this word set follow.
+\end{intro}
+
+\section{Introduction} % 11.1
+
+These words provide access to mass storage in the form of ``files''
+under the following assumptions:
+
+\begin{itemize}
+\item files are provided by a host operating system;
+\item file names are represented as character strings;
+\item the format of file names is determined by the host operating
+	system;
+\item an open file is identified by a single-cell file identifier
+	(\emph{fileid});
+\item file-state information (e.g., position, size) is managed by
+	the host operating system;
+\item file contents are accessed as a sequence of characters;
+\item file read operations return an actual transfer count, which
+	can differ from the requested transfer count.
+\end{itemize}
+
+\section{Additional terms} % 11.2
+
+\begin{description}
+\item[file-access method:]
+	A permissible means of accessing a file, such as ``read/write''
+	or ``read only''.
+
+\item[file position:]
+	The character offset from the start of the file.
+
+\item[input file:]
+	The file, containing a sequence of lines, that is the input source.
+\end{description}
+
+\section{Additional usage requirements} % 11.3
+
+\begin{intro}
+\subsection{Additional usage requirements} % A.11.3
+\end{intro}
+
+\subsection{Data types} % 11.3.1
+
+Append table \ref{file:types} to table \ref{table:datatypes}.
+
+\begin{table}[h]
+  \begin{center}
+	\caption{Data types}
+	\label{file:types}
+	\begin{tabular}{llr}
+	\hline\hline
+	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
+	\hline
+	\emph{ior}		& I/O results			& 1 cell \\
+	\emph{fam}		& file access method	& 1 cell \\
+	\emph{fileid}	& file identifier		& 1 cell \\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsubsection{File identifiers} % 11.3.1.1
+
+File identifiers are implementation-dependent single-cell values
+that are passed to file operators to designate specific files.
+Opening a file assigns a file identifier, which remains valid
+until closed.
+
+\subsubsection{I/O results} % 11.3.1.2
+\label{file:ior}
+
+I/O results are single-cell numbers indicating the result of I/O
+operations. A value of zero indicates that the I/O operation
+completed successfully; other values and their meanings are
+implementation-defined. Reaching the end of a file shall be
+reported as zero.
+
+An I/O exception in the execution of a File-Access word that can
+return an I/O result shall not cause a \word[exception]{THROW};
+exception indications are returned in the \emph{ior}.
+
+\subsubsection{File access methods} % 11.3.1.3
+
+File access methods are implementation-defined single-cell
+values.
+
+\subsubsection{File names} % 11.3.1.4
+\label{file:names}
+
+A character string containing the name of the file. The file name
+may include an implementation-dependent path name. The format of
+file names is implementation defined.
+
+\subsection{Blocks in files} % 11.3.2
+\label{file:blocks}
+
+If the File-Access word set is implemented, the Block word set
+shall be implemented. Blocks may, but need not, reside in files.
+When they do:
+\begin{itemize}
+\item Block numbers may be mapped to one or more files by
+	implementation-defined means. An ambiguous condition exists
+	if a requested block number is not currently mapped;
+\item An \word[block]{UPDATE}d block that came from a file shall
+	be transferred back to the same file.
+\end{itemize}
+
+\begin{intro}
+\subsubsection{Blocks in files}
+
+Many systems reuse file identifiers; when a file is closed, a
+subsequently opened file may be given the same identifier. If the
+original file has blocks still in block buffers, these will be
+incorrectly associated with the newly opened file with disastrous
+results. The block buffer system must be flushed to avoid this.
+\end{intro}
+
+
+\subsection{Environmental queries} % 11.3.3
+
+Append table \ref{file:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{file:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{FILE}		& \emph{flag}		& no	&
+			file word set present \\
+		\texttt{FILE-EXT}	& \emph{flag}		& no	&
+			file extensions word set present \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Input source} % 11.3.4
+\label{file:source}
+
+The File-Access word set creates another input source for the text
+interpreter. When the input source is a text file, \word[block]{BLK}
+shall contain zero, \word{SOURCE-ID} shall contain the \emph{fileid}
+of that text file, and the input buffer shall contain one line of
+the text file.
+
+Input with \word{INCLUDED}, \word{INCLUDE-FILE}, \word[block]{LOAD}
+and \word[block]{EVALUATE} shall be nestable in any order to at least
+eight levels.
+
+A program that uses more than eight levels of input-file nesting has
+an environmental dependency. See:
+\xref[3.3.3.5 Input buffers]{usage:inbuf},
+\xref[9. Optional Exception word set]{wordlist:exception}.
+
+\subsection{Other transient regions} % 11.3.5
+\label{file:buffers}
+
+The list of words using memory in transient regions is extended to
+include \wref{file:Sq}{S"}. See: \xref[3.3.3.6 Other transient
+regions]{usage:transient}.
+
+\subsection{Parsing} % 11.3.6
+\label{file:parsing}
+
+When parsing from a text file using a space delimiter, control
+characters shall be treated the same as the space character.
+
+Lines of at least 128 characters shall be supported. A program that
+requires lines of more than 128 characters has an environmental
+dependency.
+
+A program may reposition the parse area within the input buffer by
+manipulating the contents of \word[core]{toIN}. More extensive
+repositioning can be accomplished using \word[core]{SAVE-INPUT} and
+\word[core]{RESTORE-INPUT}.
+
+See: \xref[3.4.1 Parsing]{usage:parsing}.
+
+\section{Additional documentation requirements} % 11.4
+
+\subsection{System documentation} % 11.4.1
+
+\subsubsection{Implementation-defined options} % 11.4.1.1
+\begin{itemize}
+\item file access methods used by
+	\wref{file:BIN}{BIN},
+	\wref{file:CREATE-FILE}{CREATE-FILE},
+	\wref{file:OPEN-FILE}{OPEN-FILE},
+	\wref{file:R/O}{R/O},
+	\wref{file:R/W}{R/W}, and
+	\wref{file:W/O}{W/O};
+\item file exceptions;
+\item file line terminator (\wref{file:READ-LINE}{READ-LINE});
+\item file name format (\xref[11.3.1.4 File names]{file:names});
+\item information returned by \wref{file:FILE-STATUS}{FILE-STATUS};
+\item input file state after an exception
+	(\wref{file:INCLUDE-FILE}{INCLUDE-FILE},
+	 \wref{file:INCLUDED}{INCLUDED});
+\item \emph{ior} values and meaning (\xref[11.3.1.2 I/O results]{file:ior});
+\item maximum depth of file input nesting
+	(\xref[11.3.4 Input source]{file:source});
+\item maximum size of input line (\xref[11.3.6 Parsing]{file:parsing});
+\item methods for mapping block ranges to files
+	(\xref[11.3.2 Blocks in files]{file:blocks});
+\item number of string buffers provided (\wref{file:Sq}{S"});
+\item size of string buffer used by \wref{file:Sq}{S"}.
+\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 11.4.1.2
+\begin{itemize}
+\item attempting to position a file outside its boundaries
+	(\wref{file:REPOSITION-FILE}{REPOSITION-FILE});
+\item attempting to read from file positions not yet written
+	(\wref{file:READ-FILE}{READ-FILE}, \wref{file:READ-LINE}{READ-LINE});
+\item \emph{fileid} is invalid (\wref{file:INCLUDE-FILE}{INCLUDE-FILE});
+\item I/O exception reading or closing \emph{fileid}
+	(\wref{file:INCLUDE-FILE}{INCLUDE-FILE},
+	 \wref{file:INCLUDED}{INCLUDED});
+\item named file cannot be opened
+	(\wref{file:INCLUDED}{INCLUDED});
+\item requesting an unmapped block number
+	(\xref[11.3.2 Blocks in files]{file:blocks});
+\item using \wref{file:SOURCE-ID}{SOURCE-ID} when
+	\wref{block:BLK}{BLK} is not zero.
+
+% ==== X:Required ====
+
+\item \place{x:required}{a file is required while it is being
+	\word{REQUIRED} (\ref{file:REQUIRED}) or \word{INCLUDED}
+	(\ref{file:INCLUDED}).}
+\item \place{x:required}{a marker is defined outside and executed
+	inside a file or vice versa, and the file is \word{REQUIRED}
+	(\ref{file:REQUIRED}) again.}
+\item \place{x:required}{the same file is required twice using different
+	names (e.g., through symbolic links), or different files with the
+	same name are provided to \wref{file:REQUIRED}{REQUIRED} (by doing
+	some renaming between the invocations of \word{REQUIRED}).}
+\item \place{x:required}{the stack effect of including with
+	\wref{file:REQUIRED}{REQUIRED} the file is not} \stack{i*x}{i*x}.
+
+\end{itemize}
+
+\subsubsection{Other system documentation} % 11.4.1.3
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsection{Program documentation} % 11.4.2
+
+\subsubsection{Environmental dependencies} % 11.4.2.1
+\begin{itemize}
+\item requiring lines longer than 128 characters
+	(\xref[11.3.6 Parsing]{file:parsing});
+\item using more than eight levels of input-file nesting
+	(\xref[11.3.4 Input source]{file:source}).
+\end{itemize}
+
+\subsubsection{Other program documentation} % 11.4.2.2
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\section{Compliance and labeling} % 11.5
+
+\subsection{ANS Forth systems} % 11.5.1
+
+The phrase ``Providing the File Access word set'' shall be appended
+to the label of any Standard System that provides all of the File
+Access word set.
+
+The phrase ``Providing \emph{name(s)} from the File Access Extensions
+word set'' shall be appended to the label of any Standard System that
+provides portions of the File Access Extensions word set.
+
+The phrase ``Providing the File Access Extensions word set'' shall
+be appended to the label of any Standard System that provides all of
+the File Access and File Access Extensions word sets.
+
+\subsection{ANS Forth programs} % 11.5.2
+
+The phrase ``Requiring the File Access word set'' shall be appended
+to the label of Standard Programs that require the system to provide
+the File Access word set.
+
+The phrase ``Requiring \emph{name(s)} from the File Access Extensions
+word set'' shall be appended to the label of Standard Programs that
+require the system to provide portions of the File Access Extensions
+word set.
+
+The phrase ``Requiring the File Access Extensions word set'' shall be
+appended to the label of Standard Programs that require the system to
+provide all of the File Access and File Access Extensions word sets.
+
+
+\section{Glossary} % 11.6
+
+\begin{intro}
+\subsection{Glossary} % A.11.6
+\end{intro}
+
+\subsection{File Access words} % 11.6.1
+
+\begin{worddef}[p]{0080}{(}[paren]
+\item \stack{"ccc<paren>"}{}
+
+	Extend the semantics of \wref{core:p}{(} to include:
+
+	When parsing from a text file, if the end of the parse area is
+	reached before a right parenthesis is found, refill the input
+	buffer from the next line of the file, set \word[core]{toIN} to
+	zero, and resume parsing, repeating this process until either a
+	right parenthesis is found or the end of the file is reached.
+\end{worddef}
+
+
+\begin{worddef}{0765}{BIN}
+\item \stack{fam_1}{fam_2}
+
+	Modify the implementation-defined file access method
+	\param{fam_1} to additionally select a ``binary'', i.e., not
+	line oriented, file access method, giving access method
+	\param{fam_2}.
+
+\see \wref{file:R/O}{R/O},
+	\wref{file:R/W}{R/W},
+	\wref{file:W/O}{W/O}.
+
+	\begin{defer}
+	\rationale % A.11.6.1.0765 BIN
+		Some operating systems require that files be opened in a
+		different mode to access their contents as an unstructured
+		stream of binary data rather than as a sequence of lines.
+
+		The arguments to \word{READ-FILE} and \word{WRITE-FILE} are
+		arrays of character storage elements, each element consisting
+		of at least 8 bits. The Technical Committee intends that, in
+		\word{BIN} mode, the contents of these storage elements can be
+		written to a file and later read back without alteration. The
+		Technical Committee has declined to address issues regarding
+		the impact of ``wide'' characters on the File and Block word
+		sets.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0900}{CLOSE-FILE}
+\item \stack{fileid}{ior}
+
+	Close the file identified by \param{fileid}. \param{ior} is the
+	implementation-defined I/O result code.
+\end{worddef}
+
+
+\begin{worddef}{1010}{CREATE-FILE}
+\item \stack{c-addr u fam}{fileid ior}
+
+	Create the file named in the character string specified by
+	\param{c-addr} and \param{u}, and open it with file access method
+	\param{fam}. The meaning of values of \param{fam} is
+	implementation defined. If a file with the same name already
+	exists, recreate it as an empty file.
+
+	If the file was successfully created and opened, \param{ior} is
+	zero, \param{fileid} is its identifier, and the file has been
+	positioned to the start of the file.
+
+	Otherwise, \param{ior} is the implementation-defined I/O result
+	code and \param{fileid} is undefined.
+
+	\begin{defer}
+	\rationale % A.11.6.1.1010 CREATE-FILE
+		Typical use:
+
+		\tab \word[core]{:} \texttt{X} {\ldots}
+				\word{Sq} \texttt{TEST.FTH"} \word{R/W}
+				\word{CREATE-FILE}
+				\word[core]{ABORTq} \texttt{CREATE-FILE FAILED"}
+			\word[core]{;}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1190}{DELETE-FILE}
+\item \stack{c-addr u}{ior}
+
+	Delete the file named in the character string specified by
+	\param{c-addr u}. \param{ior} is the implementation-defined
+	I/O result code.
+\end{worddef}
+
+
+\begin{worddef}{1520}{FILE-POSITION}
+\item \stack{fileid}{ud ior}
+
+	\param{ud} is the current file position for the file identified
+	by \param{fileid}. \param{ior} is the implementation-defined I/O
+	result code. \param{ud} is undefined if \param{ior} is non-zero.
+\end{worddef}
+
+
+\begin{worddef}{1522}{FILE-SIZE}
+\item \stack{fileid}{ud ior}
+
+	\param{ud} is the size, in characters, of the file identified by
+	\param{fileid}. \param{ior} is the implementation-defined I/O
+	result code. This operation does not affect the value returned
+	by \word{FILE-POSITION}. \param{ud} is undefined if \param{ior}
+	is non-zero.
+\end{worddef}
+
+
+\begin{worddef}{1717}{INCLUDE-FILE}
+\item \stack{i*x fileid}{j*x}
+
+	Remove \param{fileid} from the stack. Save the current input
+	source specification, including the current value of
+	\word{SOURCE-ID}. Store \param{fileid} in \word{SOURCE-ID}.
+	Make the file specified by \param{fileid} the input source. Store
+	zero in \word[block]{BLK}. Other stack effects are due to the
+	words included.
+
+	Repeat until end of file: read a line from the file, fill the
+	input buffer from the contents of that line, set \word[core]{toIN}
+	to zero, and interpret.
+
+	Text interpretation begins at the file position where the next
+	file read would occur.
+
+	When the end of the file is reached, close the file and restore
+	the input source specification to its saved value.
+
+	An ambiguous condition exists if \param{fileid} is invalid, if
+	there is an I/O exception reading \param{fileid}, or if an I/O
+	exception occurs while closing \param{fileid}. When an ambiguous
+	condition exists, the status (open or closed) of any files that
+	were being interpreted is implementation-defined.
+
+\see \xref[11.3.4 Input source]{file:source}.
+
+	\begin{defer}
+	\rationale % A.11.6.1.1717 INCLUDE-FILE
+		Here are two implementation alternatives for saving the input
+		source specification in the presence of text file input:
+
+		\begin{enumerate}
+		\item[1)] Save the file position (as returned by
+			\word{FILE-POSITION}) of the beginning of the line being
+			interpreted. To restore the input source specification,
+			seek to that position and re-read the line into the input
+			buffer.
+
+		\item[2)] Allocate a separate line buffer for each active text
+			input file, using that buffer as the input buffer. This
+			method avoids the ``seek and reread'' step, and allows the
+			use of ``pseudo-files'' such as pipes and other
+			sequential-access-only communication channels.
+		\end{enumerate}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1718}{INCLUDED}
+\item \stack{i*x c-addr u}{j*x}
+
+	Remove \param{c-addr u} from the stack. Save the current input
+	source specification, including the current value of
+	\word{SOURCE-ID}. Open the file specified by \param{c-addr u},
+	store the resulting \param{fileid} in \word{SOURCE-ID}, and make
+	it the input source. Store zero in \word[block]{BLK}. Other
+	stack effects are due to the words included.
+
+	Repeat until end of file: read a line from the file, fill the
+	input buffer from the contents of that line, set \word[core]{toIN}
+	to zero, and interpret.
+
+	Text interpretation begins at the
+	\replace{X:required}{file position where the next file read would
+	occur}{start of the file}.
+
+	When the end of the file is reached, close the file and restore
+	the input source specification to its saved value.
+
+	An ambiguous condition exists if the named file can not be
+	opened, if an I/O exception occurs reading the file, or if an
+	I/O exception occurs while closing the file. When an ambiguous
+	condition exists, the status (open or closed) of any files that
+	were being interpreted is implementation-defined.
+
+	\place{X:required}{%
+		\word{INCLUDED} may allocate memory in data space before it
+		starts interpreting the file.
+	}
+
+\see \wref{file:INCLUDE-FILE}{INCLUDE-FILE}.
+
+	\begin{defer}
+	\rationale % A.11.6.1.1718 INCLUDED
+		Typical use:
+			{\ldots} \word{Sq} \texttt{filename"} \word{INCLUDED} {\ldots}
+
+	\testing\rmfamily
+		\place{X:required}{See \rref{file:REQUIRED}{REQUIRED}.}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1970}{OPEN-FILE}
+\item \stack{c-addr u fam}{fileid ior}
+
+	Open the file named in the character string specified by
+	\param{c-addr u}, with file access method indicated by
+	\param{fam}. The meaning of values of \param{fam} is
+	implementation 	defined.
+
+	If the file is successfully opened, \param{ior} is zero,
+	\param{fileid} is its identifier, and the file has been
+	positioned to the start of the file.
+
+	Otherwise, \param{ior} is the implementation-defined I/O
+	result code and \param{fileid} is undefined.
+
+	\begin{defer}
+	\rationale % A.11.6.1.1970 OPEN-FILE
+		Typical use:
+
+		\tab \word[core]{:} \texttt{X} {\ldots}
+				\word{Sq} \texttt{ TEST.FTH"} \word{R/W}
+				\word{OPEN-FILE}~ \word[core]{ABORTq} \texttt{OPEN-FILE FAILED"}
+			{\ldots} \word[core]{;}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2054}{R/O}[r-o]
+\item \stack{}{fam}
+
+	\param{fam} is the implementation-defined value for selecting
+	the ``read only'' file access method.
+
+\see \wref{file:CREATE-FILE}{CREATE-FILE},
+	\wref{file:OPEN-FILE}{OPEN-FILE}.
+\end{worddef}
+
+
+\begin{worddef}{2056}{R/W}[r-w]
+\item \stack{}{fam}
+
+	\param{fam} is the implementation-defined value for selecting
+	the ``read/write'' file access method.
+
+\see \wref{file:CREATE-FILE}{CREATE-FILE},
+	\wref{file:OPEN-FILE}{OPEN-FILE}.
+\end{worddef}
+
+
+\begin{worddef}{2080}{READ-FILE}
+\item \stack{c-addr u_1 fileid}{u_2 ior}
+
+	Read \param{u_1} consecutive characters to \param{c-addr} from the
+	current position of the file identified by \param{fileid}.
+
+	If \param{u_1} characters are read without an exception, \param{ior}
+	is zero and \param{u_2} is equal to \param{u_1}.
+
+	If the end of the file is reached before \param{u_1} characters are
+	read, \param{ior} is zero and \param{u_2} is the number of characters
+	actually read.
+
+	If the operation is initiated when the value returned by
+	\word{FILE-POSITION} is equal to the value returned by
+	\word{FILE-SIZE} for the file identified by \param{fileid},
+	\param{ior} is zero and \param{u_2} is zero.
+
+	If an exception occurs, \param{ior} is the implementation-defined
+	I/O result code, and \param{u_2} is the number of characters
+	transferred to \param{c-addr} without an exception.
+
+	An ambiguous condition exists if the operation is initiated when
+	the value returned by \word{FILE-POSITION} is greater than the
+	value returned by \word{FILE-SIZE} for the file identified by
+	\param{fileid}, or if the requested operation attempts to read
+	portions of the file not written.
+
+	At the conclusion of the operation, \word{FILE-POSITION} returns
+	the next file position after the last character read.
+
+	\begin{defer}
+	\rationale % A.11.6.1.2080 READ-FILE
+		A typical sequential file-processing algorithm might look like:
+		\begin{quote}\ttfamily\setwordlist{core}
+			\begin{tabbing}
+			\tab \= \hspace{12em} \= \kill
+			\word{BEGIN}					\>\> \word{p} ) \\
+			\> {\ldots} \word[file]{READ-FILE} \word[exception]{THROW}
+											\>	 \word{p} length ) \\
+			\word{qDUP} \word{WHILE}		\>\> \word{p} length ) \\
+			\> {\ldots}						\>	 \word{p} ) \\
+			\word{REPEAT}					\>\> \word{p} )
+			\end{tabbing}
+		\end{quote}\setwordlist{file}
+
+		In this example, \word[exception]{THROW} is used to handle
+		(unexpected) exception conditions, which are reported as
+		non-zero values of the \param{ior} return value from
+		\word{READ-FILE}. End-of-file is reported as a zero value of
+		the ``length'' return value.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2090}{READ-LINE}
+\item \stack{c-addr u_1 fileid}{u_2 flag ior}
+
+	Read the next line from the file specified by \param{fileid} into
+	memory at the address \param{c-addr}. At most \param{u_1} characters
+	are read. Up to two implementation-defined line-terminating
+	characters may be read into memory at the end of the line, but
+	are not included in the count \param{u_2}. The line buffer provided
+	by \param{c-addr} should be at least \param{u_1+2} characters long.
+
+	If the operation succeeded, \param{flag} is true and \param{ior} is
+	zero. If a line terminator was received before \param{u_1} characters
+	were read, then \param{u_2} is the number of characters, not including
+	the line terminator, actually read ($0 <=$ \param{u_2} $<=$ \param{u_1}).
+	When \param{u_1} = \param{u_2} the line terminator has yet to be reached.
+
+	If the operation is initiated when the value returned by
+	\word{FILE-POSITION} is equal to the value returned by
+	\word{FILE-SIZE} for the file identified by \param{fileid},
+	\param{flag} is false, \param{ior} is zero, and \param{u_2} is zero.
+	If \param{ior} is non-zero, an exception occurred during the
+	operation and \param{ior} is the implementation-defined I/O
+	result code.
+
+	An ambiguous condition exists if the operation is initiated when
+	the value returned by \word{FILE-POSITION} is greater than the
+	value returned by \word{FILE-SIZE} for the file identified by
+	\param{fileid}, or if the requested operation attempts to read
+	portions of the file not written.
+
+	At the conclusion of the operation, \word{FILE-POSITION} returns
+	the next file position after the last character read.
+
+	\begin{defer}
+	\rationale % A.11.6.1.2090 READ-LINE
+		Implementations are allowed to store the line terminator in
+		the memory buffer in order to allow the use of line reading
+		functions provided by host operating systems, some of which
+		store the terminator. Without this provision, a temporary
+		buffer might be needed. The two-character limitation is
+		sufficient for the vast majority of existing operating
+		systems. Implementations on host operating systems whose line
+		terminator sequence is longer than two characters may have to
+		take special action to prevent the storage of more than two
+		terminator characters.
+
+		Standard Programs may not depend on the presence of any such
+		terminator sequence in the buffer.
+
+		A typical line-oriented sequential file-processing algorithm
+		might look like:
+
+		\begin{quote}\ttfamily\setwordlist{core}
+		  \begin{tabbing}
+			\tab \= \hspace{12em} \= \kill
+			\word{BEGIN}				\>\> \word{p} ) \\
+			\> {\ldots} \word[file]{READ-LINE} \word[exception]{THROW}
+										\>	 \word{p} length not-eof-flag ) \\
+			\word{WHILE} 				\>\> \word{p} length ) \\
+			\> {\ldots}					\>	 \word{p} ) \\
+			\word{REPEAT} \word{DROP}	\>\> \word{p} ) \\
+		  \end{tabbing}
+		\end{quote}\setwordlist{file}
+
+		In this example, \word[exception]{THROW} is used to handle
+		(unexpected) I/O exception condition, which are reported as
+		non-zero values of the ``\param{ior}'' return value from
+		\word{READ-LINE}.
+
+		\word{READ-LINE} needs a separate end-of-file flag because
+		empty (zero-length) lines are a routine occurrence, so a
+		zero-length line cannot be used to signify end-of-file.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2142}{REPOSITION-FILE}
+\item \stack{ud fileid}{ior}
+
+	Reposition the file identified by \param{fileid} to \param{ud}.
+	\param{ior} is the implementation-defined I/O result code. An
+	ambiguous condition exists if the file is positioned outside
+	the file boundaries.
+
+	At the conclusion of the operation, \word{FILE-POSITION}
+	returns the value \param{ud}.
+\end{worddef}
+
+
+\begin{worddef}{2147}{RESIZE-FILE}
+\item \stack{ud fileid}{ior}
+
+	Set the size of the file identified by \param{fileid} to
+	\param{ud}. \param{ior} is the implementation-defined I/O result
+	code.
+
+	If the resultant file is larger than the file before the
+	operation, the portion of the file added as a result of the
+	operation might not have been written.
+
+	At the conclusion of the operation, \word{FILE-SIZE} returns
+	the value \param{ud} and \word{FILE-POSITION} returns an
+	unspecified value.
+
+\see \wref{file:READ-FILE}{READ-FILE},
+	\wref{file:READ-LINE}{READ-LINE}.
+\end{worddef}
+
+
+\begin{worddef}[Sq]{2165}{S"}[s-quote]
+\item Extend the semantics of \wref{core:Sq}{S"} to be:
+
+\interpret
+	\stack{"ccc<quote>"}{c-addr u}
+
+	Parse \param{ccc} delimited by \texttt{"} (double quote). Store
+	the resulting string \param{c-addr u} at a temporary location.
+	The maximum length of the temporary buffer is
+	implementation-dependent but shall be no less than 80 characters.
+	Subsequent uses of \word{Sq} may overwrite the temporary buffer.
+	At least one such buffer shall be provided.
+
+\compile
+	\stack{"ccc<quote>"}{}
+
+	Parse \param{ccc} delimited by \texttt{"} (double quote). Append
+	the run-time semantics given below to the current definition.
+
+\runtime
+	\stack{}{c-addr u}
+
+	Return \param{c-addr} and \param{u} that describe a string consisting
+	of the characters \param{ccc}.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:Cq}{C"},
+	\wref{core:Sq}{S"},
+	\xref[11.3.5 Other transient regions]{file:buffers}.
+
+	\begin{defer}
+	\rationale % A.11.6.1.2165 S"
+		Typical use:
+			{\ldots} \word{Sq} \emph{ccc}\texttt{"} {\ldots}
+
+		The interpretation semantics for \word{Sq} are intended to
+		provide a simple mechanism for entering a string in the
+		interpretation state. Since an implementation may choose to
+		provide only one buffer for interpreted strings, an
+		interpreted string is subject to being overwritten by the
+		next execution of \word{Sq} in interpretation state. It is
+		intended that no standard words other than \word{Sq} should
+		in themselves cause the interpreted string to be overwritten.
+		However, since words such as \word[core]{EVALUATE},
+		\word[block]{LOAD}, \word{INCLUDE-FILE} and
+		\word{INCLUDED} can result in the interpretation of arbitrary
+		text, possibly including instances of \word{Sq}, the
+		interpreted string may be invalidated by some uses of these
+		words.
+
+		When the possibility of overwriting a string can arise, it is
+		prudent to copy the string to a ``safe'' buffer allocated by
+		the application.
+
+		Programs wishing to parse in the fashion of \word{Sq} are
+		advised to use \word[core]{PARSE} or \word[core]{WORD}
+		\word[core]{COUNT} instead of \word{Sq}, preventing the
+		overwriting of the interpreted string buffer.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2218}{SOURCE-ID}[source-i-d]
+\item \stack{}{0 | -1 | fileid}
+
+	Extend \wref{core:SOURCE-ID}{SOURCE-ID} to include text-file
+	input as follows:
+	\begin{center}
+	  \begin{tabular}{cl}
+		\hline\hline
+		\word{SOURCE-ID} & Input source \\
+		\hline
+		\emph{fileid}	& Text file ``\emph{fileid}'' \\
+		\emph{-1}		& String (via \word[core]{EVALUATE}) \\
+		\emph{0}		& User input device \\
+		\hline\hline
+	  \end{tabular}
+	\end{center}
+
+	An ambiguous condition exists if \word{SOURCE-ID} is used when
+	\word[block]{BLK} contains a non-zero value.
+\end{worddef}
+
+
+\begin{worddef}{2425}{W/O}[w-o]
+\item \stack{}{fam}
+
+	\param{fam} is the implementation-defined value for selecting
+	the ``write only'' file access method.
+
+\see \wref{file:CREATE-FILE}{CREATE-FILE},
+	\wref{file:OPEN-FILE}{OPEN-FILE}.
+\end{worddef}
+
+
+\begin{worddef}{2480}{WRITE-FILE}
+\item \stack{c-addr u fileid}{ior}
+
+	Write \param{u} characters from \param{c-addr} to the file
+	identified by \param{fileid} starting at its current position.
+	\param{ior} is the implementation-defined I/O result code.
+
+	At the conclusion of the operation, \word{FILE-POSITION} returns
+	the next file position after the last character written to the
+	file, and \word{FILE-SIZE} returns a value greater than or equal
+	to the value returned by \word{FILE-POSITION}.
+
+\see \wref{file:READ-FILE}{READ-FILE},
+	\wref{file:READ-LINE}{READ-LINE}.
+\end{worddef}
+
+
+\begin{worddef}{2485}{WRITE-LINE}
+\item \stack{c-addr u fileid}{ior}
+
+	Write \param{u} characters from \param{c-addr} followed by the
+	implementation-dependent line terminator to the file identified
+	by \param{fileid} starting at its current position. \param{ior} is
+	the implementation-defined I/O result code.
+
+	At the conclusion of the operation, \word{FILE-POSITION} returns
+	the next file position after the last character written to the
+	file, and \word{FILE-SIZE} returns a value greater than or equal
+	to the value returned by \word{FILE-POSITION}.
+
+\see \wref{file:READ-FILE}{READ-FILE},
+	\wref{file:READ-LINE}{READ-LINE}.
+\end{worddef}
+
+
+\subsection{File-Access extension words} % 11.6.2
+\extended
+
+\begin{worddef}{1524}{FILE-STATUS}
+\item \stack{c-addr u}{x ior}
+
+	Return the status of the file identified by the character string
+	\param{c-addr u}. If the file exists, \param{ior} is zero;
+	otherwise \param{ior} is the implementation-defined I/O result
+	code. \param{x} contains implementation-defined information about
+	the file.
+\end{worddef}
+
+
+\begin{worddef}{1560}{FLUSH-FILE}
+\item \stack{fileid}{ior}
+
+	Attempt to force any buffered information written to the file
+	referred to by \param{fileid} to be written to mass storage, and
+	the size information for the file to be recorded in the storage
+	directory if changed. If the operation is successful, \param{ior}
+	is zero. Otherwise, it is an implementation-defined I/O result
+	code.
+\end{worddef}
+
+
+\begin{worddef*}{}{INCLUDE}[][X:required]
+\item \stack{i*x "name"}{j*x}
+
+	Skip leading white space and parse \param{name} delimited by a
+	white space character. Push the address and length of the
+	\param{name} on the stack and perform the function of
+	\word{INCLUDED}.
+
+\see \wref{file:INCLUDED}{INCLUDED}.
+
+	\begin{defer}
+	\rationale
+		Typical use:
+		\begin{quote}
+			\word{INCLUDE} \texttt{filename}
+		\end{quote}
+
+	\implementation
+		\word{:} INCLUDE \word{p} i*x "name" -{}- j*x ) \\
+		\tab \word{PARSE-NAME} \word{INCLUDED} \word{;}
+
+	\testing\rmfamily
+		See \rref{file:REQUIRED}{REQUIRED}.
+	\end{defer}
+\end{worddef*}
+
+
+\begin{worddef}{2125}{REFILL}
+\item \stack{}{flag}
+
+	Extend the execution semantics of \wref{core:REFILL}{REFILL}
+	with the following:
+
+	When the input source is a text file, attempt to read the next
+	line from the text-input file. If successful, make the result
+	the current input buffer, set \word[core]{toIN} to zero, and
+	return \emph{true}. Otherwise return \emph{false}.
+
+\see \wref{core:REFILL}{REFILL},
+	\wref{block:REFILL}{REFILL}.
+\end{worddef}
+
+
+\begin{worddef}{2130}{RENAME-FILE}
+\item \stack{c-addr_1 u_1 c-addr_2 u_2}{ior}
+
+	Rename the file named by the character string \param{c-addr_1 u_1}
+	to the name in the character string \param{c-addr_2 u_2}.
+	\param{ior} is the implementation-defined I/O result code.
+\end{worddef}
+
+
+\begin{worddef*}{}{REQUIRE}[][X:required]
+\item \stack{i*x "name"}{i*x}
+
+	Skip leading white space and parse \param{name} delimited by a
+	white space character. Push the address and length of the
+	\param{name} on the stack and perform the function of
+	\word{REQUIRED}.
+
+\see \wref{file:REQUIRED}{REQUIRED}.
+
+	\begin{defer}
+	\rationale
+		Typical use:
+		\begin{quote}
+			\word{REQUIRE} \texttt{filename}
+		\end{quote}
+
+	\implementation
+		\word{:} REQUIRE \word{p} i*x "name" -{}- i*x ) \\
+		\tab \word{PARSE-NAME} \word{REQUIRED} \word{;}
+
+	\testing\rmfamily
+		See \rref{file:REQUIRED}{REQUIRED}.
+	\end{defer}
+\end{worddef*}
+
+
+\begin{worddef*}{}{REQUIRED}[][X:required]
+\item \stack{i*x c-addr u}{i*x}
+
+	If the file specified by \param{c-addr u} has been \word{INCLUDED}
+	or \word{REQUIRED} already, but not between the definition and
+	execution of a marker (or equivalent usage of \word[tools]{FORGET}),
+	discard \param{c-addr u}; otherwise, perform the function of
+	\word{INCLUDED}.
+
+	An ambiguous condition exists if a file is \word{REQUIRED} while
+	it is being \word{REQUIRED} or \word{INCLUDED}.
+
+	An ambiguous condition exists, if a marker is defined outside and
+	executed inside a file or vice versa, and the file is
+	\word{REQUIRED} again.
+
+	An ambiguous condition exists if the same file is \word{REQUIRED}
+	twice using different names (e.g., through symbolic links), or
+	different files with the same name are \word{REQUIRED} (by doing
+	some renaming between the invocations of \word{REQUIRED}).
+
+	An ambiguous condition exists if the stack effect of including the
+	file is not \stack{i*x}{i*x}.
+
+	\begin{defer}
+	\rationale
+		Typical use:
+		\begin{quote}
+			\word{Sq} \texttt{filename"} \word{REQUIRED}
+		\end{quote}
+
+	\implementation
+		\rmfamily
+		This implementation does not implement the requirements with
+		regard to \word{MARKER} and \word[tools]{FORGET} (\word{REQUIRED}
+		only includes each file once, whether a marker was executed or
+		not), so it is not a correct implementation on systems that
+		support these words. It extends the definition of \word{INCLUDED}
+		to record the name of files which have been either included or
+		required previously. The names are recorded in a linked list
+		held in the \texttt{included-names} variable.
+
+		\ttfamily
+		\word{:} save-mem	\word{p} addr1 u -- addr2 u ) \word{bs} gforth \\
+		\word{bs} copy a memory block into a newly allocated region in the heap \\
+		\tab \word{SWAP} \word{toR} \\
+		\tab \word{DUP} \word[memory]{ALLOCATE} \word[exception]{THROW} \\
+		\tab \word{SWAP} \word{2DUP} \word{Rfrom} \word{ROT} \word{ROT} \word{MOVE} \word{;} \\
+
+		\word{:} name-add \word{p} addr u listp -- ) \\
+		\tab \word{toR} save-mem \word{p} addr1 u ) \\
+		\tab 3 \word{CELLS} \word[memory]{ALLOCATE} \word[exception]{THROW} \word{bs} allocate list node \\
+		\tab \word{R@} \word{@} \word{OVER} \word{!} \word{bs} set next pointer \\
+		\tab \word{DUP} \word{Rfrom} \word{!} \word{bs} store current node in list var \\
+		\tab \word{CELL+} \word{2!} \word{;} \\
+
+		\word{:} name-present? \word{p} addr u list -- f ) \\
+		\tab \word{ROT} \word{ROT} \word{2toR} \word{BEGIN} \word{p} list R: addr u ) \\
+		\tab[2] \word{DUP} \\
+		\tab \word{WHILE} \\
+		\tab[2] \word{DUP} \word{CELL+} \word{2@} \word{2R@} \word[string]{COMPARE} \word{0=} \word{IF} \\
+		\tab[3]		\word{DROP} \word{2Rfrom} \word{2DROP} \word{TRUE} \word{EXIT} \\
+		\tab[2]	\word{THEN} \\
+		\tab[2] \word{@} \\
+		\tab \word{REPEAT} \\
+		\tab \word{p} \word{DROP} 0 ) \word{2Rfrom} \word{2DROP} \word{;} \\
+
+		\word{:} name-join \word{p} addr u list -- ) \\
+		\tab \word{toR} \word{2DUP} \word{R@} \word{@} name-present? \word{IF} \\
+		\tab[2] \word{Rfrom} \word{DROP} \word{2DROP} \\
+	    \tab \word{ELSE} \\
+		\tab[2] \word{Rfrom} name-add \\
+		\tab \word{THEN} \word{;} \\
+
+		\word{VARIABLE} included-names 0 included-names \word{!} \\
+
+		\word{:} included \word{p} i*x addr u -- j*x ) \\
+		\tab \word{2DUP} included-names name-join \\
+		\tab \word{INCLUDED} \word{;} \\
+
+		\word{:} REQUIRED \word{p} i*x addr u -- i*x ) \\
+		\tab \word{2DUP} included-names \word{@} name-present? \word{0=} \word{IF} \\
+		\tab[2] included \\
+		\tab \word{ELSE} \\
+		\tab[2] \word{2DROP} \\
+		\tab \word{THEN} \word{;}
+
+	\testing
+		\rmfamily
+		This test requires two additional files:
+			\texttt{required-helper1.fs} and
+			\texttt{required-helper2.fs}.
+		Both of which hold the text:
+		\begin{quote}
+			\word{1+}
+		\end{quote}
+		As for the test themselves:
+
+		\ttfamily
+		\{ 0 \\
+		\tab \word{Sq} required-helper1.fs" \word{REQUIRED} \word{bs} Increment TOS \\
+		\tab \word{REQUIRE} required-helper1.fs				\word{bs} Ignore - already loaded \\
+		\tab \word{INCLUDE} required-helper1.fs				\word{bs} Increment TOS \\
+		 -> 2 \} \\
+
+		\{ 0 \\
+		\tab \word{INCLUDE} required-helper2.fs				\word{bs} Increment TOS \\
+		\tab \word{Sq} required-helper2.fs" \word{REQUIRED} \word{bs} Ignored - already loaded \\
+		\tab \word{REQUIRE} required-helper2.fs				\word{bs} Ignored - already loaded \\
+		\tab \word{Sq} required-helper2.fs" \word{INCLUDED}	\word{bs} Increment TOS \\
+		 -> 2 \}
+	\end{defer}
+\end{worddef*}
+

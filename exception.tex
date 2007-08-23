@@ -1,0 +1,524 @@
+\chapter{The optional Exception word set} % 9
+\wordlist{exception}
+
+\begin{intro}
+\section{The optional Exception word set}
+
+\word{CATCH} and \word{THROW} provide a reliable mechanism for
+handling exceptions, without having to propagate exception flags
+through multiple levels of word nesting. It is similar in spirit
+to the ``non-local return'' mechanisms of many other languages,
+such as C's \texttt{setjmp()} and \texttt{longjmp()}, and LISP's
+\texttt{CATCH} and \texttt{THROW}. In the Forth context, \word{THROW}
+may be described as a ``multi-level \word[core]{EXIT}'', with
+\word{CATCH} marking a location to which a \word{THROW} may return.
+
+Several similar Forth ``multi-level \word[core]{EXIT}''
+exception-handling schemes have been described and used in past years.
+It is not possible to implement such a scheme using only standard words
+(other than \word{CATCH} and \word{THROW}), because there is no portable
+way to ``unwind'' the return stack to a predetermined place.
+
+\word{THROW} also provides a convenient implementation technique for
+the standard words \word{ABORT} and \word{ABORTq}, allowing an
+application to define, through the use of \word{CATCH}, the behavior
+in the event of a system \word{ABORT}.
+
+This sample implementation of \word{CATCH} and \word{THROW} uses the
+non-standard words described below. They or their equivalents are
+available in many systems. Other implementation strategies, including
+directly saving the value of \word[core]{DEPTH}, are possible if such
+words are not available.
+
+\begin{quote}
+\texttt{SP@} \stack{}{addr}
+	returns the address corresponding to the top of data stack.
+
+\texttt{SP!} \stack{addr}{}
+	sets the stack pointer to \emph{addr}, thus restoring the stack
+	depth to the same depth that existed just before \emph{addr} was
+	acquired by executing \texttt{SP@}.
+
+\texttt{RP@} \stack{}{addr}
+	returns the address corresponding to the top of return stack.
+
+\texttt{RP!} \stack{addr}{}
+	sets the return stack pointer to \emph{addr}, thus restoring the
+	return stack depth to the same depth that existed just before
+	\emph{addr} was acquired by executing \texttt{RP@}.
+
+	\setwordlist{core}\ttfamily
+	\begin{tabbing}
+	\tab \= \tab \= \hspace{7em} \= ( saved-sp ) \= \kill
+	\word{VARIABLE} HANDLER ~ 0 HANDLER \word{!} ~ \word{bs} last exception handler \\[\parskip]
+
+	\+ \word{:} \word[exception]{CATCH} ~ \word{p} xt -{}- exception\# | 0 ) \word{bs} return addr on stack \\
+		SP@ \word{toR}				\>\> \word{p} xt )	\> \word{bs} save data stack pointer \\
+		HANDLER \word{@} \word{toR}	\>\> \word{p} xt )	\> \word{bs} and previous handler \\
+		RP@ HANDLER \word{!}		\>\> \word{p} xt )	\> \word{bs} set current handler \\
+		\word{EXECUTE}				\>\> \word{p} )		\> \word{bs} execute returns if no THROW \\
+		\word{Rfrom} HANDLER \word{!}	\>\> \word{p} )		\> \word{bs} restore previous handler \\
+		\word{Rfrom} \word{DROP}		\>\> \word{p} )		\> \word{bs} discard saved stack ptr \\
+	\-	0							\>\> \word{p} 0 )	\> \word{bs} normal completion \\
+	\word{;} \\[\parskip]
+
+	\+ \word{:} \word[exception]{THROW} \word{p} ??? exception\# -{}- ??? exception\# ) \\
+		\+ \word{qDUP} \word{IF}			\>\> \word{p} exc\# )	\> \word{bs} 0 THROW is no-op \\
+			HANDLER \word{@} RP!			\> \word{p} exc\# ) \> \word{bs} restore prev return stack \\
+			\word{Rfrom} HANDLER \word{!}		\> \word{p} exc\# ) \> \word{bs} restore prev handler \\
+			\word{Rfrom} \word{SWAP} \word{toR} \> \word{p} saved-sp ) \> \word{bs} exc\# on return stack \\
+			SP! \word{DROP} \word{Rfrom}		\> \word{p} exc\# ) 	\> \word{bs} restore stack \\
+			\word{bs} Return to the caller of CATCH because return \\
+			\word{bs} stack is restored to the state that existed \\
+		\-	\word{bs} when CATCH began execution \\
+	\- \word{THEN} \\
+	\word{;}
+	\end{tabbing}
+\end{quote}
+
+In a multi-tasking system, the \texttt{HANDLER} variable should be in
+the per-task variable area (i.e., a user variable).
+
+This sample implementation does not explicitly handle the case in
+which \word[exception]{CATCH} has never been called (i.e., the
+\word[exception]{ABORT} behavior). One solution is to add the following
+code after the \word{IF} in \word[exception]{THROW}:
+\begin{quote}\ttfamily
+	HANDLER \word{@} \word{0=} \word{IF}
+		\word{p} empty the stack ) \word{QUIT}
+	\word{THEN}
+\end{quote}
+Another solution is to execute \word[exception]{CATCH} within
+\word{QUIT}, so that there is always an ``exception handler of last
+resort'' present. For example:
+\begin{quote}\ttfamily
+	\word{:} \word{QUIT} \\
+	\tab \word{p} empty the return stack and ) \\
+	\tab \word{p} set the input source to the user input device )\\
+	\tab \word{POSTPONE} \word{[} \\
+	\tab \word{BEGIN} \\
+	\tab~~ \word{REFILL} \\
+	\tab \word{WHILE} \\
+	\tab~~ \word{[']} INTERPRET ~ \word[exception]{CATCH}\\
+	\tab~~ \word{CASE} \\
+	\tab\tab ~0 \word{OF} \word{STATE} \word{@} \word{0=} \word{IF}
+		\word{.q} OK" \word{THEN} \word{CR} ~\word{ENDOF} \\
+	\tab\tab -1 \word{OF} \word{p} Aborted) \word{ENDOF} \\
+	\tab\tab -2 \word{OF} \word{p} display message from \word[exception]{ABORTq} ) \word{ENDOF} \\
+	\tab\tab \word{p} default ) \word{DUP} \word{.q} Exception \# " ~ \word{d} \\
+	\tab~~ \word{ENDCASE} \\
+	\tab \word{REPEAT} \word[tools]{BYE} \\
+	\word{;}
+\end{quote}
+
+This example assumes the existance of a system-implementation word
+\texttt{INTERPRET} that embodies the text interpreter semantics
+described in \xref[3.4 The Forth text interpreter]{usage:command}.
+Note that this implementation of \word{QUIT} automatically handles
+the emptying of the stack and return stack, due to
+\word[exception]{THROW}'s inherent restoration of the data and return
+stacks. Given this definition of \word{QUIT}, it's easy to define:
+
+\tab \word{:} \word[exception]{ABORT}
+	\texttt{-1} \word[exception]{THROW}
+\word{;}
+
+In systems with other stacks in addition to the data and return stacks,
+the implementation of \word[exception]{CATCH} and \word[exception]{THROW}
+must save and restore those stack pointers as well. Such an ``extended
+version'' can be built on top of this basic implementation. For example,
+with another stack pointer accessed with \texttt{FP@} and \texttt{FP!}
+only \word[exception]{CATCH} needs to be redefined:
+
+\begin{quote}\ttfamily
+	\word{:} \word[exception]{CATCH}
+		\word{p} \texttt{xt -{}- exception\# | 0 )} \\
+	\tab FP@ \word{toR} \word[exception]{CATCH} \word{Rfrom}
+		\word{OVER} \word{IF} FP! \word{ELSE} \word{DROP} \word{THEN}
+	\word{;}
+\end{quote}
+
+\setwordlist{exception}
+No change to \word{THROW} is necessary in this case. Note that, as
+with all redefinitions, the redefined version of \word{CATCH} will
+only be available to definitions compiled after the redefinition of
+\word{CATCH}.
+
+\word{CATCH} and \word{THROW} provide a convenient way for an
+implementation to ``clean up'' the state of open files if an
+exception occurs during the text interpretation of a file with
+\word[file]{INCLUDE-FILE}. The implementation of
+\word[file]{INCLUDE-FILE} may guard (with \word{CATCH}) the word
+that performs the text interpretation, and if \word{CATCH} returns
+an exception code, the file may be closed and the exception
+re\word{THROW}n so that the files being included at an outer nesting
+level may be closed also. Note that the Standard allows, but does not
+require, \word[file]{INCLUDE-FILE} to close its open files if an
+exception occurs. However, it does require \word[file]{INCLUDE-FILE}
+to unnest the input source specification if an exception is
+\word{THROW}n.
+\end{intro}
+
+\setwordlist{exception}
+\section{Introduction} % 9.1
+
+\section{Additional terms and notation} % 9.2
+None.
+
+\section{Additional usage requirements} % 9.3
+
+\begin{intro}
+\subsection{Additional usage requirements}
+
+One important use of an exception handler is to maintain program
+control under many conditions which \word{ABORT}. This is practicable
+only if a range of codes is reserved. Note that an application may
+overload many standard words in such a way as to \word{THROW}
+ambiguous conditions not normally \word{THROW}n by a particular
+system.
+\end{intro}
+
+\subsection{THROW values} % 9.3.1
+\label{exception:throw}
+
+The \word{THROW} values \{-255{\ldots}-1\} shall be used only as
+assigned by this Standard. The values \{-4095{\ldots}-256\}
+shall be used only as assigned by a system.
+
+If the File-Access or Memory-Allocation word sets are implemented,
+it is recommended that the non-zero values of \emph{ior} lie within
+the range of system \word{THROW} values, as defined above. In an
+operating-system environment, this can sometimes be accomplished
+by ``biasing'' the range of operating-system exception codes to fall
+within the \word{THROW} range.
+
+Programs shall not define values for use with \word{THROW} in the
+range \{-4095{\ldots}-1\}.
+
+\subsection{Exception frame} % 9.3.2
+
+An exception frame is the implementation-dependent set of
+information recording the current execution state necessary for
+the proper functioning of \word{CATCH} and \word{THROW}. It often
+includes the depths of the data stack and return stack.
+
+\subsection{Exception stack} % 9.3.3
+
+A stack used for the nesting of exception frames by \word{CATCH}
+and \word{THROW}. It may be, but need not be, implemented using
+the return stack.
+
+\subsection{Environmental queries} % 9.3.4
+
+Append table \ref{exception:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{exception:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{EXCEPTION}		& \emph{flag}	& no	&
+			Exception word set present \\
+		\texttt{EXCEPTION-EXT}	& \emph{flag}	& no	&
+			Exception extensions word set present \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Possible actions on an ambiguous condition} % 9.3.5
+\label{exception:ambiguous}
+
+A system choosing to execute \word{THROW} when detecting one of the
+ambiguous conditions listed in table \ref{table:throw} shall use the
+throw code listed there.
+
+See: \xref[3.4.4 Possible actions on an ambiguous condition]{usage:ambiguous}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{\word{THROW} code assignments}
+	\label{table:throw}
+	\small
+	\begin{tabular}{r@{}r@{}r@{}l@{~~}rrr@{}l}
+	\hline\hline
+%	\multicolumn{2}{c}{Code} & Reserved for & %a & b & c \\
+%	\multicolumn{2}{c}{Code} & \\
+	\multicolumn{3}{c}{Code} & Reserved for &\multicolumn{3}{c}{Code} & Reserved for \\
+	\hline
+	& -1&& \word{ABORT}						&&-30&& obsolescent feature \\
+	& -2&& \word{ABORTq}					&&-31&& \word[core]{toBODY} used on non-\word[core]{CREATE}d definition \\
+	& -3&& stack overflow					&&-32&& invalid name argument (e.g., \word[core]{TO} xxx) \\
+	& -4&& stack underflow					&&-33&& block read exception \\
+	& -5&& return stack overflow			&&-34&& block write exception \\
+	& -6&& return stack underflow			&&-35&& invalid block number \\
+	& -7&& do-loops nested too deeply during execution
+	 										&&-36&& invalid file position \\
+	& -8&& dictionary overflow				&&-37&& file I/O exception \\
+	& -9&& invalid memory address			&&-38&& non-existent file \\
+	&-10&& division by zero					&&-39&& unexpected end of file \\
+	&-11&& result out of range				&&-40&& invalid \word[core]{BASE} for floating point conversion \\
+	&-12&& argument type mismatch			&&-41&& loss of precision \\
+	&-13&& undefined word					&&-42&& floating-point divide by zero \\
+	&-14&& interpreting a compile-only word	&&-43&& floating-point result out of range \\
+	&-15&& invalid \word[tools]{FORGET}		&&-44&& floating-point stack overflow \\
+	&-16&& attempt to use zero-length string as a name
+											&&-45&& floating-point stack underflow \\
+	&-17&& pictured numeric output string overflow
+											&&-46&& floating-point invalid argument \\
+	&-18&& parsed string overflow			&&-47&& compilation word list deleted \\
+	&-19&& definition name too long			&&-48&& invalid \word[core]{POSTPONE} \\
+	&-20&& write to a read-only location	&&-49&& search-order overflow \\
+	&-21&& unsupported operation			&&-50&& search-order underflow \\
+	&	&& (e.g., \word[facility]{AT-XY} on a too-dumb terminal)
+											&&-51&& compilation word list changed \\
+	&-22&& control structure mismatch		&&-52&& control-flow stack overflow \\
+	&-23&& address alignment exception		&&-53&& exception stack overflow \\
+	&-24&& invalid numeric argument			&&-54&& floating-point underflow \\
+	&-25&& return stack imbalance			&&-55&& floating-point unidentified fault \\
+	&-26&& loop parameters unavailable		&&-56&& \word[core]{QUIT} \\
+	&-27&& invalid recursion				&&-57&& exception in sending or receiving a character \\
+	&-28&& user interrupt					&&-58&& \word[tools]{[IF]}, \word[tools]{[ELSE]}, or \word[tools]{[THEN]} exception \\
+	&-29&& compiler nesting					\\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Exception handling} % 9.3.6
+
+There are several methods of coupling \word{CATCH} and \word{THROW}
+to other procedural nestings. The usual nestings are the execution
+of definitions, use of the return stack, use of loops,
+instantiation of locals and nesting of input sources (i.e., with
+\word[block]{LOAD}, \word[core]{EVALUATE}, or
+\word[file]{INCLUDE-FILE}).
+
+When a \word{THROW} returns control to a \word{CATCH}, the system
+shall un-nest not only definitions, but also, if present, locals
+and input source specifications, to return the system to its proper
+state for continued execution past the \word{CATCH}.
+
+\begin{intro}
+\subsubsection{Exception handling}
+
+The method of accomplishing this coupling is implementation dependent.
+For example, \word[block]{LOAD} could ``know'' about \word{CATCH} and
+\word{THROW} (by using \word{CATCH} itself, for example), or
+\word{CATCH} and \word{THROW} could ``know'' about \word[block]{LOAD}
+(by maintaining input source nesting information in a data structure
+known to \word{THROW}, for example). Under these circumstances it is
+not possible for a Standard Program to define words such as
+\word[block]{LOAD} in a completely portable way.
+\end{intro}
+
+\section{Additional documentation requirements} % 9.4
+
+\subsection{System documentation} % 9.4.1
+
+\subsubsection{Implementation-defined options} % 9.4.1.1
+\begin{itemize}
+\item Values used in the system by \wref{exception:CATCH}{CATCH} and
+	\wref{exception:THROW}{THROW}
+	(\xref[9.3.1 THROW values]{exception:throw},
+	 \xref[9.3.5 Possible actions on an ambiguous condition]{exception:ambiguous}).
+\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 9.4.1.2
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsubsection{Other system documentation} % 9.4.1.3
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsection{Program documentation} % 9.4.2
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\section{Compliance and labeling} % 9.5
+
+\subsection{ANS Forth systems} % 9.5.1
+
+The phrase ``Providing the Exception word set'' shall be appended to
+the label of any Standard System that provides all of the Exception
+word set.
+
+The phrase ``Providing \emph{name(s)} from the Exception Extensions
+word set'' shall be appended to the label of any Standard System
+that provides portions of the Exception Extensions word set.
+
+The phrase ``Providing the Exception Extensions word set'' shall be
+appended to the label of any Standard System that provides all of
+the Exception and Exception Extensions word sets.
+
+\subsection{ANS Forth programs} % 9.5.2
+
+The phrase ``Requiring the Exception word set'' shall be appended
+to the label of Standard Programs that require the system to provide
+the Exception word set.
+
+The phrase ``Requiring \emph{name(s)} from the Exception Extensions
+word set'' shall be appended to the label of Standard Programs that
+require the system to provide portions of the Exception Extensions
+word set.
+
+The phrase ``Requiring the Exception Extensions word set'' shall be
+appended to the label of Standard Programs that require the system
+to provide all of the Exception and Exception Extensions word sets.
+
+\section{Glossary} % 9.6
+
+\begin{intro}
+\subsection{Glossary} % A.9.6
+\end{intro}
+
+\subsection{Exception words} % 9.6.1
+
+\begin{worddef}{0875}{CATCH}
+\item \stack{i*x xt}{j*x 0 | i*x n}
+
+	Push an exception frame on the exception stack and then execute
+	the execution token \param{xt} (as with \word[core]{EXECUTE}) in
+	such a way that control can be transferred to a point just after
+	\word{CATCH} if \word{THROW} is executed during the execution of
+	\param{xt}.
+
+	If the execution of \param{xt} completes normally (i.e., the
+	exception frame pushed by this \word{CATCH} is not popped by an
+	execution of \word{THROW}) pop the exception frame and return
+	zero on top of the data stack, above whatever stack items would
+	have been returned by \param{xt} \word[core]{EXECUTE}. Otherwise,
+	the remainder of the execution semantics are given by
+	\word{THROW}.
+\end{worddef}
+
+
+\begin{worddef}{2275}{THROW}
+\item \stack{k*x n}{k*x | i*x n}
+
+	If any bits of \param{n} are non-zero, pop the topmost exception
+	frame from the exception stack, along with everything on the
+	return stack above that frame. Then restore the input source
+	specification in use before the corresponding \word{CATCH}
+	and adjust the depths of all stacks defined by this Standard
+	so that they are the same as the depths saved in the exception
+	frame (\param{i} is the same number as the \param{i} in the input
+	arguments to the corresponding \word{CATCH}), put \param{n} on
+	top of the data stack, and transfer control to a point just after
+	the \word{CATCH} that pushed that exception frame.
+
+	If the top of the stack is non zero and there is no exception
+	frame on the exception stack, the behavior is as follows:
+
+	If \param{n} is minus-one (-1), perform the function of
+	\wref{core:ABORT}{ABORT} (the version of \word[core]{ABORT} in
+	the Core word set), displaying no message.
+
+	If \param{n} is minus-two, perform the function of
+	\wref{core:ABORTq}{ABORT"} (the version of \word[core]{ABORTq}
+	in the Core word set), displaying the characters \param{ccc}
+	associated with the \word{ABORTq} that generated the
+	\word{THROW}.
+
+	Otherwise, the system may display an implementation-dependent
+	message giving information about the condition associated with
+	the \word{THROW} code \param{n}. Subsequently, the system shall
+	perform the function of \wref{core:ABORT}{ABORT} (the version
+	of \word[core]{ABORT} in the Core word set).
+
+\begin{defer}
+\rationale % A.9.6.1.2275 THROW
+	If \word{THROW} is executed with a non zero argument, the effect
+	is as if the corresponding \word{CATCH} had returned it. In that
+	case, the stack depth is the same as it was just before \word{CATCH}
+	began execution. The values of the \param{i*x} stack arguments could
+	have been modified arbitrarily during the execution of \param{xt}.
+	In general, nothing useful may be done with those stack items, but
+	since their number is known (because the stack depth is deterministic),
+	the application may \word[core]{DROP} them to return to a predictable
+	stack state.
+
+	Typical use:
+	\setwordlist{core}
+	\begin{quote}\ttfamily
+		\word{:} could-fail \word{p} -- char ) \\
+		\tab \word{KEY} \word{DUP} \word{[CHAR]} Q \word{=}~
+			\word{IF}~ 1 \word[exception]{THROW}
+			\word{THEN}
+		\word{;}
+
+		\word{:} do-it \word{p} a b -- c) ~
+			\word{2DROP} could-fail \word{;}
+
+		\word{:} try-it \word{p} --) \\
+		\tab 1 2 \word{[']} do-it~ \word[exception]{CATCH}~ \word{IF} \\
+		\tab~~ \word{p} x1 x2 ) \word{2DROP}
+			\word{.q}  There was an exception" \word{CR} \\
+		\tab \word{ELSE}
+			\word{.q} The character was " \word{EMIT} \word{CR} \\
+		\tab \word{THEN} \\
+		\word{;}
+
+		\word{;} retry-it \word{p} -- ) \\
+		\tab \word{BEGIN}  1 2 \word{[']} do-it \word[exception]{CATCH}~
+			\word{WHILE} \\
+		\tab~~ \word{p} x1 x2) \word{2DROP}
+			\word{.q} Exception, keep trying" \word{CR} \\
+		\tab \word{REPEAT} \word{p} char ) \\
+		\tab \word{.q} The character was " \word{EMIT} \word{CR} \\
+		\word{;}
+	\end{quote}
+	\setwordlist{exception}
+\end{defer}
+\end{worddef}
+
+
+\subsection{Exception extension words} % 9.6.2
+\extended
+
+\begin{worddef}{0670}{ABORT}
+\item Extend the semantics of \wref{core:ABORT}{ABORT} to be:
+
+	\stack{i*x}{}
+	\stack[R]{j*x}{}
+
+	Perform the function of \texttt{-1} \word{THROW}.
+
+\see \wref{core:ABORT}{ABORT}.
+\end{worddef}
+
+
+\begin{worddef}[ABORTq]{0680}{ABORT"}[abort-quote]
+\item Extend the semantics of \wref{core:ABORTq}{ABORT"} to be:
+
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"ccc<quote>"}{}
+
+	Parse \param{ccc} delimited by a \texttt{"} (double-quote).
+	Append the run-time semantics given below to the current
+	definition.
+
+\runtime
+	\stack{i*x x_1}{| i*x}
+	\stack[R]{j*x}{| j*x}
+
+	Remove \param{x_1} from the stack. If any bit of \param{x_1}
+	is not zero, perform the function of \texttt{-2} \word{THROW},
+	displaying \param{ccc} if there is no exception frame on the
+	exception stack.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:ABORTq}{ABORT"}.
+\end{worddef}

@@ -1,0 +1,409 @@
+\chapter{Terms, notation, and references}
+
+The phrase ``See:'' is used throughout this Standard to direct the
+reader to other sections of the Standard that have a direct bearing
+on the current section.
+
+In this Standard, ``shall'' states a requirement on a system or
+program; conversely, ``shall not'' is a prohibition; ``need not''
+means ``is not required to''; ``should'' describes a recommendation
+of the Standard; and ``may'', depending on context, means ``is allowed
+to'' or ``might happen''.
+
+Throughout the Standard, typefaces are used in the following manner:
+\begin{itemize}
+\item This proportional serif typeface is used for text, with
+	\textit{italic} used for symbols and the first appearance of new
+	terms;
+\item A bold proportional sans-serif typeface is used for \textbf{headings};
+\item A bold monospaced serif typeface is used for Forth-language
+	\textbf{\texttt{text}}.
+\end{itemize}
+
+\section{Definitions of terms}
+\label{notation:terms}
+
+Terms defined in this section are used generally throughout this
+Standard. Additional terms specific to individual word sets are
+defined in those word sets. Other terms are defined at their first
+appearance, indicated by italic type. Terms not defined in this
+Standard are to be construed according to the \emph{Dictionary for
+Information Systems,} ANSI X3.172-1990.
+
+\begin{description}
+\item[address unit:]
+Depending on context, either
+1) the units into which a Forth address space is divided for the
+	purposes of locating data objects such as characters and variables;
+2) the physical memory storage elements corresponding to those units;
+3) the contents of such a memory storage element; or
+4) the units in which the length of a region of memory is expressed.
+
+\item[aligned address:]
+The address of a memory location at which a character, cell, cell
+pair, or double-cell integer can be accessed.
+
+\item[ambiguous condition:]
+A circumstance for which this Standard does not prescribe a specific
+behavior for Forth systems and programs.
+
+Ambiguous conditions include such things as the absence of a needed
+delimiter while parsing, attempted access to a nonexistent file, or
+attempted use of a nonexistent word. An ambiguous condition also
+exists when a Standard word is passed values that are improper or
+out of range.
+
+\item[cell:]
+The primary unit of information in the architecture of a Forth system.
+
+\item[cell pair:]
+Two cells that are treated as a single unit.
+
+\item[character:]
+Depending on context, either
+1) a storage unit capable of holding a character; or
+2) a member of a character set.
+
+\item[character-aligned address:]
+The address of a memory location at which a character can be accessed.
+
+\item[character string:]
+Data space that is associated with a sequence of consecutive
+character-aligned addresses. Character strings usually contain
+text. Unless otherwise indicated, the term ``string'' means
+``character string''.
+
+\item[code space:]
+The logical area of the dictionary in which word semantics are
+implemented.
+
+\item[compile:]
+To transform source code into dictionary definitions.
+
+\item[compilation semantics:]
+The behavior of a Forth definition when its name is encountered
+by the text interpreter in compilation state.
+
+\item[counted string:]
+A data structure consisting of one character containing a length
+followed by zero or more contiguous data characters. Normally,
+counted strings contain text.
+
+\item[cross compiler:]
+A system that compiles a program for later execution in an
+environment that may be physically and logically different
+from the compiling environment. In a cross compiler, the term
+``host'' applies to the compiling environment, and the term
+``target'' applies to the run-time environment.
+
+\item[current definition:]
+The definition whose compilation has been started but not yet ended.
+
+\item[data field:]
+The data space associated with a word defined via \word{CREATE}.
+
+\item[data space:]
+The logical area of the dictionary that can be accessed.
+
+\item[data-space pointer:]
+The address of the next available data space location, i.e., the
+value returned by \word{HERE}.
+
+\item[data stack:]
+A stack that may be used for passing parameters between
+definitions. When there is no possibility of confusion, the
+data stack is referred to as ``the stack''. Contrast with
+\textbf{return stack}.
+
+\item[data type:]
+Tn identifier for the set of values that a data object may have.
+
+\item[defining word:]
+A Forth word that creates a new definition when executed.
+
+\item[definition:]
+A Forth execution procedure compiled into the dictionary.
+
+\item[dictionary:]
+An extensible structure that contains definitions and
+associated data space.
+
+\item[display:]
+To send one or more characters to the user output device.
+
+\item[environmental dependencies:]
+A program's implicit assumptions about a Forth system's
+implementation options or underlying hardware. For example,
+a program that assumes a cell size greater than 16 bits is
+said to have an environmental dependency.
+
+\item[execution semantics:]
+The behavior of a Forth definition when it is executed.
+
+\item[execution token:]
+A value that identifies the execution semantics of a definition.
+
+\item[find:]
+To search the dictionary for a definition name matching a given string.
+
+\item[immediate word:]
+A Forth word whose compilation semantics are to perform its execution
+semantics.
+
+\item[implementation defined:]
+Denotes system behaviors or features that must be provided and
+documented by a system but whose further details are not prescribed
+by this Standard.
+
+\item[implementation dependent:]
+Denotes system behaviors or features that must be provided by a
+system but whose further details are not prescribed by this Standard.
+
+\item[input buffer:]
+A region of memory containing the sequence of characters from the
+input source that is currently accessible to a program.
+
+\item[input source:]
+The device, file, block, or other entity that supplies characters
+to refill the input buffer.
+
+\item[input source specification:]
+A set of information describing a particular state of the input
+source, input buffer, and parse area. This information is sufficient,
+when saved and restored properly, to enable the nesting of parsing
+operations on the same or different input sources.
+
+\item[interpretation semantics:]
+The behavior of a Forth definition when its name is encountered
+by the text interpreter in interpretation state.
+
+\item[keyboard event:]
+A value received by the system denoting a user action at the user
+input device. The term ``keyboard'' in this document does not exclude
+other types of user input devices.
+
+\item[line:]
+A sequence of characters followed by an actual or implied line
+terminator.
+
+\item[name space:]
+The logical area of the dictionary in which definition names are
+stored.
+
+\item[number:]
+In this Standard, ``number'' used without other qualification means
+``integer''. Similarly, ``double number'' means ``double-cell integer''.
+
+\item[parse:]
+To select and exclude a character string from the parse area using
+a specified set of delimiting characters, called delimiters.
+
+\item[parse area:]
+The portion of the input buffer that has not yet been parsed, and
+is thus available to the system for subsequent processing by the
+text interpreter and other parsing operations.
+
+\item[pictured-numeric output:]
+A number display format in which the number is converted using
+Forth words that resemble a symbolic ``picture'' of the desired
+output.
+
+\item[program:]
+A complete specification of execution to achieve a specific function
+(application task) expressed in Forth source code form.
+
+\item[receive:]
+To obtain characters from the user input device.
+
+\item[return stack:]
+A stack that may be used for program execution nesting, do-loop
+execution, temporary storage, and other purposes.
+
+\item[standard word:]
+A named Forth procedure, formally specified in this Standard.
+
+\item[user input device:]
+The input device currently selected as the source of received
+data, typically a keyboard.
+
+\item[user output device:]
+The output device currently selected as the destination of
+display data.
+
+\item[variable:]
+A named region of data space located and accessed by its memory
+address.
+
+\item[word:]
+Depending on context, either
+1) the name of a Forth definition; or
+2) a parsed sequence of non-space characters,
+which could be the name of a Forth definition.
+
+\item[word list:]
+A list of associated Forth definition names that may be examined
+during a dictionary search.
+
+\item[word set:]
+A set of Forth definitions grouped together in this Standard
+under a name indicating some shared aspect, typically their
+common functional area.
+\end{description}
+
+\section{Notation} % ================================================
+
+\subsection{Numeric notation}
+
+Unless otherwise stated, all references to numbers apply to signed
+single-cell integers. The inclusive range of values is shown as
+\textit{\textbf{\{from {\ldots} to\}}}. The allowable range for the
+contents of an address is shown in double braces, particularly for
+the contents of variables, e.g., \word{BASE}
+\textbf{\{\{2 {\ldots} 36\}\}}.
+
+\subsection{Stack notation}
+
+Stack parameters input to and output from a definition are described
+using the notation:
+\begin{quote}
+	\stack[stack-id]{before}{after}
+\end{quote}
+
+where \emph{stack-id} specifies which stack is being described,
+\param{before} represents the stack-parameter data types before
+execution of the definition and \param{after} represents them
+after execution. The symbols used in \param{before} and \param{after}
+are shown in table \ref{table:datatypes}.
+
+The control-flow-stack \emph{stack-id} is ``C:'', the data-stack
+\emph{stack-id} is ``S:'', and the return-stack \emph{stack-id}
+is ``R:''. When there is no confusion, the data-stack
+\emph{stack-id} may be omitted.
+
+When there are alternate \param{after} representations, they are
+described by ``\param{after_1 | after_2}''. The top of the stack is
+to the right. Only those stack items required for or provided by
+execution of the definition are shown.
+
+
+\subsection{Parsed-text notation}
+
+If, in addition to using stack parameters, a definition parses text,
+that text is specified by an abbreviation from table \ref{table:syntax},
+shown surrounded by double-quotes and placed between the \param{before}
+parameters and the ``--'' separator in the first stack described, e.g.,
+
+\begin{quote}
+	\stack[S]{before "parsed-text-abbreviation"}{after}
+\end{quote}
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Parsed text abbreviations}
+	\label{table:syntax}
+	\begin{tabular}{ll}
+	\hline\hline
+	Abbreviation & Description \\
+	\hline
+	\param{<char>}	& the delimiting character marking the end of
+					  the string being parsed \\
+	\param{<chars>}	& zero or more consecutive occurrences of the
+					  character \param{<char>} \\
+	\param{<space>} & a delimiting space character \\
+	\param{<spaces>}& zero or more consecutive occurrences of the
+					  character \param{<space>} \\
+	\param{<quote>}	& a delimiting double quote \\
+	\param{<paren>} & a delimiting right parenthesis \\
+	\param{<eol>}	& an implied delimiter marking the end of a line \\
+	\param{ccc}		& a parsed sequence of arbitrary characters,
+					  excluding the delimiter character \\
+	\param{name}	& a token delimited by space, equivalent to
+					  \param{ccc<space>} or \param{ccc<eol>} \\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Glossary notation}
+
+The glossary entries for each word set are listed in the standard
+ASCII collating sequence. Each glossary entry specifies an ANS
+Forth word and consists of two parts:
+an \emph{index line} and the \emph{semantic description} of the
+definition.
+
+\subsubsection{Glossary index line}
+
+The index line is a single-line entry containing, from left to right:
+
+\begin{itemize}
+\item Section number, the last four digits of which assign a
+	unique sequential number to all words included in this Standard;
+
+\item \textbf{DEFINITION-NAME} in upper-case, mono-spaced,
+	bold-face letters;
+
+\item Natural-language pronunciation in quotes if it differs from English;
+
+\item Word-set designator from table \ref{table:wordsets}.
+	The designation for extensions word sets includes ``EXT''.
+
+\item \textsf{Extension designator} in sans-serif font under the
+	Word-set designator for words which have been added to the
+	Standard via the named extension.
+\end{itemize}
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Word set designators}
+	\label{table:wordsets}
+	\begin{tabular}{lr}
+	\hline\hline
+	Word set & Designator \\
+	\hline
+	Core word set				& CORE		\\
+	Block word set				& BLOCK		\\
+	Double-Number word set		& DOUBLE	\\
+	Exception word set			& EXCEPTION	\\
+	Facility word set			& FACILITY	\\
+	File-Access word set		& FILE		\\
+	Floating-Point word set		& FLOATING	\\
+	Locals word set				& LOCALS	\\
+	Memory-Allocation word set	& MEMORY	\\
+	Programming-Tools word set	& TOOLS		\\
+	Search-Order word set		& SEARCH	\\
+	String-Handling word set	& STRING	\\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsubsection{Glossary semantic description}
+
+The first paragraph of the semantic description contains a stack
+notation for each stack affected by execution of the word. The
+remaining paragraphs contain a text description of the semantics.
+See \xref[Semantics]{usage:semantics}.
+
+\section{References}
+
+The following national and international standards are referenced
+in this Standard:
+
+\begin{itemize}
+\item ANSI X3.172-1990 \textit{Dictionary for Information Systems},
+	(\xref[Definition of terms]{notation:terms});
+
+\item ANSI X3.4-1974 \textit{American Standard Code for Information
+	Interchange} (ASCII),
+	(\xref[Graphic characters]{usage:ASCII});
+
+\item ISO 646-1983 \textit{ISO 7-bit coded characterset for
+	information interchange, International Reference Version} (IRV)
+	(\xref[Graphic characters]{usage:ASCII})\footnote{Available from
+	the American National Standards Institute, 11 West 42nd Street,
+	New York, NY 10036.};
+
+\item ANSI/IEEE 754-1985 \textit{Floating-point Standard},
+	(\xref[(12.2.1) Definition of terms]{float:terms}).
+\end{itemize}

@@ -1,0 +1,5910 @@
+\chapter{Glossary} % 6
+
+\section{Core words} % 6.1
+\wordlist{core}
+
+\begin{worddef}{0010}{!}[store]
+\item \stack{x a-addr}{}
+
+	Store \param{x} at \param{a-addr}.
+
+	\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:,}{,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[num]{0030}{\num}[number-sign]
+\item \stack{ud_1}{ud_2}
+
+	Divide \param{ud_1} by the number in \word{BASE} giving the
+	quotient \param{ud_2} and the remainder \param{n}. (\param{n} is
+	the least significant digit of \param{ud_1}.) Convert \param{n}
+	to external form and add the resulting character to the beginning
+	of the pictured numeric output string. An ambiguous condition
+	exists if \word{num} executes outside of a \word{num-end}
+	\word{num-start} delimited number conversion.
+
+\see \wref{core:num-end}{\num>},
+	\wref{core:numS}{\num{}S},
+	\wref{core:num-start}{<\num}.
+
+	\begin{defer}
+	\testing
+		\word{:} GP3  \word{num-start} 1 0 \word{num} \word{num} \word{num-end} \word{Sq} 01" S= \word{;} \\
+		\{ GP3 -> <TRUE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[num-end]{0040}{\num>}[number-sign-greater]
+\item \stack{xd}{c-addr u}
+
+	Drop \param{xd}. Make the pictured numeric output string
+	available as a character string. \param{c-addr} and \param{u}
+	specify the resulting character string. A program may replace
+	characters within the string.
+
+\see \wref{core:num}{\num},
+	\wref{core:numS}{\num{}S},
+	\wref{core:num-start}{<\num}.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:num}{\num},
+			\rref{core:numS}{\num{}S},
+			\rref{core:HOLD}{HOLD} and
+			\rref{core:SIGN}{SIGN}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[numS]{0050}{\num{}S}[number-sign-s]
+\item \stack{ud_1}{ud_2}
+
+	Convert one digit of \param{ud_1} according to the rule for
+	\word{num}. Continue conversion until the quotient is zero.
+	\param{ud_2} is zero. An ambiguous condition exists if
+	\word{numS} executes outside of a \word{num-start} \word{num-end}
+	delimited number conversion.
+
+\see \wref{core:num}{\num},
+	\wref{core:num-end}{\num>},
+	\wref{core:num-start}{<\num}.
+
+	\begin{defer}
+	\testing
+		\word{:} GP4  \word{num-start} 1 0 \word{numS} \word{num-end} \word{Sq} 1" S= \word{;} \\
+		\{ GP4 -> <TRUE> \}
+
+		\word{:} GP5 \\
+		\tab \word{BASE} \word{@} <TRUE> \\
+		\tab MAX-BASE \word{1+} 2 \word{DO}		\tab[2] \word{bs} FOR EACH POSSIBLE BASE \\
+		\tab[2] \word{I} \word{BASE} \word{!}	\tab[4.7] \word{bs} TBD: ASSUMES BASE WORKS \\
+		\tab[3] \word{I} 0 \word{num-start} \word{numS} \word{num-end} \word{Sq} 10" S= \word{AND} \\
+		\tab    \word{LOOP} \\
+		\tab    \word{SWAP} \word{BASE} \word{!} \word{;} \\
+		\{ GP5 -> <TRUE> \}
+
+		\word{:} GP6 \\
+		\tab	\word{BASE} \word{@} \word{toR}  2 \word{BASE} \word{!} \\
+		\tab	MAX-UINT MAX-UINT \word{num-start} \word{numS} \word{num-end}	\tab[2]	  \word{bs} MAXIMUM UD TO BINARY \\
+		\tab	\word{Rfrom} \word{BASE} \word{!}								\tab[10.9] \word{bs} S: C-ADDR U \\
+		\tab	\word{DUP} \#BITS-UD \word{=} \word{SWAP} \\
+		\tab	0 \word{DO}														\tab[13.4]  \word{bs} S: C-ADDR FLAG \\
+		\tab[2]		\word{OVER} \word{C@} \word{[CHAR]} 1 \word{=} \word{AND}	\tab[2.5] \word{bs} ALL ONES \\
+		\tab[2]		\word{toR} \word{CHAR+} \word{Rfrom} \\
+		\tab	\word{LOOP} \word{SWAP} \word{DROP} \word{;} \\
+		\{ GP6 -> <TRUE> \}
+
+		\word{:} GP7 \\
+		\tab	\word{BASE} \word{@} \word{toR}		MAX-BASE \word{BASE} \word{!} \\
+		\tab	<TRUE> \\
+		\tab	A 0 \word{DO} \\
+		\tab[2]		\word{I} 0 \word{num-start} \word{numS} \word{num-end} \\
+		\tab[2]		1 \word{=} \word{SWAP} \word{C@} \word{I} 30 \word{+} \word{=} \word{AND} \word{AND} \\
+		\tab	\word{LOOP} \\
+		\tab	MAX-BASE A \word{DO} \\
+		\tab[2]		\word{I} 0 \word{num-start} \word{numS} \word{num-end} \\
+		\tab[2]		1 \word{=} \word{SWAP} \word{C@} 41 \word{I} A \word{-} \word{+} \word{=} \word{AND} \word{AND} \\
+		\tab	\word{LOOP} \\
+		\tab	\word{Rfrom} \word{BASE} \word{!} \word{;} \\
+		\{ GP7 -> <TRUE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0070}{'}[tick]
+\item \stack{"<spaces>name"}{xt}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Find \param{name} and return \param{xt}, the execution
+	token for \param{name}. An ambiguous condition exists if
+	\param{name} is not found. When interpreting,
+	\texttt{' xyz EXECUTE} is equivalent to \texttt{xyz}.
+
+\see \xref[3.4 The Forth text interpreter]{usage:interpret},
+	\xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:POSTPONE}{POSTPONE},
+	\rref{core:[']}{[']},
+	\xref[D.6.7 Immediacy]{diff:immediate}.
+
+	\begin{defer}
+	\rationale % A.6.1.0070 '
+		Typical use: {\ldots} \word{'} \param{name}.
+
+		Many Forth systems use a state-smart tick. Many do not.
+		ANS Forth follows the usage of Forth 83.
+
+	\see \xref[A.3.4.3..2 Interpretation semantics]{rat:interpret},
+		\rref{core:FIND}{FIND}.
+
+	\testing
+		\{ \word{:} GT1 123 \word{;} -> \} \\
+		\{ \word{'} GT1 \word{EXECUTE} -> 123 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[p]{0080}{(}[paren]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{"ccc<paren>"}{}
+
+	Parse \param{ccc} delimited by \word{p} (right parenthesis).
+	\word{p} is an immediate word.
+
+	The number of characters in \param{ccc} may be zero to the
+	number of characters in the parse area.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\xref[11.6.1.0080 (]{file:p}.
+
+	\begin{defer}
+	\rationale % A.6.1.0080 (
+		Typical use: {\ldots} \word{p} \param{ccc}\texttt{)} {\ldots}
+
+	\testing \textrm{None.}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0090}{*}[star]
+\item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
+
+	Multiply \param{n_1|u_1} by \param{n_2|u_2} giving the product
+	\param{n_3|u_3}.
+
+	\begin{defer}
+	\testing
+		\{  0  0 \word{*} ->  0 \} \tab[4] \word{bs} TEST IDENTITIE{\bs}S \\
+		\{  0  1 \word{*} ->  0 \} \\
+		\{  1  0 \word{*} ->  0 \} \\
+		\{  1  2 \word{*} ->  2 \} \\
+		\{  2  1 \word{*} ->  2 \} \\
+		\{  3  3 \word{*} ->  9 \} \\
+		\{ -3  3 \word{*} -> -9 \} \\
+		\{  3 -3 \word{*} -> -9 \} \\
+		\{ -3 -3 \word{*} ->  9 \}
+
+		\{ MID-UINT+1 1 \word{RSHIFT} 2 \word{*} -> MID-UINT+1 \} \\
+		\{ MID-UINT+1 2 \word{RSHIFT} 4 \word{*} -> MID-UINT+1 \} \\
+		\{ MID-UINT+1 1 \word{RSHIFT} MID-UINT+1 \word{OR} 2 \word{*} -> MID-UINT+1 \} \\
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0100}{*/}[star-slash]
+\item \stack{n_1 n_2 n_3}{n_4}
+
+	Multiply \param{n_1} by \param{n_2} producing the intermediate
+	double-cell result $d$. Divide $d$ by \param{n_3} giving the
+	single-cell quotient \param{n_4}. An ambiguous condition exists
+	if \param{n_3} is zero or if the quotient \param{n_4} lies
+	outside the range of a signed number. If $d$ and \param{n_3}
+	differ in sign, the implementation-defined result returned will
+	be the same as that returned by either the phrase
+	\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{SWAP} \word{DROP}
+	or the phrase
+	\word{toR} \word{M*} \word{Rfrom} \word{SM/REM} \word{SWAP} \word{DROP}.
+
+\see \xref[3.2.2.1 Integer division]{usage:div}.
+
+	\begin{defer}
+	\testing
+		IFFLOORED \tab	\word{:} T*/ T*/MOD \word{SWAP} \word{DROP} \word{;} \\
+		IFSYM \tab[2.6]	\word{:} T*/ T*/MOD \word{SWAP} \word{DROP} \word{;}
+
+		\{       0 2       1 \word{*/} ->       0 2       1 T*/ \} \\
+		\{       1 2       1 \word{*/} ->       1 2       1 T*/ \} \\
+		\{       2 2       1 \word{*/} ->       2 2       1 T*/ \} \\
+		\{      -1 2       1 \word{*/} ->      -1 2       1 T*/ \} \\
+		\{      -2 2       1 \word{*/} ->      -2 2       1 T*/ \} \\
+		\{       0 2      -1 \word{*/} ->       0 2      -1 T*/ \} \\
+		\{       1 2      -1 \word{*/} ->       1 2      -1 T*/ \} \\
+		\{       2 2      -1 \word{*/} ->       2 2      -1 T*/ \} \\
+		\{      -1 2      -1 \word{*/} ->      -1 2      -1 T*/ \} \\
+		\{      -2 2      -1 \word{*/} ->      -2 2      -1 T*/ \} \\
+		\{       2 2       2 \word{*/} ->       2 2       2 T*/ \} \\
+		\{      -1 2      -1 \word{*/} ->      -1 2      -1 T*/ \} \\
+		\{      -2 2      -2 \word{*/} ->      -2 2      -2 T*/ \} \\
+		\{       7 2       3 \word{*/} ->       7 2       3 T*/ \} \\
+		\{       7 2      -3 \word{*/} ->       7 2      -3 T*/ \} \\
+		\{      -7 2       3 \word{*/} ->      -7 2       3 T*/ \} \\
+		\{      -7 2      -3 \word{*/} ->      -7 2      -3 T*/ \} \\
+		\{ MAX-INT 2 MAX-INT \word{*/} -> MAX-INT 2 MAX-INT T*/ \} \\
+		\{ MIN-INT 2 MIN-INT \word{*/} -> MIN-INT 2 MIN-INT T*/ \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0110}{*/MOD}[star-slash-mod]
+\item \stack{n_1 n_2 n_3}{n_4 n_5}
+
+	Multiply \param{n_1} by \param{n_2} producing the intermediate
+	double-cell result $d$. Divide $d$ by \param{n_3} producing the
+	single-cell remainder \param{n_4} and the single-cell quotient
+	\param{n_5}. An ambiguous condition exists if \param{n_3} is
+	zero, or if the quotient \param{n_5} lies outside the range of a
+	single-cell signed integer. If $d$ and \param{n_3} differ in
+	sign, the implementation-defined result returned will be the
+	same as that returned by either the phrase
+	\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} or the phrase
+	\word{toR} \word{M*} \word{Rfrom} \word{SM/REM}.
+
+\see \xref[3.2.2.1 Integer division]{usage:div}.
+
+	\begin{defer}
+	\testing
+		IFFLOORED \tab	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{;} \\
+		IFSYM \tab[2.6]	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{SM/REM} \word{;}
+
+		\{       0 2       1 \word{*/MOD} ->       0 2       1 T*/MOD \} \\
+		\{       1 2       1 \word{*/MOD} ->       1 2       1 T*/MOD \} \\
+		\{       2 2       1 \word{*/MOD} ->       2 2       1 T*/MOD \} \\
+		\{      -1 2       1 \word{*/MOD} ->      -1 2       1 T*/MOD \} \\
+		\{      -2 2       1 \word{*/MOD} ->      -2 2       1 T*/MOD \} \\
+		\{       0 2      -1 \word{*/MOD} ->       0 2      -1 T*/MOD \} \\
+		\{       1 2      -1 \word{*/MOD} ->       1 2      -1 T*/MOD \} \\
+		\{       2 2      -1 \word{*/MOD} ->       2 2      -1 T*/MOD \} \\
+		\{      -1 2      -1 \word{*/MOD} ->      -1 2      -1 T*/MOD \} \\
+		\{      -2 2      -1 \word{*/MOD} ->      -2 2      -1 T*/MOD \} \\
+		\{       2 2       2 \word{*/MOD} ->       2 2       2 T*/MOD \} \\
+		\{      -1 2      -1 \word{*/MOD} ->      -1 2      -1 T*/MOD \} \\
+		\{      -2 2      -2 \word{*/MOD} ->      -2 2      -2 T*/MOD \} \\
+		\{       7 2       3 \word{*/MOD} ->       7 2       3 T*/MOD \} \\
+		\{       7 2      -3 \word{*/MOD} ->       7 2      -3 T*/MOD \} \\
+		\{      -7 2       3 \word{*/MOD} ->      -7 2       3 T*/MOD \} \\
+		\{      -7 2      -3 \word{*/MOD} ->      -7 2      -3 T*/MOD \} \\
+		\{ MAX-INT 2 MAX-INT \word{*/MOD} -> MAX-INT 2 MAX-INT T*/MOD \} \\
+		\{ MIN-INT 2 MIN-INT \word{*/MOD} -> MIN-INT 2 MIN-INT T*/MOD \} \\
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0120}{+}[plus]
+\item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
+
+	Add \param{n_2|u_2} to \param{n_1|u_1}, giving the sum
+	\param{n_3|u_3}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\{        0  5 \word{+} ->          5 \} \\
+		\{        5  0 \word{+} ->          5 \} \\
+		\{        0 -5 \word{+} ->         -5 \} \\
+		\{       -5  0 \word{+} ->         -5 \} \\
+		\{        1  2 \word{+} ->          3 \} \\
+		\{        1 -2 \word{+} ->         -1 \} \\
+		\{       -1  2 \word{+} ->          1 \} \\
+		\{       -1 -2 \word{+} ->         -3 \} \\
+		\{       -1  1 \word{+} ->          0 \} \\
+		\{ MID-UINT  1 \word{+} -> MID-UINT+1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0130}{+!}[plus-store]
+\item \stack{n|u a-addr}{}
+
+	Add \param{n|u} to the single-cell number at \param{a-addr}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\{  0 1ST \word{!}  -> \} \\
+		\{  1 1ST \word{+!} -> \} \\
+		\{    1ST \word{@}  -> 1 \} \\
+		\{ -1 1ST \word{+!} 1ST \word{@} -> 0 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0140}{+LOOP}[plus-loop]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{do-sys}{}
+
+	Append the run-time semantics given below to the current
+	definition. Resolve the destination of all unresolved
+	occurrences of \word{LEAVE} between the location given
+	by \param{do-sys} and the next location for a transfer of
+	control, to execute the words following \word{+LOOP}.
+
+\runtime
+	\stack{n}{}
+	\stack[R]{loop-sys_1}{|loop-sys_2}
+
+	An ambiguous condition exists if the loop control parameters
+	are unavailable. Add \param{n} to the loop index. If the loop
+	index did not cross the boundary between the loop limit minus
+	one and the loop limit, continue execution at the beginning
+	of the loop. Otherwise, discard the current loop control
+	parameters and continue execution immediately following the
+	loop.
+
+\see \wref{core:DO}{DO},
+	\wref{core:I}{I},
+	\wref{core:LEAVE}{LEAVE}.
+
+	\begin{defer}
+	\rationale % A.6.1.0140 +LOOP
+		Typical use:
+			\word{:} \texttt{X} ~{\ldots} limit first \word{DO}
+				{\ldots} step \word{+LOOP}
+			\word{;}
+
+	\testing
+		\{ \word{:} GD2 \word{DO} \word{I} -1 \word{+LOOP} \word{;} -> \} \\
+		\{        1          4 GD2 -> 4 3 2 1 \} \\
+		\{       -1          2 GD2 -> 2 1 0 -1 \} \\
+		\{ MID-UINT MID-UINT+1 GD2 -> MID-UINT+1 MID-UINT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0150}{,}[comma]
+\item \stack{x}{}
+
+	Reserve one cell of data space and store \param{x} in the cell.
+	If the data-space pointer is aligned when \word{,} begins
+	execution, it will remain aligned when \word{,} finishes
+	execution. An ambiguous condition exists if the data-space
+	pointer is not aligned prior to execution of \word{,}.
+
+\see \xref[3.3.3 Data space]{usage:dataspace},
+	\xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\rationale % A.6.1.0150 ,
+		The use of \word{,} (comma) for compiling execution tokens is
+		not portable.
+
+		See: \wref{core:COMPILE,}{COMPILE,}.
+
+	\testing
+		\word{HERE} 1 \word{,} \\
+		\word{HERE} 2 \word{,} \\
+		\word{CONSTANT} 2ND \\
+		\word{CONSTANT} 1ST
+
+		\{ 1ST 2ND \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
+		\{ 1ST \word{CELL+} -> 2ND \}			\tab[2.6] \word{bs} {\ldots} BY ONE CELL \\
+		\{ 1ST 1 \word{CELLS} \word{+} -> 2ND \} \\
+		\{ 1ST \word{@} 2ND \word{@} -> 1 2 \} \\
+		\{ 5 1ST \word{!} -> \} \\
+		\{ 1ST \word{@} 2ND \word{@} -> 5 2 \} \\
+		\{ 6 2ND \word{!} -> \} \\
+		\{ 1ST \word{@} 2ND \word{@} -> 5 6 \} \\
+		\{ 1ST \word{2@} -> 6 5 \} \\
+		\{ 2 1 1ST \word{2!} -> \} \\
+		\{ 1ST \word{2@} -> 2 1 \} \\
+		\{ 1S 1ST \word{!}  1ST \word{@} -> 1S \} \tab \word{bs} CAN STORE CELL-WIDE VALUE
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0160}{-}[minus]
+\item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
+
+	Subtract \param{n_2|u_2} from \param{n_1|u_1}, giving the
+	difference \param{n_3|u_3}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\{          0  5 \word{-} ->       -5 \} \\
+		\{          5  0 \word{-} ->        5 \} \\
+		\{          0 -5 \word{-} ->        5 \} \\
+		\{         -5  0 \word{-} ->       -5 \} \\
+		\{          1  2 \word{-} ->       -1 \} \\
+		\{          1 -2 \word{-} ->        3 \} \\
+		\{         -1  2 \word{-} ->       -3 \} \\
+		\{         -1 -2 \word{-} ->        1 \} \\
+		\{          0  1 \word{-} ->       -1 \} \\
+		\{ MID-UINT+1  1 \word{-} -> MID-UINT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[d]{0180}{.{}}[dot]
+\item \stack{n}{}
+
+	Display \param{n} in free field format.
+
+\see \xref[3.2.1.2 Digit conversion]{usage:digits},
+	\xref[3.2.1.3 Free-field number display]{usage:dot}.
+
+	\begin{defer}
+	\testing\rmfamily
+	\see \rref{core:EMIT}{EMIT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[.q]{0190}{."}[dot-quote]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"ccc<quote>"}{}
+
+	Parse \param{ccc} delimited by \texttt{"} (double-quote).
+	Append the run-time semantics given below to the current
+	definition.
+
+\runtime
+	\stack{}{}
+
+	Display \param{ccc}.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:.p}{.(}.
+
+	\begin{defer}
+	\rationale % A.6.1.0190 ."
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{.q} \emph{ccc}\texttt{"} {\ldots}
+			\word{;}
+
+		An implementation may define interpretation semantics for
+		\word{.q} if desired. In one plausible implementation,
+		interpreting \word{.q} would display the delimited message.
+		In another plausible implementation, interpreting \word{.q}
+		would compile code to display the message later. In still
+		another plausible implementation, interpreting \word{.q} would
+		be treated as an exception. Given this variation a Standard
+		Program may not use \word{.q} while interpreting. Similarly,
+		a Standard Program may not compile \word{POSTPONE} \word{.q}
+		inside a new word, and then use that word while interpreting.
+
+	\testing\rmfamily
+		See \rref{core:EMIT}{EMIT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0230}{/}[slash]
+\item \stack{n_1 n_2}{n_3}
+
+	Divide \param{n_1} by \param{n_2}, giving the single-cell quotient
+	\param{n_3}. An ambiguous condition exists if \param{n_2} is zero.
+	If \param{n_1} and \param{n_2} differ in sign, the
+	implementation-defined result returned will be the same as that
+	returned by either the phrase
+	\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{SWAP} \word{DROP}
+	or the phrase
+	\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{SWAP} \word{DROP}.
+
+\see \xref[3.2.2.1 Integer division]{usage:div}.
+
+	\begin{defer}
+	\testing
+		IFFLOORED \tab	\word{:} T/ T/MOD \word{SWAP} \word{DROP} \word{;} \\
+		IFSYM \tab[2.6] \word{:} T/ T/MOD \word{SWAP} \word{DROP} \word{;}
+
+		\{       0       1 \word{/} ->       0       1 T/ \} \\
+		\{       1       1 \word{/} ->       1       1 T/ \} \\
+		\{       2       1 \word{/} ->       2       1 T/ \} \\
+		\{      -1       1 \word{/} ->      -1       1 T/ \} \\
+		\{      -2       1 \word{/} ->      -2       1 T/ \} \\
+		\{       0      -1 \word{/} ->       0      -1 T/ \} \\
+		\{       1      -1 \word{/} ->       1      -1 T/ \} \\
+		\{       2      -1 \word{/} ->       2      -1 T/ \} \\
+		\{      -1      -1 \word{/} ->      -1      -1 T/ \} \\
+		\{      -2      -1 \word{/} ->      -2      -1 T/ \} \\
+		\{       2       2 \word{/} ->       2       2 T/ \} \\
+		\{      -1      -1 \word{/} ->      -1      -1 T/ \} \\
+		\{      -2      -2 \word{/} ->      -2      -2 T/ \} \\
+		\{       7       3 \word{/} ->       7       3 T/ \} \\
+		\{       7      -3 \word{/} ->       7      -3 T/ \} \\
+		\{      -7       3 \word{/} ->      -7       3 T/ \} \\
+		\{      -7      -3 \word{/} ->      -7      -3 T/ \} \\
+		\{ MAX-INT       1 \word{/} -> MAX-INT       1 T/ \} \\
+		\{ MIN-INT       1 \word{/} -> MIN-INT       1 T/ \} \\
+		\{ MAX-INT MAX-INT \word{/} -> MAX-INT MAX-INT T/ \} \\
+		\{ MIN-INT MIN-INT \word{/} -> MIN-INT MIN-INT T/ \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0240}{/MOD}[slash-mod]
+\item \stack{n_1 n_2}{n_3 n_4}
+
+	Divide \param{n_1} by \param{n_2}, giving the single-cell remainder
+	\param{n_3} and the single-cell quotient \param{n_4}. An ambiguous
+	condition exists if \param{n_2} is zero. If \param{n_1} and
+	\param{n_2} differ in sign, the implementation-defined result
+	returned will be the same as that returned by either the phrase
+	\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD}
+	or the phrase
+	\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM}.
+
+\see \xref[3.2.2.1 Integer division]{usage:div}.
+
+	\begin{defer}
+	\testing
+		IFFLOORED \tab  \word{:} T/MOD  \word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{;} \\
+		IFSYM \tab[2.6] \word{:} T/MOD  \word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{;}
+
+		\{       0       1 \word{/MOD} ->       0       1 T/MOD \} \\
+		\{       1       1 \word{/MOD} ->       1       1 T/MOD \} \\
+		\{       2       1 \word{/MOD} ->       2       1 T/MOD \} \\
+		\{      -1       1 \word{/MOD} ->      -1       1 T/MOD \} \\
+		\{      -2       1 \word{/MOD} ->      -2       1 T/MOD \} \\
+		\{       0      -1 \word{/MOD} ->       0      -1 T/MOD \} \\
+		\{       1      -1 \word{/MOD} ->       1      -1 T/MOD \} \\
+		\{       2      -1 \word{/MOD} ->       2      -1 T/MOD \} \\
+		\{      -1      -1 \word{/MOD} ->      -1      -1 T/MOD \} \\
+		\{      -2      -1 \word{/MOD} ->      -2      -1 T/MOD \} \\
+		\{       2       2 \word{/MOD} ->       2       2 T/MOD \} \\
+		\{      -1      -1 \word{/MOD} ->      -1      -1 T/MOD \} \\
+		\{      -2      -2 \word{/MOD} ->      -2      -2 T/MOD \} \\
+		\{       7       3 \word{/MOD} ->       7       3 T/MOD \} \\
+		\{       7      -3 \word{/MOD} ->       7      -3 T/MOD \} \\
+		\{      -7       3 \word{/MOD} ->      -7       3 T/MOD \} \\
+		\{      -7      -3 \word{/MOD} ->      -7      -3 T/MOD \} \\
+		\{ MAX-INT       1 \word{/MOD} -> MAX-INT       1 T/MOD \} \\
+		\{ MIN-INT       1 \word{/MOD} -> MIN-INT       1 T/MOD \} \\
+		\{ MAX-INT MAX-INT \word{/MOD} -> MAX-INT MAX-INT T/MOD \} \\
+		\{ MIN-INT MIN-INT \word{/MOD} -> MIN-INT MIN-INT T/MOD \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[0less]{0250}{0<}[zero-less]
+\item \stack{n}{flag}
+
+	\param{flag} is true if and only if \param{n} is less than zero.
+
+	\begin{defer}
+	\testing
+		\{       0 \word{0less} -> <FALSE> \} \\
+		\{      -1 \word{0less} -> <TRUE>  \} \\
+		\{ MIN-INT \word{0less} -> <TRUE>  \} \\
+		\{       1 \word{0less} -> <FALSE> \} \\
+		\{ MAX-INT \word{0less} -> <FALSE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0270}{0=}[zero-equals]
+\item \stack{x}{flag}
+
+	\param{flag} is true if and only if \param{x} is equal to zero.
+
+	\begin{defer}
+	\testing
+		\{  0 \word{0=} -> <TRUE>  \} \\
+		\{  1 \word{0=} -> <FALSE> \} \\
+		\{  2 \word{0=} -> <FALSE> \} \\
+		\{ -1 \word{0=} -> <FALSE> \} \\
+		\{ MAX-UINT \word{0=} -> <FALSE> \} \\
+		\{ MIN-INT  \word{0=} -> <FALSE> \} \\
+		\{ MAX-INT  \word{0=} -> <FALSE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0290}{1+}[one-plus]
+\item \stack{n_1|u_1}{n_2|u_2}
+
+	Add one (1) to \param{n_1|u_1} giving the sum
+	\param{n_2|u_2}.
+
+	\begin{defer}
+	\testing
+		\{        0 \word{1+} ->          1 \} \\
+		\{       -1 \word{1+} ->          0 \} \\
+		\{        1 \word{1+} ->          2 \} \\
+		\{ MID-UINT \word{1+} -> MID-UINT+1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0300}{1-}[one-minus]
+\item \stack{n_1|u_1}{n_2|u_2}
+
+	Subtract one (1) from \param{n_1|u_1} giving the difference
+	\param{n_2|u_2}.
+
+	\begin{defer}
+	\testing
+		\{          2 \word{1-} ->        1 \} \\
+		\{          1 \word{1-} ->        0 \} \\
+		\{          0 \word{1-} ->       -1 \} \\
+		\{ MID-UINT+1 \word{1-} -> MID-UINT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0310}{2!}[two-store]
+\item \stack{x_1 x_2 a-addr}{}
+
+	Store the cell pair \param{x_1 x_2} at \param{a-addr}, with
+	\param{x_2} at \param{a-addr} and \param{x_1} at the next
+	consecutive cell. It is equivalent to the sequence
+	\word{SWAP} \word{OVER} \word{!} \word{CELL+} \word{!}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:,}{,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0320}{2*}[two-star]
+\item \stack{x_1}{x_2}
+
+	\param{x_2} is the result of shifting \param{x_1} one bit toward
+	the most-significant bit, filling the vacated least-significant
+	bit with zero.
+
+	\begin{defer}
+	\rationale % A.6.1.0320 2*
+		Historically, \word{2*} has been implemented on
+		two's-complement machines as a logical left-shift instruction.
+		Multiplication by two is an efficient side-effect on these
+		machines. However, shifting implies a knowledge of the
+		significance and position of bits in a cell. While the name
+		implies multiplication, most implementors have used a hardware
+		left shift to implement \word{2*}.
+
+	\testing
+		\{ 0S	\word{2*} -> 0S \} \\
+		\{ 1	\word{2*} -> 2 \} \\
+		\{ 4000 \word{2*} -> 8000 \} \\
+		\{ 1S	\word{2*} 1 \word{XOR} -> 1S \} \\
+		\{ MSB	\word{2*} -> 0S \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0330}{2/}[two-slash]
+\item \stack{x_1}{x_2}
+
+	\param{x_2} is the result of shifting \param{x_1} one bit toward
+	the least-significant bit, leaving the most-significant bit
+	unchanged.
+
+	\begin{defer}
+	\rationale % A.6.1.0330 2/
+		This word has the same common usage and misnaming implications
+		as \word{2*}. It is often implemented on two's-complement
+		machines with a hardware right shift that propagates the sign
+		bit.
+
+	\testing
+		\{ 0S		\word{2/} -> 0S \} \\
+		\{ 1		\word{2/} -> 0 \} \\
+		\{ 4000		\word{2/} -> 2000 \} \\
+		\{ 1S		\word{2/} -> 1S \} \tab[4] \word{bs} MSB PROPOGATED \\
+		\{ 1S 1 \word{XOR} \word{2/} -> 1S \} \\
+		\{ MSB \word{2/} MSB \word{AND} -> MSB \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0350}{2@}[two-fetch]
+\item \stack{a-addr}{x_1 x_2}
+
+	Fetch the cell pair \param{x_1 x_2} stored at \param{a-addr}.
+	\param{x_2} is stored at \param{a-addr} and \param{x_1} at the
+	next consecutive cell. It is equivalent to the sequence
+	\word{DUP} \word{CELL+} \word{@} \word{SWAP} \word{@}.
+
+\see \xref[3.3.3.1  Address alignment]{usage:aaddr},
+	\wref{core:2!}{2!}.
+
+	\begin{defer}
+	\rationale % A.6.1.0350 2@
+		With \word{2@} the storage order is specified by the Standard.
+
+	\testing
+		\rmfamily
+		See \rref{core:,}{,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0370}{2DROP}[two-drop]
+\item \stack{x_1 x_2}{}
+
+	Drop cell pair \param{x_1 x_2} from the stack.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 \word{2DROP} -> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0380}{2DUP}[two-dupe]
+\item \stack{x_1 x_2}{x_1 x_2 x_1 x_2}
+
+	Duplicate cell pair \param{x_1 x_2}.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 \word{2DUP} -> 1 2 1 2 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0400}{2OVER}[two-over]
+\item \stack{x_1 x_2 x_3 x_4}{x_1 x_2 x_3 x_4 x_1 x_2}
+
+	Copy cell pair \param{x_1 x_2} to the top of the stack.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 3 4 \word{2OVER} -> 1 2 3 4 1 2 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0430}{2SWAP}[two-swap]
+\item \stack{x_1 x_2 x_3 x_4}{x_3 x_4 x_1 x_2}
+
+	Exchange the top two cell pairs.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 3 4 \word{2SWAP} -> 3 4 1 2 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0450}{:}[colon]
+\item \stack[C]{"<spaces>name"}{colon-sys}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a
+	space. Create a definition for \param{name}, called a ``colon
+	definition''. Enter compilation state and start the current
+	definition, producing \param{colon-sys}. Append the initiation
+	semantics given below to the current definition.
+
+	The execution semantics of \param{name} will be determined by the
+	words compiled into the body of the definition. The current
+	definition shall not be findable in the dictionary until it is
+	ended (or until the execution of \word{DOES} in some systems).
+
+\init \stack{i*x}{i*x}
+	\stack[R]{}{nest-sys}
+
+	Save implementation-dependent information \param{nest-sys}
+	about the calling definition. The stack effects \param{i*x}
+	represent arguments to \param{name}.
+
+\execute[name]
+	\stack{i*x}{j*x}
+
+	Execute the definition \param{name}. The stack effects
+	\param{i*x} and \param{j*x} represent arguments to and
+	results from \param{name}, respectively.
+
+\see \xref[3.4 The Forth text interpreter]{usage:interpret},
+	\xref[3.4.1 Parsing]{usage:parsing},
+	\xref[3.4.5 Compilation]{usage:compilation},
+	\wref{core:DOES}{DOES>},
+	\wref{core:[}{[},
+	\wref{core:]}{]},
+	\wref{tools:;CODE}{;CODE}.
+
+	\begin{defer}
+	\rationale % A.6.1.0450 :
+		Typical use:
+			\word{:} \emph{name} {\ldots} \word{;}
+
+		In Forth 83, this word was specified to alter the search order.
+		This specification is explicitly removed in this Standard. We
+		believe that in most cases this has no effect; however, systems
+		that allow many search orders found the Forth-83 behavior of
+		colon very undesirable.
+
+		Note that colon does not itself invoke the compiler. Colon sets
+		compilation state so that later words in the parse area are
+		compiled.
+
+	\testing
+		\{ \word{:} NOP \word{:} \word{POSTPONE} \word{;} \word{;} -> \} \\
+		\{ NOP NOP1		NOP NOP2 -> \} \\
+		\{ 					NOP1 -> \} \\
+		\{ 					NOP2 -> \}
+
+		\textrm{The following tests the dictionary search order:}
+
+		\{ \word{:} GDX   123 \word{;} \tab \word{:} GDX   GDX 234 \word{;} -> \} \\
+		\{ GDX -> 123 234 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0460}{;}[semicolon]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{colon-sys}{}
+
+	Append the run-time semantics below to the current definition. End
+	the current definition, allow it to be found in the dictionary and
+	enter interpretation state, consuming \param{colon-sys}. If the
+	data-space pointer is not aligned, reserve enough data space to
+	align it.
+
+\runtime
+	\stack{}{}
+	\stack[R]{nest-sys}{}
+
+	Return to the calling definition specified by \param{nest-sys}.
+
+\see \xref[3.4 The Forth text interpreter]{usage:command},
+	\xref[3.4.5 Compilation]{usage:compilation}.
+
+	\begin{defer}
+	\rationale % A.6.1.0460 ;
+		Typical use:
+			\word{:} \emph{name} {\ldots} \word{;}
+
+		One function performed by both \word{;} and \word[tools]{;CODE}
+		is to allow the current definition to be found in the
+		dictionary. If the current definition was created by
+		\word{:NONAME} the current definition has no definition name
+		and thus cannot be found in the dictionary. If \word{:NONAME}
+		is implemented the Forth compiler must maintain enough
+		information about the current definition to allow \word{;} and
+		\word[tools]{;CODE} to determine whether or not any action must
+		be taken to allow it to be found.
+
+	\testing\rmfamily
+		See \rref{core::}{:}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[less]{0480}{<}[less-than]
+\item \stack{n_1 n_2}{flag}
+
+	\param{flag} is true if and only if \param{n_1} is less than
+	\param{n_2}.
+
+\see \wref{core:Uless}{U<}.
+
+	\begin{defer}
+	\testing
+		\{       0       1 \word{less} -> <TRUE>  \} \\
+		\{       1       2 \word{less} -> <TRUE>  \} \\
+		\{      -1       0 \word{less} -> <TRUE>  \} \\
+		\{      -1       1 \word{less} -> <TRUE>  \} \\
+		\{ MIN-INT       0 \word{less} -> <TRUE>  \} \\
+		\{ MIN-INT MAX-INT \word{less} -> <TRUE>  \} \\
+		\{       0 MAX-INT \word{less} -> <TRUE>  \} \\
+		\{       0       0 \word{less} -> <FALSE> \} \\
+		\{       1       1 \word{less} -> <FALSE> \} \\
+		\{       1       0 \word{less} -> <FALSE> \} \\
+		\{       2       1 \word{less} -> <FALSE> \} \\
+		\{       0      -1 \word{less} -> <FALSE> \} \\
+		\{       1      -1 \word{less} -> <FALSE> \} \\
+		\{       0 MIN-INT \word{less} -> <FALSE> \} \\
+		\{ MAX-INT MIN-INT \word{less} -> <FALSE> \} \\
+		\{ MAX-INT       0 \word{less} -> <FALSE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[num-start]{0490}{<\num}[less-number-sign]
+\item \stack{}{}
+
+	Initialize the pictured numeric output conversion process.
+
+\see \wref{core:num}{\num},
+	\wref{core:num-end}{\num>},
+	\wref{core:numS}{\num{}S}.
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:num}{\num},
+			\rref{core:numS}{\num{}S},
+			\rref{core:HOLD}{HOLD} and
+			\rref{core:SIGN}{SIGN}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0530}{=}[equals]
+\item \stack{x_1 x_2}{flag}
+
+	\param{flag} is true if and only if \param{x_1} is bit-for-bit
+	the same as \param{x_2}.
+
+	\begin{defer}
+	\testing
+		\{  0  0 \word{=} -> <TRUE>  \} \\
+		\{  1  1 \word{=} -> <TRUE>  \} \\
+		\{ -1 -1 \word{=} -> <TRUE>  \} \\
+		\{  1  0 \word{=} -> <FALSE> \} \\
+		\{ -1  0 \word{=} -> <FALSE> \} \\
+		\{  0  1 \word{=} -> <FALSE> \} \\
+		\{  0 -1 \word{=} -> <FALSE> \} \\
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[more]{0540}{>}[greater-than]
+\item \stack{n_1 n_2}{flag}
+
+	\param{flag} is true if and only if \param{n_1} is greater than \param{n_2}.
+
+\see \wref{core:Umore}{U>}.
+
+	\begin{defer}
+	\testing
+		\{       0       1 \word{more} -> <FALSE> \} \\
+		\{       1       2 \word{more} -> <FALSE> \} \\
+		\{      -1       0 \word{more} -> <FALSE> \} \\
+		\{      -1       1 \word{more} -> <FALSE> \} \\
+		\{ MIN-INT       0 \word{more} -> <FALSE> \} \\
+		\{ MIN-INT MAX-INT \word{more} -> <FALSE> \} \\
+		\{       0 MAX-INT \word{more} -> <FALSE> \} \\
+		\{       0       0 \word{more} -> <FALSE> \} \\
+		\{       1       1 \word{more} -> <FALSE> \} \\
+		\{       1       0 \word{more} -> <TRUE>  \} \\
+		\{       2       1 \word{more} -> <TRUE>  \} \\
+		\{       0      -1 \word{more} -> <TRUE>  \} \\
+		\{       1      -1 \word{more} -> <TRUE>  \} \\
+		\{       0 MIN-INT \word{more} -> <TRUE>  \} \\
+		\{ MAX-INT MIN-INT \word{more} -> <TRUE>  \} \\
+		\{ MAX-INT       0 \word{more} -> <TRUE>  \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[toBODY]{0550}{>BODY}[to-body]
+\item \stack{xt}{a-addr}
+
+	\param{a-addr} is the data-field address corresponding to
+	\param{xt}. An ambiguous condition exists if \param{xt} is not
+	for a word defined via \word{CREATE}.
+
+\see \xref[3.3.3 Data space]{usage:dataspace}.
+
+	\begin{defer}
+	\rationale % A.6.1.0550 >BODY
+		\param{a-addr} is the address that \word{HERE} would have
+		returned had it been executed immediately after the execution
+		of the \word{CREATE} that defined \param{xt}.
+
+	\testing
+		\{ \word{CREATE} CR0 -> \} \\
+		\{ \word{'} CR0 \word{toBODY} -> \word{HERE} \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[toIN]{0560}{>IN}[to-in]
+\item \stack{}{a-addr}
+
+	\param{a-addr} is the address of a cell containing the offset in
+	characters from the start of the input buffer to the start of
+	the parse area.
+
+	\begin{defer}
+	\testing
+		\word{VARIABLE} SCANS \\
+		\word{:} RESCAN?  -1 SCANS \word{+!} SCANS \word{@} \word{IF} 0 \word{toIN} \word{!} \word{THEN} \word{;}
+
+		\{ 2 SCANS \word{!} \\
+		345 RESCAN? \\
+		-> 345 345 \}
+
+		\word{:} GS2  5 SCANS \word{!} \word{Sq} 123 RESCAN?" \word{EVALUATE} \word{;} \\
+		\{ GS2 -> 123 123 123 123 123 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[toNUMBER]{0570}{>NUMBER}[to-number]
+\item \stack{ud_1 c-addr_1 u_1}{ud_2 c-addr_2 u_2}
+
+	\param{ud_2} is the unsigned result of converting the characters
+	within the string specified by \param{c-addr_1 u_1} into digits,
+	using the number in \word{BASE}, and adding each into \param{ud_1}
+	after multiplying \param{ud_1} by the number in \word{BASE}.
+	Conversion continues left-to-right until a character that is not
+	convertible, including any ``+'' or ``-'', is encountered or the
+	string is entirely converted.
+	\param{c-addr_2} is the location of the first unconverted character
+	or the first character past the end of the string if the string was
+	entirely converted. \param{u_2} is the number of unconverted
+	characters in the string. An ambiguous condition exists if
+	\param{ud_2} overflows during the conversion.
+
+\see \xref[3.2.1.2 Digit conversion]{usage:digits}.
+
+	\begin{defer}
+	\testing
+		\word{CREATE} GN-BUF 0 \word{C,} \\
+		\word{:} GN-STRING	 GN-BUF 1 \word{;} \\
+		\word{:} GN-CONSUMED GN-BUF \word{CHAR+} 0 \word{;} \\
+		\word{:} GN'		 \word{[CHAR]} ' \word{WORD} \word{CHAR+} \word{C@} GN-BUF \word{C!}  GN-STRING \word{;}
+
+		\{ 0 0 GN' 0' \word{toNUMBER} ->         0 0 GN-CONSUMED \} \\
+		\{ 0 0 GN' 1' \word{toNUMBER} ->         1 0 GN-CONSUMED \} \\
+		\{ 1 0 GN' 1' \word{toNUMBER} -> BASE @ 1+ 0 GN-CONSUMED \} \\
+		\{ 0 0 GN' -' \word{toNUMBER} ->         0 0 GN-STRING   \} \tab \word{bs} SHOULD FAIL TO CONVERT \\
+		\{ 0 0 GN' +' \word{toNUMBER} ->         0 0 GN-STRING   \} \\
+		\{ 0 0 GN' .' \word{toNUMBER} ->         0 0 GN-STRING   \}
+
+		\word{:} >NUMBER-BASED \\
+		\tab \word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \word{toNUMBER} \word{Rfrom} \word{BASE} \word{!} \word{;}
+
+		\{ 0 0 GN' 2'       10 >NUMBER-BASED ->  2 0 GN-CONSUMED \} \\
+		\{ 0 0 GN' 2'        2 >NUMBER-BASED ->  0 0 GN-STRING   \} \\
+		\{ 0 0 GN' F'       10 >NUMBER-BASED ->  F 0 GN-CONSUMED \} \\
+		\{ 0 0 GN' G'       10 >NUMBER-BASED ->  0 0 GN-STRING   \} \\
+		\{ 0 0 GN' G' MAX-BASE >NUMBER-BASED -> 10 0 GN-CONSUMED \} \\
+		\{ 0 0 GN' Z' MAX-BASE >NUMBER-BASED -> 23 0 GN-CONSUMED \}
+
+		\word{:} GN1 \word{bs} ( UD BASE -- UD' LEN ) UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
+		\tab	\word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \\
+		\tab	\word{num-start} \word{numS} \word{num-end} \\
+		\tab	0 0 \word{2SWAP} \word{toNUMBER} \word{SWAP} \word{DROP} \tab \word{bs} RETURN LENGTH ONLY \\
+		\tab	\word{Rfrom} \word{BASE} \word{!} \word{;}
+
+		\{        0   0        2 GN1 ->        0   0 0 \} \\
+		\{ MAX-UINT   0        2 GN1 -> MAX-UINT   0 0 \} \\
+		\{ MAX-UINT DUP        2 GN1 -> MAX-UINT DUP 0 \} \\
+		\{        0   0 MAX-BASE GN1 ->        0   0 0 \} \\
+		\{ MAX-UINT   0 MAX-BASE GN1 -> MAX-UINT   0 0 \} \\
+		\{ MAX-UINT DUP MAX-BASE GN1 -> MAX-UINT DUP 0 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[toR]{0580}{>R}[to-r]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{x}{}
+	\stack[R]{}{x}
+
+	Move \param{x} to the return stack.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:Rfrom}{R>},
+	\wref{core:R@}{R@},
+	\wref{core:2toR}{2>R},
+	\wref{core:2Rfrom}{2R>},
+	\wref{core:2R@}{2R@}.
+
+	\begin{defer}
+	\testing
+		TESTING \word{toR} \word{Rfrom} \word{R@}
+
+		\{ : GR1 \word{toR} \word{Rfrom} ; -> \} \\
+		\{ : GR2 \word{toR} \word{R@} \word{Rfrom} \word{DROP} ; -> \} \\
+		\{ 123 GR1 -> 123 \} \\
+		\{ 123 GR2 -> 123 \} \\
+		\{ 1S GR1 -> 1S \} \tab[2] \word{p} RETURN STACK HOLDS CELLS )
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[qDUP]{0630}{?DUP}[question-dupe]
+\item \stack{x}{0 | x x}
+
+	Duplicate \param{x} if it is non-zero.
+
+	\begin{defer}
+	\testing
+		\{ -1 \word{qDUP} -> -1 -1 \} \\
+		\{  0 \word{qDUP} ->  0    \} \\
+		\{  1 \word{qDUP} ->  1  1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0650}{@}[fetch]
+\item \stack{a-addr}{x}
+
+	\param{x} is the value stored at \param{a-addr}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:,}{,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0670}{ABORT}
+\item \stack{i*x}{}
+	\stack[R]{j*x}{}
+
+	Empty the data stack and perform the function of \word{QUIT},
+	which includes emptying the return stack, without displaying
+	a message.
+
+\see \wref{exception:ABORT}{ABORT}.
+
+	\begin{defer}
+	\testing
+		\textrm{None.}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[ABORTq]{0680}{ABORT"}[abort-quote]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"ccc<quote>"}{}
+
+	Parse \param{ccc} delimited by a \texttt{"} (double-quote).
+	Append the run-time semantics given below to the current
+	definition.
+
+\runtime
+	\stack{i*x x_1}{| i*x}
+	\stack[R]{j*x}{| j*x}
+
+	Remove \param{x_1} from the stack. If any bit of \param{x_1} is not
+	zero, display \param{ccc} and perform an implementation-defined
+	abort sequence that includes the function of \word{ABORT}.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{exception:ABORTq}{9.6.2.0680 ABORT"}.
+
+	\begin{defer}
+	\rationale % A.6.1.0680 ABORT"
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\emph{test} \word{ABORTq} \emph{ccc}\texttt{"}
+			{\ldots} \word{;}
+
+	\testing
+		\textrm{None.}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0690}{ABS}[abs]
+\item \stack{n}{u}
+
+	\param{u} is the absolute value of \param{n}.
+
+	\begin{defer}
+	\testing
+		\{       0 \word{ABS} ->          0 \} \\
+		\{       1 \word{ABS} ->          1 \} \\
+		\{      -1 \word{ABS} ->          1 \} \\
+		\{ MIN-INT \word{ABS} -> MID-UINT+1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0695}{ACCEPT}
+\item \stack{c-addr +n_1}{+n_2}
+
+	Receive a string of at most \param{+n_1} characters. An ambiguous
+	condition exists if \param{+n_1} is zero or greater than 32,767.
+	Display graphic characters as they are received. A program that
+	depends on the presence or absence of non-graphic characters in the
+	string has an environmental dependency. The editing functions, if
+	any, that the system performs in order to construct the string are
+	implementation-defined.
+
+	Input terminates when an implementation-defined line terminator is
+	received. When input terminates, nothing is appended to the string,
+	and the display is maintained in an implementation-defined way.
+
+	\param{+n_2} is the length of the string stored at \param{c-addr}.
+
+	\begin{defer}
+	\rationale % A.6.1.0695 ACCEPT
+		Previous standards specified that collection of the input
+		string terminates when either a ``return'' is received or when
+		\param{+n_1} characters have been received. Terminating when
+		\param{+n_1} characters have been received is difficult,
+		expensive, or impossible to implement in some system environments.
+		Consequently, a number of existing implementations do not
+		comply with this requirement. Since line-editing and collection
+		functions are often implemented by system components beyond the
+		control of the Forth implementation, this Standard imposes no
+		such requirement. A Standard Program may only assume that it
+		can receive an input string with \word{ACCEPT} or \word{EXPECT}.
+		The detailed sequence of user actions necessary to prepare and
+		transmit that line are beyond the scope of this Standard.
+
+		Specification of a non-zero, positive integer count (\param{+n_1})
+		for \word{ACCEPT} allows some implementors to continue their
+		practice of using a zero or negative value as a flag to trigger
+		special behavior. Insofar as such behavior is outside the
+		Standard, Standard Programs cannot depend upon it, but the
+		Technical Committee doesn't wish to preclude it unnecessarily.
+		Since actual values are almost always small integers, no
+		functionality is impaired by this restriction.
+
+		\word{ACCEPT} and \word{EXPECT} perform similar functions.
+		\word{ACCEPT} is recommended for new programs, and future use
+		of \word{EXPECT} is discouraged.
+
+		It is recommended that all non-graphic characters be reserved
+		for editing or control functions and not be stored in the input
+		string.
+
+		Commonly, when the user is preparing an input string to be
+		transmitted to a program, the system allows the user to edit
+		that string and correct mistakes before transmitting the final
+		version of the string. The editing function is supplied
+		sometimes by the Forth system itself, and sometimes by external
+		system software or hardware. Thus, control characters and
+		functions may not be available on all systems. In the usual
+		case, the end of the editing process and final transmission of
+		the string is signified by the user pressing a ``Return'' or
+		``Enter'' key.
+
+		As in previous standards, \word{EXPECT} returns the input
+		string immediately after the requested number of characters
+		are entered, as well as when a line terminator is received.
+		The ``automatic termination after specified count of characters
+		have been entered'' behavior is widely considered undesirable
+		because the user ``loses control'' of the input editing process
+		at a potentially unknown time (the user does not necessarily
+		know how many characters were requested from \word{EXPECT}).
+		Thus \word{EXPECT} and \word{SPAN} have been made obsolescent
+		and exist in the Standard only as a concession to existing
+		implementations. If \word{EXPECT} exists in a Standard System
+		it must have the ``automatic termination'' behavior.
+
+		\word{ACCEPT} does not have the ``automatic termination''
+		behavior of \word{EXPECT}. However, because external system
+		hardware and software may perform the \word{ACCEPT} function,
+		when a line terminator is received the action of the cursor,
+		and therefore the display, is implementation-defined. It is
+		recommended that the cursor remain immediately following the
+		entered text after a line terminator is received.
+
+	\testing
+		\word{CREATE} ABUF 80 \word{CHARS} \word{ALLOT}
+
+		\word{:} ACCEPT-TEST \\
+		\tab[2] \word{CR} \word{.q} PLEASE TYPE UP TO 80 CHARACTERS:" \word{CR} \\
+		\tab[2] ABUF 80 \word{ACCEPT} \\
+		\tab[2] \word{CR} \word{.q} RECEIVED: " \word{[CHAR]} " \word{EMIT} \\
+		\tab[2] ABUF \word{SWAP} \word{TYPE} \word{[CHAR]} " \word{EMIT} \word{CR} \\
+		\word{;}
+
+		\{ ACCEPT-TEST -> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0705}{ALIGN}
+\item \stack{}{}
+
+	If the data-space pointer is not aligned, reserve enough space
+	to align it.
+
+\see \xref[3.3.3 Data space]{usage:dataspace},
+	\xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\rationale % A.6.1.0705 ALIGN
+		In this Standard we have attempted to provide transportability
+		across various CPU architectures. One of the frequent causes
+		of transportability problems is the requirement of cell-aligned
+		addresses on some CPUs. On these systems, \word{ALIGN} and
+		\word{ALIGNED} may be required to build and traverse data
+		structures built with \word{C,}. Implementors may define these
+		words as no-ops on systems for which they aren't functional.
+
+	\testing
+		\word{ALIGN}  1 \word{ALLOT} \word{HERE}  \word{ALIGN} \word{HERE} 3 \word{CELLS} \word{ALLOT} \\
+		\word{CONSTANT} A-ADDR  \word{CONSTANT} UA-ADDR
+		\{ UA-ADDR \word{ALIGNED} -> A-ADDR \} \\
+		\{       1 A-ADDR \word{C!}                A-ADDR              \word{C@} ->       1 \} \\
+		\{    1234 A-ADDR \word{!}                 A-ADDR              \word{@}  ->    1234 \} \\
+		\{ 123 456 A-ADDR \word{2!}                A-ADDR              \word{2@} -> 123 456 \} \\
+		\{       2 A-ADDR \word{CHAR+} \word{C!}   A-ADDR \word{CHAR+} \word{C@} ->       2 \} \\
+		\{       3 A-ADDR \word{CELL+} \word{C!}   A-ADDR \word{CELL+} \word{C@} ->       3 \} \\
+		\{    1234 A-ADDR \word{CELL+} \word{!}    A-ADDR \word{CELL+} \word{@}  ->    1234 \} \\
+		\{ 123 456 A-ADDR \word{CELL+} \word{2!}   A-ADDR \word{CELL+} \word{2@} -> 123 456 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0706}{ALIGNED}
+\item \stack{addr}{a-addr}
+
+	\param{a-addr} is the first aligned address greater than or equal
+	to \param{addr}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\rationale % A.6.1.0706 ALIGNED
+		See: \rref{core:ALIGN}{ALIGN}.
+
+	\testing\rmfamily
+		See \rref{core:ALIGN}{ALIGN}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0710}{ALLOT}
+\item \stack{n}{}
+
+	If \param{n} is greater than zero, reserve \param{n} address units
+	of data space. If \param{n} is less than zero, release \param{|n|}
+	address units of data space. If \param{n} is zero, leave the
+	data-space pointer unchanged.
+
+	If the data-space pointer is aligned and \param{n} is a multiple
+	of the size of a cell when \word{ALLOT} begins execution, it will
+	remain aligned when \word{ALLOT} finishes execution.
+
+	If the data-space pointer is character aligned and \param{n} is a
+	multiple of the size of a character when \word{ALLOT} begins
+	execution, it will remain character aligned when \word{ALLOT}
+	finishes execution.
+
+\see \xref[3.3.3 Data space]{usage:dataspace}.
+
+	\begin{defer}
+	\testing
+		\word{HERE} 1 \word{ALLOT} \\
+		\word{HERE} \\
+		\word{CONSTANT} 2NDA \\
+		\word{CONSTANT} 1STA \\
+		\{ 1STA 2NDA \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
+		\{ 1STA \word{1+} -> 2NDA \}			\tab[4.2] \word{bs} {\ldots} BY ONE ADDRESS UNIT \\
+		( MISSING TEST: NEGATIVE ALLOT )
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0720}{AND}
+\item \stack{x_1 x_2}{x_3}
+
+	\param{x_3} is the bit-by-bit logical ``and'' of \param{x_1}
+	with \param{x_2}.
+
+	\begin{defer}
+	\testing
+		\{ 0 0 \word{AND} -> 0 \} \\
+		\{ 0 1 \word{AND} -> 0 \} \\
+		\{ 1 0 \word{AND} -> 0 \} \\
+		\{ 1 1 \word{AND} -> 1 \}
+
+		\{ 0 \word{INVERT} 1 \word{AND} -> 1 \} \\
+		\{ 1 \word{INVERT} 1 \word{AND} -> 0 \}
+
+		\{ 0S 0S \word{AND} -> 0S \} \\
+		\{ 0S 1S \word{AND} -> 0S \} \\
+		\{ 1S 0S \word{AND} -> 0S \} \\
+		\{ 1S 1S \word{AND} -> 1S \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0750}{BASE}
+\item \stack{}{a-addr}
+
+	\param{a-addr} is the address of a cell containing the current
+	number-conversion radix \{\{2...36\}\}.
+
+	\begin{defer}
+	\testing
+		\word{:} GN2	\word{bs} ( -- 16 10 ) \\
+		\tab \word{BASE} \word{@} \word{toR}
+			\word{HEX} \word{BASE} \word{@}
+			\word{DECIMAL} \word{BASE} \word{@}
+			\word{Rfrom} \word{BASE} \word{!} \word{;} \\
+		\{ GN2 -> 10 A \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0760}{BEGIN}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{}{dest}
+
+	Put the next location for a transfer of control, \param{dest}, onto
+	the control flow stack. Append the run-time semantics given below
+	to the current definition.
+
+\runtime
+	\stack{}{}
+
+	Continue execution.
+
+\see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
+	\wref{core:REPEAT}{REPEAT},
+	\wref{core:UNTIL}{UNTIL},
+	\wref{core:WHILE}{WHILE}.
+
+	\begin{defer}
+	\rationale % A.6.1.0760 BEGIN
+		Typical use:
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\word{BEGIN} {\ldots} \emph{test} \word{UNTIL}
+		\word{;}
+
+		or
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\word{BEGIN} {\ldots}
+			\emph{test} \word{WHILE} {\ldots}
+			\word{REPEAT}
+		\word{;}
+
+	\testing\rmfamily
+		See \rref{core:WHILE}{WHILE} and \rref{core:UNTIL}{UNTIL}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0770}{BL}[b-l]
+\item \stack{}{char}
+
+	\param{char} is the character value for a space.
+
+	\begin{defer}
+	\rationale % A.6.1.0770 BL
+		Because space is used throughout Forth as the standard
+		delimiter, this word is the only way a program has to find and
+		use the system value of ``space''. The value of a space
+		character can not be obtained with \word{CHAR}, for instance.
+
+	\testing
+		\{ \word{BL} -> 20 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0850}{C!}[c-store]
+\item \stack{char c-addr}{}
+
+	Store \param{char} at \param{c-addr}. When character size is smaller
+	than cell size, only the number of low-order bits corresponding to
+	character size are transferred.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:C,}{C,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0860}{C,}[c-comma]
+\item \stack{char}{}
+
+	Reserve space for one character in the data space and store
+	\param{char} in the space. If the data-space pointer is character
+	aligned when \word{C,} begins execution, it will remain character
+	aligned when \word{C,} finishes execution.
+	An ambiguous condition exists if the data-space pointer is not
+	character-aligned prior to execution of \word{C,}.
+
+\see \xref[3.3.3 Data space]{usage:dataspace},
+	\xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\word{HERE} 1 \word{C,} \\
+		\word{HERE} 2 \word{C,} \\
+		\word{CONSTANT} 2NDC \\
+		\word{CONSTANT} 1STC
+
+		\{ 1STC 2NDC \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
+		\{ 1STC \word{CHAR+} -> 2NDC \}			\tab[2.6] \word{bs} {\ldots} BY ONE CHAR \\
+		\{ 1STC 1 \word{CHARS} \word{+} -> 2NDC \} \\
+		\{ 1STC \word{C@} 2NDC \word{C@} -> 1 2 \} \\
+		\{ 3 1STC \word{C!} -> \} \\
+		\{ 1STC \word{C@} 2NDC \word{C@} -> 3 2 \} \\
+		\{ 4 2NDC \word{C!} -> \} \\
+		\{ 1STC \word{C@} 2NDC \word{C@} -> 3 4 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0870}{C@}[c-fetch]
+\item \stack{c-addr}{char}
+
+	Fetch the character stored at \param{c-addr}. When the cell size is
+	greater than character size, the unused high-order bits are all
+	zeroes.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:C,}{C,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0880}{CELL+}[cell-plus]
+\item \stack{a-addr_1}{a-addr_2}
+
+	Add the size in address units of a cell to \param{a-addr_1}, giving
+	\param{a-addr_2}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\rationale % A.6.1.0880 CELL+
+		As with \word{ALIGN} and \word{ALIGNED}, the words \word{CELLS}
+		and \word{CELL+} were added to aid in transportability across
+		systems with different cell sizes. They are intended to be used
+		in manipulating indexes and addresses in integral numbers of
+		cell-widths. Example:
+		\begin{quote}\ttfamily
+			\word[double]{2VARIABLE} DATA
+
+			0 100 DATA \word{2!}
+
+			DATA \word{@} \word{d} 100
+
+			DATA \word{CELL+} \word{@} \word{d} 0
+		\end{quote}
+
+	\testing\rmfamily
+		See \rref{core:,}{,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0890}{CELLS}
+\item \stack{n_1}{n_2}
+
+	\param{n_2} is the size in address units of \param{n_1} cells.
+
+	\begin{defer}
+	\rationale % A.6.1.0890 CELLS
+		See: \rref{core:CELL+}{CELL+}.
+
+		Example:
+			\word{CREATE} \texttt{NUMBERS} ~
+			\texttt{100} \word{CELLS} \word{ALLOT} \\
+		(Allots space in the array \texttt{NUMBERS} for 100 cells
+		of data.)
+
+	\testing
+		\word{:} BITS \word{p} X -- U ) \\
+		\tab 0 \word{SWAP} \word{BEGIN} \word{DUP} \word{WHILE} \word{DUP} MSB \word{AND}
+			\word{IF} \word{toR} \word{1+} \word{Rfrom} \word{THEN} \word{2*} \word{REPEAT} \word{DROP}
+		\word{;}
+
+		\word{p} CELLS >= 1 AU, INTEGRAL MULTIPLE OF CHAR SIZE, >= 16 BITS ) \\
+		\{ 1 \word{CELLS} 1 \word{less} -> <FALSE> \} \\
+		\{ 1 \word{CELLS} 1 \word{CHARS} \word{MOD} -> 0 \} \\
+		\{ 1S BITS 10 \word{less} -> <FALSE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0895}{CHAR}[char]
+\item \stack{"<spaces>name"}{char}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Put the value of its first character onto the stack.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:[CHAR]}{[CHAR]}.
+
+	\begin{defer}
+	\rationale % A.6.1.0895 CHAR
+		Typical use: {\ldots}
+			\word{CHAR} \texttt{A} \word{CONSTANT} \texttt{"A"} {\ldots}
+
+	\testing
+		\{ \word{CHAR} X     -> 58 \} \\
+		\{ \word{CHAR} HELLO -> 48 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0897}{CHAR+}[char-plus]
+\item \stack{c-addr_1}{c-addr_2}
+
+	Add the size in address units of a character to
+	\param{c-addr_1}, giving \param{c-addr_2}.
+
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:C,}{C,}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0898}{CHARS}[chars]
+\item \stack{n_1}{n_2}
+
+	\param{n_2} is the size in address units of \param{n_1}
+	characters.
+
+	\begin{defer}
+	\testing
+		\word{p} CHARACTERS >= 1 AU, <= SIZE OF CELL, >= 8 BITS ) \\
+		\{ 1 \word{CHARS} 1 \word{less} -> <FALSE> \} \\
+		\{ 1 \word{CHARS} 1 \word{CELLS} \word{more} -> <FALSE> \} \\
+		\word{p} TBD: HOW TO FIND NUMBER OF BITS? )
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0950}{CONSTANT}
+\item \stack{x "<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Create a definition for \param{name} with the execution
+	semantics defined below.
+
+	\param{name} is referred to as a ``constant''.
+
+\execute[name]
+	\stack{}{x}
+
+	Place \param{x} on the stack.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.6.1.0950 CONSTANT
+		Typical use: {\ldots}
+			\word{DECIMAL} \texttt{10} \word{CONSTANT} \texttt{TEN}
+			{\ldots}
+
+	\testing
+		\{ 123 \word{CONSTANT} X123 -> \} \\
+		\{ X123 -> 123 \} \\
+		\{ \word{:} EQU \word{CONSTANT} \word{;} -> \} \\
+		\{ X123 EQU Y123 -> \} \\
+		\{ Y123 -> 123 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0980}{COUNT}
+\item \stack{c-addr_1}{c-addr_2 u}
+
+	Return the character string specification for the counted
+	string stored at \param{c-addr_1}. \param{c-addr_2} is the
+	address of the first character after \param{c-addr_1}. \param{u}
+	is the contents of the character at \param{c-addr_1}, which is
+	the length in characters of the string at \param{c-addr_2}.
+
+	\begin{defer}
+	\testing
+		\{ GT1STRING \word{COUNT} -> GT1STRING \word{CHAR+} 3 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0990}{CR}[c-r]
+\item \stack{}{}
+
+	Cause subsequent output to appear at the beginning of the next
+	line.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:EMIT}{EMIT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1000}{CREATE}
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a
+	space. Create a definition for \param{name} with the execution
+	semantics defined below. If the data-space pointer is not
+	aligned, reserve enough data space to align it. The new
+	data-space pointer defines \param{name}'s data field.
+	\word{CREATE} does not allocate data space in \param{name}'s
+	data field.
+
+\execute[name]
+	\stack{}{a-addr}
+
+	\param{a-addr} is the address of \param{name}'s data field.
+	The execution semantics of \param{name} may be extended by
+	using \word{DOES}.
+
+\see \xref[3.3.3 Data space]{usage:dataspace},
+	\wref{core:DOES}{DOES>}.
+
+	\begin{defer}
+	\rationale % A.6.1.1000 CREATE
+		The data-field address of a word defined by \word{CREATE} is
+		given by the data-space pointer immediately following the
+		execution of \word{CREATE}.
+
+		Reservation of data field space is typically done with
+		\word{ALLOT}.
+
+		Typical use: {\ldots}
+			\word{CREATE} \texttt{SOMETHING} {\ldots}
+
+	\testing\rmfamily
+		See \rref{core:toBODY}{>BODY} and \rref{core:DOES}{DOES}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1170}{DECIMAL}
+\item \stack{}{}
+
+	Set the numeric conversion radix to ten (decimal).
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:BASE}{BASE}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1200}{DEPTH}
+\item \stack{}{+n}
+
+	\param{+n} is the number of single-cell values contained in the
+	data stack before \param{+n} was placed on the stack.
+
+	\begin{defer}
+	\testing
+		\{ 0 1 \word{DEPTH} -> 0 1 2 \} \\
+		\{   0 \word{DEPTH} -> 0 1   \} \\
+		\{     \word{DEPTH} -> 0     \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1240}{DO}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{}{do-sys}
+
+	Place \param{do-sys} onto the control-flow stack. Append the
+	run-time semantics given below to the current definition. The
+	semantics are incomplete until resolved by a consumer of
+	\param{do-sys} such as \word{LOOP}.
+
+\runtime
+	\stack{n_1|u_1 n_2|u_2}{}
+	\stack[R]{}{loop-sys}
+
+	Set up loop control parameters with index \param{n_2|u_2} and
+	limit \param{n_1|u_1}. An ambiguous condition exists if
+	\param{n_1|u_1} and \param{n_2|u_2} are not both the same
+	type. Anything already on the return stack becomes unavailable
+	until the loop-control parameters are discarded.
+
+\see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
+	\wref{core:+LOOP}{+LOOP},
+	\wref{core:LOOP}{LOOP}.
+
+	\begin{defer}
+	\rationale % A.6.1.1240 DO
+		Typical use:
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{limit} \emph{first} \word{DO}
+				{\ldots}
+			\word{LOOP}
+		\word{;}
+
+		or
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{limit} \emph{first} \word{DO}
+				{\ldots}
+			\emph{step} \word{+LOOP}
+		\word{;}
+
+	\testing
+		\rmfamily
+		See \rref{core:LOOP}{LOOP},
+			\rref{core:+LOOP}{+LOOP},
+			\rref{core:J}{J},
+			\rref{core:LEAVE}{LEAVE} and
+			\rref{core:UNLOOP}{UNLOOP}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[DOES]{1250}{DOES>}[does]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{colon-sys_1}{colon-sys_2}
+
+	Append the run-time semantics below to the current definition.
+	Whether or not the current definition is rendered findable in
+	the dictionary by the compilation of \word{DOES} is
+	implementation defined. Consume \param{colon-sys_1} and
+	produce \param{colon-sys_2}. Append the initiation semantics
+	given below to the current definition.
+
+\runtime
+	\stack{}{}
+	\stack[R]{nest-sys_1}{}
+
+	Replace the execution semantics of the most recent definition,
+	referred to as \param{name}, with the \param{name} execution
+	semantics given below. Return control to the calling definition
+	specified by \param{nest-sys_1}. An ambiguous condition exists
+	if \param{name} was not defined with \word{CREATE} or a
+	user-defined word that calls \word{CREATE}.
+
+\init
+	\stack{i*x}{i*x a-addr}
+	\stack[R]{}{nest-sys_2}
+
+	Save implementation-dependent information \param{nest-sys_2}
+	about the calling definition. Place \param{name}'s data field
+	address on the stack. The stack effects \param{i*x} represent
+	arguments to \param{name}.
+
+\execute[name]
+	\stack{i*x}{j*x}
+
+	Execute the portion of the definition that begins with the
+	initiation semantics appended by the \word{DOES} which modified
+	\param{name}. The stack effects \param{i*x} and \param{j*x}
+	represent arguments to and results from \param{name},
+	respectively.
+
+\see \wref{core:CREATE}{CREATE}.
+
+	\begin{defer}
+	\rationale % A.6.1.1250 DOES>
+		Typical use:
+			\word{:} \texttt{X} {\ldots} \word{DOES} {\ldots} \word{;}
+
+		Following \word{DOES}, a Standard Program may not make any
+		assumptions regarding the ability to find either the name of
+		the definition containing the \word{DOES} or any previous
+		definition whose name may be concealed by it. \word{DOES}
+		effectively ends one definition and begins another as far as
+		local variables and control-flow structures are concerned.
+		The compilation behavior makes it clear that the user is not
+		entitled to place \word{DOES} inside any control-flow
+		structures.
+
+	\testing
+		\{ \word{:} DOES1 \word{DOES} \word{@} 1 \word{+} \word{;} -> \} \\
+		\{ \word{:} DOES2 \word{DOES} \word{@} 2 \word{+} \word{;} -> \} \\
+		\{ \word{CREATE} CR1 -> \} \\
+		\{ CR1 -> \word{HERE}  \} \\
+		\{ 1 \word{,} -> \} \\
+		\{ CR1 \word{@} -> 1 \} \\
+		\{ DOES1 -> \} \\
+		\{ CR1 -> 2 \} \\
+		\{ DOES2 -> \} \\
+		\{ CR1 -> 3 \}
+
+		\{ \word{:} WEIRD: \word{CREATE} \word{DOES} 1 \word{+} \word{DOES} 2 \word{+} \word{;} -> \} \\
+		\{ WEIRD: W1 -> \} \\
+		\{ \word{'} W1 \word{toBODY} -> \word{HERE} \} \\
+		\{ W1 -> \word{HERE} 1 \word{+} \} \\
+		\{ W1 -> \word{HERE} 2 \word{+} \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1260}{DROP}
+\item \stack{x}{}
+
+	Remove \param{x} from the stack.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 \word{DROP} -> 1 \} \\
+		\{ 0   \word{DROP} ->   \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1290}{DUP}[dupe]
+\item \stack{x}{x x}
+
+	Duplicate \param{x}.
+
+	\begin{defer}
+	\testing
+		\{ 1 \word{DUP} -> 1 1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1310}{ELSE}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{orig_1}{orig_2}
+
+	Put the location of a new unresolved forward reference
+	\param{orig_2} onto the control flow stack. Append the run-time
+	semantics given below to the current definition. The semantics
+	will be incomplete until \param{orig_2} is resolved (e.g., by
+	\word{THEN}). Resolve the forward reference \param{orig_1} using
+	the location following the appended run-time semantics.
+
+\runtime
+	\stack{}{}
+
+	Continue execution at the location given by the resolution of
+	\param{orig_2}.
+
+\see \wref{core:IF}{IF},
+	\wref{core:THEN}{THEN}.
+
+	\begin{defer}
+	\rationale % A.6.1.1310 ELSE
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\emph{test} \word{IF} {\ldots}
+				\word{ELSE} {\ldots} \word{THEN}
+			\word{;}
+
+	\testing\rmfamily
+		See \rref{core:IF}{IF}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1320}{EMIT}
+\item \stack{x}{}
+
+	If \param{x} is a graphic character in the implementation-defined
+	character set, display \param{x}. The effect of \word{EMIT} for all
+	other values of \param{x} is implementation-defined.
+
+	When passed a character whose character-defining bits have a
+	value between hex 20 and 7E inclusive, the corresponding
+	standard character, specified by \xref[3.1.2.1 Graphic
+	characters]{usage:ASCII}, is displayed. Because different output
+	devices can respond differently to control characters, programs
+	that use control characters to perform specific functions have
+	an environmental dependency. Each EMIT deals with only one
+	character.
+
+\see \wref{core:TYPE}{TYPE}.
+
+	\begin{defer}
+	\testing
+		TESTING OUTPUT: \word{d} \word{.q} \word{CR} \word{EMIT} \word{SPACE} \word{SPACES} \word{TYPE} \word{Ud}
+
+		\word{:} OUTPUT-TEST \\[1ex]
+		\tab   \word{.q} YOU SHOULD SEE THE STANDARD GRAPHIC CHARACTERS:" \word{CR} \\
+		\tab   41 \word{BL} \word{DO} \word{I} \word{EMIT} \word{LOOP} \word{CR} \\
+		\tab   61 41 \word{DO} \word{I} \word{EMIT} \word{LOOP} \word{CR} \\
+		\tab   7F 61 \word{DO} \word{I} \word{EMIT} \word{LOOP} \word{CR} \\[1ex]
+		\tab   \word{.q} YOU SHOULD SEE 0-9 SEPARATED BY A SPACE:" \word{CR} \\
+		\tab   9 \word{1+} 0 \word{DO} \word{I} \word{d} \word{LOOP} \word{CR} \\[1ex]
+		\tab   \word{.q} YOU SHOULD SEE 0-9 (WITH NO SPACES):" \word{CR} \\
+		\tab   \word{[CHAR]} 9 \word{1+} \word{[CHAR]} 0
+			\word{DO} \word{I} 0 \word{SPACES} \word{EMIT} \word{LOOP} \word{CR} \\[1ex]
+		\tab   \word{.q} YOU SHOULD SEE A-G SEPARATED BY A SPACE:" \word{CR} \\
+		\tab   \word{[CHAR]} G \word{1+} \word{[CHAR]} A
+			\word{DO} \word{I} \word{EMIT} \word{SPACE} \word{LOOP} \word{CR} \\[1ex]
+		\tab   \word{.q} YOU SHOULD SEE 0-5 SEPARATED BY TWO SPACES:" \word{CR} \\
+		\tab   5 \word{1+} 0
+			\word{DO} \word{I} \word{[CHAR]} 0 \word{+} \word{EMIT} 2 \word{SPACES} \word{LOOP} \word{CR} \\[1ex]
+		\tab   \word{.q} YOU SHOULD SEE TWO SEPARATE LINES:" \word{CR} \\
+		\tab   \word{Sq} LINE 1" \word{TYPE} \word{CR} \word{Sq} LINE 2" \word{TYPE} \word{CR} \\[1ex]
+		\tab   \word{.q} {\small YOU SHOULD SEE THE NUMBER RANGES OF SIGNED AND UNSIGNED NUMBERS:}" \word{CR} \\
+		\tab   \word{.q} ~~SIGNED: " MIN-INT \word{d} MAX-INT \word{d} \word{CR} \\
+		\tab   \word{.q} UNSIGNED: " 0 \word{Ud} MAX-UINT \word{Ud} \word{CR} \\
+		\word{;}
+
+		\{ OUTPUT-TEST -> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[ENVIRONMENTq]{1345}{ENVIRONMENT?}[environment-query]
+\item \stack{c-addr u}{false | i*x true}
+
+	\param{c-addr} is the address of a character string and \param{u}
+	is the string's character count. \param{u} may have a value in
+	the range from zero to an implementation-defined maximum which
+	shall not be less than 31. The character string should contain a
+	keyword from \xref[3.2.6 Environmental queries]{usage:env} or the
+	optional word sets to be checked for correspondence with an
+	attribute of the present environment. If the system treats the
+	attribute as unknown, the returned flag is \param{false};
+	otherwise, the flag is \param{true} and the \param{i*x} returned
+	is of the type specified in the table for the attribute queried.
+
+	\begin{defer}
+	\rationale % A.6.1.1345 ENVIRONMENT?
+		In a Standard System that contains only the Core word set,
+		effective use of \word{ENVIRONMENTq} requires either its use
+		within a definition, or the use of user-supplied auxiliary
+		definitions. The Core word set lacks both a direct method for
+		collecting a string in interpretation state (\wref{file:Sq}{S"}
+		is in an optional word set) and also a means to test the
+		returned flag in interpretation state (e.g. the optional
+		\wref{tools:[IF]}{[IF]}).
+
+		The combination of
+		\wref{core:ENVIRONMENTq}{ENVIRONMENT?},
+		\wref{file:Sq}{S"},
+		\wref{tools:[IF]}{[IF]},
+		\wref{tools:[ELSE]}{[ELSE]}, and
+		\wref{tools:[THEN]}{[THEN]}
+		constitutes an effective suite of words for conditional
+		compilation that works in interpretation state.
+
+	\testing
+		\word{bs} should be the same for any query starting with X: \\
+		\{ \word{Sq} X:deferred" \word{ENVIRONMENTq} \word{DUP} \word{0=} \word{XOR} \word{INVERT} -> <TRUE> \} \\
+		\{ \word{Sq} X:notfound" \word{ENVIRONMENTq} \word{DUP} \word{0=} \word{XOR} \word{INVERT} -> <FALSE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1360}{EVALUATE}
+\item \stack{i*x c-addr u}{j*x}
+
+	Save the current input source specification. Store minus-one
+	(-1) in \word{SOURCE-ID} if it is present. Make the string
+	described by \param{c-addr} and \param{u} both the input source
+	and input buffer, set \word{toIN} to zero, and interpret. When
+	the parse area is empty, restore the prior input source
+	specification. Other stack effects are due to the words
+	\word{EVALUATE}d.
+
+	\begin{defer}
+	\rationale % A.6.1.1360 EVALUATE
+		The Technical Committee is aware that this function is
+		commonly spelled \texttt{EVAL}. However, there exist
+		implementations that could suffer by defining the word as is
+		done here. We also find \word{EVALUATE} to be more readable
+		and explicit. There was some sentiment for calling this
+		\texttt{INTERPRET}, but that too would have undesirable
+		effects on existing code. The longer spelling was not deemed
+		significant since this is not a word that should be used
+		frequently in source code.
+
+	\testing
+		\word{:} GE1 \word{Sq} 123" \word{;} \word{IMMEDIATE} \\
+		\word{:} GE2 \word{Sq} 123 1+" \word{;} \word{IMMEDIATE} \\
+		\word{:} GE3 \word{Sq} \word{:} GE4 345 \word{;}" \word{;} \\
+		\word{:} GE5 \word{EVALUATE} \word{;} \word{IMMEDIATE}
+
+		\{ GE1 \word{EVALUATE} -> 123 \} \tab[3] \word{p} TEST EVALUATE IN INTERP. STATE ) \\
+		\{ GE2 \word{EVALUATE} -> 124 \} \\
+		\{ GE3 \word{EVALUATE} ->     \} \\
+		\{ GE4                 -> 345 \}
+
+		\{ \word{:} GE6 GE1 GE5 \word{;} -> \} \tab[3.4] \word{p} TEST EVALUATE IN COMPILE STATE ) \\
+		\{ GE6 -> 123 \} \\
+		\{ \word{:} GE7 GE2 GE5 \word{;} -> \} \\
+		\{ GE7 -> 124 \} \\
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1370}{EXECUTE}
+\item \stack{i*x xt}{j*x}
+
+	Remove \param{xt} from the stack and perform the semantics
+	identified by it. Other stack effects are due to the word
+	\word{EXECUTE}d.
+
+\see \wref{core:'}{'},
+	\wref{core:[']}{[']}.
+
+	\begin{defer}
+	\testing
+		\rmfamily
+		See \rref{core:'}{'} and \rref{core:[']}{[']}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1380}{EXIT}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{}
+	\stack[R]{nest-sys}{}
+
+	Return control to the calling definition specified by
+	\param{nest-sys}. Before executing \word{EXIT} within a
+	do-loop, a program shall discard the loop-control parameters
+	by executing \word{UNLOOP}.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:UNLOOP}{UNLOOP}.
+
+	\begin{defer}
+	\rationale % A.6.1.1380 EXIT
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\emph{test} \word{IF}
+				{\ldots} \word{EXIT} \word{THEN}
+			{\ldots} \word{;}
+
+	\testing\rmfamily
+		See \rref{core:UNLOOP}{UNLOOP}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1540}{FILL}
+\item \stack{c-addr u char}{}
+
+	If \param{u} is greater than zero, store \param{char} in each of
+	\param{u} consecutive characters of memory beginning at
+	\param{c-addr}.
+
+	\begin{defer}
+	\testing
+		\{ FBUF 0 20 \word{FILL} -> \} \\
+		\{ SEEBUF -> 00 00 00 \}
+
+		\{ FBUF 1 20 \word{FILL} -> \} \\
+		\{ SEEBUF -> 20 00 00 \}
+
+		\{ FBUF 3 20 \word{FILL} -> \} \\
+		\{ SEEBUF -> 20 20 20 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1550}{FIND}
+\item \stack{c-addr}{c-addr 0 | xt 1 | xt -1}
+
+	Find the definition named in the counted string at \param{c-addr}.
+	If the definition is not found, return \param{c-addr} and zero.
+	If the definition is found, return its execution token \param{xt}.
+	If the definition is immediate, also return one (\param{1}),
+	otherwise also return minus-one (\param{-1}). For a given string,
+	the values returned by \word{FIND} while compiling may differ
+	from those returned while not compiling.
+
+\see \xref[3.4.2 Finding definition names]{usage:find},
+	\rref{core:'}{'},
+	\rref{core:[']}{[']},
+	\rref{core:POSTPONE}{POSTPONE},
+	\xref[D.6.7 Immediacy]{diff:immediate}.
+
+	\begin{defer}
+	\rationale % A.6.1.1550 FIND
+		One of the more difficult issues which the Committee took on
+		was the problem of divorcing the specification of
+		implementation mechanisms from the specification of the
+		Forth language. Three basic implementation approaches can be
+		quickly enumerated:
+
+		\begin{enumerate}
+		\item[1)] Threaded code mechanisms.
+			These are the traditional approaches to implementing Forth,
+			but other techniques may be used.
+
+		\item[2)] Subroutine threading with ``macro-expansion'' (code
+			copying). Short routines, like the code for \word{DUP},
+			are copied into a definition rather than compiling a
+			\texttt{JSR} reference.
+
+		\item[3)] Native coding with optimization.
+			This may include stack optimization (replacing such phrases
+			as \word{SWAP} \word{ROT} \word{+} with one or two machine
+			instructions, for example), parallelization (the trend in
+			the newer RISC chips is to have several functional subunits
+			which can execute in parallel), and so on.
+		\end{enumerate}
+
+		The initial requirement (inherited from Forth 83) that
+		compilation addresses be compiled into the dictionary
+		disallowed type 2 and type 3 implementations.
+
+		Type 3 mechanisms and optimizations of type 2 implementations
+		were hampered by the explicit specification of immediacy or
+		non-immediacy of all standard words. \word{POSTPONE} allowed
+		de-specification of immediacy or non-immediacy for all but a
+		few Forth words whose behavior must be \word{STATE}-independent.
+
+		One type 3 implementation, Charles Moore's cmForth, has both
+		compiling and interpreting versions of many Forth words. At the
+		present, this appears to be a common approach for type 3
+		implementations. The Committee felt that this implementation
+		approach must be allowed. Consequently, it is possible that
+		words without interpretation semantics can be found only during
+		compilation, and other words may exist in two versions: a
+		compiling version and an interpreting version. Hence the values
+		returned by \word{FIND} may depend on \word{STATE}, and \word{'}
+		and \word{[']} may be unable to find words without
+		interpretation semantics.
+
+	\testing
+		\word{HERE}
+			3 \word{C,}
+			\word{CHAR} G \word{C,}
+			\word{CHAR} T \word{C,}
+			\word{CHAR} 1 \word{C,}
+			\word{CONSTANT} GT1STRING \\
+		\word{HERE}
+			3 \word{C,}
+			\word{CHAR} G \word{C,}
+			\word{CHAR} T \word{C,}
+			\word{CHAR} 2 \word{C,}
+			\word{CONSTANT} GT2STRING \\
+		\{ GT1STRING \word{FIND} -> \word{'} GT1 -1 \} \\
+		\{ GT2STRING \word{FIND} -> \word{'} GT2 1  \} \\
+		\word{p} HOW TO SEARCH FOR NON-EXISTENT WORD? )
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1561}{FM/MOD}[f-m-slash-mod]
+\item \stack{d_1 n_1}{n_2 n_3}
+
+	Divide \param{d_1} by \param{n_1}, giving the floored quotient
+	\param{n_3} and the remainder \param{n_2}. Input and output stack
+	arguments are signed. An ambiguous condition exists if
+	\param{n_1} is zero or if the quotient lies outside the range of
+	a single-cell signed integer.
+
+\see \xref[3.2.2.1 Integer division]{usage:div},
+	\wref{core:SM/REM}{6.1.2214 SM/REM},
+	\wref{core:UM/MOD}{6.1.2370 UM/MOD}.
+
+	\begin{defer}
+	\rationale % A.6.1.1561 FM/MOD
+		By introducing the requirement for ``floored'' division,
+		Forth 83 produced much controversy and concern on the part of
+		those who preferred the more common practice followed in other
+		languages of implementing division according to the behavior
+		of the host CPU, which is most often symmetric (rounded toward
+		zero). In attempting to find a compromise position, this
+		Standard provides primitives for both common varieties, floored
+		and symmetric (see \word{SM/REM}). \word{FM/MOD} is the floored
+		version.
+
+		The Technical Committee considered providing two complete sets
+		of explicitly named division operators, and declined to do so
+		on the grounds that this would unduly enlarge and complicate
+		the Standard. Instead, implementors may define the normal
+		division words in terms of either \word{FM/MOD} or
+		\word{SM/REM} providing they document their choice. People
+		wishing to have explicitly named sets of operators are
+		encouraged to do so. \word{FM/MOD} may be used, for example,
+		to define:
+
+		\begin{quote}\ttfamily
+			\word{:} /\_MOD \word{p} n1 n2 -- n3 n4)
+				\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD}
+			\word{;}
+
+			\word{:} /\_ \word{p} n1 n2 -- n3)
+				/\_MOD \word{SWAP} \word{DROP}
+			\word{;}
+
+			\word{:} \_MOD \word{p} n1 n2 -- n3)
+				/\_MOD \word{DROP}
+			\word{;}
+
+			\word{:} */\_MOD \word{p} n1 n2 n3 -- n4 n5)
+				\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD}
+			\word{;}
+
+			\word{:} */\_ \word{p} n1 n2 n3 -- n4 )
+				*/\_MOD \word{SWAP} \word{DROP}
+			\word{;}
+		\end{quote}
+
+	\testing
+		\{       0 \word{StoD}             1 \word{FM/MOD} ->  0       0 \} \\
+		\{       1 \word{StoD}             1 \word{FM/MOD} ->  0       1 \} \\
+		\{       2 \word{StoD}             1 \word{FM/MOD} ->  0       2 \} \\
+		\{      -1 \word{StoD}             1 \word{FM/MOD} ->  0      -1 \} \\
+		\{      -2 \word{StoD}             1 \word{FM/MOD} ->  0      -2 \} \\
+		\{       0 \word{StoD}            -1 \word{FM/MOD} ->  0       0 \} \\
+		\{       1 \word{StoD}            -1 \word{FM/MOD} ->  0      -1 \} \\
+		\{       2 \word{StoD}            -1 \word{FM/MOD} ->  0      -2 \} \\
+		\{      -1 \word{StoD}            -1 \word{FM/MOD} ->  0       1 \} \\
+		\{      -2 \word{StoD}            -1 \word{FM/MOD} ->  0       2 \} \\
+		\{       2 \word{StoD}             2 \word{FM/MOD} ->  0       1 \} \\
+		\{      -1 \word{StoD}            -1 \word{FM/MOD} ->  0       1 \} \\
+		\{      -2 \word{StoD}            -2 \word{FM/MOD} ->  0       1 \} \\
+		\{       7 \word{StoD}             3 \word{FM/MOD} ->  1       2 \} \\
+		\{       7 \word{StoD}            -3 \word{FM/MOD} -> -2      -3 \} \\
+		\{      -7 \word{StoD}             3 \word{FM/MOD} ->  2      -3 \} \\
+		\{      -7 \word{StoD}            -3 \word{FM/MOD} -> -1       2 \} \\
+		\{ MAX-INT \word{StoD}             1 \word{FM/MOD} ->  0 MAX-INT \} \\
+		\{ MIN-INT \word{StoD}             1 \word{FM/MOD} ->  0 MIN-INT \} \\
+		\{ MAX-INT \word{StoD}       MAX-INT \word{FM/MOD} ->  0       1 \} \\
+		\{ MIN-INT \word{StoD}       MIN-INT \word{FM/MOD} ->  0       1 \} \\
+		\{    1S 1                         4 \word{FM/MOD} ->  3 MAX-INT \} \\
+		\{       1 MIN-INT \word{M*}       1 \word{FM/MOD} ->  0 MIN-INT \} \\
+		\{       1 MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0       1 \} \\
+		\{       2 MIN-INT \word{M*}       2 \word{FM/MOD} ->  0 MIN-INT \} \\
+		\{       2 MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0       2 \} \\
+		\{       1 MAX-INT \word{M*}       1 \word{FM/MOD} ->  0 MAX-INT \} \\
+		\{       1 MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0       1 \} \\
+		\{       2 MAX-INT \word{M*}       2 \word{FM/MOD} ->  0 MAX-INT \} \\
+		\{       2 MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0       2 \} \\
+		\{ MIN-INT MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0 MIN-INT \} \\
+		\{ MIN-INT MAX-INT \word{M*} MIN-INT \word{FM/MOD} ->  0 MAX-INT \} \\
+		\{ MIN-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0 MIN-INT \} \\
+		\{ MAX-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0 MAX-INT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1650}{HERE}
+\item \stack{}{addr}
+
+	\param{addr} is the data-space pointer.
+
+\see \xref[3.3.3.2 Contiguous regions]{usage:contiguous}.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:,}{,},
+			\rref{core:ALLOT}{ALLOT} and
+			\rref{core:C,}{C,}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1670}{HOLD}
+\item \stack{char}{}
+
+	Add \param{char} to the beginning of the pictured numeric output
+	string. An ambiguous condition exists if \word{HOLD} executes
+	outside of a \word{num-start} \word{num-end} delimited number
+	conversion.
+
+	\begin{defer}
+	\testing
+		\word{:} GP1  \word{num-start} 41 \word{HOLD} 42 \word{HOLD} 0 0 \word{num-end} \word{Sq} BA" S= \word{;} \\
+		\{ GP1 -> <TRUE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1680}{I}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{n|u}
+	\stack[R]{loop-sys}{loop-sys}
+
+	\param{n|u} is a copy of the current (innermost) loop index.
+	An ambiguous condition exists if the loop control parameters
+	are unavailable.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:LOOP}{LOOP},
+			\rref{core:+LOOP}{+LOOP},
+			\rref{core:J}{J},
+			\rref{core:LEAVE}{LEAVE} and
+			\rref{core:UNLOOP}{UNLOOP}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1700}{IF}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{}{orig}
+
+	Put the location of a new unresolved forward reference
+	\param{orig} onto the control flow stack. Append the run-time
+	semantics given below to the current definition. The semantics
+	are incomplete until \param{orig} is resolved, e.g., by
+	\word{THEN} or \word{ELSE}.
+
+\runtime
+	\stack{x}{}
+
+	If all bits of \param{x} are zero, continue execution at the
+	location specified by the resolution of \param{orig}.
+
+\see \xref[3.2.3.2 Control flow stack]{usage:controlstack},
+	\wref{core:ELSE}{ELSE},
+	\wref{core:THEN}{THEN}.
+
+	\begin{defer}
+	\rationale % A.6.1.1700 IF
+		Typical use:
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{test} \word{IF} {\ldots} \word{THEN}
+			{\ldots} \word{;}
+
+		or
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{test} \word{IF}
+			{\ldots} \word{ELSE} {\ldots} \word{THEN}
+			{\ldots} \word{;}
+
+	\testing
+		\{ \word{:} GI1 \word{IF} 123 \word{THEN} \word{;} -> \} \\
+		\{ \word{:} GI2 \word{IF} 123 \word{ELSE} 234 \word{THEN} \word{;} -> \} \\
+		\{  0 GI1 ->     \} \\
+		\{  1 GI1 -> 123 \} \\
+		\{ -1 GI1 -> 123 \} \\
+		\{  0 GI2 -> 234 \} \\
+		\{  1 GI2 -> 123 \} \\
+		\{ -1 GI1 -> 123 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1710}{IMMEDIATE}
+\item \stack{}{}
+
+	Make the most recent definition an immediate word. An ambiguous
+	condition exists if the most recent definition does not have a
+	name.
+
+\see \xref[D.6.7 Immediacy]{diff:immediate}.
+
+	\begin{defer}
+	\rationale % A.6.1.1710 IMMEDIATE
+		Typical use:
+			\word{:} \texttt{X}
+			{\ldots} \word{;} \word{IMMEDIATE}
+
+	\testing
+		\rmfamily
+		See \rref{core:[']}{[']},
+			\rref{core:POSTPONE}{POSTPONE},
+			\rref{core:STATE}{STATE}, and
+			\rref{core:Sq}{S"}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1720}{INVERT}
+\item \stack{x_1}{x_2}
+
+	Invert all bits of \param{x_1}, giving its logical inverse
+	\param{x_2}.
+
+\see \wref{core:NEGATE}{NEGATE},
+	\wref{core:0=}{0=}.
+
+	\begin{defer}
+	\rationale % A.6.1.1720 INVERT
+		The word \texttt{NOT} was originally provided in Forth as a
+		flag operator to make control structures readable. Under its
+		intended usage the following two definitions would produce
+		identical results:
+
+		\begin{quote}\ttfamily
+			\word{:} ONE \word{p} flag -- ) \\
+			\tab \word{IF}
+					\word{.q} true"
+				\word{ELSE}
+					\word{.q} false"
+				\word{THEN}
+			\word{;}
+
+			\word{:} TWO ( flag -- ) \\
+			\tab NOT \word{IF}
+					\word{.q} false"
+				\word{ELSE}
+					\word{.q} true"
+				\word{THEN}
+			\word{;}
+		\end{quote}
+
+		This was common usage prior to the Forth-83 Standard which
+		redefined \texttt{NOT} as a cell-wide one's-complement
+		operation, functionally equivalent to the phrase \texttt{-1}
+		\word{XOR}. At the same time, the data type manipulated by
+		this word was changed from a flag to a cell-wide collection of
+		bits and the standard value for true was changed from ``1''
+		(rightmost bit only set) to ``-1'' (all bits set). As these
+		definitions of \word{TRUE} and \texttt{NOT} were incompatible
+		with their previous definitions, many Forth users continue to
+		rely on the old definitions. Hence both versions are in common
+		use.
+
+		Therefore, usage of \texttt{NOT} cannot be standardized at
+		this time. The two traditional meanings of \texttt{NOT} ---
+		that of negating the sense of a flag and that of doing a one's
+		complement operation --- are made available by \word{0=} and
+		\word{INVERT}, respectively.
+
+	\testing
+		\{ 0S \word{INVERT} -> 1S \} \\
+		\{ 1S \word{INVERT} -> 0S \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1730}{J}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{n|u}
+	\stack[R]{loop-sys_1 loop-sys_2}{loop-sys_1 loop-sys_2}
+
+	\param{n|u} is a copy of the next-outer loop index. An
+	ambiguous condition exists if the loop control parameters of
+	the next-outer loop, \param{loop-sys_1}, are unavailable.
+
+	\begin{defer}
+	\rationale % A.6.1.1730 J
+		\word{J} may only be used with a nested
+		\word{DO} {\ldots} \word{LOOP},
+		\word{DO} {\ldots} \word{+LOOP},
+		\word{qDO} {\ldots} \word{LOOP}, or
+		\word{qDO} {\ldots} \word{+LOOP},
+		for example, in the form:
+
+		\tab \word{:} \texttt{X}
+			{\ldots} \word{DO}
+				{\ldots} \word{DO}
+					{\ldots} \word{J} {\ldots}
+				\word{LOOP}
+			{\ldots} \word{+LOOP}
+		{\ldots} \word{;}
+
+	\testing
+		\{ \word{:} GD3 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} \word{LOOP} \word{;} -> \} \\
+		\{          4        1 GD3 -> 1 2 3    \} \\
+		\{          2       -1 GD3 -> -1 0 1   \} \\
+		\{ MID-UINT+1 MID-UINT GD3 -> MID-UINT \}
+
+		\{ \word{:} GD4 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} -1 \word{+LOOP} \word{;} -> \} \\
+		\{        1          4 GD4 -> 4 3 2 1             \} \\
+		\{       -1          2 GD4 -> 2 1 0 -1            \} \\
+		\{ MID-UINT MID-UINT+1 GD4 -> MID-UINT+1 MID-UINT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1750}{KEY}
+\item \stack{}{char}
+
+	Receive one character \param{char}, a member of the
+	implementation-defined character set. Keyboard events that do
+	not correspond to such characters are discarded until a valid
+	character is received, and those events are subsequently
+	unavailable.
+
+	All standard characters can be received. Characters received by
+	\word{KEY} are not displayed.
+
+	Any standard character returned by \word{KEY} has the numeric
+	value specified in \xref[3.1.2.1 Graphic characters]{usage:ASCII}.
+	Programs that require the ability to receive control characters
+	have an environmental dependency.
+
+\see \wref{facility:EKEY}{EKEY},
+	\wref{facility:EKEYq}{KEY?}.
+
+	\begin{defer}
+	\testing
+		\textrm{None.}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1760}{LEAVE}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{}
+	\stack[R]{loop-sys}{}
+
+	Discard the current loop control parameters. An ambiguous condition
+	exists if they are unavailable. Continue execution immediately
+	following the innermost syntactically enclosing
+	\word{DO}\ldots\word{LOOP} or \word{DO}\ldots\word{+LOOP}.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:+LOOP}{+LOOP},
+	\wref{core:LOOP}{LOOP}.
+
+	\begin{defer}
+	\rationale % A.6.1.1760 LEAVE
+		Note that \word{LEAVE} immediately exits the loop. No words
+		following \word{LEAVE} within the loop will be executed.
+		Typical use:
+
+		\tab \word{:} \texttt{X} {\ldots} \word{DO}
+			{\ldots} \word{IF}
+				{\ldots} \word{LEAVE}
+			\word{THEN}
+		\word{;}
+
+	\testing
+		\{ \word{:} GD5 123 \word{SWAP} 0 \word{DO}
+			\word{I} 4 \word{more} \word{IF} \word{DROP} 234 \word{LEAVE} \word{THEN} \word{LOOP}
+		\word{;} -> \} \\
+		\{ 1 GD5 -> 123 \} \\
+		\{ 5 GD5 -> 123 \} \\
+		\{ 6 GD5 -> 234 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1780}{LITERAL}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{x}{}
+
+	Append the run-time semantics given below to the current definition.
+
+\runtime
+	\stack{}{x}
+
+	Place \param{x} on the stack.
+
+	\begin{defer}
+	\rationale % A.6.1.1780 LITERAL
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{[} \texttt{x} \word{]} \word{LITERAL}
+			{\ldots} \word{;}
+
+	\testing
+		\{ \word{:} GT3 GT2 \word{LITERAL} \word{;} -> \} \\
+		\{ GT3 -> \word{'} GT1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1800}{LOOP}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{do-sys}{}
+
+	Append the run-time semantics given below to the current
+	definition. Resolve the destination of all unresolved
+	occurrences of \word{LEAVE} between the location given by
+	\param{do-sys} and the next location for a transfer of
+	control, to execute the words following the \word{LOOP}.
+
+\runtime
+	\stack{}{}
+	\stack[R]{loop-sys_1}{| loop-sys_2}
+
+	An ambiguous condition exists if the loop control parameters are
+	unavailable. Add one to the loop index. If the loop index is then
+	equal to the loop limit, discard the loop parameters and continue
+	execution immediately following the loop. Otherwise continue
+	execution at the beginning of the loop.
+
+\see \wref{core:DO}{DO},
+	\wref{core:I}{I},
+	\wref{core:LEAVE}{LEAVE}.
+
+	\begin{defer}
+	\rationale % A.6.1.1800 LOOP
+		Typical use:
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{limit} \emph{first} \word{DO}
+				{\ldots}
+			\word{LOOP}
+		{\ldots} \word{;}
+
+		or
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{limit} \emph{first} \word{qDO}
+				{\ldots}
+			\word{LOOP}
+		{\ldots} \word{;}
+
+	\testing
+		\{ \word{:} GD1 \word{DO} \word{I} \word{LOOP} \word{;} -> \} \\
+		\{          4        1 GD1 ->  1 2 3 \} \\
+		\{          2       -1 GD1 -> -1 0 1 \} \\
+		\{ MID-UINT+1 MID-UINT GD1 -> MID-UINT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1805}{LSHIFT}[l-shift]
+\item \stack{x_1 u}{x_2}
+
+	Perform a logical left shift of \param{u} bit-places on
+	\param{x_1}, giving \param{x_2}. Put zeroes into the least
+	significant bits vacated by the shift. An ambiguous condition
+	exists if \param{u} is greater than or equal to the number of
+	bits in a cell.
+
+	\begin{defer}
+	\testing
+		\{   1 0 \word{LSHIFT} -> 1 \} \\
+		\{   1 1 \word{LSHIFT} -> 2 \} \\
+		\{   1 2 \word{LSHIFT} -> 4 \} \\
+		\{   1 F \word{LSHIFT} -> 8000 \} \tab[4] \word{bs} BIGGEST GUARANTEED SHIFT \\
+		\{  1S 1 \word{LSHIFT} 1 \word{XOR} -> 1S \} \\
+		\{ MSB 1 \word{LSHIFT} -> 0 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1810}{M*}[m-star]
+\item \stack{n_1 n_2}{d}
+
+	\param{d} is the signed product of \param{n_1} times \param{n_2}.
+
+	\begin{defer}
+	\rationale % A.6.1.1810 M*
+		This word is a useful early step in calculation, going to
+		extra precision conveniently. It has been in use since the
+		Forth systems of the early 1970's.
+
+	\testing
+		\{       0       0 \word{M*} ->       0 \word{StoD} \} \\
+		\{       0       1 \word{M*} ->       0 \word{StoD} \} \\
+		\{       1       0 \word{M*} ->       0 \word{StoD} \} \\
+		\{       1       2 \word{M*} ->       2 \word{StoD} \} \\
+		\{       2       1 \word{M*} ->       2 \word{StoD} \} \\
+		\{       3       3 \word{M*} ->       9 \word{StoD} \} \\
+		\{      -3       3 \word{M*} ->      -9 \word{StoD} \} \\
+		\{       3      -3 \word{M*} ->      -9 \word{StoD} \} \\
+		\{      -3      -3 \word{M*} ->       9 \word{StoD} \} \\
+		\{       0 MIN-INT \word{M*} ->       0 \word{StoD} \} \\
+		\{       1 MIN-INT \word{M*} -> MIN-INT \word{StoD} \} \\
+		\{       2 MIN-INT \word{M*} ->       0 1S \} \\
+		\{       0 MAX-INT \word{M*} ->       0 \word{StoD} \} \\
+		\{       1 MAX-INT \word{M*} -> MAX-INT \word{StoD} \} \\
+		\{       2 MAX-INT \word{M*} -> MAX-INT     1 \word{LSHIFT} 0 \} \\
+		\{ MIN-INT MIN-INT \word{M*} ->       0 MSB 1 \word{RSHIFT} \} \\
+		\{ MAX-INT MIN-INT \word{M*} ->     MSB MSB \word{2/} \} \\
+		\{ MAX-INT MAX-INT \word{M*} ->       1 MSB \word{2/} \word{INVERT} \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1870}{MAX}
+\item \stack{n_1 n_2}{n_3}
+
+	\param{n_3} is the greater of \param{n_1} and \param{n_2}.
+
+	\begin{defer}
+	\testing
+		\{       0       1 \word{MAX} ->       1 \} \\
+		\{       1       2 \word{MAX} ->       2 \} \\
+		\{      -1       0 \word{MAX} ->       0 \} \\
+		\{      -1       1 \word{MAX} ->       1 \} \\
+		\{ MIN-INT       0 \word{MAX} ->       0 \} \\
+		\{ MIN-INT MAX-INT \word{MAX} -> MAX-INT \} \\
+		\{       0 MAX-INT \word{MAX} -> MAX-INT \} \\
+		\{       0       0 \word{MAX} ->       0 \} \\
+		\{       1       1 \word{MAX} ->       1 \} \\
+		\{       1       0 \word{MAX} ->       1 \} \\
+		\{       2       1 \word{MAX} ->       2 \} \\
+		\{       0      -1 \word{MAX} ->       0 \} \\
+		\{       1      -1 \word{MAX} ->       1 \} \\
+		\{       0 MIN-INT \word{MAX} ->       0 \} \\
+		\{ MAX-INT MIN-INT \word{MAX} -> MAX-INT \} \\
+		\{ MAX-INT       0 \word{MAX} -> MAX-INT \} \\
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1880}{MIN}
+\item \stack{n_1 n_2}{n_3}
+
+	\param{n_3} is the lesser of \param{n_1} and \param{n_2}.
+
+	\begin{defer}
+	\testing
+		\{       0       1 \word{MIN} ->       0 \} \\
+		\{       1       2 \word{MIN} ->       1 \} \\
+		\{      -1       0 \word{MIN} ->      -1 \} \\
+		\{      -1       1 \word{MIN} ->      -1 \} \\
+		\{ MIN-INT       0 \word{MIN} -> MIN-INT \} \\
+		\{ MIN-INT MAX-INT \word{MIN} -> MIN-INT \} \\
+		\{       0 MAX-INT \word{MIN} ->       0 \} \\
+		\{       0       0 \word{MIN} ->       0 \} \\
+		\{       1       1 \word{MIN} ->       1 \} \\
+		\{       1       0 \word{MIN} ->       0 \} \\
+		\{       2       1 \word{MIN} ->       1 \} \\
+		\{       0      -1 \word{MIN} ->      -1 \} \\
+		\{       1      -1 \word{MIN} ->      -1 \} \\
+		\{       0 MIN-INT \word{MIN} -> MIN-INT \} \\
+		\{ MAX-INT MIN-INT \word{MIN} -> MIN-INT \} \\
+		\{ MAX-INT       0 \word{MIN} ->       0 \} \\
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1890}{MOD}
+\item \stack{n_1 n_2}{n_3}
+
+	Divide \param{n_1} by \param{n_2}, giving the single-cell remainder
+	\param{n_3}. An ambiguous condition exists if \param{n_2} is zero.
+	If \param{n_1} and \param{n_2} differ in sign, the
+	implementation-defined result returned will be the same as that
+	returned by either the phrase
+	\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{DROP}
+	or the phrase
+	\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{DROP}.
+
+\see \xref[3.2.2.1 Integer division]{usage:div}.
+
+	\begin{defer}
+	\testing
+		IFFLOORED \tab 	\word{:} TMOD T/MOD \word{DROP} \word{;} \\
+		IFSYM \tab[2.6]	\word{:} TMOD T/MOD \word{DROP} \word{;}
+
+		\{       0       1 \word{MOD} ->       0       1 TMOD \} \\
+		\{       1       1 \word{MOD} ->       1       1 TMOD \} \\
+		\{       2       1 \word{MOD} ->       2       1 TMOD \} \\
+		\{      -1       1 \word{MOD} ->      -1       1 TMOD \} \\
+		\{      -2       1 \word{MOD} ->      -2       1 TMOD \} \\
+		\{       0      -1 \word{MOD} ->       0      -1 TMOD \} \\
+		\{       1      -1 \word{MOD} ->       1      -1 TMOD \} \\
+		\{       2      -1 \word{MOD} ->       2      -1 TMOD \} \\
+		\{      -1      -1 \word{MOD} ->      -1      -1 TMOD \} \\
+		\{      -2      -1 \word{MOD} ->      -2      -1 TMOD \} \\
+		\{       2       2 \word{MOD} ->       2       2 TMOD \} \\
+		\{      -1      -1 \word{MOD} ->      -1      -1 TMOD \} \\
+		\{      -2      -2 \word{MOD} ->      -2      -2 TMOD \} \\
+		\{       7       3 \word{MOD} ->       7       3 TMOD \} \\
+		\{       7      -3 \word{MOD} ->       7      -3 TMOD \} \\
+		\{      -7       3 \word{MOD} ->      -7       3 TMOD \} \\
+		\{      -7      -3 \word{MOD} ->      -7      -3 TMOD \} \\
+		\{ MAX-INT       1 \word{MOD} -> MAX-INT       1 TMOD \} \\
+		\{ MIN-INT       1 \word{MOD} -> MIN-INT       1 TMOD \} \\
+		\{ MAX-INT MAX-INT \word{MOD} -> MAX-INT MAX-INT TMOD \} \\
+		\{ MIN-INT MIN-INT \word{MOD} -> MIN-INT MIN-INT TMOD \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1900}{MOVE}
+\item \stack{addr_1 addr_2 u}{}
+
+	If \param{u} is greater than zero, copy the contents of \param{u}
+	consecutive address units at \param{addr_1} to the \param{u}
+	consecutive address units at \param{addr_2}. After \word{MOVE}
+	completes, the \param{u} consecutive address units at \param{addr_2}
+	contain exactly what the \param{u} consecutive address units at
+	\param{addr_1} contained before the move.
+
+\see	\wref{string:CMOVE}{CMOVE},
+	\wref{string:CMOVEtop}{CMOVE>}.
+
+	\begin{defer}
+	\rationale % A.6.1.1900 MOVE
+		\word[string]{CMOVE} and \word[string]{CMOVEtop} are the primary
+		move operators in Forth 83. They specify a behavior for moving
+		that implies propagation if the move is suitably invoked. In
+		some hardware, this specific behavior cannot be achieved using
+		the best move instruction. Further, \word[string]{CMOVE} and
+		\word[string]{CMOVEtop} move characters; ANS Forth needs a move
+		instruction capable of dealing with address units. Thus
+		\word{MOVE} has been defined and added to the Core word set,
+		and \word[string]{CMOVE} and \word[string]{CMOVEtop} have been
+		moved to the String word set.
+
+	\testing
+		\{ FBUF FBUF 3 \word{CHARS} \word{MOVE} -> \} \tab[3] \word{bs} BIZARRE SPECIAL CASE \\
+		\{ SEEBUF -> 20 20 20 \}
+
+		\{ SBUF FBUF 0 \word{CHARS} \word{MOVE} -> \} \\
+		\{ SEEBUF -> 20 20 20 \}
+
+		\{ SBUF FBUF 1 \word{CHARS} \word{MOVE} -> \} \\
+		\{ SEEBUF -> 12 20 20 \}
+
+		\{ SBUF FBUF 3 \word{CHARS} \word{MOVE} -> \} \\
+		\{ SEEBUF -> 12 34 56 \}
+
+		\{ FBUF FBUF \word{CHAR+} 2 \word{CHARS} \word{MOVE} -> \} \\
+		\{ SEEBUF -> 12 12 34 \}
+
+		\{ FBUF \word{CHAR+} FBUF 2 \word{CHARS} \word{MOVE} -> \} \\
+		\{ SEEBUF -> 12 34 34 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1910}{NEGATE}
+\item \stack{n_1}{n_2}
+
+	Negate \param{n_1}, giving its arithmetic inverse \param{n_2}.
+
+\see \wref{core:INVERT}{INVERT},
+	\wref{core:0=}{0=}.
+
+
+	\begin{defer}
+	\testing
+		\{  0 \word{NEGATE} ->  0 \} \\
+		\{  1 \word{NEGATE} -> -1 \} \\
+		\{ -1 \word{NEGATE} ->  1 \} \\
+		\{  2 \word{NEGATE} -> -2 \} \\
+		\{ -2 \word{NEGATE} ->  2 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1980}{OR}
+\item \stack{x_1 x_2}{x_3}
+
+	\param{x_3} is the bit-by-bit inclusive-or of \param{x_1} with
+	\param{x_2}.
+
+	\begin{defer}
+	\testing
+		\{ 0S 0S \word{OR} -> 0S \} \\
+		\{ 0S 1S \word{OR} -> 1S \} \\
+		\{ 1S 0S \word{OR} -> 1S \} \\
+		\{ 1S 1S \word{OR} -> 1S \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1990}{OVER}
+\item \stack{x_1 x_2}{x_1 x_2 x_1}
+
+	Place a copy of \param{x_1} on top of the stack.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 \word{OVER} -> 1 2 1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2033}{POSTPONE}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Find \param{name}. Append the compilation semantics of
+	\param{name} to the current definition. An ambiguous condition
+	exists if \param{name} is not found.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.6.1.2033 POSTPONE
+		Typical use:
+
+		\tab \word{:} \texttt{ENDIF}
+			\word{POSTPONE} \word{THEN}
+		\word{;} \word{IMMEDIATE}
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\word{IF} {\ldots} \texttt{ENDIF}
+		{\ldots} \word{;}
+
+		\word{POSTPONE} replaces most of the functionality of
+		\texttt{COMPILE} and  \word{[COMPILE]}. \texttt{COMPILE} and
+		\word{[COMPILE]} are used for the same purpose: postpone the
+		compilation behavior of the next word in the parse area.
+		\texttt{COMPILE} was designed to be applied to non-immediate
+		words and \word{[COMPILE]} to immediate words. This burdens
+		the programmer with needing to know which words in a system
+		are immediate. Consequently, Forth standards have had to
+		specify the immediacy or non-immediacy of all words covered by
+		the Standard. This unnecessarily constrains implementors.
+
+		A second problem with \texttt{COMPILE} is that some
+		programmers have come to expect and exploit a particular
+		implementation, namely:
+
+		\tab \word{:} \texttt{COMPILE} \word{Rfrom}
+			\word{DUP} \word{@} \word{,} \word{CELL+} \word{toR}
+		\word{;}
+
+		This implementation will not work on native code Forth systems.
+		In a native code Forth using inline code expansion and peephole
+		optimization, the size of the object code produced varies; this
+		information is difficult to communicate to a ``dumb''
+		\texttt{COMPILE}. A ``smart'' (i.e., immediate) \texttt{COMPILE}
+		would not have this problem, but this was forbidden in previous
+		standards.
+
+		For these reasons, \texttt{COMPILE} has not been included in
+		the Standard and \word{[COMPILE]} has been moved in favor of
+		\word{POSTPONE}. Additional discussion can be found in Hayes,
+		J.R., ``Postpone'', \emph{Proceedings of the 1989 Rochester
+		Forth Conference}.
+
+	\testing
+		\{ \word{:} GT4 \word{POSTPONE} GT1 \word{;} \word{IMMEDIATE} -> \} \\
+		\{ \word{:} GT5 GT4 \word{;} -> \} \\
+		\{ GT5 -> 123 \}
+
+		\{ \word{:} GT6 345 \word{;} \word{IMMEDIATE} -> \} \\
+		\{ \word{:} GT7 \word{POSTPONE} GT6 \word{;} -> \} \\
+		\{ GT7 -> 345 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2050}{QUIT}
+\item \stack{}{}
+	\stack[R]{i*x}{}
+
+	Empty the return stack, store zero in \word{SOURCE-ID} if it is
+	present, make the user input device the input source, and enter
+	interpretation state. Do not display a message. Repeat the
+	following:
+	\begin{itemize}
+	\item Accept a line from the input source into the input buffer,
+		set \word{toIN} to zero, and interpret.
+	\item Display the implementation-defined system prompt if in
+		interpretation state, all processing has been completed,
+		and no ambiguous condition exists.
+	\end{itemize}
+
+\see \xref[3.4 The Forth text interpreter]{usage:command}.
+
+	\begin{defer}
+	\testing
+		\textrm{None.}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[Rfrom]{2060}{R>}[r-from]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{x}
+	\stack[R]{x}{}
+
+	Move \param{x} from the return stack to the data stack.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:toR}{>R},
+	\wref{core:R@}{R@},
+	\wref{core:2toR}{2>R},
+	\wref{core:2Rfrom}{2R>},
+	\wref{core:2R@}{2R@}.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:toR}{>R}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2070}{R@}[r-fetch]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{x}
+	\stack[R]{x}{x}
+
+	Copy \param{x} from the return stack to the data stack.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:toR}{>R},
+	\wref{core:Rfrom}{R>},
+	\wref{core:2toR}{2>R},
+	\wref{core:2Rfrom}{2R>},
+	\wref{core:2R@}{2R@}.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:toR}{>R}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2120}{RECURSE}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{}{}
+
+	Append the execution semantics of the current definition to
+	the current definition. An ambiguous condition exists if
+	\word{RECURSE} appears in a definition after \word{DOES}.
+
+\see \wref{core:DOES}{DOES>},
+	\wref{core:RECURSE}{RECURSE}.
+
+	\begin{defer}
+	\rationale % A.6.1.2120 RECURSE
+		Typical use:
+			\word{:} \texttt{X} {\ldots} \word{RECURSE} {\ldots} \word{;}
+
+		This is Forth's recursion operator; in some implementations it
+		is called \texttt{MYSELF}. The usual example is the coding of
+		the factorial function.
+
+		\begin{quote}\ttfamily
+		\word{:} FACTORIAL \word{p} +n1 -- +n2) \\
+		\tab \word{DUP} 2 \word{less} \word{IF}~
+				\word{DROP} 1 \word{EXIT}~
+			\word{THEN} \\
+		\tab \word{DUP} 1- ~\word{RECURSE}~ \word{*} \\
+		\word{;}
+		\end{quote}
+
+		$n_2 = n_1(n_1-1)(n_1-2)\cdots(2)(1)$, the product of $n_1$
+		with all positive integers less than itself (as a special case,
+		zero factorial equals one). While beloved of computer scientists,
+		recursion makes unusually heavy use of both stacks and should
+		therefore be used with caution. See alternate definition in
+		\rref{core:REPEAT}{REPEAT}.
+
+	\testing
+		\{ \word{:} GI6 \word{p} N -- 0,1,..N ) \word{DUP} \word{IF}
+			\word{DUP} \word{toR} \word{1-} \word{RECURSE} \word{Rfrom}
+		\word{THEN} \word{;} -> \} \\
+		\{ 0 GI6 -> 0 \} \\
+		\{ 1 GI6 -> 0 1 \} \\
+		\{ 2 GI6 -> 0 1 2 \} \\
+		\{ 3 GI6 -> 0 1 2 3 \} \\
+		\{ 4 GI6 -> 0 1 2 3 4 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2140}{REPEAT}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{orig dest}{}
+
+	Append the run-time semantics given below to the current
+	definition, resolving the backward reference \param{dest}.
+	Resolve the forward reference \param{orig} using the location
+	following the appended run-time semantics.
+
+\runtime
+	\stack{}{}
+
+	Continue execution at the location given by \param{dest}.
+
+\see \wref{core:BEGIN}{BEGIN},
+	\wref{core:WHILE}{WHILE}.
+
+	\begin{defer}
+	\rationale % A.6.1.2140 REPEAT
+		Typical use:
+		\begin{quote}\ttfamily
+			\word{:} FACTORIAL \word{p} +n1 -- +n2 ) \\
+			\tab \word{DUP} 2 \word{less} \word{IF}~
+				\word{DROP} 1 \word{EXIT}~ \word{THEN} \\
+			\tab \word{DUP} \\
+			\tab \word{BEGIN}~ \word{DUP} 2 \word{more} \word{WHILE} \\
+			\tab~~ 1- ~\word{SWAP} \word{OVER} \word{*}~ \word{SWAP} \\
+			\tab \word{REPEAT} \word{DROP} \\
+			\word{;}
+		\end{quote}
+
+	\testing\rmfamily
+		See \rref{core:WHILE}{WHILE}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2160}{ROT}[rote]
+\item \stack{x_1 x_2 x_3}{x_2 x_3 x_1}
+
+	Rotate the top three stack entries.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 3 \word{ROT} -> 2 3 1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2162}{RSHIFT}[r-shift]
+\item \stack{x_1 u}{x_2}
+
+	Perform a logical right shift of \param{u} bit-places on
+	\param{x_1}, giving \param{x_2}. Put zeroes into the most
+	significant bits vacated by the shift. An ambiguous condition
+	exists if \param{u} is greater than or equal to the number of
+	bits in a cell.
+
+	\begin{defer}
+	\testing
+		\{ 1 0 \word{RSHIFT} -> 1 \} \\
+		\{ 1 1 \word{RSHIFT} -> 0 \} \\
+		\{ 2 1 \word{RSHIFT} -> 1 \} \\
+		\{ 4 2 \word{RSHIFT} -> 1 \} \\
+		\{ 8000 F \word{RSHIFT} -> 1 \}					\tab[6.6] \word{bs} BIGGEST \\
+		\{ MSB 1 \word{RSHIFT} MSB \word{AND} -> 0 \}	\tab[3] \word{bs} RSHIFT ZERO FILLS MSBS \\
+		\{ MSB 1 \word{RSHIFT} \word{2*} -> MSB \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[Sq]{2165}{S"}[s-quote]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"ccc<quote>"}{}
+
+	Parse \param{ccc} delimited by \texttt{"} (double-quote).
+	Append the run-time semantics given below to the current
+	definition.
+
+\runtime
+	\stack{}{c-addr u}
+
+	Return \param{c-addr} and \param{u} describing a string
+	consisting of the characters \param{ccc}. A program shall
+	not alter the returned string.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:Cq}{C"},
+	\wref{file:Sq}{S"}.
+
+	\begin{defer}
+	\rationale % A.6.1.2165 S"
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{Sq} \emph{ccc}\texttt{"}
+			{\ldots} \word{;}
+
+		This word is found in many systems under the name \texttt{"}
+		(quote). However, current practice is almost evenly divided on
+		the use of \texttt{"}, with many systems using the execution
+		semantics given here, while others return the address of a
+		counted string. We attempt here to satisfy both camps by
+		providing two words, \word{Sq} and the Core Extension word
+		\word{Cq} so that users may have whichever behavior they expect
+		with a simple renaming operation.
+
+	\testing
+		\{ \word{:} GC4 \word{Sq} XY" \word{;} -> \} \\
+		\{ GC4 \word{SWAP} \word{DROP} -> 2 \} \\
+		\{ GC4 \word{DROP} \word{DUP} \word{C@} \word{SWAP} \word{CHAR+} \word{C@} -> 58 59 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[StoD]{2170}{S>D}[s-to-d]
+\item \stack{n}{d}
+
+	Convert the number \param{n} to the double-cell number \param{d}
+	with the same numerical value.
+
+	\begin{defer}
+	\testing
+		\{       0 \word{StoD} ->       0  0 \} \\
+		\{       1 \word{StoD} ->       1  0 \} \\
+		\{       2 \word{StoD} ->       2  0 \} \\
+		\{      -1 \word{StoD} ->      -1 -1 \} \\
+		\{      -2 \word{StoD} ->      -2 -1 \} \\
+		\{ MIN-INT \word{StoD} -> MIN-INT -1 \} \\
+		\{ MAX-INT \word{StoD} -> MAX-INT  0 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2210}{SIGN}
+\item \stack{n}{}
+
+	If \param{n} is negative, add a minus sign to the beginning of
+	the pictured numeric output string. An ambiguous condition exists
+	if \word{SIGN} executes outside of a \word{num-start} \word{num-end}
+	delimited number conversion.
+
+	\begin{defer}
+	\testing
+		\word{:} GP2  \word{num-start} -1 \word{SIGN} 0 \word{SIGN} -1 \word{SIGN} 0 0 \word{num-end} \word{Sq} --" S= \word{;} \\
+		\{ GP2 -> <TRUE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2214}{SM/REM}[s-m-slash-rem]
+\item \stack{d_1 n_1}{n_2 n_3}
+
+	Divide \param{d_1} by \param{n_1}, giving the symmetric quotient
+	\param{n_3} and the remainder \param{n_2}. Input and output stack
+	arguments are signed. An ambiguous condition exists if \param{n_1}
+	is zero or if the quotient lies outside the range of a single-cell
+	signed integer.
+
+\see \xref[3.2.2.1 Integer division]{usage:div},
+	\wref{core:FM/MOD}{FM/MOD},
+	\wref{core:UM/MOD}{UM/MOD}.
+
+	\begin{defer}
+	\rationale % A.6.1.2214 SM/REM
+		See the previous discussion of division under \word{FM/MOD}.
+		\word{SM/REM} is the symmetric-division primitive, which allows
+		programs to define the following symmetric-division operators:
+
+		\begin{quote}\ttfamily
+			\word{:} /-REM \word{p} n1 n2 -- n3 n4 )
+				\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM}
+			\word{;}
+
+			\word{:} /- \word{p} n1 n2 -- n3 )
+				/-REM \word{SWAP} \word{DROP}
+			\word{;}
+
+			\word{:} -REM \word{p} n1 n2 -- n3 )
+				/-REM \word{DROP}
+			\word{;}
+
+			\word{:} */-REM \word{p} n1 n2 n3 -- n4 n5 )
+				\word{toR} \word{M*} \word{Rfrom} \word{SM/REM}
+			\word{;}
+
+			\word{:} */- \word{p} n1 n2 n3 -- n4 )
+				*/-REM \word{SWAP} \word{DROP}
+			\word{;}
+		\end{quote}
+
+	\testing
+		\{       0 \word{StoD}             1 \word{SM/REM} ->  0       0 \} \\
+		\{       1 \word{StoD}             1 \word{SM/REM} ->  0       1 \} \\
+		\{       2 \word{StoD}             1 \word{SM/REM} ->  0       2 \} \\
+		\{      -1 \word{StoD}             1 \word{SM/REM} ->  0      -1 \} \\
+		\{      -2 \word{StoD}             1 \word{SM/REM} ->  0      -2 \} \\
+		\{       0 \word{StoD}            -1 \word{SM/REM} ->  0       0 \} \\
+		\{       1 \word{StoD}            -1 \word{SM/REM} ->  0      -1 \} \\
+		\{       2 \word{StoD}            -1 \word{SM/REM} ->  0      -2 \} \\
+		\{      -1 \word{StoD}            -1 \word{SM/REM} ->  0       1 \} \\
+		\{      -2 \word{StoD}            -1 \word{SM/REM} ->  0       2 \} \\
+		\{       2 \word{StoD}             2 \word{SM/REM} ->  0       1 \} \\
+		\{      -1 \word{StoD}            -1 \word{SM/REM} ->  0       1 \} \\
+		\{      -2 \word{StoD}            -2 \word{SM/REM} ->  0       1 \} \\
+		\{       7 \word{StoD}             3 \word{SM/REM} ->  1       2 \} \\
+		\{       7 \word{StoD}            -3 \word{SM/REM} ->  1      -2 \} \\
+		\{      -7 \word{StoD}             3 \word{SM/REM} -> -1      -2 \} \\
+		\{      -7 \word{StoD}            -3 \word{SM/REM} -> -1       2 \} \\
+		\{ MAX-INT \word{StoD}             1 \word{SM/REM} ->  0 MAX-INT \} \\
+		\{ MIN-INT \word{StoD}             1 \word{SM/REM} ->  0 MIN-INT \} \\
+		\{ MAX-INT \word{StoD}       MAX-INT \word{SM/REM} ->  0       1 \} \\
+		\{ MIN-INT \word{StoD}       MIN-INT \word{SM/REM} ->  0       1 \} \\
+		\{      1S       1                 4 \word{SM/REM} ->  3 MAX-INT \} \\
+		\{       2 MIN-INT \word{M*}       2 \word{SM/REM} ->  0 MIN-INT \} \\
+		\{       2 MIN-INT \word{M*} MIN-INT \word{SM/REM} ->  0       2 \} \\
+		\{       2 MAX-INT \word{M*}       2 \word{SM/REM} ->  0 MAX-INT \} \\
+		\{       2 MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0       2 \} \\
+		\{ MIN-INT MIN-INT \word{M*} MIN-INT \word{SM/REM} ->  0 MIN-INT \} \\
+		\{ MIN-INT MAX-INT \word{M*} MIN-INT \word{SM/REM} ->  0 MAX-INT \} \\
+		\{ MIN-INT MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0 MIN-INT \} \\
+		\{ MAX-INT MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0 MAX-INT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2216}{SOURCE}
+\item \stack{}{c-addr u}
+
+	\param{c-addr} is the address of, and \param{u} is the number of
+	characters in, the input buffer.
+
+	\begin{defer}
+	\rationale % A.6.1.2216 SOURCE
+		\word{SOURCE} simplifies the process of directly accessing the
+		input buffer by hiding the differences between its location
+		for different input sources. This also gives implementors more
+		flexibility in their implementation of buffering mechanisms
+		for different input sources. The committee moved away from an
+		input buffer specification consisting of a collection of
+		individual variables, declaring \word{TIB} and \word{numTIB}
+		obsolescent.
+
+		\word{SOURCE} in this form exists in F83, polyFORTH, LMI's
+		Forths and others. In conventional systems it is equivalent to
+		the phrase
+
+		\tab \word[block]{BLK} \word{@} \word{IF}
+			\word[block]{BLK} \word{@} \word[block]{BLOCK} 1024
+		\word{ELSE}
+			\word{TIB} \word{numTIB} \word{@}
+		\word{THEN}
+
+	\testing
+		\word{:} GS1 \word{Sq} \word{SOURCE}" \word{2DUP} \word{EVALUATE}
+			\word{toR} \word{SWAP} \word{toR} \word{=} \word{Rfrom} \word{Rfrom} \word{=} \word{;} \\
+		\{ GS1 -> <TRUE> <TRUE> \}
+
+		\word{:} GS4 \word{SOURCE} \word{toIN} \word{!} \word{DROP} \word{;} \\
+		\{ GS4 123 456 \\
+		-> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2220}{SPACE}
+\item \stack{}{}
+
+	Display one space.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:EMIT}{EMIT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2230}{SPACES}
+\item \stack{n}{}
+
+	If \param{n} is greater than zero, display \param{n} spaces.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:EMIT}{EMIT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2250}{STATE}
+\item \stack{}{a-addr}
+
+	\param{a-addr} is the address of a cell containing the
+	compilation-state flag. \word{STATE} is \emph{true} when in
+	compilation state, \emph{false} otherwise. The \emph{true} value
+	in \word{STATE} is non-zero, but is otherwise
+	implementation-defined. Only the following standard words alter
+	the value in \word{STATE}:
+	\word{:} (colon),
+	\word{;} (semicolon),
+	\word{ABORT},
+	\word{QUIT},
+	\word{:NONAME},
+	\word{[} (left-bracket), and
+	\word{]} (right-bracket).
+
+\note
+	A program shall not directly alter the contents of \word{STATE}.
+
+\see \xref[3.4 The Forth text interpreter]{usage:command},
+	\wref{core::}{:},
+	\wref{core:;}{;}
+	\wref{core:ABORT}{ABORT},
+	\wref{core:QUIT}{QUIT},
+	\wref{core:[}{[},
+	\wref{core:]}{]},
+	\wref{core::NONAME}{:NONAME},
+	\wref{tools:STATE}{STATE}.
+
+	\begin{defer}
+	\rationale % A.6.1.2250 STATE
+		Although
+		\word{EVALUATE},
+		\word[block]{LOAD},
+		\word[file]{INCLUDE-FILE}, and
+		\word[file]{INCLUDED}
+		are not listed as words which alter \word{STATE}, the text
+		interpreted by any one of these words could include one or
+		more words which explicitly alter \word{STATE}.
+		\word{EVALUATE},
+		\word[block]{LOAD},
+		\word[file]{INCLUDE-FILE}, and
+		\word[file]{INCLUDED}
+		do not in themselves alter \word{STATE}.
+
+		\word{STATE} does not nest with text interpreter nesting. For
+		example, the code sequence:
+
+		\tab \word{:} \texttt{FOO}~
+			\word{Sq} \texttt{]"} \word{EVALUATE}
+		\word{;}
+		\qquad
+		\texttt{FOO}
+
+		will leave the system in compilation state. Similarly, after
+		\word[block]{LOAD}ing a block containing \word{]}, the system
+		will be in compilation state.
+
+		Note that \word{]} does not affect the parse area and that the
+		only effect that \word{:} has on the parse area is to parse a
+		word. This entitles a program to use these words to set the
+		state with known side-effects on the parse area. For example:
+
+		\tab \word{:} \texttt{NOP}~
+			\word{:} \word{POSTPONE} \word{;} \word{IMMEDIATE}
+		\word{;}
+
+		\tab \texttt{NOP} \word{ALIGN} \\
+		\tab \texttt{NOP} \word{ALIGNED}
+
+		Some non-ANS Forth compliant systems have \word{]} invoke a
+		compiler loop in addition to setting \word{STATE}. Such a
+		system would inappropriately attempt to compile the second
+		use of \texttt{NOP}.
+
+		Also note that nothing in the Standard prevents a program from
+		finding the execution tokens of \word{]} or \word{[} and using
+		these to affect \word{STATE}. These facts suggest that
+		implementations of \word{]} will do nothing but set \word{STATE}
+		and a single interpreter/compiler loop will monitor \word{STATE}.
+
+	\testing
+		\{ \word{:} GT8 \word{STATE} \word{@} \word{;} \word{IMMEDIATE} -> \} \\
+		\{ GT8 -> 0 \} \\
+		\{ \word{:} GT9 GT8 \word{LITERAL} \word{;} -> \} \\
+		\{ GT9 \word{0=} -> <FALSE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2260}{SWAP}
+\item \stack{x_1 x_2}{x_2 x_1}
+
+	Exchange the top two stack items.
+
+	\begin{defer}
+	\testing
+		\{ 1 2 \word{SWAP} -> 2 1 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2270}{THEN}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{orig}{}
+
+	Append the run-time semantics given below to the current
+	definition. Resolve the forward reference \param{orig} using
+	the location of the appended run-time semantics.
+
+\runtime
+	\stack{}{}
+
+	Continue execution.
+
+\see \wref{core:ELSE}{ELSE},
+	\wref{core:IF}{IF}.
+
+	\begin{defer}
+	\rationale % A.6.1.2270 THEN
+		Typical use:
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{test} \word{IF} {\ldots} \word{THEN}
+			{\ldots} \word{;}
+
+		or
+
+		\tab \word{:} \texttt{X} {\ldots}
+			\emph{test} \word{IF} {\ldots} \word{ELSE} {\ldots} \word{THEN}
+			{\ldots} \word{;}
+
+	\testing\rmfamily
+		See \rref{core:IF}{IF}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2310}{TYPE}
+\item \stack{c-addr u}{}
+
+	If \param{u} is greater than zero, display the character string
+	specified by \param{c-addr} and \param{u}.
+
+	When passed a character in a character string whose
+	character-defining bits have a value between hex 20 and 7E
+	inclusive, the corresponding standard character, specified
+	by \xref[3.1.2.1 graphic characters]{usage:ASCII}, is displayed.
+	Because different output devices can respond differently to
+	control characters, programs that use control characters to
+	perform specific functions have an environmental dependency.
+
+\see \wref{core:EMIT}{EMIT}.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:EMIT}{EMIT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[Ud]{2320}{U.{}}[u-dot]
+\item \stack{u}{}
+
+	Display \param{u} in free field format.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:EMIT}{EMIT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[Uless]{2340}{U<}[u-less-than]
+\item \stack{u_1 u_2}{flag}
+
+	\param{flag} is true if and only if \param{u_1} is less than
+	\param{u_2}.
+
+\see \wref{core:less}{<}.
+
+	\begin{defer}
+	\testing
+		\{        0        1 \word{Uless} -> <TRUE>  \} \\
+		\{        1        2 \word{Uless} -> <TRUE>  \} \\
+		\{        0 MID-UINT \word{Uless} -> <TRUE>  \} \\
+		\{        0 MAX-UINT \word{Uless} -> <TRUE>  \} \\
+		\{ MID-UINT MAX-UINT \word{Uless} -> <TRUE>  \} \\
+		\{        0        0 \word{Uless} -> <FALSE> \} \\
+		\{        1        1 \word{Uless} -> <FALSE> \} \\
+		\{        1        0 \word{Uless} -> <FALSE> \} \\
+		\{        2        1 \word{Uless} -> <FALSE> \} \\
+		\{ MID-UINT        0 \word{Uless} -> <FALSE> \} \\
+		\{ MAX-UINT        0 \word{Uless} -> <FALSE> \} \\
+		\{ MAX-UINT MID-UINT \word{Uless} -> <FALSE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2360}{UM*}[u-m-star]
+\item \stack{u_1 u_2}{ud}
+
+	Multiply \param{u_1} by \param{u_2}, giving the unsigned double-cell
+	product \param{ud}. All values and arithmetic are unsigned.
+
+	\begin{defer}
+	\testing
+		\{ 0 0 \word{UM*} -> 0 0 \} \\
+		\{ 0 1 \word{UM*} -> 0 0 \} \\
+		\{ 1 0 \word{UM*} -> 0 0 \} \\
+		\{ 1 2 \word{UM*} -> 2 0 \} \\
+		\{ 2 1 \word{UM*} -> 2 0 \} \\
+		\{ 3 3 \word{UM*} -> 9 0 \}
+
+		\{ MID-UINT+1 1 \word{RSHIFT} 2 \word{UM*} -> MID-UINT+1 0 \} \\
+		\{ MID-UINT+1 2 \word{UM*} -> 0 1 \} \\
+		\{ MID-UINT+1 4 \word{UM*} -> 0 2 \} \\
+		\{ 1S 2 \word{UM*} -> 1S 1 \word{LSHIFT} 1 \} \\
+		\{ MAX-UINT MAX-UINT \word{UM*} -> 1 1 \word{INVERT} \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2370}{UM/MOD}[u-m-slash-mod]
+\item \stack{ud u_1}{u_2 u_3}
+
+	Divide \param{ud} by \param{u_1}, giving the quotient \param{u_3}
+	and the remainder \param{u_2}. All values and arithmetic are
+	unsigned. An ambiguous condition exists if \param{u_1} is zero or
+	if the quotient lies outside the range of a single-cell unsigned
+	integer.
+
+\see \xref[3.2.2.1 Integer division]{usage:div},
+	\wref{core:FM/MOD}{FM/MOD},
+	\wref{core:SM/REM}{SM/REM}.
+
+	\begin{defer}
+	\testing
+		\{        0                   0        1 \word{UM/MOD} -> 0        0 \} \\
+		\{        1                   0        1 \word{UM/MOD} -> 0        1 \} \\
+		\{        1                   0        2 \word{UM/MOD} -> 1        0 \} \\
+		\{        3                   0        2 \word{UM/MOD} -> 1        1 \} \\
+		\{ MAX-UINT        2 \word{UM*}        2 \word{UM/MOD} -> 0 MAX-UINT \} \\
+		\{ MAX-UINT        2 \word{UM*} MAX-UINT \word{UM/MOD} -> 0        2 \} \\
+		\{ MAX-UINT MAX-UINT \word{UM*} MAX-UINT \word{UM/MOD} -> 0 MAX-UINT \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2380}{UNLOOP}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{}
+	\stack[R]{loop-sys}{}
+
+	Discard the loop-control parameters for the current nesting
+	level. An \word{UNLOOP} is required for each nesting level
+	before the definition may be \word{EXIT}ed. An ambiguous
+	condition exists if the loop-control parameters are unavailable.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack}.
+
+	\begin{defer}
+	\rationale % A.6.1.2380 UNLOOP
+		Typical use:
+		\begin{quote}
+			\word{:} \texttt{X} {\ldots} \\
+			\tab \emph{limit} \emph{first} \word{DO} \\
+			\tab~~ {\ldots} \emph{test} \word{IF}
+				{\ldots} \word{UNLOOP} \word{EXIT} \word{THEN} {\ldots} \\
+			\tab \word{LOOP} {\ldots} \\
+			\word{;}
+		\end{quote}
+
+		\word{UNLOOP} allows the use of \word{EXIT} within the context
+		of \word{DO} {\ldots} \word{LOOP} and related do-loop constructs.
+		\word{UNLOOP} as a function has been called \texttt{UNDO}.
+		\word{UNLOOP} is more indicative of the action: nothing gets
+		undone --- we simply stop doing it.
+
+	\testing
+		\{ \word{:} GD6 \word{p} PAT: {\small \{0 0\},\{0 0\}\{1 0\}\{1 1\},\{0 0\}\{1 0\}\{1 1\}\{2 0\}\{2 1\}\{2 2\}} ) \\
+			\tab[2] 0 \word{SWAP} 0 \word{DO} \\
+			\tab[3] \word{I} \word{1+} 0 \word{DO}
+				\word{I} \word{J} \word{+} 3 \word{=} \word{IF}
+					\word{I} \word{UNLOOP} \word{I} \word{UNLOOP} \word{EXIT} \word{THEN} \word{1+} \\
+			\tab[2] \word{LOOP} \\
+			\tab	\word{LOOP} \word{;} -> \} \\
+		\{ 1 GD6 -> 1 \} \\
+		\{ 2 GD6 -> 3 \} \\
+		\{ 3 GD6 -> 4 1 2 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2390}{UNTIL}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{dest}{}
+
+	Append the run-time semantics given below to the current
+	definition, resolving the backward reference \param{dest}.
+
+\runtime
+	\stack{x}{}
+
+	If all bits of \param{x} are zero, continue execution at the
+	location specified by \param{dest}.
+
+\see \wref{core:BEGIN}{BEGIN}.
+
+	\begin{defer}
+	\rationale % A.6.1.2390 UNTIL
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{BEGIN} {\ldots} \emph{test} \word{UNTIL}
+				{\ldots} \word{;}
+
+	\testing
+		\{ \word{:} GI4 \word{BEGIN} \word{DUP} \word{1+} \word{DUP} 5 \word{more} \word{UNTIL} \word{;} -> \} \\
+		\{ 3 GI4 -> 3 4 5 6 \} \\
+		\{ 5 GI4 -> 5 6 \} \\
+		\{ 6 GI4 -> 6 7 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2410}{VARIABLE}
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Create a definition for \param{name} with the execution
+	semantics defined below. Reserve one cell of data space at an
+	aligned address.
+
+	\param{name} is referred to as a ``variable''.
+
+\execute[name]
+	\stack{}{a-addr}
+
+	\param{a-addr} is the address of the reserved cell. A program
+	is responsible for initializing the contents of the reserved
+	cell.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.6.1.2410 VARIABLE
+		Typical use:
+			{\ldots} \word{VARIABLE} \texttt{XYZ} {\ldots}
+
+	\testing
+		\{ \word{VARIABLE} V1 ->     \} \\
+		\{    123 V1 \word{!} ->     \} \\
+		\{        V1 \word{@} -> 123 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2430}{WHILE}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{dest}{orig dest}
+
+	Put the location of a new unresolved forward reference
+	\param{orig} onto the control flow stack, under the existing
+	\param{dest}. Append the run-time semantics given below to the
+	current definition. The semantics are incomplete until
+	\param{orig} and \param{dest} are resolved (e.g., by
+	\word{REPEAT}).
+
+\runtime
+	\stack{x}{}
+
+	If all bits of \param{x} are zero, continue execution at the
+	location specified by the resolution of \param{orig}.
+
+	\begin{defer}
+	\rationale % A.6.1.2430 WHILE
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{BEGIN} {\ldots}
+				\emph{test} \word{WHILE}
+				{\ldots} \word{REPEAT}
+			{\ldots} \word{;}
+
+	\testing
+		\{ \word{:} GI3 \word{BEGIN} \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \word{;} -> \} \\
+		\{ 0 GI3 -> 0 1 2 3 4 5 \} \\
+		\{ 4 GI3 -> 4 5 \} \\
+		\{ 5 GI3 -> 5 \} \\
+		\{ 6 GI3 -> 6 \}
+
+		\{ \word{:} GI5 \word{BEGIN} \word{DUP} 2 \word{more} \word{WHILE} \\
+		\tab[2] \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \\
+		\tab 123 \word{ELSE} 345 \word{THEN} \word{;} -> \} \\
+		\{ 1 GI5 -> 1 345 \} \\
+		\{ 2 GI5 -> 2 345 \} \\
+		\{ 3 GI5 -> 3 4 5 123 \} \\
+		\{ 4 GI5 -> 4 5 123 \} \\
+		\{ 5 GI5 -> 5 123 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2450}{WORD}
+\item \stack{char "<chars>ccc<char>"}{c-addr}
+
+	Skip leading delimiters. Parse characters \param{ccc} delimited
+	by \param{char}.  An ambiguous condition exists if the length of
+	the parsed string is greater than the implementation-defined
+	length of a counted string.
+
+	\param{c-addr} is the address of a transient region containing
+	the parsed word as a counted string. If the parse area was
+	empty or contained no characters other than the delimiter, the
+	resulting string has a zero length. A space, not included in the
+	length, follows the string. A program may replace characters
+	within the string.
+
+\note
+	The requirement to follow the string with a space is obsolescent
+	and is included as a concession to existing programs that use
+	\word{CONVERT}. A program shall not depend on the existence of
+	the space.
+
+\see \xref[3.3.3.6 Other transient regions]{usage:transient},
+	\xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.6.1.2450 WORD
+		Typical use: \emph{char} \word{WORD} \emph{ccc}\arg{char}
+
+	\testing
+		\word{:} GS3 \word{WORD} \word{COUNT} \word{SWAP} \word{C@} \word{;} \\
+		\{ \word{BL} GS3 HELLO -> 5 \word{CHAR} H \} \\
+		\{ \word{CHAR} " GS3 GOODBYE" -> 7 \word{CHAR} G \} \\
+		\{ BL GS3 \\
+		\word{DROP} -> 0 \} \tab[4] \word{bs} BLANK LINE RETURN ZERO-LENGTH STRING
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2490}{XOR}[x-or]
+\item \stack{x_1 x_2}{x_3}
+
+	\param{x_3} is the bit-by-bit exclusive-or of \param{x_1} with
+	\param{x_2}.
+
+	\begin{defer}
+	\testing
+		\{ 0S 0S \word{XOR} -> 0S \} \\
+		\{ 0S 1S \word{XOR} -> 1S \} \\
+		\{ 1S 0S \word{XOR} -> 1S \} \\
+		\{ 1S 1S \word{XOR} -> 0S \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2500}{[}[left-bracket]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{}{}
+
+	Enter interpretation state. \word{[} is an immediate word.
+
+\see \xref[The Forth text interpreter]{usage:command},
+	\xref[3.4.5 Compilation]{usage:compilation},
+	\wref{core:]}{]}.
+
+	\begin{defer}
+	\rationale % A.6.1.2500 [
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{[} \texttt{4321} \word{]} \word{LITERAL}
+				{\ldots} \word{;}
+
+	\testing
+		\{ \word{:} GC3 \word{[} GC1 \word{]} \word{LITERAL} \word{;} -> \} \\
+		\{ GC3 -> 58 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2510}{[']}[bracket-tick]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Find \param{name}. Append the run-time semantics given
+	below to the current definition.
+
+	An ambiguous condition exists if \param{name} is not found.
+
+\runtime
+	\stack{}{xt}
+
+	Place \param{name}'s execution token \param{xt} on the stack.
+	The execution token returned by the compiled phrase
+	``\word{[']} \texttt{X}'' is the same value returned by
+	``\word{'} \texttt{X}'' outside of compilation state.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:'}{'}
+	\rref{core:POSTPONE}{POSTPONE},
+	\xref[Immediate]{diff:immediate}.
+
+	\begin{defer}
+	\rationale % A.6.1.2510 [']
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{[']} \emph{name}
+				{\ldots} \word{;}
+
+		See:
+			\rref{core:FIND}{FIND}.
+
+	\testing
+		\{ \word{:} GT2 \word{[']} GT1 \word{;} \word{IMMEDIATE} -> \} \\
+		\{ GT2 \word{EXECUTE} -> 123 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2520}{[CHAR]}[bracket-char]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited
+	by a space. Append the run-time semantics given below to the
+	current definition.
+
+\runtime
+	\stack{}{char}
+
+	Place \param{char}, the value of the first character of
+	\param{name}, on the stack.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:CHAR}{CHAR}.
+
+	\begin{defer}
+	\rationale % A.6.1.2520 [CHAR]
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{[CHAR]} \emph{c}
+				{\ldots} \word{;}
+
+	\testing
+		\{ : GC1 \word{[CHAR]} X     ; -> \} \\
+		\{ : GC2 \word{[CHAR]} HELLO ; -> \} \\
+		\{ GC1 -> 58 \} \\
+		\{ GC2 -> 48 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2540}{]}[right-bracket]
+\item \stack{}{}
+
+	Enter compilation state.
+
+\see \xref[3.4 The Forth text interpreter]{usage:command},
+	\xref[3.4.5 Compilation]{usage:compilation},
+	\wref{core:[}{[}.
+
+	\begin{defer}
+	\rationale % A.6.1.2540 ]
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{[} \texttt{4321} \word{]} \word{LITERAL}
+				{\ldots} \word{;}
+
+	\testing\rmfamily
+		See \rref{core:[}{[}
+	\end{defer}
+\end{worddef}
+
+
+\section{Core extension words} % 6.2
+\extended
+
+\begin{intro}
+\subsection{Core extension words} % A.6.2
+
+The words in this collection fall into several categories:
+
+\begin{itemize}
+\item Words that are in common use but are deemed less essential than
+	Core words (e.g., \word{0ne});
+
+\item Words that are in common use but can be trivially defined from
+	Core words (e.g., \word{FALSE});
+
+\item Words that are primarily useful in narrowly defined types of
+	applications or are in less frequent use (e.g., \word{PARSE});
+
+\item Words that are being deprecated in favor of new words introduced
+	to solve specific problems (e.g., \word{CONVERT}).
+\end{itemize}
+
+Because of the varied justifications for inclusion of these words,
+the Technical Committee does not encourage implementors to offer the
+complete collection, but to select those words deemed most valuable to
+their clientele.
+\end{intro}
+
+
+\begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b]
+\item \stack{}{a-addr}
+
+	\param{a-addr} is the address of a cell containing the number
+	of characters in the terminal input buffer.
+
+\note
+	This word is obsolescent and is included as a concession to
+	existing implementations.
+
+	\begin{defer}
+	\rationale % A.6.2.0060 #TIB}
+		The function of \word{numTIB} has been superseded by
+		\word{SOURCE}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[.p]{0200}{.(}[dot-paren]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{"ccc<paren>"}{}
+
+	Parse and display \param{ccc} delimited by \texttt{)} (right
+	parenthesis). \word{.p} is an immediate word.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:.q}{."}.
+
+	\begin{defer}
+	\rationale % A.6.2.0200 .
+		Typical use:
+			\word{.p} \emph{ccc}\texttt{)}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0210}{.R}[dot-r]
+\item \stack{n_1 n_2}{}
+
+	Display \param{n_1} right aligned in a field \param{n_2}
+	characters wide. If the number of characters required to display
+	\param{n_1} is greater than \param{n_2}, all digits are displayed
+	with no leading spaces in a field as wide as necessary.
+
+	\begin{defer}
+	\rationale % A.6.2.0210 .R
+		In \word{.R}, ``R'' is short for RIGHT.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[0ne]{0260}{0<>}[zero-not-equals]
+\item \stack{x}{flag}
+
+	\param{flag} is true if and only if \param{x} is not equal to
+	zero.
+\end{worddef}
+
+
+\begin{worddef}[0more]{0280}{0>}[zero-greater]
+\item \stack{n}{flag}
+
+	\param{flag} is true if and only if \param{n} is greater than
+	zero.
+\end{worddef}
+
+
+\begin{worddef}[2toR]{0340}{2>R}[two-to-r]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{x_1 x_2}{}
+	\stack[R]{}{x_1 x_2}
+
+	Transfer cell pair \param{x_1 x_2} to the return stack.
+	Semantically equivalent to \word{SWAP} \word{toR} \word{toR}.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:toR}{>R},
+	\wref{core:Rfrom}{R>},
+	\wref{core:R@}{R@},
+	\wref{core:2Rfrom}{2R>},
+	\wref{core:2R@}{2R@}.
+
+	\begin{defer}
+	\rationale % A.6.2.0340 2>R
+		Historically, \word{2toR} has been used to implement \word{DO}.
+		Hence the order of parameters on the return stack.
+
+		The primary advantage of \word{2toR} is that it puts the top
+		stack entry on the top of the return stack. For instance, a
+		double-cell number may be transferred to the return stack and
+		still have the most significant cell accessible on the top of
+		the return stack.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[2Rfrom]{0410}{2R>}[two-r-from]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{x_1 x_2}
+	\stack[R]{x_1 x_2}{}
+
+	Transfer cell pair \param{x_1 x_2} from the return stack.
+	Semantically equivalent to \word{Rfrom} \word{Rfrom} word{SWAP}.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:toR}{>R}
+	\wref{core:Rfrom}{R>}
+	\wref{core:R@}{R@}
+	\wref{core:2toR}{2>R},
+	\wref{core:2R@}{2R@}.
+
+	\begin{defer}
+	\rationale % A.6.2.0410 2R>
+		Note that \word{2Rfrom} is not equivalent to \word{Rfrom} \word{Rfrom}.
+		Instead, it mirrors the action of \word{2toR}
+		(see \ref{rat:core:2toR}).
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0415}{2R@}[two-r-fetch]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{}{x_1 x_2}
+	\stack[R]{x_1 x_2}{x_1 x_2}
+
+	Copy cell pair \param{x_1 x_2} from the return stack.
+	Semantically equivalent to \word{Rfrom} \word{Rfrom} \word{2DUP}
+	\word{toR} \word{toR} \word{SWAP}.
+
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\wref{core:toR}{>R},
+	\wref{core:Rfrom}{R>},
+	\wref{core:R@}{R@},
+	\wref{core:2toR}{2>R},
+	\wref{core:2Rfrom}{2R>}.
+\end{worddef}
+
+
+\begin{worddef}{0455}{:NONAME}[colon-no-name]
+\item \stack[C]{}{colon-sys}
+	\stack[S]{}{xt}
+
+	Create an execution token \param{xt}, enter compilation state
+	and start the current definition, producing \param{colon-sys}.
+	Append the initiation semantics given below to the current
+	definition.
+
+	The execution semantics of \param{xt} will be determined by the
+	words compiled into the body of the definition. This definition
+	can be executed later by using \param{xt} \word{EXECUTE}.
+
+	If the control-flow stack is implemented using the data stack,
+	\param{colon-sys} shall be the topmost item on the data stack.
+	See \xref[3.2.3.2 Control-flow stack]{usage:controlstack}.
+
+\init
+	\stack{i*x}{i*x}
+	\stack[R]{}{nest-sys}
+
+	Save implementation-dependent information \param{nest-sys}
+	about the calling definition. The stack effects \param{i*x}
+	represent arguments to \param{xt}.
+
+\execute[xt]
+	\stack{i*x}{j*x}
+
+	Execute the definition specified by \param{xt}. The stack
+	effects \param{i*x} and \param{j*x} represent arguments to
+	and results from \param{xt}, respectively.
+
+	\begin{defer}
+	\rationale % A.6.2.0455 :NONAME
+		\word{:NONAME} allows a user to create an execution token
+		with the semantics of a colon definition without an associated
+		name. Previously, only \word{:} (colon) could create an
+		execution token with these semantics. Thus, Forth code could
+		only be compiled using the syntax of \word{:}, that is:
+
+		\tab \word{:} \texttt{NAME} {\ldots} \word{;}
+
+		\word{:NONAME} removes this constraint and places the Forth
+		compiler in the hands of the programmer.
+
+		\word{:NONAME} can be used to create application-specific
+		programming languages. One technique is to mix Forth code
+		fragments with application-specific constructs. The
+		application-specific constructs use \word{:NONAME} to compile
+		the Forth code and store the corresponding execution tokens
+		in data structures.
+
+		The functionality of \word{:NONAME} can be built on any Forth
+		system. For years, expert Forth programmers have exploited
+		intimate knowledge of their systems to generate unnamed code
+		fragments. Now, this function has been named and can be used
+		in a portable program.
+
+		For example, \word{:NONAME} can be used to build a table of
+		code fragments where indexing into the table allows executing
+		a particular fragment. The declaration syntax of the table is:
+
+		\begin{quote}\ttfamily
+			\word{:NONAME} {\ldots} code for command 0 {\ldots} \word{;}
+			0 CMD \word{!}
+
+			\word{:NONAME} {\ldots} code for command 1 {\ldots} \word{;}
+			1 CMD \word{!}
+
+			\tab {\ldots}
+
+			\word{:NONAME} {\ldots} code for command 99 {\ldots} \word{;}
+			99 CMD \word{!}
+
+			{\ldots} 5 CMD \word{@} \word{EXECUTE} {\ldots}
+		\end{quote}
+
+		The definitions of the table building words are:
+
+		\begin{quote}\ttfamily
+			\word{CREATE} CMD-TABLE
+				\word{bs} table for command execution tokens \\
+			\tab 100 \word{CELLS} \word{ALLOT}
+
+			\word{:} CMD \word{p} n -- a-addr )
+				\word{bs} nth element address in table \\
+			\tab \word{CELLS} CMD-TABLE \word{+}
+			\word{;}
+		\end{quote}
+
+		As a further example, a defining word can be created to allow
+		performance monitoring. In the example below, the number of
+		times a word is executed is counted. \word{:} must first be
+		renamed to allow the definition of the new \word{;}.
+
+		\begin{quote}\ttfamily
+		  \begin{tabbing}
+			\tab \= \tab \= \hspace*{12em} \= \kill
+			\word{:} DOCOLON \word{p} -- ) \\
+			\+ \word{bs} Modify CREATEd word to execute like a colon def \\
+				\+ \word{DOES} \word{p} i*x a-addr -- j*x ) \\
+					1 \word{OVER} \word{+!}								\> \word{bs} count executions \\
+			\-	\-	\word{CELL+} \word{@} \word{EXECUTE}				\> \word{bs} execute :NONAME definition \\
+			\word{;} \\[1.5\parskip]
+
+			\word{:} OLD: \word{:} \word{;}								\>\>\> \word{bs} just an alias \\[1.5\parskip]
+
+			OLD: \word{:} \word{p} "name" -- a-addr xt colon-sys ) \\
+			\+ \word{bs} begins an execution-counting colon definition \\
+				\word{CREATE} \word{HERE} 0 \word{,}					\>\> \word{bs} storage for execution counter \\
+				0 \word{,}												\>\> \word{bs} storage for execution token \\
+				DOCOLON													\>\> \word{bs} set run time for CREATEd word \\
+			\-	\word{:NONAME}											\>\> \word{bs} begin unnamed colon definition \\
+			\word{;}
+		  \end{tabbing}
+		\end{quote}
+
+		(Note the placement of \word{DOES}: \word{DOES} must modify
+		the \word{CREATE}d word and not the \word{:NONAME} definition,
+		so \word{DOES} must execute before \word{:NONAME}.)
+
+		\begin{quote}\ttfamily
+		  \begin{tabbing}
+			\tab \= \tab \= \hspace*{12em} \= \kill
+			OLD: \word{;} \word{p} a-addr xt colon-sys -- ) \\
+			\+ \word{bs} ends an execution-counting colon definition \\
+				\word{POSTPONE} \word{;}										\>\> \word{bs} complete compilation of colon def \\
+			\-	\word{SWAP} \word{CELL+} \word{!}								\>\> \word{bs} save execution token \\
+			\word{;} \word{IMMEDIATE}
+		  \end{tabbing}
+		\end{quote}
+
+		The new \word{:} and \word{;} are used just like the standard
+		ones to define words:
+
+		\tab {\ldots} \word{:} \texttt{xxx} {\ldots} \word{;}
+			{\ldots} \texttt{xxx} {\ldots}
+
+		Now however, these words may be ``ticked'' to retrieve the
+		count (and execution token):
+
+		\tab {\ldots} \word{'} \texttt{xxx} \word{toBODY} \word[tools]{q} {\ldots}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[ne]{0500}{<>}[not-equals]
+\item \stack{x_1 x_2}{flag}
+
+	\param{flag} is true if and only if \param{x_1} is not bit-for-bit
+	the same as \param{x_2}.
+\end{worddef}
+
+
+\begin{worddef}[qDO]{0620}{?DO}[question-do]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{}{do-sys}
+
+	Put \param{do-sys} onto the control-flow stack. Append the
+	run-time semantics given below to the current definition. The
+	semantics are incomplete until resolved by a consumer of
+	\emph{do-sys} such as \word{LOOP}.
+
+\runtime
+	\stack{n_1|u_1 n_2|u_2}{}
+	\stack[R]{}{loop-sys}
+
+	If \param{n_1|u_1} is equal to \param{n_2|u_2}, continue
+	execution at the location given by the consumer of
+	\param{do-sys}. Otherwise set up loop control parameters with
+	index \param{n_2|u_2} and limit \param{n_1|u_1} and continue
+	executing immediately following \word{qDO}. Anything already
+	on the return stack becomes unavailable until the loop
+	control parameters are discarded. An ambiguous condition
+	exists if \param{n_1|u_1} and \param{n_2|u_2} are not both of
+	the same type.
+
+\see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
+	\wref{core:+LOOP}{+LOOP},
+	\wref{core:DO}{DO},
+	\wref{core:I}{I},
+	\wref{core:LEAVE}{LEAVE},
+	\wref{core:LOOP}{LOOP},
+	\wref{core:UNLOOP}{UNLOOP}.
+
+	\begin{defer}
+	\rationale % A.6.2.0620 ?DO
+		Typical use:
+
+		\tab \word{:} \texttt{FACTORIAL} \word{p} +n1 -- +n2 )~
+			1 \word{SWAP} \word{1+} \word{qDO}~
+				\word{I} \word{*}~
+			\word{LOOP}
+		\word{;}
+
+		This word was added in response to many requests for a
+		resolution of the difficulty introduced by Forth-83's DO,
+		which on a 16-bit system will loop 65,535 times if given
+		equal arguments. As this Standard also encourages 32-bit
+		systems, this behavior can be intolerable. The Technical
+		Committee considered applying these semantics to DO, but
+		declined on the grounds that it might break existing code.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{}{ACTION-OF}[][X:deferred]
+\interpret
+	\stack{"<spaces>name"}{xt}
+
+	Skip leading spaces and parse name delimited by a space.
+	\param{xt} is the \param{xt} associated with \param{name}.
+	An ambiguous condition exists if name was not defined by
+	\word{DEFER}, or if the name has not been associated with
+	an \param{xt} yet.
+
+\compile
+	\stack{"<spaces>name"}{}
+
+	Skip leading spaces and parse name delimited by a space.
+	Append the run-time semantics given below to the current
+	definition. An ambiguous condition exists if \param{name}
+	was not defined by \word{DEFER}.
+
+\runtime
+	\stack{}{xt}
+
+	\param{xt} is the execution token associated with \param{name}
+	when the run-time semantics is performed. An ambiguous condition
+	exists if \param{name} has not been associated with an
+	\param{xt} yet.
+
+	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
+	\word{[']} or \word{'} is applied to \word{ACTION-OF}.
+
+\see \wref{core:DEFER}{DEFER},
+	\wref{core:DEFER!}{DEFER!},
+	\wref{core:DEFER@}{DEFER@} and
+	\wref{core:IS}{IS}.
+
+	\begin{defer}
+	\implementation
+		\word{:} \word{ACTION-OF} \\
+		\tab \word{STATE} \word{@} \word{IF} \\
+		\tab[2] \word{POSTPONE} \word{[']} \word{POSTPONE} \word{DEFER@} \\
+		\tab \word{ELSE} \\
+		\tab[2] \word{'} \word{DEFER@} \\
+		\tab \word{THEN} \word{;} \word{IMMEDIATE}
+
+	\testing
+		\{ \word{DEFER} defer1 -> \} \\
+		\{ \word{:} action-defer1 \word{ACTION-OF} defer1 \word{;} -> \}
+
+		\{ \word{'} \word{*} \word{'} defer1 \word{DEFER!} -> \} \\
+		\{ 2 3 defer1 -> 6 \} \\
+		\{ \word{ACTION-OF} defer1 -> \word{'} \word{*} \} \\
+		\{ action-defer1 -> \word{'} \word{*} \}
+
+		\{ \word{'} \word{+} \word{IS} defer1 -> \} \\
+		\{ 1 2 defer1 -> 3 \} \\
+		\{ \word{ACTION-OF} defer1 -> \word{'} \word{+} \} \\
+		\{ action-defer1 -> \word{'} \word{+} \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0700}{AGAIN}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{dest}{}
+
+	Append the run-time semantics given below to the current
+	definition, resolving the backward reference \param{dest}.
+
+\runtime
+	\stack{}{}
+
+	Continue execution at the location specified by \param{dest}.
+	If no other control flow words are used, any program code
+	after \word{AGAIN} will not be executed.
+
+\see \wref{core:BEGIN}{BEGIN}.
+
+	\begin{defer}
+	\rationale % A.6.2.0700 AGAIN
+		Typical use:
+			\word{:} \texttt{X}
+				{\ldots} \word{BEGIN} {\ldots} \word{AGAIN}
+			{\ldots} \word{;}
+
+		Unless word-sequence has a way to terminate, this is an
+		endless loop.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[Cq]{0855}{C"}[c-quote]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"ccc<quote>"}{}
+
+	Parse \param{ccc} delimited by \texttt{"} (double-quote) and
+	append the run-time semantics given below to the current
+	definition.
+
+\runtime
+	\stack{}{c-addr}
+
+	Return \param{c-addr}, a counted string consisting of the
+	characters \param{ccc}. A program shall not alter the returned
+	string.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:Sq}{S"},
+	\wref{file:Sq}{S"}.
+
+	\begin{defer}
+	\rationale % A.6.2.0855 C"
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{Cq} \emph{ccc}\texttt{"}
+			{\ldots} \word{;}
+
+		It is easy to convert counted strings to pointer/length but
+		hard to do the opposite. \word{Cq} is the only new word that
+		uses the ``address of counted string'' stack representation.
+		It is provided as an aid to porting existing programs to ANS
+		Forth systems. It is relatively difficult to implement \word{Cq}
+		in terms of other standard words, considering its ``compile
+		string into the current definition'' semantics.
+
+		Users of \word{Cq} are encouraged to migrate their application
+		code toward the consistent use of the preferred
+		``\param{c-addr u}'' stack representation with the alternate
+		word \word{Sq}. This may be accomplished by converting
+		application words with counted string input arguments to use
+		the preferred ``\param{c-addr u}'' representation, thus
+		eliminating the need for \word{Cq}.
+
+		See: \xref[A.3.1.3.4 Counted strings]{rat:cstring}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0873}{CASE}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{}{case-sys}
+
+	Mark the start of the
+	\word{CASE}\ldots\word{OF}\ldots\word{ENDOF}\ldots\word{ENDCASE}
+	structure. Append the run-time semantics given below to the
+	current definition.
+
+\runtime
+	\stack{}{}
+
+	Continue execution.
+
+\see \wref{core:ENDCASE}{ENDCASE},
+	\wref{core:ENDOF}{ENDOF},
+	\wref{core:OF}{OF}.
+
+	\begin{defer}
+	\rationale % A.6.2.0873 CASE
+		Typical use:
+		\begin{quote}
+			\word{:} \texttt{X} {\ldots} \\
+			\tab \word{CASE} \\
+			\tab~~ \emph{test1} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ \emph{testn} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ {\ldots} \word{p} default ) \\
+			\tab \word{ENDCASE} {\ldots} \\
+			\word{;}
+		\end{quote}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0945}{COMPILE,}[compile-comma]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack{xt}{}
+
+	Append the execution semantics of the definition represented
+	by \param{xt} to the execution semantics of the current
+	definition.
+
+	\begin{defer}
+	\rationale % A.6.2.0945 COMPILE,
+		\word{COMPILE,} is the compilation equivalent of
+		\word{EXECUTE}. In many cases, it is possible to compile a
+		word by using \word{POSTPONE} without resorting to the use of
+		\word{COMPILE,}. However, the use of \word{POSTPONE} requires
+		that the name of the word must be known at compile time,
+		whereas \word{COMPILE,} allows the word to be located at any
+		time. It is sometime possible to use \word{EVALUATE} to compile
+		a word whose name is not known until run time. This has two
+		possible problems:
+		\begin{itemize}
+		\item \word{EVALUATE} is slower than \word{COMPILE,} because a
+			dictionary search is required.
+		\item The current search order affects the outcome of
+			\word{EVALUATE}.
+		\end{itemize}
+		In traditional threaded-code implementations, compilation is
+		performed by \word{,} (comma). This usage is not portable; it
+		doesn't work for subroutine-threaded, native code, or
+		relocatable implementations. Use of \word{COMPILE,} is portable.
+
+		In most systems it is possible to implement \word{COMPILE,} so
+		it will generate code that is optimized to the same extent as
+		code that is generated by the normal compilation process.
+		However, in some implementations there are two different
+		``tokens'' corresponding to a particular definition name:
+		the normal ``execution token'' that is used while interpreting
+		or with \word{EXECUTE}, and another ``compilation token'' that
+		is used while compiling. It is not always possible to obtain
+		the compilation token from the execution token. In these
+		implementations, \word{COMPILE,} might not generate code that
+		is as efficient as normally compiled code.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0970}{CONVERT}
+\item \stack{ud_1 c-addr_1}{ud_2 c-addr_2}
+
+	\param{ud_2} is the result of converting the characters within
+	the text beginning at the first character after \param{c-addr_1}
+	into digits, using the number in \word{BASE}, and adding each
+	digit to \param{ud_1} after multiplying \param{ud_1} by the
+	number in \word{BASE}. Conversion continues until a character
+	that is not convertible is encountered. \param{c-addr_2} is
+	the location of the first unconverted character. An ambiguous
+	condition exists if \param{ud_2} overflows.
+
+\note
+	This word is obsolescent and is included as a concession to
+	existing implementations. Its function is superseded by
+	\wref{core:toNUMBER}{>NUMBER}.
+
+\see \xref[3.2.1.2 Digit conversion]{usage:digits}.
+
+	\begin{defer}
+	\rationale % A.6.2.0970 CONVERT
+		\word{CONVERT} may be defined as follows:
+
+		\tab \word{:} \word{CONVERT}~
+			\word{CHAR+} \texttt{65535} \word{toNUMBER} \word{DROP}
+		\word{;}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{}{DEFER}[][X:deferred]
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse name delimited by a space.
+	Create a definition for \param{name} with the execution semantics
+	defined below.
+
+\execute[name]
+	\stack{i*x}{j*x}
+
+	Execute \param{xt} associated with name. An ambiguous
+	condition exists if \param{name} has not been associated
+	with an \param{xt} yet.
+
+\see \wref{core:ACTION-OF}{ACTION-OF},
+	\wref{core:DEFER!}{DEFER!},
+	\wref{core:DEFER@}{DEFER@}, and
+	\wref{core:IS}{IS}.
+
+	\begin{defer}
+	\implementation
+		\word{:} \word{DEFER} \word{p} "name" -- ) \\
+		\tab \word{CREATE} \word{[']} \word{ABORT} \word{,} \\
+		\word{DOES} \word{p} {\ldots} -- {\ldots} ) \\
+		\tab \word{@} \word{EXECUTE} \word{;}
+
+	\testing
+		\{ \word{DEFER} defer2 -> \} \\
+		\{ \word{'} \word{*} \word{'} defer2 \word{DEFER!} -> \} \\
+		\{ 2 3 defer2 -> 6 \}
+
+		\{ \word{'} \word{+} \word{IS} defer2 -> \} \\
+		\{ 1 2 defer2 -> 3 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{}{DEFER!}[defer-store][X:deferred]
+\item \stack{xt_2 xt_1}{}
+
+	Set the word \param{xt_1} to execute \param{xt_2}. An ambiguous
+	condition exists if \param{xt_1} is not for a word defined via
+	\word{DEFER}.
+
+\see \wref{core:ACTION-OF}{ACTION-OF},
+	\wref{core:DEFER}{DEFER},
+	\wref{core:DEFER@}{DEFER@}, and
+	\wref{core:IS}{IS}.
+
+	\begin{defer}
+	\implementation
+		\word{:} \word{DEFER!} \word{p} xt2 xt1 -- ) \\
+		\tab \word{toBODY} \word{!} \word{;}
+
+	\testing
+		\{ \word{DEFER} defer3 -> \}
+
+		\{ \word{'} \word{*} \word{'} defer3 \word{DEFER!} -> \} \\
+		\{ 2 3 defer3 -> 6 \}
+
+		\{ \word{'} \word{+} \word{'} defer3 \word{DEFER!} -> \} \\
+		\{ 1 2 defer3 -> 3 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{}{DEFER@}[defer-fetch][X:deferred]
+\item \stack{xt_1}{xt_2}
+
+	\param{xt_2} is the \param{xt} associated with the deferred word
+	corresponding to \param{xt_1}. An ambiguous condition exists if
+	\param{xt_1} is not for a word defined via \word{DEFER}, or if
+	the deferred word has not been associated with an \param{xt} yet.
+
+\see \wref{core:ACTION-OF}{ACTION-OF},
+	\wref{core:DEFER}{DEFER},
+	\wref{core:DEFER!}{DEFER!}, and
+	\wref{core:IS}{IS}.
+
+	\begin{defer}
+	\implementation
+		\word{:} \word{DEFER@} \word{p} xt1 -- xt2 ) \\
+		\tab \word{toBODY} \word{@} \word{;}
+
+	\testing
+		\{ \word{DEFER} defer4 -> \}
+
+		\{ \word{'} \word{*} \word{'} defer4 \word{DEFER!} -> \} \\
+		\{ 2 3 defer4 -> 6 \} \\
+		\{ \word{'} defer4 \word{DEFER@} -> \word{'} \word{*} \}
+
+		\{ \word{'} \word{+} \word{IS} defer4 -> \} \\
+		\{ 1 2 defer4 -> 3 \} \\
+		\{ \word{'} defer4 \word{DEFER@} -> \word{'} \word{+} \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1342}{ENDCASE}[end-case]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{case-sys}{}
+
+	Mark the end of the
+	\word{CASE}\ldots\word{OF}\ldots\word{ENDOF}\ldots\word{ENDCASE}
+	structure. Use \param{case-sys} to resolve the entire structure.
+	Append the run-time semantics given below to the current
+	definition.
+
+\runtime
+	\stack{x}{}
+
+	Discard the case selector \param{x} and continue execution.
+
+\see \wref{core:CASE}{CASE},
+	\wref{core:ENDOF}{ENDOF},
+	\wref{core:OF}{OF}.
+
+	\begin{defer}
+	\rationale % A.6.2.1342 ENDCASE
+		Typical use:
+		\begin{quote}
+			\word{:} \texttt{X} {\ldots} \\
+			\tab \word{CASE} \\
+			\tab~~ \emph{test1} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ \emph{testn} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ {\ldots} \word{p} default ) \\
+			\tab \word{ENDCASE} {\ldots} \\
+			\word{;}
+		\end{quote}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1343}{ENDOF}[end-of]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{case-sys_1 of-sys}{case-sys_2}
+
+	Mark the end of the \word{OF}\ldots\word{ENDOF} part of the
+	\word{CASE} structure. The next location for a transfer of
+	control resolves the reference given by \param{of-sys}. Append
+	the run-time semantics given below to the current definition.
+	Replace \param{case-sys_1} with \param{case-sys_2} on the
+	control-flow stack, to be resolved by \word{ENDCASE}.
+
+\runtime
+	\stack{}{}
+
+	Continue execution at the location specified by the consumer
+	of \param{case-sys_2}.
+
+\see \wref{core:CASE}{CASE},
+	\wref{core:ENDCASE}{ENDCASE},
+	\wref{core:OF}{OF}.
+
+	\begin{defer}
+	\rationale % A.6.2.1343 ENDOF
+		Typical use:
+		\begin{quote}
+			\word{:} \texttt{X} {\ldots} \\
+			\tab \word{CASE} \\
+			\tab~~ \emph{test1} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ \emph{testn} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ {\ldots} \word{p} default ) \\
+			\tab \word{ENDCASE} {\ldots} \\
+			\word{;}
+		\end{quote}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1350}{ERASE}
+\item \stack{addr u}{}
+
+	If \param{u} is greater than zero, clear all bits in each of
+	\param{u} consecutive address units of memory beginning at
+	\param{addr}.
+\end{worddef}
+
+
+\begin{worddef}{1390}{EXPECT}
+\item \stack{c-addr +n}{}
+
+	Receive a string of at most \param{+n} characters. Display graphic
+	characters as they are received. A program that depends on
+	the presence or absence of non-graphic characters in the
+	string has an environmental dependency. The editing functions,
+	if any, that the system performs in order to construct the
+	string of characters are implementation-defined.
+
+	Input terminates when an implementation-defined line terminator
+	is received or when the string is \param{+n} characters long. When
+	input terminates, nothing is appended to the string and the
+	display is maintained in an implementation-defined way.
+
+	Store the string at \param{c-addr} and its length in \word{SPAN}.
+
+\note
+	This word is obsolescent and is included as a concession to
+	existing implementations. Its function is superseded
+	by \wref{core:ACCEPT}{ACCEPT}.
+
+	\begin{defer}
+	\rationale % A.6.2.1390 EXPECT
+		Specification of positive integer counts (\param{+n}) for
+		\word{EXPECT} allows some implementors to continue their
+		practice of using a zero or negative value as a flag to
+		trigger special behavior. Insofar as such behavior is outside
+		the Standard, Standard Programs cannot depend upon it, but
+		the Technical Committee doesn't wish to preclude it
+		unnecessarily. Since actual values are almost always small
+		integers, no functionality is impaired by this restriction.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1485}{FALSE}
+\item \stack{}{false}
+
+	Return a \param{false} flag.
+
+\see \xref[3.1.3.1 Flags]{usage:flags}
+\end{worddef}
+
+
+\begin{worddef}{1660}{HEX}
+\item \stack{}{}
+
+	Set contents of \word{BASE} to sixteen.
+
+	\begin{defer}
+	\testing\rmfamily
+		See \rref{core:BASE}{BASE}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{}{IS}[][X:deferred]
+\interpret
+	\stack{xt "<spaces>name"}{}
+
+	Skip leading spaces and parse name delimited by a space. Set
+	\param{name} to execute \param{xt}. An ambiguous condition
+	exists if \param{name} was not defined by \word{DEFER}.
+
+\compile
+	\stack{"<spaces>name"}{}
+
+	Skip leading spaces and parse name delimited by a space. Append
+	the run-time semantics given below to the current definition.
+	An ambiguous condition exists if \param{name} was not defined by
+	\word{DEFER}.
+
+\runtime
+	\stack{xt}{}
+
+	Set \param{name} to execute \param{xt}.
+
+	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
+	\word{[']} or \word{'} is applied to \word{IS}.
+
+\see \wref{core:ACTION-OF}{ACTION-OF},
+	\wref{core:DEFER}{DEFER},
+	\wref{core:DEFER!}{DEFER!}, and
+	\wref{core:DEFER@}{DEFER@}.
+
+	\begin{defer}
+	\implementation
+		\word{:} \word{IS} \\
+		\tab \word{STATE} \word{@} \word{IF} \\
+		\tab[2] \word{POSTPONE} \word{[']} \word{POSTPONE} \word{DEFER!} \\
+		\tab \word{ELSE} \\
+		\tab[2] \word{'} \word{DEFER!} \\
+		\tab \word{THEN} \word{;} \word{IMMEDIATE}
+
+	\testing
+		\{ \word{DEFER} defer5 -> \} \\
+		\{ \word{:} is-defer5 \word{IS} defer5 \word{;} -> \}
+
+		\{ \word{'} \word{*} \word{IS} defer5 -> \} \\
+		\{ 2 3 defer5 -> 6 \}
+
+		\{ \word{'} \word{+} is-defer5 -> \} \\
+		\{ 1 2 defer5 -> 3 \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1850}{MARKER}
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Create a definition for \param{name} with the execution
+	semantics defined below.
+
+\execute[name]
+	\stack{}{}
+
+	Restore all dictionary allocation and search order pointers to
+	the state they had just prior to the definition of \param{name}.
+	Remove the definition of \param{name} and all subsequent
+	definitions. Restoration of any structures still existing that
+	could refer to deleted definitions or deallocated data space is
+	not necessarily provided. No other contextual information such
+	as numeric base is affected.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{tools:FORGET}{FORGET}.
+
+	\begin{defer}
+	\rationale % A.6.2.1850 MARKER
+		As dictionary implementations have \replace{ed}{gotten}{become} more elaborate
+		and in some cases have used multiple address spaces,
+		\word[tools]{FORGET} has become prohibitively difficult or
+		impossible to implement on many Forth systems. \word{MARKER}
+		greatly eases the problem by making it possible for the
+		system to remember ``landmark information'' in advance that
+		specifically marks the spots where the dictionary may at some
+		future time have to be rearranged.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1930}{NIP}
+\item \stack{x_1 x_2}{x_2}
+
+	Drop the first item below the top of stack.
+\end{worddef}
+
+
+\begin{worddef}{1950}{OF}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{}{of-sys}
+
+	Put \param{of-sys} onto the control flow stack. Append the
+	run-time semantics given below to the current definition.
+	The semantics are incomplete until resolved by a consumer
+	of \param{of-sys} such as \word{ENDOF}.
+
+\runtime
+	\stack{x_1 x_2}{x_1}
+
+	If the two values on the stack are not equal, discard the
+	top value and continue execution at the location specified
+	by the consumer of \param{of-sys}, e.g., following the next
+	\word{ENDOF}. Otherwise, discard both values and continue
+	execution in line.
+
+\see \wref{core:CASE}{CASE},
+	\wref{core:ENDCASE}{ENDCASE},
+	\wref{core:ENDOF}{ENDOF}.
+
+	\begin{defer}
+	\rationale % A.6.2.1950 OF
+		Typical use:
+		\begin{quote}
+			\word{:} \texttt{X} {\ldots} \\
+			\tab \word{CASE} \\
+			\tab~~ \emph{test1} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ \emph{testn} \word{OF} {\ldots} \word{ENDOF} \\
+			\tab~~ {\ldots} \word{p} default ) \\
+			\tab \word{ENDCASE} {\ldots} \\
+			\word{;}
+		\end{quote}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2000}{PAD}
+\item \stack{}{c-addr}
+
+	\param{c-addr} is the address of a transient region that can
+	be used to hold data for intermediate processing.
+
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+
+	\begin{defer}
+	\rationale % A.6.2.2000 PAD
+		\word{PAD} has been available as scratch storage for strings
+		since the earliest Forth implementations. It was brought to
+		our attention that many programmers are reluctant to use
+		\word{PAD}, fearing incompatibilities with system uses.
+		\word{PAD} is specifically intended as a programmer convenience,
+		however, which is why we documented the fact that no standard
+		words use it.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2008}{PARSE}
+\item \stack{char "ccc<char>"}{c-addr u}
+
+	Parse \param{ccc} delimited by the delimiter \param{char}.
+
+	\param{c-addr} is the address (within the input buffer) and
+	\param{u} is the length of the parsed string. If the parse area
+	was empty, the resulting string has a zero length.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.6.2.2008 PARSE
+		Typical use: \emph{char} \word{PARSE} \emph{ccc}\arg{char}
+
+		The traditional Forth word for parsing is \word{WORD}.
+		\word{PARSE} solves the following problems with \word{WORD}:
+
+		\begin{enumerate}
+		\item \word{WORD} always skips leading delimiters. This
+			behavior is appropriate for use by the text interpreter,
+			which looks for sequences of non-blank characters, but is
+			inappropriate for use by words like \word{p} , \word{.p},
+			and \word{.q}. Consider the following (flawed) definition
+			of \word{.p}:
+
+			\tab \word{:} \word{.p} ~
+				\word{[CHAR]} \texttt{)} ~
+				\word{WORD} \word{COUNT} \word{TYPE}
+			\word{;} ~ \word{IMMEDIATE}
+
+			This works fine when used in a line like:
+
+			\tab \word{.p} \texttt{HELLO)} \quad \texttt{5} \word{d}
+
+			but consider what happens if the user enters an empty
+			string:
+
+			\tab \word{.p} \texttt{)} \quad \texttt{5} \word{d}
+
+			The definition of \word{.p} shown above would treat the
+			\texttt{)} as a leading delimiter, skip it, and continue
+			consuming characters until it located another \texttt{)}
+			that followed a non-\texttt{)} character, or until the
+			parse area was empty. In the example shown, the
+			\texttt{5} \word{d}
+			would be treated as part of the string to be printed.
+
+			With \word{PARSE}, we could write a correct definition of
+			\word{.p}:
+
+			\tab \word{:} \word{.p} ~
+				\word{[CHAR]} \texttt{)} ~
+				\word{PARSE} \word{TYPE}
+			\word{;} ~ \word{IMMEDIATE}
+
+			This definition avoids the ``empty string'' anomaly.
+
+		\item \word{WORD} returns its result as a counted string.
+			This has four bad effects:
+
+			\begin{enumerate}
+			\item The characters accepted by \word{WORD} must be
+				copied from the input buffer into a temporary buffer,
+				in order to make room for the count character that
+				must be at the beginning of the counted string. The
+				copy step is inefficient, compared to \word{PARSE},
+				which leaves the string in the input buffer and doesn't
+				need to copy it anywhere.
+
+			\item \word{WORD} must be careful not to store too many
+				characters into the temporary buffer, thus overwriting
+				something beyond the end of the buffer. This adds to
+				the overhead of the copy step. (\word{WORD} may have
+				to scan a lot of characters before finding the trailing
+				delimiter.)
+
+			\item The count character limits the length of the string
+				returned by \word{WORD} to 255 characters (longer
+				strings can easily be stored in blocks!). This
+				limitation does not exist for \word{PARSE}.
+
+			\item The temporary buffer is typically overwritten by the
+				next use of \word{WORD}. This introduces a temporal
+				dependency; the value returned by \word{WORD} is only
+				valid for a limited duration. \word{PARSE} has a
+				temporal dependency, too, related to the lifetime of
+				the input buffer, but that is less severe in most
+				cases than \word{WORD}'s temporal dependency.
+			\end{enumerate}
+
+			The behavior of \word{WORD} with respect to skipping
+			leading delimiters is useful for parsing blank-delimited
+			names. Many system implementations include an additional
+			word for this purpose, similar to \word{PARSE} with respect
+			to the ``\param{c-addr u}'' return value, but without an
+			explicit delimiter argument (the delimiter set is implicitly
+			``white space''), and which does skip leading delimiters. A
+			common description for this word is:
+
+			\begin{quote}
+				\texttt{PARSE-WORD} \qquad
+					\stack{"<spaces>name"}{c-addr u} \\
+
+				Skip leading spaces and parse \param{name} delimited by
+				a space. \param{c-addr} is the address within the input
+				buffer and \param{u} is the length of the selected string.
+				If the parse area is empty, the resulting string has a
+				zero length.
+			\end{quote}
+
+			If both \word{PARSE} and \texttt{PARSE-WORD} are present,
+			the need for \word{WORD} is largely eliminated.
+		\end{enumerate}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{}{PARSE-NAME}[][X:parse-name]
+\item \stack{"<spaces>name<space>"}{c-addr u}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a
+	space.
+
+	\param{c-addr} is the address of the selected string within the
+	input buffer and \param{u} is its length in characters. If the
+	parse area is empty or contains only white space, the resulting
+	string has length zero.
+
+	\begin{defer}
+	\implementation
+		\word{:} isspace? \word{p} c -- f ) \\
+		\tab \word{BL} \word{1+} \word{Uless} \word{;}
+
+		\word{:} isnotspace? \word{p} c -- f ) \\
+		\tab isspace? \word{0=} \word{;}
+
+		\word{:} xt-skip \word{p} addr1 n1 xt -- addr2 n2 ) \\
+		\tab \word{bs} skip all characters satisfying xt ( c -- f ) \\
+		\tab \word{toR} \\
+		\tab \word{BEGIN} \\
+		\tab[2] \word{DUP} \\
+		\tab \word{WHILE} \\
+		\tab[2] \word{OVER} \word{C@} \word{R@} \word{EXECUTE} \\
+		\tab \word{WHILE} \\
+		\tab[2] 1 \word[string]{/STRING} \\
+		\tab \word{REPEAT} \word{THEN} \\
+		\tab \word{Rfrom} \word{DROP} \word{;}
+
+		\word{:} parse-name \word{p} "name" -- c-addr u ) \\
+		\tab \word{SOURCE} \word{toIN} \word{@} \word[string]{/STRING} \\
+		\tab \word{[']} isspace? xt-skip \word{OVER} \word{toR} \\
+		\tab \word{[']} isnotspace? xt-skip \word{p} end-word restlen r: start-word ) \\
+		\tab \word{2DUP} 1 \word{MIN} \word{+} \word{SOURCE} \word{DROP} \word{-} \word{toIN} \word{!} \\
+		\tab \word{DROP} \word{Rfrom} \word{TUCK} \word{-} \word{;}
+
+	\testing
+		\{ \word{PARSE-NAME} abcd \word{Sq} abcd" S= -> <TRUE> \} \\
+		\{ \word{PARSE-NAME} \verb*"  "abcde\verb*"  " \word{Sq} abcde" S= -> <TRUE> \}
+
+		\word{bs} test empty parse area \\
+		\{ \word{PARSE-NAME} \\
+		\tab \word{NIP} -> 0 \} \word{bs} empty line \\
+		\{ PARSE-NAME \verb*"  " \\
+		\tab \word{NIP} -> 0 \} \word{bs} line with white space
+
+		\{ \word{:} parse-name-test \word{p} ``name1'' ``name2'' -- n ) \\
+		\tab \word{PARSE-NAME} \word{PARSE-NAME} S= \word{;} -> \}
+
+		\{ parse-name-test abcd abcd -> <TRUE> \} \\
+		\{ parse-name-test \verb*" abcd" \verb*"  abcd  " -> <TRUE> \} \\
+		\{ parse-name-test abcde abcdf -> <FALSE> \} \\
+		\{ parse-name-test abcdf abcde -> <FALSE> \} \\
+		\{ parse-name-test abcde abcde \\
+		\tab -> <TRUE> \} \\
+		\{ parse-name-test abcde abcde\verb*"  " \\
+		\tab -> <TRUE> \}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2030}{PICK}
+\item \stack{x_u{\ldots}x_1 x_0 u}{x_u{\ldots}x_1 x_0 x_u}
+
+	Remove \param{u}. Copy the \param{x_u} to the top of the stack.
+	An ambiguous condition exists if there are less than \param{u}+2
+	items on the stack before \word{PICK} is executed.
+
+	\begin{defer}
+	\rationale % A.6.2.2030 PICK}
+		\texttt{0} \word{PICK} is equivalent to \word{DUP} and
+		\texttt{1} \word{PICK} is equivalent to \word{OVER}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2040}{QUERY}
+\item \stack{}{}
+
+	Make the user input device the input source. Receive input into
+	the terminal input buffer, replacing any previous contents. Make
+	the result, whose address is returned by \word{TIB}, the input
+	buffer. Set \word{toIN} to zero.
+
+\note
+	This word is obsolescent and is included as a concession to
+	existing implementations.
+
+	\begin{defer}
+	\rationale % A.6.2.2040 QUERY
+		The function of \word{QUERY} may be performed with \word{ACCEPT}
+		and \word{EVALUATE}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2125}{REFILL}
+\item \stack{}{flag}
+
+	Attempt to fill the input buffer from the input source,
+	returning a true flag if successful.
+
+	When the input source is the user input device, attempt to
+	receive input into the terminal input buffer. If successful,
+	make the result the input buffer, set \word{toIN} to zero, and
+	return \emph{true}. Receipt of a line containing no characters
+	is considered successful. If there is no input available from
+	the current input source, return \emph{false}.
+
+	When the input source is a string from \word{EVALUATE}, return
+	\emph{false} and perform no other action.
+
+\see \wref{block:REFILL}{REFILL},
+	\wref{file:REFILL}{REFILL}.
+
+	\begin{defer}
+	\rationale % A.6.2.2125 REFILL
+		This word is a useful generalization of \word{QUERY}.
+		Re-defining \word{QUERY} to meet this specification would
+		have broken existing code. \word{REFILL} is designed to behave
+		reasonably for all possible input sources. If the input source
+		is coming from the user, as with \word{QUERY}, \word{REFILL}
+		could still return a false value if, for instance, a
+		communication channel closes so that the system knows that no
+		more input will be available.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2148}{RESTORE-INPUT}
+\item \stack{x_n {\ldots} x_1 n}{flag}
+
+	Attempt to restore the input source specification to the state
+	described by \param{x_1} through \param{x_n}. \param{flag} is
+	true if the input source specification cannot be so restored.
+
+	An ambiguous condition exists if the input source represented
+	by the arguments is not the same as the current input source.
+
+\see \rref{core:SAVE-INPUT}{SAVE-INPUT}.
+\end{worddef}
+
+
+\begin{worddef}{2150}{ROLL}
+\item \stack{x_u x_{u-1} {\ldots} x_0 u}{x_{u-1} {\ldots} x_0 x_u}
+
+	Remove \param{u}. Rotate \param{u}+1 items on the top of the stack.
+	An ambiguous condition exists if there are less than \param{u}+2
+	items on the stack before \word{ROLL} is executed.
+
+	\begin{defer}
+	\rationale % A.6.2.2150 ROLL
+		\texttt{2} \word{ROLL} is equivalent to \word{ROT},
+		\texttt{1} \word{ROLL} is equivalent to \word{SWAP} and
+		\texttt{0} \word{ROLL} is a null operation.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2182}{SAVE-INPUT}
+\item \stack{}{x_n {\ldots} x_1 n}
+
+	\param{x_1} through \param{x_n} describe the current state of the
+	input source specification for later use by \word{RESTORE-INPUT}.
+
+	\begin{defer}
+	\rationale % A.6.2.2182 SAVE-INPUT
+		\word{SAVE-INPUT} and \word{RESTORE-INPUT} allow the same
+		degree of input source repositioning within a text file as is
+		available with \word[block]{BLOCK} input. \word{SAVE-INPUT}
+		and \word{RESTORE-INPUT} ``hide the details'' of the operations
+		necessary to accomplish this repositioning, and are used the
+		same way with all input sources. This makes it easier for
+		programs to reposition the input source, because they do not
+		have to inspect several variables and take different action
+		depending on the values of those variables.
+
+		\word{SAVE-INPUT} and \word{RESTORE-INPUT} are intended for
+		repositioning within a single input source; for example, the
+		following scenario is NOT allowed for a Standard Program:
+
+		\begin{quote}\ttfamily
+			\word{:} XX \\
+			\tab \word{SAVE-INPUT} ~ \word{CREATE} \\
+			\tab \word{Sq} RESTORE-INPUT" \word{EVALUATE} \\
+			\tab \word{ABORTq} couldn't restore input" \\
+			\word{;}
+		\end{quote}
+
+		This is incorrect because, at the time \word{RESTORE-INPUT} is
+		executed, the input source is the string via \word{EVALUATE},
+		which is not the same input source that was in effect when
+		\word{SAVE-INPUT} was executed.
+
+		The following code is allowed:
+
+		\begin{quote}\ttfamily
+			\word{:} XX \\
+			\tab \word{SAVE-INPUT} ~ \word{CREATE} \\
+			\tab \word{Sq} \word{.p} Hello)" \word{EVALUATE} \\
+			\tab \word{RESTORE-INPUT} \word{ABORTq} couldn't restore input" \\
+			\word{;}
+		\end{quote}
+
+		After \word{EVALUATE} returns, the input source specification
+		is restored to its previous state, thus \word{SAVE-INPUT} and
+		\word{RESTORE-INPUT} are called with the same input source in
+		effect.
+
+		In the above examples, the \word{EVALUATE} phrase could have
+		been replaced by a phrase involving \word[file]{INCLUDE-FILE}
+		and the same rules would apply.
+
+		The Standard does not specify what happens if a program
+		violates the above rules. A Standard System might check for
+		the violation and return an exception indication from
+		\word{RESTORE-INPUT}, or it might fail in an unpredictable
+		way.
+
+		The return value from \word{RESTORE-INPUT} is primarily
+		intended to report the case where the program attempts to
+		restore the position of an input source whose position cannot
+		be restored. The keyboard might be such an input source.
+
+		Nesting of \word{SAVE-INPUT} and \word{RESTORE-INPUT} is
+		allowed. For example, the following situation works as
+		expected:
+
+		\begin{quote}\ttfamily
+			\word{:} XX \\
+			\tab \word{SAVE-INPUT} \\
+			\tab~~ \word{Sq} f1" \word[file]{INCLUDED} \\
+			\tab~~ \word{bs} The file "f1" includes: \\
+			\tab~~ \word{bs} ~~ {\ldots} SAVE-INPUT {\ldots} RESTORE-INPUT {\ldots} \\
+			\tab~~ \word{bs} End of file "f1" \\
+			\tab \word{RESTORE-INPUT} ~ \word{ABORTq} couldn't restore input" \\
+			\word{;}
+		\end{quote}
+
+		In principle, \word{RESTORE-INPUT} could be implemented to
+		``always fail'', e.g.:
+
+		\begin{quote}\ttfamily
+			\word{:} \word{RESTORE-INPUT} \word{p} x1 {\ldots} xn n -- flag ) \\
+			\tab 0 \word{qDO} \word{DROP} \word{LOOP} \word{TRUE} \\
+			\word{;}
+		\end{quote}
+
+		Such an implementation would not be useful in most cases. It
+		would be preferable for a system to leave \word{SAVE-INPUT}
+		and \word{RESTORE-INPUT} undefined, rather than to create a
+		useless implementation. In the absence of the words, the
+		application programmer could choose whether or not to create
+		``dummy'' implementations or to work-around the problem in
+		some other way.
+
+		Examples of how an implementation might use the return values
+		from \word{SAVE-INPUT} to accomplish the save/restore function:
+
+		\begin{center}
+		  \begin{tabular}{lllll}
+			\hline\hline
+			Input Source & \multicolumn{4}{l}{possible stack values} \\
+			\hline
+			block			& \word{toIN} \word{@} & \word[block]{BLK} \word{@} & \texttt{2} \\
+			\word{EVALUATE}	& \word{toIN} \word{@} & \texttt{1} \\
+			keyboard		& \word{toIN} \word{@} & \texttt{1} \\
+			text file		& \word{toIN} \word{@} & \texttt{lo-pos} & \texttt{hi-pos} & \texttt{3} \\
+			\hline\hline
+		  \end{tabular}
+		\end{center}
+
+		These are examples only; a Standard Program may not assume any
+		particular meaning for the individual stack items returned by
+		\word{SAVE-INPUT}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2218}{SOURCE-ID}[source-i-d]
+\item \stack{}{0 | -1 }
+
+	Identifies the input source as follows:
+	\begin{center}
+		\begin{tabular}{cl}
+		\hline\hline
+		\word{SOURCE-ID} & Input source \\
+		\hline
+		-1	& String (via \word{EVALUATE}) \\
+		 0	& User input device \\
+		\hline\hline
+		\end{tabular}
+	\end{center}
+
+\see \wref{file:SOURCE-ID}{SOURCE-ID}.
+\end{worddef}
+
+
+\begin{worddef}{2240}{SPAN}
+\item \stack{}{a-addr}
+
+	\param{a-addr} is the address of a cell containing the count of
+	characters stored by the last execution of \word{EXPECT}.
+
+\note
+	This word is obsolescent and is included as a concession to
+	existing implementations.
+\end{worddef}
+
+
+\begin{worddef}{2290}{TIB}[t-i-b]
+\item \stack{}{c-addr}
+
+	\param{c-addr} is the address of the terminal input buffer.
+
+\note
+	This word is obsolescent and is included as a concession to
+	existing implementations.
+
+	\begin{defer}
+	\rationale % A.6.2.2290 TIB
+		The function of \word{TIB} has been superseded by
+		\word{SOURCE}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2295}{TO}
+\interpret
+	\stack{\place{x:to}{i*}x "<spaces>name"}{}
+
+	Skip leading spaces and parse \param{name} delimited by a
+	space.
+	\replace{x:to}{Store \param{x} in \param{name}.}{
+	Perform the ``TO \param{name} run-time'' semantics given in the
+	definition for the defining word of \param{name}.}
+	An ambiguous condition exists if \param{name} was not defined
+	\replace{x:to}{by \word{VALUE}}{
+	by a word with ``TO \param{name} run-time'' semantics}.
+
+\compile
+	\stack{"<spaces>name"}{}
+
+	Skip leading spaces and parse \param{name} delimited by a
+	space. Append the ``TO \param{name} run-time'' semantics given
+	\replace{x:to}{below}{in the definition for the defining word
+	of \param{name}}
+	to the current definition.
+	An ambiguous condition exists if \param{name} was not defined
+	\replace{x:to}{by \word{VALUE}}{by a word with ``TO \param{name}
+	run-time'' semantics}.
+
+\runtime
+	\stack{\remove{x:to}{x}}{}
+
+	\remove{x:to}{Store \param{x} in \param{name}.}
+
+\note
+	An ambiguous condition exists if
+	\replace{x:to}{either}{any of}
+	\word{POSTPONE}\replace{x:to}{ or}{,}
+	\word{[COMPILE]}\replace{x:to}{ is}{, \word{'} or \word{[']} are}
+	applied to \word{TO}.
+
+\see \wref{core:VALUE}{VALUE}%
+	\replace{x:to}{, \wref{local:TO}{TO}}{ and \wref{local:LOCAL}{(LOCAL)}}.
+
+	\begin{defer}
+	\rationale % A.6.2.2295 TO
+		Historically, some implementations of \word{TO} have not
+		explicitly parsed. Instead, they set a mode flag that is
+		tested by the subsequent execution of \param{name}. ANS Forth
+		explicitly requires that \word{TO} must parse, so that
+		\word{TO}'s effect will be predictable
+		\remove{x:to}{when it is used at the end of the parse area}.
+
+		Typical use: \texttt{x} \word{TO} \emph{name}
+
+	\note \place{x:to}{\param{name} must not be state-smart.}
+	\testing\rmfamily
+		\place{x:to}{See \wref{core:VALUE}{VALUE}.}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2298}{TRUE}
+\item \stack{}{true}
+
+	Return a \param{true} flag, a single-cell value with all
+	bits set.
+
+\see \xref[3.1.3.1 Flags]{usage:flags}.
+
+	\begin{defer}
+	\rationale % A.6.2.2298 TRUE
+		\word{TRUE} is equivalent to the phrase
+		\texttt{0} \word{0=}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2300}{TUCK}
+\item \stack{x_1 x_2}{x_2 x_1 x_2}
+
+	Copy the first (top) stack item below the second stack item.
+\end{worddef}
+
+
+\begin{worddef}{2330}{U.R}[u-dot-r]
+\item \stack{u n}{}
+
+	Display \param{u} right aligned in a field \param{n} characters
+	wide. If the number of characters required to display \param{u}
+	is greater than \param{n}, all digits are displayed with no leading
+	spaces in a field as wide as necessary.
+\end{worddef}
+
+
+\begin{worddef}[Umore]{2350}{U>}[u-greater-than]
+\item \stack{u_1 u_2}{flag}
+
+	\param{flag} is true if and only if \param{u_1} is greater than
+	\param{u_2}.
+
+\see \wref{core:more}{>}.
+\end{worddef}
+
+
+\begin{worddef}{2395}{UNUSED}
+\item \stack{}{u}
+
+	\param{u} is the amount of space remaining in the region addressed
+	by \word{HERE}, in address units.
+\end{worddef}
+
+
+\begin{worddef}{2405}{VALUE}
+\item \stack{x "<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Create a definition for \param{name} with the execution
+	semantics defined below, with an initial value equal to \param{x}.
+
+	\param{name} is referred to as a ``value''.
+
+\execute[name]
+	\stack{}{x}
+
+	Place \param{x} on the stack. The value of \param{x} is that
+	given when \param{name} was created, until the phrase \param{x}
+	\word{TO} \param{name} is executed, causing a new value of
+	\param{x} to be associated with \param{name}.
+
+\runtime[\word{TO} \param{name}]
+	\stack{\place{x:to}{x}}{}
+
+	\place{x:to}{Associate the value \param{x} with \param{name}.}
+
+\see \xref[3.4.1 Parsing]{usage:parsing}
+	\place{x:to}{and \wref{core:TO}{TO}}.
+
+	\begin{defer}
+	\rationale % A.6.2.2405 VALUE
+		Typical use:
+		\begin{quote}\ttfamily
+			0 \word{VALUE} data
+
+			\word{:} EXCHANGE \word{p} n1 -- n2 )
+				data \word{SWAP} \word{TO} data
+			\word{;}
+		\end{quote}
+		\texttt{EXCHANGE} leaves \param{n_1} in \texttt{data} and
+		returns the prior value \param{n_2}.
+
+	\testing
+		\cbstart\marginpar{\tiny x:to}
+		\{ 0 \word{VALUE} Tval -> \} \\
+		\{ Tval -> 0 \} \\
+
+		\{ 1 \word{TO} Tval -> \} \\
+		\{ Tval -> 1 \} \\
+
+		\word{:} SETTval Tval \word{SWAP} \word{TO} Tval \word{;} \\
+		\{ 2 SETTval Tval -> 1 2 \}
+		\cbend
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2440}{WITHIN}
+\item \stack{n_1|u_1 n_2|u_2 n_3|u_3}{flag}
+
+	Perform a comparison of a test value \param{n_1|u_1} with a
+	lower limit \param{n_2|u_2} and an upper limit
+	\param{n_3|u_3}, returning \emph{true} if either
+	(\param{n_2|u_2} <  \param{n_3|u_3} and
+	(\param{n_2|u_2} <= \param{n_1|u_1} and
+	 \param{n_1|u_1} <  \param{n_3|u_3})) or
+	(\param{n_2|u_2} >  \param{n_3|u_3} and
+	(\param{n_2|u_2} <= \param{n_1|u_1} or
+	 \param{n_1|u_1} <  \param{n_3|u_3})) is true, returning
+	\emph{false} otherwise. An ambiguous condition exists
+	\param{n_1|u_1}, \param{n_2|u_2}, and \param{n_3|u_3} are not
+	all the same type.
+
+	\begin{defer}
+	\rationale % A.6.2.2440 WITHIN
+		We describe \word{WITHIN} without mentioning circular number
+		spaces (an undefined term) or providing the code. Here is a
+		number line with the overflow point ($o$) at the far right and
+		the underflow point ($u$) at the far left:
+		\begin{center}
+			$u$\rule[.5ex]{15em}{.4pt}$o$
+		\end{center}
+		There are two cases to consider: either the
+		\param{n_2|u_2\ldots n_3|u_3} range straddles the overflow/underflow
+		points or it does not. Lets examine the non-straddle case
+		first:
+		\begin{center}
+			$u$\rule[.5ex]{5em}{.4pt}\makebox[5em]{[\dotfill)}\rule[.5ex]{5em}{.4pt}$o$
+		\end{center}
+		The [ denotes \param{n_2|u_2}, the ) denotes \param{n_3|u_3},
+		and the dots and [ are numbers \word{WITHIN} the range.
+		\param{n_3|u_3} is greater than \param{n_2|u_2}, so the
+		following tests will determine if \param{n_1|u_1} is
+		\word{WITHIN} \param{n_2|u_2} and \param{n_3|u_3}:
+		\begin{center}
+			\param{n_2|u_2} $\le$ \param{n_1|u_1} and \param{n_1|u_1} < \param{n_3|u_3}.
+		\end{center}
+		In the case where the comparison range straddles the
+		overflow/underflow points:
+		\begin{center}
+			$u$\makebox[5em]{\dotfill)}\rule[.5ex]{5em}{.4pt}\makebox[5em]{[\dotfill}$o$
+		\end{center}
+		\param{n_3|u_3} is less than \param{n_2|u_2} and the following
+		tests will determine if \param{n_1|u_1} is \word{WITHIN}
+		\param{n_2|u_2} and \param{n_3|u_3}:
+		\begin{center}
+			\param{n_2|u_2} $\le$ \param{n_1|u_1} or \param{n_1|u_1} < \param{n_3|u_3}.
+		\end{center}
+		\word{WITHIN} must work for both signed and unsigned arguments.
+		One obvious implementation does not work:
+		\begin{quote}\ttfamily
+			\word{:} \word{WITHIN} \word{p} test low high -- flag ) \\
+			\tab \word{toR} ~ \word{OVER} \word{less} \word{0=} \word{p} test flag1 )
+				~ \word{SWAP} \word{Rfrom} \word{less} \word{p} flag1 flag2 )
+				\word{AND} \\
+			\word{;}
+		\end{quote}
+		Assume two's-complement arithmetic on a 16-bit machine, and
+		consider the following test:
+
+		\tab \texttt{33000 ~ 32000 ~ 34000 ~ WITHIN}
+
+		The above implementation returns \emph{false} for that test,
+		even though the unsigned number 33000 is clearly within the
+		range \{\{32000 {\ldots} 34000\}\}.
+
+		The problem is that, in the incorrect implementation, the
+		signed comparison \word{less} gives the wrong answer when 32000
+		is compared to 33000, because when those numbers are treated
+		as signed numbers, 33000 is treated as negative 32536, while
+		32000 remains positive.
+
+		Replacing \word{less} with \word{Uless} in the above implementation
+		makes it work with unsigned numbers, but causes problems with
+		certain signed number ranges; in particular, the test:
+		\begin{quote}\ttfamily
+			1 ~ -5 ~ 5 ~ WITHIN
+		\end{quote}
+		would give an incorrect answer.
+
+		For two's-complement machines that ignore arithmetic overflow
+		(most machines), the following implementation works in all
+		cases:
+		\begin{quote}\ttfamily
+			\word{:} \word{WITHIN} \word{p} test low high -- flag )	~
+				\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} ~
+			\word{;}
+		\end{quote}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2530}{[COMPILE]}[bracket-compile]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Find \param{name}. If \param{name} has other than default
+	compilation semantics, append them to the current definition;
+	otherwise append the execution semantics of \param{name}. An
+	ambiguous condition exists if \param{name} is not found.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.6.2.2530 [COMPILE]
+		Typical use:
+			\word{:} \texttt{name2} {\ldots}
+				\word{[COMPILE]} \texttt{name1}
+			{\ldots} \word{;} ~ \word{IMMEDIATE}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[bs]{2535}{\bs}[backslash]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{"ccc<eol>"}{}
+
+	Parse and discard the remainder of the parse area.
+	\word{bs} is an immediate word.
+
+\see \wref{block:bs}{\bs}.
+
+	\begin{defer}
+	\rationale % A.6.2.2535 \
+		Typical use:
+			\texttt{5} \word{CONSTANT} \texttt{THAT}
+			~ \word{bs} ~ \texttt{THIS IS A COMMENT ABOUT THAT}
+	\end{defer}
+\end{worddef}

@@ -1,0 +1,1237 @@
+\annex{Test Suite} % F. (informative annex)
+\label{annex:test}
+\setwordlist{core}
+
+\section{Introduction} % F.1
+\label{test:intro}
+
+After the publication of the original ANS Forth document
+(ANSI X3.215-1994), John Hayes of the Johns Hopkins University /
+Applied Physics Laboratory developed a \replace{test}{validation}{test} suite. In
+November of 1995 the test suite was released.
+
+\place{test}{%
+While this suite does test many aspects of the core system, it is not
+comprehensive. A standard system must be capable of passing all of the
+tests within the suite. A system can not claim to be standard simply
+because it is able to pass this test suite.}
+
+\section{Test Harness}
+
+The tester defines functions that compare the results of a test with a
+set of expected results. The syntax for each test starts with
+``\verb|{|'' \place{test}{(open brace)} followed by a code sequence to
+test. This is followed by ``\verb|->|'', the expected results, and
+``\verb|}|'' \place{test}{(close brace)}. For example, the following:
+\begin{quote}
+	\verb|{ 1 1 + -> 2 }|
+\end{quote}
+tests that one plus one indeed equals two.  The ``\verb|{|'' does
+nothing; it just makes the test look pretty. The ``\verb|->|'' records
+the stack depth and moves the entire stack contents to an array. In the
+example test, the recorded stack depth is one and the saved array
+contains one value, two. The ``\verb|}|'' compares the current stack
+depth to the saved stack depth.
+If they are equal each value on the stack is removed from the stack and
+compared to its corresponding value in the array. If the depths are not
+equal or if the stack comparison fails, an error is reported. In the
+example test, the expected stack depth is one, the expected value is
+two, and the test passes.
+
+The tester can be used to define regression tests for a set of
+application words. It can also be used to define tests of words in a
+standard-conforming implementation. An example is the test of the ANS
+Forth CORE word set.
+\remove{test}{The test starts by verifying basic assumptions about
+number representation. It then builds on this with tests of boolean
+logic, shifting, and comparisons. It then tests basic stack
+manipulations and arithmetic. Ultimately, it tests the Forth interpreter
+and compiler.}
+
+
+\section{Tester Source}
+The following source code provides the
+\replace{test}{test harness described in section \textbf{??}}{tester}.
+
+\setwordlist{core}
+\begin{tt}
+\word{bs} From: ~ John Hayes S1I\\
+\word{bs} Subject: tester.fr\\
+\word{bs} Date: ~ Mon, 27 Nov 95 13:10:09 PST \\
+\\
+\word{bs} (C) 1995 JOHNS HOPKINS UNIVERSITY / APPLIED PHYSICS LABORATORY\\
+\word{bs} MAY BE DISTRIBUTED FREELY AS LONG AS THIS COPYRIGHT NOTICE REMAINS.\\
+\word{bs} VERSION 1.1\\
+\word{HEX} \\
+\\
+\word{bs} SET THE FOLLOWING FLAG TO TRUE FOR MORE VERBOSE OUTPUT; THIS MAY\\
+\word{bs} ALLOW YOU TO TELL WHICH TEST CAUSED YOUR SYSTEM TO HANG. \\
+\\
+\word{VARIABLE} VERBOSE \\
+\tab[1.2] \word{FALSE} VERBOSE \word{!} \\
+\\
+\word{:} EMPTY-STACK \tab \word{bs} ( ... -- ) EMPTY STACK: HANDLES UNDERFLOWED STACK TOO. \\
+\tab \word{DEPTH} \word{qDUP} \word{IF} \word{DUP} \word{0less} \word{IF} \word{NEGATE} 0 \word{DO} 0 \word{LOOP} \word{ELSE} 0 \word{DO} \word{DROP} \word{LOOP} \word{THEN} \word{THEN} \word{;} \\
+\\
+\word{:} ERROR \tab \word{bs} ( C-ADDR U -- ) DISPLAY AN ERROR MESSAGE FOLLOWED BY\\
+\tab[5.2] \word{bs} THE LINE THAT HAD THE ERROR.\\
+\tab \word{TYPE} \word{SOURCE} \word{TYPE} \word{CR}		\tab[3] \word{bs} DISPLAY LINE CORRESPONDING TO ERROR\\
+\tab EMPTY-STACK											\tab[7.8] \word{bs} THROW AWAY EVERY THING ELSE\\
+\word{;} \\
+\\
+\word{VARIABLE} ACTUAL-DEPTH \tab[3] \word{bs} STACK RECORD\\
+\tab[.7] \word{CREATE} ACTUAL-RESULTS 20 \word{CELLS} \word{ALLOT} \\
+\\
+\word{:} \{ \tab[2.8] \word{bs} ( -- ) SYNTACTIC SUGAR.\\
+\tab \word{;} \\
+\\
+\word{:} -> \tab[2.2] \word{bs} ( ... -- ) RECORD DEPTH AND CONTENT OF STACK.\\
+\tab \word{DEPTH} \word{DUP} ACTUAL-DEPTH \word{!}				\tab[5.9]  \word{bs} RECORD DEPTH\\
+\tab \word{qDUP} \word{IF}										\tab[16.1] \word{bs} IF THERE IS SOMETHING ON STACK\\
+\tab[2] 0 \word{DO} ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{!} \word{LOOP} \tab[.6] \word{bs} SAVE THEM\\
+\tab \word{THEN} \word{;} \\
+\\
+\word{:} \} \tab[2.8] \word{bs} ( ... -- ) COMPARE STACK (EXPECTED) CONTENTS WITH SAVED\\
+\tab[5.2] \word{bs} (ACTUAL) CONTENTS.\\
+\tab \word{DEPTH} ACTUAL-DEPTH \word{@} \word{=} \word{IF}		\tab[4.85]  \word{bs} IF DEPTHS MATCH\\
+\tab[2] \word{DEPTH} \word{qDUP} \word{IF}						\tab[9.05] \word{bs} IF THERE IS SOMETHING ON THE STACK\\
+\tab[3]		0 \word{DO}											\tab[14.8] \word{bs} FOR EACH STACK ITEM\\
+\tab[4]			 ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{@}	\tab[.6] \word{bs} COMPARE ACTUAL WITH EXPECTED\\
+\tab[4]			\word{ne} \word{IF} \word{Sq} INCORRECT RESULT: " ERROR \word{LEAVE} \word{THEN}\\
+\tab[3]		\word{LOOP}\\
+\tab[2] \word{THEN}\\
+\tab \word{ELSE}												\tab[17.4] \word{bs} DEPTH MISMATCH\\
+\tab[2] \word{Sq} WRONG NUMBER OF RESULTS: " ERROR\\
+\tab \word{THEN} \word{;} \\
+\\
+\word{:} TESTING \tab[.65] \word{bs} ( -- ) TALKING COMMENT.\\
+\tab \word{SOURCE} VERBOSE \word{@} \\
+\tab \word{IF} \word{DUP} \word{toR} \word{TYPE} \word{CR} \word{Rfrom} \word{toIN} \word{!}\\
+\tab \word{ELSE} \word{toIN} \word{!} \word{DROP}\\
+\tab \word{THEN} \word{;}
+\end{tt}
+
+%\setcounter{section}{5}
+%\section{Glossary} % F.6 ============================================
+
+\section{Core Tests}
+
+\place{test}{The test starts by verifying basic assumptions about number
+representation. It then builds on this with tests of boolean logic,
+shifting, and comparisons. It then tests basic stack manipulations and
+arithmetic. Ultimately, it tests the Forth interpreter and compiler.}
+
+\place{test}{The tests presented here are John Hayes' original test
+which accompany the tester package. Additional test have been given
+in the rationale for individual words.}
+
+\remove{test}{In this and following sections we present validation tests
+for specific words. A standard system would be expected to pass \emph{all}
+of the validation tests documented here.}
+
+\remove{test}{The words in this section are organized by word set,
+retaining their index numbers for easy cross-referencing to the glossary.}
+
+
+\begin{tt}
+\word{bs} From: ~ John Hayes S1I \\
+\word{bs} Subject: core.fr \\
+\word{bs} Date: ~ Mon, 27 Nov 95 13:10 \\
+\\
+\word{bs} (C) 1995 JOHNS HOPKINS UNIVERSITY / APPLIED PHYSICS LABORATORY \\
+\word{bs} MAY BE DISTRIBUTED FREELY AS LONG AS THIS COPYRIGHT NOTICE REMAINS. \\
+\word{bs} VERSION 1.2 \\
+\word{bs} THIS PROGRAM TESTS THE CORE WORDS OF AN ANS FORTH SYSTEM. \\
+\word{bs} THE PROGRAM ASSUMES A TWO'S COMPLEMENT IMPLEMENTATION WHERE \\
+\word{bs} THE RANGE OF SIGNED NUMBERS IS -2\textasciicircum(N-1) ... 2\textasciicircum(N-1)-1 AND \\
+\word{bs} THE RANGE OF UNSIGNED NUMBERS IS 0 ... 2\textasciicircum(N)-1. \\
+\word{bs} I HAVEN'T FIGURED OUT HOW TO TEST KEY, QUIT, ABORT, OR ABORT"... \\
+\word{bs} I ALSO HAVEN'T THOUGHT OF A WAY TO TEST ENVIRONMENT?... \\
+\\
+TESTING CORE WORDS \\
+\word{HEX} \\
+\end{tt}
+
+\subsection{Basic Assumptions}
+
+\begin{tt}
+TESTING BASIC ASSUMPTIONS \\
+\\
+\{ -> \} \tab[8] \word{bs} START WITH CLEAN SLATE \\
+( TEST IF ANY BITS ARE SET; ANSWER IN BASE 1 ) \\
+\{ \word{:} BITSSET? \word{IF} 0 0 \word{ELSE} 0 \word{THEN} \word{;} -> \} \\
+\{ ~0 BITSSET? -> 0 \}		\tab[2.2] \word{p} ZERO IS ALL BITS CLEAR ) \\
+\{ ~1 BITSSET? -> 0 0 \}	\tab[1.0] \word{p} OTHER NUMBER HAVE AT LEAST ONE BIT ) \\
+\{ -1 BITSSET? -> 0 0 \}
+\end{tt}
+
+\subsection{Booleans}
+
+\begin{tt}
+TESTING BOOLEANS: \word{INVERT} \word{AND} \word{OR} \word{XOR}
+
+\{ 0 0 \word{AND} -> 0 \} \\
+\{ 0 1 \word{AND} -> 0 \} \\
+\{ 1 0 \word{AND} -> 0 \} \\
+\{ 1 1 \word{AND} -> 1 \}
+
+\{ 0 \word{INVERT} 1 \word{AND} -> 1 \} \\
+\{ 1 \word{INVERT} 1 \word{AND} -> 0 \}
+
+0 \tab[3.6] \word{CONSTANT} 0S \\
+0 \word{INVERT} \word{CONSTANT} 1S
+
+\{ 0S \word{INVERT} -> 1S \} \\
+\{ 1S \word{INVERT} -> 0S \}
+
+\{ 0S 0S \word{AND} -> 0S \} \\
+\{ 0S 1S \word{AND} -> 0S \} \\
+\{ 1S 0S \word{AND} -> 0S \} \\
+\{ 1S 1S \word{AND} -> 1S \}
+
+\{ 0S 0S \word{OR} -> 0S \} \\
+\{ 0S 1S \word{OR} -> 1S \} \\
+\{ 1S 0S \word{OR} -> 1S \} \\
+\{ 1S 1S \word{OR} -> 1S \}
+
+\{ 0S 0S \word{XOR} -> 0S \} \\
+\{ 0S 1S \word{XOR} -> 1S \} \\
+\{ 1S 0S \word{XOR} -> 1S \} \\
+\{ 1S 1S \word{XOR} -> 0S \}
+\end{tt}
+
+\subsection{Shifts}
+
+\begin{tt}
+TESTING \word{2*} \word{2/} \word{LSHIFT} \word{RSHIFT}
+
+\word{p} WE TRUST 1S, \word{INVERT}, AND BITSSET?; WE WILL CONFIRM \word{RSHIFT} LATER ) \\
+1S 1 \word{RSHIFT} \word{INVERT} \word{CONSTANT} MSB \\
+\{ MSB BITSSET? -> 0 0 \}
+
+\{ 0S	\word{2*} -> 0S \} \\
+\{ 1	\word{2*} -> 2 \} \\
+\{ 4000 \word{2*} -> 8000 \} \\
+\{ 1S	\word{2*} 1 \word{XOR} -> 1S \} \\
+\{ MSB	\word{2*} -> 0S \}
+
+\{ 0S		\word{2/} -> 0S \} \\
+\{ 1		\word{2/} -> 0 \} \\
+\{ 4000		\word{2/} -> 2000 \} \\
+\{ 1S		\word{2/} -> 1S \} \tab[4] \word{bs} MSB PROPOGATED \\
+\{ 1S 1 \word{XOR} \word{2/} -> 1S \} \\
+\{ MSB \word{2/} MSB \word{AND} -> MSB \}
+
+\{   1 0 \word{LSHIFT} -> 1 \} \\
+\{   1 1 \word{LSHIFT} -> 2 \} \\
+\{   1 2 \word{LSHIFT} -> 4 \} \\
+\{   1 F \word{LSHIFT} -> 8000 \} \tab[4] \word{bs} BIGGEST GUARANTEED SHIFT \\
+\{  1S 1 \word{LSHIFT} 1 \word{XOR} -> 1S \} \\
+\{ MSB 1 \word{LSHIFT} -> 0 \}
+
+\{ 1 0 \word{RSHIFT} -> 1 \} \\
+\{ 1 1 \word{RSHIFT} -> 0 \} \\
+\{ 2 1 \word{RSHIFT} -> 1 \} \\
+\{ 4 2 \word{RSHIFT} -> 1 \} \\
+\{ 8000 F \word{RSHIFT} -> 1 \}					\tab[6.6] \word{bs} BIGGEST \\
+\{ MSB 1 \word{RSHIFT} MSB \word{AND} -> 0 \}	\tab[2.5] \word{bs} \word{RSHIFT} ZERO FILLS MSBS \\
+\{ MSB 1 \word{RSHIFT} \word{2*} -> MSB \}
+\end{tt}
+
+\subsection{Comparisons}
+
+\begin{tt}
+TESTING COMPARISONS: \word{0=} \word{=} \word{0less} \word{less} \word{more} \word{Uless} \word{MIN} \word{MAX}
+
+0 \word{INVERT} 				\tab[7.9]		\word{CONSTANT} MAX-UINT \\
+0 \word{INVERT} 1 \word{RSHIFT} \tab[3.15]		\word{CONSTANT} MAX-INT \\
+0 \word{INVERT} 1 \word{RSHIFT} \word{INVERT}	\word{CONSTANT} MIN-INT \\
+0 \word{INVERT} 1 \word{RSHIFT} \tab[3.15]		\word{CONSTANT} MID-UINT \\
+0 \word{INVERT} 1 \word{RSHIFT} \word{INVERT}	\word{CONSTANT} MID-UINT+1
+
+0S \word{CONSTANT} <FALSE> \\
+1S \word{CONSTANT} <TRUE>
+
+\{  0 \word{0=} -> <TRUE>  \} \\
+\{  1 \word{0=} -> <FALSE> \} \\
+\{  2 \word{0=} -> <FALSE> \} \\
+\{ -1 \word{0=} -> <FALSE> \} \\
+\{ MAX-UINT \word{0=} -> <FALSE> \} \\
+\{ MIN-INT  \word{0=} -> <FALSE> \} \\
+\{ MAX-INT  \word{0=} -> <FALSE> \}
+
+\{  0  0 \word{=} -> <TRUE>  \} \\
+\{  1  1 \word{=} -> <TRUE>  \} \\
+\{ -1 -1 \word{=} -> <TRUE>  \} \\
+\{  1  0 \word{=} -> <FALSE> \} \\
+\{ -1  0 \word{=} -> <FALSE> \} \\
+\{  0  1 \word{=} -> <FALSE> \} \\
+\{  0 -1 \word{=} -> <FALSE> \} \\
+
+\{       0 \word{0less} -> <FALSE> \} \\
+\{      -1 \word{0less} -> <TRUE>  \} \\
+\{ MIN-INT \word{0less} -> <TRUE>  \} \\
+\{       1 \word{0less} -> <FALSE> \} \\
+\{ MAX-INT \word{0less} -> <FALSE> \}
+
+\{       0       1 \word{less} -> <TRUE>  \} \\
+\{       1       2 \word{less} -> <TRUE>  \} \\
+\{      -1       0 \word{less} -> <TRUE>  \} \\
+\{      -1       1 \word{less} -> <TRUE>  \} \\
+\{ MIN-INT       0 \word{less} -> <TRUE>  \} \\
+\{ MIN-INT MAX-INT \word{less} -> <TRUE>  \} \\
+\{       0 MAX-INT \word{less} -> <TRUE>  \} \\
+\{       0       0 \word{less} -> <FALSE> \} \\
+\{       1       1 \word{less} -> <FALSE> \} \\
+\{       1       0 \word{less} -> <FALSE> \} \\
+\{       2       1 \word{less} -> <FALSE> \} \\
+\{       0      -1 \word{less} -> <FALSE> \} \\
+\{       1      -1 \word{less} -> <FALSE> \} \\
+\{       0 MIN-INT \word{less} -> <FALSE> \} \\
+\{ MAX-INT MIN-INT \word{less} -> <FALSE> \} \\
+\{ MAX-INT       0 \word{less} -> <FALSE> \}
+
+
+\{       0       1 \word{more} -> <FALSE> \} \\
+\{       1       2 \word{more} -> <FALSE> \} \\
+\{      -1       0 \word{more} -> <FALSE> \} \\
+\{      -1       1 \word{more} -> <FALSE> \} \\
+\{ MIN-INT       0 \word{more} -> <FALSE> \} \\
+\{ MIN-INT MAX-INT \word{more} -> <FALSE> \} \\
+\{       0 MAX-INT \word{more} -> <FALSE> \} \\
+\{       0       0 \word{more} -> <FALSE> \} \\
+\{       1       1 \word{more} -> <FALSE> \} \\
+\{       1       0 \word{more} -> <TRUE>  \} \\
+\{       2       1 \word{more} -> <TRUE>  \} \\
+\{       0      -1 \word{more} -> <TRUE>  \} \\
+\{       1      -1 \word{more} -> <TRUE>  \} \\
+\{       0 MIN-INT \word{more} -> <TRUE>  \} \\
+\{ MAX-INT MIN-INT \word{more} -> <TRUE>  \} \\
+\{ MAX-INT       0 \word{more} -> <TRUE>  \}
+
+\{        0        1 \word{Uless} -> <TRUE>  \} \\
+\{        1        2 \word{Uless} -> <TRUE>  \} \\
+\{        0 MID-UINT \word{Uless} -> <TRUE>  \} \\
+\{        0 MAX-UINT \word{Uless} -> <TRUE>  \} \\
+\{ MID-UINT MAX-UINT \word{Uless} -> <TRUE>  \} \\
+\{        0        0 \word{Uless} -> <FALSE> \} \\
+\{        1        1 \word{Uless} -> <FALSE> \} \\
+\{        1        0 \word{Uless} -> <FALSE> \} \\
+\{        2        1 \word{Uless} -> <FALSE> \} \\
+\{ MID-UINT        0 \word{Uless} -> <FALSE> \} \\
+\{ MAX-UINT        0 \word{Uless} -> <FALSE> \} \\
+\{ MAX-UINT MID-UINT \word{Uless} -> <FALSE> \}
+
+\{       0       1 \word{MIN} ->       0 \} \\
+\{       1       2 \word{MIN} ->       1 \} \\
+\{      -1       0 \word{MIN} ->      -1 \} \\
+\{      -1       1 \word{MIN} ->      -1 \} \\
+\{ MIN-INT       0 \word{MIN} -> MIN-INT \} \\
+\{ MIN-INT MAX-INT \word{MIN} -> MIN-INT \} \\
+\{       0 MAX-INT \word{MIN} ->       0 \} \\
+\{       0       0 \word{MIN} ->       0 \} \\
+\{       1       1 \word{MIN} ->       1 \} \\
+\{       1       0 \word{MIN} ->       0 \} \\
+\{       2       1 \word{MIN} ->       1 \} \\
+\{       0      -1 \word{MIN} ->      -1 \} \\
+\{       1      -1 \word{MIN} ->      -1 \} \\
+\{       0 MIN-INT \word{MIN} -> MIN-INT \} \\
+\{ MAX-INT MIN-INT \word{MIN} -> MIN-INT \} \\
+\{ MAX-INT       0 \word{MIN} ->       0 \} \\
+
+\{       0       1 \word{MAX} ->       1 \} \\
+\{       1       2 \word{MAX} ->       2 \} \\
+\{      -1       0 \word{MAX} ->       0 \} \\
+\{      -1       1 \word{MAX} ->       1 \} \\
+\{ MIN-INT       0 \word{MAX} ->       0 \} \\
+\{ MIN-INT MAX-INT \word{MAX} -> MAX-INT \} \\
+\{       0 MAX-INT \word{MAX} -> MAX-INT \} \\
+\{       0       0 \word{MAX} ->       0 \} \\
+\{       1       1 \word{MAX} ->       1 \} \\
+\{       1       0 \word{MAX} ->       1 \} \\
+\{       2       1 \word{MAX} ->       2 \} \\
+\{       0      -1 \word{MAX} ->       0 \} \\
+\{       1      -1 \word{MAX} ->       1 \} \\
+\{       0 MIN-INT \word{MAX} ->       0 \} \\
+\{ MAX-INT MIN-INT \word{MAX} -> MAX-INT \} \\
+\{ MAX-INT       0 \word{MAX} -> MAX-INT \} \\
+\end{tt}
+
+\subsection{Stack Operators}
+
+\begin{tt}
+TESTING STACK OPS: \small \word{2DROP} \word{2DUP} \word{2OVER} \word{2SWAP} \word{qDUP} \word{DEPTH} \word{DROP} \word{DUP} \word{OVER} \word{ROT} \word{SWAP}
+
+\{      1 2 \word{2DROP} ->               \} \\
+\{      1 2 \word{2DUP}  ->     1 2  1  2 \} \\
+\{  1 2 3 4 \word{2OVER} -> 1 2 3 4  1  2 \} \\
+\{  1 2 3 4 \word{2SWAP} ->     3 4  1  2 \} \\
+\{        0 \word{qDUP}  ->             0 \} \\
+\{        1 \word{qDUP}  ->          1  1 \} \\
+\{       -1 \word{qDUP}  ->         -1 -1 \} \\
+\{          \word{DEPTH} ->             0 \} \\
+\{        0 \word{DEPTH} ->          0  1 \} \\
+\{      0 1 \word{DEPTH} ->       0  1  2 \} \\
+\{        0 \word{DROP}  ->               \} \\
+\{      1 2 \word{DROP}  ->             1 \} \\
+\{        1 \word{DUP}   ->          1  1 \} \\
+\{      1 2 \word{OVER}  ->       1  2  1 \} \\
+\{    1 2 3 \word{ROT}   ->       2  3  1 \} \\
+\{      1 2 \word{SWAP}  ->          2  1 \}
+\end{tt}
+
+\subsection{Return Stack Operators}
+
+\begin{tt}
+TESTING \word{toR} \word{Rfrom} \word{R@}
+
+\{ : GR1 \word{toR} \word{Rfrom} ; -> \} \\
+\{ : GR2 \word{toR} \word{R@} \word{Rfrom} \word{DROP} ; -> \} \\
+\{ 123 GR1 -> 123 \} \\
+\{ 123 GR2 -> 123 \} \\
+\{ 1S GR1 -> 1S \} \tab[2] \word{p} RETURN STACK HOLDS CELLS )
+\end{tt}
+
+\subsection{Addition and Subtraction}
+
+\begin{tt}
+TESTING ADD/SUBTRACT: \word{+} \word{-} \word{1+} \word{1-} \word{ABS} \word{NEGATE}
+
+\{        0  5 \word{+} ->          5 \} \\
+\{        5  0 \word{+} ->          5 \} \\
+\{        0 -5 \word{+} ->         -5 \} \\
+\{       -5  0 \word{+} ->         -5 \} \\
+\{        1  2 \word{+} ->          3 \} \\
+\{        1 -2 \word{+} ->         -1 \} \\
+\{       -1  2 \word{+} ->          1 \} \\
+\{       -1 -2 \word{+} ->         -3 \} \\
+\{       -1  1 \word{+} ->          0 \} \\
+\{ MID-UINT  1 \word{+} -> MID-UINT+1 \}
+
+\{          0  5 \word{-} ->       -5 \} \\
+\{          5  0 \word{-} ->        5 \} \\
+\{          0 -5 \word{-} ->        5 \} \\
+\{         -5  0 \word{-} ->       -5 \} \\
+\{          1  2 \word{-} ->       -1 \} \\
+\{          1 -2 \word{-} ->        3 \} \\
+\{         -1  2 \word{-} ->       -3 \} \\
+\{         -1 -2 \word{-} ->        1 \} \\
+\{          0  1 \word{-} ->       -1 \} \\
+\{ MID-UINT+1  1 \word{-} -> MID-UINT \}
+
+\{        0 \word{1+} ->          1 \} \\
+\{       -1 \word{1+} ->          0 \} \\
+\{        1 \word{1+} ->          2 \} \\
+\{ MID-UINT \word{1+} -> MID-UINT+1 \}
+
+\{          2 \word{1-} ->        1 \} \\
+\{          1 \word{1-} ->        0 \} \\
+\{          0 \word{1-} ->       -1 \} \\
+\{ MID-UINT+1 \word{1-} -> MID-UINT \}
+
+\{  0 \word{NEGATE} ->  0 \} \\
+\{  1 \word{NEGATE} -> -1 \} \\
+\{ -1 \word{NEGATE} ->  1 \} \\
+\{  2 \word{NEGATE} -> -2 \} \\
+\{ -2 \word{NEGATE} ->  2 \}
+
+\{       0 \word{ABS} ->          0 \} \\
+\{       1 \word{ABS} ->          1 \} \\
+\{      -1 \word{ABS} ->          1 \} \\
+\{ MIN-INT \word{ABS} -> MID-UINT+1 \}
+\end{tt}
+
+\subsection{Multiplication}
+
+\begin{tt}
+TESTING MULTIPLY: \word{StoD} * M* UM*
+
+\{       0 \word{StoD} ->       0  0 \} \\
+\{       1 \word{StoD} ->       1  0 \} \\
+\{       2 \word{StoD} ->       2  0 \} \\
+\{      -1 \word{StoD} ->      -1 -1 \} \\
+\{      -2 \word{StoD} ->      -2 -1 \} \\
+\{ MIN-INT \word{StoD} -> MIN-INT -1 \} \\
+\{ MAX-INT \word{StoD} -> MAX-INT  0 \}
+
+\{       0       0 \word{M*} ->       0 \word{StoD} \} \\
+\{       0       1 \word{M*} ->       0 \word{StoD} \} \\
+\{       1       0 \word{M*} ->       0 \word{StoD} \} \\
+\{       1       2 \word{M*} ->       2 \word{StoD} \} \\
+\{       2       1 \word{M*} ->       2 \word{StoD} \} \\
+\{       3       3 \word{M*} ->       9 \word{StoD} \} \\
+\{      -3       3 \word{M*} ->      -9 \word{StoD} \} \\
+\{       3      -3 \word{M*} ->      -9 \word{StoD} \} \\
+\{      -3      -3 \word{M*} ->       9 \word{StoD} \} \\
+\{       0 MIN-INT \word{M*} ->       0 \word{StoD} \} \\
+\{       1 MIN-INT \word{M*} -> MIN-INT \word{StoD} \} \\
+\{       2 MIN-INT \word{M*} ->       0          1S \} \\
+\{       0 MAX-INT \word{M*} ->       0 \word{StoD} \} \\
+\{       1 MAX-INT \word{M*} -> MAX-INT \word{StoD} \} \\
+\{       2 MAX-INT \word{M*} -> MAX-INT     1 \word{LSHIFT} 0 \} \\
+\{ MIN-INT MIN-INT \word{M*} ->       0 MSB 1 \word{RSHIFT}   \} \\
+\{ MAX-INT MIN-INT \word{M*} ->     MSB MSB \word{2/} \} \\
+\{ MAX-INT MAX-INT \word{M*} ->       1 MSB \word{2/} \word{INVERT} \}
+
+\{  0  0 \word{*} ->  0 \} \tab[4] \word{bs} TEST IDENTITIES \\
+\{  0  1 \word{*} ->  0 \} \\
+\{  1  0 \word{*} ->  0 \} \\
+\{  1  2 \word{*} ->  2 \} \\
+\{  2  1 \word{*} ->  2 \} \\
+\{  3  3 \word{*} ->  9 \} \\
+\{ -3  3 \word{*} -> -9 \} \\
+\{  3 -3 \word{*} -> -9 \} \\
+\{ -3 -3 \word{*} ->  9 \}
+
+\{ MID-UINT+1 1 \word{RSHIFT} 2 \word{*} -> MID-UINT+1 \} \\
+\{ MID-UINT+1 2 \word{RSHIFT} 4 \word{*} -> MID-UINT+1 \} \\
+\{ MID-UINT+1 1 \word{RSHIFT} MID-UINT+1 \word{OR} 2 \word{*} -> MID-UINT+1 \} \\
+
+\{ 0 0 \word{UM*} -> 0 0 \} \\
+\{ 0 1 \word{UM*} -> 0 0 \} \\
+\{ 1 0 \word{UM*} -> 0 0 \} \\
+\{ 1 2 \word{UM*} -> 2 0 \} \\
+\{ 2 1 \word{UM*} -> 2 0 \} \\
+\{ 3 3 \word{UM*} -> 9 0 \}
+
+\{ MID-UINT+1 1 \word{RSHIFT} 2 \word{UM*} -> MID-UINT+1 0 \} \\
+\{ MID-UINT+1 2                 \word{UM*} -> 0 1 \} \\
+\{ MID-UINT+1 4                 \word{UM*} -> 0 2 \} \\
+\{ 1S 2                         \word{UM*} -> 1S 1 \word{LSHIFT} 1 \} \\
+\{ MAX-UINT MAX-UINT            \word{UM*} -> 1 1 \word{INVERT} \}
+\end{tt}
+
+\subsection{Division}
+
+\begin{tt}
+TESTING DIVIDE: \word{FM/MOD} \word{SM/REM} \word{UM/MOD} \word{/MOD} \word{/} \word{MOD} \word{*/} \word{*/MOD}
+
+\{       0 \word{StoD}             1 \word{FM/MOD} ->  0       0 \} \\
+\{       1 \word{StoD}             1 \word{FM/MOD} ->  0       1 \} \\
+\{       2 \word{StoD}             1 \word{FM/MOD} ->  0       2 \} \\
+\{      -1 \word{StoD}             1 \word{FM/MOD} ->  0      -1 \} \\
+\{      -2 \word{StoD}             1 \word{FM/MOD} ->  0      -2 \} \\
+\{       0 \word{StoD}            -1 \word{FM/MOD} ->  0       0 \} \\
+\{       1 \word{StoD}            -1 \word{FM/MOD} ->  0      -1 \} \\
+\{       2 \word{StoD}            -1 \word{FM/MOD} ->  0      -2 \} \\
+\{      -1 \word{StoD}            -1 \word{FM/MOD} ->  0       1 \} \\
+\{      -2 \word{StoD}            -1 \word{FM/MOD} ->  0       2 \} \\
+\{       2 \word{StoD}             2 \word{FM/MOD} ->  0       1 \} \\
+\{      -1 \word{StoD}            -1 \word{FM/MOD} ->  0       1 \} \\
+\{      -2 \word{StoD}            -2 \word{FM/MOD} ->  0       1 \} \\
+\{       7 \word{StoD}             3 \word{FM/MOD} ->  1       2 \} \\
+\{       7 \word{StoD}            -3 \word{FM/MOD} -> -2      -3 \} \\
+\{      -7 \word{StoD}             3 \word{FM/MOD} ->  2      -3 \} \\
+\{      -7 \word{StoD}            -3 \word{FM/MOD} -> -1       2 \} \\
+\{ MAX-INT \word{StoD}             1 \word{FM/MOD} ->  0 MAX-INT \} \\
+\{ MIN-INT \word{StoD}             1 \word{FM/MOD} ->  0 MIN-INT \} \\
+\{ MAX-INT \word{StoD}       MAX-INT \word{FM/MOD} ->  0       1 \} \\
+\{ MIN-INT \word{StoD}       MIN-INT \word{FM/MOD} ->  0       1 \} \\
+\{    1S 1                         4 \word{FM/MOD} ->  3 MAX-INT \} \\
+\{       1 MIN-INT \word{M*}       1 \word{FM/MOD} ->  0 MIN-INT \} \\
+\{       1 MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0       1 \} \\
+\{       2 MIN-INT \word{M*}       2 \word{FM/MOD} ->  0 MIN-INT \} \\
+\{       2 MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0       2 \} \\
+\{       1 MAX-INT \word{M*}       1 \word{FM/MOD} ->  0 MAX-INT \} \\
+\{       1 MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0       1 \} \\
+\{       2 MAX-INT \word{M*}       2 \word{FM/MOD} ->  0 MAX-INT \} \\
+\{       2 MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0       2 \} \\
+\{ MIN-INT MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0 MIN-INT \} \\
+\{ MIN-INT MAX-INT \word{M*} MIN-INT \word{FM/MOD} ->  0 MAX-INT \} \\
+\{ MIN-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0 MIN-INT \} \\
+\{ MAX-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0 MAX-INT \}
+
+\{       0 \word{StoD}             1 \word{SM/REM} ->  0       0 \} \\
+\{       1 \word{StoD}             1 \word{SM/REM} ->  0       1 \} \\
+\{       2 \word{StoD}             1 \word{SM/REM} ->  0       2 \} \\
+\{      -1 \word{StoD}             1 \word{SM/REM} ->  0      -1 \} \\
+\{      -2 \word{StoD}             1 \word{SM/REM} ->  0      -2 \} \\
+\{       0 \word{StoD}            -1 \word{SM/REM} ->  0       0 \} \\
+\{       1 \word{StoD}            -1 \word{SM/REM} ->  0      -1 \} \\
+\{       2 \word{StoD}            -1 \word{SM/REM} ->  0      -2 \} \\
+\{      -1 \word{StoD}            -1 \word{SM/REM} ->  0       1 \} \\
+\{      -2 \word{StoD}            -1 \word{SM/REM} ->  0       2 \} \\
+\{       2 \word{StoD}             2 \word{SM/REM} ->  0       1 \} \\
+\{      -1 \word{StoD}            -1 \word{SM/REM} ->  0       1 \} \\
+\{      -2 \word{StoD}            -2 \word{SM/REM} ->  0       1 \} \\
+\{       7 \word{StoD}             3 \word{SM/REM} ->  1       2 \} \\
+\{       7 \word{StoD}            -3 \word{SM/REM} ->  1      -2 \} \\
+\{      -7 \word{StoD}             3 \word{SM/REM} -> -1      -2 \} \\
+\{      -7 \word{StoD}            -3 \word{SM/REM} -> -1       2 \} \\
+\{ MAX-INT \word{StoD}             1 \word{SM/REM} ->  0 MAX-INT \} \\
+\{ MIN-INT \word{StoD}             1 \word{SM/REM} ->  0 MIN-INT \} \\
+\{ MAX-INT \word{StoD}       MAX-INT \word{SM/REM} ->  0       1 \} \\
+\{ MIN-INT \word{StoD}       MIN-INT \word{SM/REM} ->  0       1 \} \\
+\{      1S       1                 4 \word{SM/REM} ->  3 MAX-INT \} \\
+\{       2 MIN-INT \word{M*}       2 \word{SM/REM} ->  0 MIN-INT \} \\
+\{       2 MIN-INT \word{M*} MIN-INT \word{SM/REM} ->  0       2 \} \\
+\{       2 MAX-INT \word{M*}       2 \word{SM/REM} ->  0 MAX-INT \} \\
+\{       2 MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0       2 \} \\
+\{ MIN-INT MIN-INT \word{M*} MIN-INT \word{SM/REM} ->  0 MIN-INT \} \\
+\{ MIN-INT MAX-INT \word{M*} MIN-INT \word{SM/REM} ->  0 MAX-INT \} \\
+\{ MIN-INT MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0 MIN-INT \} \\
+\{ MAX-INT MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0 MAX-INT \}
+
+\{        0                   0        1 \word{UM/MOD} -> 0        0 \} \\
+\{        1                   0        1 \word{UM/MOD} -> 0        1 \} \\
+\{        1                   0        2 \word{UM/MOD} -> 1        0 \} \\
+\{        3                   0        2 \word{UM/MOD} -> 1        1 \} \\
+\{ MAX-UINT        2 \word{UM*}        2 \word{UM/MOD} -> 0 MAX-UINT \} \\
+\{ MAX-UINT        2 \word{UM*} MAX-UINT \word{UM/MOD} -> 0        2 \} \\
+\{ MAX-UINT MAX-UINT \word{UM*} MAX-UINT \word{UM/MOD} -> 0 MAX-UINT \}
+
+\word{:} IFFLOORED \\
+\tab \word{[} -3 2 \word{/} -2 = \word{INVERT} \word{]}
+	\word{LITERAL} \word{IF} \word{POSTPONE} \word{bs} \word{THEN}
+\word{;} \\
+\word{:} IFSYM \\
+\tab \word{[} -3 2 \word{/} -1 = \word{INVERT} \word{]}
+	\word{LITERAL} \word{IF} \word{POSTPONE} \word{bs} \word{THEN}
+\word {;}
+
+\word{bs} THE SYSTEM MIGHT DO EITHER FLOORED OR SYMMETRIC DIVISION. \\
+\word{bs} SINCE WE HAVE ALREADY TESTED \word{M*}, \word{FM/MOD}, AND \word{SM/REM} WE CAN USE THEM \\
+\word{bs} IN TEST.
+
+IFFLOORED \tab  \word{:} T/MOD  \word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{;} \\
+IFFLOORED \tab	\word{:} T/ T/MOD \word{SWAP} \word{DROP} \word{;} \\
+IFFLOORED \tab 	\word{:} TMOD T/MOD \word{DROP} \word{;} \\
+IFFLOORED \tab	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{;} \\
+IFFLOORED \tab	\word{:} T*/ T*/MOD \word{SWAP} \word{DROP} \word{;}
+
+IFSYM \tab[2.6] \word{:} T/MOD  \word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{;} \\
+IFSYM \tab[2.6] \word{:} T/ T/MOD \word{SWAP} \word{DROP} \word{;} \\
+IFSYM \tab[2.6]	\word{:} TMOD T/MOD \word{DROP} \word{;} \\
+IFSYM \tab[2.6]	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{SM/REM} \word{;} \\
+IFSYM \tab[2.6]	\word{:} T*/ T*/MOD \word{SWAP} \word{DROP} \word{;}
+
+\{       0       1 \word{/MOD} ->       0       1 T/MOD \} \\
+\{       1       1 \word{/MOD} ->       1       1 T/MOD \} \\
+\{       2       1 \word{/MOD} ->       2       1 T/MOD \} \\
+\{      -1       1 \word{/MOD} ->      -1       1 T/MOD \} \\
+\{      -2       1 \word{/MOD} ->      -2       1 T/MOD \} \\
+\{       0      -1 \word{/MOD} ->       0      -1 T/MOD \} \\
+\{       1      -1 \word{/MOD} ->       1      -1 T/MOD \} \\
+\{       2      -1 \word{/MOD} ->       2      -1 T/MOD \} \\
+\{      -1      -1 \word{/MOD} ->      -1      -1 T/MOD \} \\
+\{      -2      -1 \word{/MOD} ->      -2      -1 T/MOD \} \\
+\{       2       2 \word{/MOD} ->       2       2 T/MOD \} \\
+\{      -1      -1 \word{/MOD} ->      -1      -1 T/MOD \} \\
+\{      -2      -2 \word{/MOD} ->      -2      -2 T/MOD \} \\
+\{       7       3 \word{/MOD} ->       7       3 T/MOD \} \\
+\{       7      -3 \word{/MOD} ->       7      -3 T/MOD \} \\
+\{      -7       3 \word{/MOD} ->      -7       3 T/MOD \} \\
+\{      -7      -3 \word{/MOD} ->      -7      -3 T/MOD \} \\
+\{ MAX-INT       1 \word{/MOD} -> MAX-INT       1 T/MOD \} \\
+\{ MIN-INT       1 \word{/MOD} -> MIN-INT       1 T/MOD \} \\
+\{ MAX-INT MAX-INT \word{/MOD} -> MAX-INT MAX-INT T/MOD \} \\
+\{ MIN-INT MIN-INT \word{/MOD} -> MIN-INT MIN-INT T/MOD \}
+
+\{       0       1 \word{/} ->       0       1 T/ \} \\
+\{       1       1 \word{/} ->       1       1 T/ \} \\
+\{       2       1 \word{/} ->       2       1 T/ \} \\
+\{      -1       1 \word{/} ->      -1       1 T/ \} \\
+\{      -2       1 \word{/} ->      -2       1 T/ \} \\
+\{       0      -1 \word{/} ->       0      -1 T/ \} \\
+\{       1      -1 \word{/} ->       1      -1 T/ \} \\
+\{       2      -1 \word{/} ->       2      -1 T/ \} \\
+\{      -1      -1 \word{/} ->      -1      -1 T/ \} \\
+\{      -2      -1 \word{/} ->      -2      -1 T/ \} \\
+\{       2       2 \word{/} ->       2       2 T/ \} \\
+\{      -1      -1 \word{/} ->      -1      -1 T/ \} \\
+\{      -2      -2 \word{/} ->      -2      -2 T/ \} \\
+\{       7       3 \word{/} ->       7       3 T/ \} \\
+\{       7      -3 \word{/} ->       7      -3 T/ \} \\
+\{      -7       3 \word{/} ->      -7       3 T/ \} \\
+\{      -7      -3 \word{/} ->      -7      -3 T/ \} \\
+\{ MAX-INT       1 \word{/} -> MAX-INT       1 T/ \} \\
+\{ MIN-INT       1 \word{/} -> MIN-INT       1 T/ \} \\
+\{ MAX-INT MAX-INT \word{/} -> MAX-INT MAX-INT T/ \} \\
+\{ MIN-INT MIN-INT \word{/} -> MIN-INT MIN-INT T/ \}
+
+\{       0       1 \word{MOD} ->       0       1 TMOD \} \\
+\{       1       1 \word{MOD} ->       1       1 TMOD \} \\
+\{       2       1 \word{MOD} ->       2       1 TMOD \} \\
+\{      -1       1 \word{MOD} ->      -1       1 TMOD \} \\
+\{      -2       1 \word{MOD} ->      -2       1 TMOD \} \\
+\{       0      -1 \word{MOD} ->       0      -1 TMOD \} \\
+\{       1      -1 \word{MOD} ->       1      -1 TMOD \} \\
+\{       2      -1 \word{MOD} ->       2      -1 TMOD \} \\
+\{      -1      -1 \word{MOD} ->      -1      -1 TMOD \} \\
+\{      -2      -1 \word{MOD} ->      -2      -1 TMOD \} \\
+\{       2       2 \word{MOD} ->       2       2 TMOD \} \\
+\{      -1      -1 \word{MOD} ->      -1      -1 TMOD \} \\
+\{      -2      -2 \word{MOD} ->      -2      -2 TMOD \} \\
+\{       7       3 \word{MOD} ->       7       3 TMOD \} \\
+\{       7      -3 \word{MOD} ->       7      -3 TMOD \} \\
+\{      -7       3 \word{MOD} ->      -7       3 TMOD \} \\
+\{      -7      -3 \word{MOD} ->      -7      -3 TMOD \} \\
+\{ MAX-INT       1 \word{MOD} -> MAX-INT       1 TMOD \} \\
+\{ MIN-INT       1 \word{MOD} -> MIN-INT       1 TMOD \} \\
+\{ MAX-INT MAX-INT \word{MOD} -> MAX-INT MAX-INT TMOD \} \\
+\{ MIN-INT MIN-INT \word{MOD} -> MIN-INT MIN-INT TMOD \}
+
+\{       0 2       1 \word{*/} ->       0 2       1 T*/ \} \\
+\{       1 2       1 \word{*/} ->       1 2       1 T*/ \} \\
+\{       2 2       1 \word{*/} ->       2 2       1 T*/ \} \\
+\{      -1 2       1 \word{*/} ->      -1 2       1 T*/ \} \\
+\{      -2 2       1 \word{*/} ->      -2 2       1 T*/ \} \\
+\{       0 2      -1 \word{*/} ->       0 2      -1 T*/ \} \\
+\{       1 2      -1 \word{*/} ->       1 2      -1 T*/ \} \\
+\{       2 2      -1 \word{*/} ->       2 2      -1 T*/ \} \\
+\{      -1 2      -1 \word{*/} ->      -1 2      -1 T*/ \} \\
+\{      -2 2      -1 \word{*/} ->      -2 2      -1 T*/ \} \\
+\{       2 2       2 \word{*/} ->       2 2       2 T*/ \} \\
+\{      -1 2      -1 \word{*/} ->      -1 2      -1 T*/ \} \\
+\{      -2 2      -2 \word{*/} ->      -2 2      -2 T*/ \} \\
+\{       7 2       3 \word{*/} ->       7 2       3 T*/ \} \\
+\{       7 2      -3 \word{*/} ->       7 2      -3 T*/ \} \\
+\{      -7 2       3 \word{*/} ->      -7 2       3 T*/ \} \\
+\{      -7 2      -3 \word{*/} ->      -7 2      -3 T*/ \} \\
+\{ MAX-INT 2 MAX-INT \word{*/} -> MAX-INT 2 MAX-INT T*/ \} \\
+\{ MIN-INT 2 MIN-INT \word{*/} -> MIN-INT 2 MIN-INT T*/ \}
+
+\{       0 2       1 \word{*/MOD} ->       0 2       1 T*/MOD \} \\
+\{       1 2       1 \word{*/MOD} ->       1 2       1 T*/MOD \} \\
+\{       2 2       1 \word{*/MOD} ->       2 2       1 T*/MOD \} \\
+\{      -1 2       1 \word{*/MOD} ->      -1 2       1 T*/MOD \} \\
+\{      -2 2       1 \word{*/MOD} ->      -2 2       1 T*/MOD \} \\
+\{       0 2      -1 \word{*/MOD} ->       0 2      -1 T*/MOD \} \\
+\{       1 2      -1 \word{*/MOD} ->       1 2      -1 T*/MOD \} \\
+\{       2 2      -1 \word{*/MOD} ->       2 2      -1 T*/MOD \} \\
+\{      -1 2      -1 \word{*/MOD} ->      -1 2      -1 T*/MOD \} \\
+\{      -2 2      -1 \word{*/MOD} ->      -2 2      -1 T*/MOD \} \\
+\{       2 2       2 \word{*/MOD} ->       2 2       2 T*/MOD \} \\
+\{      -1 2      -1 \word{*/MOD} ->      -1 2      -1 T*/MOD \} \\
+\{      -2 2      -2 \word{*/MOD} ->      -2 2      -2 T*/MOD \} \\
+\{       7 2       3 \word{*/MOD} ->       7 2       3 T*/MOD \} \\
+\{       7 2      -3 \word{*/MOD} ->       7 2      -3 T*/MOD \} \\
+\{      -7 2       3 \word{*/MOD} ->      -7 2       3 T*/MOD \} \\
+\{      -7 2      -3 \word{*/MOD} ->      -7 2      -3 T*/MOD \} \\
+\{ MAX-INT 2 MAX-INT \word{*/MOD} -> MAX-INT 2 MAX-INT T*/MOD \} \\
+\{ MIN-INT 2 MIN-INT \word{*/MOD} -> MIN-INT 2 MIN-INT T*/MOD \} \\
+\end{tt}
+
+\subsection{Memory}
+
+\begin{tt}
+TESTING \small \word{HERE} \word{,} \word{@} \word{!} \word{CELL+} \word{CELLS} \word{C,} \word{C@} \word{C!} \word{CHAR+} \word{CHARS} \word{2@} \word{2!} \word{ALIGN} \word{ALIGNED} \word{+!} \word{ALLOT}
+
+\word{HERE} 1 \word{ALLOT} \\
+\word{HERE} \\
+\word{CONSTANT} 2NDA \\
+\word{CONSTANT} 1STA \\
+\{ 1STA 2NDA \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
+\{ 1STA \word{1+} -> 2NDA \}			\tab[4.2] \word{bs} {\ldots} BY ONE ADDRESS UNIT \\
+\word{p} MISSING TEST: NEGATIVE ALLOT )
+
+\word{HERE} 1 \word{,} \\
+\word{HERE} 2 \word{,} \\
+\word{CONSTANT} 2ND \\
+\word{CONSTANT} 1ST \\
+\{ 1ST 2ND \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
+\{ 1ST \word{CELL+} -> 2ND \}			\tab[2.6] \word{bs} {\ldots} BY ONE CELL \\
+\{ 1ST 1 \word{CELLS} \word{+} -> 2ND \} \\
+\{ 1ST \word{@} 2ND \word{@} -> 1 2 \} \\
+\{ 5 1ST \word{!} -> \} \\
+\{ 1ST \word{@} 2ND \word{@} -> 5 2 \} \\
+\{ 6 2ND \word{!} -> \} \\
+\{ 1ST \word{@} 2ND \word{@} -> 5 6 \} \\
+\{ 1ST \word{2@} -> 6 5 \} \\
+\{ 2 1 1ST \word{2!} -> \} \\
+\{ 1ST \word{2@} -> 2 1 \} \\
+\{ 1S 1ST \word{!}  1ST \word{@} -> 1S \} \tab \word{bs} CAN STORE CELL-WIDE VALUE
+
+\word{HERE} 1 \word{C,} \\
+\word{HERE} 2 \word{C,} \\
+\word{CONSTANT} 2NDC \\
+\word{CONSTANT} 1STC \\
+\{ 1STC 2NDC \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
+\{ 1STC \word{CHAR+} -> 2NDC \}			\tab[2.6] \word{bs} {\ldots} BY ONE CHAR \\
+\{ 1STC 1 \word{CHARS} \word{+} -> 2NDC \} \\
+\{ 1STC \word{C@} 2NDC \word{C@} -> 1 2 \} \\
+\{ 3 1STC \word{C!} -> \} \\
+\{ 1STC \word{C@} 2NDC \word{C@} -> 3 2 \} \\
+\{ 4 2NDC \word{C!} -> \} \\
+\{ 1STC \word{C@} 2NDC \word{C@} -> 3 4 \}
+
+\word{ALIGN}  1 \word{ALLOT} \word{HERE}  \word{ALIGN} \word{HERE} 3 \word{CELLS} \word{ALLOT} \\
+\word{CONSTANT} A-ADDR  \word{CONSTANT} UA-ADDR \\
+\{ UA-ADDR \word{ALIGNED} -> A-ADDR \} \\
+\{       1 A-ADDR \word{C!}                A-ADDR              \word{C@} ->       1 \} \\
+\{    1234 A-ADDR \word{!}                 A-ADDR              \word{@}  ->    1234 \} \\
+\{ 123 456 A-ADDR \word{2!}                A-ADDR              \word{2@} -> 123 456 \} \\
+\{       2 A-ADDR \word{CHAR+} \word{C!}   A-ADDR \word{CHAR+} \word{C@} ->       2 \} \\
+\{       3 A-ADDR \word{CELL+} \word{C!}   A-ADDR \word{CELL+} \word{C@} ->       3 \} \\
+\{    1234 A-ADDR \word{CELL+} \word{!}    A-ADDR \word{CELL+} \word{@}  ->    1234 \} \\
+\{ 123 456 A-ADDR \word{CELL+} \word{2!}   A-ADDR \word{CELL+} \word{2@} -> 123 456 \}
+
+\word{:} BITS \word{p} X -- U ) \\
+\tab 0 \word{SWAP} \word{BEGIN} \word{DUP} \word{WHILE} \word{DUP} MSB \word{AND}
+	\word{IF} \word{toR} \word{1+} \word{Rfrom} \word{THEN} \word{2*} \word{REPEAT} \word{DROP}
+\word{;} \\
+\word{p} CHARACTERS >= 1 AU, <= SIZE OF CELL, >= 8 BITS ) \\
+\{ 1 \word{CHARS} 1 \word{less} -> <FALSE> \} \\
+\{ 1 \word{CHARS} 1 \word{CELLS} \word{more} -> <FALSE> \} \\
+\word{p} TBD: HOW TO FIND NUMBER OF BITS? )
+
+\word{p} CELLS >= 1 AU, INTEGRAL MULTIPLE OF CHAR SIZE, >= 16 BITS ) \\
+\{ 1 \word{CELLS} 1 \word{less} -> <FALSE> \} \\
+\{ 1 \word{CELLS} 1 \word{CHARS} \word{MOD} -> 0 \} \\
+\{ 1S BITS 10 \word{less} -> <FALSE> \}
+
+\{  0 1ST \word{!}  -> \} \\
+\{  1 1ST \word{+!} -> \} \\
+\{    1ST \word{@}  -> 1 \} \\
+\{ -1 1ST \word{+!} 1ST \word{@} -> 0 \}
+\end{tt}
+
+\subsection{Characters}
+
+\begin{tt}
+TESTING \word{CHAR} \word{[CHAR]} \word{[} \word{]} \word{BL} \word{Sq}
+
+\{ \word{BL} -> 20 \} \\
+\{ \word{CHAR} X     -> 58 \} \\
+\{ \word{CHAR} HELLO -> 48 \} \\
+\{ : GC1 \word{[CHAR]} X     ; -> \} \\
+\{ : GC2 \word{[CHAR]} HELLO ; -> \} \\
+\{ GC1 -> 58 \} \\
+\{ GC2 -> 48 \} \\
+\{ \word{:} GC3 \word{[} GC1 \word{]} \word{LITERAL} \word{;} -> \} \\
+\{ GC3 -> 58 \} \\
+\{ \word{:} GC4 \word{Sq} XY" \word{;} -> \} \\
+\{ GC4 \word{SWAP} \word{DROP} -> 2 \} \\
+\{ GC4 \word{DROP} \word{DUP} \word{C@} \word{SWAP} \word{CHAR+} \word{C@} -> 58 59 \}
+\end{tt}
+
+\subsection{Dictionary}
+
+\begin{tt}
+TESTING \word{'} \word{[']} \word{FIND} \word{EXECUTE} \word{IMMEDIATE} \word{COUNT} \word{LITERAL} \word{POSTPONE} \word{STATE}
+
+\{ \word{:} GT1 123 \word{;} -> \} \\
+\{ \word{'} GT1 \word{EXECUTE} -> 123 \}
+\{ \word{:} GT2 \word{[']} GT1 \word{;} \word{IMMEDIATE} -> \} \\
+\{ GT2 \word{EXECUTE} -> 123 \}
+\word{HERE}
+	3 \word{C,}
+	\word{CHAR} G \word{C,}
+	\word{CHAR} T \word{C,}
+	\word{CHAR} 1 \word{C,}
+	\word{CONSTANT} GT1STRING \\
+\word{HERE}
+	3 \word{C,}
+	\word{CHAR} G \word{C,}
+	\word{CHAR} T \word{C,}
+	\word{CHAR} 2 \word{C,}
+	\word{CONSTANT} GT2STRING \\
+\{ GT1STRING \word{FIND} -> \word{'} GT1 -1 \} \\
+\{ GT2STRING \word{FIND} -> \word{'} GT2 1  \} \\
+\word{p} HOW TO SEARCH FOR NON-EXISTENT WORD? )
+\{ \word{:} GT3 GT2 \word{LITERAL} \word{;} -> \} \\
+\{ GT3 -> \word{'} GT1 \}
+\{ GT1STRING \word{COUNT} -> GT1STRING \word{CHAR+} 3 \}
+
+\{ \word{:} GT4 \word{POSTPONE} GT1 \word{;} \word{IMMEDIATE} -> \} \\
+\{ \word{:} GT5 GT4 \word{;} -> \} \\
+\{ GT5 -> 123 \}
+\{ \word{:} GT6 345 \word{;} \word{IMMEDIATE} -> \} \\
+\{ \word{:} GT7 \word{POSTPONE} GT6 \word{;} -> \} \\
+\{ GT7 -> 345 \}
+
+\{ \word{:} GT8 \word{STATE} \word{@} \word{;} \word{IMMEDIATE} -> \} \\
+\{ GT8 -> 0 \} \\
+\{ \word{:} GT9 GT8 \word{LITERAL} \word{;} -> \} \\
+\{ GT9 \word{0=} -> <FALSE> \}
+\end{tt}
+
+\subsection{Flow Control}
+
+\begin{tt}
+TESTING \word{IF} \word{ELSE} \word{THEN} \word{BEGIN} \word{WHILE} \word{REPEAT} \word{UNTIL} \word{RECURSE}
+
+\{ \word{:} GI1 \word{IF} 123 \word{THEN} \word{;} -> \} \\
+\{ \word{:} GI2 \word{IF} 123 \word{ELSE} 234 \word{THEN} \word{;} -> \} \\
+\{  0 GI1 ->     \} \\
+\{  1 GI1 -> 123 \} \\
+\{ -1 GI1 -> 123 \} \\
+\{  0 GI2 -> 234 \} \\
+\{  1 GI2 -> 123 \} \\
+\{ -1 GI1 -> 123 \}
+
+\{ \word{:} GI3 \word{BEGIN} \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \word{;} -> \} \\
+\{ 0 GI3 -> 0 1 2 3 4 5 \} \\
+\{ 4 GI3 -> 4 5 \} \\
+\{ 5 GI3 -> 5 \} \\
+\{ 6 GI3 -> 6 \}
+
+\{ \word{:} GI4 \word{BEGIN} \word{DUP} \word{1+} \word{DUP} 5 \word{more} \word{UNTIL} \word{;} -> \} \\
+\{ 3 GI4 -> 3 4 5 6 \} \\
+\{ 5 GI4 -> 5 6 \} \\
+\{ 6 GI4 -> 6 7 \}
+
+\{ \word{:} GI5 \word{BEGIN} \word{DUP} 2 \word{more} \word{WHILE} \\
+\tab \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \\
+\tab 123 \word{ELSE} 345 \word{THEN} \word{;} -> \} \\
+\{ 1 GI5 -> 1 345 \} \\
+\{ 2 GI5 -> 2 345 \} \\
+\{ 3 GI5 -> 3 4 5 123 \} \\
+\{ 4 GI5 -> 4 5 123 \} \\
+\{ 5 GI5 -> 5 123 \}
+
+\{ \word{:} GI6 \word{p} N -- 0,1,..,N ) \word{DUP} \word{IF}
+	\word{DUP} \word{toR} \word{1-} \word{RECURSE} \word{Rfrom}
+	\word{THEN} \word{;} -> \} \\
+\{ 0 GI6 -> 0 \} \\
+\{ 1 GI6 -> 0 1 \} \\
+\{ 2 GI6 -> 0 1 2 \} \\
+\{ 3 GI6 -> 0 1 2 3 \} \\
+\{ 4 GI6 -> 0 1 2 3 4 \}
+\end{tt}
+
+\subsection{Counted Loops}
+
+\begin{tt}
+TESTING \word{DO} \word{LOOP} \word{+LOOP} \word{I} \word{J} \word{UNLOOP} \word{LEAVE} \word{EXIT}
+
+\{ \word{:} GD1 \word{DO} \word{I} \word{LOOP} \word{;} -> \} \\
+\{          4        1 GD1 ->  1 2 3 \} \\
+\{          2       -1 GD1 -> -1 0 1 \} \\
+\{ MID-UINT+1 MID-UINT GD1 -> MID-UINT \}
+
+\{ \word{:} GD2 \word{DO} \word{I} -1 \word{+LOOP} \word{;} -> \} \\
+\{        1          4 GD2 -> 4 3 2 1 \} \\
+\{       -1          2 GD2 -> 2 1 0 -1 \} \\
+\{ MID-UINT MID-UINT+1 GD2 -> MID-UINT+1 MID-UINT \}
+
+\{ \word{:} GD3 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} \word{LOOP} \word{;} -> \} \\
+\{          4        1 GD3 -> 1 2 3    \} \\
+\{          2       -1 GD3 -> -1 0 1   \} \\
+\{ MID-UINT+1 MID-UINT GD3 -> MID-UINT \}
+
+\{ \word{:} GD4 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} -1 \word{+LOOP} \word{;} -> \} \\
+\{        1          4 GD4 -> 4 3 2 1             \} \\
+\{       -1          2 GD4 -> 2 1 0 -1            \} \\
+\{ MID-UINT MID-UINT+1 GD4 -> MID-UINT+1 MID-UINT \}
+
+\{ \word{:} GD5 123 \word{SWAP} 0 \word{DO}
+	\word{I} 4 \word{more} \word{IF} \word{DROP} 234 \word{LEAVE} \word{THEN} \word{LOOP}
+	\word{;} -> \} \\
+\{ 1 GD5 -> 123 \} \\
+\{ 5 GD5 -> 123 \} \\
+\{ 6 GD5 -> 234 \}
+
+\{ \word{:} GD6 \word{p} PAT: {\small \{0 0\},\{0 0\}\{1 0\}\{1 1\},\{0 0\}\{1 0\}\{1 1\}\{2 0\}\{2 1\}\{2 2\}} ) \\
+	\tab[2] 0 \word{SWAP} 0 \word{DO} \\
+		\tab[3] \word{I} \word{1+} 0 \word{DO}
+				\word{I} \word{J} \word{+} 3 \word{=} \word{IF}
+				\word{I} \word{UNLOOP} \word{I} \word{UNLOOP} \word{EXIT} \word{THEN} \word{1+} \\
+		\tab[2] \word{LOOP} \\
+	\tab	\word{LOOP} \word{;} -> \} \\
+\{ 1 GD6 -> 1 \} \\
+\{ 2 GD6 -> 3 \} \\
+\{ 3 GD6 -> 4 1 2 \}
+\end{tt}
+
+\subsection{Defining Words}
+
+\begin{tt}
+TESTING DEFINING WORDS: \word{:} \word{;} \word{CONSTANT} \word{VARIABLE} \word{CREATE} \word{DOES} \word{toBODY}
+
+\{ 123 \word{CONSTANT} X123 -> \} \\
+\{ X123 -> 123 \} \\
+\{ \word{:} EQU \word{CONSTANT} \word{;} -> \} \\
+\{ X123 EQU Y123 -> \} \\
+\{ Y123 -> 123 \}
+
+\{ \word{VARIABLE} V1 ->     \} \\
+\{    123 V1 \word{!} ->     \} \\
+\{        V1 \word{@} -> 123 \}
+
+\{ \word{:} NOP \word{:} \word{POSTPONE} \word{;} \word{;} -> \} \\
+\{ NOP NOP1		NOP NOP2 -> \} \\
+\{ 					NOP1 -> \} \\
+\{ 					NOP2 -> \}
+
+\{ \word{:} DOES1 \word{DOES} \word{@} 1 \word{+} \word{;} -> \} \\
+\{ \word{:} DOES2 \word{DOES} \word{@} 2 \word{+} \word{;} -> \} \\
+\{ \word{CREATE} CR1 -> \} \\
+\{ CR1 -> \word{HERE}  \} \\
+\{ \word{'} CR1 \word{toBODY} -> \word{HERE} \} \\
+\{ 1 \word{,} -> \} \\
+\{ CR1 \word{@} -> 1 \} \\
+\{ DOES1 -> \} \\
+\{ CR1 -> 2 \} \\
+\{ DOES2 -> \} \\
+\{ CR1 -> 3 \}
+
+\{ \word{:} WEIRD: \word{CREATE} \word{DOES} 1 \word{+} \word{DOES} 2 \word{+} \word{;} -> \} \\
+\{ WEIRD: W1 -> \} \\
+\{ \word{'} W1 \word{toBODY} -> \word{HERE} \} \\
+\{ W1 -> \word{HERE} 1 \word{+} \} \\
+\{ W1 -> \word{HERE} 2 \word{+} \}
+\end{tt}
+
+\subsection{Evaluate}
+
+\begin{tt}
+TESTING EVALUATE
+
+\word{:} GE1 \word{Sq} 123" \word{;} \word{IMMEDIATE} \\
+\word{:} GE2 \word{Sq} 123 1+" \word{;} \word{IMMEDIATE} \\
+\word{:} GE3 \word{Sq} \word{:} GE4 345 \word{;}" \word{;} \\
+\word{:} GE5 \word{EVALUATE} \word{;} \word{IMMEDIATE}
+
+\{ GE1 \word{EVALUATE} -> 123 \} \tab[3] \word{p} TEST EVALUATE IN INTERP. STATE ) \\
+\{ GE2 \word{EVALUATE} -> 124 \} \\
+\{ GE3 \word{EVALUATE} ->     \} \\
+\{ GE4                 -> 345 \}
+
+\{ \word{:} GE6 GE1 GE5 \word{;} -> \} \tab[3.4] \word{p} TEST EVALUATE IN COMPILE STATE ) \\
+\{ GE6 -> 123 \} \\
+\{ \word{:} GE7 GE2 GE5 \word{;} -> \} \\
+\{ GE7 -> 124 \} \\
+\end{tt}
+
+\subsection{Parser Input Source Control}
+
+\begin{tt}
+TESTING \word{SOURCE} \word{toIN} \word{WORD}
+
+\word{:} GS1 \word{Sq} \word{SOURCE}" \word{2DUP} \word{EVALUATE} \\
+\tab \word{toR} \word{SWAP} \word{toR} \word{=} \word{Rfrom} \word{Rfrom} \word{=} \word{;} \\
+\{ GS1 -> <TRUE> <TRUE> \}
+
+\word{VARIABLE} SCANS \\
+\word{:} RESCAN?  -1 SCANS \word{+!} SCANS \word{@} \word{IF} 0 \word{toIN} \word{!} \word{THEN} \word{;}
+
+\{ 2 SCANS \word{!} \\
+345 RESCAN? \\
+-> 345 345 \}
+
+\word{:} GS2  5 SCANS \word{!} \word{Sq} 123 RESCAN?" \word{EVALUATE} \word{;} \\
+\{ GS2 -> 123 123 123 123 123 \}
+
+\word{:} GS3 \word{WORD} \word{COUNT} \word{SWAP} \word{C@} \word{;} \\
+\{ \word{BL} GS3 HELLO -> 5 \word{CHAR} H \} \\
+\{ \word{CHAR} " GS3 GOODBYE" -> 7 \word{CHAR} G \} \\
+\{ BL GS3 \\
+\word{DROP} -> 0 \} \tab[4] \word{bs} BLANK LINE RETURN ZERO-LENGTH STRING
+
+\word{:} GS4 \word{SOURCE} \word{toIN} \word{!} \word{DROP} \word{;} \\
+\{ GS4 123 456 \\
+-> \}
+\end{tt}
+
+\subsection{Number Patterns}
+
+\begin{tt}
+TESTING \word{num-start} \word{num} \word{numS} \word{num-end} HOLD SIGN \word{BASE} \word{toNUMBER} \word{HEX} \word{DECIMAL}
+
+\word{:} S=  \word{bs} ( ADDR1 C1 ADDR2 C2 -- T/F ) COMPARE TWO STRINGS. \\
+\tab	\word{toR} \word{SWAP} \word{R@} \word{=} \word{IF}	\tab[4.9] \word{bs} MAKE SURE STRINGS HAVE SAME LENGTH \\
+\tab[2]   \word{Rfrom} \word{qDUP} \word{IF}				\tab[6] \word{bs} IF NON-EMPTY STRINGS \\
+\tab[3]     0 \word{DO} \\
+\tab[4]       \word{OVER} \word{C@} \word{OVER} \word{C@} \word{-}
+				\word{IF} \word{2DROP} <FALSE> \word{UNLOOP} \word{EXIT} \word{THEN} \\
+\tab[4]       \word{SWAP} \word{CHAR+} \word{SWAP} \word{CHAR+} \\
+\tab[3]     \word{LOOP} \\
+\tab[2]   \word{THEN} \\
+\tab[2]   \word{2DROP} <TRUE>								\tab[5.2] \word{bs} IF WE GET HERE, STRINGS MATCH \\
+\tab    \word{ELSE} \\
+\tab[2]   \word{Rfrom} \word{DROP} \word{2DROP} <FALSE>		\tab \word{bs} LENGTHS MISMATCH \\
+\tab    \word{THEN} \word{;}
+
+\word{:} GP1  \word{num-start} 41 \word{HOLD} 42 \word{HOLD} 0 0 \word{num-end} \word{Sq} BA" S= \word{;} \\
+\{ GP1 -> <TRUE> \}
+
+\word{:} GP2  \word{num-start} -1 \word{SIGN} 0 \word{SIGN} -1 \word{SIGN} 0 0 \word{num-end} \word{Sq} --" S= \word{;} \\
+\{ GP2 -> <TRUE> \}
+
+\word{:} GP3  \word{num-start} 1 0 \word{num} \word{num} \word{num-end} \word{Sq} 01" S= \word{;} \\
+\{ GP3 -> <TRUE> \}
+
+24 \word{CONSTANT} MAX-BASE							\tab[6.2] \word{bs} BASE 2 {\ldots} 36 \\
+\word{:} COUNT-BITS \\
+\tab 0 0 \word{INVERT}
+	\word{BEGIN} \word{DUP} \word{WHILE} \word{toR} \word{1+} \word{Rfrom} \word{2*} \word{REPEAT}
+	\word{DROP} \word{;} \\
+COUNT-BITS \word{2*} \word{CONSTANT} \#BITS-UD		\tab \word{bs} NUMBER OF BITS IN UD \\
+
+\word{:} GP4  \word{num-start} 1 0 \word{numS} \word{num-end} \word{Sq} 1" S= \word{;} \\
+\{ GP4 -> <TRUE> \}
+
+\word{:} GP5 \\
+\tab \word{BASE} \word{@} <TRUE> \\
+\tab MAX-BASE \word{1+} 2 \word{DO}		\tab[2] \word{bs} FOR EACH POSSIBLE BASE \\
+\tab[2] \word{I} \word{BASE} \word{!}	\tab[4.7] \word{bs} TBD: ASSUMES BASE WORKS \\
+\tab[3] \word{I} 0 \word{num-start} \word{numS} \word{num-end} \word{Sq} 10" S= \word{AND} \\
+\tab    \word{LOOP} \\
+\tab    \word{SWAP} \word{BASE} \word{!} \word{;} \\
+\{ GP5 -> <TRUE> \}
+
+\word{:} GP6 \\
+\tab	\word{BASE} \word{@} \word{toR}  2 \word{BASE} \word{!} \\
+\tab	MAX-UINT MAX-UINT \word{num-start} \word{numS} \word{num-end}	\tab[2]	  \word{bs} MAXIMUM UD TO BINARY \\
+\tab	\word{Rfrom} \word{BASE} \word{!}								\tab[10.9] \word{bs} S: C-ADDR U \\
+\tab	\word{DUP} \#BITS-UD \word{=} \word{SWAP} \\
+\tab	0 \word{DO}														\tab[13.4]  \word{bs} S: C-ADDR FLAG \\
+\tab[2]		\word{OVER} \word{C@} \word{[CHAR]} 1 \word{=} \word{AND}	\tab[2.5] \word{bs} ALL ONES \\
+\tab[2]		\word{toR} \word{CHAR+} \word{Rfrom} \\
+\tab	\word{LOOP} \word{SWAP} \word{DROP} \word{;} \\
+\{ GP6 -> <TRUE> \}
+
+\word{:} GP7 \\
+\tab	\word{BASE} \word{@} \word{toR}		MAX-BASE \word{BASE} \word{!} \\
+\tab	<TRUE> \\
+\tab	A 0 \word{DO} \\
+\tab[2]		\word{I} 0 \word{num-start} \word{numS} \word{num-end} \\
+\tab[2]		1 \word{=} \word{SWAP} \word{C@} \word{I} 30 \word{+} \word{=} \word{AND} \word{AND} \\
+\tab	\word{LOOP} \\
+\tab	MAX-BASE A \word{DO} \\
+\tab[2]		\word{I} 0 \word{num-start} \word{numS} \word{num-end} \\
+\tab[2]		1 \word{=} \word{SWAP} \word{C@} 41 \word{I} A \word{-} \word{+} \word{=} \word{AND} \word{AND} \\
+\tab	\word{LOOP} \\
+\tab	\word{Rfrom} \word{BASE} \word{!} \word{;} \\
+\{ GP7 -> <TRUE> \}
+
+\word{bs} \word{toNUMBER} TESTS \\
+
+\word{CREATE} GN-BUF 0 \word{C,} \\
+\word{:} GN-STRING	 GN-BUF 1 \word{;} \\
+\word{:} GN-CONSUMED GN-BUF \word{CHAR+} 0 \word{;} \\
+\word{:} GN'		 \word{[CHAR]} ' \word{WORD} \word{CHAR+} \word{C@} GN-BUF \word{C!}  GN-STRING \word{;}
+
+\{ 0 0 GN' 0' \word{toNUMBER} ->         0 0 GN-CONSUMED \} \\
+\{ 0 0 GN' 1' \word{toNUMBER} ->         1 0 GN-CONSUMED \} \\
+\{ 1 0 GN' 1' \word{toNUMBER} -> BASE @ 1+ 0 GN-CONSUMED \} \\
+\{ 0 0 GN' -' \word{toNUMBER} ->         0 0 GN-STRING   \} \tab \word{bs} SHOULD FAIL TO CONVERT THESE \\
+\{ 0 0 GN' +' \word{toNUMBER} ->         0 0 GN-STRING   \} \\
+\{ 0 0 GN' .' \word{toNUMBER} ->         0 0 GN-STRING   \}
+
+\word{:} >NUMBER-BASED \\
+\tab \word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \word{toNUMBER} \word{Rfrom} \word{BASE} \word{!} \word{;}
+
+\{ 0 0 GN' 2'       10 >NUMBER-BASED ->  2 0 GN-CONSUMED \} \\
+\{ 0 0 GN' 2'        2 >NUMBER-BASED ->  0 0 GN-STRING   \} \\
+\{ 0 0 GN' F'       10 >NUMBER-BASED ->  F 0 GN-CONSUMED \} \\
+\{ 0 0 GN' G'       10 >NUMBER-BASED ->  0 0 GN-STRING   \} \\
+\{ 0 0 GN' G' MAX-BASE >NUMBER-BASED -> 10 0 GN-CONSUMED \} \\
+\{ 0 0 GN' Z' MAX-BASE >NUMBER-BASED -> 23 0 GN-CONSUMED \}
+
+\word{:} GN1 \word{bs} ( UD BASE -- UD' LEN ) UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
+\tab	\word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \\
+\tab	\word{num-start} \word{numS} \word{num-end} \\
+\tab	0 0 \word{2SWAP} \word{toNUMBER} \word{SWAP} \word{DROP} \tab \word{bs} RETURN LENGTH ONLY \\
+\tab	\word{Rfrom} \word{BASE} \word{!} \word{;}
+
+\{        0   0        2 GN1 ->        0   0 0 \} \\
+\{ MAX-UINT   0        2 GN1 -> MAX-UINT   0 0 \} \\
+\{ MAX-UINT DUP        2 GN1 -> MAX-UINT DUP 0 \} \\
+\{        0   0 MAX-BASE GN1 ->        0   0 0 \} \\
+\{ MAX-UINT   0 MAX-BASE GN1 -> MAX-UINT   0 0 \} \\
+\{ MAX-UINT DUP MAX-BASE GN1 -> MAX-UINT DUP 0 \}
+
+\word{:} GN2	\word{bs} ( -- 16 10 ) \\
+\tab \word{BASE} \word{@} \word{toR}
+	\word{HEX} \word{BASE} \word{@}
+	\word{DECIMAL} \word{BASE} \word{@}
+	\word{Rfrom} \word{BASE} \word{!} \word{;} \\
+\{ GN2 -> 10 A \}
+\end{tt}
+
+\subsection{Memory Movement}
+
+\begin{tt}
+TESTING \word{FILL} \word{MOVE}
+
+\word{CREATE} FBUF 00 \word{C,} 00 \word{C,} 00 \word{C,} \\
+\word{CREATE} SBUF 12 \word{C,} 34 \word{C,} 56 \word{C,} \\
+\word{:} SEEBUF FBUF \word{C@}  FBUF \word{CHAR+} \word{C@}  FBUF \word{CHAR+} \word{CHAR+} \word{C@} \word{;}
+
+\{ FBUF 0 20 \word{FILL} -> \} \\
+\{ SEEBUF -> 00 00 00 \}
+
+\{ FBUF 1 20 \word{FILL} -> \} \\
+\{ SEEBUF -> 20 00 00 \}
+
+\{ FBUF 3 20 \word{FILL} -> \} \\
+\{ SEEBUF -> 20 20 20 \}
+
+\{ FBUF FBUF 3 \word{CHARS} \word{MOVE} -> \} \tab[3] \word{bs} BIZARRE SPECIAL CASE \\
+\{ SEEBUF -> 20 20 20 \}
+
+\{ SBUF FBUF 0 \word{CHARS} \word{MOVE} -> \} \\
+\{ SEEBUF -> 20 20 20 \}
+
+\{ SBUF FBUF 1 \word{CHARS} \word{MOVE} -> \} \\
+\{ SEEBUF -> 12 20 20 \}
+
+\{ SBUF FBUF 3 \word{CHARS} \word{MOVE} -> \} \\
+\{ SEEBUF -> 12 34 56 \}
+
+\{ FBUF FBUF \word{CHAR+} 2 \word{CHARS} \word{MOVE} -> \} \\
+\{ SEEBUF -> 12 12 34 \}
+
+\{ FBUF \word{CHAR+} FBUF 2 \word{CHARS} \word{MOVE} -> \} \\
+\{ SEEBUF -> 12 34 34 \}
+\end{tt}
+
+\subsection{Output}
+
+\begin{tt}
+TESTING OUTPUT: \word{d} \word{.q} \word{CR} \word{EMIT} \word{SPACE} \word{SPACES} \word{TYPE} \word{Ud}
+
+\word{:} OUTPUT-TEST \\[1ex]
+\tab   \word{.q} YOU SHOULD SEE THE STANDARD GRAPHIC CHARACTERS:" \word{CR} \\
+\tab   41 \word{BL} \word{DO} \word{I} \word{EMIT} \word{LOOP} \word{CR} \\
+\tab   61 41 \word{DO} \word{I} \word{EMIT} \word{LOOP} \word{CR} \\
+\tab   7F 61 \word{DO} \word{I} \word{EMIT} \word{LOOP} \word{CR} \\[1ex]
+\tab   \word{.q} YOU SHOULD SEE 0-9 SEPARATED BY A SPACE:" \word{CR} \\
+\tab   9 \word{1+} 0 \word{DO} \word{I} \word{d} \word{LOOP} \word{CR} \\[1ex]
+\tab   \word{.q} YOU SHOULD SEE 0-9 (WITH NO SPACES):" \word{CR} \\
+\tab   \word{[CHAR]} 9 \word{1+} \word{[CHAR]} 0
+	\word{DO} \word{I} 0 \word{SPACES} \word{EMIT} \word{LOOP} \word{CR} \\[1ex]
+\tab   \word{.q} YOU SHOULD SEE A-G SEPARATED BY A SPACE:" \word{CR} \\
+\tab   \word{[CHAR]} G \word{1+} \word{[CHAR]} A
+	\word{DO} \word{I} \word{EMIT} \word{SPACE} \word{LOOP} \word{CR} \\[1ex]
+\tab   \word{.q} YOU SHOULD SEE 0-5 SEPARATED BY TWO SPACES:" \word{CR} \\
+\tab   5 \word{1+} 0
+	\word{DO} \word{I} \word{[CHAR]} 0 \word{+} \word{EMIT} 2 \word{SPACES} \word{LOOP} \word{CR} \\[1ex]
+\tab   \word{.q} YOU SHOULD SEE TWO SEPARATE LINES:" \word{CR} \\
+\tab   \word{Sq} LINE 1" \word{TYPE} \word{CR} \word{Sq} LINE 2" \word{TYPE} \word{CR} \\[1ex]
+\tab   \word{.q} {\small YOU SHOULD SEE THE NUMBER RANGES OF SIGNED AND UNSIGNED NUMBERS:}" \word{CR} \\
+\tab   \word{.q} ~~SIGNED: " MIN-INT \word{d} MAX-INT \word{d} \word{CR} \\
+\tab   \word{.q} UNSIGNED: " 0 \word{Ud} MAX-UINT \word{Ud} \word{CR} \\
+\word{;}
+
+\{ OUTPUT-TEST -> \}
+\end{tt}
+
+\subsection{Input}
+
+\begin{tt}
+TESTING INPUT: \word{ACCEPT}
+
+\word{CREATE} ABUF 80 \word{CHARS} \word{ALLOT}
+
+\word{:} ACCEPT-TEST \\
+\tab \word{CR} \word{.q} PLEASE TYPE UP TO 80 CHARACTERS:" \word{CR} \\
+\tab ABUF 80 \word{ACCEPT} \\
+\tab \word{CR} \word{.q} RECEIVED: " \word{[CHAR]} " \word{EMIT} \\
+\tab ABUF \word{SWAP} \word{TYPE} \word{[CHAR]} " \word{EMIT} \word{CR} \\
+\word{;}
+
+\{ ACCEPT-TEST -> \}
+\end{tt}
+
+\subsection{Dictionary Search Rules}
+
+\begin{tt}
+TESTING DICTIONARY SEARCH RULES
+
+\{ \word{:} GDX   123 \word{;} \tab \word{:} GDX   GDX 234 \word{;} -> \} \\
+\{ GDX -> 123 234 \}
+
+\end{tt}

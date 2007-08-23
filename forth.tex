@@ -1,0 +1,1393 @@
+\documentclass[10pt]{book}
+\usepackage{a4wide}
+%\includeonly{facility}
+
+% ========== Document Organisation Flags ==========
+
+\newif\ifinlineintro	% Inline Rationale main matter
+%\inlineintrotrue
+\inlineintrofalse
+
+\newif\ifinlinebody		% Inline Rationale glossary matter
+\inlinebodytrue
+%\inlinebodyfalse
+
+\newif\ifshowref		% Display Cross Reference labels
+%\showreftrue
+\showreffalse
+
+\newcommand{\revision}{07.1}	% Document Revision
+
+% =================================================
+
+% To Do
+%
+% Get rid of labels
+% code environment
+% auto xref ambiguous conditions
+% add \log to History / Change Log
+
+\usepackage{ifthen}
+%\usepackage{supertabular}
+\usepackage{graphicx}
+
+
+% ========== Page Header / Footer ==========
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\makeatletter
+\newcommand{\docversion}{%
+	\revision
+	% body	intro
+	% T		T		Inline
+	% T		F		word Rationale
+	% F		T		Wordlist
+	% F		F		Final
+	%
+	\ifinlinebody
+		\ifinlineintro
+			\textit{i}%		Inline (both Headings and Words)
+		\else
+			\textit{r}%		word Rationale only
+		\fi
+	\else
+		\ifinlineintro
+			\textit{w}%		Wordlist rationale only
+		\else
+			% Finale version of the document
+		\fi%
+	\fi%
+	\ifshowref
+		\textit{x}
+	\fi
+}
+\makeatother
+
+\lhead[\leftmark]{Forth 200\emph{x} / \docversion}
+\rhead[Forth 200\emph{x} / \docversion]{\leftmark}
+\lfoot[\rm\thepage]{}
+\rfoot[]{\rm\thepage}
+\cfoot{}
+\renewcommand{\footrulewidth}{0.4pt}
+\newcommand{\collate}{%
+	! `` \# \$ \% \& ' ( ) * + , - . / digits : ; $<$ = $>$
+	? @ ALPHA [ \bs{} ] \^{} \_ ` alpha \{ | \} \tilde}
+
+% ==========================================
+
+
+% ========== Deferred Placement ==========
+
+\usepackage{answers}
+\renewcommand{\solutionextension}{rat} % Default file extension
+
+% The answerfile switch controls the use of deferred text.
+% Turning it on will allow text to be exported to a "solution"
+% file, while turning it off will simply place the text in line.
+
+\answerfilesfalse
+\ifinlineintro\else \answerfilestrue \fi
+\ifinlinebody \else \answerfilestrue \fi
+
+\newcommand{\includerational}[1]{
+	\InputIfFileExists{#1\solutionpoint\solutionextension}
+}
+
+% =======================================
+
+
+% ========== Change Log / History =========
+
+\usepackage{history}
+%\openhistory
+
+% =========================================
+
+
+% ========== PostScript Fonts ==========
+
+\usepackage[T1]{fontenc}
+\usepackage[safe,warn]{textcomp}
+
+\usepackage{mathptmx}			% Times for roman and formula
+\usepackage[scaled=.88]{helvet}	% Helvetica for sans-serif
+\usepackage{courier}			% Courier for teletype
+
+% ======================================
+
+
+% ========== Generate HTML ==========
+
+\ifdefined\Hcode
+	\usepackage[xhtml]{tex4ht}
+%\else
+%	\newif\ifhtml
+%	\htmlfalse
+\fi
+
+% ====
+
+\usepackage[colorlinks,
+	pageanchor=false,
+	pdfpagelabels=false,
+	breaklinks=true]{hyperref}
+
+
+% ========== Block Paragraphs ==========
+
+\parskip=0.7\baselineskip
+\parindent=0pt
+
+% ======================================
+
+\makeatletter
+
+% ========== Word Glossary ==========
+
+% .wrd	the list of raw (unsorted) word entries
+% .wds	the sorted list of word entries.
+%
+% Note that this requires an external program (sort.pl) to sort
+% the entries.
+
+\newwrite\wordfile
+\immediate\openout\wordfile=\jobname.wrd
+
+% Note the "core" wordlist chapter so we can handle this as a
+% special case. Of particular interest to worddef and wref.
+
+\newcounter{word@core}
+\setcounter{word@core}{6}
+
+% "Normal" or "Extended" wordset
+\newif\if@ext
+
+\newcommand{\extended}{%
+	\@exttrue
+	\label{wordlist:\word@list-ext}
+}
+
+\newcommand{\setwordlist}[1]{%
+	\gdef\word@list{#1}
+}
+\setwordlist{core}
+
+\newcommand{\wordlist}[1]{%
+	\gdef\word@list{#1}		% Set the current wordlist
+	\@extfalse				% Core wordset, non-extended wordlist
+	\label{wordlist:#1}		% Label the wordlist, just in case
+	\chaptermark{\MakeUppercase{#1} Word Set}	% Set the page heading
+	%
+	% Set up a file ready for the deferred text
+	%
+	\ifanswerfiles
+		\Ifopen{deferred}{
+			\Closesolutionfile{deferred}
+		}{}
+		\Opensolutionfile{deferred}[#1]
+		\Writetofile{deferred}{\protect\setwordlist{#1}}
+		\Writetofile{deferred}{\protect\label{rat:#1}}
+	\fi
+}
+
+% ===================================
+
+% The following environment define a glossary entry of a word.
+% It has two mandatory arguments and three optional ones.
+%
+% \begin{worddef*}[<label>]{<number>}[<sub-number>]{<name>}[<english>][<proposal>]
+%
+% <label>	Is the LaTeX label given to the word. It is used when
+%			processing links, and should not include any PDF or HTML
+%			Special characters. This is the label by which the word
+%			in known to the LaTeX system, and the name which should
+%			should be used in the \word{<label>} and \wref{<label>}
+%			commands.
+%			Default: <name> is assumed to be the label.
+%
+% <number>	The word's number in the alphabetical listing of words.
+%			This should be the full four digit number.
+%
+% <sub-number>
+%			The Forth200x standard requires we add new words between
+%			existing words. I.e., a new word between 0124 and 0125,
+%			we can only archive this by further dividing the number
+%			with a two digit sub-number.
+%			Default: None.
+%
+% <name>	This is the display name of the word. It is typeset in
+%			standard LaTeX.
+%
+% <english>	Is the english pronunciation of the word.
+%			Default: None.
+%
+% <proposal>
+%			The name of the proposal which introduced this word. All
+%			words introduced by Forth 200x should have a proposal.
+%			Default: None.
+%
+% The stared version of worddef, adds change bars to the output. This
+% is used to introduce a new word into the standard for the first time.
+%
+% The worddef environment will automatically generate an index entry
+% for the word.
+%
+% The following commands are provided to aid the word definition:
+%
+% \compile			Compilation time semantics
+% \execute[<type>]	Execution semantics, with a given <type>
+% \init				Initiation
+% \interpret		Interpretation semantics
+% \note[<number>]	Note with an optional <number>
+% \runtime[<type>]	Run-time semantics, with a given <type>
+% \see				Reference to other words (See)
+% \ratinale			Rationale
+% \testing			Testing
+%
+% \item[<name>]		None standard section "<name>:"
+%
+% \param{<stack item>}
+%		Type set <stack item> according to the notation rule.
+%		See the definition of \param for the rules.
+%
+% \stack[<stack>]{<before>}{<after>}
+%		Type set a stack picture according to the same notation rules
+%		as used form \param.
+%
+% \begin{defer} ... \end{defer}
+%		All text which should appear in the rational must be given
+%		inside the defer environment. This allows the text to be
+%		shipped out to a separate file if deferred text is enabled,
+%		\inlinebody is false.
+
+% ==== worddef ====
+
+% Unfortunately, LaTeX does not provide an easy way of identifying
+% more than one optional arguments. The worddef environment, calls
+% on a chain of intermediate macros (word@def@a, word@def@b, and
+% so on) to extract each of the optional parameters, one at a time.
+% They define a number of macros:
+%
+% \if@star		True if the change bar is required (worddef*)
+% \word@label	LaTeX label for the word, for use in \word{} or \wref{}
+% \word@num		the four digit number
+% \word@sub		the two digit sub-division number
+% \word@name	the name of the word being defined
+% \word@read	the english pronunciation / reading of the word name
+% \word@prop	Proposal which introduced the new definition
+%
+% In addition to these macros we also have two global macros:
+%
+% \word@list	name of the current word list
+% \if@ext		true if in extended word list
+
+% Before we start, we define a error reporting macro which identifies
+% both the word and the word list in which the error was found
+
+\newcommand{\word@error}[1]{%
+	\@latex@error{%
+		In \ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi
+		\ifx\word@num\empty .----\else.\word@num\fi
+		\ifx\word@sub\empty\else .\word@sub\fi
+		\space
+		"\word@name" of wordset "\word@list" \MessageBreak
+		#1}\@ehc
+}
+
+\newif\if@star
+\newenvironment{worddef}{\@starfalse\word@def@a}{\word@def@end}
+\newenvironment{worddef*}{\@startrue\word@def@a}{\word@def@end}
+
+% So we must start by processing the first two parameters:
+% <label> and <number>. Defines the macros:
+% \word@label	\empty or the text label
+% \word@num		\empty or the four digit number
+
+\newcommand{\word@def@a}[2][\empty]{% [<label>]{<number>}...
+	\ifx#1\empty\let\word@label=\empty\else\def\word@label{#1}\fi
+	\def\word@num{#2}
+	\word@def@b
+}
+
+% Now we process the second pair of parameters: <sub-number> and
+% <name>. So we define (or redefine) the macros:
+% \word@label	if \word@label is \empty this is redefined to <name>
+% \word@sub		the two digit sub-division number
+% \word@name	the name of the word being defined
+
+\newcommand{\word@def@b}[2][\empty]{% ...[<sub-number>]{<name>}...
+	\ifx#1\empty\let\word@sub=\empty\else\def\word@sub{#1}\fi
+	\ifx\word@label\empty\def\word@label{#2}\fi
+	\def\word@name{#2}
+	\word@def@c
+}
+
+% Now we can process the next optional parameter: <english>
+% Note that if the word has a <proposal> parameter, the
+% <english> parameter is required.
+% Rather surprisingly this defines a new macro:
+% \word@read	the english pronunciation / reading of the word name
+
+\newcommand{\word@def@c}[1][\empty]{% ...[<english>]...
+	\ifx#1\empty\let\word@read=\empty\else\def\word@read{#1}\fi
+	\word@def@d
+}
+
+% Finally we can process the final optional parameter: <proposal>
+% Note that all additions to the ANS Forth standard require the
+% <proposal> parameter. Thus a new word which has a <proposal> but
+% not a separate english pronunciation, MUST provide an empty
+% pronunciation parameter. This macro defines the new macro:
+% \word@prop	Proposal which introduced the new definition
+
+\newcommand{\word@def@d}[1][\empty]{% ...[<proposal>]
+	\ifx#1\empty\let\word@prop=\empty\else\def\word@prop{#1}\fi
+	\ifx\empty\word@prop
+		% No proposal - word must be from ANS Forth '94
+		\if@star
+			% We have a new word without a proposal?
+			\word@error{New words MUST have a proposal}
+		\fi
+	\fi
+	\word@def@index
+	\word@def@head
+	\word@def@body
+}
+
+% Write the index entry for the word, based on our collected macros
+
+\newcommand{\word@def@index}{%
+	\immediate\write\wordfile{\string\indexentry%
+		\if@star*\fi%		* = Changebar
+		\ifnum\value{word@core}=\value{chapter}{\thesection}\else{\thesubsection}\fi%	1: <section>
+		{\word@num}%			2: <number>
+		{\word@sub}%			3: <sub number>
+		{\word@name}%			4: <name>
+		{\word@list}%			5: <wordlist>
+		{\if@ext\space EXT\fi}%	6: <ext>
+		{\word@prop}%			7: <proposal>
+		{\word@label}%			8: <label>
+		{\word@read}%			9: <english>
+	}
+}
+
+% Show the macros, used for debugging
+
+\newcommand{\word@def@test}{%
+	\begin{tabular}{rl}
+		Change bar:	& \if@star On\else Off\fi \\
+		Section:	& \ifnum\value{word@core}=\valign{chapter}\thesection\else\thesubsection\fi \\
+		Number:		& \word@num \\
+		Sub Number:	& \word@sub \\
+		Name:		& \word@name \\
+		Wordlist:	& \word@list~\if@ext EXT\fi \\
+		Proposal:	& \word@prop \\
+		Label:		& \word@label \\
+		English:	& \word@read \\
+	\end{tabular}\par
+}
+
+% ==== Word Header ====
+%
+% Generate the word header based on the macros collected
+
+\newcommand{\word@def@head}{%
+	%
+	% This is a good place to start a new page
+	%
+	\pagebreak[3]
+	%
+	% Start change bar
+	%
+	\if@star
+		\cbstart%
+		\ifinlinebody\else%
+			\Writetofile{deferred}{\protect\cbstart}%
+		\fi%
+	\fi%
+	%
+	% Word number and name
+	%
+	\makebox[0.5\textwidth][l]{%
+		\makebox[7.0em][l]{% <== Magic Number, width of section number
+			% Switch to a bold font
+			\bfseries
+			%
+			% Current section or subsection
+			%
+			\ifnum\value{word@core}=\value{chapter}
+				% In the core wordset
+				\thesection
+			\else
+				% In all other word sets
+				\thesubsection%
+			\fi
+			%
+			% Word number
+			%
+			\ifx\empty\word@num
+				% No word number given
+				.\rule[.8ex]{2em}{.5pt}
+			\else
+				.\word@num
+			\fi
+			%
+			% Sub division
+			%
+			\ifx\word@sub\empty
+				% No sub division
+			\else
+				.\word@sub
+			\fi
+		}
+		%
+		% Word Name
+		%
+		\mdseries	% Back to a medium weight (normal) font
+		\hyperdef{\word@list}{\word@label}{\texttt{\word@name}}
+	}
+	%
+	% English pronunciation (if given)
+	%
+	\ifx\word@read\empty
+		% No english pronunciation given
+	\else
+		``\word@read''
+	\fi
+	%
+	% Wordlist
+	%
+	\hfill
+	\MakeUppercase{\word@list}
+	\if@ext EXT\fi
+	%
+	% Define the label for this word
+	%
+	\def\@currentlabel{%
+		\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
+		\ifx\empty\word@num .0\else.\word@num\fi%
+		\ifx\empty\word@sub\else .\word@sub\fi
+	}%
+	\edef\@currentlabelname{\word@name}%
+	\def\@currentHref{\word@list.\word@label}%
+	\label{\word@list:\word@label}%
+	%
+	% Cross Reference
+	%
+	\ifshowref
+		\ifx\word@label\word@name
+			% Word label is the word name
+		\else
+			% Label is different to name
+			\hbox to 0pt{\textsf{\small ~~\word@label}}
+		\fi
+	\fi
+	%
+	% Proposal
+	%
+	\\[-0.8ex]
+	\ifx\word@prop\empty
+		% No proposal - word must be from ANS Forth '94
+	\else
+		\mbox{} \hfill	% flush right (under the wordset name)
+		\textsf{\small \word@prop}
+	\fi
+	%
+	% End the header
+	%
+	\\[-6ex]
+	%
+	% This is a very bad place for a page break
+	%
+	\pagebreak[0]
+}
+
+% ==== Word Body ====
+%
+% Define the macro which will be used to format items within the word
+% definition. We right align the text which is output with a trailing
+% colon.
+
+\newcommand{\word@item}[1]{%
+	\hfil
+	\ifx#1\else #1:\fi
+}
+
+% For the main body of the definition we use a "simple" list
+% environment. We need only set up the margins for environment.
+
+\newcommand{\word@def@body}{
+	\begin{list}{}{
+		\setlength{\labelwidth}{6.8em}		% <== Magic number, width of indent
+		\setlength{\leftmargin}{\labelwidth}
+		\addtolength{\leftmargin}{\labelsep}
+		\renewcommand{\makelabel}{\word@item}
+	}
+%	\samepage
+}
+
+% ==== Word Footer ====
+%
+% This cleans up after the header and body
+
+\newcommand{\word@def@end}{%
+	%
+	% Extend the normal "missing \item" error message to
+	% tell us which word is in error.
+	%
+	\def\@noitemerr{\word@error{Something wrong here --- perhaps a
+		missing \string\item}}
+	%
+	% End the list started by \word@def@body
+	%
+	\end{list}
+	%
+	% End the change bar, if it was enabled
+	%
+	\if@star
+		\cbend%
+		\ifinlinebody\else%
+			\Writetofile{deferred}{\protect\cbend}%
+		\fi%
+	\fi
+	%
+	% Leave some extra space after the list
+	%
+	\vspace*{3ex}
+	%
+	% This would be a fairly good place for a page break
+	%
+	\par\pagebreak[3]
+}
+
+% ==== Word Sections ====
+
+% Define the sections found within a glossary entry.
+
+\newcommand{\compile}{\item[Compilation]}
+\newcommand{\execute}[1][\empty]{%
+	\ifx#1\empty
+		\item[Execution]
+	\else
+		\item[\emph{#1} Execution]
+	\fi
+}
+\newcommand{\init}{\item[Initiation]}
+\newcommand{\interpret}{\item[Interpretation]}
+\newcommand{\note}[1][\empty]{\item[Note\ifx#1\empty\else\ #1\fi]}
+\newcommand{\runtime}[1][]{\item[#1 Run-time]}
+\newcommand{\see}{\item[See]}
+
+
+% ==== Stack Descriptions ====
+
+% Okay, we are going for some very nasty low level TeX here. Check out
+% the actionarg entry of the TeX FAQ for full details.
+%
+% First we define the functions which are going to be called by a
+% special characters
+
+\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}
+\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}
+\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}
+\newcommand{\stack@bar}{~\textbar~}
+\newcommand{\stack@opa}{\ensuremath{\langle}}
+\newcommand{\stack@cla}{\ensuremath{\rangle}}
+
+\newif\if@stack@quote\@stack@quotetrue
+\newcommand{\stack@qot}{%
+	\if@stack@quote``\@stack@quotefalse\else''\@stack@quotetrue\fi}
+
+% Now we have to activate the special characters we are going to
+% define, so that we can define them! We do this inside a simple
+% group so we don't screw up the rest of the system.
+
+\begingroup
+	\catcode`\_=\active		% Subscript:      _1 or _{12}
+	\catcode`\*=\active		% Multiply:       1*2
+	\catcode`\|=\active		% Alternative:    u|n
+	\catcode`\<=\active		% Start text:     <ccc>
+	\catcode`\>=\active		% End text:       <ccc>
+	\catcode`\"=\active		% Syntax element: "name"
+
+% Because we are inside a simple group, we have to use \gdef rather
+% than \newcommand. The \param@set command installs the new specials
+% for the next function call.
+
+\gdef\stack@set{%
+	\catcode`\_=\active \let_=\stack@sub%
+	\catcode`\*=\active \let*=\stack@mul%
+	\catcode`\|=\active \let|=\stack@bar%
+	\catcode`\<=\active \let<=\stack@opa%
+	\catcode`\>=\active \let>=\stack@cla%
+	\catcode`\"=\active \let"=\stack@qot%
+}
+\endgroup
+
+% Now we can define the \stack command:
+%
+% \stack[<stack>}{<before>}{<after>}
+%
+% Where the <before> and <after> parameters are interpreted with the
+% new specials. To do this we have to enable the new specials before
+% processing the arguments with the support function \stack@sig. We
+% do this inside a new group so we don't bugger up text outside of
+% the parameter.
+%
+% The <before> and <after> parameters define a number of additional
+% special characters as follows:
+% _x or _{xx}	x or xx is a subscript
+% x*y			becomes x multiplied by y ($x\times y$)
+% x|y			becomes x or y ( x \textbar y )
+% <xxx>			becomes an argument <xxx>
+% "				becomes open or close double quote
+%
+% All other characters are typeset in italic.
+
+\newcommand{\stack}[1][\empty]{% [<stack>]...
+	(				% Mark the start of the signature
+	\ifx#1\empty\else #1: \fi	% The stack name (if given)
+	\begingroup		% Open a new restricted scope for new specials
+	\itshape		% The signature is in italic
+	\stack@set		% Enable the specials
+	\stack@sig		% Parse the signature parameters
+					% We have to do this in a separate macro as
+					% the specials are not active when this macro
+					% is executed
+}
+
+\newcommand{\stack@sig}[2]{% ...{<before>}{<after>}
+	#1\ 			% Pre-condition (before)
+	\texttt{--}		% Mark the "execution point"
+	\ #2			% Post-condition (after)
+	\endgroup		% Close restricted scope
+					% Disable new specials and \itshape
+	)				% Close stack signature
+}
+
+% The \param{} command allows us to process its argument in exactly
+% the same way as the <before> and <after> parameters. Thus we have
+% to use the same trick of enabling the our specials inside of a new
+% group before calling a helper word \param@arg which actually
+% processes the argument.
+
+\newcommand{\param}{% ...
+	\begingroup		% Open a restricted scope for our specials
+	\itshape		% A stack parameter is always given in italic
+	\stack@set		% Enable the specials
+	\param@arg		% Parse the parameter
+}
+
+\newcommand{\param@arg}[1]{% ...{<param>}
+	#1%				% Parse the parameter with our specials enabled
+	\endgroup		% Close restricted scope, we don't want our
+					% specials buggering up anything else now do we,
+					% this also cancels the \itshape command
+}
+
+% ==== Deferred Text ====
+%
+% The defer environment should be used to identify text which is
+% to be included in the rationale for a definition. Only one defer
+% section is allowed for each definition. Both the Rationale and
+% Testing sections may only appear in the defer environment.
+%
+% If we are inlineing (\inlinebodyture) we simply ignore the defer
+% environment. The \rationale command must define a cross reference
+% label (and hyper link target) for use by \rref. Otherwise we have
+% to ship the text out to the deferred text file for the given
+% wordlist.
+
+% For this some knowledge of the answers package is required. This
+% package allows us to define an association between two environments
+% and a "solution" file:
+%
+% \Newassociation{defertext}{deferredtext}{deferred}
+%
+% When a defertext environment is encountered the text will be written
+% out to the associated solution file (deferred in this case). The text
+% is placed in the deferredtext environment, so that it may be processed
+% correctly.
+%
+% However, if \ifanswerfiles is false, the text is not shipped out to
+% the solution file, but simply processed directly in the deferredtext
+% environment.
+%
+% The deferredtext environment is executed with a number of parameters.
+% These are defined by the \deferredtextparams macro. This allows us to
+% capture then environment in which the defertext environment was found,
+% and pass on any relevant information to the deferred text environment.
+%
+% The command:
+%
+%	\Opensolutionfile{deferred}[filename]
+%
+% associates an actual file name (in this case filename) with the
+% solution file handle deferred. This allow a single solution file
+% handle to be associated with multiple physical files, one per
+% wordlist.
+
+% So that's the background, no on to the defer environment!
+%
+% We start by defining a boolean flag to enable the \rationale and
+% \testing macros or spit out an error message if it is used outside
+% of the defer environment
+
+% Rather than defining several new flags, we will use a simple counter
+% to control both error handling and the generation of the section
+% label for defered (rationale) text.
+%
+% 0: Not in defer environment
+% 1: Start of defer enviornment
+% 2: Rationale header output
+% 3: Implementation header output
+% 4: Testing header output
+
+\newcounter{defer@state}
+
+\ifinlinebody
+	% We are inlineing the text.
+
+	% Define our own defer environment which does very little
+	\newenvironment{defer}{%
+		% Enable rationale sections
+		\setcounter{defer@state}{1}
+		\def\@noitemerr{}
+	}{%
+		% Have we output a section heading
+		\ifnum\value{defer@state}=1
+			% No - report an error
+			\word@error{Something wrong here --- missing a rationale
+				heading}
+		\fi
+		% Disable defer headings
+		\setcounter{defer@state}{0}
+	}
+
+\else
+	% We are deferring the text for inclusion in the Rational appendix
+
+	% Let answers package define the defer environment for us.
+
+	\Newassociation{defer}{worddefer}{deferred}
+
+	% The text in the defer environment will be placed inside a
+	% worddefer environment.
+
+	% Define a set of parameters to the worddefer environment.
+	% The \worddeferparams macro is used to capture the current state,
+	% so that it may be passed to the worddefer environment.
+
+	\renewcommand{\worddeferparams}{%
+		{\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi}%	Section (or sub-section) number
+		{\ifx\empty\word@num0\else\word@num\fi}%		2 Word number or \empty
+		{\word@sub}%		3 Word sub-number
+		{\word@list}%		4 The current word list
+		{\word@label}%		5 The label for the word
+		{\word@name}%		6 The LaTeX name for the word
+	}
+
+	% We redefine the standard worddefer environment to take account
+	% of the parameters we have just defined.
+
+	\newcommand{\word@defer@error}[1]{%
+		\@latex@error{%
+			In rationale for \word@num\space "\word@name" of wordset
+			"\word@list" \MessageBreak #1}\@ehc
+	}
+
+	\renewenvironment{worddefer}[6]{%
+		%
+		% Output the section heading
+		%
+		\par
+		\hyperdef{rat.#4}{#5}{%
+			\textbf{A.#1%
+				\ifnum#2=0\empty.\rule[.8ex]{2em}{.5pt}\else.#2\fi%
+				\ifx#3\empty\else.#3\fi
+				\quad \hyperref{}{}{#4.#5}{\texttt{#6}}
+			}
+		} \\[-1.6\baselineskip]
+		%
+		% Start the body environment
+		%
+		\begin{list}{}{
+			\setlength{\labelwidth}{2em}	% <== Magic number, width of indent
+			\setlength{\leftmargin}{\labelwidth}
+			\addtolength{\leftmargin}{\labelsep}
+			\renewcommand{\makelabel}{\word@item}
+		}
+		\item\relax
+		%
+		% Store a few values just incase there is an error
+		%
+		\def\word@num{A.#1%
+			\ifx#2\empty.--\else.#2\fi%
+			\ifx#3\empty\else.#3\fi}
+		\def\word@list{#4}
+		\def\word@label{#5}
+		\def\word@name{#6}
+		%
+		% Create a few variables, used by \label
+		%
+		\def\@currentlabel{A.#1%
+			\ifx#2\empty.0\else.#2\fi%
+			\ifx#3\empty\else .#3\fi
+		}
+		\edef\@currentlabelname{#6}
+		\def\@currentHref{rat.#4.#5}
+		%
+		% Record a cross reference label for the section
+		%
+		\label{rat:\word@list:\word@label}
+		%
+		% Enable the defer headings
+		%
+		\setcounter{defer@state}{1}
+		%
+		% Patch the error message to report "rationale"
+		%
+		\let\word@error=\word@defer@error
+	}{
+		%
+		% Ignore the no \item error
+		%
+		\def\@noitemerr{}
+		%
+		% Check to see if either rationale section heading
+		%
+		\ifnum\value{defer@state}=1
+			\word@defer@error{Something wrong here --- missing a
+				rationale heading}
+		\fi
+		%
+		% End the list environment
+		%
+		\end{list}
+		%
+		% Disable defer headings
+		%
+		\setcounter{defer@state}{0}
+	}
+\fi
+
+% Defer section headings
+
+\newcommand{\defer@heading}[3]{% {<state>}{<command>}{<heading>}
+	\ifnum\value{defer@state}=0
+		% Using a heading outside of the defer environment
+		\word@error{\protect#2\space may only be used inside a defer
+			environment}
+	\else
+		% We are in the defer environment
+		\ifnum\value{defer@state}=#1
+			% Already used this heading
+			\word@error{Only one \protect#2\space section allowed per
+				word}
+		\fi
+		\ifnum\value{defer@state}>#1
+			% Heading is out of sequence
+			\word@error{\protect#2\space must be before
+				\ifcase\value{defer@state}
+				\or\or
+				\or\protect\implementation%
+				\or\protect\testing\fi}
+		\fi
+		\rmfamily
+		\ifnum\value{defer@state}=1
+			% First heading in defer environment
+			\ifinlinebody
+				\item[\hyperdef{rat.\word@list}{\word@label}{#3}]
+				% Set up for \label
+				\def\@currentlabel{%
+					A.\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
+					\ifx\word@num\empty.0\else.\word@num\fi%
+					\ifx\word@sub\empty\else .\word@sub\fi
+				}
+				\edef\@currentlabelname{\word@name}
+				\def\@currentHref{rat.\word@list.\word@label}
+				% Record a cross reference label for the section
+				\label{rat:\word@list:\word@label}
+			\fi
+		\else
+			\ifinlinebody
+				\item[#3]
+			\else
+				\item[#3] ~\\
+			\fi
+		\fi
+		\setcounter{defer@state}{#1}
+	\fi
+}
+
+\newcommand{\rationale}{%
+	\defer@heading{2}{\rationale}{Rationale}
+}
+
+\newcommand{\implementation}{%
+	\defer@heading{3}{\implementation}{Implementation}
+	\ttfamily
+}
+
+\newcommand{\testing}{%
+	\defer@heading{4}{\testing}{Testing}
+	\ttfamily
+}
+
+
+% ========== Intro ==========
+
+% Now we have to do the same sort of thing for the intro environment.
+%
+% The intro environment should be used to identify the introductory
+% text for the rational of a given word list. The rationale for each
+% section is given via the intro environment. The placement of this
+% text is dependent on the \ifinlineintro flag, If this is true the
+% text will appear alongside the main text (inline), otherwise it is
+% deferred and will appear in the rationale appendix.
+
+% Define a new version of \@startsection so we may alter \section
+% and friends work the way we want, as normal but with a hyper def
+% and a "(Rationale)" if the section is inlined.
+
+\newcommand{\word@startsection}[7]{%
+	\vskip #4
+	\ifinlineintro
+		\ifthenelse{\equal{#1}{section}}{\def\tmp{A.\thechapter}}{}
+		\ifthenelse{\equal{#1}{subsection}}{\def\tmp{A.\thesection}}{}
+		\ifthenelse{\equal{#1}{subsubsection}}{\def\tmp{A.\thesubsection}}{}
+	\else
+		\def\tmp{A.\Currentlabel}
+	\fi
+	\hspace*{-0.5em}
+	\hyperdef{#1}{\tmp}{{%
+		#6 \tmp~~~ #7
+		\ifinlineintro
+			(\emph{Rationale})
+		\fi
+	}}
+	\vskip #4
+	\def\@currentlabel{\tmp}
+	\edef\@currentlablename{#7}
+	\def\@currentHref{#1.\tmp}
+	\addcontentsline{toc}{#1}{\protect\numberline{\tmp}#7}
+}
+
+\ifinlineintro
+	% We are inlineing the rationale introductions
+
+	% Redefine \@startsection with our version. This makes a hyper link
+	% target out of the label, and places the text "(Rationale)" after
+	% the heading. Both the heading and the text is indented.
+
+	\newenvironment{intro}{%
+		\def\Currentlabel{\@currentlabel}
+		\let\@startsection=\word@startsection
+		\begin{list}{}{%
+			\setlength{\leftmargin}{3em}
+		}
+		\item\relax
+	}{%
+		\end{list}
+	}
+\else
+	% The out not inlineing it, so we must ship it out to the
+	% deferred text file.
+
+	\Newassociation{intro}{wordintro}{deferred}
+
+	% The default parameters for wordintro are just fine.
+	% But we must get wordintro to call our modified \@startsection
+
+	\renewenvironment{wordintro}[1]{%
+		\def\Currentlabel{#1}
+		\let\@startsection=\word@startsection
+	}{}
+\fi
+
+%% == An ambiguous condition exists if ==
+%
+%%\newenvironment{code}{}{}
+
+
+
+% ========== Special Characters ==========
+
+% \tab[n]   => extra horizontal space
+\newlength{\tablength}
+\setlength{\tablength}{1em}
+\newcommand{\tab}[1][1]{\hspace*{#1\tablength}}
+
+% \arg{x}   => <x>
+\renewcommand{\arg}[1]{$\langle$\textit{#1}$\rangle$}
+
+% \bs       => \
+\newcommand{\bs}{\char"5C}
+
+% \tilde    => ~
+\renewcommand{\tilde}{\char"7E}
+
+% \num		=> #
+\newcommand{\num}{\char"23}
+
+% ========================================
+
+
+
+% ========== Extend Cross Referencing ==========
+
+% Thanks to hyperref, when we execute the label it expands to four
+% augments:
+%
+% 1: Number - the \@curentlabel when the label was defined
+% 2: Page   - the page the label was defined on (\c@page)
+% 3: Title  - The title of the label (\@currentlabelname)
+% 4: Link   - The hyperdef associated with the label (\@currenHref)
+
+% Output a word name. The name is given in courier-bold and hyper
+% linked to its definition.
+% If we are using the \showref flag we also underline it, show we can
+% see which words are linked, in the dvi viewer and which are not.
+
+\newcommand{\word@word}[4]{% {number}{page}{name}{link}
+	\hyperref{}{}{#4}{%
+		\textbf{\texttt{%
+			\ifshowref
+				\underline{#3}%
+			\else%
+				{#3}%
+			\fi%
+		}}%
+	}%
+}
+
+\ifshowref
+	\newcommand{\@noword}[2]{% {<wordset>}{<word>}
+		\@latex@error{Can't find definition of "#2" in wordset
+			"#1", referenced on page \thepage}\@ehc%
+	}
+\else
+	\newcommand{\@noword}[2]{% {<wordset>}{<word>}
+		\@latex@warning{Can't find definition of "#2" in wordlist
+			"#1", reference on page \thepage}{}
+	}
+\fi
+
+% \word[<wordlist>]{<wordlabel>}
+% Typeset the work associated with the label <wordlabel>. The word is
+% either in the current wordlist, the core word list or the optional
+% <wordlist>. The word is hyperlinked back to its definition.
+%
+% If the word has not been defined, can not be found, it reports an
+% error. The word is still typeset but with a line though it.
+
+% Note that three \expandafter's are needed to call \word@word with
+% the value held by the label. For example if we consider the core
+% word ! (store), we would have three levels of expansion as follows:
+%
+% 1: expand \csname r@#1:#2\endcsname      to \r@core:store
+% 2: execute \r@core:store                 to obtain {0010}{12}{!}{store}
+% 3: call \word@word with those arguments
+
+\newcommand{\word}[2][\word@list]{% [<wordlist>]{<wordlabel>}
+	% Is label <wordlist>:<wordlabel> defined
+	\expandafter\ifx\csname r@#1:#2\endcsname\relax%
+		% No - try looking for the label core:<wordlabel>
+		\expandafter\ifx\csname r@core:#2\endcsname\relax%
+			% No - then its not a standard word
+			\textbf{\texttt{\ifshowref\sout{#2}\else{#2}\fi}}%
+			\@noword{#1}{#2}%
+		\else%
+			% word in core wordlist
+			\expandafter\expandafter\expandafter\word@word\csname r@core:#2\endcsname%
+		\fi%
+	\else%
+		% word in given wordlist
+		\expandafter\expandafter\expandafter\word@word\csname r@#1:#2\endcsname%
+	\fi%
+}
+
+% \xref[<text>]{<label>}
+% Extended cross reference.
+% This was originally developed as a tool to help in the conversion of
+% existing documents into LaTeX form. It relies on the extended \label
+% command provided by the hyperref package. It will look up <label>
+% and places the section number followed by the section name as a
+% hyperlink to <label>. Should <label> not be found it places <label>
+% (between brackets) with the optional <text> along side. The idea
+% being that the user can see what was in the original document (<text>),
+% and which <label> was not found. If the <text> is not given, the
+% traditional double question mark is used.
+%
+% Thus for the following example, the label "foo" refers to section
+% 3.2.1 which has the name "Foo", the text:
+%
+%	section \xref[original text]{foo}.
+%
+% If the label foo is found this would produce:
+%
+%	section 3.2.1 Foo.
+%
+% where the "3.2.1 Foo" is a hyperlink to the label foo.
+%
+% If the label foo does not exist this would produce the text:
+%
+%	section [foo: original text].
+%
+% where the "[foo: original text]" appears in bold. This is intended to
+% indicate that the label foo was not found, but the original document
+% had "original text" as the text which should appear here.
+
+% We define a helper command which interprets the parameters generated
+% by executing the label. It will output the section number (#1) and
+% title (#3)
+
+\newcommand{\word@xref}[4]{% {number}{page}{name}{link}
+	\hyperref{}{}{#4}{\textbf{#1 #3}}%
+}
+
+\newcommand{\xref}[2][??]{% [<text>]{<label>}
+	% Look for the label
+	\expandafter\ifx\csname r@#2\endcsname\relax%
+		% label is not found
+		% Spit out a warning
+		\@latex@warning{Reference `#2' on page \thepage\space undefined}%
+		% Tell the user the label and original text
+		\textbf{[#2: #1]}%
+	\else%
+		% Label found so output a the section number and title
+		\expandafter\expandafter\expandafter\word@xref\csname r@#2\endcsname
+	\fi
+}
+
+
+% \wref{<label>}{<Name>} - Word reference
+%	<label> will be of the form <wordlist>:<label> i.e., core:store
+%	<name>	is the LaTeX which will be typeset for the word reference
+
+\newcommand{\word@ref}[4]{\hyperref{}{}{#4}{\textbf{#1 \texttt{#3}}}}
+
+\newcommand{\wref}[2]{% {label}{name}
+	% Look for the word's label
+	\expandafter\ifx\csname r@#1\endcsname\relax%
+		% Not found - output label and then name
+		\textbf{[#1] #2}%
+		\@latex@warning{Reference `#1' to word `#2' on page
+			\thepage\space undefined}%
+	\else%
+		\expandafter\expandafter\expandafter\word@ref\csname r@#1\endcsname%
+	\fi%
+}
+
+% \rref{<label>}{<name>} - Rationale reference
+%	\rref is the same as \wref except it looks in the rationale (rat:)
+%	name space
+
+\newcommand{\word@ref@inline}[4]{\hyperref{}{}{#4}{\textbf{A.#1 \texttt{#3}}}}
+
+\newcommand{\rref}[2]{% {<label>}{<name>}
+	\expandafter\ifx\csname r@rat:#1\endcsname\relax%
+		% Not found - output a warning, the label and the word
+		\textbf{[rat:#1] #2}%
+		\@latex@warning{Reference `#1' to rationale of `#2' on page
+			\thepage\space undefined}%
+	\else%
+		\ifinlinebody
+			\expandafter\expandafter\expandafter\word@ref@inline\csname r@#1\endcsname%
+		\else
+			\expandafter\expandafter\expandafter\word@ref\csname r@rat:#1\endcsname%
+		\fi%
+	\fi%
+}
+
+% =============================================
+
+
+% ========== Format of Headings ==========
+
+\setcounter{secnumdepth}{4}
+
+\renewcommand{\chapter}{\@startsection
+	{chapter}{0}{0pt}{1pt}{\baselineskip}
+	{\normalfont\LARGE\bfseries}
+}
+\renewcommand{\chaptermark}[1]{
+	\markboth{\textbf{\thechapter. #1}}{}
+}
+\renewcommand{\section}{\@startsection
+	{section}{1}{0pt}{1pt}{1pt}
+	{\normalfont\Large\bfseries}
+}
+\renewcommand{\subsection}{\@startsection
+	{subsection}{2}{0pt}{1pt}{1pt}
+	{\normalfont\large\bfseries}
+}
+\renewcommand{\subsubsection}{\@startsection
+	{subsubsection}{3}{0pt}{1pt}{1pt}
+	{\normalfont\normalsize\bfseries}
+}
+
+\newcommand{\annex}[1]{%
+	\refstepcounter{chapter}
+	\begin{center}
+		\normalfont\Large
+		{\bfseries Annex \thechapter} \\
+		(informative) \\
+		{\bfseries #1}
+	\end{center}
+	\chaptermark{#1}
+    \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}
+}
+
+% ========================================
+
+% Modify itemize and enumerate environments
+
+\renewcommand{\labelenumi}{\alph{enumi})}
+\renewcommand{\labelenumii}{\arabic{enumii})}
+
+\renewcommand{\labelitemi}{\bfseries --}
+\renewcommand{\labelitemii}{\m@th\bullet}
+
+% Reduce space between to \hline commands
+\doublerulesep=1pt
+
+\makeatother
+
+% =======================================================
+% ==========                                   ==========
+% ========== Finally we can start the document ==========
+% ==========                                   ==========
+% =======================================================
+
+% Reserve a counter for the second title page
+\newcounter{savepage}
+
+\begin{document}
+
+\include{titlepage}
+\thispagestyle{empty}
+
+\frontmatter
+\setcounter{tocdepth}{2}
+{\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
+%{\parskip 0pt \listoftables}	\addcontentsline{toc}{chapter}{\listtablename}
+%{\parskip 0pt \listoffigures}	\addcontentsline{toc}{chapter}{\listfigurename}
+%{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
+
+\newpage
+\include{foreward}
+\include{foreward-ans}
+\include{process}
+\include{members-2x}
+%\include{members-x3}
+
+\mainmatter
+
+% Part I: Introduction
+
+\include{intro}
+\include{notation}
+\include{usage}
+\include{doc}
+\include{label}
+
+% Part II: Glossary
+
+\raggedbottom
+\cfoot{\collate}
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\include{core}
+\include{block}
+\include{double}
+\include{exception}
+\include{facility}
+\include{file}
+\include{float}
+\include{locals}
+\include{memory}
+\include{tools}
+\include{search}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\include{string}
+
+% Close the deferred output files
+\Closesolutionfile{deferred}
+
+% Close the glossary file
+\immediate\closeout\wordfile
+
+\flushbottom
+\cfoot{}
+
+
+% ========== New Title Page ==========
+
+% We do not bother to produce a new title page only when we are
+% inlineing both intro and body parts of the rational.
+
+\ifinlineintro
+	\ifinlinebody
+		% Save the current page number
+		\setcounter{savepage}{\value{page}}
+
+		% The back page to the first part
+		% This should be on the next even page.
+
+		\pagestyle{empty}
+		\ifthenelse{\isodd{page}}{}{~\newpage}
+		~
+		\vfill
+		%	Copyright \copyright{} \number\year \\
+		Forth 200\emph{x} Standards Committee \\[2ex]
+		\url{http://www.forth200x.org/}
+
+		% Title page of second part
+		\include{titlepage}
+
+		% Throw a new blank page
+		~\newpage
+		\pagestyle{fancy}
+
+		% Restore the page number
+		\setcounter{page}{\value{savepage}}
+	\fi
+\fi
+
+% ====================================
+
+
+% Part III: Rational
+
+\appendix
+\include{rationale}
+
+% Part IV: Informative background
+
+\include{bib}
+\include{history}
+\include{diff}
+\include{port}
+\include{testsuite}
+
+% Part V: Index
+
+%\closehistory
+\include{changelog}
+\include{alpha}
+
+
+% Back Page - Should be on the last even page
+
+\pagestyle{empty}
+\ifthenelse{\isodd{page}}{~\newpage}{}
+~
+\vfill
+% Copyright \copyright{} \number\year \\
+Forth 200\emph{x} Standards Committee \\[2ex]
+\url{http://www.forth200x.org/}
+
+\end{document}

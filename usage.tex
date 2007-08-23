@@ -1,0 +1,1105 @@
+\chapter{Usage requirements}
+\label{usage}
+
+A system shall provide all of the words defined in
+\xref[Core Words]{wordlist:core}. It may also provide any
+words defined in the optional word sets and extensions word
+sets. No standard word provided by a system shall alter the
+system state in a way that changes the effect of execution of
+any other standard word except as provided in this Standard.
+A system may contain non-standard extensions, provided that
+they are consistent with the requirements of this Standard.
+
+The implementation of a system may use words and techniques
+outside the scope of this Standard.
+
+A system need not provide all words in executable form. The
+implementation may provide definitions, including definitions
+of words in the Core word set, in source form only. If so,
+the mechanism for adding the definitions to the dictionary
+is implementation defined.
+
+A program that requires a system to provide words or techniques
+not defined in this Standard has an environmental dependency.
+
+\section{Data types} % 3.1
+\label{usage:data}
+
+A data type identifies the set of permissible values for a
+data object. It is not a property of a particular storage
+location or position on a stack. Moving a data object shall
+not affect its type.
+
+No data-type checking is required of a system. An ambiguous
+condition exists if an incorrectly typed data object is
+encountered.
+
+Table \ref{table:datatypes} summarizes the data types used
+throughout this Standard. Multiple instances of the same
+type in the description of a definition are suffixed with
+a sequence digit subscript to distinguish them.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Data types}
+	\label{table:datatypes}
+	\begin{tabular}{llr}
+	\hline\hline
+	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
+	\hline
+	\emph{flag}			& flag								& 1 cell \\
+	\emph{true}			& true flag							& 1 cell \\
+	\emph{false}		& false flag						& 1 cell \\
+	\emph{char}			& character							& 1 cell \\
+	\emph{n}			& signed number						& 1 cell \\
+	\emph{+n}			& non-negative number				& 1 cell \\
+	\emph{u}			& unsigned number					& 1 cell \\
+	\emph{u{\textbar}n}\footnotemark[1]
+						& number							& 1 cell \\
+	\emph{x}			& unspecified cell					& 1 cell \\
+	\emph{xt}			& execution token					& 1 cell \\
+	\emph{addr}			& address							& 1 cell \\
+	\emph{a-addr}		& aligned address					& 1 cell \\
+	\emph{c-addr}		& character-aligned address			& 1 cell \\
+	\emph{d}			& double-cell signed number			& 2 cells \\
+	\emph{+d}			& double-cell non-negative number	& 2 cells \\
+	\emph{ud}			& double-cell unsigned number		& 2 cells \\
+	\emph{d{\textbar}ud}\footnotemark[2]
+						& double-cell number				& 2 cells \\
+	\emph{xd}			& unspecified cell pair				& 2 cells \\
+	\emph{colon-sys}	& definition compilation			& implementation dependent \\
+	\emph{do-sys}		& do-loop structures				& implementation dependent \\
+	\emph{case-sys}		& \word{CASE} structures			& implementation dependent \\
+	\emph{of-sys}		& \word{OF} structures				& implementation dependent \\
+	\emph{orig}			& control-flow origins				& implementation dependent \\
+	\emph{dest}			& control-flow destinations			& implementation dependent \\
+	\emph{loop-sys}		& loop-control parameters			& implementation dependent \\
+	\emph{nest-sys}		& definition cells					& implementation dependent \\
+	\emph{i*x, j*x, k*x}\footnotemark[3]
+						& any data type						& 0 or more cells \\
+	\hline\hline
+	\end{tabular}
+\par
+	\begin{tabular}{lp{0.8\textwidth}}
+	\footnotemark[1] &
+		May be either a signed number or an unsigned number
+		depending on context. \\
+	\footnotemark[2] &
+		May be either a double-cell signed number or a double-cell
+		unsigned number depending on context.\\
+	\footnotemark[3] &
+		May be an undetermined number of stack entries of
+		unspecified type. For examples of use, see
+		\wref{core:EXECUTE}{EXECUTE}, \wref{core:QUIT}{QUIT}.
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Data-type relationships} % 3.1.1
+
+Some of the data types are subtypes of other data types. A
+data type $i$ is a subtype of type $j$ if and only if the
+members of $i$ are a subset of the members of $j$. The
+following list represents the subtype relationships using
+the phrase ``$i \Rightarrow j$'' to denote ``$i$ is a
+subtype of $j$''. The subtype relationship is transitive;
+if $i \Rightarrow j$ and $j \Rightarrow k$ then
+$i \Rightarrow k$:
+
+\begin{quote}
+\param{+n} $\Rightarrow$ \param{u} $\Rightarrow$ \param{x}; \\
+\param{+n} $\Rightarrow$ \param{n} $\Rightarrow$ \param{x}; \\
+\param{char} $\Rightarrow$ \param{+n}; \\
+\param{a-addr} $\Rightarrow$ \param{c-addr}
+	$\Rightarrow$ \param{addr}
+	$\Rightarrow$ \param{u}; \\
+\param{flag} $\Rightarrow$ \param{x}; \\
+\param{xt} $\Rightarrow$ \param{x}; \\
+\param{+d} $\Rightarrow$ \param{d} $\Rightarrow$ \param{xd}; \\
+\param{+d} $\Rightarrow$ \param{ud} $\Rightarrow$ \param{xd}.
+\end{quote}
+
+Any Forth definition that accepts an argument of type $i$
+shall also accept an argument that is a subtype of $i$.
+
+
+\subsection{Character types} % 3.1.2
+\label{usage:char}
+
+Characters shall be at least one address unit wide, contain
+at least eight bits, and have a size less than or equal to
+cell size.
+
+The characters provided by a system shall include the graphic
+characters \{32 {\ldots} 126\}, which represent graphic forms
+as shown in table \ref{table:ASCII}.
+
+\subsubsection{Graphic characters} % 3.1.2.1
+\label{usage:ASCII}
+
+A graphic character is one that is normally displayed (e.g.,
+A, \#, \&, 6). These values and graphics, shown in table
+\ref{table:ASCII}, are taken directly from ANS X3.4-1974 (ASCII)
+and ISO 646-1983, International Reference Version (IRV). The
+graphic forms of characters outside the hex range \{20 {\ldots}
+7E\} are implementation defined. Programs that use the graphic hex
+24 (the currency sign) have an environmental dependency.
+
+The graphic representation of characters is not restricted to
+particular type fonts or styles. The graphics here are examples.
+
+\subsubsection{Control characters} % 3.1.2.2
+\label{usage:control}
+
+All non-graphic characters included in the implementation-defined
+character set are defined in this Standard as control characters.
+In particular, the characters \{0 {\ldots} 31\}, which could be
+included in the implementation-defined character set, are control
+characters.
+
+Programs that require the ability to send or receive control
+characters have an environmental dependency.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Standard graphic characters}
+	\label{table:ASCII}
+	\small
+	\begin{tabular}{cc@{}c|cc@{}c|cc@{}c|cc@{}c|cc@{}c|cc@{}c}
+	\hline\hline
+	Hex & IRV && Hex & IRV && Hex & IRV && Hex & IRV && Hex & IRV && Hex & IRV \\
+	\multicolumn{3}{l|}{ASCII} &
+	\multicolumn{3}{l|}{ASCII} &
+	\multicolumn{3}{l|}{ASCII} &
+	\multicolumn{3}{l|}{ASCII} &
+	\multicolumn{3}{l|}{ASCII} &
+	\multicolumn{3}{l}{ASCII} \\
+	\hline
+	20&   &		&30& 0 & 0	&40& @ & @	&50& P & P	&60& \verb|`| & \verb|`|
+																&70& p & p	\\
+	21& ! & !	&31& 1 & 1	&41& A & A	&51& Q & Q	&61& a & a	&71& q & q	\\
+	22& \verb|"| & \verb|"|
+				&32& 2 & 2	&42& B & B	&52& R & R	&62& b & b	&72& r & r	\\
+	23& \# & \# &33& 3 & 3	&43& C & C	&53& S & S	&63& c & c	&73& s & s	\\
+	24& \textcurrency  & \$ &34& 4 & 4	&44& D & D	&54& T & T	&63& d & d	&74& t & t	\\
+	25& \% & \% &35& 5 & 5	&45& E & E	&55& U & U	&64& e & e	&75& u & u	\\
+	26& \& & \& &36& 6 & 6	&46& F & F	&56& V & V	&65& f & f	&76& v & v	\\
+	27& '  & '	&37& 7 & 7	&47& G & G	&57& W & W	&66& g & g	&77& w & w	\\
+	28& (  & (	&38& 8 & 8	&48& H & H	&58& X & X	&67& h & h	&78& x & x	\\
+	29& )  & )	&39& 9 & 9	&49& I & I	&59& Y & Y	&68& i & i	&79& y & y	\\
+	2A& *  & *	&3A& : & :	&4A& J & J	&5A& Z & Z	&69& j & j	&7A& z & z	\\
+	2B& +  & +	&3B& ; & ;	&4B& K & K	&5B& [ & [	&6A& k & k	&7B& \{&\{	\\
+	2C& ,  & ,	&3C&$<$&$<$	&4C& L & L	&5C& \verb|\| & \verb|\|
+													&6C& l & l	&7C& \verb"|" & \verb"|" \\
+	2D& -  & -	&3D& = & =	&4D& M & M	&5D& ] & ]	&6D& m & m	&7D& \}&\}	\\
+	2E& .  & .	&3E&$>$&$>$	&4E& N & N	&5E& \verb|^| & \verb|^|
+													&6E& n & n	&7E& \verb|~| & \verb|~| \\
+	2F& /  & /	&3F& ? & ?	&4F& O & O	&5F& \_ & \_&6F& o & o	\\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Single-cell types} % 3.1.3
+\label{usage:cell}
+
+The implementation-defined fixed size of a cell is specified in
+address units and the corresponding number of bits.
+See \xref[E.2 Hardware peculiarities]{port:hardware}.
+
+Cells shall be at least one address unit wide and contain at least
+sixteen bits. The size of a cell shall be an integral multiple of
+the size of a character. Data-stack elements, return-stack elements,
+addresses, execution tokens, flags, and integers are one cell wide.
+
+\subsubsection{Flags} % 3.1.3.1
+\label{usage:flags}
+
+Flags may have one of two logical states, \emph{true} or \emph{false}.
+Programs that use flags as arithmetic operands have an environmental
+dependency. A true flag returned by a standard word shall be a
+single-cell value with all bits set. A false flag returned by a
+standard word shall be a single-cell value with all bits clear.
+
+\subsubsection{Integers} % 3.1.3.2
+
+The implementation-defined range of signed integers shall include
+\{-32767 {\ldots} +32767\}. The imple\-mentation-defined range of
+non-negative integers shall include \{0 {\ldots} 32767\}. The
+imple\-mentation-defined range of unsigned integers shall include
+\{0 {\ldots} 65535\}.
+
+\subsubsection{Addresses} % 3.1.3.3
+\label{usage:addr}
+
+An address identifies a location in data space with a size of one
+address unit, which a program may fetch from or store into except
+for the restrictions established in this Standard. The size of an
+address unit is specified in bits. Each distinct address value
+identifies exactly one such storage element.
+See \xref[3.3.3 Data space]{usage:dataspace}.
+
+The set of character-aligned addresses, addresses at which a
+character can be accessed, is an implementation-defined subset of
+all addresses. Adding the size of a character to a character-aligned
+address shall produce another character-aligned address.
+
+The set of aligned addresses is an implementation-defined subset
+of character-aligned addresses. Adding the size of a cell to an
+aligned address shall produce another aligned address.
+
+\subsubsection{Counted strings} % 3.1.3.4
+\label{usage:cstring}
+
+A counted string in memory is identified by the address
+(\emph{c-addr}) of its length character.
+
+The length character of a counted string shall contain a binary
+representation of the number of data characters, between zero and
+the implementation-defined maximum length for a counted string.
+The maximum length of a counted string shall be at least 255.
+
+\subsubsection{Execution tokens} % 3.1.3.5
+
+Different definitions may have the same execution token if the
+definitions are equivalent.
+
+\subsection{Cell-pair types} % 3.1.4
+\label{usage:2cell}
+
+A cell pair in memory consists of a sequence of two contiguous
+cells. The cell at the lower address is the first cell, and its
+address is used to identify the cell pair. Unless otherwise
+specified, a cell pair on a stack consists of the first cell
+immediately above the second cell.
+
+\subsubsection{Double-cell integers} % 3.1.4.1
+
+On the stack, the cell containing the most significant part of a
+double-cell integer shall be above the cell containing the least
+significant part.
+
+The implementation-defined range of double-cell signed integers
+shall include \{-2147483647 {\ldots} +2147483647\}.
+
+The implementation-defined range of double-cell non-negative
+integers shall include \{0 {\ldots} 2147483647\}.
+
+The implementation-defined range of double-cell unsigned integers
+shall include \{0 {\ldots} 4294967295\}. Placing the single-cell
+integer zero on the stack above a single-cell unsigned integer
+produces a double-cell unsigned integer with the same value.
+See \xref[Internal number representation]{usage:number}.
+
+\subsubsection{Character strings} % 3.1.4.2
+
+A string is specified by a cell pair (\emph{c-addr u}) representing
+its starting address and length in characters.
+
+\subsection{System types} % 3.1.5
+
+The system data types specify permitted word combinations during
+compilation and execution.
+
+\subsubsection{System-compilation types} % 3.1.5.1
+
+These data types denote zero or more items on the control-flow stack
+(see \ref{usage:controlstack}). The possible presence of such items
+on the data stack means that any items already there shall be
+unavailable to a program until the control-flow-stack items are
+consumed.
+
+The implementation-dependent data generated upon beginning to compile
+a definition and consumed at its close is represented by the symbol
+\emph{colon-sys} throughout this Standard.
+
+The implementation-dependent data generated upon beginning to
+compile a do-loop structure such as \word{DO} {\ldots} \word{LOOP}
+and consumed at its close is represented by the symbol \emph{do-sys}
+throughout this Standard.
+
+The implementation-dependent data generated upon beginning to
+compile a \word{CASE} {\ldots} \word{ENDCASE} structure and consumed
+at its close is represented by the symbol \emph{case-sys} throughout
+this Standard.
+
+The implementation-dependent data generated upon beginning to
+compile an \word{OF} {\ldots} \word{ENDOF} structure and consumed
+at its close is represented by the symbol \emph{of-sys} throughout
+this Standard.
+
+The implementation-dependent data generated and consumed by executing
+the other standard control-flow words is represented by the symbols
+\emph{orig} and \emph{dest} throughout this Standard.
+
+\subsubsection{System-execution types} % 3.1.5.2
+
+These data types denote zero or more items on the return stack.
+Their possible presence means that any items already on the return
+stack shall be unavailable to a program until the system-execution
+items are consumed.
+
+The implementation-dependent data generated upon beginning to
+execute a definition and consumed upon exiting it is represented
+by the symbol \emph{nest-sys} throughout this Standard.
+
+The implementation-dependent loop-control parameters used to
+control the execution of do-loops are represented by the symbol
+\emph{loop-sys} throughout this Standard. Loop-control parameters
+shall be available inside the do-loop for words that use or change
+these parameters, words such as \word{I}, \word{J}, \word{LEAVE}
+and \word{UNLOOP}.
+
+
+\section{The implementation environment} % 3.2 =======================
+
+\subsection{Numbers} % 3.2.1
+
+\subsubsection{Internal number representation} % 3.2.1.1
+\label{usage:number}
+
+This Standard allows one's complement, two's complement, or
+sign-magnitude number representations and arithmetic. Arithmetic
+zero is represented as the value of a single cell with all bits
+clear.
+
+The representation of a number as a compiled literal or in memory
+is implementation dependent.
+
+\subsubsection{Digit conversion} % 3.2.1.2
+\label{usage:digits}
+
+Numbers shall be represented externally by using characters from
+the standard character set. Conversion between the internal and
+external forms of a digit shall behave as follows:
+
+The value in \word{BASE} is the radix for number conversion. A
+digit has a value ranging from zero to one less than the contents
+of \word{BASE}. The digit with the value zero corresponds to the
+character ``0''. This representation of digits proceeds through
+the character set to the decimal value nine corresponding to the
+character ``9''. For digits beginning with the decimal value ten
+the graphic characters beginning with the character ``A'' are used.
+This correspondence continues up to and including the digit with
+the decimal value thirty-five which is represented by the character
+``Z''. The conversion of digits outside this range is implementation
+defined.
+
+\subsubsection{Free-field number display} % 3.2.1.3
+\label{usage:dot}
+
+Free-field number display uses the characters described in digit
+conversion, without leading zeros, in a field the exact size of
+the converted string plus a trailing space. If a number is zero,
+the least significant digit is not considered a leading zero. If
+the number is negative, a leading minus sign is displayed.
+
+Number display may use the pictured numeric output string buffer
+to hold partially converted strings (see \xref[Other transient
+regions]{usage:transient}).
+
+\subsection{Arithmetic} % 3.2.2
+
+\subsubsection{Integer division} % 3.2.2.1
+\label{usage:div}
+
+Division produces a quotient \emph{q} and a remainder \emph{r}
+by dividing operand \emph{a} by operand \emph{b}. Division
+operations return \emph{q, r}, or both. The identity
+$b \times q + r = a$ shall hold for all \emph{a} and \emph{b}.
+
+When unsigned integers are divided and the remainder is not zero,
+\emph{q} is the largest integer less than the true quotient.
+
+When signed integers are divided, the remainder is not zero, and
+\emph{a} and \emph{b} have the same sign, \emph{q} is the largest
+integer less than the true quotient. If only one operand is
+negative, whether \emph{q} is rounded toward negative infinity
+(floored division) or rounded towards zero (symmetric division) is
+implementation defined.
+
+Floored division is integer division in which the remainder carries
+the sign of the divisor or is zero, and the quotient is rounded to
+its arithmetic floor. Symmetric division is integer division in
+which the remainder carries the sign of the dividend or is zero and
+the quotient is the mathematical quotient ``rounded towards zero''
+or ``truncated''. Examples of each are shown in tables
+\ref{table:floor} and \ref{table:round}.
+
+In cases where the operands differ in sign and the rounding
+direction matters, a program shall either include code generating
+the desired form of division, not relying on the
+implementation-defined default result, or have an environmental
+dependency on the desired rounding direction.
+
+\begin{table}[ht]
+  \begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\caption{Floored Division Example}
+
+		\label{table:floor}
+		\begin{tabular}{lrllrllrllrl}
+		\hline\hline
+		\multicolumn{3}{c}{Dividend} &
+		\multicolumn{3}{c}{Divisor} &
+		\multicolumn{3}{c}{Remainder} &
+		\multicolumn{3}{c}{Quotient} \\
+		\hline
+		&  10 &&&  7 &&&  3 &&&  1 \\
+		& -10 &&&  7 &&&  4 &&& -2 \\
+		&  10 &&& -7 &&& -4 &&& -2 \\
+		& -10 &&& -7 &&& -3 &&&  1 \\
+		\hline\hline
+		\end{tabular}
+	\end{center}
+  \end{minipage}
+  \begin{minipage}{0.5\textwidth}
+	\begin{center}
+		\caption{Symmetric Division Example}
+		\label{table:round}
+		\begin{tabular}{lrllrllrllrl}
+		\hline\hline
+		\multicolumn{3}{c}{Dividend} &
+		\multicolumn{3}{c}{Divisor} &
+		\multicolumn{3}{c}{Remainder} &
+		\multicolumn{3}{c}{Quotient} \\
+		\hline
+		&  10 &&&  7 &&&  3 &&&  1 \\
+		& -10 &&&  7 &&& -3 &&& -1 \\
+		&  10 &&& -7 &&&  3 &&& -1 \\
+		& -10 &&& -7 &&& -3 &&&  1 \\
+		\hline\hline
+		\end{tabular}
+	\end{center}
+  \end{minipage}
+\end{table}
+
+\subsubsection{Other integer operations} % 3.2.2.2
+\label{usage:intops}
+
+In all integer arithmetic operations, both overflow and underflow
+shall be ignored. The value returned when either overflow or
+underflow occurs is implementation defined.
+
+\subsection{Stacks} % 3.2.3
+
+\subsubsection{Data stack} % 3.2.3.1
+\label{usage:datastack}
+
+Objects on the data stack shall be one cell wide.
+
+\subsubsection{Control-flow stack} % 3.2.3.2
+\label{usage:controlstack}
+
+The control-flow stack is a last-in, first out list whose elements
+define the permissible matchings of control-flow words and the
+restrictions imposed on data-stack usage during the compilation of
+control structures.
+
+The elements of the control-flow stack are system-compilation data
+types.
+
+The control-flow stack may, but need not, physically exist in an
+implementation. If it does exist, it may be, but need not be,
+implemented using the data stack. The format of the control-flow
+stack is implementation defined. Since the control-flow stack may
+be implemented using the data stack, items placed on the data stack
+are unavailable to a program after items are placed on the
+control-flow stack and remain unavailable until the control-flow
+stack items are removed.
+
+\subsubsection{Return stack} % 3.2.3.3
+\label{usage:returnstack}
+
+Items on the return stack shall consist of one or more cells. A
+system may use the return stack in an implementation-dependent
+manner during the compilation of definitions, during the execution
+of do-loops, and for storing run-time nesting information.
+
+A program may use the return stack for temporary storage during the
+execution of a definition subject to the following restrictions:
+
+\begin{itemize}
+\item A program shall not access values on the return stack
+	(using \word{R@}, \word{Rfrom}, \word{2R@} or \word{2Rfrom})
+	that it did not place there using \word{toR} or \word{2toR};
+
+\item A program shall not access from within a do-loop values
+	placed on the return stack before the loop was entered;
+
+\item All values placed on the return stack within a do-loop
+	shall be removed before \word{I}, \word{J}, \word{LOOP},
+	\word{+LOOP}, \word{UNLOOP}, or \word{LEAVE} is executed;
+
+\item All values placed on the return stack within a definition
+	shall be removed before the definition is terminated or
+	before \word{EXIT} is executed.
+\end{itemize}
+
+\subsection{Operator terminal} % 3.2.4
+
+See \xref[Exclusions]{intro:exclusions}.
+
+\subsubsection{User input device} % 3.2.4.1
+\label{usage:input}
+
+The method of selecting the user input device is implementation
+defined.
+
+The method of indicating the end of an input line of text is
+implementation defined.
+
+\subsubsection{User output device} % 3.2.4.2
+\label{usage:output}
+
+The method of selecting the user output device is implementation
+defined.
+
+\subsection{Mass storage} % 3.2.5
+
+A system need not provide any standard words for accessing mass
+storage. If a system provides any standard word for accessing
+mass storage, it shall also implement the Block word set.
+
+\subsection{Environmental queries} % 3.2.6
+\label{usage:env}
+
+The name spaces for \word{ENVIRONMENTq} and definitions are
+disjoint. Names of definitions that are the same as
+\word{ENVIRONMENTq} strings shall not impair the operation of
+\word{ENVIRONMENTq}. Table \ref{table:env} contains
+the valid input strings and corresponding returned value for
+inquiring about the programming environment with
+\word{ENVIRONMENTq}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{table:env}
+	\begin{tabular}{p{9.5em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{/COUNTED-STRING}	& \emph{n}		& yes	&
+			maximum size of a counted string, in characters \\
+		\texttt{/HOLD}				& \emph{n}		& yes	&
+			size of the pictured numeric output string buffer,
+
+			in characters \\
+
+		\texttt{/PAD}				& \emph{n}		& yes	&
+			size of the scratch area pointed to by \word{PAD},
+			in characters \\
+		\texttt{ADDRESS-UNIT-BITS}	& \emph{n}		& yes	&
+			size of one address unit, in bits \\
+		\texttt{CORE}				& \emph{flag}	& no	&
+			true if complete core word set present
+			(i.e., not a subset as defined in \ref{label:system}) \\
+		\texttt{CORE-EXT}			& \emph{flag}	& no	&
+			true if core extensions word set present \\
+		\texttt{FLOORED}			& \emph{flag}	& yes	&
+			true if floored division is the default \\
+		\texttt{MAX-CHAR}			& \emph{u}		& yes	&
+			maximum value of any character in the
+			imple\-mentation-defined character set \\
+		\texttt{MAX-D}				& \emph{d}		& yes	&
+			largest usable signed double number \\
+		\texttt{MAX-N}				& \emph{n}		& yes	&
+			largest usable signed integer \\
+		\texttt{MAX-U}				& \emph{u}		& yes	&
+			largest usable unsigned integer \\
+		\texttt{MAX-UD}				& \emph{ud}		& yes	&
+			largest usable unsigned double number \\
+		\texttt{RETURN-STACK-CELLS}	& \emph{n}		& yes	&
+			maximum size of the return stack, in cells \\
+		\texttt{STACK-CELLS}		& \emph{n}		& yes	&
+			maximum size of the data stack, in cells \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+If an environmental query (using \word{ENVIRONMENTq}) returns
+\emph{false} (i.e., unknown) in response to a string, subsequent
+queries using the same string may return \emph{true}. If a query
+returns \emph{true} (i.e., known) in response to a string,
+subsequent queries with the same string shall also return
+\emph{true}. If a query designated as constant in the above table
+returns \emph{true} and a value in response to a string,
+subsequent queries with the same string shall return \emph{true}
+and the same value.
+
+
+\subsection{Extension queries} % 3.2.7
+\label{usage:extensions}
+~ \hfill \textsf{\small X:extension-query}
+
+As part of the Forth 200\emph{x} standards procedure, additions to the
+Standard where labelled as \emph{extensions}. These extensions have
+been added to the environmental query name space. \word{ENVIRONMENTq}
+a \emph{true} if the system has implemented the extension as
+documented. Table \ref{table:extensions} contains the valid input
+strings corresponding to the documented extensions. In order to
+distinguish such extensions, they start with the string
+``\textsf{X:}''.
+
+The extension to the environment query table (\ref{usage:env}) is
+itself an extension. Known as the \textsf{X:extension-query} extension.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Forth 200\emph{x} Extensions}
+	\label{table:extensions}
+	\begin{tabular}{p{9.5em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
+	\place{x:defined}{\texttt{X:defined}}		& -- & -- & \place{x:defined}{the \textsf{X:defined} extension is present} \\
+	\place{x:ekeys}{\texttt{X:ekeys}}			& -- & -- & \place{x:ekeys}{the \textsf{X:ekeys} extension is present} \\
+		\texttt{X:extension-query}  & -- & -- & the \textsf{X:extension-query} extension is present\\
+		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
+	\place{x:required}{\texttt{X:required}}	& -- & -- & \place{x:required}{the \textsf{X:required} extension is present} \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\section{The Forth dictionary} % 3.3 ================================
+\label{usage:dict}
+
+Forth words are organized into a structure called the dictionary.
+While the form of this structure is not specified by the Standard,
+it can be described as consisting of three logical parts:
+a name space, a code space, and a data space. The logical separation
+of these parts does not require their physical separation.
+
+A program shall not fetch from or store into locations outside data
+space. An ambiguous condition exists if a program addresses name
+space or code space.
+
+\subsection{Name space} % 3.3.1
+
+The relationship between name space and data space is implementation
+dependent.
+
+\subsubsection{Word lists} % 3.3.1.1
+
+The structure of a word list is implementation dependent. When
+duplicate names exist in a word list, the latest-defined duplicate
+shall be the one found during a search for the name.
+
+\subsubsection{Definition names} % 3.3.1.2
+\label{usage:names}
+
+Definition names shall contain \{1 {\ldots} 31\} characters. A
+system may allow or prohibit the creation of definition names
+containing non-standard characters.
+
+Programs that use lower case for standard definition names or depend
+on the case-sensitivity properties of a system have an environmental
+dependency.
+
+A program shall not create definition names containing non-graphic
+characters.
+
+\subsection{Code space} % 3.3.2
+
+The relationship between code space and data space is implementation
+dependent.
+
+\subsection{Data space} % 3.3.3
+\label{usage:dataspace}
+
+Data space is the only logical area of the dictionary for which
+standard words are provided to allocate and access regions of
+memory. These regions are: contiguous regions, variables,
+text-literal regions, input buffers, and other transient regions,
+each of which is described in the following sections. A program may
+read from or write into these regions unless otherwise specified.
+
+\subsubsection{Address alignment} % 3.3.3.1
+\label{usage:aaddr}
+
+Most addresses used in ANS Forth are aligned addresses (indicated
+by \emph{a-addr}) or character-aligned (indicated by \emph{c-addr}).
+\word{ALIGNED}, \word{CHAR+}, and arithmetic operations can alter
+the alignment state of an address on the stack. \word{CHAR+} applied
+to an aligned address returns a character-aligned address that can
+only be used to access characters. Applying \word{CHAR+} to a
+character-aligned address produces the succeeding character-aligned
+address. Adding or subtracting an arbitrary number to an address can
+produce an unaligned address that shall not be used to fetch or
+store anything. The only way to find the next aligned address is
+with \word{ALIGNED}. An ambiguous condition exists when
+\word{@}, \word{!}, \word{,} (comma), \word{+!}, \word{2@}, or
+\word{2!} is used with an address that is not aligned, or when
+\word{C@}, \word{C!}, or \word{C,} is used with an address that is
+not character-aligned.
+
+The definitions of \wref{core:CREATE}{CREATE} and
+\wref{core:VARIABLE}{VARIABLE} require that the definitions created
+by them return aligned addresses.
+
+After definitions are compiled or the word \word{ALIGN} is executed
+the data-space pointer is guaranteed to be aligned.
+
+\subsubsection{Contiguous regions} % 3.3.3.2
+\label{usage:contiguous}
+
+A system guarantees that a region of data space allocated using
+\word{ALLOT}, \word{,} (comma), \word{C,} (c-comma), and
+\word{ALIGN} shall be contiguous with the last region allocated
+with one of the above words, unless the restrictions in the
+following paragraphs apply. The data-space pointer \word{HERE}
+always identifies the beginning of the next data-space region to be
+allocated. As successive allocations are made, the data-space
+pointer increases. A program may perform address arithmetic within
+contiguously allocated regions. The last region of data space
+allocated using the above operators may be released by allocating a
+corresponding negatively-sized region using \word{ALLOT}, subject
+to the restrictions of the following paragraphs.
+
+\word{CREATE} establishes the beginning of a contiguous region of
+data space, whose starting address is returned by the \word{CREATE}d
+definition. This region is terminated by compiling the next
+definition.
+
+Since an implementation is free to allocate data space for use by
+code, the above operators need not produce contiguous regions of
+data space if definitions are added to or removed from the
+dictionary between allocations. An ambiguous condition exists if
+deallocated memory contains definitions.
+
+
+\subsubsection{Variables} % 3.3.3.3
+\label{usage:var}
+
+The region allocated for a variable may be non-contiguous with
+regions subsequently allocated with \word{,} (comma) or
+\word{ALLOT}. For example, in:
+\begin{quote}
+	\word{VARIABLE} X 1 \word{CELLS} \word{ALLOT}
+\end{quote}
+the region \texttt{X} and the region \word{ALLOT}ted could be
+non-contiguous.
+
+Some system-provided variables, such as \word{STATE}, are
+restricted to read-only access.
+
+
+\subsubsection{Text-literal regions} % 3.3.3.4
+\label{usage:"literal}
+
+The text-literal regions, specified by strings compiled with
+\word{Sq} and \word{Cq}, may be read-only.
+
+A program shall not store into the text-literal regions created
+by \word{Sq} and \word{Cq} nor into any read-only system variable
+or read-only transient regions. An ambiguous condition exists when
+a program attempts to store into read-only regions.
+
+\subsubsection{Input buffers} % 3.3.3.5
+\label{usage:inbuf}
+
+The address, length, and content of the input buffer may be
+transient. A program shall not write into the input buffer. In the
+absence of any optional word sets providing alternative input
+sources, the input buffer is either the terminal-input buffer, used
+by \word{QUIT} to hold one line from the user input device, or a
+buffer specified by \word{EVALUATE}. In all cases, \word{SOURCE}
+returns the beginning address and length in characters of the
+current input buffer.
+
+The minimum size of the terminal-input buffer shall be 80
+characters.
+
+The address and length returned by \word{SOURCE}, the string
+returned by \word{PARSE}, and directly computed input-buffer
+addresses are valid only until the text interpreter does I/O to
+refill the input buffer or the input source is changed.
+
+A program may modify the size of the parse area by changing the
+contents of \word{toIN} within the limits imposed by this Standard.
+For example, if the contents of \word{toIN} are saved before a
+parsing operation and restored afterwards, the text that was parsed
+will be available again for subsequent parsing operations. The
+extent of permissible repositioning using this method depends on the
+input source (see \xref[(7.3.3) Block buffer regions]{block:buffers}
+and \xref[(11.3.4) Input source]{file:source}).
+
+A program may directly examine the input buffer using its address
+and length as returned by \word{SOURCE}; the beginning of the parse
+area within the input buffer is indexed by the number in \word{toIN}.
+The values are valid for a limited time. An ambiguous condition
+exists if a program modifies the contents of the input buffer.
+
+\subsubsection{Other transient regions} % 3.3.3.6
+\label{usage:transient}
+
+The data space regions identified by \word{PAD}, \word{WORD}, and
+\word{num-end} (the pictured numeric output string buffer) may be
+transient. Their addresses and contents may become invalid after:
+
+\begin{itemize}
+\item a definition is created via a defining word;
+\item definitions are compiled with \word{:} or \word{:NONAME};
+\item data space is allocated using \word{ALLOT}, \word{,} (comma),
+	\word{C,} (c-comma), or \word{ALIGN}.
+\end{itemize}
+
+The previous contents of the regions identified by \word{WORD} and
+\word{num-end} may be invalid after each use of these words. Further,
+the regions returned by \word{WORD} and \word{num-end} may overlap in
+memory. Consequently, use of one of these words can corrupt a region
+returned earlier by a different word. The other words that construct
+pictured numeric output strings (\word{num-start}, \word{num}, \word{numS},
+and \word{HOLD})  may also modify the contents of these regions.
+Words that display numbers may be implemented using pictured numeric
+output words. Consequently, \word{d} (dot), \word{.R},
+\word[tools]{.S}, \word[tools]{q}, \word[double]{D.},
+\word[double]{D.R}, \word{Ud}, and \word{U.R} could also corrupt
+the regions.
+
+The size of the scratch area whose address is returned by \word{PAD}
+shall be at least 84 characters. The contents of the region
+addressed by \word{PAD} are intended to be under the complete
+control of the user: no words defined in this Standard place
+anything in the region, although changing data-space allocations as
+described in \xref[Contiguous regions]{usage:contiguous} may change
+the address returned by \word{PAD}. Non-standard words provided by
+an implementation may use \word{PAD}, but such use shall be
+documented.
+
+The size of the region identified by \word{WORD} shall be at least
+33 characters.
+
+The size of the pictured numeric output string buffer shall be at
+least $(2 \times n) + 2 $ characters, where $n$ is the number of
+bits in a cell. Programs that consider it a fixed area with
+unchanging access parameters have an environmental dependency.
+
+\section{The Forth text interpreter} % 3.4 ==========================
+\label{usage:command}
+
+Upon start-up, a system shall be able to interpret, as described
+by \wref{core:QUIT}{QUIT}, Forth source code received interactively
+from a user input device.
+
+Such interactive systems usually furnish a ``prompt'' indicating
+that they have accepted a user request and acted on it. The
+imple\-mentation-defined Forth prompt should contain the word ``OK''
+in some combination of upper or lower case.
+
+Text interpretation (see \wref{core:EVALUATE}{EVALUATE} and
+\wref{core:QUIT}{QUIT}) shall repeat the following steps until
+either the parse area is empty or an ambiguous condition exists:
+
+\begin{enumerate}
+\item Skip leading spaces and parse a \emph{name}
+	(see \ref{usage:parsing});
+
+\item Search the dictionary name space (see \ref{usage:find}).
+	If a definition name matching the string is found:
+
+	\begin{enumerate}
+	\item if interpreting, perform the interpretation semantics of
+		the definition (see \ref{usage:interpret}), and continue at
+		a).
+
+	\item if compiling, perform the compilation semantics of the
+		definition (see \ref{usage:compile}), and continue at a).
+	\end{enumerate}
+
+\item If a definition name matching the string is not found,
+	attempt to convert the string to a number
+	(see \ref{usage:numbers}). If successful:
+	\begin{enumerate}
+	\item if interpreting, place the number on the data stack,
+		and continue at a);
+	\item if compiling, compile code that when executed will place
+		the number on the stack (see \wref{core:LITERAL}{LITERAL}),
+		and continue at a);
+	\end{enumerate}
+
+\item If unsuccessful, an ambiguous condition exists
+	(see \ref{usage:ambiguous}).
+\end{enumerate}
+
+\subsection{Parsing} % 3.4.1 Parsing
+\label{usage:parsing}
+
+Unless otherwise noted, the number of characters parsed may be from
+zero to the implementation-defined maximum length of a counted
+string.
+
+If the parse area is empty, i.e., when the number in \word{toIN} is
+equal to the length of the input buffer, or contains no characters
+other than delimiters, the selected string is empty. Otherwise, the
+selected string begins with the next character in the parse area,
+which is the character indexed by the contents of \word{toIN}. An
+ambiguous condition exists if the number in \word{toIN} is greater
+than the size of the input buffer.
+
+If delimiter characters are present in the parse area after the
+beginning of the selected string, the string continues up to and
+including the character just before the first such delimiter, and
+the number in \word{toIN} is changed to index immediately past that
+delimiter, thus removing the parsed characters and the delimiter
+from the parse area. Otherwise, the string continues up to and
+including the last character in the parse area, and the number in
+\word{toIN} is changed to the length of the input buffer, thus
+emptying the parse area.
+
+Parsing may change the contents of \word{toIN}, but shall not affect
+the contents of the input buffer. Specifically, if the value in
+\word{toIN} is saved before starting the parse, resetting \word{toIN}
+to that value immediately after the parse shall restore the parse
+area without loss of data.
+
+\subsubsection{Delimiters} % 3.4.1.1
+\label{usage:delim}
+
+If the delimiter is the space character, hex 20 (\word{BL}), control
+characters may be treated as delimiters. The set of conditions, if
+any, under which a ``space'' delimiter matches control characters is
+implementation defined.
+
+To skip leading delimiters is to pass by zero or more contiguous
+delimiters in the parse area before parsing.
+
+\subsubsection{Syntax} % 3.4.1.2
+\label{usage:syntax}
+
+Forth has a simple, operator-ordered syntax. The phrase
+\texttt{A B C} returns values as if \texttt{A} were executed first,
+then \texttt{B} and finally \texttt{C}. Words that cause deviations
+from this linear flow of control are called control-flow words.
+Combinations of control-flow words whose stack effects are
+compatible form control-flow structures. Examples of typical use are
+given for each control-flow word in \ref{annex:rationale} (Annex A).
+
+Forth syntax is extensible; for example, new control-flow words can
+be defined in terms of existing ones. This Standard does not require
+a syntax or program-construct checker.
+
+
+\subsubsection{Text interpreter input number conversion} % 3.4.1.3
+\label{usage:numbers}
+
+When converting input numbers, the text interpreter shall recognize
+both positive and negative numbers, with a negative number
+represented by a single minus sign, the character ``\texttt{-}'',
+preceding the digits. The value in \word{BASE} is the radix for
+number conversion.
+
+
+
+\subsection{Finding definition names} % 3.4.2
+\label{usage:find}
+
+A string matches a definition name if each character in the string
+matches the corresponding character in the string used as the
+definition name when the definition was created. The case
+sensitivity (whether or not the upper-case letters match the
+lower-case letters) is implementation defined. A system may be
+either case sensitive, treating upper- and lower-case letters as
+different and not matching, or case insensitive, ignoring
+differences in case while searching.
+
+The matching of upper- and lower-case letters with alphabetic
+characters in character set extensions such as accented
+international characters is implementation defined.
+
+A system shall be capable of finding the definition names defined
+by this Standard when they are spelled with upper-case letters.
+
+
+\subsection{Semantics} % 3.4.3
+\label{usage:semantics}
+
+The semantics of a Forth definition are implemented by machine code
+or a sequence of execution tokens or other representations. They are
+largely specified by the stack notation in the glossary entries,
+which shows what values shall be consumed and produced. The prose in
+each glossary entry further specifies the definition's behavior.
+
+Each Forth definition may have several behaviors, described in the
+following sections. The terms ``initiation semantics'' and
+``run-time semantics'' refer to definition fragments, and have
+meaning only within the individual glossary entries where they
+appear.
+
+\subsubsection{Execution semantics} % 3.4.3.1
+
+The execution semantics of each Forth definition are specified in an
+``\textsf{Execution:}'' section of its glossary entry. When a
+definition has only one specified behavior, the label is omitted.
+
+Execution may occur implicitly, when the definition into which it
+has been compiled is executed, or explicitly, when its execution
+token is passed to \word{EXECUTE}. The execution semantics of a
+syntactically correct definition under conditions other than those
+specified in this Standard are implementation dependent.
+
+Glossary entries for defining words include the execution semantics
+for the new definition in a ``\emph{name} \textsf{Execution:}''
+section.
+
+\subsubsection{Interpretation semantics} % 3.4.3.2
+\label{usage:interpret}
+
+Unless otherwise specified in an ``\textsf{Interpretation:}''
+section of the glossary entry, the interpretation semantics of a
+Forth definition are its execution semantics.
+
+A system shall be capable of executing, in interpretation state,
+all of the definitions from the Core word set and any definitions
+included from the optional word sets or word set extensions whose
+interpretation semantics are defined by this Standard.
+
+A system shall be capable of executing, in interpretation state,
+any new definitions created in accordance with
+\xref[Usage requirements]{usage}.
+
+\subsubsection{Compilation semantics} % 3.4.3.3
+\label{usage:compile}
+
+Unless otherwise specified in a ``\textsf{Compilation:}'' section
+of the glossary entry, the compilation semantics of a Forth
+definition shall be to append its execution semantics to the
+execution semantics of the current definition.
+
+
+\subsection{Possible actions on an ambiguous condition} % 3.4.4
+\label{usage:ambiguous}
+
+When an ambiguous condition exists, a system may take one or more
+of the following actions:
+
+\begin{itemize}
+\item ignore and continue;
+\item display a message;
+\item execute a particular word;
+\item set interpretation state and begin text interpretation;
+\item take other implementation-defined actions;
+\item take implementation-dependent actions.
+\end{itemize}
+
+The response to a particular ambiguous condition need not be the
+same under all circumstances.
+
+
+\subsection{Compilation} % 3.4.5
+\label{usage:compilation}
+
+A program shall not attempt to nest compilation of definitions.
+
+During the compilation of the current definition, a program shall
+not execute any defining word, \word{:NONAME}, or any definition
+that allocates dictionary data space. The compilation of the
+current definition may be suspended using \word{[} (left-bracket)
+and resumed using \word{]} (right-bracket). While the compilation
+of the current definition is suspended, a program shall not execute
+any defining word, \word{:NONAME}, or any definition that allocates
+dictionary data space.

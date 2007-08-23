@@ -1,0 +1,63 @@
+%%
+%% This file will generate fast loadable files and documentation
+%% driver files from the doc files in this package when run through
+%% LaTeX or TeX.
+%%
+%%
+%% IMPORTANT NOTICE:
+%%
+%% No other permissions to copy or distribute this file in any form
+%% are granted and in particular no permission to modify its contents.
+%%
+%% --------------- start of docstrip commands ------------------
+%%
+\def\batchfile{answers.ins}
+\input docstrip.tex
+\preamble
+
+Copyright (C) 1990,1994 Mike Piff, University of Sheffield, England
+
+You are not allowed to change this file.
+
+You are NOT ALLOWED to distribute this file alone.  You are NOT
+ALLOWED to take money for the distribution or use of this
+file except for a nominal charge for copying etc.
+
+Please address any problems to:
+
+M.Piff@shef.ac.uk
+
+For updates, contact your nearest CTAN site.
+
+\endpreamble
+
+\keepsilent
+
+\def\Ask#1#2{\def#1{y}}
+
+\Msg{*** Generating the package file ***}
+
+\generate{\file{answers.sty}{\from{answers.dtx}{answers}}}
+
+\preamble
+\endpreamble
+
+\Msg{*** Generating example files ***}
+
+\generate{%
+   \file{ansexam1.tex}{\from{answers.dtx}{ex1}}
+   \file{ansexam2.tex}{\from{answers.dtx}{ex2}}
+   \file{ansexam3.tex}{\from{answers.dtx}{ex3}}
+}
+
+\ifToplevel{%
+\Msg{***********************************************************}
+\Msg{*}
+\Msg{* To finish the installation you have to move the file}
+\Msg{* answers.sty into a directory searched by TeX:}
+\Msg{* To produce the documentation, run the file answers.dtx through LaTeX.}
+\Msg{* To see an example, run the file answexam.tex through LaTeX.}
+\Msg{***********************************************************}
+}
+
+\endinput

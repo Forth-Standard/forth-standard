@@ -1,0 +1,198 @@
+\begin{titlepage}
+\begin{flushright}
+\LARGE
+Forth 200\emph{x} Standardisation Committee \\[.2in]
+\textbf{Forth 200\emph{x} \textit{Draft \docversion}} \\[.2in]
+
+\number\day%
+%
+\makeatletter
+\@tempcnta=\day
+\ifnum\@tempcnta>3
+	\ifnum\@tempcnta<21
+		\@tempcnta=8
+	\fi
+\fi
+%
+\@tempcntb=\@tempcnta
+\ifnum\@tempcnta>9
+	\divide  \@tempcnta by 10
+	\multiply\@tempcnta by 10
+	\advance \@tempcntb by -\@tempcnta
+\fi
+%
+$^{\mbox{\small
+\ifcase\@tempcntb
+    th%
+\or st%
+\or nd%
+\or rd%
+\else th\fi
+}}$
+\makeatother
+%
+\ifcase\month
+\or January,
+\or February,
+\or March,
+\or April,
+\or May,
+\or June,
+\or July,
+\or August,
+\or September,
+\or October,
+\or November,
+\or December,
+\fi
+%
+\number\year
+\end{flushright}
+
+\vfill
+\begin{figure}[ht]
+  \begin{center}
+	\includegraphics[bb=0 0 500 252,width=0.6\textwidth]{logo.png}
+  \end{center}
+\end{figure}
+\vfill
+
+\stepcounter{part}
+
+\makeatletter
+\@tempswafalse
+\ifinlineintro
+	\ifinlinebody
+	\begin{center}
+		\huge % Part \thepart \\[2ex]
+		\ifnum\value{part}=1 \textbf{Normative Text}\fi
+		\ifnum\value{part}=2 \textbf{Informative Text}\fi
+	\end{center}
+	\fi
+\fi
+\makeatother
+
+\vfill
+
+
+%\textbf{Notice:} \\
+%This is a draft proposed American National Standard to replace
+%ANSI X3.215-1994. As such, this is not a completed standard. The
+%Technical Committee may modify this document during the course
+%of its work and as a result of comments received during public
+%review prior to its approval as a standard.
+%
+%Permission is granted to members of NCITS, its technical committees,
+%and their associated task groups to reproduce this document for the
+%purposes of NCITS standardization activities without further permission,
+%provided this notice is included. All other rights are reserved. Any
+%commercial or for-profit reproduction is strictly prohibited.
+
+
+%\ifdraft
+\textbf{Notice: \emph{Status of this Document}} \\
+This is a draft proposed Standard to replace ANSI X3.215-1994. As
+such, this is not a completed standard. The Standardisation Committee
+may modify this document during the course of its work.
+%\fi
+
+
+%
+% Normative Front Page
+%
+
+\ifnum\value{part}=1
+	\ifinlineintro
+		\ifinlinebody
+% Normative Page \ifinlineintro and \ifinlinebody
+\textbf{Notice: \emph{Inline}} (\textit{i}) \\
+As this is a working draft the text for the Rationale relevant to
+the current word set has been included with the main text for the
+word set.
+Such sections are denoted by being indented and the label
+(\emph{Rational}) after the section heading.
+The rationale for a given glossary entry is shown in the appropriate
+sections (rationale and testing) within the definition.
+These sections will appear in the appropriate section of appendix
+\ref{annex:rationale} in the final document.
+		\else
+% Normative Page \ifinlineintro only
+\textbf{Notice: \emph{Inline Wordset Rationale}} (\textit{w}) \\
+As this is a working draft the text for the Rationale relevent to
+the current word set has been included with the main text for the
+word set. The rationale is denoted by the text being indented and the
+label (\emph{Rationale}) appearing after the section heading. Such
+text will appear in the appropriate section of appendix
+\ref{annex:rationale} in the final document.
+		\fi
+	\else
+		\ifinlinebody
+% Normative Page \ifinlinebody only
+\textbf{Notice: \emph{Inline Word Rationale}} (\textit{r}) \\
+As this is a working draft the rationale for a given glossary entry
+is shown in the appropriate section (rationale and testing) within the
+defintion.
+These sections will appear in the appropriate section of appendix
+\ref{annex:rationale} in the final document.
+		\fi
+	\fi
+\fi
+
+
+%
+% Informative Front Page
+%
+
+\ifnum\value{part}=2
+	\ifinlineintro
+		\ifinlinebody
+% Informative Page \ifinlineintro and \ifinlinebody
+\textbf{Notice: \emph{Inline}} (\textit{i}) \\
+As this is a working draft the rationale for a word sets has been given
+alongside the main text for the word set. The rationale for individual
+glossary entries have been given in appropriate sections (rationale
+and/or testing) of the definition.
+
+The Rational (appendix \ref{annex:rationale}) contains only the general
+rationale text. The final version of the document will include the both
+the rationale for word sets as well as the rationale for individual
+glossary entries.
+		\else
+% Informative Page \ifinlineintro only
+\textbf{Notice: \emph{Inline Wordset Rationale}} (\textit{w}) \\
+As this is a working draft the text for the rationale for a word set
+has been given alongside the main text for the word set.
+
+The Rational (appendix \ref{annex:rationale}) contains the general
+rational in addition to the rationale relating to the individual
+glossary defintions.
+The rational for each word set will be included in the appendix in the
+final document.
+		\fi
+	\else
+		\ifinlinebody
+% Informative Page \ifinlinebody only
+\textbf{Notice: \emph{Inline Word Rationale}} (\textit{r}) \\
+As this is a working draft the rationale for a given glossary entry is
+shown in the appropriate section (rationale and/or testing) within the
+definition.
+
+The Rational (appendix \ref{annex:rationale}) contains the general
+rationale in addition to the rationale relating to the individual word
+sets.
+The rational for the glossary entries will be included in the appendix
+in the final document.
+		\fi
+	\fi
+\fi
+
+
+\ifshowref
+\textbf{Notice: Cross References} (\textit{x}) \\
+As Forth words may contain characters which are not allowed in the
+various markup systems (XML / HTML / PDF / \LaTeX), additional
+text-only labels have been used where necessary. Such labels are
+shown in this revision of the document and will not appear in the
+final document.
+\fi
+\end{titlepage}

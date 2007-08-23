@@ -1,0 +1,157 @@
+\chapter*{\place{x:forward}{Proposals Process}}
+\addcontentsline{toc}{section}{\string\place{x:forward}{Proposals Process}}
+\markboth{Proposals Process}{Proposals Process}
+
+\cbstart
+\marginpar{\tiny x:forward}
+In developing a standard it is necessary for the standards committee to
+know what the system implementors and the programmers are already doing
+in that area, and what they would be willing to do, or wish for.
+
+To that end we have introduced a system of consultation with the Forth
+community:
+
+\begin{enumerate}
+\item
+	A proponent of an extension or change to the standard writes a
+	proposal.
+
+\item
+	The proponent publishes the proposal as an \emph{RfD} (Request for
+	Discussion) by sending a copy to the \texttt{forth200x@yohoogroups.com}
+	email list and to the \texttt{comp.lang.forth} usenet news group
+	where it can be discussed.  The maintainers of the
+	\texttt{www.forth200x.org} web site will then place a copy of the
+	proposal on that web site.
+
+	In order for the results to be available in time for a standards
+	meeting, an RfD should be published at least 12 weeks before the
+	next meeting.
+
+\item
+	The proponent can modify the proposal, taking any comments into
+	consideration.  Where comments have been dismiss, both the comment
+	and the reasons for its dismissal should be given.  The revised
+	proposal is published as a revised RfD.
+
+\item
+	Once a proposal has settled down, it is frozen, and submitted to a
+	vote taker, who then publishes a \emph{CfV} (Call for Votes) on the
+	proposal. The vote taker will normally be a member of the standards
+	committee.  In the poll, system implementors can state, whether
+	their systems implement the proposal, or what the chances are that
+	it ever will.  Similarly, programmers can state whether they have
+	used something similar to the proposed extension and whether they
+	would use the proposed extension once it is standardized.  The
+	results of this poll are used by the standards committee when
+	deciding whether to accept the proposal into the standards document.
+
+	In order for the results to be available in time for a standards
+	meeting, the CfV should be started at least 6 weeks before that
+	meeting.
+
+	If a proposal does not propose extensions or changes to the Forth
+	language, but just a rewording of the current document, there is
+	nothing for the system implementors to implement, and for
+	programmers to use, so a CfV poll does not make sense and is not
+	performed.  The proposal will bypass the CfV stage and will simply
+	be frozen and go directly to the committee for consideration.
+
+\item
+	One to two weeks after publishing the CfV, the vote taker will
+	publish a \emph{Current Standings}.  Note that the poll will remain
+	open, especially for information on additional systems, and the
+	results will be updated on the Forth200\emph{x} web page.  The
+	results considered at a standards meeting are those from four weeks
+	prior to that meeting.  If no poll results are available by that
+	deadline, the proposal will be considered at a later meeting.
+
+\item
+	A proposal will only be accepted into the new basis document by
+	consensus of those present at an open standards meeting.
+\end{enumerate}
+
+Should a contributor consider their comments to have been dismissed
+without due consideration, they are encouraged to submit a counter
+proposal.
+
+Proposals which have passed the poll will be integrated into the basis
+document in preparation for the approaching Standards Committee meeting.
+Proposals often require some rewording in this process, so the proponent
+should work with the editor to integrate the proposal into the document.
+
+A proposal should give a rationale for the proposal, so that system
+implementors and programmers will see what it is good for and why they
+should adopt it (and vote for it).
+
+A proposal RfD should include the following sections.
+
+\begin{description}
+\item[Author:] ~\\
+	The name of the author(s) of the proposal.
+
+\item[Change Log:] ~\\
+	A list of changes to the last published edition on the proposal.
+
+\item[Problem:] ~\\
+	This states what problem the proposal addresses.
+
+\item[Solution:] ~\\
+	An informal description of the proposed solution to the problem
+	identified by the proposal.
+
+\item[Typical use:] ~\\
+	Shows a typical use of the word/feature you propose; this should
+	make the formal wording easier to understand.
+
+\item[Remarks:] ~\\
+	This gives the rationale for specific decisions you have taken in
+	the proposal (often in response to comments in the RfD phase), or
+	discusses specific issues that have not been decided yet.
+
+\item[Proposal:] ~\\
+	This is the formal or normative part of the proposal and should be
+	as well specified as possible.
+
+	Some issues could be left undecided in the initial RfDs, leaving
+	the issue open for discussion.  These issues should be mentioned
+	in the Remarks section as well as in the Proposal section.
+
+	If you want to leave something open to the system implementor, make
+	that explicit, e.g., by making it an ambiguous condition.
+
+	For the wording of word definitions, it is normally a good idea to
+	take your inspiration from existing word definitions in the basis
+	document.  Where possible you should include the rationale for the
+	definition.  Should a proposal be accepted where no rationale has
+	been provided, the editor will construct a rationale from other
+	parts of the proposal.  The proponent should work with the editor
+	in the development of this rationale.
+
+\item[Reference implementation:] ~\\
+	This makes it easier for system implementors to adopt your proposal.
+	Where possible they should be provided in ANS Forth.  Where this is
+	not possible, system specific knowledge is required or non standard
+	words are used, this should be documented.
+
+\item[Testing:] ~\\
+	This should test the feature/words you propose, in particular, it
+	should test boundary conditions.  Where possible test cases should
+	be written to conform with John Hayes tester.f test harness, see
+	Appendix \ref{annex:test}.
+
+\item[Experience:] ~\\
+	Indicate where the proposal has already been implemented and/or
+	used.
+
+\item[Comments:] ~\\
+	Initially this is blank.  As comments are made on the proposal,
+	they should be incorporated into the proposal.  Comment which can
+	not be incorporated should be included in this section.  A response
+	to the comment may be included after the comment itself.
+
+\item[Instructions for responding to the poll:] ~\\
+	Once the proposal enters the CfV stage, the vote taker will add
+	these instructions to the proposal.
+\end{description}
+\cbend

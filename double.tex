@@ -1,0 +1,431 @@
+\chapter{The optional Double-Number word set} % 8
+\wordlist{double}
+
+\begin{intro}
+\section{The optional Double-Number word set}
+
+Forth systems on 8-bit and 16-bit processors often find it necessary
+to deal with double-length numbers. But many Forths on small embedded
+systems do not, and many users of Forth on systems with a cell size of
+32-bits or more find that the necessity for double-length numbers is
+much diminished. Therefore, we have factored the words that manipulate
+double-length entities into this optional word set.
+
+Please note that the naming convention used in this word set conveys
+some important information:
+
+\begin{enumerate}
+\item[1.]
+	Words whose names are of the form \texttt{2}\emph{xxx} deal
+	with cell pairs, where the relationship between the cells is
+	unspecified. They may be two-vectors, double-length numbers, or
+	any pair of cells that it is convenient to manipulate together.
+
+\item[2.]
+	Words with names of the form \texttt{D}\emph{xxx} deal
+	specifically with double-length integers.
+
+\item[3.]
+	Words with names of the form \texttt{M}\emph{xxx} deal with
+	some combination of single and double integers. The order in
+	which these appear on the stack is determined by long-standing
+	common practice.
+\end{enumerate}
+
+Refer to \ref{rat:types} for a discussion of data types in Forth.
+\end{intro}
+
+\section{Introduction} % 8.1
+
+Sixteen-bit Forth systems often use double-length numbers. However, many
+Forths on small embedded systems do not, and many users of Forth on systems
+with a cell size of 32 bits or more find that the use of double-length
+numbers is much diminished. Therefore, the words that manipulate
+double-length entities have been placed in this optional word set.
+
+\section{Additional terms and notation} % 8.2
+
+None.
+
+\section{Additional usage requirements} % 8.3
+
+\subsection{Environmental queries} % 8.3.1
+
+Append table \ref{double:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{double:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{DOUBLE}		& \emph{flag}	& no	&
+			double-number word set present \\
+		\texttt{DOUBLE-EXT}	& \emph{flag}	& no	&
+			double-number extensions word set present \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Text interpreter input number conversion} % 8.3.2
+
+When the text interpreter processes a number that is immediately
+followed by a decimal point and is not found as a definition name,
+the text interpreter shall convert it to a double-cell number.
+
+For example, entering \word[core]{DECIMAL} \texttt{1234} leaves the
+single-cell number \texttt{1234} on the stack, and entering
+\word[core]{DECIMAL} \texttt{1234.} leaves the double-cell number
+\texttt{1234} \texttt{0} on the stack.
+
+See: \xref[3.4.1.3 Text interpreter input number conversion]{usage:numbers}.
+
+
+\section{Additional documentation requirements} % 8.4
+
+\subsection{System documentation} % 8.4.1
+
+\subsubsection{Implementation-defined options} % 8.4.1.1
+
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 8.4.1.2
+
+\begin{itemize}
+\item \param{d} outside range of \param{n} in \wref{double:DtoS}{D>S}.
+\end{itemize}
+
+\subsubsection{Other system documentation} % 8.4.1.3
+
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsection{Program documentation} % 8.4.2
+
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+
+\section{Compliance and labeling} % 8.5
+
+\subsection{ANS Forth systems} % 8.5.1
+
+The phrase ``Providing the Double-Number word set'' shall be
+appended to the label of any Standard System that provides all
+of the Double-Number word set.
+
+The phrase ``Providing \emph{name(s)} from the Double-Number
+Extensions word set'' shall be appended to the label of any
+Standard System that provides portions of the Double-Number
+Extensions word set.
+
+The phrase ``Providing the Double-Number Extensions word set''
+shall be appended to the label of any Standard System that
+provides all of the Double-Number and Double-Number Extensions
+word sets.
+
+\subsection{ANS Forth programs} % 8.5.2
+
+The phrase ``Requiring the Double-Number word set'' shall be
+appended to the label of Standard Programs that require the
+system to provide the Double-Number word set.
+
+The phrase ``Requiring \emph{name(s)} from the Double-Number
+Extensions word set'' shall be appended to the label of Standard
+Programs that require the system to provide portions of the
+Double-Number Extensions word set.
+
+The phrase ``Requiring the Double-Number Extensions word set''
+shall be appended to the label of Standard Programs that require
+the system to provide all of the Double-Number and Double-Number
+Extensions word sets.
+
+\section{Glossary} % 8.6
+
+\begin{intro}
+\subsection{Glossary} % A.8.6
+\end{intro}
+
+\subsection{Double-Number words} % 8.6.1
+
+\begin{worddef}{0360}{2CONSTANT}[two-constant]
+\item \stack{x_1 x_2 "<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. Create a definition for \param{name} with the execution
+	semantics defined below.
+
+	\param{name} is referred to as a ``two-constant''.
+
+\execute[name]
+	\stack{}{x_1 x_2}
+
+	Place cell pair \param{x_1 x_2} on the stack.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.8.6.1.0360 2CONSTANT
+		Typical use:
+			\texttt{x1} \texttt{x2} \word{2CONSTANT} \emph{name}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0390}{2LITERAL}[two-literal]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{x_1 x_2}{}
+
+	Append the run-time semantics below to the current definition.
+
+\runtime
+	\stack{}{x_1 x_2}
+
+	Place cell pair \param{x_1 x_2} on the stack.
+
+	\begin{defer}
+	\rationale % A.8.6.1.0390 2LITERAL
+		\setwordlist{core}
+		Typical use:
+			\word{:} \texttt{X} {\ldots}
+				\word{[} \texttt{x1} \texttt{x2} \word{]} \word[double]{2LITERAL}
+			{\ldots} \word{;}
+		\setwordlist{double}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0440}{2VARIABLE}[two-variable]
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a
+	space. Create a definition for \param{name} with the execution
+	semantics defined below. Reserve two consecutive cells of data
+	space.
+
+	\param{name} is referred to as a ``two-variable''.
+
+\execute[name]
+	\stack{}{a-addr}
+
+	\param{a-addr} is the address of the first (lowest address)
+	cell of two consecutive cells in data space reserved by
+	\word{2VARIABLE} when it defined \param{name}. A program is
+	responsible for initializing the contents.
+
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:VARIABLE}{VARIABLE}.
+
+	\begin{defer}
+	\rationale % A.8.6.1.0440 2VARIABLE
+		Typical use:
+			\word{2VARIABLE} \param{name}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1040}{D+}[d-plus]
+\item \stack{d_1|ud_1 d_2|ud_2}{d_3|ud_3}
+
+	Add \param{d_2|ud_2} to \param{d_1|ud_1}, giving the sum
+	\param{d_3|ud_3}.
+\end{worddef}
+
+
+\begin{worddef}{1050}{D-}[d-minus]
+\item \stack{d_1|ud_1 d_2|ud_2}{d_3|ud_3}
+
+	Subtract \param{d_2|ud_2} from \param{d_1|ud_1}, giving the
+	difference \param{d_3|ud_3}.
+\end{worddef}
+
+
+\begin{worddef}{1060}{D.}[d-dot]
+\item \stack{d}{}
+
+	Display \param{d} in free field format.
+\end{worddef}
+
+
+\begin{worddef}{1070}{D.R}[d-dot-r]
+\item \stack{d n}{}
+
+	Display \param{d} right aligned in a field \param{n} characters
+	wide. If the number of characters required to display \param{d}
+	is greater than \param{n}, all digits are displayed with no
+	leading spaces in a field as wide as necessary.
+
+	\begin{defer}
+	\rationale % A.8.6.1.1070 D.R
+		In \word{D.R}, the ``R'' is short for RIGHT.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[D0less]{1075}{D0<}[d-zero-less]
+\item \stack{d}{flag}
+
+	\param{flag} is true if and only if \param{d} is less than zero.
+\end{worddef}
+
+
+\begin{worddef}{1080}{D0=}[d-zero-equals]
+\item \stack{xd}{flag}
+
+	\param{flag} is true if and only if \param{xd} is equal to zero.
+\end{worddef}
+
+
+\begin{worddef}{1090}{D2*}[d-two-star]
+\item \stack{xd_1}{xd_2}
+
+	\param{xd_2} is the result of shifting \param{xd_1} one bit
+	toward the most-significant bit, filling the vacated
+	least-significant bit with zero.
+
+	\begin{defer}
+	\rationale % A.8.6.1.1090 D2*
+		See: \rref{core:2*}{2*} for applicable discussion.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1100}{D2/}[d-two-slash]
+\item \stack{xd_1}{xd_2}
+
+	\param{xd_2} is the result of shifting \param{xd_1} one bit
+	toward the least-significant bit, leaving the most-significant
+	bit unchanged.
+
+	\begin{defer}
+	\rationale % A.8.6.1.1100 D2/
+		See: \rref{core:2/}{2/} for applicable discussion.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[Dless]{1110}{D<}[d-less-than]
+\item \stack{d_1 d_2}{flag}
+
+	\param{flag} is true if and only if \param{d_1} is less than
+	\param{d_2}.
+\end{worddef}
+
+
+\begin{worddef}{1120}{D=}[d-equals]
+\item \stack{xd_1 xd_2}{flag}
+
+	\param{flag} is true if and only if \param{xd_1} is bit-for-bit
+	the same as \param{xd_2}.
+\end{worddef}
+
+
+\begin{worddef}[DtoS]{1140}{D>S}[d-to-s]
+\item \stack{d}{n}
+
+	\param{n} is the equivalent of \param{d}. An ambiguous condition
+	exists if \param{d} lies outside the range of a signed single-cell
+	number.
+
+	\begin{defer}
+	\rationale % A.8.6.1.1140 D>S
+		There exist number representations, e.g., the sign-magnitude
+		representation, where reduction from double- to single-precision
+		cannot simply be done with \word[core]{DROP}. This word,
+		equivalent to \word[core]{DROP} on two's complement systems,
+		desensitizes application code to number representation and
+		facilitates portability.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1160}{DABS}[d-abs]
+\item \stack{d}{ud}
+
+	\param{ud} is the absolute value of \param{d}.
+\end{worddef}
+
+
+\begin{worddef}{1210}{DMAX}[d-max]
+\item \stack{d_1 d_2}{d_3}
+
+	\param{d_3} is the greater of \param{d_1} and \param{d_2}.
+\end{worddef}
+
+
+\begin{worddef}{1220}{DMIN}[d-min]
+\item \stack{d_1 d_2}{d_3}
+
+	\param{d_3} is the lesser of \param{d_1} and \param{d_2}.
+\end{worddef}
+
+
+\begin{worddef}{1230}{DNEGATE}[d-negate]
+\item \stack{d_1}{d_2}
+
+	\param{d_2} is the negation of \param{d_1}.
+\end{worddef}
+
+
+\begin{worddef}{1820}{M*/}[m-star-slash]
+\item \stack{d_1 n_1 +n_2}{d_2}
+
+	Multiply \param{d_1} by \param{n_1} producing the triple-cell
+	intermediate result $t$. Divide $t$ by \param{+n_2} giving the
+	double-cell quotient \param{d_2}. An ambiguous condition exists
+	if \param{+n_2} is zero or negative, or the quotient lies outside
+	of the range of a double-precision signed integer.
+
+	\begin{defer}
+	\rationale % A.8.6.1.1820 M*/
+		\word{M*/} was once described by Chuck Moore as the most
+		useful arithmetic operator in Forth. It is the main workhorse
+		in most computations involving double-cell numbers. Note that
+		some systems allow signed divisors. This can cost a lot in
+		performance on some CPUs. The requirement for a positive
+		divisor has not proven to be a problem.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1830}{M+}[m-plus]
+\item \stack{d_1|ud_1 n}{d_2|ud_2}
+
+	Add \param{n} to \param{d_1|ud_1}, giving the sum \param{d_2|ud_2}.
+
+	\begin{defer}
+	\rationale % A.8.6.1.1830 M+
+		\word{M+} is the classical method for integrating.
+	\end{defer}
+\end{worddef}
+
+
+\subsection{Double-Number extension words} % 8.6.2
+\extended
+
+\begin{worddef}{0420}{2ROT}[two-rote]
+\item \stack{x_1 x_2 x_3 x_4 x_5 x_6}{x_3 x_4 x_5 x_6 x_1 x_2}
+
+	Rotate the top three cell pairs on the stack bringing cell pair
+	\param{x_1 x_2} to the top of the stack.
+\end{worddef}
+
+
+\begin{worddef}[DUless]{1270}{DU<}[d-u-less]
+\item \stack{ud_1 ud_2}{flag}
+
+	\param{flag} is true if and only if \param{ud_1} is less than
+	\param{ud_2}.
+\end{worddef}

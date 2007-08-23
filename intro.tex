@@ -1,0 +1,130 @@
+{\Large\bfseries
+American National Standard for Information Systems --- \\[2pt]
+Programming Language --- \\[2pt]
+Forth
+}
+
+\chapter{Introduction}
+
+\section{Purpose}
+The purpose of this Standard is to promote the portability of Forth
+programs for use on a wide variety of computing systems, to facilitate
+the communication of programs, programming techniques, and ideas among
+Forth programmers, and to serve as a basis for the future evolution of
+the Forth language.
+
+\section{Scope}
+This Standard specifies an interface between a Forth System and a
+Forth Program by defining the words provided by a Standard System.
+
+\subsection{Inclusions}
+This Standard specifies:
+\begin{itemize}
+\item the forms that a program written in the Forth language may take;
+\item the rules for interpreting the meaning of a program and its data.
+\end{itemize}
+
+\subsection{Exclusions} % 1.2.2
+\label{intro:exclusions}
+
+This Standard does not specify:
+\begin{itemize}
+\item the mechanism by which programs are transformed for use on
+	computing systems;
+\item the operations required for setup and control of the use of
+	programs on computing systems;
+\item the method of transcription of programs or their input or
+	output data to or from a storage medium;
+\item the program and Forth system behavior when the rules of this
+	Standard fail to establish an interpretation;
+\item the size or complexity of a program and its data that will
+	exceed the capacity of any specific computing system or the
+	capability of a particular Forth system;
+\item the physical properties of input/output records, files, and units;
+\item the physical properties and implementation of storage.
+\end{itemize}
+
+\section{Document organization}
+
+\subsection{Word sets}
+This Standard groups Forth words and capabilities into \emph{word sets}
+under a name indicating some shared aspect, typically their common
+functional area. Each word set may have an extension, containing words
+that offer additional functionality. These words are not required in an
+implementation of the word set.
+
+The ``Core'' word set, defined in sections 1 through 6, contains the
+required words and capabilities of a Standard System. The other word
+sets, defined in sections \ref{wordlist:block} through
+\ref{wordlist:string}, are optional, making it possible to provide
+Standard Systems with tailored levels of functionality.
+
+\subsubsection{Text sections}
+
+Within each word set, section 1 contains introductory and explanatory
+material and section 2 introduces terms and notation used throughout
+the Standard. There are no requirements in these sections.
+
+Sections 3 and 4 contain the usage and documentation requirements,
+respectively, for Standard Systems and Programs, while section 5
+specifies their labeling.
+
+\subsubsection{Glossary sections}
+
+Section 6 of each word set specifies the required behavior of the
+definitions in the word set and the extensions word set.
+
+\subsection{Annexes}
+
+The annexes do not contain any required material.
+
+Annex \ref{annex:rationale} provides some of the rationale behind the
+committee's decisions in creating this Standard, as well as
+implementation examples. It has the same section numbering as the
+body of the Standard to make it easy to relate each requirements
+section to its rationale section.
+
+Annex \ref{annex:bib} is a short bibliography on Forth.
+
+Annex \ref{annex:intro} provides an introduction to Forth.
+
+Annex \ref{annex:diff} discusses the compatibility of ANS Forth
+with earlier Forths, emphasizing the differences from Forth 83.
+
+Annex \ref{annex:port} presents some techniques for writing portable
+programs in ANS Forth.
+
+Annex \ref{annex:test} presents a \replace{test}{validation}{test}
+suite to test the operation of a system complies with the definitions
+documented in this standard.
+
+Annex \ref{annex:index} includes the words from all word sets in a
+single list, and serves as an index of ANS Forth words.
+
+\section{Future directions}
+
+\subsection{New technology}
+
+This Standard adopts certain words and practices that are
+increasingly found in common practice. New words have also
+been adopted to ease creation of portable programs.
+
+\subsection{Obsolescent features}
+
+This Standard adopts certain words and practices that cause
+some previously used words to become obsolescent. Although
+retained here because of their widespread use, their use in
+new implementations or new programs is discouraged, because
+they may be withdrawn from future revisions of the Standard.
+
+This Standard designates the following words as obsolescent:
+
+\begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
+  \ref{core:numTIB}	& \word{numTIB}
+& \ref{tools:FORGET}& \word[tools]{FORGET}
+& \ref{core:SPAN}	& \word{SPAN} \\
+  \ref{core:CONVERT}& \word{CONVERT}
+& \ref{core:QUERY}	& \word{QUERY}
+& \ref{core:TIB}	& \word{TIB} \\
+  \ref{core:EXPECT}	& \word{EXPECT} \\
+\end{tabular}

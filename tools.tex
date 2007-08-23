@@ -1,0 +1,736 @@
+\chapter{The optional Programming-Tools word set} % 15
+\wordlist{tools}
+
+\begin{intro}
+\section{The optional Programming-Tools word set} % A.15
+
+These words have been in widespread common use since the earliest
+Forth systems.
+
+Although there are environmental dependencies intrinsic to programs
+using an assembler, virtually all Forth systems provide such a
+capability. Insofar as many Forth programs are intended for real-time
+applications and are intrinsically non-portable for this reason, the
+Technical Committee believes that providing a standard window into
+assemblers is a useful contribution to Forth programmers.
+
+Similarly, the programming aids \word{DUMP}, etc., are valuable tools
+even though their specific formats will differ between CPUs and Forth
+implementations. These words are primarily intended for use by the
+programmer, and are rarely invoked in programs.
+
+One of the original aims of Forth was to erase the boundary between
+``user'' and ``programmer'' --- to give all possible power to anyone
+who had occasion to use a computer. Nothing in the above labeling or
+remarks should be construed to mean that this goal has been abandoned.
+\end{intro}
+
+\section{Introduction} % 15.1
+
+This optional word set contains words most often used during the
+development of applications.
+
+\section{Additional terms and notation} % 15.2
+
+None.
+
+\section{Additional usage requirements} % 15.3
+
+\subsection{Environmental queries} % 15.3.1
+
+Append table \ref{tools:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{tools:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{TOOLS}		& \emph{flag}		& no	&
+			programming-tools word set present \\
+		\texttt{TOOLS-EXT}	& \emph{flag}		& no	&
+			programming-tools extensions word set present \\
+		\texttt{X:defined}	& --				& --	&
+			the \textsf{X:defined} extension is present \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{The Forth dictionary} % 15.3.2
+\label{tools:dict}
+
+A program using the words \word{CODE} or \word{;CODE} associated
+with assembler code has an environmental dependency on that
+particular instruction set and assembler notation.
+
+Programs using the words \word{EDITOR} or \word{ASSEMBLER} require
+the Search Order word set or an equivalent implementation-defined
+capability.
+
+See: \xref[3.3 The Forth dictionary]{usage:dict}.
+
+\section{Additional documentation requirements} % 15.4
+
+\subsection{System documentation} % 15.4.1
+
+\subsubsection{Implementation-defined options} % 15.4.1.1
+
+\begin{itemize}
+\item ending sequence for input following
+	\wref{tools:;CODE}{;CODE} and
+	\wref{tools:CODE}{CODE};
+\item manner of processing input following
+	\wref{tools:;CODE}{;CODE} and
+	\wref{tools:CODE}{CODE};
+\item search-order capability for
+	\wref{tools:EDITOR}{EDITOR} and
+	\wref{tools:ASSEMBLER}{ASSEMBLER}
+	(\xref[15.3.3 The Forth dictionary]{tools:dict});
+\item source and format of display by \wref{tools:SEE}{SEE}.
+\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 15.4.1.2
+
+\begin{itemize}
+\item deleting the compilation word-list (\wref{tools:FORGET}{FORGET});
+\item fewer than $u+1$ items on control-flow stack
+	(\wref{tools:CS-PICK}{CS-PICK},
+	 \wref{tools:CS-ROLL}{CS-ROLL});
+\item \emph{name} can't be found (\wref{tools:FORGET}{FORGET});
+\item \emph{name} not defined via \wref{core:CREATE}{CREATE}
+	(\wref{tools:;CODE}{;CODE});
+\item \wref{core:POSTPONE}{POSTPONE} applied to \wref{tools:[IF]}{[IF]};
+\item reaching the end of the input source before matching
+	\wref{tools:[ELSE]}{[ELSE]} or \wref{tools:[THEN]}{[THEN]}
+	(\wref{tools:[IF]}{[IF]});
+\item removing a needed definition (\wref{tools:FORGET}{FORGET}).
+\end{itemize}
+
+\subsubsection{Other system documentation} % 15.4.1.3
+
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsection{Program documentation} % 15.4.2
+
+\subsubsection{Environmental dependencies} % 15.4.2.1
+
+\begin{itemize}
+\item using the words \wref{tools:;CODE}{;CODE} or
+	\wref{tools:CODE}{CODE}.
+\end{itemize}
+
+\subsubsection{Other program documentation} % 15.4.2.2
+
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\section{Compliance and labeling} % 15.5
+
+\subsection{ANS Forth systems} % 15.5.1
+
+The phrase ``Providing the Programming-Tools word set'' shall be
+appended to the label of any Standard System that provides all of
+the Programming-Tools word set.
+
+The phrase ``Providing \emph{name(s)} from the Programming-Tools
+Extensions word set'' shall be appended to the label of any Standard
+System that provides portions of the Programming-Tools Extensions
+word set.
+
+The phrase ``Providing the Programming-Tools Extensions word set''
+shall be appended to the label of any Standard System that provides
+all of the Programming-Tools and Programming-Tools Extensions word
+sets.
+
+\subsection{ANS Forth programs} % 15.5.2
+
+The phrase ``Requiring the Programming-Tools word set'' shall be
+appended to the label of Standard Programs that require the system
+to provide the Programming-Tools word set.
+
+The phrase ``Requiring \emph{name(s)} from the Programming-Tools
+Extensions word set'' shall be appended to the label of Standard
+Programs that require the system to provide portions of the
+Programming-Tools Extensions word set.
+
+The phrase ``Requiring the Programming-Tools Extensions word set''
+shall be appended to the label of Standard Programs that require the
+system to provide all of the Programming-Tools and Programming-Tools
+Extensions word sets.
+
+
+
+\section{Glossary} % 15.6
+
+\begin{intro}
+\subsection{Glossary} % A.15.6
+\end{intro}
+
+
+\subsection{Programming-Tools words} % 15.6.1
+
+\begin{worddef}{0220}{.S}[dot-s]
+\item \stack{}{}
+
+	Copy and display the values currently on the data stack. The
+	format of the display is implementation-dependent.
+
+	\word{.S} may be implemented using pictured numeric output words.
+	Consequently, its use may corrupt the transient region identified
+	by \word[core]{num-end}.
+
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+
+	\begin{defer}
+	\rationale % A.15.6.1.0220 .S
+		\word[tools]{.S} is a debugging convenience found on almost
+		all Forth systems. It is universally mentioned in Forth texts.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[q]{0600}{?}[question]
+\item \stack{a-addr}{}
+
+	Display the value stored at \param{a-addr}.
+
+	\word{q} may be implemented using pictured numeric output words.
+	Consequently, its use may corrupt the transient region identified
+	by \word[core]{num-end}.
+
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+\end{worddef}
+
+
+\begin{worddef}{1280}{DUMP}
+\item \stack{addr u}{}
+
+	Display the contents of \param{u} consecutive addresses starting
+	at \param{addr}. The format of the display is implementation
+	dependent.
+
+	\word{DUMP} may be implemented using pictured numeric output
+	words. Consequently, its use may corrupt the transient region
+	identified by \word[core]{num-end}.
+
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+\end{worddef}
+
+
+\begin{worddef}{2194}{SEE}
+\item \stack{"<spaces>name"}{}
+
+	Display a human-readable representation of the named word's
+	definition. The source of the representation (object-code
+	decompilation, source block, etc.) and the particular form of
+	the display is implementation defined.
+
+	\word{SEE} may be implemented using pictured numeric output
+	words. Consequently, its use may corrupt the transient region
+	identified by \word[core]{num-end}.
+
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+
+	\begin{defer}
+	\rationale % A.15.6.1.2194 SEE
+		\word[tools]{SEE} acts as an on-line form of documentation of
+		words, allowing modification of words by decompiling and
+		regenerating with appropriate changes.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2465}{WORDS}
+\item \stack{}{}
+
+	List the definition names in the first word list of the search
+	order. The format of the display is implementation-dependent.
+
+	\word{WORDS} may be implemented using pictured numeric output
+	words. Consequently, its use may corrupt the transient region
+	identified by \word[core]{num-end}.
+
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+
+	\begin{defer}
+	\rationale % A.15.6.1.2465 WORDS
+		\word[tools]{WORDS} is a debugging convenience found on almost
+		all Forth systems. It is universally referred to in Forth texts.
+	\end{defer}
+\end{worddef}
+
+
+\subsection{Programming-Tools extension words} % 15.6.2
+\extended
+
+\begin{worddef}{0470}{;CODE}[semicolon-code]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{colon-sys}{}
+
+	Append the run-time semantics below to the current definition.
+	End the current definition, allow it to be found in the
+	dictionary, and enter interpretation state, consuming
+	\param{colon-sys}.
+
+	Subsequent characters in the parse area typically represent
+	source code in a programming language, usually some form of
+	assembly language. Those characters are processed in an
+	implementation-defined manner, generating the corresponding
+	machine code. The process continues, refilling the input buffer
+	as needed, until an implementation-defined ending sequence is
+	processed.
+
+\runtime
+	\stack{}{}
+	\stack[R]{nest-sys}{}
+
+	Replace the execution semantics of the most recent definition
+	with the \emph{name} execution semantics given below. Return
+	control to the calling definition specified by \param{nest-sys}.
+	An ambiguous condition exists if the most recent definition was
+	not defined with \word[core]{CREATE} or a user-defined word that
+	calls \word[core]{CREATE}.
+
+\execute[name]
+	\stack{i*x}{j*x}
+
+	Perform the machine code sequence that was generated following
+	\word{;CODE}.
+
+\see \wref{core:DOES}{DOES>}.
+
+	\begin{defer}
+	\rationale % A.15.6.2.0470 ;CODE
+		Typical use:
+		\word[core]{:} \texttt{namex}
+			{\ldots} \arg{create} {\ldots}
+		\word{;CODE} {\ldots}
+
+		where \texttt{namex} is a defining word, and \arg{create} is
+		\word[core]{CREATE} or any user defined word that calls
+		\word[core]{CREATE}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0702}{AHEAD}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{}{orig}
+
+	Put the location of a new unresolved forward reference
+	\param{orig} onto the control flow stack. Append the run-time
+	semantics given below to the current definition. The semantics
+	are incomplete until \param{orig} is resolved (e.g., by
+	\word[core]{THEN}).
+
+\runtime
+	\stack{}{}
+
+	Continue execution at the location specified by the resolution
+	of \param{orig}.
+\end{worddef}
+
+
+\begin{worddef}{0740}{ASSEMBLER}
+\item \stack{}{}
+
+	Replace the first word list in the search order with the
+	\word{ASSEMBLER} word list.
+
+\see \xref[16. The optional Search-Order word set]{wordlist:search}.
+\end{worddef}
+
+
+\begin{worddef}{0830}{BYE}
+\item \stack{}{}
+
+	Return control to the host operating system, if any.
+\end{worddef}
+
+
+\begin{worddef}{0930}{CODE}
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a
+	space. Create a definition for \param{name}, called a ``code
+	definition'', with the execution semantics defined below.
+
+	Subsequent characters in the parse area typically represent
+	source code in a programming language, usually some form of
+	assembly language. Those characters are processed in an
+	implementation-defined manner, generating the corresponding
+	machine code. The process continues, refilling the input buffer
+	as needed, until an implementation-defined ending sequence is
+	processed.
+
+\execute[name]
+	\stack{i*x}{j*x}
+
+	Execute the machine code sequence that was generated following
+	\word{CODE}.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.15.6.2.0930 CODE
+		Some Forth systems implement the assembly function by adding
+		an \word[tools]{ASSEMBLER} word list to the search order,
+		using the text interpreter to parse a postfix assembly
+		language with lexical characteristics similar to Forth source
+		code. Typically, in such systems, assembly ends when a word
+		\texttt{END-CODE} is interpreted.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1015}{CS-PICK}[c-s-pick]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack[C]{dest_u {\ldots} orig_0|dest_0}{dest_u {\ldots} orig_0|dest_0 dest_u}
+	\stack[S]{u}{}
+
+	Remove \param{u}. Copy \param{dest_u} to the top of the
+	control-flow stack. An ambiguous condition exists if there
+	are less than \param{u}+1 items, each of which shall be an
+	\param{orig} or \param{dest}, on the control-flow stack
+	before \word{CS-PICK} is executed.
+
+	If the control-flow stack is implemented using the data stack,
+	\param{u} shall be the topmost item on the data stack.
+
+	\begin{defer}
+	\rationale % A.15.6.2.1015 CS-PICK
+		The intent is to reiterate a \param{dest} on the control-flow
+		stack so that it can be resolved more than once. For example:
+		\setwordlist{core}
+		\begin{quote}\ttfamily
+			\word{bs} Conditionally transfer control to beginning of loop \\
+			\word{bs} This is similar in spirit to C's "continue" statement.
+
+			\word{:} ?REPEAT ~~\word{p} dest -- dest ) \word{bs} Compilation \\
+			\tab\tab\tab~\word{p} flag -- ) \tab~\word{bs} Execution \\
+			\tab 0 \word[tools]{CS-PICK} ~ \word{POSTPONE} \word{UNTIL} \\
+			\word{;} \word{IMMEDIATE}
+
+			\word{:} XX \word{p} -- ) \word{bs} Example use of ?REPEAT \\
+			\tab \word{BEGIN} \\
+			\tab\tab {\ldots} \\
+			\tab flag ?REPEAT \word{p} Go back to BEGIN if flag is false ) \\
+			\tab\tab {\ldots} \\
+			\tab flag ?REPEAT \word{p} Go back to BEGIN if flag is false ) \\
+			\tab\tab {\ldots} \\
+			\tab flag \word{UNTIL}~~ \word{p} Go back to BEGIN if flag is false ) \\
+			\word{;}
+		\end{quote}
+		\setwordlist{tools}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1020}{CS-ROLL}[c-s-roll]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack[C]{orig_u|dest_u orig_{u-1}|dest_{u-1} {\ldots} orig_0|dest_0}
+			 {orig_{u-1}|dest_{u-1} {\ldots} orig_0|dest_0 orig_u|dest_u}
+	\stack[S]{u}{}
+
+	Remove \param{u}. Rotate \param{u}+1 elements on top of the
+	control-flow stack so that \param{orig_u|dest_u} is on top of
+	the control-flow stack. An ambiguous condition exists if there
+	are less than \param{u}+1 items, each of which shall be an
+	\param{orig} or \param{dest}, on the control-flow stack before
+	\word{CS-ROLL} is executed.
+
+	If the control-flow stack is implemented using the data stack,
+	\param{u} shall be the topmost item on the data stack.
+
+	\begin{defer}
+	\rationale % A.15.6.2.1020 CS-ROLL
+		The intent is to modify the order in which the \param{orig}s
+		and \param{dest}s on the control-flow stack are to be resolved
+		by subsequent control-flow words. For example, \word[core]{WHILE}
+		could be implemented in terms of \word[core]{IF} and
+		\word{CS-ROLL}, as follows:
+
+		\setwordlist{core}
+		\begin{quote}\ttfamily
+			\word{:} \word{WHILE} ~ \word{p} dest -- orig dest ) \\
+			\tab \word{POSTPONE} \word{IF} ~ 1 \word[tools]{CS-ROLL} \\
+			\word{;} \word{IMMEDIATE}
+		\end{quote}
+		\setwordlist{tools}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{1300}{EDITOR}
+\item \stack{}{}
+
+	Replace the first word list in the search order with the
+	\word{EDITOR} word list.
+
+\see \xref[16. The Optional Search-Order Word Set]{wordlist:search}.
+\end{worddef}
+
+
+\begin{worddef}{1580}{FORGET}
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a
+	space. Find \param{name}, then delete \param{name} from the
+	dictionary along with all words added to the dictionary after
+	\param{name}. An ambiguous condition exists if \param{name} cannot
+	be found.
+
+	If the Search-Order word set is present, \word{FORGET} searches
+	the compilation word list. An ambiguous condition exists if the
+	compilation word list is deleted.
+
+	An ambiguous condition exists if \word{FORGET} removes a word
+	required for correct execution. Note: This word is obsolescent
+	and is included as a concession to existing implementations.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.15.6.2.1580 FORGET
+		Typical use:
+			{\ldots} \word{FORGET} \emph{name} {\ldots}
+
+		\word{FORGET} assumes that all the information needed to
+		restore the dictionary to its previous state is inferable
+		somehow from the forgotten word. While this may be true in
+		simple linear dictionary models, it is difficult to implement
+		in other Forth systems; e.g., those with multiple address
+		spaces. For example, if Forth is embedded in ROM, how does
+		\word{FORGET} know how much RAM to recover when an array
+		is forgotten? A general and preferred solution is provided by
+		\word[core]{MARKER}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2250}{STATE}
+\item \stack{}{a-addr}
+
+	Extend the semantics of \wref{core:STATE}{STATE} to allow
+	\word{;CODE} to change the value in \word{STATE}. A program
+	shall not directly alter the contents of \word{STATE}.
+
+\see \xref[3.4 The Forth text interpreter]{usage:command},
+	\wref{core::}{:},
+	\wref{core:;}{;},
+	\wref{core:ABORT}{ABORT},
+	\wref{core:QUIT}{QUIT},
+	\wref{core:STATE}{STATE},
+	\wref{core:[}{[},
+	\wref{core:]}{]},
+	\wref{core::NONAME}{:NONAME},
+	\wref{tools:;CODE}{;CODE}.
+\end{worddef}
+
+\begin{worddef}{}{[DEFINED]}[bracket-defined][X:defined]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{"<spaces>name {\ldots}"}{flag}
+
+	Skip leading space delimiters.  Parse name delimited by a space.
+	Return a true flag if \param{name} is the name of a word that can
+	be found (according to the rules in the system's \word{FIND});
+	otherwise return a false flag.
+	\word{[DEFINED]} is an immediate word.
+
+	\begin{defer}
+	\implementation
+		\word{:} \word{[DEFINED]} \word{BL} \word{WORD} \word{FIND} \word{NIP} \word{0ne} \word{;} \word{IMMEDIATE}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2531}{[ELSE]}[bracket-else]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{"<spaces>name {\ldots}"}{}
+
+	Skipping leading spaces, parse and discard space-delimited words
+	from the parse area, including nested occurrences of \word{[IF]}
+	{\ldots} \word{[THEN]} and \word{[IF]} {\ldots} \word{[ELSE]}
+	{\ldots} \word{[THEN]}, until the word \word{[THEN]} has been
+	parsed and discarded. If the parse area becomes exhausted, it is
+	refilled as with \word[core]{REFILL}. \word{[ELSE]} is an
+	immediate word.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.15.6.2.2531 [ELSE]
+		Typical use:
+			{\ldots} \emph{flag}
+			\word[tools]{[IF]} {\ldots}
+			\word[tools]{[ELSE]} {\ldots}
+			\word[tools]{[THEN]} {\ldots}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2532}{[IF]}[bracket-if]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{flag|flag "<spaces>name {\ldots}"}{}
+
+	If \param{flag} is true, do nothing. Otherwise, skipping leading
+	spaces, parse and discard space-delimited words from the parse
+	area, including nested occurrences of \word{[IF]} {\ldots}
+	\word{[THEN]} and \word{[IF]} {\ldots} \word{[ELSE]} {\ldots}
+	\word{[THEN]}, until either the word \word{[ELSE]} or the word
+	\word{[THEN]} has been parsed and discarded. If the parse area
+	becomes exhausted, it is refilled as with \word[core]{REFILL}.
+	\word{[IF]} is an immediate word.
+
+	An ambiguous condition exists if \word{[IF]} is
+	\word[core]{POSTPONE}d, or if the end of the input buffer is
+	reached and cannot be refilled before the terminating
+	\word{[ELSE]} or \word{[THEN]} is parsed.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}.
+
+	\begin{defer}
+	\rationale % A.15.6.2.2532 [IF]
+		Typical use:
+			{\ldots} \emph{flag}
+			\word[tools]{[IF]} {\ldots}
+			\word[tools]{[ELSE]} {\ldots}
+			\word[tools]{[THEN]} {\ldots}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2533}{[THEN]}[bracket-then]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{}{}
+
+	Does nothing. \word{[THEN]} is an immediate word.
+
+	\begin{defer}
+	\rationale % A.15.6.2.2533 [THEN]
+		Typical use:
+			{\ldots} \emph{flag}
+			\word[tools]{[IF]} {\ldots}
+			\word[tools]{[ELSE]} {\ldots}
+			\word[tools]{[THEN]} {\ldots}
+
+		Software that runs in several system environments often
+		contains some source code that is environmentally dependent.
+		Conditional compilation --- the selective inclusion or
+		exclusion of portions of the source code at compile time ---
+		is one technique that is often used to assist in the
+		maintenance of such source code.
+
+		Conditional compilation is sometimes done with ``smart
+		comments'' --- definitions that either skip or do not skip
+		the remainder of the line based on some test. For example:
+
+		\setwordlist{core}
+		\begin{quote}\ttfamily
+			\word{bs} If 16-Bit? contains TRUE, lines preceded by 16BIT\bs \\
+			\word{bs} will be skipped. Otherwise, they will not be skipped.
+
+			\word{VARIABLE} 16-BIT?
+
+			\word{:} 16BIT\bs~~\word{p} -- ) ~
+				16-BIT? \word{@} ~
+				\word{IF} ~ \word{POSTPONE} \word{bs} ~ \word{THEN} \\
+			\word{;} \word{IMMEDIATE}
+		\end{quote}
+		\setwordlist{tools}
+
+		This technique works on a line by line basis, and is good for
+		short, isolated variant code sequences.
+
+		More complicated conditional compilation problems suggest a
+		nestable method that can encompass more than one source line
+		at a time. The words included in the ANS Forth optional
+		Programming tools extensions word set are useful for this
+		purpose. The implementation given below works with any input
+		source (keyboard, \word{EVALUATE}, \word[block]{BLOCK}, or
+		text file).
+
+		\begin{quote}\ttfamily
+		\begin{tabbing}
+		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
+		  \+
+		  \word{:} \word{[ELSE]} \word{p} -- ) \\
+			\+ 1 \word{BEGIN}																		\>\>\>\>\>\>\word{bs}~level \\
+				\+ \word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}	\>\>\>\>\>	\word{bs}~level adr len \\
+					\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}			\>\>\>\>	\word{bs}~level adr len \\
+					\> \word{2DROP} \word{1+}														\>\>\>		\word{bs}~level' \\
+					\+ \word{ELSE}																	\>\>\>\>	\word{bs}~level adr len \\
+						\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}	\>\>\>		\word{bs}~level adr len \\
+						\> \word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}		\>\>		\word{bs}~level' \\
+						\word{ELSE}																	\>\>\>		\word{bs}~level adr len \\
+						\> \word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}				\>\>		\word{bs}~level \\
+						\>\> \word{1-}																\>			\word{bs}~level' \\
+						\>\word{THEN} \\
+						\- \word{THEN} \\
+					\- \word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}		\>\>\>\>	\word{bs}~level' \\
+				\- \word{REPEAT} \word{2DROP}														\>\>\>\>\>	\word{bs}~level \\
+			\word{REFILL} \word{0=} \word{UNTIL}													\>\>\>\>\>\>\word{bs}~level \\
+			\- \word{DROP} \\
+		\word{;} \word{IMMEDIATE} \\[1.5\parskip]
+
+		\word{:} \word[tools]{[IF]} \word{p} flag -- ) \\
+		\> \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN} \\
+		\word{;} \word{IMMEDIATE} \\[1.5\parskip]
+
+		\word{:} \word{[THEN]} \word{p} -- ) \word{;} \word{IMMEDIATE} \\
+		\end{tabbing}
+		\end{quote}
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{}{[UNDEFINED]}[bracket-undefined][X:defined]
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{"<spaces>name {\ldots}"}{flag}
+
+	Skip leading space delimiters.  Parse name delimited by a space.
+	Return a false flag if \param{name} is the name of a word that
+	can be found (according to the rules in the system's \word{FIND});
+	otherwise return a true flag. \word{[UNDEFINED]} is an immediate
+	word.
+
+	\begin{defer}
+	\implementation
+		\word{:} \word{[UNDEFINED]} \word{BL} \word{WORD} \word{FIND} \word{NIP} \word{0=} \word{;} \word{IMMEDIATE}
+	\end{defer}
+\end{worddef}

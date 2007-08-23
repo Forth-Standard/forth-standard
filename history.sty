@@ -1,0 +1,225 @@
+% history package
+%
+% Actually it should be called changes but that is already used by
+% the docstrip system.
+%
+% This is a first draft of a change history package and is not
+% ready for public distribution. It is provided on an "as you find
+% it" basis, and no support is offered.
+%
+% The code has been developed by Dr. Peter Knaggs.
+%
+% 0.1 PjK	Original Code
+% 0.2 PjK	Complete rewrite of original code
+%			Introducing \@history@test
+% 0.3 PjK	Added History Log
+% 0.4 PjK	\@history@test now useable in inner paragraphs
+%			Fixed problem with \openhistory
+%			Added silent labelling on same page (\@history@label)
+
+\def\fileversion{0.4}
+\def\filedate{04 Aug 2007 17:08:00 BST}
+\def\filename{history.sty}
+\def\Copyright{Copyright (C) 2007 Peter Knaggs,
+  University of Bournemouth, England}
+
+\NeedsTeXFormat{LaTeX2e}[1996/06/01]
+\ProvidesPackage{history}[2007/08/04]
+
+\typeout{Package `history' <\filedate>.}
+\typeout{\Copyright}
+
+\newif\if@history@final
+\DeclareOption{final}{\@history@finaltrue}
+\DeclareOption{draft}{\@history@finalfalse}
+
+\ExecuteOptions{draft}
+\ProcessOptions
+
+
+\RequirePackage[outerbars]{changebar}[2004/02/20]
+\setlength{\changebarwidth}{1pt}
+
+\RequirePackage[normalem]{ulem}[2000/05/26]
+
+
+% Define a file to record the changes / history
+\newwrite\@history@file
+\newif\if@history@open
+\@history@openfalse
+
+\newcommand{\openhistory}[1][\jobname.hst]{%
+	\if@history@open
+		\immediate\closeout\@history@file
+	\fi
+	\immediate\openout\@history@file=#1
+	\@history@opentrue
+	\typeout{Writing Change History to #1}
+}
+
+\newcommand{\closehistory}{%
+	\if@history@open
+		\immediate\closeout\@history@file
+		\@history@openfalse
+	fi
+}
+
+
+% Define a list of accepted changes
+\def\@history@accepted{}
+\def\accept#1{\edef\@history@accepted{\zap@space#1 \@empty,\@history@accepted}}
+\@onlypreamble\accept
+
+% Define a list of rejected changes
+\def\@history@rejected{}
+\def\reject#1{\edef\@history@rejected{\zap@space#1 \@empty,\@history@rejected}}
+\@onlypreamble\reject
+
+
+\newcommand{\listaccepted}{%
+	\@for\temp@a:=\@history@accepted\do{\temp@a }
+}
+
+\newcommand{\listrejected}{%
+	\@for\temp@a:=\@history@rejected\do{\temp@a }
+}
+
+
+\newcommand{\@history@nolabel}{\@latex@error
+	{Change on line \the\inputlineno\space has no label}
+	{Give the damn thing a label.}%
+}
+
+\newcommand{\@history@review}{\@latex@error
+	{The change \temp@a\space is neither accepted or rejected}
+	{Add the change label to either the \noexpand\accept or \noexpand\reject list.}%
+}
+
+
+% The \@history@label macro is used to hold the last displayed label.
+% It is used to control the printing of the change label in the margin
+% note.
+
+\def\@history@label{}
+
+% The \@history@test macro is the work horse of this package. It take
+% a number of parameters as follows:
+%
+% label:	The label of a change (may be left blank)
+% accept:	The Latex code required to typeset the change if it has been
+%			accepted
+% reject:	The LaTeX code for typesetting the change if it was rejected
+% review:	The code to typeset a change under review
+%
+% log:		the log entry text
+%
+% If the label is blank a warning will be produced.
+
+\newif\if@tempswb
+
+\newcommand{\@history@test}[5]{% {label}{accept}{reject}{review}{log}
+	\edef\temp@a{#1}% Remember the change label
+	\@tempswatrue	% Change Processed
+	\@tempswbfalse	% Don't Log the change
+%
+	\ifx\temp@a\empty % The label is empty
+		\if@history@final
+			\@history@nolabel
+		\fi
+		\def\temp@a{noname}%
+	\fi
+%
+% Change is accepted
+%
+	\@for\temp@b:=\@history@accepted\do
+		{\ifx\temp@a\temp@b
+			\@tempswafalse	% Change shown
+			\@tempswbtrue	% Log the change
+			{#2}%			% Show the accepted text
+		\fi}%
+%
+% Change is rejected
+%
+	\@for\temp@b:=\@history@rejected\do
+		{\ifx\temp@a\temp@b
+			\@tempswafalse	% Change Shown
+			{#3}%			% Show the rejected text
+		\fi}%
+%
+% Neither Accepted or Rejected, so must be in review
+%
+	\if@tempswa
+		\if@history@final
+			% Reivew in a Final revision - Somthing wrong with this
+			\@history@review
+		\fi
+		\@tempswbtrue% Log the review
+		\ifinner\@tempswatrue\else\@tempswafalse\fi
+		\cbstart% Start the change bar
+			\if@tempswa
+				% We are in an inner paragraph
+				% Fix the extra vspace \cbstart puts in for us.
+				\vspace*{-0.5\baselineskip}%
+			\fi%
+			{#4}% Output the change text
+			\if@tempswa
+				% Margin par is not allowed in an inner paragraph
+			\else
+				% Make up the last displayed label, on this page
+				\edef\temp@b{\thepage.\temp@a}
+				% Have we seen this label before?
+				\ifx\temp@b\@history@label
+					% Yes - then ignore the label
+				\else
+					% No - Must be a either a new label, or the
+					% first label on this page. Output the label
+					\marginpar{\tiny\temp@a}
+					% Remember the label for next time.
+					\edef\@history@label{\temp@b}
+				\fi
+			\fi
+		\cbend% Make the end of the Change bar
+	\fi
+%
+% Write a log entry
+%
+	\if@history@open
+		\if@tempswb
+			\immediate\write\@history@file{%
+				\string\@historylog@%
+				{\temp@a}%		Change Label
+				{\thepage}%		Page Number
+				{\@currentlabel}%
+				#5%				Log entry
+			}%
+		\fi
+	\fi
+}
+
+
+\newcommand{\place}[2]{% {label}{text}
+	\@history@test%
+	{#1}%			Change Label
+	{#2}%			Accepted text
+	{}%				Rejected text
+	{\uline{#2}}%	Review text
+	{place{#2}}%	Log text
+}
+
+\newcommand{\remove}[2]{% {label}{text}
+	\@history@test%
+	{#1}%			Change Label
+	{}%				Accepted text
+	{#2}%			Rejected text
+	{\sout{#2}}%	Review text
+	{remove{#2}}%	Log text
+}
+
+\newcommand{\replace}[3]{% {label}{old}{new}
+	\@history@test%
+	{#1}%					Change Label
+	{#3}%					Accepted text
+	{#2}%					Rejected text
+	{\sout{#2}\uline{#3}}%	Review text
+	{replace{#2}{#3}}%		Log text
+}

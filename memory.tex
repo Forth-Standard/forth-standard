@@ -1,0 +1,221 @@
+\chapter{The optional Memory-Allocation word set} % 14
+\wordlist{memory}
+
+\begin{intro}
+\section{The optional Memory-Allocation word set} % A.14
+
+The Memory-Allocation word set provides a means for acquiring memory
+other than the contiguous data space that is allocated by
+\word[core]{ALLOT}. In many operating system environments it is
+inappropriate for a process to pre-allocate large amounts of contiguous
+memory (as would be necessary for the use of \word[core]{ALLOT}). The
+Memory-Allocation word set can acquire memory from the system at any
+time, without knowing in advance the address of the memory that will
+be acquired.
+\end{intro}
+
+\section{Introduction} % 14.1
+
+\section{Additional terms and notation} % 14.2
+None.
+
+\section{Additional usage requirements} % 14.3
+
+\subsection{I/O Results data type} % 14.3.1
+\label{mem:ior}
+
+I/O results are single-cell numbers indicating the result of I/O
+operations. A value of zero indicates that the I/O operation
+completed successfully; other values and their meanings are
+implementation-defined.
+
+Append table \ref{mem:types} to table \ref{table:datatypes}.
+
+\begin{table}[h]
+  \begin{center}
+	\caption{Data types}
+	\label{mem:types}
+	\begin{tabular}{llr}
+	\hline\hline
+	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
+	\hline
+	\emph{ior}		& I/O results			& 1 cell \\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+
+\subsection{Environmental queries} % 14.3.2
+
+Append table \ref{mem:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{mem:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{MEMORY-ALLOC}		& \emph{flag}		& no	&
+			memory-allocation word set present \\
+		\texttt{MEMORY-ALLOC-EXT}	& \emph{flag}		& no	&
+			memory-allocation extensions word set present \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Allocated regions} % 14.3.3
+
+A program may address memory in data space regions made available
+by \word{ALLOCATE} or \word{RESIZE} and not yet released by \word{FREE}.
+
+See: \xref[3.3.3 Data space]{usage:dataspace}.
+
+
+\section{Additional documentation requirements} % 14.4
+
+\subsection{System documentation} % 14.4.1
+
+\subsubsection{Implementation-defined options} % 14.4.1.1
+\begin{itemize}
+\item values and meaning of ior
+	(\xref[14.3.1 I/O Results data type]{mem:ior},
+	 \wref{memory:ALLOCATE}{ALLOCATE},
+	 \wref{memory:FREE}{FREE},
+	 \wref{memory:RESIZE}{RESIZE}.
+\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 14.4.1.2
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsubsection{Other system documentation} % 14.4.1.3
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsection{Program documentation} % 14.4.2
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\section{Compliance and labeling} % 14.5
+
+\subsection{ANS Forth systems} % 14.5.1
+
+The phrase ``Providing the Memory-Allocation word set'' shall be
+appended to the label of any Standard System that provides all of
+the Memory-Allocation word set.
+
+The phrase ``Providing \emph{name(s)} from the Memory-Allocation
+Extensions word set'' shall be appended to the label of any Standard
+System that provides portions of the Memory-Allocation Extensions
+word set.
+
+The phrase ``Providing the Memory-Allocation Extensions word set''
+shall be appended to the label of any Standard System that provides
+all of the Memory-Allocation and Memory-Allocation Extensions word
+sets.
+
+\subsection{ANS Forth programs} % 14.5.2
+
+The phrase ``Requiring the Memory-Allocation word set'' shall be
+appended to the label of Standard Programs that require the system
+to provide the Memory-Allocation word set.
+
+The phrase ``Requiring \emph{name(s)} from the Memory-Allocation
+Extensions word set'' shall be appended to the label of Standard
+Programs that require the system to provide portions of the
+Memory-Allocation Extensions word set.
+
+The phrase ``Requiring the Memory-Allocation Extensions word set''
+shall be appended to the label of Standard Programs that require
+the system to provide all of the Memory-Allocation and
+Memory-Allocation Extensions word sets.
+
+
+\section{Glossary} % 14.6
+
+\subsection{Memory-Allocation words} % 14.6.1
+
+
+\begin{worddef}{0707}{ALLOCATE}
+\item \stack{u}{a-addr ior}
+
+	Allocate \param{u} address units of contiguous data space. The
+	data-space pointer is unaffected by this operation. The initial
+	content of the allocated space is undefined.
+
+	If the allocation succeeds, \param{a-addr} is the aligned
+	starting address of the allocated space and \param{ior} is
+	zero.
+
+	If the operation fails, \param{a-addr} does not represent a valid
+	address and \param{ior} is the implementation-defined I/O result
+	code.
+
+\see \wref{core:HERE}{HERE},
+	\wref{memory:FREE}{FREE},
+	\wref{memory:RESIZE}{RESIZE}.
+\end{worddef}
+
+
+\begin{worddef}{1605}{FREE}
+\item \stack{a-addr}{ior}
+
+	Return the contiguous region of data space indicated by
+	\param{a-addr} to the system for later allocation. \param{a-addr}
+	shall indicate a region of data space that was previously
+	obtained by \word{ALLOCATE} or \word{RESIZE}. The data-space
+	pointer is unaffected by this operation.
+
+	If the operation succeeds, \param{ior} is zero. If the operation
+	fails, \param{ior} is the implementation-defined I/O result code.
+
+\see \wref{core:HERE}{HERE},
+	\wref{memory:ALLOCATE}{ALLOCATE},
+	\wref{memory:RESIZE}{RESIZE}.
+\end{worddef}
+
+
+\begin{worddef}{2145}{RESIZE}
+\item \stack{a-addr_1 u}{a-addr_2 ior}
+
+	Change the allocation of the contiguous data space starting at
+	the address \param{a-addr_1}, previously allocated by
+	\word{ALLOCATE} or \word{RESIZE}, to \param{u} address units.
+	\param{u} may 	be either larger or smaller than the current
+	size of the region. The data-space pointer is unaffected by
+	this operation.
+
+	If the operation succeeds, \param{a-addr_2} is the aligned
+	starting address of \param{u} address units of allocated memory
+	and \param{ior} is zero. \param{a-addr_2} may be, but need
+	not be, the same as \param{a-addr_1}. If they are not the same,
+	the values contained in the region at \param{a-addr_1} are copied
+	to \param{a-addr_2}, up to the minimum size of either of the
+	two regions. If they are the same, the values contained in the
+	region are preserved to the minimum of \param{u} or the original
+	size.  If \param{a-addr_2} is not the same as \param{a-addr_1},
+	the region of memory at \param{a-addr_1} is returned to the system
+	according to the operation of \word{FREE}.
+
+	If the operation fails, \param{a-addr_2} equals \param{a-addr_1},
+	the region of memory at \param{a-addr_1} is unaffected, and
+	\param{ior} is the implementation-defined I/O result code.
+
+\see \wref{core:HERE}{HERE},
+	\wref{memory:ALLOCATE}{ALLOCATE},
+	\wref{memory:FREE}{FREE}.
+\end{worddef}
+
+
+\subsection{Memory-Allocation extension words} % 14.6.2
+
+None

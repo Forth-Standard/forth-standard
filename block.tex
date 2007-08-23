@@ -1,0 +1,429 @@
+\chapter{The optional Block word set} % 7
+\wordlist{block}
+
+\begin{intro}
+\section{The optional Block word set}
+
+Early Forth systems ran stand-alone, with no host OS. Blocks of 1024
+bytes were designed as a convenient unit of disk, and most native
+Forth systems still use them. It is relatively easy to write a native
+disk driver that maps head/track/sector addresses to block numbers.
+Such disk drivers are extremely fast in comparison with conventional
+file-oriented operating systems, and security is high because there is
+no reliance on a disk map.
+
+Today many Forth implementations run under host operating systems,
+because the compatibility they offer the user outweighs the performance
+overhead. Many people who use such systems prefer using host OS files
+only; however, people who use both native and non-native Forths need a
+compatible way of accessing disk. The Block Word set includes the most
+common words for accessing program source and data on disk.
+
+In order to guarantee that Standard Programs that need access to mass
+storage have a mechanism appropriate for both native and non-native
+implementations, ANS Forth requires that the Block word set be
+available if any mass storage facilities are provided. On non-native
+implementations, blocks normally reside in host OS files.
+\end{intro}
+
+
+\section{Introduction} % 7.1
+
+\section{Additional terms} % 7.2
+
+\begin{description}
+\item[block:]
+	1024 characters of data on mass storage,
+	designated by a block number.
+
+\item[block buffer:]
+	A block-sized region of data space where a block is made
+	temporarily available for use. The current block buffer
+	is the block buffer most recently accessed by
+	\word{BLOCK}, \word{BUFFER}, \word{LOAD}, \word{LIST}, or
+	\word{THRU}.
+\end{description}
+
+\begin{intro}
+\subsection{Additional terms}
+
+\textbf{block}
+
+Many Forth systems use blocks to contain program source.
+Conventionally such blocks are formatted for editing as
+16 lines of 64 characters. Source blocks are often referred
+to as ``screens''.
+\end{intro}
+
+\section{Additional usage requirements} % 7.3
+
+\subsection{Environmental queries} % 7.3.1
+
+Append table \ref{block:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[h]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{block:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{BLOCK}		& \emph{flag}	& no	&
+			block word set present \\
+		\texttt{BLOCK-EXT}	& \emph{flag}	& no	&
+			block extensions word set present \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Data space} % 7.3.2
+
+A program may access memory within a valid block buffer.
+
+See: \xref[3.3.3 Data Space]{usage:dataspace}.
+
+\subsection{Block buffer regions} % 7.3.3
+\label{block:buffers}
+
+The address of a block buffer returned by \word{BLOCK} or
+\word{BUFFER} is transient. A call to \word{BLOCK} or \word{BUFFER}
+may render a previously-obtained block-buffer address invalid, as
+may a call to any word that:
+\begin{itemize}
+\item parses:
+\item displays characters on the user output device, such as
+	\word[core]{TYPE} or \word[core]{EMIT};
+\item controls the user output device, such as \word[core]{CR} or
+	\word[facility]{AT-XY};
+\item receives or tests for the presence of characters from the
+	user input device such as \word[core]{ACCEPT} or
+	\word[core]{KEY};
+\item waits for a condition or event, such as \word[facility]{MS}
+	or \word[facility]{EKEY};
+\item manages the block buffers, such as \word{FLUSH},
+	\word{SAVE-BUFFERS}, or \word{EMPTY-BUFFERS};
+\item performs any operation on a file or file-name directory
+	that implies I/O, such as \word{REFILL} or any word that
+	returns an \emph{ior};
+\item implicitly performs I/O, such as text interpreter nesting
+	and un-nesting when files are being used (including un-nesting
+	implied by \word[exception]{THROW}).
+\end{itemize}
+
+If the input source is a block, these restrictions also apply to
+the address returned by \word[core]{SOURCE}. Block buffers are
+uniquely assigned to blocks.
+
+\subsection{Parsing} % 7.3.4
+
+The Block word set implements an alternative input source for the
+text interpreter. When the input source is a block, \word{BLK} shall
+contain the non-zero block number and the input buffer is the
+1024-character buffer containing that block.
+
+A block is conventionally displayed as 16 lines of 64 characters.
+
+A program may switch the input source to a block by using
+\word{LOAD} or \word{THRU}. Input sources may be nested using
+\word{LOAD} and \word{EVALUATE} in any order.
+
+A program may reposition the parse area within a block by
+manipulating \word[core]{toIN}. More extensive repositioning can be
+accomplished using \word[core]{SAVE-INPUT} and
+\word[core]{RESTORE-INPUT}.
+
+See: \xref[3.4.1 Parsing]{usage:parsing}.
+
+\subsection{Possible action on an ambiguous condition} % 7.3.5
+
+See: \xref[3.4.4 Possible action on an ambiguous condition]{usage:ambiguous}.
+
+\begin{itemize}
+\item A system with the Block word set may set interpretation state
+	and interpret a block.
+\end{itemize}
+
+\section{Additional documentation requirements} % 7.4
+
+\subsection{System documentation} % 7.4.1
+
+\subsubsection{Implementation-defined options} % 7.4.1.1
+
+\begin{itemize}
+\item the format used for display by \wref{block:LIST}{LIST}
+	(if implemented);
+\item the length of a line affected by \wref{block:bs}{\bs}
+	(if implemented).
+\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 7.4.1.2
+
+\begin{itemize}
+\item Correct block read was not possible;
+\item I/O exception in block transfer;
+\item Invalid block number (\wref{block:BLOCK}{BLOCK},
+	\wref{block:BUFFER}{BUFFER}, \wref{block:LOAD}{LOAD});
+\item A program directly alters the contents of
+	\wref{block:BLK}{BLK};
+\item No current block buffer for \wref{block:UPDATE}{UPDATE}.
+\end{itemize}
+
+\subsubsection{Other system documentation} % 7.4.1.3
+
+\begin{itemize}
+\item any restrictions a multiprogramming system places on the use
+	of buffer addresses;
+\item the number of blocks available for source text and data.
+\end{itemize}
+
+\subsection{Program documentation} % 7.4.2
+
+\begin{itemize}
+\item the number of blocks required by the program.
+\end{itemize}
+
+
+\section{Compliance and labeling} % 7.5
+
+\subsection{ANS Forth systems} % 7.5.1
+
+The phrase ``Providing the Block word set'' shall be appended to
+the label of any Standard System that provides all of the Block
+word set.
+
+The phrase ``Providing \emph{name(s)} from the Block Extensions
+word set'' shall be appended to the label of any Standard System
+that provides portions of the Block Extensions word set.
+
+The phrase ``Providing the Block Extensions word set'' shall be
+appended to the label of any Standard System that provides all of
+the Block and Block Extensions word sets.
+
+\subsection{ANS Forth programs} % 7.5.2
+
+The phrase ``Requiring the Block word set'' shall be appended to
+the label of Standard Programs that require the system to provide
+the Block word set.
+
+The phrase ``Requiring \emph{name(s)} from the Block Extensions
+word set'' shall be appended to the label of Standard Programs
+that require the system to provide portions of the Block Extensions
+word set.
+
+The phrase ``Requiring the Block Extensions word set'' shall be
+appended to the label of Standard Programs that require the system
+to provide all of the Block and Block Extensions word sets.
+
+
+\section{Glossary} % 7.6
+
+\begin{intro}
+\subsection{Glossary} % A.7.6
+\end{intro}
+
+\subsection{Block words} % 7.6.1
+
+\begin{worddef}{0790}{BLK}[b-l-k]
+\item \stack{}{a-addr}
+
+	\param{a-addr} is the address of a cell containing zero or the
+	number of the mass-storage block being interpreted. If
+	\word{BLK} contains zero, the input source is not a block and
+	can be identified by \word[core]{SOURCE-ID}, if
+	\word[core]{SOURCE-ID} is available. An ambiguous condition
+	exists if a program directly alters the contents of \word{BLK}.
+
+\see \xref[7.3.3 Block buffer regions]{block:buffers}.
+\end{worddef}
+
+
+\begin{worddef}{0800}{BLOCK}
+\item \stack{u}{a-addr}
+
+	\param{a-addr} is the address of the first character of the
+	block buffer assigned to mass-storage block \param{u}. An
+	ambiguous condition exists if \param{u} is not an available
+	block number.
+
+	If block \param{u} is already in a block buffer, \param{a-addr}
+	is the address of that block buffer.
+
+	If block \param{u} is not already in memory and there is an
+	unassigned block buffer, transfer block \param{u} from mass
+	storage to an unassigned block buffer. \param{a-addr} is the
+	address of that block buffer.
+
+	If block \param{u} is not already in memory and there are no
+	unassigned block buffers, unassign a block buffer. If the block
+	in that buffer has been \word{UPDATE}d, transfer the block to
+	mass storage and transfer block \param{u} from mass storage into
+	that buffer. \param{a-addr} is the address of that block buffer.
+
+	At the conclusion of the operation, the block buffer pointed to
+	by \param{a-addr} is the current block buffer and is assigned to
+	\param{u}.
+\end{worddef}
+
+
+\begin{worddef}{0820}{BUFFER}
+\item \stack{u}{a-addr}
+
+	\param{a-addr} is the address of the first character of the
+	block buffer assigned to block \param{u}. The contents of the
+	block are unspecified. An ambiguous condition exists if \param{u}
+	is not an available block number.
+
+	If block \param{u} is already in a block buffer, \param{a-addr}
+	is the address of that block buffer.
+
+	If block \param{u} is not already in memory and there is an
+	unassigned 	buffer, \param{a-addr} is the address of that block
+	buffer.
+
+	If block \param{u} is not already in memory and there are no
+	unassigned block buffers, unassign a block buffer. If the block
+	in that buffer has been \word{UPDATE}d, transfer the block to
+	mass storage. \param{a-addr} is the address of that block buffer.
+
+	At the conclusion of the operation, the block buffer pointed to
+	by \param{a-addr} is the current block buffer and is assigned to
+	\param{u}.
+
+\see \wref{block:BLOCK}{BLOCK}.
+\end{worddef}
+
+
+\begin{worddef}{1360}{EVALUATE}
+\item Extend the semantics of \wref{core:EVALUATE}{EVALUATE} to
+	include: Store zero in \word{BLK}.
+\end{worddef}
+
+
+\begin{worddef}{1559}{FLUSH}
+\item \stack{}{}
+
+	Perform the function of \word{SAVE-BUFFERS}, then unassign all
+	block buffers.
+\end{worddef}
+
+
+\begin{worddef}{1790}{LOAD}
+\item \stack{i*x u}{j*x}
+
+	Save the current input-source specification. Store \param{u} in
+	\word{BLK} (thus making block \param{u} the input source and
+	setting the input buffer to encompass its contents), set
+	\word[core]{toIN} to zero, and interpret. When the parse area is
+	exhausted, restore the prior input source specification. Other
+	stack effects are due to the words \word{LOAD}ed.
+
+	An ambiguous condition exists if \param{u} is zero or is not a
+	valid block number.
+
+\see \xref[3.4 The Forth text interpreter]{usage:command}.
+\end{worddef}
+
+
+\begin{worddef}{2180}{SAVE-BUFFERS}
+\item \stack{}{}
+
+	Transfer the contents of each \word{UPDATE}d block buffer to
+	mass storage. Mark all buffers as unmodified.
+\end{worddef}
+
+
+\begin{worddef}{2400}{UPDATE}
+\item \stack{}{}
+
+	Mark the current block buffer as modified. An ambiguous
+	condition exists if there is no current block buffer.
+
+	\word{UPDATE} does not immediately cause I/O.
+
+\see \wref{block:BLOCK}{BLOCK},
+	\wref{block:BUFFER}{BUFFER},
+	\wref{block:FLUSH}{FLUSH},
+	\wref{block:SAVE-BUFFERS}{SAVE-BUFFERS}.
+\end{worddef}
+
+
+\subsection{Block extension words} % 7.6.2
+\extended
+
+\begin{worddef}{1330}{EMPTY-BUFFERS}
+\item \stack{}{}
+
+	Unassign all block buffers. Do not transfer the contents of
+	any \word{UPDATE}d block buffer to mass storage.
+
+\see \wref{block:BLOCK}{BLOCK}.
+\end{worddef}
+
+
+\begin{worddef}{1770}{LIST}
+\item \stack{u}{}
+
+	Display block \param{u} in an implementation-defined format.
+	Store \param{u} in \word{SCR}.
+
+\see \wref{block:BLOCK}{BLOCK}.
+\end{worddef}
+
+
+\begin{worddef}{2125}{REFILL}
+\item \stack{}{flag}
+
+	Extend the execution semantics of \wref{core:REFILL}{REFILL}
+	with the following:
+
+	When the input source is a block, make the next block the input
+	source and current input buffer by adding one to the value of
+	\word{BLK} and setting \word[core]{toIN} to zero. Return
+	\emph{true} if the new value of BLK is a valid block number,
+	otherwise \emph{false}.
+
+\see \wref{core:REFILL}{REFILL},
+	\wref{file:REFILL}{REFILL}.
+\end{worddef}
+
+
+\begin{worddef}{2190}{SCR}[s-c-r]
+\item \stack{}{a-addr}
+
+	\param{a-addr} is the address of a cell containing the block
+	number of the block most recently \word{LIST}ed.
+
+	\begin{defer}
+	\rationale % A.7.6.2.2190 SCR
+		\word{SCR} is short for screen.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2280}{THRU}
+\item \stack{i*x u_1 u_2}{j*x}
+
+	\word{LOAD} the mass storage blocks numbered \param{u_1} through
+	\param{u_2} in sequence. Other stack effects are due to the words
+	\word{LOAD}ed.
+\end{worddef}
+
+
+\begin{worddef}[bs]{2535}{\bs}[backslash]
+\item Extend the semantics of \wref{core:bs}{\bs} to be:
+
+\compile
+	Perform the execution semantics given below.
+
+\execute
+	\stack{"ccc<eol>"}{}
+
+	If \word{BLK} contains zero, parse and discard the remainder
+	of the parse area; otherwise parse and discard the portion
+	of the parse area corresponding to the remainder of the current
+	line. \word{bs} is an immediate word.
+\end{worddef}

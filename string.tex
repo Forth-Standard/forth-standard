@@ -1,0 +1,265 @@
+\chapter{The optional String word set} % 17
+\wordlist{string}
+
+\begin{intro}
+\section{The optional String word set}
+\end{intro}
+
+\section{Introduction} % 17.1
+
+\section{Additional terms and notation} % 17.2
+
+None.
+
+\section{Additional usage requirements} % 17.3
+
+Append table \ref{string:env} to table \ref{table:env}.
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Environmental Query Strings}
+	\label{string:env}
+	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{STRING}		& \emph{flag}	& no	&
+			string word set present \\
+		\texttt{STRING-EXT}	& \emph{flag}	& no	&
+			string extensions word set present \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\section{Additional documentation requirements} % 17.4
+
+None.
+
+\section{Compliance and labeling} % 17.5
+
+\subsection{Compliance and labeling} % 17.5.1
+
+The phrase ``Providing the String word set'' shall be appended to
+the label of any Standard System that provides all of the String
+word set.
+
+The phrase ``Providing \emph{name(s)} from the String Extensions
+word set'' shall be appended to the label of any Standard System
+that provides portions of the String Extensions word set.
+
+The phrase ``Providing the String Extensions word set'' shall be
+appended to the label of any Standard System that provides all of
+the String and String Extensions word sets.
+
+\subsection{ANS Forth programs} % 17.5.2
+
+The phrase ``Requiring the String word set'' shall be appended to
+the label of Standard Programs that require the system to provide
+the String word set.
+
+The phrase ``Requiring \emph{name(s)} from the String Extensions
+word set'' shall be appended to the label of Standard Programs that
+require the system to provide portions of the String Extensions
+word set.
+
+The phrase ``Requiring the String Extensions word set'' shall be
+appended to the label of Standard Programs that require the system
+to provide all of the String and String Extensions word sets.
+
+
+\section{Glossary} % 17.6
+
+\begin{intro}
+\subsection{Glossary} % A.17.6
+\end{intro}
+
+\subsection{String words} % 17.6.1
+
+
+\begin{worddef}{0170}{-TRAILING}[dash-trailing]
+\item \stack{c-addr u_1}{c-addr u_2}
+
+	If \param{u_1} is greater than zero, \param{u_2} is equal to
+	\param{u_1} less the number of spaces at the end of the
+	character string specified by \param{c-addr u_1}. If \param{u_1}
+	is zero or the entire string consists of spaces, \param{u_2} is
+	zero.
+\end{worddef}
+
+
+\begin{worddef}{0245}{/STRING}[slash-string]
+\item \stack{c-addr_1 u_1 n}{c-addr_2 u_2}
+
+	Adjust the character string at \param{c-addr_1} by \param{n}
+	characters. The resulting character string, specified by
+	\param{c-addr_2 u_2}, begins at \param{c-addr_1} plus \param{n}
+	characters and is \param{u_1} minus \param{n} characters long.
+
+	\begin{defer}
+	\rationale
+		\word{/STRING} is used to remove or add characters relative
+		to the ``left'' end of the character string. Positive values
+		of \param{n} will exclude characters from the string while
+		negative values of \param{n} will include characters to the
+		left of the string. \word{/STRING} is a natural factor of
+		\word[core]{WORD} and commonly available.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0780}{BLANK}
+\item \stack{c-addr u}{}
+
+	If \param{u} is greater than zero, store the character value for
+	space in \param{u} consecutive character positions beginning at
+	\param{c-addr}.
+\end{worddef}
+
+
+\begin{worddef}{0910}{CMOVE}[c-move]
+\item \stack{c-addr_1 c-addr_2 u}{}
+
+	If \param{u} is greater than zero, copy \param{u} consecutive
+	characters from the data space starting at \param{c-addr_1} to
+	that starting at \param{c-addr_2}, proceeding character-by-character
+	from lower addresses to higher addresses.
+
+\item[Contrast with]
+	\wref{string:CMOVEtop}{CMOVE>}.
+
+	\begin{defer}
+	\rationale
+		If \param{c-addr_2} lies within the source region (i.e., when
+		\param{c-addr_2} is not less than \param{c-addr_1} and
+		\param{c-addr_2} is less than the quantity \param{c-addr_1 u}
+		\word[core]{CHARS} \word[core]{+}), memory propagation occurs.
+
+		Typical use: Assume a character string at address
+		100: ``ABCD''. Then after
+		\begin{quote}\ttfamily
+			100 \word[core]{DUP} ~ \word[core]{CHAR+} ~ 3 \word{CMOVE}
+		\end{quote}
+		the string at address 100 is ``AAAA''.
+
+		Rationale for \word{CMOVE} and \word{CMOVEtop} follows
+		\word[core]{MOVE}.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}[CMOVEtop]{0920}{CMOVE>}[c-move-up]
+\item \stack{c-addr_1 c-addr_2 u}{}
+
+	If \param{u} is greater than zero, copy \param{u} consecutive
+	characters from the data space starting at \param{c-addr_1} to
+	that starting at \param{c-addr_2}, proceeding character-by-character
+	from higher addresses to lower addresses.
+
+\item[Contrast with:]
+	\wref{string:CMOVE}{CMOVE}.
+
+	\begin{defer}
+	\rationale
+		If \param{c-addr_1} lies within the destination region (i.e.,
+		when \param{c-addr_1} is greater than or equal to
+		\param{c-addr_2} and \param{c-addr_2} is less than the
+		quantity \param{c-addr_1 u} \word[core]{CHARS}
+		\word[core]{+}), memory propagation	occurs.
+
+		Typical use: Assume a character string at address
+		100: ``ABCD''. Then after
+		\begin{quote}\ttfamily
+			100 \word[core]{DUP} \word[core]{CHAR+} \word[core]{SWAP}
+			3 \word{CMOVEtop}
+		\end{quote}
+		the string at address 100 is ``DDDD''.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{0935}{COMPARE}
+\item \stack{c-addr_1 u_1 c-addr_2 u_2}{n}
+
+	Compare the string specified by \param{c-addr_1 u_1} to the
+	string specified by \param{c-addr_2 u_2}. The strings are
+	compared, beginning at the given addresses, character by
+	character, up to the length of the shorter string or until a
+	difference is found. If the two strings are identical, \param{n}
+	is zero. If the two strings are identical up to the length of
+	the shorter string, \param{n} is minus-one (-1) if \param{u_1}
+	is less than \param{u_2} and one (1) otherwise. If the two
+	strings are not identical up to the length of the shorter string,
+	\param{n} is minus-one (-1) if the first non-matching character
+	in the string specified by \param{c-addr_1 u_1} has a lesser
+	numeric value than the corresponding character in the string
+	specified by \param{c-addr_2 u_2} and one (1) otherwise.
+
+	\begin{defer}
+	\rationale
+		Existing Forth systems perform string comparison operations
+		using words that differ in spelling, input and output
+		arguments, and case sensitivity. One in widespread use
+		was chosen.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2191}{SEARCH}
+\item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_3 u_3 flag}
+
+	Search the string specified by \param{c-addr_1 u_1} for the
+	string specified by \param{c-addr_2 u_2}. If \param{flag} is
+	true, a match was found at \param{c-addr_3} with \param{u_3}
+	characters remaining. If \param{flag} is false there was no
+	match and \param{c-addr_3} is \param{c-addr_1} and \param{u_3}
+	is \param{u_1}.
+
+	\begin{defer}
+	\rationale
+		Existing Forth systems perform string searching operations
+		using words that differ in spelling, input and output
+		arguments, and case sensitivity. One in widespread use was
+		chosen.
+	\end{defer}
+\end{worddef}
+
+
+\begin{worddef}{2212}{SLITERAL}
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{c-addr_1 u}{}
+
+	Append the run-time semantics given below to the current
+	definition.
+
+\runtime
+	\stack{}{c-addr_2 u}
+
+	Return \param{c-addr_2 u} describing a string consisting of
+	the characters specified by \param{c-addr_1 u} during
+	compilation. A program shall not alter the returned string.
+
+	\begin{defer}
+	\rationale
+		The current functionality of \wref{core:Sq}{S"} may be
+		provided by the following definition:
+		\setwordlist{core}
+		\begin{quote}\ttfamily
+			\word{:} \word{Sq} \word{p} "ccc<quote>" -- ) \\
+			\tab \word{[CHAR]} " \word{PARSE} ~
+				\word{POSTPONE} \word[string]{SLITERAL} \\
+			\word{;} \word{IMMEDIATE}
+		\end{quote}
+		\setwordlist{string}
+	\end{defer}
+\end{worddef}
+
+
+\subsection{String extension words} % 17.6.2
+
+None.
