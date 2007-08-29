@@ -1,0 +1,135 @@
+This directory structure contains the source code for the current
+forth200x basis document.
+
+Requirements
+============
+
+I assume you have a standard latex2e system installed. This includes
+the use of the latex, pdflatex, and dvips programs.  I also assume
+a perl interpreter is installed.
+
+The document uses a number of standard latex packages.  These are
+part of the standard latex2e installation.  If your system does not
+have any of these packages they can be obtained from your local
+CTAN mirror (www.ctan.org).
+
+a4wide:		Setting the paper size correctly
+fancyhdr:	fancy headings
+changebar:	change bars
+ulem:		underline and struck thorough text
+hyperref:	hyper references
+helvet:		Helvetica font, part of PS-NFSS
+courier:	Courier font, also part of PS-NFSS
+
+In addition to these packages I also make use of the following
+optional packages:
+
+answers:	Deferred text - this is provided as a .sty, but the
+		full package is provided in the Support directory.
+		It is also available on CTAN.
+
+history:	Change Log - I have been developing this package
+		alongside the document.  The version included here
+		is the full code as it currently exists.
+
+
+Building the Document
+=====================
+
+I have include both a makefile for use with *nix systems and a
+make.bat for use with dos/windows systems.  Simply cd into the
+directory and type make.
+
+There are a number of make targets available:
+
+dvi:	This will build a "forth.dvi" file.  I use it for testing
+	the document.  It is also used to produce the PostScript
+	version of the document.
+
+ps:	This will produce a file "forth.ps", a PostScript version
+	of the document.  It uses both latex and dvips to do this.
+
+pdf:	This will produce a file "forth.pdf", a PDF version of
+	the document, complete with internal hyper links.
+	pdflatex is used to produce this.
+
+clean:	Will clean up all the temporary files which get left behind.
+
+html:	This will produce a file "forth.html" and a number of
+	supporting files.  This is still rather experimental and
+	is not currently supported in the document.  It uses the
+	tex4ht package to convert the file, but I provide no
+	configuration for the package.
+
+
+The latex process
+=================
+
+The main "driver" file is "forth.tex".  This will include all the
+other files as it needs them.  In order to build the final document
+you need to run it though latex several times.
+
+Define Labels
+-------------
+The first time it runs, it will generate a lot of auxiliary files,
+these contain information needed for the cross referencing system.
+The first time you run latex it will generate a set of "labels" and
+you will see a large number of warnings of the form:
+
+	LaTeX Warning: Reference `search:ONLY' on page 274 undefined
+	on input line 398.
+
+and
+
+	LaTeX Warning: Can't find definition of "TIB" in wordlist
+	"core", reference on page 2 on input line 128.
+
+These are produced because the labels have not been defined yet, they
+are being defined by this run.
+
+Sort the index
+--------------
+When latex is run on forth.tex it produces a "forth.wrd" file.  This
+is the list of words defined in the document given in the order they
+have been defined.  In order to get the alphabetical word list used
+as the index we have to sort this list.  This is done with the aid
+of a small perl script which produces a "forth.wds" file.
+
+As this file uses labels to locate the page of a word definition, we
+do not need to wait for the page numbers to settle down.
+
+Getting the labels correct
+--------------------------
+
+As there are no labels on the first run, place holders are used.
+These will not be the same size as the text of the actual label.
+Thus having defined the labels, we have to run the file though latex
+once again to get the labels correct.
+
+As the table of contents and the labels are left over from the last
+run, it is necessary to run the file through for a third time to
+resolve all the page numbers correctly.
+
+Change Bars
+-----------
+It may be necessary to run the file though latex one last time, so
+that the change bars are correctly aligned.  This uses a similar
+technique to the labels, in that it collects the information it
+requires on one run, and then uses that information on a second run.
+Unfortunately, the information may change on the third run, in which
+case a final run to align the chage bars is required.
+
+NOTE: The make scripts DO NOT perform this final run as it is only
+      necessary on occasion.
+
+
+Utilities
+=========
+
+I have been developing the document on a Windows/XP system using the
+following public domain utilities:
+
+MiKTeX 2.5	www.miktex.org
+LEd 0.51	www.latexEditor.org
+TextPad 5.0	www.textpad.com
+Perl 5.8	www.ActiveState.com/perl
