@@ -1,6 +1,6 @@
 rem @echo off
 
-if x%1 == x	 goto single
+if x%1 == xone	 goto single
 if x%1 == xdvi   goto dvi
 if x%1 == xps    goto ps
 if x%1 == xpdf   goto pdf
@@ -23,16 +23,9 @@ set latex=pdflatex
 goto process
 
 :process
-rem Generate the labels
 %latex% forth
-
-rem Generate the alphabetical list of words
 perl sort.pl < forth.wrd > forth.wds
-
-rem Get the labels correct
 %latex% forth
-
-rem Get the change-bars correct
 %latex% forth
 
 if not x%1 == xps goto end
