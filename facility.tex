@@ -225,6 +225,14 @@ to provide all of the Facility and Facility Extensions word sets.
 		to return the address of an ``event record'' from which the
 		other information could be extracted.
 
+		\place{X:ekeys}{While the standard specifies a timing
+		relationship between EKEY?, KEY?, EKEY and KEY, one
+		way to avoid any potential problems in this respect is
+		as follows: If you use EKEY at all, use only EKEY and
+		EKEY?; when you want a character and nothing else,
+		drop all EKEY results that are not characters (as
+		recognized by EKEY>CHAR).}
+
 		Also, consider a hypothetical Forth system running under
 		MS-DOS on a PC-compatible computer. Assume that the
 		implementation-defined character set is the ``normal'' 8-bit
