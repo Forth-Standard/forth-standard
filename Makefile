@@ -25,17 +25,13 @@ forth.dvi: forth.wds
 	latex forth.tex
 	latex forth.tex
 
-	# One last time to get the change bars right-ish
+	# Now for the change bars
+	latex forth.tex
 	latex forth.tex
 
 	# Stop make from re-building when the ps target is used
 	touch forth.wds		# update .wds as .wrd has been updated
 	touch forth.dvi		# now we have to update the .dvi
-
-	############################################
-	# you might need to run "latex forth" again
-	# just to get the change bars correct.
-	############################################
 
 forth.ps: forth.dvi
 	dvips -K -t A4 forth
@@ -44,16 +40,14 @@ forth.pdf: forth.wds
 	pdflatex forth.tex
 	pdflatex forth.tex
 
-	# One last time to get the change bars right
+	# Now for the change bars
+	pdflatex forth.tex
 	pdflatex forth.tex
 
-	############################################
-	# you might need to run "pdflatex forth"
-	# again just to get the change bars correct.
-	############################################
-	
+
 # This is not currently supported in the latex source,
 # but at least we get something usable, one day ...
+
 forth.html: forth.wds
 	htlatex forth
 

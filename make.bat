@@ -5,7 +5,7 @@ if x%1 == xdvi   goto dvi
 if x%1 == xps    goto ps
 if x%1 == xpdf   goto pdf
 if x%1 == xclean goto clean
-if x%1 == xhtml  goto html
+if x%1 == xhtml  goto dvi
 
 rem Usage
 echo "Usage: make [ dvi | ps | pdf | clean ]"
@@ -23,8 +23,17 @@ set latex=pdflatex
 goto process
 
 :process
+rem Get the word list (index)
 %latex% forth
 perl sort.pl < forth.wrd > forth.wds
+
+if x%1 == xhtml goto html
+
+rem Get the labels
+%latex% forth
+%latex% forth
+
+rem Get the change bars
 %latex% forth
 %latex% forth
 
@@ -37,17 +46,8 @@ dvips -K -t A4 forth
 goto end
 
 :html
-latex \makeatletter\def\HCode{\futurelet\HCode\HChar}\def\HChar{\ifx"\HCode\def\HCode"##1"{\Link##1}\expandafter\HCode\else\expandafter\Link\fi}\def\Link#1.a.b.c.{\g@addto@macro\@documentclasshook{\RequirePackage[#1,html]{tex4ht}}\let\HCode\documentstyle\def\documentstyle{\let\documentstyle\HCode\expandafter\def\csname tex4ht\endcsname{#1,html}\def\HCode####1{\documentstyle[tex4ht,}\@ifnextchar[{\HCode}{\documentstyle[tex4ht]}}}\makeatother\HCode %2.a.b.c.\input forth
-perl sort.pl < forth.wrd > forth.wds
-latex \makeatletter\def\HCode{\futurelet\HCode\HChar}\def\HChar{\ifx"\HCode\def\HCode"##1"{\Link##1}\expandafter\HCode\else\expandafter\Link\fi}\def\Link#1.a.b.c.{\g@addto@macro\@documentclasshook{\RequirePackage[#1,html]{tex4ht}}\let\HCode\documentstyle\def\documentstyle{\let\documentstyle\HCode\expandafter\def\csname tex4ht\endcsname{#1,html}\def\HCode####1{\documentstyle[tex4ht,}\@ifnextchar[{\HCode}{\documentstyle[tex4ht]}}}\makeatother\HCode %2.a.b.c.\input forth
-latex \makeatletter\def\HCode{\futurelet\HCode\HChar}\def\HChar{\ifx"\HCode\def\HCode"##1"{\Link##1}\expandafter\HCode\else\expandafter\Link\fi}\def\Link#1.a.b.c.{\g@addto@macro\@documentclasshook{\RequirePackage[#1,html]{tex4ht}}\let\HCode\documentstyle\def\documentstyle{\let\documentstyle\HCode\expandafter\def\csname tex4ht\endcsname{#1,html}\def\HCode####1{\documentstyle[tex4ht,}\@ifnextchar[{\HCode}{\documentstyle[tex4ht]}}}\makeatother\HCode %2.a.b.c.\input forth
-
-rem Extract fonts
-htcmd -slash c:\MiKTeX\miktex\bin\tex4ht forth -ic:\MiKTeX\tex4ht\texmf\tex4ht\ht-fonts\ -ec:\MiKTeX\tex4ht\texmf\tex4ht\base\win32\tex4ht.env 
-
-rem Make images for missing characters
-htcmd -slash c:\MiKTeX\miktex\bin\t4ht forth -ec:\MiKTeX\tex4ht\texmf\tex4ht\base\win32\tex4ht.env  
-
+rem Build the html version
+htlatex forth
 goto end
 
 :clean
