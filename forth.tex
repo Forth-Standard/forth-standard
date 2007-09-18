@@ -30,7 +30,7 @@
 \usepackage{ifthen}
 %\usepackage{supertabular}
 \usepackage{graphicx}
-
+\usepackage{randtext}
 
 % ========== Page Header / Footer ==========
 
@@ -112,6 +112,7 @@
 \usepackage[safe,warn]{textcomp}
 
 \usepackage{mathptmx}			% Times for roman and formula
+%\usepackage{avant}				% Avant Guard for sans-serif
 \usepackage[scaled=.88]{helvet}	% Helvetica for sans-serif
 \usepackage{courier}			% Courier for teletype
 
@@ -512,7 +513,7 @@
 
 \newcommand{\word@item}[1]{%
 	\hfil
-	\ifx#1\else #1:\fi
+	\rmfamily\ifx#1\else #1:\fi
 }
 
 % For the main body of the definition we use a "simple" list
@@ -924,17 +925,47 @@
 
 \newcommand{\rationale}{%
 	\defer@heading{2}{\rationale}{Rationale}
+	\ifinlinebody\sffamily\fi
 }
 
-\newcommand{\implementation}{%
+
+% I don't like this but it seams that \@ifnextchar is serverly
+% limited in what it can do.  Spliting the command into three
+% is the only way I have found to do this.
+
+\newcommand{\defer@imp}{
 	\defer@heading{3}{\implementation}{Implementation}
 	\ttfamily
 }
 
-\newcommand{\testing}{%
+\newcommand{\defer@imp@star}[1]{
+	\defer@imp
+	\ifinlinebody\sffamily\else\rmfamily\fi
+}
+
+\newcommand{\implementation}{%
+	\@ifnextchar*{\defer@imp@star}{\defer@imp}
+}
+
+
+\newcommand{\defer@test}{
 	\defer@heading{4}{\testing}{Testing}
 	\ttfamily
 }
+
+\newcommand{\defer@test@star}[1]{
+	\defer@test
+	\ifinlinebody\sffamily\else\rmfamily\fi
+}
+
+\newcommand{\testing}{
+	\@ifnextchar*{\defer@test@star}{\defer@test}
+}
+
+\newcommand{\defertext}[1]{
+	{\ifinlinebody\sffamily\else\rmfamily\fi #1}
+}
+
 
 
 % ========== Intro ==========
@@ -1025,6 +1056,7 @@
 
 % \bs       => \
 \newcommand{\bs}{\char"5C}
+
 
 % \tilde    => ~
 \renewcommand{\tilde}{\char"7E}
