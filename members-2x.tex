@@ -1,38 +1,43 @@
-\chapter*{\place{x:forward}{200\emph{x}} Membership}
+\chapter*{\place{x:foreward}{200\emph{x}} Membership}
 \label{members}
-\addcontentsline{toc}{section}{\string\place{x:forward}{200\emph{x}} Membership}
+\addcontentsline{toc}{section}{\string\place{x:foreward}{200\emph{x}} Membership}
 \markboth{200\emph{x} Membership}{200\emph{x} Membership}
 
 \cbstart
-\marginpar{\tiny x:forward}
+\marginpar{\tiny x:foreward}
 This document is maintained by the Forth 200\emph{x} Standards
 Committee. The committee meetings are open to the public, anybody
 is allowed to join the committee in its deliberations. Currently
 the committee has the following voting members:
 
+\place{ed07}{
+ToDo: How to become a member
+}
+
 \newcommand{\email}[1]{%
-	\IfFileExists{emails/#1.png}{%
-		\includegraphics[bb=0 0 200 12,width=160pt]{emails/#1.png}
-	}{}
+	\texttt{\randomize{#1}}
+%	\IfFileExists{emails/#1.png}{%
+%		\includegraphics[bb=0 0 200 12,width=160pt]{emails/#1.png}
+%	}{}
 }
 
 \begin{tabular}{p{.5\linewidth}p{.45\linewidth}}
-M. Anton Ertl (Chair)		\dotfill& Technische Universit\"at Wien \\
-\email{ertl}						& Wien, Austria \\
+M. Anton Ertl (Chair)			\dotfill& Technische Universit\"at Wien \\
+\email{anton@mips.complang.tuwien.at}	& Wien, Austria \\
 \\
-Dr. Peter Knaggs (Editor)	\dotfill& Bournemouth University \\
-\email{knaggs}						& Bournemouth, UK \\
+Dr. Peter Knaggs (Editor)		\dotfill& Bournemouth University \\
+\email{pknaggs@bournemouth.ac.uk}		& Bournemouth, UK \\
 \\
-Willem Botha				\dotfill& Construction Computer Software (Pty) Ltd  \\
-\email{botha}						& Cape Town, South Africa  \\
+Willem Botha					\dotfill& Construction Computer Software (Pty) Ltd  \\
+\email{willem.botha@ccssa.com}			& Cape Town, South Africa  \\
 \\
-Federico de Ceballos		\dotfill& Universidad de Cantabria \\
-\email{ceballos}					& Santander, Spain \\
+Federico de Ceballos			\dotfill& Universidad de Cantabria \\
+\email{federico.ceballos@unican.es}		& Santander, Spain \\
 \\
-Stephen Pelc				\dotfill& MicroProcessor Engineering Ltd. \\
-\email{pelc}						& Southampton, UK \\
+Stephen Pelc					\dotfill& MicroProcessor Engineering Ltd. \\
+\email{stephen@mpeforth.com}			& Southampton, UK \\
 \\
-Dr. Bill Stoddart			\dotfill& University of Teesside \\
-\email{stoddart}					& Middlesbrough, UK \\
+Dr. Bill Stoddart				\dotfill& University of Teesside \\
+\email{bill.stoddart@ntlworld.com}		& Middlesbrough, UK \\
 \end{tabular}
 \cbend
