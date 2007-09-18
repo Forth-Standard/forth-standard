@@ -538,7 +538,7 @@ provide all of the File Access and File Access Extensions word sets.
 		Typical use:
 			{\ldots} \word{Sq} \texttt{filename"} \word{INCLUDED} {\ldots}
 
-	\testing\rmfamily
+	\testing*
 		\place{X:required}{See \rref{file:REQUIRED}{REQUIRED}.}
 	\end{defer}
 \end{worddef}
@@ -934,7 +934,7 @@ provide all of the File Access and File Access Extensions word sets.
 		\word{:} INCLUDE \word{p} i*x "name" -{}- j*x ) \\
 		\tab \word{PARSE-NAME} \word{INCLUDED} \word{;}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{file:REQUIRED}{REQUIRED}.
 	\end{defer}
 \end{worddef*}
@@ -986,7 +986,7 @@ provide all of the File Access and File Access Extensions word sets.
 		\word{:} REQUIRE \word{p} i*x "name" -{}- i*x ) \\
 		\tab \word{PARSE-NAME} \word{REQUIRED} \word{;}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{file:REQUIRED}{REQUIRED}.
 	\end{defer}
 \end{worddef*}
@@ -1023,8 +1023,7 @@ provide all of the File Access and File Access Extensions word sets.
 			\word{Sq} \texttt{filename"} \word{REQUIRED}
 		\end{quote}
 
-	\implementation
-		\rmfamily
+	\implementation*
 		This implementation does not implement the requirements with
 		regard to \word{MARKER} and \word[tools]{FORGET} (\word{REQUIRED}
 		only includes each file once, whether a marker was executed or
@@ -1079,8 +1078,7 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab[2] \word{2DROP} \\
 		\tab \word{THEN} \word{;}
 
-	\testing
-		\rmfamily
+	\testing*
 		This test requires two additional files:
 			\texttt{required-helper1.fs} and
 			\texttt{required-helper2.fs}.

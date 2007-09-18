@@ -11,7 +11,7 @@
 	\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:,}{,}
 	\end{defer}
 \end{worddef}
@@ -53,7 +53,7 @@
 	\wref{core:num-start}{<\num}.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:num}{\num},
 			\rref{core:numS}{\num{}S},
 			\rref{core:HOLD}{HOLD} and
@@ -169,7 +169,7 @@
 	\rationale % A.6.1.0080 (
 		Typical use: {\ldots} \word{p} \param{ccc}\texttt{)} {\ldots}
 
-	\testing \textrm{None.}
+	\testing* None.
 	\end{defer}
 \end{worddef}
 
@@ -447,7 +447,7 @@
 	\xref[3.2.1.3 Free-field number display]{usage:dot}.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 	\see \rref{core:EMIT}{EMIT}.
 	\end{defer}
 \end{worddef}
@@ -490,7 +490,7 @@
 		a Standard Program may not compile \word{POSTPONE} \word{.q}
 		inside a new word, and then use that word while interpreting.
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:EMIT}{EMIT}.
 	\end{defer}
 \end{worddef}
@@ -661,8 +661,7 @@
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:,}{,}
 	\end{defer}
 \end{worddef}
@@ -735,8 +734,7 @@
 	\rationale % A.6.1.0350 2@
 		With \word{2@} the storage order is specified by the Standard.
 
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:,}{,}
 	\end{defer}
 \end{worddef}
@@ -847,7 +845,7 @@
 		\{ 					NOP1 -> \} \\
 		\{ 					NOP2 -> \}
 
-		\textrm{The following tests the dictionary search order:}
+		\defertext{The following tests the dictionary search order:}
 
 		\{ \word{:} GDX   123 \word{;} \tab \word{:} GDX   GDX 234 \word{;} -> \} \\
 		\{ GDX -> 123 234 \}
@@ -892,7 +890,7 @@
 		\word[tools]{;CODE} to determine whether or not any action must
 		be taken to allow it to be found.
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core::}{:}.
 	\end{defer}
 \end{worddef}
@@ -938,8 +936,7 @@
 	\wref{core:numS}{\num{}S}.
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:num}{\num},
 			\rref{core:numS}{\num{}S},
 			\rref{core:HOLD}{HOLD} and
@@ -1150,8 +1147,7 @@
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:,}{,}
 	\end{defer}
 \end{worddef}
@@ -1168,8 +1164,7 @@
 \see \wref{exception:ABORT}{ABORT}.
 
 	\begin{defer}
-	\testing
-		\textrm{None.}
+	\testing* None.
 	\end{defer}
 \end{worddef}
 
@@ -1203,8 +1198,7 @@
 				\emph{test} \word{ABORTq} \emph{ccc}\texttt{"}
 			{\ldots} \word{;}
 
-	\testing
-		\textrm{None.}
+	\testing* None.
 	\end{defer}
 \end{worddef}
 
@@ -1367,7 +1361,7 @@
 	\rationale % A.6.1.0706 ALIGNED
 		See: \rref{core:ALIGN}{ALIGN}.
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:ALIGN}{ALIGN}.
 	\end{defer}
 \end{worddef}
@@ -1484,7 +1478,7 @@
 			\word{REPEAT}
 		\word{;}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:WHILE}{WHILE} and \rref{core:UNTIL}{UNTIL}.
 	\end{defer}
 \end{worddef}
@@ -1518,8 +1512,7 @@
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:C,}{C,}
 	\end{defer}
 \end{worddef}
@@ -1567,8 +1560,7 @@
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:C,}{C,}
 	\end{defer}
 \end{worddef}
@@ -1599,7 +1591,7 @@
 			DATA \word{CELL+} \word{@} \word{d} 0
 		\end{quote}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:,}{,}
 	\end{defer}
 \end{worddef}
@@ -1664,8 +1656,7 @@
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:C,}{C,}
 	\end{defer}
 \end{worddef}
@@ -1742,7 +1733,7 @@
 	line.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:EMIT}{EMIT}.
 	\end{defer}
 \end{worddef}
@@ -1781,7 +1772,7 @@
 		Typical use: {\ldots}
 			\word{CREATE} \texttt{SOMETHING} {\ldots}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:toBODY}{>BODY} and \rref{core:DOES}{DOES}.
 	\end{defer}
 \end{worddef}
@@ -1793,8 +1784,7 @@
 	Set the numeric conversion radix to ten (decimal).
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:BASE}{BASE}.
 	\end{defer}
 \end{worddef}
@@ -1859,8 +1849,7 @@
 			\emph{step} \word{+LOOP}
 		\word{;}
 
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:LOOP}{LOOP},
 			\rref{core:+LOOP}{+LOOP},
 			\rref{core:J}{J},
@@ -2007,7 +1996,7 @@
 				\word{ELSE} {\ldots} \word{THEN}
 			\word{;}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:IF}{IF}
 	\end{defer}
 \end{worddef}
@@ -2158,8 +2147,7 @@
 	\wref{core:[']}{[']}.
 
 	\begin{defer}
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:'}{'} and \rref{core:[']}{[']}.
 	\end{defer}
 \end{worddef}
@@ -2189,7 +2177,7 @@
 				{\ldots} \word{EXIT} \word{THEN}
 			{\ldots} \word{;}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:UNLOOP}{UNLOOP}.
 	\end{defer}
 \end{worddef}
@@ -2405,7 +2393,7 @@
 \see \xref[3.3.3.2 Contiguous regions]{usage:contiguous}.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:,}{,},
 			\rref{core:ALLOT}{ALLOT} and
 			\rref{core:C,}{C,}.
@@ -2442,7 +2430,7 @@
 	are unavailable.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:LOOP}{LOOP},
 			\rref{core:+LOOP}{+LOOP},
 			\rref{core:J}{J},
@@ -2518,8 +2506,7 @@
 			\word{:} \texttt{X}
 			{\ldots} \word{;} \word{IMMEDIATE}
 
-	\testing
-		\rmfamily
+	\testing*
 		See \rref{core:[']}{[']},
 			\rref{core:POSTPONE}{POSTPONE},
 			\rref{core:STATE}{STATE}, and
@@ -2651,8 +2638,7 @@
 	\wref{facility:EKEYq}{KEY?}.
 
 	\begin{defer}
-	\testing
-		\textrm{None.}
+	\testing* None.
 	\end{defer}
 \end{worddef}
 
@@ -3118,8 +3104,7 @@
 \see \xref[3.4 The Forth text interpreter]{usage:command}.
 
 	\begin{defer}
-	\testing
-		\textrm{None.}
+	\testing* None.
 	\end{defer}
 \end{worddef}
 
@@ -3142,7 +3127,7 @@
 	\wref{core:2R@}{2R@}.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:toR}{>R}.
 	\end{defer}
 \end{worddef}
@@ -3166,7 +3151,7 @@
 	\wref{core:2R@}{2R@}.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:toR}{>R}.
 	\end{defer}
 \end{worddef}
@@ -3258,7 +3243,7 @@
 			\word{;}
 		\end{quote}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:WHILE}{WHILE}
 	\end{defer}
 \end{worddef}
@@ -3500,7 +3485,7 @@
 	Display one space.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:EMIT}{EMIT}.
 	\end{defer}
 \end{worddef}
@@ -3512,7 +3497,7 @@
 	If \param{n} is greater than zero, display \param{n} spaces.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:EMIT}{EMIT}.
 	\end{defer}
 \end{worddef}
@@ -3654,7 +3639,7 @@
 			\emph{test} \word{IF} {\ldots} \word{ELSE} {\ldots} \word{THEN}
 			{\ldots} \word{;}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:IF}{IF}.
 	\end{defer}
 \end{worddef}
@@ -3677,7 +3662,7 @@
 \see \wref{core:EMIT}{EMIT}.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:EMIT}{EMIT}.
 	\end{defer}
 \end{worddef}
@@ -3689,7 +3674,7 @@
 	Display \param{u} in free field format.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:EMIT}{EMIT}.
 	\end{defer}
 \end{worddef}
@@ -4112,7 +4097,7 @@
 				\word{[} \texttt{4321} \word{]} \word{LITERAL}
 				{\ldots} \word{;}
 
-	\testing\rmfamily
+	\testing*
 		See \rref{core:[}{[}
 	\end{defer}
 \end{worddef}
@@ -4999,7 +4984,7 @@ their clientele.
 	Set contents of \word{BASE} to sixteen.
 
 	\begin{defer}
-	\testing\rmfamily
+	\testing*
 		See \rref{core:BASE}{BASE}.
 	\end{defer}
 \end{worddef}
@@ -5659,7 +5644,8 @@ their clientele.
 		Typical use: \texttt{x} \word{TO} \emph{name}
 
 	\note \place{x:to}{\param{name} must not be state-smart.}
-	\testing\rmfamily
+
+	\testing*
 		\place{x:to}{See \wref{core:VALUE}{VALUE}.}
 	\end{defer}
 \end{worddef}
