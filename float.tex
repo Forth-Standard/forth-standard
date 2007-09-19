@@ -125,11 +125,15 @@ braces (e.g., \{ \texttt{+} {\textbar} \texttt{-} \}).
 
 \subsubsection{Stack notation} % 12.2.2.2
 
-Floating-point stack notation when the floating-point stack is
-separate from the data stack is:
+Floating-point stack notation \remove{X:fp-stack}{when the floating-point stack is
+separate from the data stack} is:
 \begin{quote}
 \stack[F]{before}{after}
 \end{quote}
+
+\place{X:fp-stack}{A unified stack notation is provided for systems
+with the environmental restriction that the floating-point numbers are
+kept on the data stack.}
 
 \section{Additional usage requirements} % 12.3
 
@@ -202,11 +206,12 @@ no greater than the result.
 A last in, first out list that shall be used by all floating-point
 operators.
 
-The width of the floating-point stack is implementation-defined. By
-default the floating-point stack shall be separate from the data and
-return stacks. A program may determine whether floating-point numbers
-are kept on the data stack by passing the string
-``\texttt{FLOATING-STACK}'' to \word[core]{ENVIRONMENTq}.
+The width of the floating-point stack is
+implementation-defined. \remove{X:fp-stack}{By default} The
+floating-point stack shall be separate from the data and return
+stacks. \remove{X:fp-stack}{A program may determine whether
+floating-point numbers are kept on the data stack by passing the
+string ``\texttt{FLOATING-STACK}'' to \word[core]{ENVIRONMENTq}.}
 
 The size of a floating-point stack shall be at least 6 items.
 
@@ -231,9 +236,15 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 			floating-point word set present \\
 		\texttt{FLOATING-EXT}	& \emph{flag}		& no	&
 			floating-point extensions word set present \\
-		\texttt{FLOATING-STACK}	& \emph{n}			& yes	&
-			If $n$ = zero, floating-point numbers are kept on the data stack;
-			otherwise $n$ is the maximum depth of the separate floating-point stack. \\
+		\texttt{FLOATING-STACK} & \emph{n} & yes &
+			\remove{X:fp-stack}{If $n$ = zero,
+			floating-point numbers are kept on the data
+			stack; otherwise} $n$ is the maximum depth of
+			the separate floating-point stack.
+			\place{X:fp-stack}{On systems with the
+			environmental restriction of keeping
+			floating-point items on the data stack,
+			$n=0$.}\\
 		\texttt{MAX-FLOAT}		& \emph{r}			& yes	&
 			largest usable floating-point number \\
 		\hline\hline
@@ -398,6 +409,14 @@ point.
 \item no additional requirements.
 \end{itemize}
 
+%\subsubsection{\place{X:fp-stack}{Environmental restrictions}} % 12.4.1.4
+\subsubsection{Environmental restrictions} % 12.4.1.4
+
+\begin{itemize}
+\item \place{X:fp-stack}{Keeping floating-point numbers on the data stack.}
+\end{itemize}
+
+
 \subsection{Program documentation} % 12.4.2
 
 \subsubsection{Environmental dependencies} % 12.4.2.1
@@ -405,6 +424,8 @@ point.
 \begin{itemize}
 \item requiring the floating-point stack to be larger than six items
 	(\xref[12.3.3 Floating-point stack]{float:stack}).
+\item \place{X:fp-stack}{requiring floating-point numbers to be kept
+	on dat data stack, with $n$ cells per floating point number.}
 \end{itemize}
 
 \subsubsection{Other program documentation} % 12.4.2.2
@@ -650,10 +671,13 @@ word sets.
 \begin{worddef}{1497}{FDEPTH}[f-depth]
 \item \stack{}{+n}
 
-	\param{+n} is the number of values contained on the default separate
-	floating-point stack. If floating-point numbers are kept on the
-	data stack, \param{+n} is the current number of possible floating-point
-	values contained on the data stack.
+	\param{+n} is the number of values contained on the
+	\remove{X:fp-stack}{default separate} floating-point stack. If
+	\replace{X:fp-stack}{floating-point numbers are kept}{the
+	system has an environmental restriction of keeping the
+	floating-point numbers} on the data stack, \param{+n} is the
+	current number of possible floating-point values contained on
+	the data stack.
 \end{worddef}
 
 
