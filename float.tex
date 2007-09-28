@@ -125,10 +125,10 @@ braces (e.g., \{ \texttt{+} {\textbar} \texttt{-} \}).
 
 \subsubsection{Stack notation} % 12.2.2.2
 
-Floating-point stack notation \remove{X:fp-stack}{when the floating-point stack is
-separate from the data stack} is:
+Floating-point stack notation \remove{X:fp-stack}{when the
+floating-point stack is separate from the data stack} is:
 \begin{quote}
-\stack[F]{before}{after}
+	\stack[F]{before}{after}
 \end{quote}
 
 \place{X:fp-stack}{A unified stack notation is provided for systems
@@ -206,12 +206,12 @@ no greater than the result.
 A last in, first out list that shall be used by all floating-point
 operators.
 
-The width of the floating-point stack is
-implementation-defined. \remove{X:fp-stack}{By default} The
-floating-point stack shall be separate from the data and return
-stacks. \remove{X:fp-stack}{A program may determine whether
-floating-point numbers are kept on the data stack by passing the
-string ``\texttt{FLOATING-STACK}'' to \word[core]{ENVIRONMENTq}.}
+The width of the floating-point stack is implementation-defined.
+\replace{X:fp-stack}{By default the}{The} floating-point stack
+shall be separate from the data and return stacks.
+\remove{X:fp-stack}{A program may determine whether floating-point
+numbers are kept on the data stack by passing the string
+``\texttt{FLOATING-STACK}'' to \word[core]{ENVIRONMENTq}.}
 
 The size of a floating-point stack shall be at least 6 items.
 
@@ -262,7 +262,7 @@ single-float aligned, or double-float aligned) before accessing
 floating-point data at the address.
 
 See: \xref[3.3.3.1 Address Alignment]{usage:aaddr},
-\xref[12.3.1.1 Addresses]{float:addr}.
+	\xref[12.3.1.1 Addresses]{float:addr}.
 
 \begin{intro}
 \subsubsection{Address alignment} % A.12.3.5
@@ -409,13 +409,14 @@ point.
 \item no additional requirements.
 \end{itemize}
 
+\begin{comment}
 %\subsubsection{\place{X:fp-stack}{Environmental restrictions}} % 12.4.1.4
 \subsubsection{Environmental restrictions} % 12.4.1.4
 
 \begin{itemize}
 \item \place{X:fp-stack}{Keeping floating-point numbers on the data stack.}
 \end{itemize}
-
+\end{comment}
 
 \subsection{Program documentation} % 12.4.2
 
@@ -425,7 +426,7 @@ point.
 \item requiring the floating-point stack to be larger than six items
 	(\xref[12.3.3 Floating-point stack]{float:stack}).
 \item \place{X:fp-stack}{requiring floating-point numbers to be kept
-	on dat data stack, with $n$ cells per floating point number.}
+	on the data stack, with $n$ cells per floating point number.}
 \end{itemize}
 
 \subsubsection{Other program documentation} % 12.4.2.2
@@ -940,6 +941,34 @@ word sets.
 \see \xref[12.3.1.1 Addresses]{float:addr}.
 \end{worddef}
 
+% ---------------------------------------------------------
+
+\begin{worddef*}{}{DFFIELD:}[d-f-field-colon][X:structures]
+\item \stack{}{}
+
+	The semantics of \word{DFFIELD:} are identical to the
+	execution semantics of the phrase:
+	\begin{quote}\ttfamily
+		\word{DFALIGNED} 1 \word{DFLOATS} \word[facility]{+FIELD}
+	\end{quote}
+
+\see \wref{facility:+FIELD}{+FIELD},
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+
+	\begin{defer}
+	\implementation
+		\defertext{Create a new field within a structure definition
+		of size a double-float. The field is aligned.}
+
+		\word{:} DFFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\tab \word{DFALIGNED} 1 \word{DFLOATS} \word{+FIELD} \\
+		\word{;}
+	\end{defer}
+
+\end{worddef*}
+
+% ---------------------------------------------------------
 
 \begin{worddef}{1208}{DFLOAT+}[d-float-plus]
 \item \stack{df-addr_1}{df-addr_2}
@@ -1205,6 +1234,34 @@ word sets.
 	\end{defer}
 \end{worddef}
 
+% ---------------------------------------------------------
+
+\begin{worddef*}{}{FFIELD:}[f-field-colon][X:structures]
+\item \stack{}{}
+
+	The semantics of \word{FFIELD:} are identical to the
+	execution semantics of the phrase:
+	\begin{quote}\ttfamily
+		\word{FALIGNED} 1 \word{FLOATS} \word[facility]{+FIELD}
+	\end{quote}
+
+\see \wref{facility:+FIELD}{+FIELD},
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+
+	\begin{defer}
+	\implementation
+		\defertext{Create a new field within a structure definition
+		of size a float. The field is aligned.}
+
+		\word{:} FFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\tab \word{FALIGNED} 1 \word{FLOATS} \word{+FIELD} \\
+		\word{;}
+	\end{defer}
+
+\end{worddef*}
+
+% ---------------------------------------------------------
 
 \begin{worddef}{1553}{FLN}[f-l-n]
 \item \stack[F]{r_1}{r_2} or
@@ -1426,6 +1483,34 @@ word sets.
 \see \xref[12.3.1.1 Addresses]{float:addr}.
 \end{worddef}
 
+% ---------------------------------------------------------
+
+\begin{worddef*}{}{SFFIELD:}[s-f-field-colon][X:structures]
+\item \stack{}{}
+
+	The semantics of \word{SFFIELD:} are identical to the
+	execution semantics of the phrase:
+	\begin{quote}\ttfamily
+		\word{SFALIGNED} 1 \word{SFLOATS} \word[facility]{+FIELD}
+	\end{quote}
+
+\see \wref{facility:+FIELD}{+FIELD},
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+
+	\begin{defer}
+	\implementation
+		\defertext{Create a new field within a structure definition
+		of size a single-float. The field is aligned.}
+
+		\word{:} SFFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\tab \word{SFALIGNED} 1 \word{SFLOATS} \word{+FIELD} \\
+		\word{;}
+	\end{defer}
+
+\end{worddef*}
+
+% ---------------------------------------------------------
 
 \begin{worddef}{2207}{SFLOAT+}[s-float-plus]
 \item \stack{sf-addr_1}{sf-addr_2}
