@@ -1,10 +1,10 @@
-\chapter*{\place{x:foreward}{Proposals Process}}
+\chapter*{\place{x:foreword}{Proposals Process}}
 \label{process}
-\addcontentsline{toc}{section}{\string\place{x:foreward}{Proposals Process}}
+\addcontentsline{toc}{section}{\string\place{x:foreword}{Proposals Process}}
 \markboth{Proposals Process}{Proposals Process}
 
-\cbstart
-\marginpar{\tiny x:foreward}
+%\cbstart
+%\marginpar{\tiny x:foreword}
 In developing a standard it is necessary for the standards committee to
 know what the system implementors and the programmers are already doing
 in that area, and what they would be willing to do, or wish for.
@@ -19,11 +19,14 @@ community:
 
 \item
 	The proponent publishes the proposal as an \emph{RfD} (Request for
-	Discussion) by sending a copy to the \texttt{forth200x@yahoogroups.com}
-	email list and to the \texttt{comp.lang.forth} usenet news group
+	Discussion) by sending a copy to the \texttt{forth200x@\replace{ed07}{yohoo}{yahoo}groups.com}
+	email list \replace{ed07}{and}{\emph{and}} to the \texttt{comp.lang.forth} usenet news group
 	where it can be discussed.  The maintainers of the
 	\texttt{www.forth200x.org} web site will then place a copy of the
 	proposal on that web site.
+
+	\place{ed07}{%
+	Be warned, this will generate a lot of heated discussion.}
 
 	In order for the results to be available in time for a standards
 	meeting, an RfD should be published at least 12 weeks before the
@@ -69,7 +72,10 @@ community:
 
 \item
 	A proposal will only be accepted into the new basis document by
-	consensus of those present at an open standards meeting.
+	consensus of those present at an \remove{ed07}{open} standards
+	meeting. \place{ed07}{If you can not attend a meeting, you should
+	ask somebody who is attending to champion the proposal on your
+	behalf.}
 \end{enumerate}
 
 Should a contributor consider their comments to have been dismissed
@@ -155,4 +161,4 @@ A proposal RfD should include the following sections.
 	Once the proposal enters the CfV stage, the vote taker will add
 	these instructions to the proposal.
 \end{description}
-\cbend
+%\cbend
