@@ -21,6 +21,7 @@ hyperref:	hyper references
 mathptmx:	New-Times-Roman for roman and formula
 helvet:		Helvetica for sans-serif, part of PS-NFSS
 courier:	Courier font, also part of PS-NFSS
+multicol:	multiple columns (for throw codes table)
 
 In addition to these packages I also make use of the following
 optional packages:

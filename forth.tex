@@ -1,6 +1,5 @@
 \documentclass[10pt]{book}
 \usepackage{a4wide}
-%\includeonly{facility}
 
 % ========== Document Organisation Flags ==========
 
@@ -16,7 +15,7 @@
 %\showreftrue
 \showreffalse
 
-\newcommand{\revision}{07.1}	% Document Revision
+\newcommand{\revision}{07.2}	% Document Revision
 
 % =================================================
 
@@ -28,9 +27,10 @@
 % add \log to History / Change Log
 
 \usepackage{ifthen}
-%\usepackage{supertabular}
+\usepackage{supertabular}
 \usepackage{graphicx}
-\usepackage{randtext}
+\usepackage{randtext}	% Randamize text (for email addresses)
+\usepackage{multicol}	% Multiple Columns (for throw code table)
 
 % ========== Page Header / Footer ==========
 
@@ -67,8 +67,8 @@
 
 \lhead[\leftmark]{Forth 200\emph{x} / \docversion}
 \rhead[Forth 200\emph{x} / \docversion]{\leftmark}
-\lfoot[\rm\thepage]{}
-\rfoot[]{\rm\thepage}
+\lfoot[\rm\thepage]{\sf\small\includefile}
+\rfoot[\sf\small\includefile]{\rm\thepage}
 \cfoot{}
 \renewcommand{\footrulewidth}{0.4pt}
 \newcommand{\collate}{%
@@ -103,6 +103,9 @@
 \usepackage{history}
 %\openhistory
 
+\accept{x:ekeys,x:defined,x:required,x:foreword,x:to,test}
+\reject{x:fp-stack}
+
 % =========================================
 
 
@@ -121,12 +124,34 @@
 
 % ========== Generate HTML ==========
 
-\ifdefined\Hcode
-	\usepackage[xhtml]{tex4ht}
-%\else
-%	\newif\ifhtml
-%	\htmlfalse
-\fi
+% Patch the \include command to introduce the filename
+% currently being processed into the TOC file.  This can
+% be used by the HTML converter to provide a decent TOC.
+% It also allows us to record the current file in the
+% document footer.
+
+\makeatletter
+
+% Define a blank file name to start with
+\def\includefile{}
+
+% Make a note of the original version
+\let\forth@include=\include
+
+% Define a our new version
+\renewcommand{\include}[1]{%
+	% Add a TOC line with the name of the include file
+	\immediate\write\@auxout{\string\@writefile{toc}{\string\contentsfile{#1}}}%
+	\gdef\includefile{#1}%
+	\forth@include{#1}%
+}
+
+% Now we have to define a \contentsfile command which will simply
+% ignore the filename. The HTML generator can use this command
+% in the TOC file to generate links
+
+\newcommand{\contentsfile}[1]{}
+\makeatother
 
 % ====
 
@@ -513,7 +538,7 @@
 
 \newcommand{\word@item}[1]{%
 	\hfil
-	\rmfamily\ifx#1\else #1:\fi
+	\ifx#1\else #1:\fi
 }
 
 % For the main body of the definition we use a "simple" list
@@ -738,10 +763,10 @@
 
 % Rather than defining several new flags, we will use a simple counter
 % to control both error handling and the generation of the section
-% label for defered (rationale) text.
+% label for deferred (rationale) text.
 %
 % 0: Not in defer environment
-% 1: Start of defer enviornment
+% 1: Start of defer environment
 % 2: Rationale header output
 % 3: Implementation header output
 % 4: Testing header output
@@ -896,7 +921,7 @@
 				\or\protect\implementation%
 				\or\protect\testing\fi}
 		\fi
-		\rmfamily
+		\ifinlinebody\sffamily\else\rmfamily\fi
 		\ifnum\value{defer@state}=1
 			% First heading in defer environment
 			\ifinlinebody
@@ -929,13 +954,11 @@
 }
 
 
-% I don't like this but it seams that \@ifnextchar is serverly
-% limited in what it can do.  Spliting the command into three
-% is the only way I have found to do this.
+% We need to call the @star version of the internal word so we can read
+% (get rid of) the "*". The non-star version does the actual work.
 
-\newcommand{\defer@imp}{
-	\defer@heading{3}{\implementation}{Implementation}
-	\ttfamily
+\newcommand{\implementation}{%
+	\@ifnextchar*{\defer@imp@star}{\defer@imp}
 }
 
 \newcommand{\defer@imp@star}[1]{
@@ -943,14 +966,14 @@
 	\ifinlinebody\sffamily\else\rmfamily\fi
 }
 
-\newcommand{\implementation}{%
-	\@ifnextchar*{\defer@imp@star}{\defer@imp}
+\newcommand{\defer@imp}{
+	\defer@heading{3}{\implementation}{Implementation}
+	\ttfamily
 }
 
 
-\newcommand{\defer@test}{
-	\defer@heading{4}{\testing}{Testing}
-	\ttfamily
+\newcommand{\testing}{
+	\@ifnextchar*{\defer@test@star}{\defer@test}
 }
 
 \newcommand{\defer@test@star}[1]{
@@ -958,14 +981,15 @@
 	\ifinlinebody\sffamily\else\rmfamily\fi
 }
 
-\newcommand{\testing}{
-	\@ifnextchar*{\defer@test@star}{\defer@test}
+\newcommand{\defer@test}{
+	\defer@heading{4}{\testing}{Testing}
+	\ttfamily
 }
+
 
 \newcommand{\defertext}[1]{
 	{\ifinlinebody\sffamily\else\rmfamily\fi #1}
 }
-
 
 
 % ========== Intro ==========
@@ -1020,6 +1044,7 @@
 			\setlength{\leftmargin}{3em}
 		}
 		\item\relax
+		\sffamily
 	}{%
 		\end{list}
 	}
@@ -1305,6 +1330,7 @@
 
 \include{titlepage}
 \thispagestyle{empty}
+\def\includefile{}
 
 \frontmatter
 \setcounter{tocdepth}{2}
@@ -1314,8 +1340,8 @@
 %{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
 
 \newpage
-\include{foreward}
-\include{foreward-ans}
+\include{foreword}
+\include{foreword-ans}
 \include{process}
 \include{members-2x}
 %\include{members-x3}
