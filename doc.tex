@@ -296,7 +296,7 @@ as a consequence of specific extensions.
 
 % ==== X: Required ====
 
-\item[\textsf{X:required}] \cbstart\marginpar{\tiny x:required} ~
+\item[\textsf{X:required}] %\cbstart\marginpar{\tiny x:required} ~
 	\begin{itemize}
 \item a file is required while it is being \word[file]{REQUIRED}
 	(\ref{file:REQUIRED}) or \word[file]{INCLUDED} (\ref{file:INCLUDED}).
@@ -312,6 +312,17 @@ as a consequence of specific extensions.
 
 \item the stack effect of including with \wref{file:REQUIRED}{REQUIRED}
 	the file is not \stack{i*x}{i*x}.
+	\end{itemize}
+
+% ==== X: Structures ====
+
+\item[\textsf{X:structures}] \cbstart\marginpar{\tiny x:structures} ~
+	\begin{itemize}
+\item A \param{name} defined by
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
+	is executed before the coresponding
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}
+	has been executed.
 	\end{itemize}
 \end{description}
 \cbend
