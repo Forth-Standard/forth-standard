@@ -255,7 +255,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\begin{defer}
 	\rationale
 		\word{+FIELD} is not required to align items.  This is
-		deliberate, and allows the construction of unaligned data
+		deliberate and allows the construction of unaligned data
 		structures for communication with external elements such
 		as a hardware register map or protocol packet.
 		Field alignment has been left to the appropriate
@@ -371,7 +371,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		named field defining words (\emph{x}\texttt{FIELD:}) are
 		aligning.  This is intentional and allows for both uses.
 
-		The standard currently defines an aligned filed defining
+		The standard currently defines an aligned field defining
 		word for each of the standard data types:
 
 		\begin{center}
@@ -386,9 +386,9 @@ to provide all of the Facility and Facility Extensions word sets.
 
 		Although this is a sufficient set, most systems provide
 		facilities to define field defining words for standard
-		data types. Note that these also satisfy the alignment
-		requirements of the host system, whereas \word{+FIELD}
-		does not.
+		data types.
+		% Note that these also satisfy the alignment requirements of
+		% the host system, whereas \word{+FIELD} does not.
 
 	\item[Future]
 		The following cannot be defined until the required addressing
@@ -469,7 +469,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		character to be distinguished from one another.
 		\place{ed07}{A standard program may only interpret the
 		results of \word{EKEY} via the translation words provided
-		for that purpose (\word{EKEYtoCHAR} and \word{EKEYroFKEY}).}
+		for that purpose (\word{EKEYtoCHAR} and \word{EKEYtoFKEY}).}
 
 		In systems that combine both keyboard and mouse events into
 		a single ``event stream'', the single number returned by
