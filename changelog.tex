@@ -88,11 +88,11 @@
 		publication of source code, and to ease the parsing of the
 		document source.
 
-	\item Added new ``\xref{foreward}'' and ``\xref{process}'' as defined
-		in \textsf{X:foreward}.
+	\item Added new ``\xref{foreword}'' and ``\xref{process}'' as defined
+		in \textsf{X:foreword}.
 
 	\item Replaced ``X3 Membership'' with ``\xref{members}'' as
-		defined in \textsf{X:foreward}.
+		defined in \textsf{X:foreword}.
 
 	\item[3] Usage Requirements
 		\begin{enumerate}
@@ -119,7 +119,8 @@
 			\wref{core:TO}{TO} and \wref{core:VALUE}{VALUE}.
 		\end{enumerate}
 
-	\item[10] Added \textsf{X:ekeys} proposal:
+	\item[10] Facility Word Set:
+		Added \textsf{X:ekeys} proposal:
 		\wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 		\wref{facility:K-DELETE}{K-DELETE},
 		\wref{facility:K-DOWN}{K-DOWN},
@@ -147,33 +148,88 @@
 		\wref{facility:K-F11}{K-F11} and
 		\wref{facility:K-F12}{K-F12}.
 
-	\item[11] Added \textsf{X:required} proposal:
+	\item[11] Files Word Set:
+		Added \textsf{X:required} proposal:
 		\wref{file:INCLUDED}{INCLUDED},
 		\wref{file:REQUIRE}{REQUIRE},
 		\wref{file:REQUIRED}{REQUIRED} and
 		\wref{file:INCLUDE}{INCLUDE}.
 
-	\item[13]
+	\item[13] Locals Word Set:
 		Applied \textsf{X:to} proposal:
 		Ambiguous condition,
-		\wref{local:LOCAL},
-		\wref{local:TO}{TO} and
-		\wref{local:LOCALS}.
+		\wref{local:LOCAL}{(LOCAL)} and \wref{local:LOCALS}{LOCALS|}
+		and removed 13.6.2.2295 TO.
 
-	\item[B] Added \emph{ANS Forth} and \emph{ISO Forth} to
-		``Industry standards'' section of \xref{annex:bib}
-		(\textsf{X:foreward}).
+	\item[B] Bibliography (Annex \ref{annex:bib}):
+		Added \emph{ANS Forth} and \emph{ISO Forth} to
+		``Industry standards'' section.
 
-	\item[F] Added John Hayes' core test suite, changing the
-		introduction in the process. (\xref{annex:test})
-	\item[G] Added this Change Log.
-	\item[H] Original annex F (alphabetic list of words) is now
+	\item[F] Test Suite (Annex \ref{annex:test}):
+		Added John Hayes' core test suite, changing the
+		introduction in the process.
+
+	\item[G] Change Log (Annex \ref{annex:changelog}):
+		Added this Change Log.
+
+	\item[H] Word List (Annex \ref{annex:index}):
+		Original annex F (alphabetic list of words) is now
 		annex H.
 	\end{itemize}
 
-\item[To Do] ~\\
+\item[07.2]
+	Included changes approved at the Dagstuhl meeting,
+	13--14 September, 2007:
 	\begin{itemize}
-	\item Separate FP stack
+	\item \LaTeX{} source file now given in page footer.
+
+	\item Rename ``forward'' to ``foreword''.
+
+	\item \xref{process}:
+		Two new sentances (\textsf{ed07}).
+
+	\item \xref{members}:
+		Membership Rules (\textsf{ed07}).
+
+	\item[3] Usage Requirements:
+		Added \textsf{X:strucutres} and \textsf{X:throw-iors}
+		to table \xref{table:extensions}.
+
+	\item[4] Documentation requirements:
+		Added ambiguous condition for \textsf{X:structures}.
+
+	\item[6] Glossary:
+		\begin{enumerate}
+		\item Inline text is now in sans-serif
+		\item Removed state-smart note from \wref{core:TO}{TO}.
+		\end{enumerate}
+
+	\item[9] Exception word set:
+		Added \textsf{X:throw-iors} to table \xref{table:throw}.
+
+	\item[10] Facility word set:
+		\begin{enumerate}
+		\item Added \textsf{X:structures}:
+			\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
+			\wref{facility:END-STRUCTURE}{END-STRUCTURE},
+			\wref{facility:+FIELD}{+FIELD},
+			\wref{facility:CFIELD:}{CFIELD:} and
+			\wref{facility:FIELD:}{FIELD:}.
+		\item Tidied up source code of \textsf{X:ekeys} definitions.
+		\item \textsf{ed07}: Added \word[facility]{EKEY} ratioanle.
+		\end{enumerate}
+
+	\item[12] Floating word set: \\
+		Added \textsf{X:structures}:
+			\wref{floating:DFFIELD:}{DFFIELD:},
+			\wref{floating:FFIELD:}{FFIELD:}, and
+			\wref{floating:SFFIELD:}{SFFIELD:}.
+
+	\item[B] Bibliography (Annex \ref{annex:bib}):
+		\begin{enumerate}
+		\item \textsf{ed07}: Added books by Elizabeth Rather and Stephen Pelc.
+		\item \textsf{ed07}: Added URL for Thinking Forth.
+		\end{enumerate}
 	\end{itemize}
 
 \end{description}
