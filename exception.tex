@@ -240,55 +240,102 @@ throw code listed there.
 
 See: \xref[3.4.4 Possible actions on an ambiguous condition]{usage:ambiguous}.
 
-\begin{table}[ht]
-  \begin{center}
-	\caption{\word{THROW} code assignments}
-	\label{table:throw}
-	\small
-	\begin{tabular}{r@{}r@{}r@{}l@{~~}rrr@{}l}
-	\hline\hline
-%	\multicolumn{2}{c}{Code} & Reserved for & %a & b & c \\
-%	\multicolumn{2}{c}{Code} & \\
-	\multicolumn{3}{c}{Code} & Reserved for &\multicolumn{3}{c}{Code} & Reserved for \\
-	\hline
-	& -1&& \word{ABORT}						&&-30&& obsolescent feature \\
-	& -2&& \word{ABORTq}					&&-31&& \word[core]{toBODY} used on non-\word[core]{CREATE}d definition \\
-	& -3&& stack overflow					&&-32&& invalid name argument (e.g., \word[core]{TO} xxx) \\
-	& -4&& stack underflow					&&-33&& block read exception \\
-	& -5&& return stack overflow			&&-34&& block write exception \\
-	& -6&& return stack underflow			&&-35&& invalid block number \\
-	& -7&& do-loops nested too deeply during execution
-	 										&&-36&& invalid file position \\
-	& -8&& dictionary overflow				&&-37&& file I/O exception \\
-	& -9&& invalid memory address			&&-38&& non-existent file \\
-	&-10&& division by zero					&&-39&& unexpected end of file \\
-	&-11&& result out of range				&&-40&& invalid \word[core]{BASE} for floating point conversion \\
-	&-12&& argument type mismatch			&&-41&& loss of precision \\
-	&-13&& undefined word					&&-42&& floating-point divide by zero \\
-	&-14&& interpreting a compile-only word	&&-43&& floating-point result out of range \\
-	&-15&& invalid \word[tools]{FORGET}		&&-44&& floating-point stack overflow \\
-	&-16&& attempt to use zero-length string as a name
-											&&-45&& floating-point stack underflow \\
-	&-17&& pictured numeric output string overflow
-											&&-46&& floating-point invalid argument \\
-	&-18&& parsed string overflow			&&-47&& compilation word list deleted \\
-	&-19&& definition name too long			&&-48&& invalid \word[core]{POSTPONE} \\
-	&-20&& write to a read-only location	&&-49&& search-order overflow \\
-	&-21&& unsupported operation			&&-50&& search-order underflow \\
-	&	&& (e.g., \word[facility]{AT-XY} on a too-dumb terminal)
-											&&-51&& compilation word list changed \\
-	&-22&& control structure mismatch		&&-52&& control-flow stack overflow \\
-	&-23&& address alignment exception		&&-53&& exception stack overflow \\
-	&-24&& invalid numeric argument			&&-54&& floating-point underflow \\
-	&-25&& return stack imbalance			&&-55&& floating-point unidentified fault \\
-	&-26&& loop parameters unavailable		&&-56&& \word[core]{QUIT} \\
-	&-27&& invalid recursion				&&-57&& exception in sending or receiving a character \\
-	&-28&& user interrupt					&&-58&& \word[tools]{[IF]}, \word[tools]{[ELSE]}, or \word[tools]{[THEN]} exception \\
-	&-29&& compiler nesting					\\
-	\hline\hline
-	\end{tabular}
-  \end{center}
+\begin{table}[!ht]
+	\begin{center}
+		\caption{\word{THROW} code assignments}
+		\label{table:throw}
+		\addtolength{\linewidth}{-1.7cm}
+		\small
+		\begin{tabular}{p{\linewidth}}
+		\hline\hline
+		\makebox[0.5\linewidth][l]{Code ~Reserved for}~~Code ~Reserved for \\\hline
+		\vspace*{-5ex}
+		\newcommand{\throwdef}[2]{\makebox[1.6em][r]{#1}\hspace{1em}#2\newline}
+		\begin{multicols}{2}\small
+			\throwdef{-1}{\word{ABORT}}
+			\throwdef{-2}{\word{ABORTq}}
+			\throwdef{-3}{stack overflow}
+			\throwdef{-4}{tack underflow}
+			\throwdef{-5}{return stack overflow}
+			\throwdef{-6}{return stack underflow}
+			\throwdef{-7}{do-loops nested too deeply during execution}
+			\throwdef{-8}{dictionary overflow}
+			\throwdef{-9}{invalid memory address}
+			\throwdef{-10}{division by zero}
+			\throwdef{-11}{result out of range}
+			\throwdef{-12}{argument type mismatch}
+			\throwdef{-13}{undefined word}
+			\throwdef{-14}{interpreting a compile-only word}
+			\throwdef{-15}{invalid \word[tools]{FORGET}}
+			\throwdef{-16}{attempt to use zero-length string as a name}
+			\throwdef{-17}{pictured numeric output string overflow}
+			\throwdef{-18}{parsed string overflow}
+			\throwdef{-19}{definition name too long}
+			\throwdef{-20}{write to a read-only location}
+			\throwdef{-21}{unsupported operation}
+			\throwdef{}{(e.g., \word[facility]{AT-XY} on a too-dumb terminal)}
+			\throwdef{-22}{control structure mismatch}
+			\throwdef{-23}{address alignment exception}
+			\throwdef{-24}{invalid numeric argument}
+			\throwdef{-25}{return stack imbalance}
+			\throwdef{-26}{loop parameters unavailable}
+			\throwdef{-27}{invalid recursion}
+			\throwdef{-28}{user interrupt}
+			\throwdef{-29}{compiler nesting}
+			\throwdef{-30}{obsolescent feature}
+			\throwdef{-31}{\word[core]{toBODY} used on non-\word[core]{CREATE}d definition}
+			\throwdef{-32}{invalid name argument (e.g., \word[core]{TO} xxx)}
+			\throwdef{-33}{block read exception}
+			\throwdef{-34}{block write exception}
+			\throwdef{-35}{invalid block number}
+			\throwdef{-36}{invalid file position}
+			\throwdef{-37}{file I/O exception}
+			\throwdef{-38}{non-existent file}
+			\throwdef{-39}{unexpected end of file}
+			\throwdef{-40}{invalid \word[core]{BASE} for floating point conversion}
+			\throwdef{-41}{loss of precision}
+			\throwdef{-42}{floating-point divide by zero}
+			\throwdef{-43}{floating-point result out of range}
+			\throwdef{-44}{floating-point stack overflow}
+			\throwdef{-45}{floating-point stack underflow}
+			\throwdef{-46}{floating-point invalid argument}
+			\throwdef{-47}{compilation word list deleted}
+			\throwdef{-48}{invalid \word[core]{POSTPONE}}
+			\throwdef{-49}{search-order overflow}
+			\throwdef{-50}{search-order underflow}
+			\throwdef{-51}{compilation word list changed}
+			\throwdef{-52}{control-flow stack overflow}
+			\throwdef{-53}{exception stack overflow}
+			\throwdef{-54}{floating-point underflow}
+			\throwdef{-55}{floating-point unidentified fault}
+			\throwdef{-56}{\word[core]{QUIT}}
+			\throwdef{-57}{exception in sending or receiving a character}
+			\throwdef{-58}{\word[tools]{[IF]}, \word[tools]{[ELSE]}, or \word[tools]{[THEN]} exception}
+		\cbstart\uline{% x:throw-iors
+			\throwdef{-59}{\word[memory]{ALLOCATE}}
+			\throwdef{-60}{\word[memory]{FREE}}
+			\throwdef{-61}{\word[memory]{RESIZE}}
+			\throwdef{-62}{\word[file]{CLOSE-FILE}}
+			\throwdef{-63}{\word[file]{CREATE-FILE}}
+			\throwdef{-64}{\word[file]{DELETE-FILE}}
+			\throwdef{-65}{\word[file]{FILE-POSITION}}
+			\throwdef{-66}{\word[file]{FILE-SIZE}}
+			\throwdef{-67}{\word[file]{FILE-STATUS}}
+			\throwdef{-68}{\word[file]{FLUSH-FILE}}
+			\throwdef{-69}{\word[file]{OPEN-FILE}}
+			\throwdef{-70}{\word[file]{READ-FILE}}
+			\throwdef{-71}{\word[file]{READ-LINE}}
+			\throwdef{-72}{\word[file]{RENAME-FILE}}
+			\throwdef{-73}{\word[file]{REPOSITION-FILE}}
+			\throwdef{-74}{\word[file]{RESIZE-FILE}}
+			\throwdef{-75}{\word[file]{WRITE-FILE}}
+			\throwdef{-76}{\word[file]{WRITE-LINE}}
+		}\cbend
+		\end{multicols} \\[-2.2ex] \hline\hline
+		\end{tabular}
+	\end{center}
 \end{table}
+
 
 \subsection{Exception handling} % 9.3.6
 
