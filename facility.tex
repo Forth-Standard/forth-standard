@@ -12,7 +12,35 @@ None.
 
 \section{Additional usage requirements} % 10.3
 
-\subsection{Character types} % 10.3.1
+\subsection{Data types} % 10.3.1
+
+\place{X:structures}{Append table \ref{facility:types} to table \ref{table:datatypes}.}
+
+\begin{table}[h]
+  \begin{center}
+	\caption{Data types}
+	\label{facility:types}
+	\begin{tabular}{llr}
+	\hline\hline
+	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
+	\hline
+	\place{X:strutures}{\emph{struct-sys}}
+	& \place{X:strutures}{data structures}
+	& \place{X:strutures}{implementation dependent} \\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+\subsubsection{Structure type} % 10.3.1.1
+
+\place{X:structures}{%
+The implementation-dependent data generated and upon beginning to
+compile a data structure, with \word{BEGIN-STRUCTURE}, and consumed
+at its close, with \word{END-STRUCTURE}, is represented by the
+symbol \param{struct-sys} thoughout this Standard.}
+
+\subsubsection{Character types} % 10.3.1.2
 Programs that use more than seven bits of a character by
 \word{EKEY} have an environmental dependency.
 
@@ -58,6 +86,13 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 \begin{itemize}
 \item \wref{facility:AT-XY}{AT-XY} operation can't be performed on
 	user output device.
+
+\item \place{X:structures}{%
+	A \param{name} defined by
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
+	is executed before the coresponding
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}
+	has been executed.}
 \end{itemize}
 
 \subsubsection{Other system documentation} % 10.4.1.3
@@ -191,6 +226,224 @@ to provide all of the Facility and Facility Extensions word sets.
 \subsection{Facility extension words} % 10.6.2
 \extended
 
+% -------------------------------------
+
+\begin{worddef*}{}{+FIELD}[plus-field][X:structures]
+\item \stack{n_1 n_2 "<spaces>name"}{n_3}
+
+	Skip leading space delimiters.  Parse \param{name} delimited
+	by a space.  Create a definition for \param{name} with the
+	execution semantics defined below.  Return \param{n_3} =
+	\param{n_1} + \param{n_2} where \param{n_1} is the offset
+	in the data structure before \word{+FIELD} executes, and
+	\param{n_2} is the size of the data to be added to the data
+	structure. \param{n_1} and \param{n_2} are in address units.
+
+\execute[name]
+	\stack{addr_1}{addr_2}
+
+	Add \param{n_1} to \param{addr_1} giving \param{addr_2}.
+
+\see \wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
+	\wref{facility:CFIELD:}{CFIELD:},
+	\wref{facility:FIELD:}{FIELD:},
+	\wref{floating:FFIELD:}{FFIELD:},
+	\wref{floating:SFFIELD:}{SFFIELD:} and
+	\wref{floating:DFFIELD:}{DFFIELD:}
+
+	\begin{defer}
+	\rationale
+		\word{+FIELD} is not required to align items.  This is
+		deliberate, and allows the construction of unaligned data
+		structures for communication with external elements such
+		as a hardware register map or protocol packet.
+		Field alignment has been left to the appropriate
+		\emph{x}\texttt{FIELD:} definition.
+
+	\implementation
+		\defertext{Create a new field within a structure definition
+			of size \param{n} bytes.}
+
+		\word{:} +FIELD\tab\word{bs} n <"name"> -- ; Exec: addr -- 'addr \\
+		\tab \word{CREATE} \word{OVER} \word{,} \word{+} \\
+		\tab \word{DOES} \word{@} \word{+} \\
+		\word{;}
+	\end{defer}
+\end{worddef*}
+
+
+\begin{worddef*}{}{BEGIN-STRUCTURE}[][X:structures]
+\item \stack{"<spaces>name"}{struct-sys 0}
+
+	Skip leading space delimiters. Parse \param{name} delimited
+	by a space. Create a definition for \param{name} with the
+	execution semantics defined below.  Return a \param{struct-sys}
+	(zero or more implementation dependent items) that will be
+	used by \word{END-STRUCTURE} and an initial offset of 0.
+
+\execute[name]
+	\stack{}{+n}
+
+	\param{+n} is the size in memory expressed in address units of
+	the data structure.  An ambiguous condition exists if
+	\param{name} is executed prior to the associated
+	\word{END-STRUCTURE} being executed.
+
+\see \wref{facility:+FIELD}{+FIELD} and
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+
+	\begin{defer}
+	\rationale
+		There are two schools of though regarding named data
+		structures: name first and name last.  The name last
+		school can define a named data structure as follows:
+
+		\begin{quote}\ttfamily
+		0 \tab[11.5] \word{bs} initial total byte count \\
+		\tab 1 \word{CELLS} \word{+FIELD} p.x	\tab \word{bs} A single cell filed named p.x \\
+		\tab 1 \word{CELLS} \word{+FIELD} p.y   \tab \word{bs} A signle cell field named p.y \\
+		\word{CONSTANT} point \tab[3.8] \word{bs} save strucutre size
+		\end{quote}
+
+		While the name first school would define the same data
+		structure as:
+
+		\begin{quote}\ttfamily
+		\word{BEGIN-STRUCTURE} point \tab[-.3] \word{bs} create the named strucutre \\
+		\tab 1 \word{CELLS} \word{+FIELD} p.x	\tab \word{bs} A signle cell filed named p.x \\
+		\tab 1 \word{CELLS} \word{+FIELD} p.y   \tab \word{bs} A signle cell field named p.y \\
+		\word{END-STRUCTURE}
+		\end{quote}
+
+		Although many systems provide a name first structure there
+		is no common practice to the words used.  The words
+		\word{BEGIN-STRUCTURE} and \word{END-STRUCTURE} have been
+		defied as a means of providing a portable notation that does
+		not conflict with existing systems.
+
+		The field defining words (\emph{x}\texttt{FIELD:} and
+		\word{+FIELD}) are defined so they can be used by both
+		schools.  Compatibility between the two schools comes from
+		defining a new stack item \param{struct-sys}, which is
+		implementation dependent and can be 0 or more cells.
+		The name first school would provide an address (\param{addr})
+		as the \param{struct-sys} paramater, while the name last
+		school would defined \param{struct-sys} as being empty.
+
+		Executing the name of the data structure, retuns the size of
+		the data strcutre.  This allows the data strcture to be used
+		within another data structure:
+
+		\begin{quote}\ttfamily
+		\word{BEGIN-STRUCTURE} point \tab[-0.1] \word{bs} -- a-addr 0 ; -- lenp \\
+		\tab \word{FIELD:} p.x		\tab[5.5] \word{bs} -- a-addr cell \\
+		\tab \word{FIELD:} p.y      \tab[5.5] \word{bs} -- a-addr cell*2 \\
+		\word{END-STRUCTURE} \\
+
+		\word{BEGIN-STRUCTURE} rect  \tab[1.3]\word{bs} -- a-addr 0 ; -- lenr \\
+		\tab point \word{+FIELD} r.tlhc   \tab \word{bs} -- a-addr cell*2 \\
+		\tab point \word{+FIELD} r.brhc   \tab \word{bs} -- a-addr cell*4 \\
+		\word{END-STRUCTURE}
+		\end{quote}
+
+	\item[Alignment]
+		In practice, structures are used for two different purposes
+		with incompatible requirements:
+		\begin{enumerate}
+		\item For collecting related internal-use data into a
+			convenient ``package'' that can be referred to by a
+			single ``handle''. For this use, alignment is important,
+			so that efficient native fetch and store instructions
+			can be used.
+
+		\item For mapping external data structures like hardware
+			register maps and protocol packets. For this use,
+			automatic alignment is inappropriate, because the
+			alignment of the external data structure often doesn't
+			match the rules for a given processor.
+		\end{enumerate}
+
+		Many languages cater for the first use, but ignore the
+		second.  This leads to various customised solutions, usage
+		requirements, portability problems, bugs, etc.
+		\word{+FIELD} is defined to be non-aligning, while the
+		named field defining words (\emph{x}\texttt{FIELD:}) are
+		aligning.  This is intentional and allows for both uses.
+
+		The standard currently defines an aligned filed defining
+		word for each of the standard data types:
+
+		\begin{center}
+			\begin{tabular}{rl}
+		\word{CFIELD:}				& a character \\
+		\word{FIELD:}				& a native integer (single cell) \\
+		\word[floating]{FFIELD:}	& a native float \\
+		\word[floating]{SFFIELD:}	& a 32 bit float \\
+		\word[floating]{DFFIELD:}	& a 64 bit float
+			\end{tabular}
+		\end{center}
+
+		Although this is a sufficient set, most systems provide
+		facilities to define field defining words for standard
+		data types. Note that these also satisfy the alignment
+		requirements of the host system, whereas \word{+FIELD}
+		does not.
+
+	\item[Future]
+		The following cannot be defined until the required addressing
+		has been defined. The names should be considered reserved
+		until then.
+
+		\begin{center}
+			\begin{tabular}{rl}
+			\texttt{BFIELD:} & 1 byte (8 bit) field \\
+			\texttt{WFIELD:} & 16 bit field \\
+			\texttt{LFIELD:} & 32 bit field \\
+			\texttt{XFIELD:} & 64 bit field \\
+			\end{tabular}
+		\end{center}
+
+	\implementation
+		\defertext{Begin definition of a new structure. Use in the
+		form \word{BEGIN-STRUCTURE} \arg{name}.  At run time
+		\arg{name} returns the size of the structure.}
+
+		\word{:} BEGIN-STRUCTURE\tab\word{bs} -- addr 0 ; -- size \\
+		\tab \word{CREATE} \\
+		\tab[2] \word{HERE} 0  0 \word{,} \tab[2] \word{bs}  mark stack, lay dummy \\
+		\tab \word{DOES} \word{@} \tab[6]\word{bs} -- rec-len \\
+		\word{;}
+	\end{defer}
+\end{worddef*}
+
+
+\begin{worddef*}{}{CFIELD:}[c-field-colon][X:structures]
+\item \stack{}{}
+
+	The semantics of \word{CFIELD:} are identical to the
+	execution semantics of the phrase:
+	\begin{quote}\ttfamily
+		1 \word{CHARS} \word{+FIELD}
+	\end{quote}
+
+\see \wref{facility:+FIELD}{+FIELD},
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+
+	\begin{defer}
+	\implementation
+		\defertext{Create a new field within a structure definition
+		of size a character.}
+
+		\word{:} cfield:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\tab 1 \word{CHARS} \word{+FIELD} \\
+		\word{;}
+	\end{defer}
+\end{worddef*}
+
+% -------------------------------------
+
 \begin{worddef}{1305}{EKEY}[e-key]
 \item \stack{}{u}
 
@@ -202,36 +455,41 @@ to provide all of the Facility and Facility Extensions word sets.
 
 	\begin{defer}
 	\rationale % A.10.6.2.1305 EKEY
-		\word{EKEY} provides a standard word to access a system-dependent
-		set of ``raw'' keyboard events, including events corresponding
-		to members of the standard character set, events corresponding
-		to other members of the implementation-defined character set,
-		and keystrokes that do not correspond to members of the
-		character set.
+		\word{EKEY} provides a standard word to access a
+		system-dependent set of ``raw'' keyboard events, including
+		events corresponding to members of the standard character
+		set, events corresponding to other members of the
+		implementation-defined character set, and keystrokes that
+		do not correspond to members of the character set.
 
 		\word{EKEY} assumes no particular numerical correspondence
-		between particular event code values and the values representing
-		standard characters. On some systems, this may allow two
-		separate keys that correspond to the same standard character
-		to be distinguished from one another.
+		between particular event code values and the values
+		representing standard characters. On some systems, this may
+		allow two separate keys that correspond to the same standard
+		character to be distinguished from one another.
+		\place{ed07}{A standard program may only interpret the
+		results of \word{EKEY} via the translation words provided
+		for that purpose (\word{EKEYtoCHAR} and \word{EKEYroFKEY}).}
 
-		In systems that combine both keyboard and mouse events into a
-		single ``event stream'', the single number returned by
+		In systems that combine both keyboard and mouse events into
+		a single ``event stream'', the single number returned by
 		\word{EKEY} may be inadequate to represent the full range of
-		input possibilities. In such systems, a single ``event record''
-		may include a time stamp, the x,y coordinates of the mouse
-		position, the keyboard state, and the state of the mouse
-		buttons. In such systems, it might be appropriate for \word{EKEY}
-		to return the address of an ``event record'' from which the
-		other information could be extracted.
+		input possibilities. In such systems, a single ``event
+		record'' may include a time stamp, the x,y coordinates of
+		the mouse position, the keyboard state, and the state of
+		the mouse buttons. In such systems, it might be appropriate
+		for \word{EKEY} to return the address of an ``event record''
+		from which the other information could be extracted.
 
-		\place{X:ekeys}{While the standard specifies a timing
-		relationship between EKEY?, KEY?, EKEY and KEY, one
-		way to avoid any potential problems in this respect is
-		as follows: If you use EKEY at all, use only EKEY and
-		EKEY?; when you want a character and nothing else,
-		drop all EKEY results that are not characters (as
-		recognized by EKEY>CHAR).}
+		\place{ed07}{While the standard specifies a timing
+		relationship between \word{EKEYq}, \word{KEYq}, \word{EKEY}
+		and \word{KEY}, some programmers find that confusing.
+		One way to avoid such confusion is to use only one pairing
+		in a program (for each input stream).  Use \word{KEYq} and
+		\word{KEY} where the application does not require access to
+		anything other than the standard character set.  Use
+		\word{EKEYq} and \word{EKEY} when extended functionality is
+		required.}
 
 		Also, consider a hypothetical Forth system running under
 		MS-DOS on a PC-compatible computer. Assume that the
@@ -272,17 +530,17 @@ to provide all of the Facility and Facility Extensions word sets.
 			which executes the MS-DOS ``Check STDIN Status'' system call
 			(Interrupt 21h, Function 0Bh).
 
-			\setwordlist{core}\ttfamily
+			\ttfamily
 			\begin{tabbing}
 			\tab \= \tab \= \tab \= \tab \= \hspace{7em} \= \kill
-			\word{:} \word[facility]{EKEYq}~ \word{p} -- flag )~
+			\word{:} \word{EKEYq}~ \word{p} -- flag )~
 				DOS-KEY?~ \word{0ne} \word{;} \\[\parskip]
 
-			\word{:} \word[facility]{EKEY}~ \word{p} -- u )~
+			\word{:} \word{EKEY}~ \word{p} -- u )~
 				DOS-KEY~ \word{qDUP} \word{0=} \word{IF}~
 					DOS-KEY 256 \word{+}~ \word{THEN} \word{;} \\[\parskip]
 
-			\+ \word{:} \word[facility]{EKEYtoCHAR} \word{p} u -- u false | char true ) \\
+			\+ \word{:} \word{EKEYtoCHAR} \word{p} u -- u false | char true ) \\
 				\+ \word{DUP} 255 \word{more} \word{IF} 		\>\>\>\>	\word{p} u ) \\
 					\word{DUP} 259 \word{=} \word{IF} 		\>\>\>		\word{bs} 259 is Ctrl-@ (ASCII NUL) \\
 					\> \word{DROP} 0 \word{TRUE} \word{EXIT}\>\>		\word{bs} so replace with character \\
@@ -292,10 +550,10 @@ to provide all of the Facility and Facility Extensions word sets.
 
 			\word{VARIABLE} PENDING-CHAR ~ -1 PENDING-CHAR \word{!} \\[\parskip]
 
-			\+ \word{:} \word[facility]{KEYq}~ \word{p} -- flag ) \\
+			\+ \word{:} \word{KEYq}~ \word{p} -- flag ) \\
 				\+ PENDING-CHAR \word{@} \word{0less} \word{IF} \\
-					\+ \word{BEGIN}~ \word[facility]{EKEYq} \word{WHILE} \\
-						\+ \word[facility]{EKEY} \word[facility]{EKEYtoCHAR} \word{IF} \\
+					\+ \word{BEGIN}~ \word{EKEYq} \word{WHILE} \\
+						\+ \word{EKEY} \word{EKEYtoCHAR} \word{IF} \\
 						\-	PENDING-CHAR \word{!}~ \word{TRUE} \word{EXIT} \\
 					\- \word{THEN} \word{DROP} \\
 				\- \word{REPEAT}~ \word{FALSE} \word{EXIT} \\
@@ -304,7 +562,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 			\+ \word{:} \word{KEY}~ \word{p} -- char ) \\
 				\+ PENDING-CHAR \word{@} \word{0less} \word{IF} \\
-					\word{BEGIN}~ \word[facility]{EKEY}~ \word[facility]{EKEYtoCHAR} \word{0=} \word{WHILE} \\
+					\word{BEGIN}~ \word{EKEY}~ \word{EKEYtoCHAR} \word{0=} \word{WHILE} \\
 					\> \word{DROP} \\
 				\-	\word{REPEAT}~ \word{EXIT} \\
 			\- \word{THEN}~ PENDING-CHAR \word{@}~ -1 PENDING-CHAR \word{!} \\
@@ -312,12 +570,11 @@ to provide all of the Facility and Facility Extensions word sets.
 			\end{tabbing}
 		\end{quote}
 
-		\setwordlist{facility}
 		This is a full-featured implementation, providing the
 		application program with an easy way to either handle
 		non-character events (with \word{EKEY}), or to ignore them
 		and to only consider ``real'' characters (with
-		\word[core]{KEY}).
+		\word{KEY}).
 
 		Note that \word{EKEY} maps scan codes from 0 to 255 into
 		numbers from 256 to 511. \word{EKEY} maps the number 259,
@@ -343,10 +600,10 @@ to provide all of the Facility and Facility Extensions word sets.
 		function 7 for the scan code byte. For example:
 
 		\begin{quote}
-			\setwordlist{core}\ttfamily
+			\ttfamily
 			\begin{tabbing}
 			\tab \= \tab \= \tab \= \tab \= \hspace{7em} \= \kill
-			\+ \word{:} \word[facility]{EKEY}~ \word{p} -- u ) \\
+			\+ \word{:} \word{EKEY}~ \word{p} -- u ) \\
 				\+ DOS-KEY-FUNCTION-8~ \word{qDUP}~ \word{0=}~ \word{IF} \\
 					DOS-KEY-FUNCTION-7~ \word{DUP} 3~ \word{=}~ \word{IF} \\
 					\> \word{DROP} 0~ \word{ELSE}~ 256 \word{+}\\
@@ -355,7 +612,6 @@ to provide all of the Facility and Facility Extensions word sets.
 			\word{;}
 			\end{tabbing}
 		\end{quote}
-		\setwordlist{facility}
 
 		Of course, if the Forth implementor chooses to pass Ctrl-C
 		through to the program, without using it for its usual
@@ -365,24 +621,22 @@ to provide all of the Facility and Facility Extensions word sets.
 		output operations).
 
 		A Forth system might also choose a simpler implementation of
-		\word[core]{KEY}, without implementing \word{EKEY}, as follows:
+		\word{KEY}, without implementing \word{EKEY}, as follows:
 
-		\setwordlist{core}
 		\begin{quote}\ttfamily
 			\word{:} \word{KEY}~~ \word{p} -- char )~
 				DOS-KEY~
 			\word{;}
 
-			\word{:} \word[facility]{KEYq}~ \word{p} -- flag )~
+			\word{:} \word{KEYq}~ \word{p} -- flag )~
 				DOS-KEY?~ \word{0ne}~
 			\word{;}
 		\end{quote}
-		\setwordlist{facility}
 
 		The disadvantages of the simpler version are:
 
 		\begin{enumerate}
-		\item An application program that uses \word[core]{KEY},
+		\item An application program that uses \word{KEY},
 			expecting to receive only valid characters, might receive a
 			sequence of bytes (e.g., a zero byte followed by a byte with
 			the same numerical value as the letter ``A'' that appears to
@@ -391,7 +645,7 @@ to provide all of the Facility and Facility Extensions word sets.
 			character.
 
 		\item An application program that wishes to handle non-character
-			events will have to execute \word[core]{KEY} twice if it
+			events will have to execute \word{KEY} twice if it
 			returns zero the first time. This might appear to be a
 			reasonable and easy thing to do. However, such code is not
 			portable to other systems that do not use a zero byte as an
@@ -440,7 +694,7 @@ to provide all of the Facility and Facility Extensions word sets.
 % -------------------------------------------------------------------
 
 
-\begin{worddef*}[EKEYtoFKEY]{}{EKEY>FKEY}[e-key-to-f-key][X:ekeys]
+\begin{worddef}[EKEYtoFKEY]{}{EKEY>FKEY}[e-key-to-f-key][X:ekeys]%*
 \item \stack{u_1}{u_2 f}
 
 	If the keyboard event \param{u_1} corresponds to a keypress in the
@@ -607,7 +861,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\{ \word{CR} \word{.q} Please press <a>" \word{EKEY} \word{EKEYtoFKEY} \word{NIP} \word{SWAP} \word{EKEYtoCHAR} \\
 		\tab -> \word{FALSE} \word{CHAR} a \word{TRUE} \}
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
 
 % -------------------------------------------------------------------
@@ -642,11 +896,55 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{defer}
 \end{worddef}
 
+% -------------------------------------
+
+\begin{worddef*}{}{END-STRUCTURE}[][X:structures]
+\item \stack{struct-sys +n}{}
+
+	Terminate definition of a structure started by
+	\word{BEGIN-STRUCTURE}.
+
+\see \wref{facility:+FIELD}{+FIELD} and
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}.
+
+	\begin{defer}
+	\implementation
+		\defertext{Terminate definition of a structure.}
+
+		\word{:} END-STRUCTURE\tab\word{bs} addr n -- \\
+		\tab \word{SWAP} \word{!} \word{;} \tab[4.2]\word{bs} set len
+	\end{defer}
+\end{worddef*}
+
+
+\begin{worddef*}{}{FIELD:}[field-colon][X:structures]
+\item \stack{}{}
+
+	The semantics of \word{FIELD:} are identical to the
+	execution semantics of the phrase:
+	\begin{quote}\ttfamily
+		\word{ALIGNED} 1 \word{CELLS} \word{+FIELD}
+	\end{quote}
+
+\see \wref{facility:+FIELD}{+FIELD},
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+
+	\begin{defer}
+	\implementation
+		\defertext{Create a new field within a structure definition
+		of size a cell. The field is aligned.}
+
+		\word{:} field:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\tab \word{ALIGNED} 1 \word{CELLS} \word{+FIELD} \\
+		\word{;}
+	\end{defer}
+
+\end{worddef*}
 
 % -------------------------------------------------------------------
 
-
-\begin{worddef*}{}{K-ALT-MASK}[][X:ekeys]
+\begin{worddef}{}{K-ALT-MASK}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Mask for the \textsc{Alt} key, that can be \word{OR}ed with the
@@ -656,10 +954,10 @@ to provide all of the Facility and Facility Extensions word sets.
 
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-CTRL-MASK}[][X:ekeys]
+\begin{worddef}{}{K-CTRL-MASK}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Mask for the \textsc{Ctrl} key, that can be \word{OR}ed with the
@@ -669,367 +967,262 @@ to provide all of the Facility and Facility Extensions word sets.
 
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-DELETE}[][X:ekeys]
+\begin{worddef}{}{K-DELETE}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``Delete'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-DOWN}[][X:ekeys]
+\begin{worddef}{}{K-DOWN}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor down'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-END}[][X:ekeys]
+\begin{worddef}{}{K-END}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``End'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F1}[k-f-1][X:ekeys]
+\begin{worddef}{}{K-F1}[k-f-1][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F1'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F10}[k-f-10][X:ekeys]
+\begin{worddef}{}{K-F10}[k-f-10][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F10'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F11}[k-f-11][X:ekeys]
+\begin{worddef}{}{K-F11}[k-f-11][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F11'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F12}[k-f-12][X:ekeys]
+\begin{worddef}{}{K-F12}[k-f-12][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F12'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F2}[k-f-2][X:ekeys]
+\begin{worddef}{}{K-F2}[k-f-2][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F2'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F3}[k-f-3][X:ekeys]
+\begin{worddef}{}{K-F3}[k-f-3][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F3'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F4}[k-f-4][X:ekeys]
+\begin{worddef}{}{K-F4}[k-f-4][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F4'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F5}[k-f-5][X:ekeys]
+\begin{worddef}{}{K-F5}[k-f-5][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F5'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F6}[k-f-6][X:ekeys]
+\begin{worddef}{}{K-F6}[k-f-6][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F6'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F7}[k-f-7][X:ekeys]
+\begin{worddef}{}{K-F7}[k-f-7][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F7'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F8}[k-f-8][X:ekeys]
+\begin{worddef}{}{K-F8}[k-f-8][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F8'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-F9}[k-f-9][X:ekeys]
+\begin{worddef}{}{K-F9}[k-f-9][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F9'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-HOME}[][X:ekeys]
+\begin{worddef}{}{K-HOME}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``home'' or ``Pos1'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-INSERT}[][X:ekeys]
+\begin{worddef}{}{K-INSERT}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``Insert'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-LEFT}[][X:ekeys]
+\begin{worddef}{}{K-LEFT}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor left'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-NEXT}[][X:ekeys]
+\begin{worddef}{}{K-NEXT}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``PgDn'' (Page Down) or ``Next'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-PRIOR}[][X:ekeys]
+\begin{worddef}{}{K-PRIOR}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``PgUp'' (Page Up) or ``Prior'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-RIGHT}[][X:ekeys]
+\begin{worddef}{}{K-RIGHT}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor right'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-SHIFT-MASK}[][X:ekeys]
+\begin{worddef}{}{K-SHIFT-MASK}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Mask for the \textsc{Shift} key, that can be \word{OR}ed with the
@@ -1039,24 +1232,19 @@ to provide all of the Facility and Facility Extensions word sets.
 
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{K-UP}[][X:ekeys]
+\begin{worddef}{}{K-UP}[][X:ekeys]%*
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor up'' key.
 
-%\note The keyboard may lack some of the keys, or the capability to
-%	report them. Programs should be written such that they also work
-%	(although less conveniently or with less functionality) if these
-%	key numbers cannot be produced.
-
 \see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
 	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
-\end{worddef*}
+\end{worddef}
 
 
 % -------------------------------------------------------------------
