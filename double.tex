@@ -37,11 +37,12 @@ Refer to \ref{rat:types} for a discussion of data types in Forth.
 
 \section{Introduction} % 8.1
 
-Sixteen-bit Forth systems often use double-length numbers. However, many
-Forths on small embedded systems do not, and many users of Forth on systems
-with a cell size of 32 bits or more find that the use of double-length
-numbers is much diminished. Therefore, the words that manipulate
-double-length entities have been placed in this optional word set.
+Sixteen-bit Forth systems often use double-length numbers. However,
+many Forths on small embedded systems do not, and many users of Forth
+on systems with a cell size of 32 bits or more find that the use of
+double-length numbers is much diminished. Therefore, the words that
+manipulate double-length entities have been placed in this optional
+word set.
 
 \section{Additional terms and notation} % 8.2
 
@@ -74,7 +75,9 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 
 \subsection{Text interpreter input number conversion} % 8.3.2
 
-When the text interpreter processes a number that is immediately
+When the text interpreter processes a number\place{x:numer-prefix}{,
+except a \arg{cnum},}
+that is immediately
 followed by a decimal point and is not found as a definition name,
 the text interpreter shall convert it to a double-cell number.
 
