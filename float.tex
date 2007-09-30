@@ -102,26 +102,30 @@ by consensus in the Technical Committee:
 
 \subsection{Notation} % 12.2.2
 
-\subsubsection{Numeric notation} % 12.2.2.1
+\cbstart\marginpar{\tiny x:number-prefix}
+\subsubsection{\sout{Numeric notation}} % 12.2.2.1
 
-The following notation is used to define the syntax of the external
-representation of floating-point numbers:
+\sout{The following notation is used to define the syntax of the external
+representation of floating-point numbers:}
 
-Each component of a floating-point number is defined with a rule
+\begin{itemize}
+\item \sout{Each component of a floating-point number is defined with a rule
 consisting of the name of the component (italicized in angle-brackets,
-e.g., \arg{sign}, the characters \textsf{:=} and a concatenation of
-tokens and metacharacters;
+e.g., \arg{sign}), the characters \textsf{:=} and a concatenation of
+tokens and metacharacters;}
 
-Tokens may be literal characters (in bold face, e.g., \texttt{E}) or
-rule names in angle brackets (e.g., \arg{digit}; The metacharacter *
-is used to specify zero or more occurrences of the preceding token
-(e.g., \arg{digit}*);
+\item \sout{Tokens may be literal characters (in bold face, e.g., \textbf{E}) or
+rule names in angle brackets (e.g., \arg{digit});}
 
-Tokens enclosed with [ and ] are optional (e.g., [\arg{sign}]);
+\item \sout{The metacharacter * is used to specify zero or more occurrences of
+the preceding token (e.g., \arg{digit}*);}
 
-Vertical bars separate choices from a list of tokens enclosed with
-braces (e.g., \{ \texttt{+} {\textbar} \texttt{-} \}).
+\item \sout{Tokens enclosed with [ and ] are optional (e.g., [\arg{sign}]);}
 
+\item \sout{Vertical bars separate choices from a list of tokens enclosed with
+braces (e.g., \{ \textbf{+} {\textbar} \textbf{-} \}).}
+\end{itemize}
+\cbend
 
 \subsubsection{Stack notation} % 12.2.2.2
 
@@ -220,7 +224,7 @@ six items has an environmental dependency.
 
 \subsection{Environmental queries} % 12.3.4
 
-Append table \ref{float:env} table \ref{table:env}.
+Append table \ref{float:env} to table \ref{table:env}.
 
 See: \xref[3.2.6 Environmental queries]{usage:env}.
 
@@ -301,16 +305,16 @@ this form:
 \begin{center}
 \begin{tabular}{r@{ \textsf{:=} }l}
 Convertible string  & \arg{significand}\arg{exponent} \\
-  \arg{significand} & [\arg{sign}]\arg{digits}[\texttt{.}\arg{digits0}] \\
-     \arg{exponent} & E[\arg{sign}]\arg{digits0} \\
-         \arg{sign} & \{ \texttt{+} {\textbar} \texttt{-} \} \\
+  \arg{significand} & [\arg{sign}]\arg{digits}[\textbf{.}\arg{digits0}] \\
+     \arg{exponent} & \textbf{E}[\arg{sign}]\arg{digits0} \\
+         \arg{sign} & \{ \textbf{+} {\textbar} \textbf{-} \} \\
        \arg{digits} & \arg{digit}\arg{digits0} \\
       \arg{digits0} & \arg{digit}* \\
-        \arg{digit} & \{ \texttt{0} {\textbar} \texttt{1} {\textbar}
-						 \texttt{2} {\textbar} \texttt{3} {\textbar}
-						 \texttt{4} {\textbar} \texttt{5} {\textbar}
-						 \texttt{6} {\textbar} \texttt{7} {\textbar}
-						 \texttt{8} {\textbar} \texttt{9} \} \\
+        \arg{digit} & \{ \textbf{0} {\textbar} \textbf{1} {\textbar}
+						 \textbf{2} {\textbar} \textbf{3} {\textbar}
+						 \textbf{4} {\textbar} \textbf{5} {\textbar}
+						 \textbf{6} {\textbar} \textbf{7} {\textbar}
+						 \textbf{8} {\textbar} \textbf{9} \} \\
 \end{tabular}
 \end{center}
 
@@ -409,14 +413,11 @@ point.
 \item no additional requirements.
 \end{itemize}
 
-\begin{comment}
-%\subsubsection{\place{X:fp-stack}{Environmental restrictions}} % 12.4.1.4
 \subsubsection{Environmental restrictions} % 12.4.1.4
 
 \begin{itemize}
 \item \place{X:fp-stack}{Keeping floating-point numbers on the data stack.}
 \end{itemize}
-\end{comment}
 
 \subsection{Program documentation} % 12.4.2
 
@@ -496,14 +497,14 @@ word sets.
 	\begin{center}
 		\begin{tabular}{r@{ \textsf{:=} }l}
 							& \arg{significand}[\arg{exponent}] \\
-		\arg{significand}	& [\arg{sign}]\{\arg{digits}[\texttt{.}\arg{digits0}]
-								{\textbar} \texttt{.}\arg{digits} \} \\
+		\arg{significand}	& [\arg{sign}]\{\arg{digits}[\textbf{.}\arg{digits0}]
+								{\textbar} \textbf{.}\arg{digits} \} \\
 		\arg{exponent}		& \arg{marker}\arg{digits0} \\
 		\arg{marker}		& \{\arg{e-form} {\textbar} \arg{sign-form}\}\\
 		\arg{e-form}		& \arg{e-char}[\arg{sign-form}] \\
-		\arg{sign-form} 	& \{ \texttt{+} {\textbar} \texttt{-} \} \\
-		\arg{e-char}		& \{ \texttt{D} {\textbar} \texttt{d} {\textbar}
-								 \texttt{E} {\textbar} \texttt{e} \} \\
+		\arg{sign-form} 	& \{ \textbf{+} {\textbar} \textbf{-} \} \\
+		\arg{e-char}		& \{ \textbf{D} {\textbar} \textbf{d} {\textbar}
+								 \textbf{E} {\textbar} \textbf{e} \} \\
 		\end{tabular}
 	\end{center}
 
@@ -962,7 +963,7 @@ word sets.
 		of size a double-float. The field is aligned.}
 
 		\word{:} DFFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
-		\tab \word{DFALIGNED} 1 \word{DFLOATS} \word{+FIELD} \\
+		\tab \word{DFALIGNED} 1 \word{DFLOATS} \word[facility]{+FIELD} \\
 		\word{;}
 	\end{defer}
 
@@ -1004,7 +1005,7 @@ word sets.
 	Display, with a trailing space, the top number on the
 	floating-point stack using fixed-point notation:
 	\begin{quote}
-		[\texttt{-}] \arg{digits}\texttt{.}\arg{digits0}
+		[\textbf{-}] \arg{digits}\textbf{.}\arg{digits0}
 	\end{quote}
 	An ambiguous condition exists if the value of \word[core]{BASE}
 	is not (decimal) ten or if the character string representation
@@ -1255,7 +1256,7 @@ word sets.
 		of size a float. The field is aligned.}
 
 		\word{:} FFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
-		\tab \word{FALIGNED} 1 \word{FLOATS} \word{+FIELD} \\
+		\tab \word{FALIGNED} 1 \word{FLOATS} \word[facility]{+FIELD} \\
 		\word{;}
 	\end{defer}
 
@@ -1316,8 +1317,8 @@ word sets.
 	where:
 	\begin{center}
 	  \begin{tabular}{r@{ \textsf{:=} }l}
-		\arg{significand} & [\texttt{-}]\arg{digit}\texttt{.}\arg{digits0} \\
-		\arg{exponent}	  & \texttt{E}[\texttt{-}]\arg{digits}
+		\arg{significand} & [\textbf{-}]\arg{digit}\textbf{.}\arg{digits0} \\
+		\arg{exponent}	  & \textbf{E}[\textbf{-}]\arg{digits}
 	  \end{tabular}
 	\end{center}
 
@@ -1504,7 +1505,7 @@ word sets.
 		of size a single-float. The field is aligned.}
 
 		\word{:} SFFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
-		\tab \word{SFALIGNED} 1 \word{SFLOATS} \word{+FIELD} \\
+		\tab \word{SFALIGNED} 1 \word{SFLOATS} \word[facility]{+FIELD} \\
 		\word{;}
 	\end{defer}
 
