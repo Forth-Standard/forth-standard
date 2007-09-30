@@ -191,6 +191,7 @@ provide Standard Systems with tailored levels of functionality.
 
 \subsection{Notation} % A.2.2
 
+\addtocounter{subsubsection}{1}
 \subsubsection{Stack notation} % A.2.2.2
 
 The use of \emph{-sys}, \emph{orig}, and \emph{dest} data types in
@@ -575,10 +576,10 @@ might return the same value.
 If a double-cell integer is to be treated as signed, the following
 comparison and mathematical operations are valid:
 \begin{quote}\ttfamily
-	\word[double]{D+}	\word[double]{D-}	\word[double]{Dless}
-	\word[double]{D0less}	\word[double]{DABS}	\word[double]{DMAX}
-	\word[double]{DMIN}	\word[double]{DNEGATE}
-	\word[double]{M*/}	\word[double]{M+}
+	\word[double]{D+}		\word[double]{D-}		\word[double]{Dless}
+	\word[double]{D0less}	\word[double]{DABS}		\word[double]{DMAX}
+	\word[double]{DMIN}		\word[double]{DNEGATE}
+	\word[double]{M*/}		\word[double]{M+}
 \end{quote}
 If a double-cell integer is to be treated as unsigned, the following
 comparison and mathematical operations are valid:
@@ -695,6 +696,8 @@ primitive \word{SM/REM} to construct a division operator of the
 desired flavor. This simple technique can be used to convert Forth-79
 and Forth-83 programs to ANS Forth without any analysis of the
 original programs.
+
+\paragraph{Other integer operations} ~ % A.3.2.2.2
 
 Whether underflow occurs depends on the data-type of the result. For
 example, the phrase \texttt{1 2} \word{-} underflows if the result is
@@ -915,6 +918,7 @@ The restrictions in section \xref[3.2.3.3 Return stack]{usage:returnstack}
 are necessary if implementations are to be allowed to place loop
 parameters on the return stack.
 
+\addtocounter{subsubsection}{2}
 \subsubsection{Environmental queries} % A.3.2.6
 
 The size in address units of various data types may be determined by
@@ -1090,6 +1094,34 @@ also increase the size of the pictured numeric output string.
 
 \subsection{The Forth text interpreter} % A.3.4
 
+\setcounter{subsubsection}{1}
+\setcounter{paragraph}{2}
+\paragraph{\uline{Numeric notation}} ~% A.3.4.1.3
+\label{rat:notation:numeric}
+\cbstart\marginpar{\tiny x:number-prefix}
+
+\uline{The numeric representation provided by the \textsf{X:number-prefix}
+extension can be tested with the following test cases:}
+
+\begin{tt}
+	\word{DECIMAL} \\
+	\uline{\{ \#1289       -> 1289        \}} \\
+	\uline{\{ \#12346789.  -> 12346789.   \}} \\
+	\uline{\{ \#-1289      -> -1289       \}} \\
+	\uline{\{ \#-12346789. -> -12346789.  \}} \\
+	\uline{\{ \$12eF       -> 4847        \}} \\
+	\uline{\{ \$12aBcDeF.  -> 313249263.  \}} \\
+	\uline{\{ \$-12eF      -> -4847       \}} \\
+	\uline{\{ \$-12AbCdEf. -> -313249263. \}} \\
+	\uline{\{ \%10010110   -> 150         \}} \\
+	\uline{\{ \%10010110.  -> 150.        \}} \\
+	\uline{\{ \%-10010110  -> -150        \}} \\
+	\uline{\{ \%-10010110. -> -150.       \}} \\
+	\uline{\{ 'z'          -> 122         \}}
+\end{tt}
+\cbend
+
+\setcounter{subsubsection}{2}
 \subsubsection{Semantics} % A.3.4.3
 
 The ``initiation semantics'' correspond to the code that is executed
@@ -1119,6 +1151,7 @@ an implementation from providing interpretation semantics for these
 words, such as interactive control-flow words. However, a Standard
 Program may not use them in interpretation state.
 
+\addtocounter{subsubsection}{1}
 \subsubsection{Compilation} % A.3.4.5
 
 Compiler recursion at the definition level consumes excessive
