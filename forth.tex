@@ -104,7 +104,7 @@
 %\openhistory
 
 \accept{x:ekeys,x:defined,x:required,x:foreword,x:to,test}
-\reject{x:fp-stack}
+% \reject{X:fp-stack}
 
 % =========================================
 
@@ -1123,12 +1123,12 @@
 \ifshowref
 	\newcommand{\@noword}[2]{% {<wordset>}{<word>}
 		\@latex@error{Can't find definition of "#2" in wordset
-			"#1", referenced on page \thepage}\@ehc%
+			"#1", referenced in file \includefile}\@ehc%
 	}
 \else
 	\newcommand{\@noword}[2]{% {<wordset>}{<word>}
 		\@latex@warning{Can't find definition of "#2" in wordlist
-			"#1", reference on page \thepage}{}
+			"#1", reference in file \includefile}{}
 	}
 \fi
 
@@ -1202,7 +1202,10 @@
 % title (#3)
 
 \newcommand{\word@xref}[4]{% {number}{page}{name}{link}
-	\hyperref{}{}{#4}{\textbf{#1 #3}}%
+	\textbf{
+		\hyperref{}{}{#4}{#1} \linebreak[3]
+		\hyperref{}{}{#4}{#3}%
+	}%
 }
 
 \newcommand{\xref}[2][??]{% [<text>]{<label>}
@@ -1210,7 +1213,7 @@
 	\expandafter\ifx\csname r@#2\endcsname\relax%
 		% label is not found
 		% Spit out a warning
-		\@latex@warning{Reference `#2' on page \thepage\space undefined}%
+		\@latex@warning{Reference `#2' in file \includefile\space undefined}%
 		% Tell the user the label and original text
 		\textbf{[#2: #1]}%
 	\else%
@@ -1224,15 +1227,17 @@
 %	<label> will be of the form <wordlist>:<label> i.e., core:store
 %	<name>	is the LaTeX which will be typeset for the word reference
 
-\newcommand{\word@ref}[4]{\hyperref{}{}{#4}{\textbf{#1 \texttt{#3}}}}
+\newcommand{\word@ref}[4]{%
+	\hyperref{}{}{#4}{\textbf{#1}} \linebreak[3]
+	\hyperref{}{}{#4}{\texttt{#3}}%
+}
 
 \newcommand{\wref}[2]{% {label}{name}
 	% Look for the word's label
 	\expandafter\ifx\csname r@#1\endcsname\relax%
 		% Not found - output label and then name
 		\textbf{[#1] #2}%
-		\@latex@warning{Reference `#1' to word `#2' on page
-			\thepage\space undefined}%
+		\@latex@warning{Reference `#1' to word `#2' in file \includefile\space undefined}%
 	\else%
 		\expandafter\expandafter\expandafter\word@ref\csname r@#1\endcsname%
 	\fi%
@@ -1242,7 +1247,7 @@
 %	\rref is the same as \wref except it looks in the rationale (rat:)
 %	name space
 
-\newcommand{\word@ref@inline}[4]{\hyperref{}{}{#4}{\textbf{A.#1 \texttt{#3}}}}
+\newcommand{\word@ref@inline}[4]{\word@ref{A.#1}{#2}{#3}{#4}}
 
 \newcommand{\rref}[2]{% {<label>}{<name>}
 	\expandafter\ifx\csname r@rat:#1\endcsname\relax%
