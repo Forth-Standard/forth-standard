@@ -47,35 +47,35 @@ a sequence digit subscript to distinguish them.
 	\hline\hline
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
-	\emph{flag}			& flag								& 1 cell \\
-	\emph{true}			& true flag							& 1 cell \\
-	\emph{false}		& false flag						& 1 cell \\
-	\emph{char}			& character							& 1 cell \\
-	\emph{n}			& signed number						& 1 cell \\
-	\emph{+n}			& non-negative number				& 1 cell \\
-	\emph{u}			& unsigned number					& 1 cell \\
-	\emph{u{\textbar}n}\footnotemark[1]
+	\param{flag}		& flag								& 1 cell \\
+	\param{true}		& true flag							& 1 cell \\
+	\param{false}		& false flag						& 1 cell \\
+	\param{char}		& character							& 1 cell \\
+	\param{n}			& signed number						& 1 cell \\
+	\param{+n}			& non-negative number				& 1 cell \\
+	\param{u}			& unsigned number					& 1 cell \\
+	\param{u|n}\footnotemark[1]
 						& number							& 1 cell \\
-	\emph{x}			& unspecified cell					& 1 cell \\
-	\emph{xt}			& execution token					& 1 cell \\
-	\emph{addr}			& address							& 1 cell \\
-	\emph{a-addr}		& aligned address					& 1 cell \\
-	\emph{c-addr}		& character-aligned address			& 1 cell \\
-	\emph{d}			& double-cell signed number			& 2 cells \\
-	\emph{+d}			& double-cell non-negative number	& 2 cells \\
-	\emph{ud}			& double-cell unsigned number		& 2 cells \\
-	\emph{d{\textbar}ud}\footnotemark[2]
+	\param{x}			& unspecified cell					& 1 cell \\
+	\param{xt}			& execution token					& 1 cell \\
+	\param{addr}		& address							& 1 cell \\
+	\param{a-addr}		& aligned address					& 1 cell \\
+	\param{c-addr}		& character-aligned address			& 1 cell \\
+	\param{d}			& double-cell signed number			& 2 cells \\
+	\param{+d}			& double-cell non-negative number	& 2 cells \\
+	\param{ud}			& double-cell unsigned number		& 2 cells \\
+	\param{d|ud}\footnotemark[2]
 						& double-cell number				& 2 cells \\
-	\emph{xd}			& unspecified cell pair				& 2 cells \\
-	\emph{colon-sys}	& definition compilation			& implementation dependent \\
-	\emph{do-sys}		& do-loop structures				& implementation dependent \\
-	\emph{case-sys}		& \word{CASE} structures			& implementation dependent \\
-	\emph{of-sys}		& \word{OF} structures				& implementation dependent \\
-	\emph{orig}			& control-flow origins				& implementation dependent \\
-	\emph{dest}			& control-flow destinations			& implementation dependent \\
-	\emph{loop-sys}		& loop-control parameters			& implementation dependent \\
-	\emph{nest-sys}		& definition cells					& implementation dependent \\
-	\emph{i*x, j*x, k*x}\footnotemark[3]
+	\param{xd}			& unspecified cell pair				& 2 cells \\
+	\param{colon-sys}	& definition compilation			& implementation dependent \\
+	\param{do-sys}		& do-loop structures				& implementation dependent \\
+	\param{case-sys}	& \word{CASE} structures			& implementation dependent \\
+	\param{of-sys}		& \word{OF} structures				& implementation dependent \\
+	\param{orig}		& control-flow origins				& implementation dependent \\
+	\param{dest}		& control-flow destinations			& implementation dependent \\
+	\param{loop-sys}	& loop-control parameters			& implementation dependent \\
+	\param{nest-sys}	& definition cells					& implementation dependent \\
+	\param{i*x, j*x, k*x}\footnotemark[3]
 						& any data type						& 0 or more cells \\
 	\hline\hline
 	\end{tabular}
@@ -97,14 +97,14 @@ a sequence digit subscript to distinguish them.
 
 \subsection{Data-type relationships} % 3.1.1
 
-Some of the data types are subtypes of other data types. A
-data type $i$ is a subtype of type $j$ if and only if the
-members of $i$ are a subset of the members of $j$. The
-following list represents the subtype relationships using
-the phrase ``$i \Rightarrow j$'' to denote ``$i$ is a
-subtype of $j$''. The subtype relationship is transitive;
-if $i \Rightarrow j$ and $j \Rightarrow k$ then
-$i \Rightarrow k$:
+Some of the data types are subtypes of other data types. A data
+type \param{i} is a subtype of type \param{j} if and only if the
+members of \param{i} are a subset of the members of \param{j}. The
+following list represents the subtype relationships using the
+phrase ``\param{i} $\Rightarrow$ \param{j}'' to denote ``\param{i}
+is a subtype of \param{j}''. The subtype relationship is transitive;
+if \param{i} $\Rightarrow$ \param{j} and \param{j} $\Rightarrow$
+\param{k} then \param{i} $\Rightarrow$ \param{k}:
 
 \begin{quote}
 \param{+n} $\Rightarrow$ \param{u} $\Rightarrow$ \param{x}; \\
@@ -119,8 +119,8 @@ $i \Rightarrow k$:
 \param{+d} $\Rightarrow$ \param{ud} $\Rightarrow$ \param{xd}.
 \end{quote}
 
-Any Forth definition that accepts an argument of type $i$
-shall also accept an argument that is a subtype of $i$.
+Any Forth definition that accepts an argument of type \param{i}
+shall also accept an argument that is a subtype of \param{i}.
 
 
 \subsection{Character types} % 3.1.2
@@ -658,6 +658,8 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 	\place{x:defined}{\texttt{X:defined}}		& -- & -- & \place{x:defined}{the \textsf{X:defined} extension is present} \\
 	\place{x:ekeys}{\texttt{X:ekeys}}			& -- & -- & \place{x:ekeys}{the \textsf{X:ekeys} extension is present} \\
 		\texttt{X:extension-query}  & -- & -- & the \textsf{X:extension-query} extension is present\\
+	\place{x:fp-stack}{\texttt{X:fp-stack}} & -- & -- & \place{x:fp-stack}{\textsf{X;fp-stack} extension is present} \\
+	\place{x:number-prefix}{\texttt{X:number-prefix}} & -- & -- & \place{x:number-prefix}{\textsf{X:number-prefix} extension is present} \\
 		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
 	\place{x:required}{\texttt{X:required}}	& -- & -- & \place{x:required}{the \textsf{X:required} extension is present} \\
 	\place{x:structures}{\texttt{X:structures}} & -- & -- & \place{x:structures}{the \textsf{X:structures} extension is present} \\
@@ -989,12 +991,63 @@ a syntax or program-construct checker.
 \subsubsection{Text interpreter input number conversion} % 3.4.1.3
 \label{usage:numbers}
 
+\cbstart\marginpar{\tiny x:number-prefix}
+\sout{% Remove
 When converting input numbers, the text interpreter shall recognize
 both positive and negative numbers, with a negative number
 represented by a single minus sign, the character ``\texttt{-}'',
 preceding the digits. The value in \word{BASE} is the radix for
-number conversion.
+number conversion.}
 
+\uline{% place
+When converting input numbers, the text interpreter shall recognize
+integer numbers in the form \arg{BASEnum}; if the
+\textsf{X:number-prefixes} extension is present, the text
+interpreter shall recognize integer numbers in the form
+\arg{anynum}.}
+
+\begin{center}
+\begin{tabular}{r@{ \uline{\textsf{:=}} }l}
+\uline{\arg{anynum}}	& \uline{\{ \arg{BASEnum}
+		{\textbar} \arg{decnum}
+		{\textbar} \arg{hexnum}
+		{\textbar} \arg{binnum}
+		{\textbar} \arg{cnum} \}} \\
+\uline{\arg{BASEnum}}	& \uline{[\textbf{-}]\arg{bdigit}\arg{bdigit}*} \\
+\uline{\arg{decnum}}	& \uline{\textbf{\#}[\textbf{-}]\arg{decdigit}\arg{decdigit}*} \\
+\uline{\arg{hexnum}}	& \uline{\textbf{\$}[\textbf{-}]\arg{hexdigit}\arg{hexdigit}*} \\
+\uline{\arg{binnum}}	& \uline{\textbf{\%}[\textbf{-}]\arg{bindigit}\arg{bindigit}*} \\
+\uline{\arg{cnum}}		& \uline{\textbf{'}\arg{char}\textbf{'}} \\
+\uline{\arg{bindigit}}	& \uline{\{ \textbf{0} {\textbar} \textbf{1} \}} \\
+\uline{\arg{decdigit}}	& \uline{\{
+		\textbf{0} {\textbar} \textbf{1} {\textbar} \textbf{2} {\textbar}
+		\textbf{3} {\textbar} \textbf{4} {\textbar}	\textbf{5} {\textbar}
+		\textbf{6} {\textbar} \textbf{7} {\textbar} \textbf{8} {\textbar}
+		\textbf{9} \}} \\
+\uline{\arg{hexdigit}}	& \uline{\{ \arg{decdigit} {\textbar}
+		\textbf{a} {\textbar} \textbf{b} {\textbar} \textbf{c} {\textbar}
+		\textbf{d} {\textbar} \textbf{e} {\textbar} \textbf{f} {\textbar}
+		\textbf{A} {\textbar} \textbf{B} {\textbar} \textbf{C} {\textbar}
+		\textbf{D} {\textbar} \textbf{E} {\textbar} \textbf{F} \}}
+\end{tabular}
+\end{center}
+
+\uline{\arg{bdigit} represents a digit according to the value of
+\word{BASE} (see \xref{usage:digits}).
+For \arg{hexdigit}, the digits \textbf{a}\ldots\textbf{f} have the
+values 10\ldots15. \arg{char} represents any printable character.}
+
+\uline{The radix used for number conversion is:}
+\begin{center}
+	\begin{tabular}{ll}
+		\uline{\arg{BASEnum}}	& \uline{the value in \word{BASE}} \\
+		\uline{\arg{decnum}}	& \uline{10} \\
+		\uline{\arg{hexnum}}	& \uline{16} \\
+		\uline{\arg{binnum}}	& \uline{2} \\
+		\uline{\arg{cnum}}		& \uline{the number is the value of \arg{char}}
+	\end{tabular}
+\end{center}
+\cbend
 
 
 \subsection{Finding definition names} % 3.4.2
