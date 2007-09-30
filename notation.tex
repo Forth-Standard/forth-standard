@@ -15,7 +15,8 @@ Throughout the Standard, typefaces are used in the following manner:
 \item This proportional serif typeface is used for text, with
 	\textit{italic} used for symbols and the first appearance of new
 	terms;
-\item A bold proportional sans-serif typeface is used for \textbf{headings};
+\item A bold proportional sans-serif typeface is used for
+	\textbf{headings};
 \item A bold monospaced serif typeface is used for Forth-language
 	\textbf{\texttt{text}}.
 \end{itemize}
@@ -40,226 +41,256 @@ Depending on context, either
 4) the units in which the length of a region of memory is expressed.
 
 \item[aligned address:]
-The address of a memory location at which a character, cell, cell
-pair, or double-cell integer can be accessed.
+	The address of a memory location at which a character, cell, cell
+	pair, or double-cell integer can be accessed.
 
 \item[ambiguous condition:]
-A circumstance for which this Standard does not prescribe a specific
-behavior for Forth systems and programs.
+	A circumstance for which this Standard does not prescribe a
+	specific behavior for Forth systems and programs.
 
-Ambiguous conditions include such things as the absence of a needed
-delimiter while parsing, attempted access to a nonexistent file, or
-attempted use of a nonexistent word. An ambiguous condition also
-exists when a Standard word is passed values that are improper or
-out of range.
+	Ambiguous conditions include such things as the absence of a needed
+	delimiter while parsing, attempted access to a nonexistent file, or
+	attempted use of a nonexistent word. An ambiguous condition also
+	exists when a Standard word is passed values that are improper or
+	out of range.
 
 \item[cell:]
-The primary unit of information in the architecture of a Forth system.
+	The primary unit of information in the architecture of a Forth
+	system.
 
 \item[cell pair:]
-Two cells that are treated as a single unit.
+	Two cells that are treated as a single unit.
 
 \item[character:]
-Depending on context, either
-1) a storage unit capable of holding a character; or
-2) a member of a character set.
+	Depending on context, either
+	1) a storage unit capable of holding a character; or
+	2) a member of a character set.
 
 \item[character-aligned address:]
-The address of a memory location at which a character can be accessed.
+	The address of a memory location at which a character can be
+	accessed.
 
 \item[character string:]
-Data space that is associated with a sequence of consecutive
-character-aligned addresses. Character strings usually contain
-text. Unless otherwise indicated, the term ``string'' means
-``character string''.
+	Data space that is associated with a sequence of consecutive
+	character-aligned addresses. Character strings usually contain
+	text. Unless otherwise indicated, the term ``string'' means
+	``character string''.
 
 \item[code space:]
-The logical area of the dictionary in which word semantics are
-implemented.
+	The logical area of the dictionary in which word semantics are
+	implemented.
 
 \item[compile:]
-To transform source code into dictionary definitions.
+	To transform source code into dictionary definitions.
 
 \item[compilation semantics:]
-The behavior of a Forth definition when its name is encountered
-by the text interpreter in compilation state.
+	The behavior of a Forth definition when its name is encountered
+	by the text interpreter in compilation state.
 
 \item[counted string:]
-A data structure consisting of one character containing a length
-followed by zero or more contiguous data characters. Normally,
-counted strings contain text.
+	A data structure consisting of one character containing a length
+	followed by zero or more contiguous data characters. Normally,
+	counted strings contain text.
 
 \item[cross compiler:]
-A system that compiles a program for later execution in an
-environment that may be physically and logically different
-from the compiling environment. In a cross compiler, the term
-``host'' applies to the compiling environment, and the term
-``target'' applies to the run-time environment.
+	A system that compiles a program for later execution in an
+	environment that may be physically and logically different
+	from the compiling environment. In a cross compiler, the term
+	``host'' applies to the compiling environment, and the term
+	``target'' applies to the run-time environment.
 
 \item[current definition:]
-The definition whose compilation has been started but not yet ended.
+	The definition whose compilation has been started but not yet ended.
 
 \item[data field:]
-The data space associated with a word defined via \word{CREATE}.
+	The data space associated with a word defined via \word{CREATE}.
 
 \item[data space:]
-The logical area of the dictionary that can be accessed.
+	The logical area of the dictionary that can be accessed.
 
 \item[data-space pointer:]
-The address of the next available data space location, i.e., the
-value returned by \word{HERE}.
+	The address of the next available data space location, i.e., the
+	value returned by \word{HERE}.
 
 \item[data stack:]
-A stack that may be used for passing parameters between
-definitions. When there is no possibility of confusion, the
-data stack is referred to as ``the stack''. Contrast with
-\textbf{return stack}.
+	A stack that may be used for passing parameters between
+	definitions. When there is no possibility of confusion, the
+	data stack is referred to as ``the stack''. Contrast with
+	\textbf{return stack}.
 
 \item[data type:]
-Tn identifier for the set of values that a data object may have.
+	Tn identifier for the set of values that a data object may have.
 
 \item[defining word:]
-A Forth word that creates a new definition when executed.
+	A Forth word that creates a new definition when executed.
 
 \item[definition:]
-A Forth execution procedure compiled into the dictionary.
+	A Forth execution procedure compiled into the dictionary.
 
 \item[dictionary:]
-An extensible structure that contains definitions and
-associated data space.
+	An extensible structure that contains definitions and
+	associated data space.
 
 \item[display:]
-To send one or more characters to the user output device.
+	To send one or more characters to the user output device.
 
 \item[environmental dependencies:]
-A program's implicit assumptions about a Forth system's
-implementation options or underlying hardware. For example,
-a program that assumes a cell size greater than 16 bits is
-said to have an environmental dependency.
+	A program's implicit assumptions about a Forth system's
+	implementation options or underlying hardware. For example,
+	a program that assumes a cell size greater than 16 bits is
+	said to have an environmental dependency.
 
 \item[execution semantics:]
-The behavior of a Forth definition when it is executed.
+	The behavior of a Forth definition when it is executed.
 
 \item[execution token:]
-A value that identifies the execution semantics of a definition.
+	A value that identifies the execution semantics of a definition.
 
 \item[find:]
-To search the dictionary for a definition name matching a given string.
+	To search the dictionary for a definition name matching a given
+	string.
 
 \item[immediate word:]
-A Forth word whose compilation semantics are to perform its execution
-semantics.
+	A Forth word whose compilation semantics are to perform its
+	execution semantics.
 
 \item[implementation defined:]
-Denotes system behaviors or features that must be provided and
-documented by a system but whose further details are not prescribed
-by this Standard.
+	Denotes system behaviors or features that must be provided and
+	documented by a system but whose further details are not prescribed
+	by this Standard.
 
 \item[implementation dependent:]
-Denotes system behaviors or features that must be provided by a
-system but whose further details are not prescribed by this Standard.
+	Denotes system behaviors or features that must be provided by a
+	system but whose further details are not prescribed by this Standard.
 
 \item[input buffer:]
-A region of memory containing the sequence of characters from the
-input source that is currently accessible to a program.
+	A region of memory containing the sequence of characters from the
+	input source that is currently accessible to a program.
 
 \item[input source:]
-The device, file, block, or other entity that supplies characters
-to refill the input buffer.
+	The device, file, block, or other entity that supplies characters
+	to refill the input buffer.
 
 \item[input source specification:]
-A set of information describing a particular state of the input
-source, input buffer, and parse area. This information is sufficient,
-when saved and restored properly, to enable the nesting of parsing
-operations on the same or different input sources.
+	A set of information describing a particular state of the input
+	source, input buffer, and parse area. This information is
+	sufficient, when saved and restored properly, to enable the nesting
+	of parsing operations on the same or different input sources.
 
 \item[interpretation semantics:]
-The behavior of a Forth definition when its name is encountered
-by the text interpreter in interpretation state.
+	The behavior of a Forth definition when its name is encountered
+	by the text interpreter in interpretation state.
 
 \item[keyboard event:]
-A value received by the system denoting a user action at the user
-input device. The term ``keyboard'' in this document does not exclude
-other types of user input devices.
+	A value received by the system denoting a user action at the user
+	input device. The term ``keyboard'' in this document does not
+	exclude other types of user input devices.
 
 \item[line:]
-A sequence of characters followed by an actual or implied line
-terminator.
+	A sequence of characters followed by an actual or implied line
+	terminator.
 
 \item[name space:]
-The logical area of the dictionary in which definition names are
-stored.
+	The logical area of the dictionary in which definition names are
+	stored.
 
 \item[number:]
-In this Standard, ``number'' used without other qualification means
-``integer''. Similarly, ``double number'' means ``double-cell integer''.
+	In this Standard, ``number'' used without other qualification means
+	``integer''. Similarly, ``double number'' means ``double-cell
+	integer''.
 
 \item[parse:]
-To select and exclude a character string from the parse area using
-a specified set of delimiting characters, called delimiters.
+	To select and exclude a character string from the parse area using
+	a specified set of delimiting characters, called delimiters.
 
 \item[parse area:]
-The portion of the input buffer that has not yet been parsed, and
-is thus available to the system for subsequent processing by the
-text interpreter and other parsing operations.
+	The portion of the input buffer that has not yet been parsed, and
+	is thus available to the system for subsequent processing by the
+	text interpreter and other parsing operations.
 
 \item[pictured-numeric output:]
-A number display format in which the number is converted using
-Forth words that resemble a symbolic ``picture'' of the desired
-output.
+	A number display format in which the number is converted using
+	Forth words that resemble a symbolic ``picture'' of the desired
+	output.
 
 \item[program:]
-A complete specification of execution to achieve a specific function
-(application task) expressed in Forth source code form.
+	A complete specification of execution to achieve a specific
+	function (application task) expressed in Forth source code form.
 
 \item[receive:]
-To obtain characters from the user input device.
+	To obtain characters from the user input device.
 
 \item[return stack:]
-A stack that may be used for program execution nesting, do-loop
-execution, temporary storage, and other purposes.
+	A stack that may be used for program execution nesting, do-loop
+	execution, temporary storage, and other purposes.
 
 \item[standard word:]
-A named Forth procedure, formally specified in this Standard.
+	A named Forth procedure, formally specified in this Standard.
 
 \item[user input device:]
-The input device currently selected as the source of received
-data, typically a keyboard.
+	The input device currently selected as the source of received
+	data, typically a keyboard.
 
 \item[user output device:]
-The output device currently selected as the destination of
-display data.
+	The output device currently selected as the destination of
+	display data.
 
 \item[variable:]
-A named region of data space located and accessed by its memory
-address.
+	A named region of data space located and accessed by its memory
+	address.
 
 \item[word:]
-Depending on context, either
-1) the name of a Forth definition; or
-2) a parsed sequence of non-space characters,
-which could be the name of a Forth definition.
+	Depending on context, either
+	1) the name of a Forth definition; or
+	2) a parsed sequence of non-space characters,
+	which could be the name of a Forth definition.
 
 \item[word list:]
-A list of associated Forth definition names that may be examined
-during a dictionary search.
+	A list of associated Forth definition names that may be examined
+	during a dictionary search.
 
 \item[word set:]
-A set of Forth definitions grouped together in this Standard
-under a name indicating some shared aspect, typically their
-common functional area.
+	A set of Forth definitions grouped together in this Standard
+	under a name indicating some shared aspect, typically their
+	common functional area.
 \end{description}
 
 \section{Notation} % ================================================
 
 \subsection{Numeric notation}
+\label{notation:numeric}
 
 Unless otherwise stated, all references to numbers apply to signed
 single-cell integers. The inclusive range of values is shown as
-\textit{\textbf{\{from {\ldots} to\}}}. The allowable range for the
+\textbf{\{\textit{from {\ldots} to}\}}. The allowable range for the
 contents of an address is shown in double braces, particularly for
-the contents of variables, e.g., \word{BASE}
-\textbf{\{\{2 {\ldots} 36\}\}}.
+the contents of variables,
+e.g., \word{BASE} \textbf{\{\{2 {\ldots} 36\}\}}.
+
+% ---------- X:number-prefix ----------
+\cbstart\marginpar{\tiny x:number-prefix}
+\uline{The following notation is used to define the syntax of the external
+representation of numbers:}
+
+\begin{itemize}
+\item \uline{Each component of a number is defined with a rule consisting
+of the name of the component (italicized in angle-brackets,
+e.g., \arg{decdigit}), the characters \textsf{:=} and a concatenation
+of tokens and metacharacters;}
+
+\item \uline{Tokens may be literal characters (in bold face, e.g.,
+\textbf{E}) or rule names in angle brackets (e.g., \arg{decdigit});}
+
+\item \uline{The metacharacter * is used to specify zero or more occurrences of
+the preceding token (e.g., \arg{decdigit}*);}
+
+\item \uline{Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);}
+
+\item \uline{Vertical bars separate choices from a list of tokens enclosed
+with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).}
+\end{itemize}
+\cbend
+% --------------------
 
 \subsection{Stack notation}
 
