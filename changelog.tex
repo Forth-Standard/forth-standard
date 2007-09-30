@@ -177,6 +177,7 @@
 		annex H.
 	\end{itemize}
 
+\newpage
 \item[07.2]
 	Included changes approved at the Dagstuhl meeting,
 	13--14 September, 2007:
@@ -185,17 +186,26 @@
 
 	\item Rename ``forward'' to ``foreword''.
 
-	\item \xref{process}:
-		Two new sentances (\textsf{ed07}).
+	\item \xref{process}: \\
+		Two new sentences (\textsf{ed07}).
 
-	\item \xref{members}:
+	\item \xref{members}: \\
 		Membership Rules (\textsf{ed07}).
 
-	\item[3] Usage Requirements:
-		Added \textsf{X:strucutres} and \textsf{X:throw-iors}
-		to table \xref{table:extensions}.
+	\item[2] Terms, notation, and references: \\
+		\textsf{X:number-prefix}: Extended section
+		\xref{notation:numeric}.
 
-	\item[4] Documentation requirements:
+	\item[3] Usage Requirements:
+		\begin{enumerate}
+		\item Added \textsf{X:fp-stack}, \textsf{X:number-prefix},
+			\textsf{X:structures} and \textsf{X:throw-iors}
+			to table \xref{table:extensions}.
+		\item \textsf{X:number-prefix}: replaced section
+			\xref{usage:numbers}.
+		\end{enumerate}
+
+	\item[4] Documentation requirements: \\
 		Added ambiguous condition for \textsf{X:structures}.
 
 	\item[6] Glossary:
@@ -204,7 +214,11 @@
 		\item Removed state-smart note from \wref{core:TO}{TO}.
 		\end{enumerate}
 
-	\item[9] Exception word set:
+	\item[8] Double-Number word set: \\
+		\textsf{X:number-prefix}: added ``, except a \arg{cnum},''
+		to 8.3.2 Text interpreter input number conversion.
+
+	\item[9] Exception word set: \\
 		Added \textsf{X:throw-iors} to table \xref{table:throw}.
 
 	\item[10] Facility word set:
@@ -219,15 +233,32 @@
 		\item \textsf{ed07}: Added \word[facility]{EKEY} ratioanle.
 		\end{enumerate}
 
-	\item[12] Floating word set: \\
-		Added \textsf{X:structures}:
+	\item[12] Floating word set:
+		\begin{enumerate}
+		\item \textsf{X:structures}: Added
 			\wref{floating:DFFIELD:}{DFFIELD:},
 			\wref{floating:FFIELD:}{FFIELD:}, and
 			\wref{floating:SFFIELD:}{SFFIELD:}.
+		\item \textsf{X:fp-stack}:
+			A separate floating point stack is now the default,
+			with a combined stack being an environmental
+			dependency.
+		\item \textsf{X:number-prefix}:
+			Removed section 12.2.2.1 Numeric notation, now
+			in section \xref{notation:numeric}.
+		\end{enumerate}
+
+	\item[A] Rationale:
+		\begin{enumerate}
+		\item Corrected a number of section numbering errors
+		\item \textsf{X:number-prefix}:
+			Added test cases (\xref{rat:notation:numeric}).
+		\end{enumerate}
 
 	\item[B] Bibliography (Annex \ref{annex:bib}):
 		\begin{enumerate}
-		\item \textsf{ed07}: Added books by Elizabeth Rather and Stephen Pelc.
+		\item \textsf{ed07}: Added books by Elizabeth Rather
+			and Stephen Pelc.
 		\item \textsf{ed07}: Added URL for Thinking Forth.
 		\end{enumerate}
 	\end{itemize}
