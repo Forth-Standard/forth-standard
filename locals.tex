@@ -148,8 +148,8 @@ Note that before declaring locals, \texttt{B} is doubled, a
 subexpression (\texttt{2B+C}) is computed, and an initial value (zero)
 for \texttt{ANS} is provided. After locals have been declared,
 \texttt{JOE} proceeds to use them. Note that locals may be accessed and
-updated within do-loops. The effect of interpreting line c) is to display
-the following values:
+updated within do-loops. The effect of interpreting line c) is to
+display the following values:
 
 \begin{quote}
 	\texttt{1} (\texttt{ANS} the first time through the loop),\\
@@ -282,8 +282,8 @@ application has been removed, due to the possible use of the return
 stack for storage of locals.
 
 Authorization for a Standard Program to manipulate the return stack
-(e.g., via \word[core]{toR} \word[core]{Rfrom}) while local variables are
-active overly constrains implementation possibilities. The consensus
+(e.g., via \word[core]{toR} \word[core]{Rfrom}) while local variables
+are active overly constrains implementation possibilities. The consensus
 of users of locals was that Local facilities represent an effective
 functional replacement for return stack manipulation, and restriction
 of standard usage to only one method was reasonable.
@@ -459,8 +459,6 @@ See: \xref[3.4 The Forth text interpreter]{usage:command}.
 \begin{itemize}
 \item executing a named \emph{local} while in interpretation state
 	(\wref{local:LOCAL}{(LOCAL)});
-\item \remove{x:to}{\emph{name} not defined by \word[core]{VALUE} or \word{LOCAL}
-	(\wref{local:TO}{TO}).}
 \end{itemize}
 
 \subsubsection{Other system documentation} % 13.4.1.3
@@ -569,65 +567,14 @@ to provide all of the Locals and Locals Extensions word sets.
 	is described in detail in section \xref[13.3.3 Processing
 	locals]{local:locals}.
 
-\note
-	\remove{x:to}{%
-	The Locals word set modifies the syntax and semantics of
-	\wref{core:TO}{TO} as defined in the Core Extensions word set.}
-
 \runtime[\word{TO} \param{local}]
-	\stack{\place{x:to}{x}}{}
+	\stack{x}{}
 
-	\place{x:to}{Associate the value \param{x} with the local value
-	\param{local}.}
+	Associate the value \param{x} with the local value
+	\param{local}.
 
-\see \xref[3.4 The Forth text interpreter]{usage:command}
-	\place{x:to}{ and \wref{core:TO}{TO}.}
-\end{worddef}
-
-
-\begin{worddef}{2295}{TO}
-\item \remove{x:to}{Extend the semantics of \wref{core:TO}{TO} to be:}
-
-\interpret
-	\stack{\remove{x:to}{x "<spaces>name"}}{}
-
-	\remove{x:to}{
-	Skip leading spaces and parse \param{name} delimited by a space.
-	Store \param{x} in \param{name}. An ambiguous condition exists if
-	\param{name} was not defined by \word[core]{VALUE}.}
-
-\compile
-	\stack{\remove{x:to}{"<spaces>name"}}{}
-
-	\remove{x:to}{
-	Skip leading spaces and parse \param{name} delimited by a space.
-	Append the run-time semantics given below to the current
-	definition. An ambiguous condition exists if \param{name} was
-	not defined by either \word[core]{VALUE} or \word{LOCAL}.}
-
-\runtime
-	\stack{\remove{x:to}{x}}{}
-
-	\remove{x:to}{Store \param{x} in \param{name}.}
-
-\note
-	\remove{x:to}{
-	An ambiguous condition exists if either \word[core]{POSTPONE} or
-	\word[core]{[COMPILE]} is applied to \word{TO}.}
-
-\see
-	\xref[3.4.1 Parsing]{usage:parsing},
-	\remove{x:to}{
-	\wref{core:TO}{TO},
-	\wref{core:VALUE}{VALUE},
-	\wref{local:LOCAL}{(LOCAL)}.}
-
-	\begin{defer}
-	\rationale % A.13.6.1.2295 TO
-		\remove{x:to}{Typical use: \texttt{x} \word[local]{TO} \texttt{name}}
-
-		\remove{x:to}{See: \rref{core:TO}{TO}.}
-	\end{defer}
+\see \xref[3.4 The Forth text interpreter]{usage:command} and
+	\wref{core:TO}{TO}.
 \end{worddef}
 
 
@@ -656,7 +603,7 @@ to provide all of the Locals and Locals Extensions word sets.
 	Identifier \param{name_1} is initialized with \param{x_1},
 	identifier \param{name_2} with \param{x_2}, etc. When invoked,
 	each local will return its value. The value of a local may be
-	changed using \replace{x:to}{\wref{local:TO}{TO}}{\wref{core:TO}{TO}}.
+	changed using \wref{core:TO}{TO}.
 
 	\begin{defer}
 	\rationale % A.13.6.2.1795 LOCALS|

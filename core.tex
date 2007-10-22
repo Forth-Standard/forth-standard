@@ -5594,43 +5594,34 @@ their clientele.
 
 \begin{worddef}{2295}{TO}
 \interpret
-	\stack{\place{x:to}{i*}x "<spaces>name"}{}
+	\stack{i*x "<spaces>name"}{}
 
-	Skip leading spaces and parse \param{name} delimited by a
-	space.
-	\replace{x:to}{Store \param{x} in \param{name}.}{
+	Skip leading spaces and parse \param{name} delimited by a space.
 	Perform the ``TO \param{name} run-time'' semantics given in the
-	definition for the defining word of \param{name}.}
+	definition for the defining word of \param{name}.
 	An ambiguous condition exists if \param{name} was not defined
-	\replace{x:to}{by \word{VALUE}}{
-	by a word with ``TO \param{name} run-time'' semantics}.
+	by a word with ``TO \param{name} run-time'' semantics.
 
 \compile
 	\stack{"<spaces>name"}{}
 
 	Skip leading spaces and parse \param{name} delimited by a
 	space. Append the ``TO \param{name} run-time'' semantics given
-	\replace{x:to}{below}{in the definition for the defining word
-	of \param{name}}
-	to the current definition.
+	in the definition for the defining word	of \param{name} to the
+	current definition.
 	An ambiguous condition exists if \param{name} was not defined
-	\replace{x:to}{by \word{VALUE}}{by a word with ``TO \param{name}
-	run-time'' semantics}.
+	by a word with ``TO \param{name} run-time'' semantics.
 
 \runtime
-	\stack{\remove{x:to}{x}}{}
-
-	\remove{x:to}{Store \param{x} in \param{name}.}
+	\stack{}{}
 
 \note
-	An ambiguous condition exists if
-	\replace{x:to}{either}{any of}
-	\word{POSTPONE}\replace{x:to}{ or}{,}
-	\word{[COMPILE]}\replace{x:to}{ is}{, \word{'} or \word{[']} are}
-	applied to \word{TO}.
+	An ambiguous condition exists if any of	\word{POSTPONE},
+	\word{[COMPILE]}, \word{'} or \word{[']} are applied to
+	\word{TO}.
 
-\see \wref{core:VALUE}{VALUE}%
-	\replace{x:to}{, \wref{local:TO}{TO}}{ and \wref{local:LOCAL}{(LOCAL)}}.
+\see \wref{core:VALUE}{VALUE}
+	 and \wref{local:LOCAL}{(LOCAL)}.
 
 	\begin{defer}
 	\rationale % A.6.2.2295 TO
@@ -5638,15 +5629,12 @@ their clientele.
 		explicitly parsed. Instead, they set a mode flag that is
 		tested by the subsequent execution of \param{name}. ANS Forth
 		explicitly requires that \word{TO} must parse, so that
-		\word{TO}'s effect will be predictable
-		\remove{x:to}{when it is used at the end of the parse area}.
+		\word{TO}'s effect will be predictable.
 
 		Typical use: \texttt{x} \word{TO} \emph{name}
 
-%	\note \place{x:to}{\param{name} must not be state-smart.}
-
 	\testing*
-		\place{x:to}{See \wref{core:VALUE}{VALUE}.}
+		See \wref{core:VALUE}{VALUE}.
 	\end{defer}
 \end{worddef}
 
@@ -5720,12 +5708,12 @@ their clientele.
 	\param{x} to be associated with \param{name}.
 
 \runtime[\word{TO} \param{name}]
-	\stack{\place{x:to}{x}}{}
+	\stack{x}{}
 
-	\place{x:to}{Associate the value \param{x} with \param{name}.}
+	Associate the value \param{x} with \param{name}.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}
-	\place{x:to}{and \wref{core:TO}{TO}}.
+	and \wref{core:TO}{TO}.
 
 	\begin{defer}
 	\rationale % A.6.2.2405 VALUE
@@ -5741,7 +5729,6 @@ their clientele.
 		returns the prior value \param{n_2}.
 
 	\testing
-		\cbstart\marginpar{\tiny x:to}
 		\{ 0 \word{VALUE} Tval -> \} \\
 		\{ Tval -> 0 \} \\
 
@@ -5750,7 +5737,6 @@ their clientele.
 
 		\word{:} SETTval Tval \word{SWAP} \word{TO} Tval \word{;} \\
 		\{ 2 SETTval Tval -> 1 2 \}
-		\cbend
 	\end{defer}
 \end{worddef}
 
