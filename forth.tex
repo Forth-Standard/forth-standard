@@ -30,7 +30,6 @@
 \usepackage{supertabular}
 \usepackage{graphicx}
 \usepackage{randtext}	% Randamize text (for email addresses)
-\usepackage{multicol}	% Multiple Columns (for throw code table)
 
 % ========== Page Header / Footer ==========
 
@@ -103,8 +102,7 @@
 \usepackage{history}
 %\openhistory
 
-\accept{x:ekeys,x:defined,x:required,x:foreword,x:to,test}
-% \reject{X:fp-stack}
+\reject{X:fp-stack}
 
 % =========================================
 
@@ -434,6 +432,11 @@
 		\fi%
 	\fi%
 	%
+	% Define the hyper target before the glossary entry
+	% So that a hyperlink will show the glossary line
+	%
+	\hyperdef{\word@list}{\word@label}{}
+	%
 	% Word number and name
 	%
 	\makebox[0.5\textwidth][l]{%
@@ -472,7 +475,7 @@
 		% Word Name
 		%
 		\mdseries	% Back to a medium weight (normal) font
-		\hyperdef{\word@list}{\word@label}{\texttt{\word@name}}
+		\texttt{\word@name}
 	}
 	%
 	% English pronunciation (if given)
@@ -488,17 +491,6 @@
 	\hfill
 	\MakeUppercase{\word@list}
 	\if@ext EXT\fi
-	%
-	% Define the label for this word
-	%
-	\def\@currentlabel{%
-		\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
-		\ifx\empty\word@num .0\else.\word@num\fi%
-		\ifx\empty\word@sub\else .\word@sub\fi
-	}%
-	\edef\@currentlabelname{\word@name}%
-	\def\@currentHref{\word@list.\word@label}%
-	\label{\word@list:\word@label}%
 	%
 	% Cross Reference
 	%
@@ -520,6 +512,17 @@
 		\mbox{} \hfill	% flush right (under the wordset name)
 		\textsf{\small \word@prop}
 	\fi
+	%
+	% Define the label for this word
+	%
+	\def\@currentlabel{%
+		\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
+		\ifx\empty\word@num .0\else.\word@num\fi%
+		\ifx\empty\word@sub\else .\word@sub\fi
+	}%
+	\edef\@currentlabelname{\word@name}%
+	\def\@currentHref{\word@list.\word@label}%
+	\label{\word@list:\word@label}%
 	%
 	% End the header
 	%
@@ -1202,7 +1205,7 @@
 % title (#3)
 
 \newcommand{\word@xref}[4]{% {number}{page}{name}{link}
-	\textbf{
+	\textbf{%
 		\hyperref{}{}{#4}{#1} \linebreak[3]
 		\hyperref{}{}{#4}{#3}%
 	}%
@@ -1447,9 +1450,14 @@
 \include{alpha}
 
 
-% Back Page - Should be on the last even page
-
+% Back Page
 \pagestyle{empty}
+
+% At least one blank page between the last page of text
+% and the back page
+~\newpage
+
+% The back page should be reverse of the last page
 \ifthenelse{\isodd{page}}{}{~\newpage}
 ~
 \vfill
