@@ -45,8 +45,8 @@ forth.pdf: forth.wds
 	pdflatex forth.tex
 
 zip: *.tex clean
-	(cd ..; zip -r -9 basis.zip basis)
-	mv ../basis.zip basis-`grep \\revision\} forth.tex | cut -c24-27`-`date +%b-%d`.zip	
+	(cd ..; zip -9 -r basis.zip basis -x \*CVS\* -x \*.pdf -x \*.zip)
+	mv ../basis.zip basis-`grep \\revision\} forth.tex | cut -c24-27`-`date +%b-%d`.zip
 
 # This is not currently supported in the latex source,
 # but at least we get something usable, one day ...
