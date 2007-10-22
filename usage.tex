@@ -280,7 +280,7 @@ double-cell integer shall be above the cell containing the least
 significant part.
 
 The implementation-defined range of double-cell signed integers
-shall include \{-2147483647 {\ldots} +2147483647\}.
+shall include \{-2147483647 {\ldots} \newline +2147483647\}.
 
 The implementation-defined range of double-cell non-negative
 integers shall include \{0 {\ldots} 2147483647\}.
@@ -635,9 +635,9 @@ and the same value.
 ~ \hfill \textsf{\small X:extension-query}
 
 As part of the Forth 200\emph{x} standards procedure, additions to the
-Standard \replace{ed07}{where}{are} labelled as \emph{extensions}. These extensions have
+Standard \replace{ed07}{where labelled}{are labeled} as \emph{extensions}. These extensions have
 been added to the environmental query name space. \word{ENVIRONMENTq}
-a \emph{true} if the system has implemented the extension as
+\replace{ed07}{a}{returns} \emph{true} if the system has implemented the extension as
 documented. Table \ref{table:extensions} contains the valid input
 strings corresponding to the documented extensions. In order to
 distinguish such extensions, they start with the string
@@ -655,13 +655,13 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
 		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
-	\place{x:defined}{\texttt{X:defined}}		& -- & -- & \place{x:defined}{the \textsf{X:defined} extension is present} \\
-	\place{x:ekeys}{\texttt{X:ekeys}}			& -- & -- & \place{x:ekeys}{the \textsf{X:ekeys} extension is present} \\
+		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
+		\texttt{X:ekeys}			& -- & -- & the \textsf{X:ekeys} extension is present \\
 		\texttt{X:extension-query}  & -- & -- & the \textsf{X:extension-query} extension is present\\
-	\place{x:fp-stack}{\texttt{X:fp-stack}} & -- & -- & \place{x:fp-stack}{\textsf{X;fp-stack} extension is present} \\
-	\place{x:number-prefix}{\texttt{X:number-prefix}} & -- & -- & \place{x:number-prefix}{\textsf{X:number-prefix} extension is present} \\
+%	\place{x:fp-stack}{\texttt{X:fp-stack}} & -- & -- & \place{x:fp-stack}{the \textsf{X:fp-stack} extension is present} \\
+	\place{x:number-prefix}{\texttt{X:number-prefix}} & -- & -- & \place{x:number-prefix}{the \textsf{X:number-prefix} extension is present} \\
 		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
-	\place{x:required}{\texttt{X:required}}	& -- & -- & \place{x:required}{the \textsf{X:required} extension is present} \\
+		\texttt{X:required}			& -- & -- & the \textsf{X:required} extension is present \\
 	\place{x:structures}{\texttt{X:structures}} & -- & -- & \place{x:structures}{the \textsf{X:structures} extension is present} \\
 	\place{x:thorw-iors}{\texttt{X:throw-iors}} & -- & -- & \place{x:throw-iors}{the \textsf{X:throw-iors} extension is present} \\
 		\hline\hline
@@ -991,13 +991,14 @@ a syntax or program-construct checker.
 \subsubsection{Text interpreter input number conversion} % 3.4.1.3
 \label{usage:numbers}
 
-\cbstart\marginpar{\tiny x:number-prefix}
+\cbstart
 \sout{% Remove
 When converting input numbers, the text interpreter shall recognize
 both positive and negative numbers, with a negative number
 represented by a single minus sign, the character ``\texttt{-}'',
 preceding the digits. The value in \word{BASE} is the radix for
 number conversion.}
+\marginpar{\tiny x:number-prefix}
 
 \uline{% place
 When converting input numbers, the text interpreter shall recognize
