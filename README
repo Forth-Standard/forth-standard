@@ -18,10 +18,9 @@ fancyhdr:	fancy headings
 changebar:	change bars
 ulem:		underline and struck thorough text
 hyperref:	hyper references
-mathptmx:	New-Times-Roman for roman and formula
+mathptmx:	New-Times-Roman for roman and formula, part of PS-NFSS
 helvet:		Helvetica for sans-serif, part of PS-NFSS
 courier:	Courier font, also part of PS-NFSS
-multicol:	multiple columns (for throw codes table)
 
 In addition to these packages I also make use of the following
 optional packages:
@@ -59,12 +58,6 @@ pdf:	This will produce a file "forth.pdf", a PDF version of the
 	pdflatex is used to produce this.
 
 clean:	Will clean up all the temporary files which get left behind.
-
-html:	This will produce a file "forth.html" and a number of
-	supporting files.  This is still rather experimental and is
-	not currently supported in the document.  It uses the tex4ht
-	package to convert the file, but I provide no configuration
-	for the package.
 
 
 The latex process
@@ -174,7 +167,7 @@ The rationale for a word is given in the word definition.  This can
 be show in the definition of the word or in the rationale appendix.
 
 \inlinebody
-	If this is true the rational for a word will be type set
+	If this is true the rationale for a word will be type set
 	immediately after the word.  Otherwise the text will appear
 	in the appropriate section of Appendix A (Rationale)
 
