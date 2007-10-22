@@ -265,18 +265,17 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 
 % ==== X:Required ====
 
-\item \place{x:required}{a file is required while it is being
-	\word{REQUIRED} (\ref{file:REQUIRED}) or \word{INCLUDED}
-	(\ref{file:INCLUDED}).}
-\item \place{x:required}{a marker is defined outside and executed
-	inside a file or vice versa, and the file is \word{REQUIRED}
-	(\ref{file:REQUIRED}) again.}
-\item \place{x:required}{the same file is required twice using different
-	names (e.g., through symbolic links), or different files with the
+\item a file is required while it is being \word{REQUIRED}
+	(\ref{file:REQUIRED}) or \word{INCLUDED} (\ref{file:INCLUDED}).
+\item a marker is defined outside and executed inside a file or
+	vice versa, and the file is \word{REQUIRED}
+	(\ref{file:REQUIRED}) again.
+\item the same file is required twice using different names
+	(e.g., through symbolic links), or different files with the
 	same name are provided to \wref{file:REQUIRED}{REQUIRED} (by doing
-	some renaming between the invocations of \word{REQUIRED}).}
-\item \place{x:required}{the stack effect of including with
-	\wref{file:REQUIRED}{REQUIRED} the file is not} \stack{i*x}{i*x}.
+	some renaming between the invocations of \word{REQUIRED}).
+\item the stack effect of including with
+	\wref{file:REQUIRED}{REQUIRED} the file is not \stack{i*x}{i*x}.
 
 \end{itemize}
 
@@ -513,9 +512,7 @@ provide all of the File Access and File Access Extensions word sets.
 	input buffer from the contents of that line, set \word[core]{toIN}
 	to zero, and interpret.
 
-	Text interpretation begins at the
-	\replace{X:required}{file position where the next file read would
-	occur}{start of the file}.
+	Text interpretation begins at the start of the file.
 
 	When the end of the file is reached, close the file and restore
 	the input source specification to its saved value.
@@ -526,10 +523,8 @@ provide all of the File Access and File Access Extensions word sets.
 	condition exists, the status (open or closed) of any files that
 	were being interpreted is implementation-defined.
 
-	\place{X:required}{%
-		\word{INCLUDED} may allocate memory in data space before it
-		starts interpreting the file.
-	}
+	\word{INCLUDED} may allocate memory in data space before it
+	starts interpreting the file.
 
 \see \wref{file:INCLUDE-FILE}{INCLUDE-FILE}.
 
@@ -539,7 +534,7 @@ provide all of the File Access and File Access Extensions word sets.
 			{\ldots} \word{Sq} \texttt{filename"} \word{INCLUDED} {\ldots}
 
 	\testing*
-		\place{X:required}{See \rref{file:REQUIRED}{REQUIRED}.}
+		See \rref{file:REQUIRED}{REQUIRED}.
 	\end{defer}
 \end{worddef}
 
@@ -658,11 +653,12 @@ provide all of the File Access and File Access Extensions word sets.
 	are not included in the count \param{u_2}. The line buffer provided
 	by \param{c-addr} should be at least \param{u_1+2} characters long.
 
-	If the operation succeeded, \param{flag} is true and \param{ior} is
-	zero. If a line terminator was received before \param{u_1} characters
-	were read, then \param{u_2} is the number of characters, not including
-	the line terminator, actually read ($0 <=$ \param{u_2} $<=$ \param{u_1}).
-	When \param{u_1} = \param{u_2} the line terminator has yet to be reached.
+	If the operation succeeded, \param{flag} is true and \param{ior}
+	is zero. If a line terminator was received before \param{u_1}
+	characters were read, then \param{u_2} is the number of characters,
+	not including the line terminator, actually read ($0 <=$ \param{u_2}
+	$<=$ \param{u_1}). When \param{u_1} = \param{u_2} the line
+	terminator has yet to be reached.
 
 	If the operation is initiated when the value returned by
 	\word{FILE-POSITION} is equal to the value returned by
@@ -779,8 +775,8 @@ provide all of the File Access and File Access Extensions word sets.
 \runtime
 	\stack{}{c-addr u}
 
-	Return \param{c-addr} and \param{u} that describe a string consisting
-	of the characters \param{ccc}.
+	Return \param{c-addr} and \param{u} that describe a string
+	consisting of the characters \param{ccc}.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Cq}{C"},
@@ -913,7 +909,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef*}{}{INCLUDE}[][X:required]
+\begin{worddef}{}{INCLUDE}[][X:required]
 \item \stack{i*x "name"}{j*x}
 
 	Skip leading white space and parse \param{name} delimited by a
@@ -937,7 +933,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\testing*
 		See \rref{file:REQUIRED}{REQUIRED}.
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
 
 \begin{worddef}{2125}{REFILL}
@@ -965,7 +961,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef*}{}{REQUIRE}[][X:required]
+\begin{worddef}{}{REQUIRE}[][X:required]
 \item \stack{i*x "name"}{i*x}
 
 	Skip leading white space and parse \param{name} delimited by a
@@ -989,10 +985,10 @@ provide all of the File Access and File Access Extensions word sets.
 	\testing*
 		See \rref{file:REQUIRED}{REQUIRED}.
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{REQUIRED}[][X:required]
+\begin{worddef}{}{REQUIRED}[][X:required]
 \item \stack{i*x c-addr u}{i*x}
 
 	If the file specified by \param{c-addr u} has been \word{INCLUDED}
@@ -1102,5 +1098,5 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab \word{Sq} required-helper2.fs" \word{INCLUDED}	\word{bs} Increment TOS \\
 		 -> 2 \}
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
