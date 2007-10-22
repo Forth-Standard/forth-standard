@@ -238,13 +238,10 @@ glossary entries of the relevant words:
 \item most recent definition does not have a \emph{name}
 	(\wref{core:IMMEDIATE}{IMMEDIATE});
 
-\item \remove{x:to}{\emph{name} not defined by \wref{core:VALUE}{VALUE}
-	used by \wref{core:TO}{TO};}
-
-\item \place{x:to}{%
-	\wref{core:TO}{TO} not followed directly by a \emph{name} defined
-	by a word with ``\word{TO} \emph{name} runtime'' semantics
-	(\wref{core:VALUE}{VALUE} and \wref{local:LOCAL}{(LOCAL)});}
+\item \wref{core:TO}{TO} not followed directly by a \emph{name}
+	defined by a word with ``\word{TO} \emph{name} runtime''
+	semantics (\wref{core:VALUE}{VALUE} and
+	\wref{local:LOCAL}{(LOCAL)});
 
 \item \emph{name} not found \wref{core:'}{'},
 	\wref{core:POSTPONE}{POSTPONE}, \wref{core:[']}{[']},
@@ -253,11 +250,10 @@ glossary entries of the relevant words:
 \item parameters are not of the same type \wref{core:DO}{DO},
 	\wref{core:qDO}{?DO}, \wref{core:WITHIN}{WITHIN});
 
-\item \wref{core:POSTPONE}{POSTPONE}\replace{x:to}{ or}{,}
-	\wref{core:[COMPILE]}{[COMPILE]}\place{x:to}{,
+\item \wref{core:POSTPONE}{POSTPONE},
+	\wref{core:[COMPILE]}{[COMPILE]},
 	\wref{core:'}{'} or
-	\wref{core:[']}{[']}}
-	applied to \wref{core:TO}{TO};
+	\wref{core:[']}{[']} applied to \wref{core:TO}{TO};
 
 \item string longer than a counted string returned by
 	\wref{core:WORD}{WORD};
@@ -296,7 +292,7 @@ as a consequence of specific extensions.
 
 % ==== X: Required ====
 
-\item[\textsf{X:required}] %\cbstart\marginpar{\tiny x:required} ~
+\item[\textsf{X:required}] ~
 	\begin{itemize}
 \item a file is required while it is being \word[file]{REQUIRED}
 	(\ref{file:REQUIRED}) or \word[file]{INCLUDED} (\ref{file:INCLUDED}).
@@ -316,11 +312,11 @@ as a consequence of specific extensions.
 
 % ==== X: Structures ====
 
-\item[\textsf{X:structures}] \cbstart\marginpar{\tiny x:structures} ~
+\item[\textsf{X:structures}] ~ \cbstart\marginpar{\tiny x:structures} ~
 	\begin{itemize}
 \item A \param{name} defined by
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
-	is executed before the coresponding
+	is executed before the corresponding
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}
 	has been executed.
 	\end{itemize}
