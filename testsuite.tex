@@ -7,22 +7,21 @@
 
 After the publication of the original ANS Forth document
 (ANSI X3.215-1994), John Hayes of the Johns Hopkins University /
-Applied Physics Laboratory developed a \replace{test}{validation}{test} suite. In
+Applied Physics Laboratory developed a test suite. In
 November of 1995 the test suite was released.
 
-\place{test}{%
 While this suite does test many aspects of the core system, it is not
 comprehensive. A standard system must be capable of passing all of the
 tests within the suite. A system can not claim to be standard simply
-because it is able to pass this test suite.}
+because it is able to pass this test suite.
 
 \section{Test Harness}
 
 The tester defines functions that compare the results of a test with a
 set of expected results. The syntax for each test starts with
-``\verb|{|'' \place{test}{(open brace)} followed by a code sequence to
-test. This is followed by ``\verb|->|'', the expected results, and
-``\verb|}|'' \place{test}{(close brace)}. For example, the following:
+``\verb|{|'' (open brace) followed by a code sequence to test.
+This is followed by ``\verb|->|'', the expected results, and
+``\verb|}|'' (close brace). For example, the following:
 \begin{quote}
 	\verb|{ 1 1 + -> 2 }|
 \end{quote}
@@ -42,16 +41,10 @@ The tester can be used to define regression tests for a set of
 application words. It can also be used to define tests of words in a
 standard-conforming implementation. An example is the test of the ANS
 Forth CORE word set.
-\remove{test}{The test starts by verifying basic assumptions about
-number representation. It then builds on this with tests of boolean
-logic, shifting, and comparisons. It then tests basic stack
-manipulations and arithmetic. Ultimately, it tests the Forth interpreter
-and compiler.}
 
 
 \section{Tester Source}
-The following source code provides the
-\replace{test}{test harness described in section \textbf{??}}{tester}.
+The following source code provides the tester.
 
 \setwordlist{core}
 \begin{tt}
@@ -116,22 +109,15 @@ The following source code provides the
 
 \section{Core Tests}
 
-\place{test}{The test starts by verifying basic assumptions about number
+The test starts by verifying basic assumptions about number
 representation. It then builds on this with tests of boolean logic,
-shifting, and comparisons. It then tests basic stack manipulations and
-arithmetic. Ultimately, it tests the Forth interpreter and compiler.}
+shifting, and comparisons. It then tests basic stack manipulations
+and arithmetic. Ultimately, it tests the Forth interpreter and
+compiler.
 
-\place{test}{The tests presented here are John Hayes' original test
-which accompany the tester package. Additional test have been given
-in the rationale for individual words.}
-
-\remove{test}{In this and following sections we present validation tests
-for specific words. A standard system would be expected to pass \emph{all}
-of the validation tests documented here.}
-
-\remove{test}{The words in this section are organized by word set,
-retaining their index numbers for easy cross-referencing to the glossary.}
-
+The tests presented here are John Hayes' original test which
+accompany the tester package. Additional test have been given in
+the rationale for individual words.
 
 \begin{tt}
 \word{bs} From: ~ John Hayes S1I \\
