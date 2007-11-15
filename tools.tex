@@ -423,12 +423,12 @@ Extensions word sets.
 			\word{bs} Conditionally transfer control to beginning of loop \\
 			\word{bs} This is similar in spirit to C's "continue" statement.
 
-			\word{:} ?REPEAT ~~\word{p} dest -- dest ) \word{bs} Compilation \\
-			\tab\tab\tab~\word{p} flag -- ) \tab~\word{bs} Execution \\
+			\word{:} ?REPEAT ~~\word{p} dest -{}- dest ) \word{bs} Compilation \\
+			\tab\tab\tab~\word{p} flag -{}- ) \tab~\word{bs} Execution \\
 			\tab 0 \word[tools]{CS-PICK} ~ \word{POSTPONE} \word{UNTIL} \\
 			\word{;} \word{IMMEDIATE}
 
-			\word{:} XX \word{p} -- ) \word{bs} Example use of ?REPEAT \\
+			\word{:} XX \word{p} -{}- ) \word{bs} Example use of ?REPEAT \\
 			\tab \word{BEGIN} \\
 			\tab\tab {\ldots} \\
 			\tab flag ?REPEAT \word{p} Go back to BEGIN if flag is false ) \\
@@ -472,7 +472,7 @@ Extensions word sets.
 
 		\setwordlist{core}
 		\begin{quote}\ttfamily
-			\word{:} \word{WHILE} ~ \word{p} dest -- orig dest ) \\
+			\word{:} \word{WHILE} ~ \word{p} dest -{}- orig dest ) \\
 			\tab \word{POSTPONE} \word{IF} ~ 1 \word[tools]{CS-ROLL} \\
 			\word{;} \word{IMMEDIATE}
 		\end{quote}
@@ -664,7 +664,7 @@ Extensions word sets.
 
 			\word{VARIABLE} 16-BIT?
 
-			\word{:} 16BIT\bs~~\word{p} -- ) ~
+			\word{:} 16BIT\bs~~\word{p} -{}- ) ~
 				16-BIT? \word{@} ~
 				\word{IF} ~ \word{POSTPONE} \word{bs} ~ \word{THEN} \\
 			\word{;} \word{IMMEDIATE}
@@ -686,7 +686,7 @@ Extensions word sets.
 		\begin{tabbing}
 		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
 		  \+
-		  \word{:} \word{[ELSE]} \word{p} -- ) \\
+		  \word{:} \word{[ELSE]} \word{p} -{}- ) \\
 			\+ 1 \word{BEGIN}																		\>\>\>\>\>\>\word{bs}~level \\
 				\+ \word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}	\>\>\>\>\>	\word{bs}~level adr len \\
 					\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}			\>\>\>\>	\word{bs}~level adr len \\
@@ -705,11 +705,11 @@ Extensions word sets.
 			\- \word{DROP} \\
 		\word{;} \word{IMMEDIATE} \\[1.5\parskip]
 
-		\word{:} \word[tools]{[IF]} \word{p} flag -- ) \\
+		\word{:} \word[tools]{[IF]} \word{p} flag -{}- ) \\
 		\> \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN} \\
 		\word{;} \word{IMMEDIATE} \\[1.5\parskip]
 
-		\word{:} \word{[THEN]} \word{p} -- ) \word{;} \word{IMMEDIATE} \\
+		\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE} \\
 		\end{tabbing}
 		\end{quote}
 	\end{defer}

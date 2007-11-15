@@ -235,7 +235,7 @@ previously defined words which will be executed in turn whenever the
 word being defined is invoked. The definition is terminated by
 \word{;} (semicolon). For example, here is a definition:
 \begin{quote}\ttfamily
-	\word{:} RECEIVE \word{p} -- addr n )
+	\word{:} RECEIVE \word{p} -{}- addr n )
 		\word{PAD} \word{DUP} 32 \word{ACCEPT}
 	\word{;}
 \end{quote}
@@ -519,9 +519,9 @@ the words it defines are to behave, we are ready to write the two
 parts of its definition:
 
 \begin{quote}\ttfamily
-	\word{:} 2ARRAY~~\word{p} n -- ) \\
+	\word{:} 2ARRAY~~\word{p} n -{}- ) \\
 	\tab \word{CREATE} ~ \word{2*} \word{CELLS} \word{ALLOT} \\
-	\tab \word{DOES} ~~ \word{p} i a -- a') ~
+	\tab \word{DOES} ~~ \word{p} i a -{}- a') ~
 		\word{SWAP} ~ \word{2*} \word{CELLS} \word{+} ~
 	\word{;}
 \end{quote}
@@ -595,7 +595,7 @@ Thus, the command \texttt{255 LIGHT} will turn on all lights, while
 	\multicolumn{2}{|l|}{Block 180} \\
 	 0. & \word{p} LED control )\\
 	 1. & \word{HEX} 40 \word{CONSTANT} LIGHTS \word{DECIMAL} \\
-	 2. & \word{:} LIGHT \word{p} n -- ) LIGHTS OUTPUT \word{;} \\
+	 2. & \word{:} LIGHT \word{p} n -{}- ) LIGHTS OUTPUT \word{;} \\
 	 3. & \\
 	 4. & \word{VARIABLE} DELAY \\
 	 5. & \word{:} SLOW 500 DELAY \word{!} \word{;} \\
@@ -605,15 +605,15 @@ Thus, the command \texttt{255 LIGHT} will turn on all lights, while
 	 			DELAY \word{@} \word[facility]{MS} \quad
 			\word{LOOP} \word{;} \\
 	 8. & \\
-	 9. & \word{:} LAMP \word{p} n - ) \quad
+	 9. & \word{:} LAMP \word{p} n -{}- ) \quad
 	 		\word{CREATE} \word{,} \quad
-	 		\word{DOES} ( a -- n ) \quad
+	 		\word{DOES} \word{p} a -{}- n ) \quad
 	 		\word{@} \word{;} \\
 	10. & 1 LAMP POWER~~~ ~2 LAMP HV~~~~  4 LAMP TORCH \\
 	11. & 8 LAMP SAMPLING 16 LAMP IDLING \\
 	12. & \\
 	13. & \word{VARIABLE} LAMPS \\
-	14. & \word{:} TOGGLE \word{p} n -- )
+	14. & \word{:} TOGGLE \word{p} n -{}- )
 			LAMPS \word{@}
 			\word{XOR} \word{DUP}
 			LAMPS \word{!} LIGHT

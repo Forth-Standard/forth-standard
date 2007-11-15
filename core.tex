@@ -1079,7 +1079,7 @@
 		\{ 0 0 GN' G' MAX-BASE >NUMBER-BASED -> 10 0 GN-CONSUMED \} \\
 		\{ 0 0 GN' Z' MAX-BASE >NUMBER-BASED -> 23 0 GN-CONSUMED \}
 
-		\word{:} GN1 \word{bs} ( UD BASE -- UD' LEN ) UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
+		\word{:} GN1 \word{bs} ( UD BASE -{}- UD' LEN ) UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
 		\tab	\word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \\
 		\tab	\word{num-start} \word{numS} \word{num-end} \\
 		\tab	0 0 \word{2SWAP} \word{toNUMBER} \word{SWAP} \word{DROP} \tab \word{bs} RETURN LENGTH ONLY \\
@@ -1431,7 +1431,7 @@
 
 	\begin{defer}
 	\testing
-		\word{:} GN2	\word{bs} ( -- 16 10 ) \\
+		\word{:} GN2	\word{bs} ( -{}- 16 10 ) \\
 		\tab \word{BASE} \word{@} \word{toR}
 			\word{HEX} \word{BASE} \word{@}
 			\word{DECIMAL} \word{BASE} \word{@}
@@ -1613,7 +1613,7 @@
 		of data.)
 
 	\testing
-		\word{:} BITS \word{p} X -- U ) \\
+		\word{:} BITS \word{p} X -{}- U ) \\
 		\tab 0 \word{SWAP} \word{BEGIN} \word{DUP} \word{WHILE} \word{DUP} MSB \word{AND}
 			\word{IF} \word{toR} \word{1+} \word{Rfrom} \word{THEN} \word{2*} \word{REPEAT} \word{DROP}
 		\word{;}
@@ -2325,23 +2325,23 @@
 		to define:
 
 		\begin{quote}\ttfamily
-			\word{:} /\_MOD \word{p} n1 n2 -- n3 n4)
+			\word{:} /\_MOD \word{p} n1 n2 -{}- n3 n4)
 				\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD}
 			\word{;}
 
-			\word{:} /\_ \word{p} n1 n2 -- n3)
+			\word{:} /\_ \word{p} n1 n2 -{}- n3)
 				/\_MOD \word{SWAP} \word{DROP}
 			\word{;}
 
-			\word{:} \_MOD \word{p} n1 n2 -- n3)
+			\word{:} \_MOD \word{p} n1 n2 -{}- n3)
 				/\_MOD \word{DROP}
 			\word{;}
 
-			\word{:} */\_MOD \word{p} n1 n2 n3 -- n4 n5)
+			\word{:} */\_MOD \word{p} n1 n2 n3 -{}- n4 n5)
 				\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD}
 			\word{;}
 
-			\word{:} */\_ \word{p} n1 n2 n3 -- n4 )
+			\word{:} */\_ \word{p} n1 n2 n3 -{}- n4 )
 				*/\_MOD \word{SWAP} \word{DROP}
 			\word{;}
 		\end{quote}
@@ -2532,7 +2532,7 @@
 		identical results:
 
 		\begin{quote}\ttfamily
-			\word{:} ONE \word{p} flag -- ) \\
+			\word{:} ONE \word{p} flag -{}- ) \\
 			\tab \word{IF}
 					\word{.q} true"
 				\word{ELSE}
@@ -2540,7 +2540,7 @@
 				\word{THEN}
 			\word{;}
 
-			\word{:} TWO ( flag -- ) \\
+			\word{:} TWO \word{p} flag -{}- ) \\
 			\tab NOT \word{IF}
 					\word{.q} false"
 				\word{ELSE}
@@ -3181,7 +3181,7 @@
 		the factorial function.
 
 		\begin{quote}\ttfamily
-		\word{:} FACTORIAL \word{p} +n1 -- +n2) \\
+		\word{:} FACTORIAL \word{p} +n1 -{}- +n2) \\
 		\tab \word{DUP} 2 \word{less} \word{IF}~
 				\word{DROP} 1 \word{EXIT}~
 			\word{THEN} \\
@@ -3197,7 +3197,7 @@
 		\rref{core:REPEAT}{REPEAT}.
 
 	\testing
-		\{ \word{:} GI6 \word{p} N -- 0,1,..N ) \word{DUP} \word{IF}
+		\{ \word{:} GI6 \word{p} N -{}- 0,1,..N ) \word{DUP} \word{IF}
 			\word{DUP} \word{toR} \word{1-} \word{RECURSE} \word{Rfrom}
 		\word{THEN} \word{;} -> \} \\
 		\{ 0 GI6 -> 0 \} \\
@@ -3233,7 +3233,7 @@
 	\rationale % A.6.1.2140 REPEAT
 		Typical use:
 		\begin{quote}\ttfamily
-			\word{:} FACTORIAL \word{p} +n1 -- +n2 ) \\
+			\word{:} FACTORIAL \word{p} +n1 -{}- +n2 ) \\
 			\tab \word{DUP} 2 \word{less} \word{IF}~
 				\word{DROP} 1 \word{EXIT}~ \word{THEN} \\
 			\tab \word{DUP} \\
@@ -3358,7 +3358,7 @@
 
 	\begin{defer}
 	\testing
-		\word{:} GP2  \word{num-start} -1 \word{SIGN} 0 \word{SIGN} -1 \word{SIGN} 0 0 \word{num-end} \word{Sq} --" S= \word{;} \\
+		\word{:} GP2  \word{num-start} -1 \word{SIGN} 0 \word{SIGN} -1 \word{SIGN} 0 0 \word{num-end} \word{Sq} -{}-" S= \word{;} \\
 		\{ GP2 -> <TRUE> \}
 	\end{defer}
 \end{worddef}
@@ -3384,23 +3384,23 @@
 		programs to define the following symmetric-division operators:
 
 		\begin{quote}\ttfamily
-			\word{:} /-REM \word{p} n1 n2 -- n3 n4 )
+			\word{:} /-REM \word{p} n1 n2 -{}- n3 n4 )
 				\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM}
 			\word{;}
 
-			\word{:} /- \word{p} n1 n2 -- n3 )
+			\word{:} /- \word{p} n1 n2 -{}- n3 )
 				/-REM \word{SWAP} \word{DROP}
 			\word{;}
 
-			\word{:} -REM \word{p} n1 n2 -- n3 )
+			\word{:} -REM \word{p} n1 n2 -{}- n3 )
 				/-REM \word{DROP}
 			\word{;}
 
-			\word{:} */-REM \word{p} n1 n2 n3 -- n4 n5 )
+			\word{:} */-REM \word{p} n1 n2 n3 -{}- n4 n5 )
 				\word{toR} \word{M*} \word{Rfrom} \word{SM/REM}
 			\word{;}
 
-			\word{:} */- \word{p} n1 n2 n3 -- n4 )
+			\word{:} */- \word{p} n1 n2 n3 -{}- n4 )
 				*/-REM \word{SWAP} \word{DROP}
 			\word{;}
 		\end{quote}
@@ -4366,7 +4366,7 @@ their clientele.
 				\word{bs} table for command execution tokens \\
 			\tab 100 \word{CELLS} \word{ALLOT}
 
-			\word{:} CMD \word{p} n -- a-addr )
+			\word{:} CMD \word{p} n -{}- a-addr )
 				\word{bs} nth element address in table \\
 			\tab \word{CELLS} CMD-TABLE \word{+}
 			\word{;}
@@ -4380,16 +4380,16 @@ their clientele.
 		\begin{quote}\ttfamily
 		  \begin{tabbing}
 			\tab \= \tab \= \hspace*{12em} \= \kill
-			\word{:} DOCOLON \word{p} -- ) \\
+			\word{:} DOCOLON \word{p} -{}- ) \\
 			\+ \word{bs} Modify CREATEd word to execute like a colon def \\
-				\+ \word{DOES} \word{p} i*x a-addr -- j*x ) \\
+				\+ \word{DOES} \word{p} i*x a-addr -{}- j*x ) \\
 					1 \word{OVER} \word{+!}								\> \word{bs} count executions \\
 			\-	\-	\word{CELL+} \word{@} \word{EXECUTE}				\> \word{bs} execute :NONAME definition \\
 			\word{;} \\[1.5\parskip]
 
 			\word{:} OLD: \word{:} \word{;}								\>\>\> \word{bs} just an alias \\[1.5\parskip]
 
-			OLD: \word{:} \word{p} "name" -- a-addr xt colon-sys ) \\
+			OLD: \word{:} \word{p} "name" -{}- a-addr xt colon-sys ) \\
 			\+ \word{bs} begins an execution-counting colon definition \\
 				\word{CREATE} \word{HERE} 0 \word{,}					\>\> \word{bs} storage for execution counter \\
 				0 \word{,}												\>\> \word{bs} storage for execution token \\
@@ -4406,7 +4406,7 @@ their clientele.
 		\begin{quote}\ttfamily
 		  \begin{tabbing}
 			\tab \= \tab \= \hspace*{12em} \= \kill
-			OLD: \word{;} \word{p} a-addr xt colon-sys -- ) \\
+			OLD: \word{;} \word{p} a-addr xt colon-sys -{}- ) \\
 			\+ \word{bs} ends an execution-counting colon definition \\
 				\word{POSTPONE} \word{;}										\>\> \word{bs} complete compilation of colon def \\
 			\-	\word{SWAP} \word{CELL+} \word{!}								\>\> \word{bs} save execution token \\
@@ -4474,7 +4474,7 @@ their clientele.
 	\rationale % A.6.2.0620 ?DO
 		Typical use:
 
-		\tab \word{:} \texttt{FACTORIAL} \word{p} +n1 -- +n2 )~
+		\tab \word{:} \texttt{FACTORIAL} \word{p} +n1 -{}- +n2 )~
 			1 \word{SWAP} \word{1+} \word{qDO}~
 				\word{I} \word{*}~
 			\word{LOOP}
@@ -4769,9 +4769,9 @@ their clientele.
 
 	\begin{defer}
 	\implementation
-		\word{:} \word{DEFER} \word{p} "name" -- ) \\
+		\word{:} \word{DEFER} \word{p} "name" -{}- ) \\
 		\tab \word{CREATE} \word{[']} \word{ABORT} \word{,} \\
-		\word{DOES} \word{p} {\ldots} -- {\ldots} ) \\
+		\word{DOES} \word{p} {\ldots} -{}- {\ldots} ) \\
 		\tab \word{@} \word{EXECUTE} \word{;}
 
 	\testing
@@ -4799,7 +4799,7 @@ their clientele.
 
 	\begin{defer}
 	\implementation
-		\word{:} \word{DEFER!} \word{p} xt2 xt1 -- ) \\
+		\word{:} \word{DEFER!} \word{p} xt2 xt1 -{}- ) \\
 		\tab \word{toBODY} \word{!} \word{;}
 
 	\testing
@@ -4829,7 +4829,7 @@ their clientele.
 
 	\begin{defer}
 	\implementation
-		\word{:} \word{DEFER@} \word{p} xt1 -- xt2 ) \\
+		\word{:} \word{DEFER@} \word{p} xt1 -{}- xt2 ) \\
 		\tab \word{toBODY} \word{@} \word{;}
 
 	\testing
@@ -5276,14 +5276,14 @@ their clientele.
 
 	\begin{defer}
 	\implementation
-		\word{:} isspace? \word{p} c -- f ) \\
+		\word{:} isspace? \word{p} c -{}- f ) \\
 		\tab \word{BL} \word{1+} \word{Uless} \word{;}
 
-		\word{:} isnotspace? \word{p} c -- f ) \\
+		\word{:} isnotspace? \word{p} c -{}- f ) \\
 		\tab isspace? \word{0=} \word{;}
 
-		\word{:} xt-skip \word{p} addr1 n1 xt -- addr2 n2 ) \\
-		\tab \word{bs} skip all characters satisfying xt ( c -- f ) \\
+		\word{:} xt-skip \word{p} addr1 n1 xt -{}- addr2 n2 ) \\
+		\tab \word{bs} skip all characters satisfying xt ( c -{}- f ) \\
 		\tab \word{toR} \\
 		\tab \word{BEGIN} \\
 		\tab[2] \word{DUP} \\
@@ -5294,7 +5294,7 @@ their clientele.
 		\tab \word{REPEAT} \word{THEN} \\
 		\tab \word{Rfrom} \word{DROP} \word{;}
 
-		\word{:} parse-name \word{p} "name" -- c-addr u ) \\
+		\word{:} parse-name \word{p} "name" -{}- c-addr u ) \\
 		\tab \word{SOURCE} \word{toIN} \word{@} \word[string]{/STRING} \\
 		\tab \word{[']} isspace? xt-skip \word{OVER} \word{toR} \\
 		\tab \word{[']} isnotspace? xt-skip \word{p} end-word restlen r: start-word ) \\
@@ -5311,7 +5311,7 @@ their clientele.
 		\{ PARSE-NAME \verb*"  " \\
 		\tab \word{NIP} -> 0 \} \word{bs} line with white space
 
-		\{ \word{:} parse-name-test \word{p} ``name1'' ``name2'' -- n ) \\
+		\{ \word{:} parse-name-test \word{p} ``name1'' ``name2'' -{}- n ) \\
 		\tab \word{PARSE-NAME} \word{PARSE-NAME} S= \word{;} -> \}
 
 		\{ parse-name-test abcd abcd -> <TRUE> \} \\
@@ -5508,7 +5508,7 @@ their clientele.
 		``always fail'', e.g.:
 
 		\begin{quote}\ttfamily
-			\word{:} \word{RESTORE-INPUT} \word{p} x1 {\ldots} xn n -- flag ) \\
+			\word{:} \word{RESTORE-INPUT} \word{p} x1 {\ldots} xn n -{}- flag ) \\
 			\tab 0 \word{qDO} \word{DROP} \word{LOOP} \word{TRUE} \\
 			\word{;}
 		\end{quote}
@@ -5721,7 +5721,7 @@ their clientele.
 		\begin{quote}\ttfamily
 			0 \word{VALUE} data
 
-			\word{:} EXCHANGE \word{p} n1 -- n2 )
+			\word{:} EXCHANGE \word{p} n1 -{}- n2 )
 				data \word{SWAP} \word{TO} data
 			\word{;}
 		\end{quote}
@@ -5795,7 +5795,7 @@ their clientele.
 		\word{WITHIN} must work for both signed and unsigned arguments.
 		One obvious implementation does not work:
 		\begin{quote}\ttfamily
-			\word{:} \word{WITHIN} \word{p} test low high -- flag ) \\
+			\word{:} \word{WITHIN} \word{p} test low high -{}- flag ) \\
 			\tab \word{toR} ~ \word{OVER} \word{less} \word{0=} \word{p} test flag1 )
 				~ \word{SWAP} \word{Rfrom} \word{less} \word{p} flag1 flag2 )
 				\word{AND} \\
@@ -5828,7 +5828,7 @@ their clientele.
 		(most machines), the following implementation works in all
 		cases:
 		\begin{quote}\ttfamily
-			\word{:} \word{WITHIN} \word{p} test low high -- flag )	~
+			\word{:} \word{WITHIN} \word{p} test low high -{}- flag )	~
 				\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} ~
 			\word{;}
 		\end{quote}

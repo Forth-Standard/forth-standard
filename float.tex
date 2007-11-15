@@ -283,10 +283,10 @@ by specifying the appropriate alignment both at compile-time and
 execution time. For example:
 
 \begin{quote}\ttfamily
-	\word[core]{:} \word[floating]{FCONSTANT} \word[core]{p} F: r -- ) \\
+	\word[core]{:} \word[floating]{FCONSTANT} \word[core]{p} F: r -{}- ) \\
 	\tab \word[core]{CREATE} \word{FALIGN} ~\word[core]{HERE}~
 		1 \word{FLOATS} \word[core]{ALLOT} ~\word{F!} \\
-	\tab \word[core]{DOES} \word[core]{p} F: -- r )
+	\tab \word[core]{DOES} \word[core]{p} F: -{}- r )
 		~\word{FALIGNED} \word{F@} \word[core]{;}
 \end{quote}
 \end{intro}
@@ -966,7 +966,7 @@ word sets.
 		\defertext{Create a new field within a structure definition
 		of size a double-float. The field is aligned.}
 
-		\word{:} DFFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\word{:} DFFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{DFALIGNED} 1 \word{DFLOATS} \word[facility]{+FIELD} \\
 		\word{;}
 	\end{defer}
@@ -1230,7 +1230,7 @@ word sets.
 		sine can be defined as:
 
 		\begin{quote}\ttfamily
-			\word[core]{:} \word{FSINH}~ \word[core]{p} r1 -- r2 ) \\
+			\word[core]{:} \word{FSINH}~ \word[core]{p} r1 -{}- r2 ) \\
 			\tab \word{FEXPM1}~ \word{FDUP}~
 				 \word{FDUP} 1.0E0 \word{F+}~ \word{F/}~ \word{F+}~
 				 2.0E0 \word{F/}
@@ -1259,7 +1259,7 @@ word sets.
 		\defertext{Create a new field within a structure definition
 		of size a float. The field is aligned.}
 
-		\word{:} FFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\word{:} FFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{FALIGNED} 1 \word{FLOATS} \word[facility]{+FIELD} \\
 		\word{;}
 	\end{defer}
@@ -1508,7 +1508,7 @@ word sets.
 		\defertext{Create a new field within a structure definition
 		of size a single-float. The field is aligned.}
 
-		\word{:} SFFIELD:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\word{:} SFFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{SFALIGNED} 1 \word{SFLOATS} \word[facility]{+FIELD} \\
 		\word{;}
 	\end{defer}

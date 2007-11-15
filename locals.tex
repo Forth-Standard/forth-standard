@@ -62,7 +62,7 @@ how it can be used to implement two syntaxes.
 	Creative Solutions, Inc.:
 
 	\begin{quote}\ttfamily
-	\word{:} \word[local]{LOCALS} \word{p} "name{\ldots}name |" -- ) \\
+	\word{:} \word[local]{LOCALS} \word{p} "name{\ldots}name |" -{}- ) \\
 	\tab \word{BEGIN} \\
 	\tab~ \word{BL} \word{WORD} ~ \word{COUNT} \word{OVER} \word{C@} \\
 	\tab~ \word{[CHAR]} | \word{-} \word{OVER} 1 \word{-} \word{OR} ~ \word{WHILE} \\
@@ -70,7 +70,7 @@ how it can be used to implement two syntaxes.
 	\tab \word{REPEAT} \word{2DROP} ~ 0 0 \word[local]{LOCAL} \\
 	\word{;} \word{IMMEDIATE}
 
-	\word{:} EXAMPLE \word{p} n -- n**2 n**3 ) \\
+	\word{:} EXAMPLE \word{p} n -{}- n**2 n**3 ) \\
 	\tab \word[local]{LOCALS} N |
 		~ N \word{DUP} N \word{*} ~\word{DUP} N \word{*}
 	\word{;}
@@ -80,14 +80,14 @@ how it can be used to implement two syntaxes.
 	additional usage rules:
 
 	\begin{quote}\ttfamily
-	\word{:} LOCAL \word{p} "name" -- )
+	\word{:} LOCAL \word{p} "name" -{}- )
 		\word{BL} \word{WORD} \word{COUNT} \word[local]{LOCAL}
 	\word{;} ~\word{IMMEDIATE}
 
-	\word{:} END-LOCALS \word{p} -- ) ~ 0 0 \word[local]{LOCAL}
+	\word{:} END-LOCALS \word{p} -{}- ) ~ 0 0 \word[local]{LOCAL}
 	\word{;} ~\word{IMMEDIATE}
 
-	\word{:} EXAMPLE \word{p} n -- n n**2 n**3 ) \\
+	\word{:} EXAMPLE \word{p} n -{}- n n**2 n**3 ) \\
 	\tab LOCAL N ~END-LOCALS ~
 		N \word{DUP} N \word{*} ~ \word{DUP} N \word{*}
 	\word{;}
@@ -108,7 +108,7 @@ usage:
 
 \begin{enumerate}
 \item[a)] \begin{quote}\ttfamily
-	\word{:} \{	\word{p} "name {\ldots} \}" -- ) \\
+	\word{:} \{	\word{p} "name {\ldots} \}" -{}- ) \\
 	\tab \word{BEGIN} ~\word{BL} \word{WORD} \word{COUNT} \\
 	\tab~~ \word{OVER} \word{C@} \word{[CHAR]} \} \word{-} ~
 		\word{OVER} 1 \word{-} ~
@@ -119,7 +119,7 @@ usage:
 	\end{quote}
 
 \item[b)] \begin{quote}\ttfamily
-	\word{:} JOE \word{p} a b c -- n ) \\
+	\word{:} JOE \word{p} a b c -{}- n ) \\
 	\tab \word{toR} \word{2*} \word{Rfrom} \word{2DUP} \word{+} 0 \\
 	\tab \{ ANS 2B+C C 2B A \} \\
 	\tab 2 0 \word{DO}
@@ -203,13 +203,13 @@ locals.
 
 \begin{enumerate}
 \item[g)] \begin{quote}\ttfamily
-	\word{:} ANN \word{p} a b -- b )
+	\word{:} ANN \word{p} a b -{}- b )
 		\word{DUP} \word{toR} \word{DUP} \word{IF}
 		\{ B A \} \word{THEN} \word{Rfrom} \word{;}
 	\end{quote}
 
 \item[h)] \begin{quote}\ttfamily
-	\word{:} JANE \word{p} a b -- n )
+	\word{:} JANE \word{p} a b -{}- n )
 		\{ B A \} A B \word{+} \word{toR} A B \word{-} ~\word{Rfrom} \word{/} \word{;}
 	\end{quote}
 \end{enumerate}

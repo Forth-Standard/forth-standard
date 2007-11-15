@@ -271,7 +271,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\defertext{Create a new field within a structure definition
 			of size \param{n} bytes.}
 
-		\word{:} +FIELD\tab\word{bs} n <"name"> -- ; Exec: addr -- 'addr \\
+		\word{:} +FIELD\tab\word{bs} n <"name"> -{}- ; Exec: addr -{}- 'addr \\
 		\tab \word{CREATE} \word{OVER} \word{,} \word{+} \\
 		\tab \word{DOES} \word{@} \word{+} \\
 		\word{;}
@@ -342,14 +342,14 @@ to provide all of the Facility and Facility Extensions word sets.
 		within another data structure:
 
 		\begin{quote}\ttfamily
-		\word{BEGIN-STRUCTURE} point \tab[-0.1] \word{bs} -- a-addr 0 ; -- lenp \\
-		\tab \word{FIELD:} p.x		\tab[5.5] \word{bs} -- a-addr cell \\
-		\tab \word{FIELD:} p.y      \tab[5.5] \word{bs} -- a-addr cell*2 \\
+		\word{BEGIN-STRUCTURE} point \tab[-0.1] \word{bs} -{}- a-addr 0 ; -{}- lenp \\
+		\tab \word{FIELD:} p.x		\tab[5.5] \word{bs} -{}- a-addr cell \\
+		\tab \word{FIELD:} p.y      \tab[5.5] \word{bs} -{}- a-addr cell*2 \\
 		\word{END-STRUCTURE} \\
 
-		\word{BEGIN-STRUCTURE} rect  \tab[1.3]\word{bs} -- a-addr 0 ; -- lenr \\
-		\tab point \word{+FIELD} r.tlhc   \tab \word{bs} -- a-addr cell*2 \\
-		\tab point \word{+FIELD} r.brhc   \tab \word{bs} -- a-addr cell*4 \\
+		\word{BEGIN-STRUCTURE} rect  \tab[1.3]\word{bs} -{}- a-addr 0 ; -{}- lenr \\
+		\tab point \word{+FIELD} r.tlhc   \tab \word{bs} -{}- a-addr cell*2 \\
+		\tab point \word{+FIELD} r.brhc   \tab \word{bs} -{}- a-addr cell*4 \\
 		\word{END-STRUCTURE}
 		\end{quote}
 
@@ -415,10 +415,10 @@ to provide all of the Facility and Facility Extensions word sets.
 		form \word{BEGIN-STRUCTURE} \arg{name}.  At run time
 		\arg{name} returns the size of the structure.}
 
-		\word{:} BEGIN-STRUCTURE\tab\word{bs} -- addr 0 ; -- size \\
+		\word{:} BEGIN-STRUCTURE\tab\word{bs} -{}- addr 0 ; -{}- size \\
 		\tab \word{CREATE} \\
 		\tab[2] \word{HERE} 0  0 \word{,} \tab[2] \word{bs}  mark stack, lay dummy \\
-		\tab \word{DOES} \word{@} \tab[6]\word{bs} -- rec-len \\
+		\tab \word{DOES} \word{@} \tab[6]\word{bs} -{}- rec-len \\
 		\word{;}
 	\end{defer}
 \end{worddef*}
@@ -442,7 +442,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\defertext{Create a new field within a structure definition
 		of size a character.}
 
-		\word{:} cfield:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\word{:} cfield:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab 1 \word{CHARS} \word{+FIELD} \\
 		\word{;}
 	\end{defer}
@@ -539,14 +539,14 @@ to provide all of the Facility and Facility Extensions word sets.
 			\ttfamily
 			\begin{tabbing}
 			\tab \= \tab \= \tab \= \tab \= \hspace{7em} \= \kill
-			\word{:} \word{EKEYq}~ \word{p} -- flag )~
+			\word{:} \word{EKEYq}~ \word{p} -{}- flag )~
 				DOS-KEY?~ \word{0ne} \word{;} \\[\parskip]
 
-			\word{:} \word{EKEY}~ \word{p} -- u )~
+			\word{:} \word{EKEY}~ \word{p} -{}- u )~
 				DOS-KEY~ \word{qDUP} \word{0=} \word{IF}~
 					DOS-KEY 256 \word{+}~ \word{THEN} \word{;} \\[\parskip]
 
-			\+ \word{:} \word{EKEYtoCHAR} \word{p} u -- u false | char true ) \\
+			\+ \word{:} \word{EKEYtoCHAR} \word{p} u -{}- u false | char true ) \\
 				\+ \word{DUP} 255 \word{more} \word{IF} 		\>\>\>\>	\word{p} u ) \\
 					\word{DUP} 259 \word{=} \word{IF} 		\>\>\>		\word{bs} 259 is Ctrl-@ (ASCII NUL) \\
 					\> \word{DROP} 0 \word{TRUE} \word{EXIT}\>\>		\word{bs} so replace with character \\
@@ -556,7 +556,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 			\word{VARIABLE} PENDING-CHAR ~ -1 PENDING-CHAR \word{!} \\[\parskip]
 
-			\+ \word{:} \word{KEYq}~ \word{p} -- flag ) \\
+			\+ \word{:} \word{KEYq}~ \word{p} -{}- flag ) \\
 				\+ PENDING-CHAR \word{@} \word{0less} \word{IF} \\
 					\+ \word{BEGIN}~ \word{EKEYq} \word{WHILE} \\
 						\+ \word{EKEY} \word{EKEYtoCHAR} \word{IF} \\
@@ -566,7 +566,7 @@ to provide all of the Facility and Facility Extensions word sets.
 			\- \word{THEN}~ \word{TRUE} \\
 			\word{;} \\[\parskip]
 
-			\+ \word{:} \word{KEY}~ \word{p} -- char ) \\
+			\+ \word{:} \word{KEY}~ \word{p} -{}- char ) \\
 				\+ PENDING-CHAR \word{@} \word{0less} \word{IF} \\
 					\word{BEGIN}~ \word{EKEY}~ \word{EKEYtoCHAR} \word{0=} \word{WHILE} \\
 					\> \word{DROP} \\
@@ -609,7 +609,7 @@ to provide all of the Facility and Facility Extensions word sets.
 			\ttfamily
 			\begin{tabbing}
 			\tab \= \tab \= \tab \= \tab \= \hspace{7em} \= \kill
-			\+ \word{:} \word{EKEY}~ \word{p} -- u ) \\
+			\+ \word{:} \word{EKEY}~ \word{p} -{}- u ) \\
 				\+ DOS-KEY-FUNCTION-8~ \word{qDUP}~ \word{0=}~ \word{IF} \\
 					DOS-KEY-FUNCTION-7~ \word{DUP} 3~ \word{=}~ \word{IF} \\
 					\> \word{DROP} 0~ \word{ELSE}~ 256 \word{+}\\
@@ -630,11 +630,11 @@ to provide all of the Facility and Facility Extensions word sets.
 		\word{KEY}, without implementing \word{EKEY}, as follows:
 
 		\begin{quote}\ttfamily
-			\word{:} \word{KEY}~~ \word{p} -- char )~
+			\word{:} \word{KEY}~~ \word{p} -{}- char )~
 				DOS-KEY~
 			\word{;}
 
-			\word{:} \word{KEYq}~ \word{p} -- flag )~
+			\word{:} \word{KEYq}~ \word{p} -{}- flag )~
 				DOS-KEY?~ \word{0ne}~
 			\word{;}
 		\end{quote}
@@ -917,7 +917,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\implementation
 		\defertext{Terminate definition of a structure.}
 
-		\word{:} END-STRUCTURE\tab\word{bs} addr n -- \\
+		\word{:} END-STRUCTURE\tab\word{bs} addr n -{}- \\
 		\tab \word{SWAP} \word{!} \word{;} \tab[4.2]\word{bs} set len
 	\end{defer}
 \end{worddef*}
@@ -941,7 +941,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\defertext{Create a new field within a structure definition
 		of size a cell. The field is aligned.}
 
-		\word{:} field:\tab\word{bs} n1 <"name"> -- n2 ; Exec: addr -- 'addr \\
+		\word{:} field:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{ALIGNED} 1 \word{CELLS} \word{+FIELD} \\
 		\word{;}
 	\end{defer}

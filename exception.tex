@@ -519,16 +519,16 @@ to provide all of the Exception and Exception Extensions word sets.
 	Typical use:
 	\setwordlist{core}
 	\begin{quote}\ttfamily
-		\word{:} could-fail \word{p} -- char ) \\
+		\word{:} could-fail \word{p} -{}- char ) \\
 		\tab \word{KEY} \word{DUP} \word{[CHAR]} Q \word{=}~
 			\word{IF}~ 1 \word[exception]{THROW}
 			\word{THEN}
 		\word{;}
 
-		\word{:} do-it \word{p} a b -- c) ~
+		\word{:} do-it \word{p} a b -{}- c) ~
 			\word{2DROP} could-fail \word{;}
 
-		\word{:} try-it \word{p} --) \\
+		\word{:} try-it \word{p} -{}-) \\
 		\tab 1 2 \word{[']} do-it~ \word[exception]{CATCH}~ \word{IF} \\
 		\tab~~ \word{p} x1 x2 ) \word{2DROP}
 			\word{.q}  There was an exception" \word{CR} \\
@@ -537,7 +537,7 @@ to provide all of the Exception and Exception Extensions word sets.
 		\tab \word{THEN} \\
 		\word{;}
 
-		\word{;} retry-it \word{p} -- ) \\
+		\word{;} retry-it \word{p} -{}- ) \\
 		\tab \word{BEGIN}  1 2 \word{[']} do-it \word[exception]{CATCH}~
 			\word{WHILE} \\
 		\tab~~ \word{p} x1 x2) \word{2DROP}

@@ -421,7 +421,7 @@ sets.
 		\word[search]{WORDLIST} \word{CONSTANT} ROOT ~
 		ROOT \word[search]{SET-CURRENT}
 
-		\word{:} DO-VOCABULARY~~\word{p} -- )
+		\word{:} DO-VOCABULARY~~\word{p} -{}- )
 			\word{bs} Implementation factor \\
 		\tab\word{DOES}~~\word{@} \word{toR}
 				~~~~~~~~~\word{p} ) \word{p} R: widnew ) \\
@@ -430,7 +430,7 @@ sets.
 		\tab~\word{Rfrom} \word{SWAP} \word[search]{SET-ORDER} \\
 		\word{;}
 
-		\word{:} DISCARD~~\word{p} x1 {\ldots} xu u -- )
+		\word{:} DISCARD~~\word{p} x1 {\ldots} xu u -{}- )
 			\word{bs} Implementation factor \\
 		\tab 0 \word{qDO} \word{DROP} \word{LOOP}
 			~~~~~~~~~~~~\word{bs} DROP u+1 stack items \\
@@ -439,39 +439,39 @@ sets.
 		\word{CREATE} \word[search]{FORTH} ~
 		\word[search]{FORTH-WORDLIST} \word{,} DO-VOCABULARY
 
-		\word{:} VOCABULARY ~~~\word{p} name -- )
+		\word{:} VOCABULARY ~~~\word{p} name -{}- )
 			\word[search]{WORDLIST} \word{CREATE} \word{,} ~ DO-VOCABULARY
 		\word{;}
 
-		\word{:} \word[search]{ALSO} ~~~~~~~~~\word{p} -- )
+		\word{:} \word[search]{ALSO} ~~~~~~~~~\word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{OVER}
 			\word{SWAP} 1+ \word[search]{SET-ORDER}
 		\word{;}
 
-		\word{:} \word[search]{PREVIOUS} ~~~~~\word{p} -- )
+		\word{:} \word[search]{PREVIOUS} ~~~~~\word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{SWAP}
 			\word{DROP} 1- \word[search]{SET-ORDER}
 		\word{;}
 
-		\word{:} \word[search]{DEFINITIONS} ~~\word{p} -- )
+		\word{:} \word[search]{DEFINITIONS} ~~\word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{OVER}
 			\word[search]{SET-CURRENT} DISCARD
 		\word{;}
 
-		\word{:} \word[search]{ONLY} ~~~~~~~~~\word{p} -- )
+		\word{:} \word[search]{ONLY} ~~~~~~~~~\word{p} -{}- )
 			ROOT ROOT ~ 2 \word[search]{SET-ORDER}
 		\word{;}
 
 		\word{bs} Forth-83 version; just removes ONLY
 
-		\word{:} SEAL \word{p} -- )
+		\word{:} SEAL \word{p} -{}- )
 			\word[search]{GET-ORDER} \word{1-}
 			\word[search]{SET-ORDER} \word{DROP}
 		\word{;}
 
 		\word{bs} F83 and F-PC version; leaves only CONTEXT
 
-		\word{:} SEAL \word{p} -- )
+		\word{:} SEAL \word{p} -{}- )
 			\word[search]{GET-ORDER} \word{OVER}
 			1 \word[search]{SET-ORDER} DISCARD
 		\word{;}
@@ -491,7 +491,7 @@ sets.
 		\word[core]{CREATE} \word{FORTH} \word{GET-ORDER}
 			\word[core]{OVER} \word[core]{,} DISCARD DO-VOCABULARY
 
-		\word[core]{:} \word{ONLY} \word[core]{p} -- )
+		\word[core]{:} \word{ONLY} \word[core]{p} -{}- )
 			-1 \word{SET-ORDER}
 		\word[core]{;}
 		\end{quote}
@@ -511,7 +511,7 @@ sets.
 
 		\word{CREATE} CONTEXT ~ \#VOCS \word{CELLS} \word{ALLOT}
 
-		\word{:} \word[search]{GET-ORDER}~~\word{p} -- wid1 {\ldots} widn n ) \\
+		\word{:} \word[search]{GET-ORDER}~~\word{p} -{}- wid1 {\ldots} widn n ) \\
 		\tab \#ORDER \word{@} 0 \word{qDO} \\
 		\tab~ \#ORDER \word{@} ~ \word{I} \word{-}
 			  \word{1-} \word{CELLS} CONTEXT \word{+} \word{@} \\
@@ -519,7 +519,7 @@ sets.
 		\tab \#ORDER \word{@} \\
 		\word{;}
 
-		\word{:} \word[search]{SET-ORDER}~~\word{p} wid1 {\ldots} widn n -- ) \\
+		\word{:} \word[search]{SET-ORDER}~~\word{p} wid1 {\ldots} widn n -{}- ) \\
 		\tab \word{DUP} -1 \word{=} \word{IF} \\
 		\tab~ \word{DROP} <push system default word lists and n> \\
 		\tab \word{THEN} \\
@@ -531,7 +531,7 @@ sets.
 
 		\begin{tabbing}
 		\tab \= \tab \= \tab \= \hspace{10.5em} \= \kill
-		\+ \word{:} \word[search]{FIND}~ \word{p} c-addr -- c-addr 0 | w 1 | w -1 ) \\
+		\+ \word{:} \word[search]{FIND}~ \word{p} c-addr -{}- c-addr 0 | w 1 | w -1 ) \\
 				0												\>\>\> \word{p} c-addr 0 ) \\
 			\+	\#ORDER \word{@} 0 \word{qDO} \\
 				\word{OVER} \word{COUNT}						\>\> \word{p} c-addr 0 c-addr' u ) \\

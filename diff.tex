@@ -207,12 +207,12 @@ implementation.
 		\word{TRUE} 1 \word{RSHIFT}
 			\quad \word{INVERT}
 			\quad \word{CONSTANT} HI-BIT \\
-		\word{:} LO-BITS \word{p} n -- mask )
+		\word{:} LO-BITS \word{p} n -{}- mask )
 			0 \word{SWAP}	0 \word{qDO}
 				1 \word{LSHIFT}		LO-BIT \word{OR}
 			\word{LOOP}
 		\word{;} \\
-		\word{:} HI-BITS \word{p} n -- mask )
+		\word{:} HI-BITS \word{p} n -{}- mask )
 			0 \word{SWAP}	0 \word{qDO}
 				1 \word{RSHIFT}	HI-BIT \word{OR}
 			\word{LOOP}
@@ -405,12 +405,12 @@ alignment of addresses for use with various ``\word{@}'' and
 	byte-addressed machine, unaligned ``\word{@}'' and ``\word{!}''
 	could be defined:
 	\begin{quote}\ttfamily
-		\word{:} \word{@} \word{p} addr -- x )
+		\word{:} \word{@} \word{p} addr -{}- x )
 			\word{DUP} \word{C@} \word{SWAP}
 			\word{CHAR+} \word{C@} 8
 			\word{LSHIFT} \word{OR}
 		\word{;} \\
-		\word{:} \word{!} \word{p} x addr -- )
+		\word{:} \word{!} \word{p} x addr -{}- )
 			\word{OVER} 8 \word{RSHIFT}
 			\word{OVER} \word{CHAR+}
 			\word{C!} \word{C!}
@@ -497,15 +497,15 @@ synthesize either explicit behavior.
 	change. For example, the Forth 83 style division operators may be
 	defined by:
 	\begin{quote}\ttfamily
-		\word{:} \word{/MOD}~ \word{p} n1 n2 -- n3 n4 ) ~~
+		\word{:} \word{/MOD}~ \word{p} n1 n2 -{}- n3 n4 ) ~~
 			\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{;} \\
-		\word{:} \word{MOD}~~ \word{p} n1 n2 -- n3 ) ~~~~~
+		\word{:} \word{MOD}~~ \word{p} n1 n2 -{}- n3 ) ~~~~~
 			\word{/MOD} \word{DROP}  \word{;} \\
-		\word{:} \word{/}~~~~ \word{p} n1 n2 -- n3 ) ~~~~~
+		\word{:} \word{/}~~~~ \word{p} n1 n2 -{}- n3 ) ~~~~~
 			\word{/MOD} \word{SWAP} \word{DROP}  \word{;} \\
-		\word{:} \word{*/MOD} \word{p} n1 n2 n3 -- n4 n5 )
+		\word{:} \word{*/MOD} \word{p} n1 n2 n3 -{}- n4 n5 )
 			\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{;} \\
-		\word{:} \word{*/}~~~ \word{p} n1 n2 n3 -- n4 n5 )
+		\word{:} \word{*/}~~~ \word{p} n1 n2 n3 -{}- n4 n5 )
 			\word{*/MOD} \word{SWAP} \word{DROP}  \word{;} \\
 	\end{quote}
 \end{description}

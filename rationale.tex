@@ -104,8 +104,8 @@ programmers, is anticipated. The optional word sets standardize
 various functions (e.g., floating point) that were widely implemented
 before, but not with uniform definition names and methodologies, nor
 the same levels of completeness. With such words now standardized in
-the optional word sets, communications between programmers --
-verbally, via magazine or journal articles, etc. -- will leap to a
+the optional word sets, communications between programmers ---
+verbally, via magazine or journal articles, etc. --- will leap to a
 new level of facility, and the shareability of code and applications
 should rise dramatically.
 
@@ -803,19 +803,19 @@ stack notation used here for immediate words is ( \emph{compilation
 \begin{quote}\ttfamily
   \begin{tabbing}
 	\tab \= \hspace{10em} \= \kill
-	\+ \word{:} \word{WHILE}~ \word{p} dest -- orig dest / flag -- ) \\
+	\+ \word{:} \word{WHILE}~ \word{p} dest -{}- orig dest / flag -{}- ) \\
 		\word{bs} conditional exit from loops \\
 		\word{POSTPONE} \word{IF}		\> \word{bs} conditional forward brach \\
 	\-	1 \word[tools]{CS-ROLL}			\> \word{bs} keep dest on top \\
 	\word{;} \word{IMMEDIATE} \\[2\parskip]
 
-	\+	\word{:} \word{REPEAT}~ \word{p} orig dest -- / -- ) \\
+	\+	\word{:} \word{REPEAT}~ \word{p} orig dest -{}- / -{}- ) \\
 		\word{bs} resolve a single WHILE and return to BEGIN \\
 		\word{POSTPONE} \word{AGAIN}	\> \word{bs} uncond. backward branch to dest \\
 	\-	\word{POSTPONE} \word{THEN}		\> \word{bs} resolve forward branch from orig \\
 	\word{;} \word{IMMEDIATE} \\[2\parskip]
 
-	\+ \word{:} \word{ELSE}~ \word{p} orig1 -- orig2 / -- ) \\
+	\+ \word{:} \word{ELSE}~ \word{p} orig1 -{}- orig2 / -{}- ) \\
 		\word{bs} resolve IF supplying alternate execution \\
 		\word{POSTPONE} \word[tools]{AHEAD}	\> \word{bs} unconditional forward branch orig2 \\
 		1 \word[tools]{CS-ROLL}				\> \word{bs} put orig1 back on top \\
@@ -884,7 +884,7 @@ possible control-flow stack usage.
 	\tab \= \hspace{10em} \= \kill
 	0 \word{CONSTANT} \word{CASE} \word{IMMEDIATE}~ \word{p} init count of OFs ) \\[2\parskip]
 
-	\+ \word{:} \word{OF}~ \word{p} \#of -- orig \#of+1 / x -- ) \\
+	\+ \word{:} \word{OF}~ \word{p} \#of -{}- orig \#of+1 / x -{}- ) \\
 		\word{1+}					\> \word{p} count OFs ) \\
 		\word{toR}					\> \word{p} move off the stack in case the control-flow ) \\
 									\> \word{p} stack is the data stack. ) \\
@@ -895,14 +895,14 @@ possible control-flow stack usage.
 	\-	\word{Rfrom}				\> \word{p} we can bring count back now ) \\
 	\word{;} \word{IMMEDIATE} \\[2\parskip]
 
-	\+ \word{:} \word{ENDOF}~ \word{p} orig1 \#of -- orig2 \#of ) \\
+	\+ \word{:} \word{ENDOF}~ \word{p} orig1 \#of -{}- orig2 \#of ) \\
 		\word{toR}					\> \word{p} move off the stack in case the control-flow ) \\
 									\> \word{p} stack is the data stack. ) \\
 		\word{POSTPONE} \word{ELSE} \\
 	\-	\word{Rfrom}				\> \word{p} we can bring count back now ) \\
 	\word{;} \word{IMMEDIATE} \\[2\parskip]
 
-	\+ \word{:} \word{ENDCASE}~ \word{p} orig1..orign \#of -- ) \\
+	\+ \word{:} \word{ENDCASE}~ \word{p} orig1..orign \#of -{}- ) \\
 		\word{POSTPONE} \word{DROP}	\> \word{p} discard case value ) \\
 		0 \word{qDO} \\
 		\tab \word{POSTPONE} \word{THEN} \\

@@ -63,10 +63,10 @@ The following source code provides the tester.
 \word{VARIABLE} VERBOSE \\
 \tab[1.2] \word{FALSE} VERBOSE \word{!} \\
 \\
-\word{:} EMPTY-STACK \tab \word{bs} ( ... -- ) EMPTY STACK: HANDLES UNDERFLOWED STACK TOO. \\
+\word{:} EMPTY-STACK \tab \word{bs} ( ... -{}- ) EMPTY STACK: HANDLES UNDERFLOWED STACK TOO. \\
 \tab \word{DEPTH} \word{qDUP} \word{IF} \word{DUP} \word{0less} \word{IF} \word{NEGATE} 0 \word{DO} 0 \word{LOOP} \word{ELSE} 0 \word{DO} \word{DROP} \word{LOOP} \word{THEN} \word{THEN} \word{;} \\
 \\
-\word{:} ERROR \tab \word{bs} ( C-ADDR U -- ) DISPLAY AN ERROR MESSAGE FOLLOWED BY\\
+\word{:} ERROR \tab \word{bs} ( C-ADDR U -{}- ) DISPLAY AN ERROR MESSAGE FOLLOWED BY\\
 \tab[5.2] \word{bs} THE LINE THAT HAD THE ERROR.\\
 \tab \word{TYPE} \word{SOURCE} \word{TYPE} \word{CR}		\tab[3] \word{bs} DISPLAY LINE CORRESPONDING TO ERROR\\
 \tab EMPTY-STACK											\tab[7.8] \word{bs} THROW AWAY EVERY THING ELSE\\
@@ -75,16 +75,16 @@ The following source code provides the tester.
 \word{VARIABLE} ACTUAL-DEPTH \tab[3] \word{bs} STACK RECORD\\
 \tab[.7] \word{CREATE} ACTUAL-RESULTS 20 \word{CELLS} \word{ALLOT} \\
 \\
-\word{:} \{ \tab[2.8] \word{bs} ( -- ) SYNTACTIC SUGAR.\\
+\word{:} \{ \tab[2.8] \word{bs} ( -{}- ) SYNTACTIC SUGAR.\\
 \tab \word{;} \\
 \\
-\word{:} -> \tab[2.2] \word{bs} ( ... -- ) RECORD DEPTH AND CONTENT OF STACK.\\
+\word{:} -> \tab[2.2] \word{bs} ( ... -{}- ) RECORD DEPTH AND CONTENT OF STACK.\\
 \tab \word{DEPTH} \word{DUP} ACTUAL-DEPTH \word{!}				\tab[5.9]  \word{bs} RECORD DEPTH\\
 \tab \word{qDUP} \word{IF}										\tab[16.1] \word{bs} IF THERE IS SOMETHING ON STACK\\
 \tab[2] 0 \word{DO} ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{!} \word{LOOP} \tab[.6] \word{bs} SAVE THEM\\
 \tab \word{THEN} \word{;} \\
 \\
-\word{:} \} \tab[2.8] \word{bs} ( ... -- ) COMPARE STACK (EXPECTED) CONTENTS WITH SAVED\\
+\word{:} \} \tab[2.8] \word{bs} ( ... -{}- ) COMPARE STACK (EXPECTED) CONTENTS WITH SAVED\\
 \tab[5.2] \word{bs} (ACTUAL) CONTENTS.\\
 \tab \word{DEPTH} ACTUAL-DEPTH \word{@} \word{=} \word{IF}		\tab[4.85]  \word{bs} IF DEPTHS MATCH\\
 \tab[2] \word{DEPTH} \word{qDUP} \word{IF}						\tab[9.05] \word{bs} IF THERE IS SOMETHING ON THE STACK\\
@@ -97,7 +97,7 @@ The following source code provides the tester.
 \tab[2] \word{Sq} WRONG NUMBER OF RESULTS: " ERROR\\
 \tab \word{THEN} \word{;} \\
 \\
-\word{:} TESTING \tab[.65] \word{bs} ( -- ) TALKING COMMENT.\\
+\word{:} TESTING \tab[.65] \word{bs} ( -{}- ) TALKING COMMENT.\\
 \tab \word{SOURCE} VERBOSE \word{@} \\
 \tab \word{IF} \word{DUP} \word{toR} \word{TYPE} \word{CR} \word{Rfrom} \word{toIN} \word{!}\\
 \tab \word{ELSE} \word{toIN} \word{!} \word{DROP}\\
@@ -752,7 +752,7 @@ TESTING \small \word{HERE} \word{,} \word{@} \word{!} \word{CELL+} \word{CELLS} 
 \{    1234 A-ADDR \word{CELL+} \word{!}    A-ADDR \word{CELL+} \word{@}  ->    1234 \} \\
 \{ 123 456 A-ADDR \word{CELL+} \word{2!}   A-ADDR \word{CELL+} \word{2@} -> 123 456 \}
 
-\word{:} BITS \word{p} X -- U ) \\
+\word{:} BITS \word{p} X -{}- U ) \\
 \tab 0 \word{SWAP} \word{BEGIN} \word{DUP} \word{WHILE} \word{DUP} MSB \word{AND}
 	\word{IF} \word{toR} \word{1+} \word{Rfrom} \word{THEN} \word{2*} \word{REPEAT} \word{DROP}
 \word{;} \\
@@ -866,7 +866,7 @@ TESTING \word{IF} \word{ELSE} \word{THEN} \word{BEGIN} \word{WHILE} \word{REPEAT
 \{ 4 GI5 -> 4 5 123 \} \\
 \{ 5 GI5 -> 5 123 \}
 
-\{ \word{:} GI6 \word{p} N -- 0,1,..,N ) \word{DUP} \word{IF}
+\{ \word{:} GI6 \word{p} N -{}- 0,1,..,N ) \word{DUP} \word{IF}
 	\word{DUP} \word{toR} \word{1-} \word{RECURSE} \word{Rfrom}
 	\word{THEN} \word{;} -> \} \\
 \{ 0 GI6 -> 0 \} \\
@@ -1015,7 +1015,7 @@ TESTING \word{SOURCE} \word{toIN} \word{WORD}
 \begin{tt}
 TESTING \word{num-start} \word{num} \word{numS} \word{num-end} HOLD SIGN \word{BASE} \word{toNUMBER} \word{HEX} \word{DECIMAL}
 
-\word{:} S=  \word{bs} ( ADDR1 C1 ADDR2 C2 -- T/F ) COMPARE TWO STRINGS. \\
+\word{:} S=  \word{bs} ( ADDR1 C1 ADDR2 C2 -{}- T/F ) COMPARE TWO STRINGS. \\
 \tab	\word{toR} \word{SWAP} \word{R@} \word{=} \word{IF}	\tab[4.9] \word{bs} MAKE SURE STRINGS HAVE SAME LENGTH \\
 \tab[2]   \word{Rfrom} \word{qDUP} \word{IF}				\tab[6] \word{bs} IF NON-EMPTY STRINGS \\
 \tab[3]     0 \word{DO} \\
@@ -1032,7 +1032,7 @@ TESTING \word{num-start} \word{num} \word{numS} \word{num-end} HOLD SIGN \word{B
 \word{:} GP1  \word{num-start} 41 \word{HOLD} 42 \word{HOLD} 0 0 \word{num-end} \word{Sq} BA" S= \word{;} \\
 \{ GP1 -> <TRUE> \}
 
-\word{:} GP2  \word{num-start} -1 \word{SIGN} 0 \word{SIGN} -1 \word{SIGN} 0 0 \word{num-end} \word{Sq} --" S= \word{;} \\
+\word{:} GP2  \word{num-start} -1 \word{SIGN} 0 \word{SIGN} -1 \word{SIGN} 0 0 \word{num-end} \word{Sq} -{}-" S= \word{;} \\
 \{ GP2 -> <TRUE> \}
 
 \word{:} GP3  \word{num-start} 1 0 \word{num} \word{num} \word{num-end} \word{Sq} 01" S= \word{;} \\
@@ -1106,7 +1106,7 @@ COUNT-BITS \word{2*} \word{CONSTANT} \#BITS-UD		\tab \word{bs} NUMBER OF BITS IN
 \{ 0 0 GN' G' MAX-BASE >NUMBER-BASED -> 10 0 GN-CONSUMED \} \\
 \{ 0 0 GN' Z' MAX-BASE >NUMBER-BASED -> 23 0 GN-CONSUMED \}
 
-\word{:} GN1 \word{bs} ( UD BASE -- UD' LEN ) UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
+\word{:} GN1 \word{bs} ( UD BASE -{}- UD' LEN ) UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
 \tab	\word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \\
 \tab	\word{num-start} \word{numS} \word{num-end} \\
 \tab	0 0 \word{2SWAP} \word{toNUMBER} \word{SWAP} \word{DROP} \tab \word{bs} RETURN LENGTH ONLY \\
@@ -1119,7 +1119,7 @@ COUNT-BITS \word{2*} \word{CONSTANT} \#BITS-UD		\tab \word{bs} NUMBER OF BITS IN
 \{ MAX-UINT   0 MAX-BASE GN1 -> MAX-UINT   0 0 \} \\
 \{ MAX-UINT DUP MAX-BASE GN1 -> MAX-UINT DUP 0 \}
 
-\word{:} GN2	\word{bs} ( -- 16 10 ) \\
+\word{:} GN2	\word{bs} ( -{}- 16 10 ) \\
 \tab \word{BASE} \word{@} \word{toR}
 	\word{HEX} \word{BASE} \word{@}
 	\word{DECIMAL} \word{BASE} \word{@}

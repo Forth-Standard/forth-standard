@@ -1030,20 +1030,20 @@ provide all of the File Access and File Access Extensions word sets.
 		held in the \texttt{included-names} variable.
 
 		\ttfamily
-		\word{:} save-mem	\word{p} addr1 u -- addr2 u ) \word{bs} gforth \\
+		\word{:} save-mem	\word{p} addr1 u -{}- addr2 u ) \word{bs} gforth \\
 		\word{bs} copy a memory block into a newly allocated region in the heap \\
 		\tab \word{SWAP} \word{toR} \\
 		\tab \word{DUP} \word[memory]{ALLOCATE} \word[exception]{THROW} \\
 		\tab \word{SWAP} \word{2DUP} \word{Rfrom} \word{ROT} \word{ROT} \word{MOVE} \word{;} \\
 
-		\word{:} name-add \word{p} addr u listp -- ) \\
+		\word{:} name-add \word{p} addr u listp -{}- ) \\
 		\tab \word{toR} save-mem \word{p} addr1 u ) \\
 		\tab 3 \word{CELLS} \word[memory]{ALLOCATE} \word[exception]{THROW} \word{bs} allocate list node \\
 		\tab \word{R@} \word{@} \word{OVER} \word{!} \word{bs} set next pointer \\
 		\tab \word{DUP} \word{Rfrom} \word{!} \word{bs} store current node in list var \\
 		\tab \word{CELL+} \word{2!} \word{;} \\
 
-		\word{:} name-present? \word{p} addr u list -- f ) \\
+		\word{:} name-present? \word{p} addr u list -{}- f ) \\
 		\tab \word{ROT} \word{ROT} \word{2toR} \word{BEGIN} \word{p} list R: addr u ) \\
 		\tab[2] \word{DUP} \\
 		\tab \word{WHILE} \\
@@ -1054,7 +1054,7 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab \word{REPEAT} \\
 		\tab \word{p} \word{DROP} 0 ) \word{2Rfrom} \word{2DROP} \word{;} \\
 
-		\word{:} name-join \word{p} addr u list -- ) \\
+		\word{:} name-join \word{p} addr u list -{}- ) \\
 		\tab \word{toR} \word{2DUP} \word{R@} \word{@} name-present? \word{IF} \\
 		\tab[2] \word{Rfrom} \word{DROP} \word{2DROP} \\
 	    \tab \word{ELSE} \\
@@ -1063,11 +1063,11 @@ provide all of the File Access and File Access Extensions word sets.
 
 		\word{VARIABLE} included-names 0 included-names \word{!} \\
 
-		\word{:} included \word{p} i*x addr u -- j*x ) \\
+		\word{:} included \word{p} i*x addr u -{}- j*x ) \\
 		\tab \word{2DUP} included-names name-join \\
 		\tab \word{INCLUDED} \word{;} \\
 
-		\word{:} REQUIRED \word{p} i*x addr u -- i*x ) \\
+		\word{:} REQUIRED \word{p} i*x addr u -{}- i*x ) \\
 		\tab \word{2DUP} included-names \word{@} name-present? \word{0=} \word{IF} \\
 		\tab[2] included \\
 		\tab \word{ELSE} \\
