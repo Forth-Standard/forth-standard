@@ -75,11 +75,10 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 
 \subsection{Text interpreter input number conversion} % 8.3.2
 
-When the text interpreter processes a number\place{x:numer-prefix}{,
-except a \arg{cnum},}
-that is immediately
-followed by a decimal point and is not found as a definition name,
-the text interpreter shall convert it to a double-cell number.
+When the text interpreter processes a number, except a \arg{cnum},
+that is immediately followed by a decimal point and is not found
+as a definition name, the text interpreter shall convert it to a
+double-cell number.
 
 For example, entering \word[core]{DECIMAL} \texttt{1234} leaves the
 single-cell number \texttt{1234} on the stack, and entering
