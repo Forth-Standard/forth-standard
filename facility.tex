@@ -14,7 +14,7 @@ None.
 
 \subsection{Data types} % 10.3.1
 
-\place{X:structures}{Append table \ref{facility:types} to table \ref{table:datatypes}.}
+Append table \ref{facility:types} to table \ref{table:datatypes}.
 
 \begin{table}[h]
   \begin{center}
@@ -24,9 +24,9 @@ None.
 	\hline\hline
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
-	\place{X:strutures}{\emph{struct-sys}}
-	& \place{X:strutures}{data structures}
-	& \place{X:strutures}{implementation dependent} \\
+	\emph{struct-sys}
+	& data structures
+	& implementation dependent \\
 	\hline\hline
 	\end{tabular}
   \end{center}
@@ -34,17 +34,10 @@ None.
 
 \subsubsection{Structure type} % 10.3.1.1
 
-%\place{X:structures}{%
-%The implementation-dependent data generated and upon beginning to
-%compile a data structure, with\linebreak \word{BEGIN-STRUCTURE}, and
-%consumed at its close, with \word{END-STRUCTURE}, is represented by
-%the symbol \param{struct-sys} throughout this Standard.}
-
-\place{X:structures}{%
 The implementation-dependent data generated upon beginning to compile
 a \word{BEGIN-STRUCTURE} {\ldots} \word{END-STRUCTURE} structure and
 consumed at its close is represented by the symbol \param{struct-sys}
-throughout this Standard.}
+throughout this Standard.
 
 \subsubsection{Character types} % 10.3.1.2
 Programs that use more than seven bits of a character by
@@ -93,12 +86,11 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 \item \wref{facility:AT-XY}{AT-XY} operation can't be performed on
 	user output device.
 
-\item \place{X:structures}{%
-	A \param{name} defined by
+\item A \param{name} defined by
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
 	is executed before the corresponding
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}
-	has been executed.}
+	has been executed.
 \end{itemize}
 
 \subsubsection{Other system documentation} % 10.4.1.3
@@ -301,7 +293,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 	\begin{defer}
 	\rationale
-		There are two schools of though regarding named data
+		There are two schools of \replace{ed08}{though}{thought} regarding named data
 		structures: name first and name last.  The name last
 		school can define a named data structure as follows:
 
@@ -473,9 +465,9 @@ to provide all of the Facility and Facility Extensions word sets.
 		representing standard characters. On some systems, this may
 		allow two separate keys that correspond to the same standard
 		character to be distinguished from one another.
-		\place{ed07}{A standard program may only interpret the
-		results of \word{EKEY} via the translation words provided
-		for that purpose (\word{EKEYtoCHAR} and \word{EKEYtoFKEY}).}
+		A standard program may only interpret the results of
+		\word{EKEY} via the translation words provided for that
+		purpose (\word{EKEYtoCHAR} and \word{EKEYtoFKEY}).
 
 		In systems that combine both keyboard and mouse events into
 		a single ``event stream'', the single number returned by
