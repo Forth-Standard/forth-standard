@@ -635,9 +635,9 @@ and the same value.
 ~ \hfill \textsf{\small X:extension-query}
 
 As part of the Forth 200\emph{x} standards procedure, additions to the
-Standard \replace{ed07}{where labelled}{are labeled} as \emph{extensions}. These extensions have
+Standard are labeled as \emph{extensions}. These extensions have
 been added to the environmental query name space. \word{ENVIRONMENTq}
-\replace{ed07}{a}{returns} \emph{true} if the system has implemented the extension as
+returns \emph{true} if the system has implemented the extension as
 documented. Table \ref{table:extensions} contains the valid input
 strings corresponding to the documented extensions. In order to
 distinguish such extensions, they start with the string
@@ -657,13 +657,12 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
 		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
 		\texttt{X:ekeys}			& -- & -- & the \textsf{X:ekeys} extension is present \\
-		\texttt{X:extension-query}  & -- & -- & the \textsf{X:extension-query} extension is present\\
-%	\place{x:fp-stack}{\texttt{X:fp-stack}} & -- & -- & \place{x:fp-stack}{the \textsf{X:fp-stack} extension is present} \\
-	\place{x:number-prefix}{\texttt{X:number-prefix}} & -- & -- & \place{x:number-prefix}{the \textsf{X:number-prefix} extension is present} \\
+		\texttt{X:extension-query}	& -- & -- & the \textsf{X:extension-query} extension is present\\
+		\texttt{X:number-prefix}	& -- & -- & the \textsf{X:number-prefix} extension is present \\
 		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
 		\texttt{X:required}			& -- & -- & the \textsf{X:required} extension is present \\
-	\place{x:structures}{\texttt{X:structures}} & -- & -- & \place{x:structures}{the \textsf{X:structures} extension is present} \\
-	\place{x:thorw-iors}{\texttt{X:throw-iors}} & -- & -- & \place{x:throw-iors}{the \textsf{X:throw-iors} extension is present} \\
+		\texttt{X:structures}		& -- & -- & the \textsf{X:structures} extension is present \\
+		\texttt{X:throw-iors}		& -- & -- & the \textsf{X:throw-iors} extension is present \\
 		\hline\hline
 	\end{tabular}
   \end{center}
@@ -987,65 +986,54 @@ Forth syntax is extensible; for example, new control-flow words can
 be defined in terms of existing ones. This Standard does not require
 a syntax or program-construct checker.
 
-
 \subsubsection{Text interpreter input number conversion} % 3.4.1.3
 \label{usage:numbers}
 
-\cbstart
-\sout{% Remove
-When converting input numbers, the text interpreter shall recognize
-both positive and negative numbers, with a negative number
-represented by a single minus sign, the character ``\texttt{-}'',
-preceding the digits. The value in \word{BASE} is the radix for
-number conversion.}
-\marginpar{\tiny x:number-prefix}
-
-\uline{% place
 When converting input numbers, the text interpreter shall recognize
 integer numbers in the form \arg{BASEnum}; if the
 \textsf{X:number-prefixes} extension is present, the text
 interpreter shall recognize integer numbers in the form
-\arg{anynum}.}
+\arg{anynum}.
 
 \begin{center}
-\begin{tabular}{r@{ \uline{\textsf{:=}} }l}
-\uline{\arg{anynum}}	& \uline{\{ \arg{BASEnum}
+\begin{tabular}{r@{ \textsf{:=} }l}
+\arg{anynum}	& \{ \arg{BASEnum}
 		{\textbar} \arg{decnum}
 		{\textbar} \arg{hexnum}
 		{\textbar} \arg{binnum}
-		{\textbar} \arg{cnum} \}} \\
-\uline{\arg{BASEnum}}	& \uline{[\textbf{-}]\arg{bdigit}\arg{bdigit}*} \\
-\uline{\arg{decnum}}	& \uline{\textbf{\#}[\textbf{-}]\arg{decdigit}\arg{decdigit}*} \\
-\uline{\arg{hexnum}}	& \uline{\textbf{\$}[\textbf{-}]\arg{hexdigit}\arg{hexdigit}*} \\
-\uline{\arg{binnum}}	& \uline{\textbf{\%}[\textbf{-}]\arg{bindigit}\arg{bindigit}*} \\
-\uline{\arg{cnum}}		& \uline{\textbf{'}\arg{char}\textbf{'}} \\
-\uline{\arg{bindigit}}	& \uline{\{ \textbf{0} {\textbar} \textbf{1} \}} \\
-\uline{\arg{decdigit}}	& \uline{\{
+		{\textbar} \arg{cnum} \} \\
+\arg{BASEnum}	& [\textbf{-}]\arg{bdigit}\arg{bdigit}* \\
+\arg{decnum}	& \textbf{\#}[\textbf{-}]\arg{decdigit}\arg{decdigit}* \\
+\arg{hexnum}	& \textbf{\$}[\textbf{-}]\arg{hexdigit}\arg{hexdigit}* \\
+\arg{binnum}	& \textbf{\%}[\textbf{-}]\arg{bindigit}\arg{bindigit}* \\
+\arg{cnum}		& \textbf{'}\arg{char}\textbf{'} \\
+\arg{bindigit}	& \{ \textbf{0} {\textbar} \textbf{1} \} \\
+\arg{decdigit}	& \{
 		\textbf{0} {\textbar} \textbf{1} {\textbar} \textbf{2} {\textbar}
 		\textbf{3} {\textbar} \textbf{4} {\textbar}	\textbf{5} {\textbar}
 		\textbf{6} {\textbar} \textbf{7} {\textbar} \textbf{8} {\textbar}
-		\textbf{9} \}} \\
-\uline{\arg{hexdigit}}	& \uline{\{ \arg{decdigit} {\textbar}
+		\textbf{9} \} \\
+\arg{hexdigit}	& \{ \arg{decdigit} {\textbar}
 		\textbf{a} {\textbar} \textbf{b} {\textbar} \textbf{c} {\textbar}
 		\textbf{d} {\textbar} \textbf{e} {\textbar} \textbf{f} {\textbar}
 		\textbf{A} {\textbar} \textbf{B} {\textbar} \textbf{C} {\textbar}
-		\textbf{D} {\textbar} \textbf{E} {\textbar} \textbf{F} \}}
+		\textbf{D} {\textbar} \textbf{E} {\textbar} \textbf{F} \}
 \end{tabular}
 \end{center}
 
-\uline{\arg{bdigit} represents a digit according to the value of
+\arg{bdigit} represents a digit according to the value of
 \word{BASE} (see \xref{usage:digits}).
 For \arg{hexdigit}, the digits \textbf{a}\ldots\textbf{f} have the
-values 10\ldots15. \arg{char} represents any printable character.}
+values 10\ldots15. \arg{char} represents any printable character.
 
-\uline{The radix used for number conversion is:}
+The radix used for number conversion is:
 \begin{center}
 	\begin{tabular}{ll}
-		\uline{\arg{BASEnum}}	& \uline{the value in \word{BASE}} \\
-		\uline{\arg{decnum}}	& \uline{10} \\
-		\uline{\arg{hexnum}}	& \uline{16} \\
-		\uline{\arg{binnum}}	& \uline{2} \\
-		\uline{\arg{cnum}}		& \uline{the number is the value of \arg{char}}
+		\arg{BASEnum}	& the value in \word{BASE} \\
+		\arg{decnum}	& 10 \\
+		\arg{hexnum}	& 16 \\
+		\arg{binnum}	& 2 \\
+		\arg{cnum}		& the number is the value of \arg{char}
 	\end{tabular}
 \end{center}
 \cbend

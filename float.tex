@@ -103,34 +103,7 @@ by consensus in the Technical Committee:
 \subsection{Notation} % 12.2.2
 \label{float:notation}
 
-\cbstart
-\subsubsection{\sout{Numeric notation}} % 12.2.2.1
-\marginpar{\tiny x:number-prefix}
-
-\sout{The following notation is used to define the syntax of the external
-representation of floating-point numbers:}
-\marginpar{\tiny Text moved to \ref{notation:numeric} on page
-	\pageref{notation:numeric} with appropriate modifications.}
-
-\begin{itemize}
-\item \sout{Each component of a floating-point number is defined with a rule
-consisting of the name of the component (italicized in angle-brackets,
-e.g., \arg{sign}), the characters \textsf{:=} and a concatenation of
-tokens and metacharacters;}
-
-\item \sout{Tokens may be literal characters (in bold face, e.g., \textbf{E}) or
-rule names in angle brackets (e.g., \arg{digit});}
-
-\item \sout{The metacharacter * is used to specify zero or more occurrences of
-the preceding token (e.g., \arg{digit}*);}
-
-\item \sout{Tokens enclosed with [ and ] are optional (e.g., [\arg{sign}]);}
-
-\item \sout{Vertical bars separate choices from a list of tokens enclosed with
-braces (e.g., \{ \textbf{+} {\textbar} \textbf{-} \}).}
-\end{itemize}
-\cbend
-
+\stepcounter{subsubsection}
 \subsubsection{Stack notation} % 12.2.2.2
 
 Floating-point stack notation \remove{X:fp-stack}{when the
@@ -551,12 +524,12 @@ word sets.
 \end{worddef}
 
 
-\begin{worddef}{1410}{F*}[f-star]
-\item \stack[F]{r_1 r_2}{r_3} or
-	\stack{r_1 r_2}{r_3}
-
-	Multiply \param{r_1} by \param{r_2} giving \param{r_3}.
-\end{worddef}
+%\begin{worddef}{1410}{F*}[f-star]
+%\item \stack[F]{r_1 r_2}{r_3} or
+%	\stack{r_1 r_2}{r_3}
+%
+%	Multiply \param{r_1} by \param{r_2} giving \param{r_3}.
+%\end{worddef}
 
 
 \begin{worddef}{1420}{F+}[f-plus]
@@ -948,7 +921,7 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef*}{}{DFFIELD:}[d-f-field-colon][X:structures]
+\begin{worddef}{}{DFFIELD:}[d-f-field-colon][X:structures]
 \item \stack{}{}
 
 	The semantics of \word{DFFIELD:} are identical to the
@@ -971,7 +944,7 @@ word sets.
 		\word{;}
 	\end{defer}
 
-\end{worddef*}
+\end{worddef}
 
 % ---------------------------------------------------------
 
@@ -993,13 +966,13 @@ word sets.
 \end{worddef}
 
 
-\begin{worddef}{1415}{F**}[f-star-star]
-\item \stack[F]{r_1 r_2}{r_3} or
-	\stack{r_1 r_2}{r_3}
-
-	Raise \param{r_1} to the power \param{r_2}, giving the product
-	\param{r_3}.
-\end{worddef}
+%\begin{worddef}{1415}{F**}[f-star-star]
+%\item \stack[F]{r_1 r_2}{r_3} or
+%	\stack{r_1 r_2}{r_3}
+%
+%	Raise \param{r_1} to the power \param{r_2}, giving the product
+%	\param{r_3}.
+%\end{worddef}
 
 
 \begin{worddef}{1427}{F.}[f-dot]
@@ -1241,7 +1214,7 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef*}{}{FFIELD:}[f-field-colon][X:structures]
+\begin{worddef}{}{FFIELD:}[f-field-colon][X:structures]
 \item \stack{}{}
 
 	The semantics of \word{FFIELD:} are identical to the
@@ -1264,7 +1237,7 @@ word sets.
 		\word{;}
 	\end{defer}
 
-\end{worddef*}
+\end{worddef}
 
 % ---------------------------------------------------------
 
@@ -1490,7 +1463,7 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef*}{}{SFFIELD:}[s-f-field-colon][X:structures]
+\begin{worddef}{}{SFFIELD:}[s-f-field-colon][X:structures]
 \item \stack{}{}
 
 	The semantics of \word{SFFIELD:} are identical to the
@@ -1513,7 +1486,7 @@ word sets.
 		\word{;}
 	\end{defer}
 
-\end{worddef*}
+\end{worddef}
 
 % ---------------------------------------------------------
 

@@ -1096,30 +1096,28 @@ also increase the size of the pictured numeric output string.
 
 \setcounter{subsubsection}{1}
 \setcounter{paragraph}{2}
-\paragraph{\uline{Numeric notation}} ~% A.3.4.1.3
+\paragraph{Numeric notation} ~% A.3.4.1.3
 \label{rat:notation:numeric}
-\cbstart\marginpar{\tiny x:number-prefix}
 
-\uline{The numeric representation provided by the \textsf{X:number-prefix}
-extension can be tested with the following test cases:}
+The numeric representation provided by the \textsf{X:number-prefix}
+extension can be tested with the following test cases:
 
 \begin{tt}
 	\word{DECIMAL} \\
-	\uline{\{ \#1289       -> 1289        \}} \\
-	\uline{\{ \#12346789.  -> 12346789.   \}} \\
-	\uline{\{ \#-1289      -> -1289       \}} \\
-	\uline{\{ \#-12346789. -> -12346789.  \}} \\
-	\uline{\{ \$12eF       -> 4847        \}} \\
-	\uline{\{ \$12aBcDeF.  -> 313249263.  \}} \\
-	\uline{\{ \$-12eF      -> -4847       \}} \\
-	\uline{\{ \$-12AbCdEf. -> -313249263. \}} \\
-	\uline{\{ \%10010110   -> 150         \}} \\
-	\uline{\{ \%10010110.  -> 150.        \}} \\
-	\uline{\{ \%-10010110  -> -150        \}} \\
-	\uline{\{ \%-10010110. -> -150.       \}} \\
-	\uline{\{ 'z'          -> 122         \}}
+	\{ \#1289       -> 1289        \} \\
+	\{ \#12346789.  -> 12346789.   \} \\
+	\{ \#-1289      -> -1289       \} \\
+	\{ \#-12346789. -> -12346789.  \} \\
+	\{ \$12eF       -> 4847        \} \\
+	\{ \$12aBcDeF.  -> 313249263.  \} \\
+	\{ \$-12eF      -> -4847       \} \\
+	\{ \$-12AbCdEf. -> -313249263. \} \\
+	\{ \%10010110   -> 150         \} \\
+	\{ \%10010110.  -> 150.        \} \\
+	\{ \%-10010110  -> -150        \} \\
+	\{ \%-10010110. -> -150.       \} \\
+	\{ 'z'          -> 122         \}
 \end{tt}
-\cbend
 
 \setcounter{subsubsection}{2}
 \subsubsection{Semantics} % A.3.4.3

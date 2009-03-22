@@ -268,31 +268,26 @@ the contents of variables,
 e.g., \word{BASE} \textbf{\{\{2 {\ldots} 36\}\}}.
 
 % ---------- X:number-prefix ----------
-\cbstart
-\uline{The following notation is used to define the syntax of the external
-representation of numbers:}
-\marginpar{\tiny x:number-prefix}
-\marginpar{\tiny Text taken from \ref{float:notation} on page
-	\pageref{float:notation} with minor changes.}
+The following notation is used to define the syntax of the external
+representation of numbers:
 
 \begin{itemize}
-\item \uline{Each component of a number is defined with a rule consisting
-of the name of the component (italicized in angle-brackets,
-e.g., \arg{decdigit}), the characters \textsf{:=} and a concatenation
-of tokens and metacharacters;}
+\item Each component of a number is defined with a rule consisting
+	of the name of the component (italicized in angle-brackets,
+	e.g., \arg{decdigit}), the characters \textsf{:=} and a concatenation
+	of tokens and metacharacters;
 
-\item \uline{Tokens may be literal characters (in bold face, e.g.,
-\textbf{E}) or rule names in angle brackets (e.g., \arg{decdigit});}
+\item Tokens may be literal characters (in bold face, e.g.,
+	\textbf{E}) or rule names in angle brackets (e.g., \arg{decdigit});
 
-\item \uline{The metacharacter * is used to specify zero or more occurrences of
-the preceding token (e.g., \arg{decdigit}*);}
+\item The metacharacter * is used to specify zero or more occurrences of
+	the preceding token (e.g., \arg{decdigit}*);
 
-\item \uline{Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);}
+\item Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);
 
-\item \uline{Vertical bars separate choices from a list of tokens enclosed
-with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).}
+\item Vertical bars separate choices from a list of tokens enclosed
+	with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).
 \end{itemize}
-\cbend
 % --------------------
 
 \subsection{Stack notation}

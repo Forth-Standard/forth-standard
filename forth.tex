@@ -1,5 +1,6 @@
 \documentclass[10pt]{book}
 \usepackage{a4wide}
+%\includeonly{float}
 
 % ========== Document Organisation Flags ==========
 
@@ -15,7 +16,7 @@
 %\showreftrue
 \showreffalse
 
-\newcommand{\revision}{07.2}	% Document Revision
+\newcommand{\revision}{08.1}	% Document Revision
 
 % =================================================
 
@@ -101,9 +102,6 @@
 
 \usepackage{history}
 %\openhistory
-
-%\reject{X:fp-stack}
-\accept{ed07,X:number-prefix,x:number-prefix,X:structures,X:throw-iors}
 
 % =========================================
 
@@ -613,21 +611,21 @@
 
 % ==== Stack Descriptions ====
 
-% Okay, we are going for some very nasty low level TeX here. Check out
-% the actionarg entry of the TeX FAQ for full details.
+% Okay, we are going for some very nasty low level TeX here.
+% Check out the actionarg entry of the TeX FAQ for full details.
 %
-% First we define the functions which are going to be called by a
+% First we define the functions which are going to be called by our
 % special characters
 
-\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}
-\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}
-\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}
-\newcommand{\stack@bar}{~\textbar~}
-\newcommand{\stack@opa}{\ensuremath{\langle}}
-\newcommand{\stack@cla}{\ensuremath{\rangle}}
+\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% ^
+\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% _
+\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}			% *
+\newcommand{\stack@bar}{~\textbar~}								% |
+\newcommand{\stack@opa}{\ensuremath{\langle}}					% <
+\newcommand{\stack@cla}{\ensuremath{\rangle}}					% >
 
 \newif\if@stack@quote\@stack@quotetrue
-\newcommand{\stack@qot}{%
+\newcommand{\stack@qot}{%										% "
 	\if@stack@quote``\@stack@quotefalse\else''\@stack@quotetrue\fi}
 
 % Now we have to activate the special characters we are going to

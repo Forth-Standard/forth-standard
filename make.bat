@@ -24,7 +24,7 @@ goto process
 
 :process
 rem Get the word list (index)
-%latex% forth
+%latex% \scrollmode\input forth 
 perl sort.pl < forth.wrd > forth.wds
 
 if x%1 == xhtml goto html

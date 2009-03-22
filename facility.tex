@@ -226,7 +226,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------
 
-\begin{worddef*}{}{+FIELD}[plus-field][X:structures]
+\begin{worddef}{}{+FIELD}[plus-field][X:structures]
 \item \stack{n_1 n_2 "<spaces>name"}{n_3}
 
 	Skip leading space delimiters.  Parse \param{name} delimited
@@ -268,10 +268,10 @@ to provide all of the Facility and Facility Extensions word sets.
 		\tab \word{DOES} \word{@} \word{+} \\
 		\word{;}
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{BEGIN-STRUCTURE}[][X:structures]
+\begin{worddef}{}{BEGIN-STRUCTURE}[][X:structures]
 \item \stack{"<spaces>name"}{struct-sys 0}
 
 	Skip leading space delimiters. Parse \param{name} delimited
@@ -413,10 +413,10 @@ to provide all of the Facility and Facility Extensions word sets.
 		\tab \word{DOES} \word{@} \tab[6]\word{bs} -{}- rec-len \\
 		\word{;}
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{CFIELD:}[c-field-colon][X:structures]
+\begin{worddef}{}{CFIELD:}[c-field-colon][X:structures]
 \item \stack{}{}
 
 	The semantics of \word{CFIELD:} are identical to the
@@ -438,7 +438,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\tab 1 \word{CHARS} \word{+FIELD} \\
 		\word{;}
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
 % -------------------------------------
 
@@ -479,15 +479,15 @@ to provide all of the Facility and Facility Extensions word sets.
 		for \word{EKEY} to return the address of an ``event record''
 		from which the other information could be extracted.
 
-		\place{ed07}{While the standard specifies a timing
-		relationship between \word{EKEYq}, \word{KEYq}, \word{EKEY}
-		and \word{KEY}, some programmers find that confusing.
+		While the standard specifies a timing relationship between
+		\word{EKEYq}, \word{KEYq}, \word{EKEY} and \word{KEY}, some
+		programmers find that confusing.
 		One way to avoid such confusion is to use only one pairing
 		in a program (for each input stream).  Use \word{KEYq} and
 		\word{KEY} where the application does not require access to
 		anything other than the standard character set.  Use
 		\word{EKEYq} and \word{EKEY} when extended functionality is
-		required.}
+		required.
 
 		Also, consider a hypothetical Forth system running under
 		MS-DOS on a PC-compatible computer. Assume that the
@@ -896,7 +896,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------
 
-\begin{worddef*}{}{END-STRUCTURE}[][X:structures]
+\begin{worddef}{}{END-STRUCTURE}[][X:structures]
 \item \stack{struct-sys +n}{}
 
 	Terminate definition of a structure started by
@@ -912,10 +912,10 @@ to provide all of the Facility and Facility Extensions word sets.
 		\word{:} END-STRUCTURE\tab\word{bs} addr n -{}- \\
 		\tab \word{SWAP} \word{!} \word{;} \tab[4.2]\word{bs} set len
 	\end{defer}
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}{}{FIELD:}[field-colon][X:structures]
+\begin{worddef}{}{FIELD:}[field-colon][X:structures]
 \item \stack{}{}
 
 	The semantics of \word{FIELD:} are identical to the
@@ -938,7 +938,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\word{;}
 	\end{defer}
 
-\end{worddef*}
+\end{worddef}
 
 % -------------------------------------------------------------------
 

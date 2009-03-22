@@ -13,28 +13,28 @@ part of the standard latex2e installation.  If your system does not
 have any of these packages they can be obtained from your local CTAN
 mirror (www.ctan.org).
 
-a4wide:		Setting the paper size correctly
-fancyhdr:	fancy headings
-changebar:	change bars
-ulem:		underline and struck thorough text
-hyperref:	hyper references
-mathptmx:	New-Times-Roman for roman and formula, part of PS-NFSS
-helvet:		Helvetica for sans-serif, part of PS-NFSS
-courier:	Courier font, also part of PS-NFSS
+a4wide:         Setting the paper size correctly
+fancyhdr:       fancy headings
+changebar:      change bars
+ulem:           underline and struck thorough text
+hyperref:       hyper references
+mathptmx:       New-Times-Roman for roman and formula, part of PS-NFSS
+helvet:         Helvetica for sans-serif, part of PS-NFSS
+courier:        Courier font, also part of PS-NFSS
 
 In addition to these packages I also make use of the following
 optional packages:
 
 answers: Deferred text - this is provided as a .sty, but the full
-	 package is provided in the Support directory.  It is also
-	 available on CTAN.
+         package is provided in the Support directory.  It is also
+         available on CTAN.
 
 history: Change Log - I have been developing this package alongside
-	 the document.  The version included here is the full code
-	 as it currently exists.
+         the document.  The version included here is the full code
+         as it currently exists.
 
 randtext: Randomise text - used to typeset email address in a manner
-	  that automatic harvester program find impossible to process.
+          that automatic harvester program find impossible to process.
 
 
 Building the Document
@@ -46,18 +46,18 @@ directory and type make.
 
 There are a number of make targets available:
 
-dvi:	This will build a "forth.dvi" file.  I use it for testing the
-	document.  It is also used to produce the PostScript version
-	of the document.
+dvi:    This will build a "forth.dvi" file.  I use it for testing the
+        document.  It is also used to produce the PostScript version
+        of the document.
 
-ps:	This will produce a file "forth.ps", a PostScript version of
-	the document.  It uses both latex and dvips to do this.
+ps:     This will produce a file "forth.ps", a PostScript version of
+        the document.  It uses both latex and dvips to do this.
 
-pdf:	This will produce a file "forth.pdf", a PDF version of the
-	document, complete with internal hyper links.
-	pdflatex is used to produce this.
+pdf:    This will produce a file "forth.pdf", a PDF version of the
+        document, complete with internal hyper links.
+        pdflatex is used to produce this.
 
-clean:	Will clean up all the temporary files which get left behind.
+clean:  Will clean up all the temporary files which get left behind.
 
 
 The latex process
@@ -74,13 +74,13 @@ these contain information needed for the cross referencing system.
 The first time you run latex it will generate a set of "labels" and
 you will see a large number of warnings of the form:
 
-	LaTeX Warning: Reference `search:ONLY' on page 274 undefined
-	on input line 398.
+        LaTeX Warning: Reference `search:ONLY' on page 274 undefined
+        on input line 398.
 
 and
 
-	LaTeX Warning: Can't find definition of "TIB" in wordlist
-	"core", reference on page 2 on input line 128.
+        LaTeX Warning: Can't find definition of "TIB" in wordlist
+        "core", reference on page 2 on input line 128.
 
 These are produced because the labels have not been defined yet, they
 are being defined by this run.
@@ -125,22 +125,22 @@ Page Size
 ---------
 This is currently defined by line 2:
 
-	\usepackage{a4wide}
+        \usepackage{a4wide}
 
 If you wish to change the paper size you need to remove this line and
 add a suitable option to the \documentclass command on the first line.
 For example to use US legal the \documentclass command should be:
 
-	\documentclass[10pt,legalpaper]{book}
+        \documentclass[10pt,legalpaper]{book}
 
 The standard LaTeX paper sizes are available:
 
-	a4paper		297mm x 210mm
-	a5paper		210mm x 148mm
-	b5paper		250mm x 176mm
-	letterpaper	11in  x 8.5in
-	legalpaper	14in  x 8.5in
-	executivepaper	10.5in x 7.25in
+        a4paper         297mm x 210mm
+        a5paper         210mm x 148mm
+        b5paper         250mm x 176mm
+        letterpaper     11in  x 8.5in
+        legalpaper      14in  x 8.5in
+        executivepaper  10.5in x 7.25in
 
 Text Size
 ---------
@@ -148,7 +148,7 @@ The size of the text can be modified in the normal way, replace the
 10pt option in the \documentclass command with a different option.
 LaTeX allows three size options:
 
-	10pt	11pt	12pt
+        10pt    11pt    12pt
 
 Labels
 ------
@@ -167,15 +167,15 @@ The rationale for a word is given in the word definition.  This can
 be show in the definition of the word or in the rationale appendix.
 
 \inlinebody
-	If this is true the rationale for a word will be type set
-	immediately after the word.  Otherwise the text will appear
-	in the appropriate section of Appendix A (Rationale)
+        If this is true the rationale for a word will be type set
+        immediately after the word.  Otherwise the text will appear
+        in the appropriate section of Appendix A (Rationale)
 
 \inlineintro
-	The Rationale for each wordlist is included in the
-	appropriate section of the wordlist.  To type set this text
-	inline make this flag true.  Otherwise the text will appear
-	in the Rationale appendix (Annex A).
+        The Rationale for each wordlist is included in the
+        appropriate section of the wordlist.  To type set this text
+        inline make this flag true.  Otherwise the text will appear
+        in the Rationale appendix (Annex A).
 
 
 Macros
@@ -193,17 +193,17 @@ markup is identified with a change bar in the margin.  The <text> is
 limited to a single paragraph and must not span a paragraph break.
 
 \place{label}{text}
-	Place new <text> in the document.  The text will appear
-	underlined.
+        Place new <text> in the document.  The text will appear
+        underlined.
 
 \replace{label}{old}{new}
-	Replace the <old> text with the <new> text.  The <old> text
-	will appear struck though, while the <new> text will appear
-	underlined.
+        Replace the <old> text with the <new> text.  The <old> text
+        will appear struck though, while the <new> text will appear
+        underlined.
 
 \remove{label}{text}
-	Remove the <text> from the document.  The <text> will appear
-	struck though.
+        Remove the <text> from the document.  The <text> will appear
+        struck though.
 
 Word lists
 ----------
@@ -212,67 +212,67 @@ reference.  These labels are separated into wordlists.  A few
 commands have been defined to manage the LaTeX wordlists.
 
 \wordlist{<wordlist>}
-	Starts the definition of a new <wordlist>.  This command
-	sets up the chapter heading and support files required for
-	the word definitions.
+        Starts the definition of a new <wordlist>.  This command
+        sets up the chapter heading and support files required for
+        the word definitions.
 
 \setwordlist{<wordlist>}
-	Sets the current wordlist search order to <wordlist>.
+        Sets the current wordlist search order to <wordlist>.
 
 \extended
-	Switches the word list label on the definition header to add
-	the "EXT" or extended word set.
+        Switches the word list label on the definition header to add
+        the "EXT" or extended word set.
 
 \begin{intro}
-	This environment provides method for including the rationale
-	for a section in the wordlist definition.  The \inlineintro
-	flag controls how this text is processed.
+        This environment provides method for including the rationale
+        for a section in the wordlist definition.  The \inlineintro
+        flag controls how this text is processed.
 
-	\inlinebodyfalse
-		The text will be exported to the appropriate
-		<wordlist>.rat rationale file.  The text is
-		subsequently included into the rationale, appendix A.
+        \inlinebodyfalse
+                The text will be exported to the appropriate
+                <wordlist>.rat rationale file.  The text is
+                subsequently included into the rationale, appendix A.
 
-	\ifinlinebodytrue
-		The text is typeset in a sans-serif font and indented.
-		the section title will have the word (Rationale)
-		appended.
+        \ifinlinebodytrue
+                The text is typeset in a sans-serif font and indented.
+                the section title will have the word (Rationale)
+                appended.
 
 Word Definition
 ---------------
 To define a new word the worddef environment is used:
 
 \begin{worddef}[<label>]{<number>}[<sub-number>]{<name>}[<english>][<proposal>]
-<label>		Is the LaTeX label given to the word.  It is used
-		when processing links, and should not include any PDF
-		or HTML Special characters.  This is the label by
-		which the word in known to the LaTeX system, and the
-		name which should be used in the \word{} and \wref{}
-		commands.
-		Default: <name> is assumed to be the label.
+<label>         Is the LaTeX label given to the word.  It is used
+                when processing links, and should not include any PDF
+                or HTML Special characters.  This is the label by
+                which the word in known to the LaTeX system, and the
+                name which should be used in the \word{} and \wref{}
+                commands.
+                Default: <name> is assumed to be the label.
 
-<number>	The word's number in the alphabetical listing of
-		words.  This should be the full four digit number.
-		If it is empty a long dash is used.
+<number>        The word's number in the alphabetical listing of
+                words.  This should be the full four digit number.
+                If it is empty a long dash is used.
 
-<sub-number>	The document requires we add new words between
-		existing words.  I.e., a new word between 0124 and
-		0125, we can only archive this by further dividing
-		the number with a two digit sub-number.
-		Default: No subdivision.
+<sub-number>    The document requires we add new words between
+                existing words.  I.e., a new word between 0124 and
+                0125, we can only archive this by further dividing
+                the number with a two digit sub-number.
+                Default: No subdivision.
 
-<name>		This is the display name of the word. It is typeset
-		in standard LaTeX.  Note the use of additional macros
-		for special characters (see below).
+<name>          This is the display name of the word. It is typeset
+                in standard LaTeX.  Note the use of additional macros
+                for special characters (see below).
 
-<english>	Is the English pronunciation of the word.
-		Default: None.
+<english>       Is the English pronunciation of the word.
+                Default: None.
 
-<proposal>	The name of the proposal which introduced this word.
-		All words introduced by Forth 200x should have a
-		proposal.  When a new word is defined an <english>
-		argument MUST also be defined.  This may be empty.
-		Default: None.
+<proposal>      The name of the proposal which introduced this word.
+                All words introduced by Forth 200x should have a
+                proposal.  When a new word is defined an <english>
+                argument MUST also be defined.  This may be empty.
+                Default: None.
 
 The worddef* environment adds change bars to the output.  This is
 used to introduce a new word into the standard for the first time.
@@ -280,31 +280,31 @@ used to introduce a new word into the standard for the first time.
 The following commands are provided to aid the word definition:
 
 \stack[<stack>]{<before>}{<after>}
-		Type set a stack picture according to the rules below.
+                Type set a stack picture according to the rules below.
 
-\param{<item>}	Type set the stack <item> according to the following
-		rule:
+\param{<item>}  Type set the stack <item> according to the following
+                rule:
 
-		_x or _{xx}	x or xx is a subscript.
-		x*y		x multiplied by y.
-		x|y		x or y
-		<xxx>		the argument <xxx>
-		"		the open or close double quote
-		All other characters are typeset in italic.
+                _x or _{xx}     x or xx is a subscript.
+                x*y             x multiplied by y.
+                x|y             x or y
+                <xxx>           the argument <xxx>
+                "               the open or close double quote
+                All other characters are typeset in italic.
 
 The worddef environment MUST begin with one of the following section
 headings:
 
-\item			No section heading
-\compile		Compilation time semantics
-\execute[<type>]	Execution semantics, with a given <type>
-\init			Initiation
-\interpret		Interpretation semantics
+\item                   No section heading
+\compile                Compilation time semantics
+\execute[<type>]        Execution semantics, with a given <type>
+\init                   Initiation
+\interpret              Interpretation semantics
 
-\note[<number>]		Note with an optional <number>
-\runtime[<type>]	Run-time semantics, with a given <type>
-\see			Reference to other words (See)
-\item[<name>]		None standard section "<name>:"
+\note[<number>]         Note with an optional <number>
+\runtime[<type>]        Run-time semantics, with a given <type>
+\see                    Reference to other words (See)
+\item[<name>]           None standard section "<name>:"
 
 Word Rationale
 --------------
@@ -315,51 +315,51 @@ Implementation and Testing sections may ONLY appear in the defer
 environment.
 
 \begin{defer}
-	The \inlinebody flag controls how the text is processed:
+        The \inlinebody flag controls how the text is processed:
 
-	\ifinlinebodyfalse
-		The text is exported to the appropriate <wordlist>.rat
-		rationale file.  The text is subsequently included
-		into the rationale, appendix A.
+        \ifinlinebodyfalse
+                The text is exported to the appropriate <wordlist>.rat
+                rationale file.  The text is subsequently included
+                into the rationale, appendix A.
 
-	\ifinlinebodytrue
-		All text typeset in a sans-serif font, but the text
-		will appear as part of the word definition.  This is
-		used in the draft versions of the document.
+        \ifinlinebodytrue
+                All text typeset in a sans-serif font, but the text
+                will appear as part of the word definition.  This is
+                used in the draft versions of the document.
 
 The following commands are used to define section headings within
 the defer environment:
 
-\ratinale		Rationale
+\ratinale               Rationale
 
-\implementation		Implementation
-			The font is automatically changed to the
-			teletype font.  If the roman type is require
-			use the \implementation* command.
+\implementation         Implementation
+                        The font is automatically changed to the
+                        teletype font.  If the roman type is require
+                        use the \implementation* command.
 
-\testing		Testing
-			The font is automatically changed to the
-			teletype font.  If the roman font is required
-			use the \testing* command.
+\testing                Testing
+                        The font is automatically changed to the
+                        teletype font.  If the roman font is required
+                        use the \testing* command.
 
-\item[<name>]		A none standard section "<name>:"
+\item[<name>]           A none standard section "<name>:"
 
-\defertext{<text>}	Display the <text> in the "normal" (none
-			teletype) font.
+\defertext{<text>}      Display the <text> in the "normal" (none
+                        teletype) font.
 
 Special Characters
 ------------------
-\tab[n]		Insert additional horizontal space.
-		n is a multiplier so \tab[2] will insert twice as
-		much space as a single \tab.
+\tab[n]         Insert additional horizontal space.
+                n is a multiplier so \tab[2] will insert twice as
+                much space as a single \tab.
 
-\arg{<text>}	<text> is typeset in italic between < and > sines.
+\arg{<text>}    <text> is typeset in italic between < and > sines.
 
-\bs		Outputs the "\" (backslash) character.
+\bs             Outputs the "\" (backslash) character.
 
-\tilde		Outputs the "~" (tilde) character.
+\tilde          Outputs the "~" (tilde) character.
 
-\num		Outputs the "#" (number) character.
+\num            Outputs the "#" (number) character.
 
 Cross Referencing
 -----------------
@@ -374,61 +374,61 @@ or HTML the word has to be given a special label in which case this
 label is used <wordlist>:<label>.
 
 \word[<wordlist>]{<label>} - word definition
-	Reference the word associated with <label>.  The word is
-	either in the current wordlist (see \wordlist or \setwordlist),
-	the core wordlist or the optional wordlist.  The word is show
-	in courier-bold and hyperlinked to its definition.
+        Reference the word associated with <label>.  The word is
+        either in the current wordlist (see \wordlist or \setwordlist),
+        the core wordlist or the optional wordlist.  The word is show
+        in courier-bold and hyperlinked to its definition.
 
-	If the \showref flag is true (\showreftrue) the word is
-	underlined.
+        If the \showref flag is true (\showreftrue) the word is
+        underlined.
 
-	If the word has not been defined, or can not be found, a
-	warning is reported and the <label> is typeset struck through
-	with a line.
+        If the word has not been defined, or can not be found, a
+        warning is reported and the <label> is typeset struck through
+        with a line.
 
  \xref[<text>]{<label>} - Extended cross reference
-	This was originally developed as a tool to help in the
-	conversion of existing documents into LaTeX form.  It will
-	look up <label> and places the section number followed by the
-	section name as a hyperlink to the section.
+        This was originally developed as a tool to help in the
+        conversion of existing documents into LaTeX form.  It will
+        look up <label> and places the section number followed by the
+        section name as a hyperlink to the section.
 
-	Should <label> not be found it places <label> (between
-	brackets) with the optional <text> along side.  The idea
-	being that we can see what was in the original document
-	(<text>), and which <label> was not found.  If the <text> is
-	not given, the traditional double question mark is used.
+        Should <label> not be found it places <label> (between
+        brackets) with the optional <text> along side.  The idea
+        being that we can see what was in the original document
+        (<text>), and which <label> was not found.  If the <text> is
+        not given, the traditional double question mark is used.
 
-	Thus for the following example, let the label "foo" refer to
-	section 3.2.1 which has the title "Extended Xref", the
-	cross reference:
+        Thus for the following example, let the label "foo" refer to
+        section 3.2.1 which has the title "Extended Xref", the
+        cross reference:
 
-		\xref[original text]{foo}.
+                \xref[original text]{foo}.
 
-	would produce:
+        would produce:
 
-		"3.2.1 Extended Xref"
+                "3.2.1 Extended Xref"
 
-	which is hyperlink to section 3.2.1.
-	If the label is not defined, the \xref would produce:
+        which is hyperlink to section 3.2.1.
+        If the label is not defined, the \xref would produce:
 
-		"[foo: original text]"
+                "[foo: original text]"
 
-	where the "[foo: original text]" appears in bold.  This is
-	intended to indicate that the label foo was not found, but
-	the original document had "original text" as the text which
-	should appear here.
+        where the "[foo: original text]" appears in bold.  This is
+        intended to indicate that the label foo was not found, but
+        the original document had "original text" as the text which
+        should appear here.
 
 \wref{<label>}{<Name>} - Word reference
-	Cross reference to a words definition.
-	<label> will be of the form <wordlist>:<label>.
-	<name>	is the LaTeX which will be typeset for the word
-		reference.  Both the word number and name are type
-		set and a hyperlink is provided to the word's
-		definition.
+        Cross reference to a words definition.
+        <label> will be of the form <wordlist>:<label>.
+        <name>  is the LaTeX which will be typeset for the word
+                reference.  Both the word number and name are type
+                set and a hyperlink is provided to the word's
+                definition.
 
 \rref{<label>}{<name>} - Rationale reference
-	\rref is the same as \wref except it looks in the rationale
-	(rat:) name space.
+        \rref is the same as \wref except it looks in the rationale
+        (rat:) name space.
 
 
 Utilities
@@ -437,7 +437,7 @@ Utilities
 I have been developing the document on a Windows/XP system using the
 following public domain utilities:
 
-MiKTeX 2.5	www.miktex.org
-LEd 0.51	www.latexEditor.org
-TextPad 5.0	www.textpad.com
-Perl 5.8	www.ActiveState.com/perl
+MiKTeX 2.7      www.miktex.org
+LEd 0.52        www.latexEditor.org
+TextPad 5.1     www.textpad.com
+Perl 5.10       www.ActiveState.com/perl
