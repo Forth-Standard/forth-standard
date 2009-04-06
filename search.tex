@@ -1,67 +1,6 @@
 \chapter{The optional Search-Order word set} % 16
 \wordlist{search}
 
-\begin{intro}
-\section{The optional Search-Order word set} % A.16
-
-Search-order specification and control mechanisms vary widely. The
-FIG-Forth, Forth-79, polyFORTH, and Forth-83 vocabulary and search
-order mechanisms are all mutually incompatible. The complete list of
-incompatible mechanisms, in use or proposed, is much longer. The
-(\word{ALSO}/\word{ONLY}) scheme described in a Forth-83 Experimental
-Proposal has substantial community support. However, many consider it
-to be fundamentally flawed, and oppose it vigorously.
-
-Recognizing this variation, this Standard specifies a new ``primitive''
-set of tools from which various schemes may be constructed. This
-primitive search-order word set is intended to be a portable
-``construction set'' from which search-order words may be built,
-rather than a user interface. \word{ALSO}/\word{ONLY} or the various
-``vocabulary'' schemes supported by the major Forth vendors can be
-defined in terms of the primitive search-order word set.
-
-The encoding for word list identifiers \emph{wid} might be a
-small-integer index into an array of word-list definition records, the
-data-space address of such a record, a user-area offset, the execution
-token of a Forth-83 style sealed vocabulary, the link-field address of
-the first definition in a word list, or anything else. It is entirely
-up to the system implementor.
-
-In some systems the interpretation of numeric literals is controlled
-by including ``pseudo word lists'' that recognize numbers at the end
-of the search order. This technique is accommodated by the ``default
-search order'' behavior of \word{SET-ORDER} when given an argument of
--1. In a system using the traditional implementation of
-\word{ALSO}/\word{ONLY}, the minimum search order would be equivalent
-to the word \word{ONLY}.
-
-There has never been a portable way to restore a saved search order.
-F83 (not Forth 83) introduced the word \word{PREVIOUS}, which almost
-made it possible to ``unload'' the search order by repeatedly executing
-the phrase \texttt{CONTEXT} \word[core]{@} \word{PREVIOUS}. The search
-order could be ``reloaded'' by repeating \word{ALSO} \texttt{CONTEXT}
-\word[core]{!}. Unfortunately there was no portable way to determine
-how many word lists were in the search order.
-
-ANS Forth has removed the word \texttt{CONTEXT} because in many systems
-its contents refer to more than one word list, compounding portability
-problems.
-
-\setwordlist{core}
-Note that \word{:} (colon) no longer affects the search order. The
-previous behavior, where the compilation word list replaces the first
-word list of the search order, can be emulated with the following
-redefinition of \word{:} (colon).
-
-\begin{quote}\ttfamily
-	\word{:} \word{:} \word[search]{GET-ORDER} \word{SWAP} \word{DROP}
-		~ \word[search]{GET-CURRENT} ~
-		\word{SWAP} \word[search]{SET-ORDER} \word{:}
-	\word{;}
-\end{quote}
-\setwordlist{search}
-\end{intro}
-
 \section{Introduction} % 16.1
 
 \section{Additional terms and notation} % 16.2
@@ -74,15 +13,6 @@ redefinition of \word{:} (colon).
 	A list of word lists specifying the order in which the
 	dictionary will be searched.
 \end{description}
-
-\begin{intro}
-\subsubsection{Additional terms} % A.16.2
-
-\textbf{search order}
-
-Note that the use of the term ``list'' does not necessarily imply
-implementation as a linked list
-\end{intro}
 
 \section{Additional usage requirements} % 16.3
 
@@ -160,22 +90,6 @@ order has an environmental dependency.
 
 See: \xref[3.4.2 Finding definition names]{usage:find}.
 
-\begin{intro}
-\subsubsection{Finding definition names} % A.16.3.3
-
-In other words, the following is not guaranteed to work:
-
-\setwordlist{core}
-\begin{quote}\ttfamily
-	\word{:} FOO {\ldots}
-		\word{[} {\ldots} \word[search]{SET-CURRENT} \word{]}
-		{\ldots} \word{RECURSE} {\ldots} \\
-	\word{;} \word{IMMEDIATE}
-\end{quote}
-\word{RECURSE}, \word{;} (semicolon), and \word{IMMEDIATE} may or may
-not need information stored in the compilation word list.
-\setwordlist{search}
-\end{intro}
 
 \subsection{Contiguous regions} % 16.3.4
 
@@ -266,10 +180,6 @@ sets.
 
 
 \section{Glossary} % 16.6
-
-\begin{intro}
-\subsection{Glossary} % A.16.6
-\end{intro}
 
 \subsection{Search-Order words} % 16.6.1
 

@@ -1,301 +1,15 @@
 \chapter{The optional Locals word set} % 13
 \wordlist{local}
 
-\begin{intro}
-\section{The optional Locals word set} % A.13
-\label{rat:locals}
-
-The Technical Committee has had a problem with locals. It has been
-argued forcefully that ANS Forth should say nothing about locals
-since:
-
-\begin{itemize}
-\item there is no clear accepted practice in this area;
-\item not all Forth programmers use them or even know what they are;
-and
-\item few implementations use the same syntax, let alone the same
-	broad usage rules and general approaches.
-\end{itemize}
-
-It has also been argued, it would seem equally forcefully, that the
-lack of any standard approach to locals is precisely the reason for
-this lack of accepted practice since locals are at best non-trivial
-to implement in a portable and useful way. It has been further argued
-that users who have elected to become dependent on locals tend to be
-locked into a single vendor and have little motivation to join the
-group that it is hoped will ``broadly accept'' ANS Forth unless the
-Standard addresses their problems.
-
-Since the Technical Committee has been unable to reach a strong
-consensus on either leaving locals out or on adopting any particular
-vendor's syntax, it has sought some way to deal with an issue that it
-has been unable to simply dismiss. Realizing that no single mechanism
-or syntax can simultaneously meet the desires expressed in all the
-locals proposals that have been received, it has simplified the
-problem statement to be to define a locals mechanism that:
-
-\begin{itemize}
-\item is independent of any particular syntax;
-\item is user extensible;
-\item enables use of arbitrary identifiers,
-	local in scope to a single definition;
-\item supports the fundamental cell size data types of Forth;
-and
-\item works consistently, especially with respect to
-	re-entrancy and recursion.
-\end{itemize}
-
-This appears to the Technical Committee to be what most of those who
-actively use locals are trying to achieve with them, and it is at
-present the consensus of the Technical Committee that if ANS Forth has
-anything to say on the subject this is an acceptable thing for it to
-say.
-
-This approach, defining \word{LOCAL}, is proposed as one that can be
-used with a small amount of user coding to implement some, but not all,
-of the locals schemes in use. The following coding examples illustrate
-how it can be used to implement two syntaxes.
-
-\setwordlist{core}
-\begin{itemize}
-\item The syntax defined by this Standard and used in the systems of
-	Creative Solutions, Inc.:
-
-	\begin{quote}\ttfamily
-	\word{:} \word[local]{LOCALS} \word{p} "name{\ldots}name |" -{}- ) \\
-	\tab \word{BEGIN} \\
-	\tab~ \word{BL} \word{WORD} ~ \word{COUNT} \word{OVER} \word{C@} \\
-	\tab~ \word{[CHAR]} | \word{-} \word{OVER} 1 \word{-} \word{OR} ~ \word{WHILE} \\
-	\tab~ \word[local]{LOCAL} \\
-	\tab \word{REPEAT} \word{2DROP} ~ 0 0 \word[local]{LOCAL} \\
-	\word{;} \word{IMMEDIATE}
-
-	\word{:} EXAMPLE \word{p} n -{}- n**2 n**3 ) \\
-	\tab \word[local]{LOCALS} N |
-		~ N \word{DUP} N \word{*} ~\word{DUP} N \word{*}
-	\word{;}
-	\end{quote}
-
-\item A proposed syntax: ( \texttt{LOCAL} \emph{name} ) with
-	additional usage rules:
-
-	\begin{quote}\ttfamily
-	\word{:} LOCAL \word{p} "name" -{}- )
-		\word{BL} \word{WORD} \word{COUNT} \word[local]{LOCAL}
-	\word{;} ~\word{IMMEDIATE}
-
-	\word{:} END-LOCALS \word{p} -{}- ) ~ 0 0 \word[local]{LOCAL}
-	\word{;} ~\word{IMMEDIATE}
-
-	\word{:} EXAMPLE \word{p} n -{}- n n**2 n**3 ) \\
-	\tab LOCAL N ~END-LOCALS ~
-		N \word{DUP} N \word{*} ~ \word{DUP} N \word{*}
-	\word{;}
-	\end{quote}
-\end{itemize}
-
-Other syntaxes can be implemented, although some will admittedly
-require considerably greater effort or in some cases program
-conversion. Yet other approaches to locals are completely incompatible
-due to gross differences in usage rules and in some cases even scope
-identifiers. For example, the complete local scheme in use at Johns
-Hopkins had elaborate semantics that cannot be duplicated in terms of
-this model.
-
-To reinforce the intent of section \ref{wordlist:local}, here are
-two examples of actual use of locals. The first illustrates correct
-usage:
-
-\begin{enumerate}
-\item[a)] \begin{quote}\ttfamily
-	\word{:} \{	\word{p} "name {\ldots} \}" -{}- ) \\
-	\tab \word{BEGIN} ~\word{BL} \word{WORD} \word{COUNT} \\
-	\tab~~ \word{OVER} \word{C@} \word{[CHAR]} \} \word{-} ~
-		\word{OVER} 1 \word{-} ~
-		\word{OR} \word{WHILE} \\
-	\tab~~ \word[local]{LOCAL} \\
-	\tab \word{REPEAT} \word{2DROP} 0 0 \word[local]{LOCAL}\\
-	\word{;} \word{IMMEDIATE}
-	\end{quote}
-
-\item[b)] \begin{quote}\ttfamily
-	\word{:} JOE \word{p} a b c -{}- n ) \\
-	\tab \word{toR} \word{2*} \word{Rfrom} \word{2DUP} \word{+} 0 \\
-	\tab \{ ANS 2B+C C 2B A \} \\
-	\tab 2 0 \word{DO}
-		~1 ANS \word{+} \word{I} \word{+} \word[local]{TO} ANS
-		~ANS \word{d} \word{CR}
-	~\word{LOOP} \\
-	\tab ANS \word{d} 2B+C \word{d} C \word{d} 2B \word{d} A \word{d} \word{CR} ANS \\
-	\word{;}
-	\end{quote}
-
-\item[c)] \begin{quote}\ttfamily
-	100 300 10 JOE \word{d}
-	\end{quote}
-\end{enumerate}
-
-The word \texttt{\{} at a) defines a local declaration syntax that
-surrounds the list of locals with braces. It doesn't do anything fancy,
-such as reordering locals or providing initial values for some of them,
-so locals are initialized from the stack in the default order. The
-definition of \texttt{JOE} at b) illustrates a use of this syntax. Note
-that work is performed at execution time in that definition before
-locals are declared. It's OK to use the return stack as long as whatever
-is placed there is removed before the declarations begin.
-
-Note that before declaring locals, \texttt{B} is doubled, a
-subexpression (\texttt{2B+C}) is computed, and an initial value (zero)
-for \texttt{ANS} is provided. After locals have been declared,
-\texttt{JOE} proceeds to use them. Note that locals may be accessed and
-updated within do-loops. The effect of interpreting line c) is to
-display the following values:
-
-\begin{quote}
-	\texttt{1} (\texttt{ANS} the first time through the loop),\\
-	\texttt{3} (\texttt{ANS} the second time), \\
-	\texttt{3} (\texttt{ANS}),
-		\texttt{610} (\texttt{2B+C}),
-		\texttt{10}  (\texttt{C}),
-		\texttt{600} (\texttt{2B}),
-		\texttt{100} (\texttt{A}), and \\
-	\texttt{3} (\texttt{ANS} left on the stack by \texttt{JOE}).
-\end{quote}
-
-The \emph{names} of the locals vanish after \texttt{JOE} has been
-compiled. The \emph{storage and meaning} of locals appear when
-\texttt{JOE}'s locals are declared and vanish as \texttt{JOE} returns
-to its caller at \word{;} (semicolon).
-
-A second set of examples illustrates various things that break the
-rules. We assume that the definitions of \texttt{LOCAL} and
-\texttt{END-LOCALS} above are present, along with \texttt{\{} from
-the preceding example.
-
-\begin{enumerate}
-\item[d)] \begin{quote}\ttfamily
-	\word{:} ZERO ~ 0 \word{POSTPONE} \word{LITERAL} \word{POSTPONE} LOCAL
-	\word{;} \word{IMMEDIATE}
-	\end{quote}
-
-\item[e)] \begin{quote}\ttfamily
-	\word{:} MOE ~\word{p} a b ) \\
-	\tab ZERO TEMP ~LOCAL B ~\word{1+} LOCAL A+ ~ZERO ANSWER \word{;}
-	\end{quote}
-
-\item[f)] \begin{quote}\ttfamily
-	\word{:} BOB~ \word{p} a b c d ) ~\{ D C \} ~\{ B A \} \word{;}
-	\end{quote}
-\end{enumerate}
-
-Here are two definitions with various violations of rule
-\ref{locals:rules}a. In e) the declaration of \texttt{TEMP} is legal
-and creates a local whose initial value is zero. It's OK because the
-executable code that \texttt{ZERO} generates precedes the first use of
-\word[local]{LOCAL} in the definition. However, the \word{1+}
-preceding the declaration of \texttt{A+} is illegal. Likewise the use
-of \texttt{ZERO} to define \texttt{ANSWER} is illegal because it
-generates executable code between uses of \word[local]{LOCAL}.
-Finally, \texttt{MOE} terminates illegally (no \texttt{END-LOCALS}).
-\texttt{BOB} inf) violates the rule against declaring two sets of
-locals.
-% \replace[1]{inf) violates}{inviolate}
-
-\begin{enumerate}
-\item[g)] \begin{quote}\ttfamily
-	\word{:} ANN \word{p} a b -{}- b )
-		\word{DUP} \word{toR} \word{DUP} \word{IF}
-		\{ B A \} \word{THEN} \word{Rfrom} \word{;}
-	\end{quote}
-
-\item[h)] \begin{quote}\ttfamily
-	\word{:} JANE \word{p} a b -{}- n )
-		\{ B A \} A B \word{+} \word{toR} A B \word{-} ~\word{Rfrom} \word{/} \word{;}
-	\end{quote}
-\end{enumerate}
-
-\texttt{ANN} in g) violates two rules. The \word{IF} {\ldots} \word{THEN}
-around the declaration of its locals violates \ref{locals:rules}b, and
-the copy of \texttt{B} left on the return stack before declaring locals
-violates \ref{locals:rules}c. \texttt{JANE} in h) violates
-\ref{locals:rules}d by accessing locals after placing the sum of
-\texttt{A} and \texttt{B} on the return stack without first removing
-that sum.
-
-\begin{enumerate}
-\item[i)] \begin{quote}\ttfamily
-	\word{:} CHRIS \word{p} a b) \\
-	\tab \{ B A \} \word{[']} A \word{EXECUTE}
-		~5 \word{[']} B \word{toBODY} \word{!}
-		~\word{[} \word{'} A \word{]} \word{LITERAL} LEE
-	\word{;}
-	\end{quote}
-\end{enumerate}
-
-\texttt{CHRIS} in i) illustrates three violations of
-\ref{locals:rules}e. The attempt to \word{EXECUTE} the local called
-\texttt{A} is inconsistent with some implementations. The store into
-\texttt{B} via \word{toBODY} is likely to cause tragic results with
-many implementations; moreover, if locals are in registers they can't
-be addressed as memory no matter what is written.
-
-The third violation, in which an execution token for a definition's
-local is passed as an argument to the word \texttt{LEE}, would, if
-allowed, have the unpleasant implication that \texttt{LEE} could
-\word{EXECUTE} the token and obtain a value for \texttt{A} from the
-particular execution of \texttt{CHRIS} that called \texttt{LEE} this
-time.
-
-\setwordlist{local}
-\end{intro}
-
 \section{Introduction} % 13.1
 
-See: \xref[Annex A.13 The Locals Word Set]{rat:locals}.
+See: \xref[Annex A.13 The Locals Word Set]{rat:local}.
 
 \section{Additional terms and notation} % 13.2
 
 None.
 
 \section{Additional usage requirements} % 13.3
-
-\begin{intro}
-\subsection{Additional usage requirements} % A.13.3
-
-Rule \ref{locals:rules}d could be relaxed without affecting the
-integrity of the rest of this structure. \ref{locals:rules}c could
-not be.
-
-\ref{locals:rules}b forbids the use of the data stack for local
-storage because no usage rules have been articulated for programmer
-users in such a case. Of course, if the data stack is somehow employed
-in such a way that there are no usage rules, then the locals are
-invisible to the programmer, are logically not on the stack, and the
-implementation conforms.
-
-The minimum required number of locals can (and should) be adjusted to
-minimize the cost of compliance for existing users of locals.
-
-Access to previously declared local variables is prohibited by Section
-\ref{locals:rules}d until any data placed onto the return stack by the
-application has been removed, due to the possible use of the return
-stack for storage of locals.
-
-Authorization for a Standard Program to manipulate the return stack
-(e.g., via \word[core]{toR} \word[core]{Rfrom}) while local variables
-are active overly constrains implementation possibilities. The consensus
-of users of locals was that Local facilities represent an effective
-functional replacement for return stack manipulation, and restriction
-of standard usage to only one method was reasonable.
-
-Access to Locals within \word[core]{DO}{\ldots}\word[core]{LOOP}s is
-expressly permitted as an additional requirement of conforming systems
-by Section \ref{locals:rules}g. Although words, such as \word{LOCAL},
-written by a System Implementor, may require inside knowledge of the
-internal structure of the return stack, such knowledge is not required
-of a user of compliant Forth systems.
-\end{intro}
-
 
 \subsection{Locals} % 13.3.1
 
@@ -514,10 +228,6 @@ to provide all of the Locals and Locals Extensions word sets.
 
 \section{Glossary} % 13.6
 
-\begin{intro}
-\subsection{Glossary} % A.13.6
-\end{intro}
-
 \subsection{Locals words} % 13.6.1
 
 \begin{worddef}[LOCAL]{0086}{(LOCAL)}[paren-local-paren]
@@ -570,7 +280,8 @@ to provide all of the Locals and Locals Extensions word sets.
 \runtime[\word{TO} \param{local}]
 	\stack{x}{}
 
-	Associate the value \param{x} with the local value
+	\replace{ed09}{Associate}{Assign} the value \param{x} \replace{ed09}{with}{to}
+	the local value
 	\param{local}.
 
 \see \xref[3.4 The Forth text interpreter]{usage:command} and
@@ -608,7 +319,7 @@ to provide all of the Locals and Locals Extensions word sets.
 	\begin{defer}
 	\rationale % A.13.6.2.1795 LOCALS|
 		A possible implementation of this word and an example of usage
-		is given in \ref{rat:locals}, above. It is intended as an
+		is given in \ref{rat:local}, above. It is intended as an
 		example only; any implementation yielding the described
 		semantics is acceptable.
 	\end{defer}

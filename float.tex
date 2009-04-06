@@ -1,80 +1,6 @@
 \chapter{The optional Floating-Point word set} % 12
 \wordlist{floating}
 
-\begin{intro}
-\section{The optional Floating-Point word set} % A.12
-
-The Technical Committee has considered many proposals dealing with
-the inclusion and makeup of the Floating-Point Word Sets in ANS
-Forth. Although it has been argued that ANS Forth should not address
-floating-point arithmetic and numerous Forth applications do not need
-floating-point, there are a growing number of important Forth
-applications from spread sheets to scientific computations that
-require the use of floating-point arithmetic. Initially the Technical
-Committee adopted proposals that made the \emph{Forth Vendors Group
-Floating-Point Standard}, first published in 1984, the framework for
-inclusion of Floating-Point in ANS Forth. There is substantial common
-practice and experience with the Forth Vendors Group Floating-Point
-Standard. Subsequently the Technical Committee adopted proposals that
-placed the basic floating-point arithmetic, stack and support words
-in the Floating-Point word set and the floating-point transcendental
-functions in the Floating-Point Extensions word set. The Technical
-Committee also adopted proposals that:
-
-\begin{itemize}
-\item changed names for clarity and consistency; e.g.,
-	\texttt{REALS} to \word{FLOATS}, and
-	\texttt{REAL+} to \word{FLOAT+}.
-\item removed words; e.g., \texttt{FPICK}.
-\item added words for completeness and increased functionality; e.g.,
-	\word{FSINCOS},
-	\word{Ftilde},
-	\word{DF@},
-	\word{DF!},
-	\word{SF@} and
-	\word{SF!}
-\end{itemize}
-
-Several issues concerning the Floating-Point word set were resolved
-by consensus in the Technical Committee:
-
-\begin{description}
-\item [Floating-point stack:]
-	By default the floating-point stack is separate from the data
-	and return stacks; however, an implementation may keep
-	floating-point numbers on the data stack. A program can determine
-	whether floating-point numbers are kept on the data stack by
-	passing the string \texttt{FLOATING-STACK} to \word[core]{ENVIRONMENTq}
-	It is the experience of several members of the Technical Committee
-	that with proper coding practices it is possible to write
-	floating-point code that will run identically on systems with a
-	separate floating-point stack and with floating-point numbers kept
-	on the data stack.
-
-\item[Floating-point input:]
-	The current base must be \word[core]{DECIMAL}. Floating-point input
-	is not allowed in an arbitrary base. All floating-point numbers to
-	be interpreted by an ANS Forth system must contain the exponent
-	indicator ``\texttt{E}'' (see \xref[12.3.7 Text	interpreter input
-	number conversion]{float:conv}). Consensus in the Technical
-	Committee deemed this form of floating-point input to be in more
-	common use than the alternative that would have a floating-point
-	input mode that would allow numbers with embedded decimal points
-	to be treated as floating-point numbers.
-
-\item[Floating-point representation:]
-	Although the format and precision of the significand and the format
-	and range of the exponent of a floating-point number are
-	implementation defined in ANS Forth, the Floating-Point Extensions
-	word set contains the words
-	\word{DF@}, \word{SF@}, \word{DF!}, and \word{SF!}
-	for fetching and storing double- and single-precision IEEE
-	floating-point-format numbers to memory. The IEEE floating-point
-	format is commonly used by numeric math co-processors and for
-	exchange of floating-point data between programs and systems.
-\end{description}
-\end{intro}
-
 \section{Introduction} % 12.1
 
 \section{Additional terms and notation} % 12.2
@@ -117,10 +43,6 @@ with the environmental restriction that the floating-point numbers are
 kept on the data stack.}
 
 \section{Additional usage requirements} % 12.3
-
-\begin{intro}
-\subsection{Additional usage requirements} % A.12.3
-\end{intro}
 
 \subsection{Data types} % 12.3.1
 \label{float:datatypes}
@@ -245,25 +167,6 @@ floating-point data at the address.
 See: \xref[3.3.3.1 Address Alignment]{usage:aaddr},
 	\xref[12.3.1.1 Addresses]{float:addr}.
 
-\begin{intro}
-\subsubsection{Address alignment} % A.12.3.5
-
-In defining custom floating-point data structures, be aware that
-\word[core]{CREATE} doesn't necessarily leave the data space pointer
-aligned for various floating-point data types. Programs may comply
-with the requirement for the various kinds of floating-point alignment
-by specifying the appropriate alignment both at compile-time and
-execution time. For example:
-
-\begin{quote}\ttfamily
-	\word[core]{:} \word[floating]{FCONSTANT} \word[core]{p} F: r -{}- ) \\
-	\tab \word[core]{CREATE} \word{FALIGN} ~\word[core]{HERE}~
-		1 \word{FLOATS} \word[core]{ALLOT} ~\word{F!} \\
-	\tab \word[core]{DOES} \word[core]{p} F: -{}- r )
-		~\word{FALIGNED} \word{F@} \word[core]{;}
-\end{quote}
-\end{intro}
-
 \subsection{Variables} % 12.3.6
 
 A program may address memory in data space regions made available
@@ -305,20 +208,6 @@ in program source:
 See:
 	\xref[3.4.1.3 Text interpreter input number conversion]{usage:numbers},
 	\wref{floating:toFLOAT}{>FLOAT}.
-
-\begin{intro}
-\subsubsection{Text interpreter input number conversion} % A.12.3.7
-
-The Technical Committee has more than once received the suggestion
-that the text interpreter in Standard Forth systems should treat
-numbers that have an embedded decimal point, but no exponent, as
-floating-point numbers rather than double cell numbers. This
-suggestion, although it has merit, has always been voted down because
-it would break too much existing code; many existing implementations
-put the full digit string on the stack as a double number and use
-other means to inform the application of the location of the decimal
-point.
-\end{intro}
 
 \section{Additional documentation requirements} % 12.4
 
@@ -447,10 +336,6 @@ word sets.
 
 
 \section{Glossary} % 12.6
-
-\begin{intro}
-\subsection{Glossary} % A.12.6
-\end{intro}
 
 \subsection{Floating-Point words} % 12.6.1
 

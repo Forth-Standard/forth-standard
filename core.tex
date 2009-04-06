@@ -4106,30 +4106,12 @@
 \section{Core extension words} % 6.2
 \extended
 
-\begin{intro}
-\subsection{Core extension words} % A.6.2
+% Output core-ext rationale to a seperate file
 
-The words in this collection fall into several categories:
-
-\begin{itemize}
-\item Words that are in common use but are deemed less essential than
-	Core words (e.g., \word{0ne});
-
-\item Words that are in common use but can be trivially defined from
-	Core words (e.g., \word{FALSE});
-
-\item Words that are primarily useful in narrowly defined types of
-	applications or are in less frequent use (e.g., \word{PARSE});
-
-\item Words that are being deprecated in favor of new words introduced
-	to solve specific problems (e.g., \word{CONVERT}).
-\end{itemize}
-
-Because of the varied justifications for inclusion of these words,
-the Technical Committee does not encourage implementors to offer the
-complete collection, but to select those words deemed most valuable to
-their clientele.
-\end{intro}
+\ifinlinebody\else
+	\Closesolutionfile{deferred}
+	\Opensolutionfile{deferred}[core-ext]
+\fi
 
 
 \begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b]
@@ -4496,9 +4478,9 @@ their clientele.
 	\stack{"<spaces>name"}{xt}
 
 	Skip leading spaces and parse name delimited by a space.
-	\param{xt} is the \param{xt} associated with \param{name}.
+	\param{xt} is the \param{xt} \replace{ed09}{associated with}{assigned to} \param{name}.
 	An ambiguous condition exists if name was not defined by
-	\word{DEFER}, or if the name has not been associated with
+	\word{DEFER}, or if the name has not been \replace{ed09}{associated with}{assigned}
 	an \param{xt} yet.
 
 \compile
@@ -4512,9 +4494,9 @@ their clientele.
 \runtime
 	\stack{}{xt}
 
-	\param{xt} is the execution token associated with \param{name}
+	\param{xt} is the execution token \replace{ed09}{associated with}{assigned to} \param{name}
 	when the run-time semantics is performed. An ambiguous condition
-	exists if \param{name} has not been associated with an
+	exists if \param{name} has not been \replace{ed09}{associated with}{assigned} an
 	\param{xt} yet.
 
 	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
@@ -4758,9 +4740,9 @@ their clientele.
 \execute[name]
 	\stack{i*x}{j*x}
 
-	Execute \param{xt} associated with name. An ambiguous
-	condition exists if \param{name} has not been associated
-	with an \param{xt} yet.
+	Execute \place{ed09}{the} \param{xt} \replace{ed09}{associated with}{assigned to} name. An ambiguous
+	condition exists if \param{name} has not been
+	\replace{ed09}{associated with}{assigned} an \param{xt} yet.
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER!}{DEFER!},
@@ -4817,10 +4799,10 @@ their clientele.
 \begin{worddef}{}{DEFER@}[defer-fetch][X:deferred]
 \item \stack{xt_1}{xt_2}
 
-	\param{xt_2} is the \param{xt} associated with the deferred word
+	\param{xt_2} is the \param{xt} \replace{ed09}{associated with}{assigned to} the deferred word
 	corresponding to \param{xt_1}. An ambiguous condition exists if
 	\param{xt_1} is not for a word defined via \word{DEFER}, or if
-	the deferred word has not been associated with an \param{xt} yet.
+	the deferred word has not been \replace{ed09}{associated with}{assigned} an \param{xt} yet.
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER}{DEFER},
@@ -5705,12 +5687,13 @@ their clientele.
 	Place \param{x} on the stack. The value of \param{x} is that
 	given when \param{name} was created, until the phrase \param{x}
 	\word{TO} \param{name} is executed, causing a new value of
-	\param{x} to be associated with \param{name}.
+	\param{x} to be \replace{ed09}{associated with}{assigned to} \param{name}.
 
 \runtime[\word{TO} \param{name}]
 	\stack{x}{}
 
-	Associate the value \param{x} with \param{name}.
+	\replace{ed09}{Associate}{Assign} the value \param{x}
+	\replace{ed09}{with}{to} \param{name}.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}
 	and \wref{core:TO}{TO}.

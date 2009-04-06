@@ -1,12 +1,8 @@
 \documentclass[10pt]{book}
 \usepackage{a4wide}
-%\includeonly{float}
+%\includeonly{members-2x}
 
 % ========== Document Organisation Flags ==========
-
-\newif\ifinlineintro	% Inline Rationale main matter
-%\inlineintrotrue
-\inlineintrofalse
 
 \newif\ifinlinebody		% Inline Rationale glossary matter
 \inlinebodytrue
@@ -27,10 +23,30 @@
 % auto xref ambiguous conditions
 % add \log to History / Change Log
 
+%\usepackage{supertabular}
 \usepackage{ifthen}
-\usepackage{supertabular}
 \usepackage{graphicx}
 \usepackage{randtext}	% Randamize text (for email addresses)
+
+
+% ========== Remember Include Filename  ==========
+
+% Patch the \include command to remember the current include
+% filename.
+
+\makeatletter
+
+% Define a blank file name to start with
+\def\includefile{}
+
+% Make a note of the original version of \include
+\let\forth@include=\include
+
+% Define a our new version
+\renewcommand{\include}[1]{%
+	\gdef\includefile{#1}%	Remember the filename
+	\forth@include{#1}%		Include it
+}
 
 % ========== Page Header / Footer ==========
 
@@ -40,29 +56,14 @@
 \makeatletter
 \newcommand{\docversion}{%
 	\revision
-	% body	intro
-	% T		T		Inline
-	% T		F		word Rationale
-	% F		T		Wordlist
-	% F		F		Final
-	%
 	\ifinlinebody
-		\ifinlineintro
-			\textit{i}%		Inline (both Headings and Words)
-		\else
-			\textit{r}%		word Rationale only
-		\fi
-	\else
-		\ifinlineintro
-			\textit{w}%		Wordlist rationale only
-		\else
-			% Finale version of the document
-		\fi%
+		\textit{r}%		word Rationale only
 	\fi%
 	\ifshowref
 		\textit{x}
 	\fi
 }
+
 \makeatother
 
 \lhead[\leftmark]{Forth 200\emph{x} / \docversion}
@@ -80,6 +81,7 @@
 
 % ========== Deferred Placement ==========
 
+
 \usepackage{answers}
 \renewcommand{\solutionextension}{rat} % Default file extension
 
@@ -87,13 +89,11 @@
 % Turning it on will allow text to be exported to a "solution"
 % file, while turning it off will simply place the text in line.
 
-\answerfilesfalse
-\ifinlineintro\else \answerfilestrue \fi
-\ifinlinebody \else \answerfilestrue \fi
-
-\newcommand{\includerational}[1]{
-	\InputIfFileExists{#1\solutionpoint\solutionextension}
-}
+\ifinlinebody
+	\answerfilesfalse
+\else
+	\answerfilestrue
+\fi
 
 % =======================================
 
@@ -118,40 +118,6 @@
 
 % ======================================
 
-
-% ========== Generate HTML ==========
-
-% Patch the \include command to introduce the filename
-% currently being processed into the TOC file.  This can
-% be used by the HTML converter to provide a decent TOC.
-% It also allows us to record the current file in the
-% document footer.
-
-\makeatletter
-
-% Define a blank file name to start with
-\def\includefile{}
-
-% Make a note of the original version
-\let\forth@include=\include
-
-% Define a our new version
-\renewcommand{\include}[1]{%
-	% Add a TOC line with the name of the include file
-	\immediate\write\@auxout{\string\@writefile{toc}{\string\contentsfile{#1}}}%
-	\gdef\includefile{#1}%
-	\forth@include{#1}%
-}
-
-% Now we have to define a \contentsfile command which will simply
-% ignore the filename. The HTML generator can use this command
-% in the TOC file to generate links
-
-\newcommand{\contentsfile}[1]{}
-\makeatother
-
-% ====
-
 \usepackage[colorlinks,
 	pageanchor=false,
 	pdfpagelabels=false,
@@ -160,8 +126,7 @@
 
 % ========== Block Paragraphs ==========
 
-\parskip=0.7\baselineskip
-\parindent=0pt
+\usepackage{parskip}
 
 % ======================================
 
@@ -210,8 +175,6 @@
 			\Closesolutionfile{deferred}
 		}{}
 		\Opensolutionfile{deferred}[#1]
-		\Writetofile{deferred}{\protect\setwordlist{#1}}
-		\Writetofile{deferred}{\protect\label{rat:#1}}
 	\fi
 }
 
@@ -688,7 +651,7 @@
 
 \newcommand{\stack@sig}[2]{% ...{<before>}{<after>}
 	#1\ 			% Pre-condition (before)
-	\texttt{--}		% Mark the "execution point"
+	\texttt{-{}-}	% Mark the "execution point"
 	\ #2			% Post-condition (after)
 	\endgroup		% Close restricted scope
 					% Disable new specials and \itshape
@@ -992,83 +955,6 @@
 \newcommand{\defertext}[1]{
 	{\ifinlinebody\sffamily\else\rmfamily\fi #1}
 }
-
-
-% ========== Intro ==========
-
-% Now we have to do the same sort of thing for the intro environment.
-%
-% The intro environment should be used to identify the introductory
-% text for the rational of a given word list. The rationale for each
-% section is given via the intro environment. The placement of this
-% text is dependent on the \ifinlineintro flag, If this is true the
-% text will appear alongside the main text (inline), otherwise it is
-% deferred and will appear in the rationale appendix.
-
-% Define a new version of \@startsection so we may alter \section
-% and friends work the way we want, as normal but with a hyper def
-% and a "(Rationale)" if the section is inlined.
-
-\newcommand{\word@startsection}[7]{%
-	\vskip #4
-	\ifinlineintro
-		\ifthenelse{\equal{#1}{section}}{\def\tmp{A.\thechapter}}{}
-		\ifthenelse{\equal{#1}{subsection}}{\def\tmp{A.\thesection}}{}
-		\ifthenelse{\equal{#1}{subsubsection}}{\def\tmp{A.\thesubsection}}{}
-	\else
-		\def\tmp{A.\Currentlabel}
-	\fi
-	\hspace*{-0.5em}
-	\hyperdef{#1}{\tmp}{{%
-		#6 \tmp~~~ #7
-		\ifinlineintro
-			(\emph{Rationale})
-		\fi
-	}}
-	\vskip #4
-	\def\@currentlabel{\tmp}
-	\edef\@currentlablename{#7}
-	\def\@currentHref{#1.\tmp}
-	\addcontentsline{toc}{#1}{\protect\numberline{\tmp}#7}
-}
-
-\ifinlineintro
-	% We are inlineing the rationale introductions
-
-	% Redefine \@startsection with our version. This makes a hyper link
-	% target out of the label, and places the text "(Rationale)" after
-	% the heading. Both the heading and the text is indented.
-
-	\newenvironment{intro}{%
-		\def\Currentlabel{\@currentlabel}
-		\let\@startsection=\word@startsection
-		\begin{list}{}{%
-			\setlength{\leftmargin}{3em}
-		}
-		\item\relax
-		\sffamily
-	}{%
-		\end{list}
-	}
-\else
-	% The out not inlineing it, so we must ship it out to the
-	% deferred text file.
-
-	\Newassociation{intro}{wordintro}{deferred}
-
-	% The default parameters for wordintro are just fine.
-	% But we must get wordintro to call our modified \@startsection
-
-	\renewenvironment{wordintro}[1]{%
-		\def\Currentlabel{#1}
-		\let\@startsection=\word@startsection
-	}{}
-\fi
-
-%% == An ambiguous condition exists if ==
-%
-%%\newenvironment{code}{}{}
-
 
 
 % ========== Special Characters ==========
@@ -1395,35 +1281,32 @@
 
 % ========== New Title Page ==========
 
-% We do not bother to produce a new title page only when we are
-% inlineing both intro and body parts of the rational.
+% We do not bother to produce a new title page only when we
+% are inlineing the rational.
 
-\ifinlineintro
-	\ifinlinebody
-		% Save the current page number
-		\setcounter{savepage}{\value{page}}
+\ifinlinebody
+	% Save the current page number
+	\setcounter{savepage}{\value{page}}
 
-		% The back page to the first part
-		% This should be on the next even page.
+	% The back page to the first part
+	% This should be on the next even page.
 
-		\pagestyle{empty}
-		\ifthenelse{\isodd{page}}{}{~\newpage}
-		~
-		\vfill
-		%	Copyright \copyright{} \number\year \\
-		Forth 200\emph{x} Standards Committee \\[2ex]
-		\url{http://www.forth200x.org/}
+	\pagestyle{empty}
+	\ifthenelse{\isodd{page}}{}{~\newpage}
+	~\vfill
+	%	Copyright \copyright{} \number\year \\
+	Forth 200\emph{x} Standards Committee \\[2ex]
+	\url{http://www.forth200x.org/}
 
-		% Title page of second part
-		\include{titlepage}
+	% Title page of second part
+	\include{titlepage}
 
-		% Throw a new blank page
-		~\newpage
-		\pagestyle{fancy}
+	% Throw a new blank page
+	~\newpage
+	\pagestyle{fancy}
 
-		% Restore the page number
-		\setcounter{page}{\value{savepage}}
-	\fi
+	% Restore the page number
+	\setcounter{page}{\value{savepage}}
 \fi
 
 % ====================================
@@ -1457,7 +1340,9 @@
 ~\newpage
 
 % The back page should be reverse of the last page
-\ifthenelse{\isodd{page}}{}{~\newpage}
+\ifodd\count0
+	~\newpage
+\fi
 ~
 \vfill
 % Copyright \copyright{} \number\year \\

@@ -1,40 +1,6 @@
 \chapter{The optional Double-Number word set} % 8
 \wordlist{double}
 
-\begin{intro}
-\section{The optional Double-Number word set}
-
-Forth systems on 8-bit and 16-bit processors often find it necessary
-to deal with double-length numbers. But many Forths on small embedded
-systems do not, and many users of Forth on systems with a cell size of
-32-bits or more find that the necessity for double-length numbers is
-much diminished. Therefore, we have factored the words that manipulate
-double-length entities into this optional word set.
-
-Please note that the naming convention used in this word set conveys
-some important information:
-
-\begin{enumerate}
-\item[1.]
-	Words whose names are of the form \texttt{2}\emph{xxx} deal
-	with cell pairs, where the relationship between the cells is
-	unspecified. They may be two-vectors, double-length numbers, or
-	any pair of cells that it is convenient to manipulate together.
-
-\item[2.]
-	Words with names of the form \texttt{D}\emph{xxx} deal
-	specifically with double-length integers.
-
-\item[3.]
-	Words with names of the form \texttt{M}\emph{xxx} deal with
-	some combination of single and double integers. The order in
-	which these appear on the stack is determined by long-standing
-	common practice.
-\end{enumerate}
-
-Refer to \ref{rat:types} for a discussion of data types in Forth.
-\end{intro}
-
 \section{Introduction} % 8.1
 
 Sixteen-bit Forth systems often use double-length numbers. However,
@@ -152,10 +118,6 @@ the system to provide all of the Double-Number and Double-Number
 Extensions word sets.
 
 \section{Glossary} % 8.6
-
-\begin{intro}
-\subsection{Glossary} % A.8.6
-\end{intro}
 
 \subsection{Double-Number words} % 8.6.1
 

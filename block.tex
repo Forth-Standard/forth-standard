@@ -1,32 +1,6 @@
 \chapter{The optional Block word set} % 7
 \wordlist{block}
 
-\begin{intro}
-\section{The optional Block word set}
-
-Early Forth systems ran stand-alone, with no host OS. Blocks of 1024
-bytes were designed as a convenient unit of disk, and most native
-Forth systems still use them. It is relatively easy to write a native
-disk driver that maps head/track/sector addresses to block numbers.
-Such disk drivers are extremely fast in comparison with conventional
-file-oriented operating systems, and security is high because there is
-no reliance on a disk map.
-
-Today many Forth implementations run under host operating systems,
-because the compatibility they offer the user outweighs the performance
-overhead. Many people who use such systems prefer using host OS files
-only; however, people who use both native and non-native Forths need a
-compatible way of accessing disk. The Block Word set includes the most
-common words for accessing program source and data on disk.
-
-In order to guarantee that Standard Programs that need access to mass
-storage have a mechanism appropriate for both native and non-native
-implementations, ANS Forth requires that the Block word set be
-available if any mass storage facilities are provided. On non-native
-implementations, blocks normally reside in host OS files.
-\end{intro}
-
-
 \section{Introduction} % 7.1
 
 \section{Additional terms} % 7.2
@@ -43,17 +17,6 @@ implementations, blocks normally reside in host OS files.
 	\word{BLOCK}, \word{BUFFER}, \word{LOAD}, \word{LIST}, or
 	\word{THRU}.
 \end{description}
-
-\begin{intro}
-\subsection{Additional terms}
-
-\textbf{block}
-
-Many Forth systems use blocks to contain program source.
-Conventionally such blocks are formatted for editing as
-16 lines of 64 characters. Source blocks are often referred
-to as ``screens''.
-\end{intro}
 
 \section{Additional usage requirements} % 7.3
 
@@ -220,10 +183,6 @@ to provide all of the Block and Block Extensions word sets.
 
 
 \section{Glossary} % 7.6
-
-\begin{intro}
-\subsection{Glossary} % A.7.6
-\end{intro}
 
 \subsection{Block words} % 7.6.1
 

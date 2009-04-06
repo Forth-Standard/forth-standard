@@ -61,14 +61,12 @@ $^{\mbox{\small
 
 \makeatletter
 \@tempswafalse
-\ifinlineintro
-	\ifinlinebody
+\ifinlinebody
 	\begin{center}
 		\huge % Part \thepart \\[2ex]
 		\ifnum\value{part}=1 \textbf{Normative Text}\fi
 		\ifnum\value{part}=2 \textbf{Informative Text}\fi
 	\end{center}
-	\fi
 \fi
 \makeatother
 
@@ -102,39 +100,15 @@ may modify this document during the course of its work.
 %
 
 \ifnum\value{part}=1
-	\ifinlineintro
-		\ifinlinebody
-% Normative Page \ifinlineintro and \ifinlinebody
-\textbf{Notice: \emph{Inline}} (\textit{i}) \\
-As this is a working draft the text for the Rationale relevant to
-the current word set has been included with the main text for the
-word set.
-Such sections are denoted by being indented and the label
-(\emph{Rational}) after the section heading.
-The rationale for a given glossary entry is shown in the appropriate
-sections (rationale and testing) within the definition.
-These sections will appear in the appropriate section of appendix
-\ref{annex:rationale} in the final document.
-		\else
-% Normative Page \ifinlineintro only
-\textbf{Notice: \emph{Inline Wordset Rationale}} (\textit{w}) \\
-As this is a working draft the text for the Rationale relevent to
-the current word set has been included with the main text for the
-word set. The rationale is denoted by the text being indented and the
-label (\emph{Rationale}) appearing after the section heading. Such
-text will appear in the appropriate section of appendix
-\ref{annex:rationale} in the final document.
-		\fi
-	\else
-		\ifinlinebody
+	\ifinlinebody
 % Normative Page \ifinlinebody only
 \textbf{Notice: \emph{Inline Word Rationale}} (\textit{r}) \\
-As this is a working draft the rationale for a given glossary entry
-is shown in the appropriate section (rationale and testing) within the
-defintion.
-These sections will appear in the appropriate section of appendix
-\ref{annex:rationale} in the final document.
-		\fi
+As this is a working draft the rationale for a given glossary
+entry is shown in the appropriate section (rationale,
+implementation and testing) within the defintion.
+These sections will appear in the appropriate section of
+the appendices (\ref{annex:rationale}, \ref{annex:implement},
+and \ref{annex:test}) in the final document.
 	\fi
 \fi
 
@@ -144,45 +118,18 @@ These sections will appear in the appropriate section of appendix
 %
 
 \ifnum\value{part}=2
-	\ifinlineintro
-		\ifinlinebody
-% Informative Page \ifinlineintro and \ifinlinebody
-\textbf{Notice: \emph{Inline}} (\textit{i}) \\
-As this is a working draft the rationale for a word sets has been given
-alongside the main text for the word set. The rationale for individual
-glossary entries have been given in appropriate sections (rationale
-and/or testing) of the definition.
-
-The Rational (appendix \ref{annex:rationale}) contains only the general
-rationale text. The final version of the document will include the both
-the rationale for word sets as well as the rationale for individual
-glossary entries.
-		\else
-% Informative Page \ifinlineintro only
-\textbf{Notice: \emph{Inline Wordset Rationale}} (\textit{w}) \\
-As this is a working draft the text for the rationale for a word set
-has been given alongside the main text for the word set.
-
-The Rational (appendix \ref{annex:rationale}) contains the general
-rational in addition to the rationale relating to the individual
-glossary defintions.
-The rational for each word set will be included in the appendix in the
-final document.
-		\fi
-	\else
-		\ifinlinebody
+	\ifinlinebody
 % Informative Page \ifinlinebody only
 \textbf{Notice: \emph{Inline Word Rationale}} (\textit{r}) \\
-As this is a working draft the rationale for a given glossary entry is
-shown in the appropriate section (rationale and/or testing) within the
-definition.
+As this is a working draft the rationale for a given glossary
+entry is shown in the appropriate section (rationale,
+implementation, and testing) within the definition.
 
-The Rational (appendix \ref{annex:rationale}) contains the general
-rationale in addition to the rationale relating to the individual word
-sets.
-The rational for the glossary entries will be included in the appendix
-in the final document.
-		\fi
+The Rational (appendix \ref{annex:rationale}) contains the
+general rationale in addition to the rationale relating to
+the individual word sets.
+The rational for the glossary entries will be included in
+the appendix in the final document.
 	\fi
 \fi
 

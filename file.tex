@@ -1,40 +1,6 @@
 \chapter{The optional File-Access word set} % 11
 \wordlist{file}
 
-\begin{intro}
-\section{The optional File-Access word set}
-
-Many Forth systems support access to a host file system, and many of
-these support interpretation of Forth from source text files. The
-Forth-83 Standard did not address host OS files. Nevertheless, a degree
-of similarity exists among modern implementations.
-
-For example, files must be opened and closed, created and deleted.
-Forth file-system implementations differ mostly in the treatment and
-disposition of the exception codes, and in the format of the
-file-identification strings. The underlying mechanism for creating
-file-control blocks might or might not be visible. We have chosen to
-keep it invisible.
-
-Files must also be read and written. Text files, if supported, must
-be read and written one line at a time. Interpretation of text files
-implies that they are somehow integrated into the text interpreter
-input mechanism. These and other requirements have shaped the
-file-access extensions word set.
-
-Most of the existing implementations studied use simple English words
-for common host file functions: \texttt{OPEN}, \texttt{CLOSE},
-\texttt{READ}, etc. Although we would have preferred to do likewise,
-there were so many minor variations in implementation of these words
-that adopting any particular meaning would have broken much existing
-code. We have used names with a suffix \texttt{-FILE} for most of these
-words. We encourage implementors to conform their single-word primitives
-to the ANS behaviors, and hope that if this is done on a widespread
-basis we can adopt better definition names in a future standard.
-
-Specific rationales for members of this word set follow.
-\end{intro}
-
 \section{Introduction} % 11.1
 
 These words provide access to mass storage in the form of ``files''
@@ -69,10 +35,6 @@ under the following assumptions:
 \end{description}
 
 \section{Additional usage requirements} % 11.3
-
-\begin{intro}
-\subsection{Additional usage requirements} % A.11.3
-\end{intro}
 
 \subsection{Data types} % 11.3.1
 
@@ -139,16 +101,6 @@ When they do:
 \item An \word[block]{UPDATE}d block that came from a file shall
 	be transferred back to the same file.
 \end{itemize}
-
-\begin{intro}
-\subsubsection{Blocks in files}
-
-Many systems reuse file identifiers; when a file is closed, a
-subsequently opened file may be given the same identifier. If the
-original file has blocks still in block buffers, these will be
-incorrectly associated with the newly opened file with disastrous
-results. The block buffer system must be flushed to avoid this.
-\end{intro}
 
 
 \subsection{Environmental queries} % 11.3.3
@@ -332,10 +284,6 @@ provide all of the File Access and File Access Extensions word sets.
 
 
 \section{Glossary} % 11.6
-
-\begin{intro}
-\subsection{Glossary} % A.11.6
-\end{intro}
 
 \subsection{File Access words} % 11.6.1
 
