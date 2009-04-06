@@ -6,9 +6,11 @@ if x%1 == xps    goto ps
 if x%1 == xpdf   goto pdf
 if x%1 == xclean goto clean
 if x%1 == xhtml  goto dvi
+if x%1 == xzip   goto zip
 
 rem Usage
 echo "Usage: make [ dvi | ps | pdf | clean ]"
+goto end
 
 :single
 latex forth
@@ -24,7 +26,7 @@ goto process
 
 :process
 rem Get the word list (index)
-%latex% \scrollmode\input forth 
+%latex% \scrollmode\input forth.tex
 perl sort.pl < forth.wrd > forth.wds
 
 if x%1 == xhtml goto html
@@ -48,6 +50,11 @@ goto end
 :html
 rem Build the html version
 htlatex forth
+goto end
+
+:zip
+cd ..
+zip -9 -r basis.zip basis -x \*CVS\* -x \*.pdf -x \*.zip
 goto end
 
 :clean
