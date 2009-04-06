@@ -24,41 +24,68 @@ fail to attend two consecutive voting meetings.
 %	}{}
 }
 
-\begin{tabular}{p{.5\linewidth}p{.45\linewidth}}
-M. Anton Ertl (Chair)			\dotfill& Technische Universit\"at Wien \\
-\email{anton@mips.complang.tuwien.at}	& Wien, Austria \\
-\\
-Dr. Peter Knaggs (Editor)		\dotfill& \remove{ed08}{Bournemouth} University \place{ed08}{of Exeter} \\
-\remove{ed08}{\texttt{pknaggs@bournemouth.ac.uk}}& \replace{ed08}{Bournemouth}{Exeter}, UK \\
-\place{ed08}{\texttt{P.J.Knaggs@exeter.ac.uk}} \\
-\\
-Willem Botha					\dotfill& Construction Computer Software (Pty) Ltd  \\
-\email{willem.botha@ccssa.com}			& Cape Town, South Africa  \\
-\\
-Federico de Ceballos			\dotfill& Universidad de Cantabria \\
-\email{federico.ceballos@unican.es}		& Santander, Spain \\
-\\
-\place{ed08}{Andrew Haley}		\dotfill& \place{ed08}{Red Hat UK Ltd.} \\
-\place{ed08}{\texttt{aph@redhat.com}}			& \place{ed08}{Cambridge, UK} \\
-\\
-\place{ed08}{Ulrich Hoffmann}	\dotfill& FH Wedel \\
-\place{ed08}{\texttt{uho@forth-ev.de}}			& \place{ed08}{Wedel, Germany}	\\
-\\
-\place{ed08}{Bernd Paysan}		\dotfill& \place{ed08}{Head Issue GmbH} \\
-\place{ed08}{\texttt{bernd.paysan@gmx.de}}		& \place{ed08}{Munich, Germany} \\
-\\
-Stephen Pelc					\dotfill& MicroProcessor Engineering Ltd. \\
-\email{stephen@mpeforth.com}			& Southampton, UK \\
-\\
-Dr. Bill Stoddart				\dotfill& University of Teesside \\
-\email{bill.stoddart@ntlworld.com}		& Middlesbrough, UK \\
-\\
-\place{ed08}{Willi Stricker}	\dotfill& \place{ed08}{FH Hannover} \\
-\place{ed08}{\texttt{willi.stricker@fh-hannover.de}}	& \place{ed08}{Hannover, Germany}
-\\
-Carsten Strotmann				\dotfill& \\
-\email{carsten@strotmann.de}			& Neuenkirchen, Germany \\
-\\
-\place{ed08}{Leon Wagner}		\dotfill& \place{ed08}{Forth, Inc.} \\
-\place{ed08}{\texttt{leon@forth.com}}	& \place{ed08}{Los Angeles, USA} \\
-\end{tabular}
+\newcommand{\member}[4]{% {name}{email}{Company}{Address}
+	\makebox[0.5\linewidth][l]{#1\dotfill} \quad \makebox{#3} \\
+	\makebox[0.5\linewidth][l]{#2} \quad #4 \\[-\baselineskip]
+}
+
+\member{M. Anton Ertl (Chair)}
+	{\email{anton@mips.complang.tuwien.at}}
+	{Technische Universit\"at Wien}
+	{Wien, Austria}
+
+\member{Dr. Peter Knaggs (Editor)}
+	{\remove{ed08}{\texttt{pknaggs@bournemouth.ac.uk}}}
+	{\remove{ed08}{Bournemouth} University \place{ed08}{of Exeter}}
+	{\replace{ed08}{Bournemouth}{Exeter}, UK} \\
+\place{ed08}{\texttt{P.J.Knaggs@exeter.ac.uk}}
+
+\member{Willem Botha}
+	{\email{willem.botha@ccssa.com}}
+	{Construction Computer Software (Pty) Ltd}
+	{Cape Town, South Africa}
+
+\member{Federico de Ceballos}
+	{\email{federico.ceballos@unican.es}}
+	{Universidad de Cantabria}
+	{Santander, Spain}
+
+\member{\place{ed08}{Andrew Haley}}
+	{\place{ed08}{\texttt{aph@redhat.com}}}
+	{\place{ed08}{Red Hat UK Ltd.}}
+	{\place{ed08}{Cambridge, UK}}
+
+\member{\place{ed08}{Ulrich Hoffmann}}
+	{\place{ed08}{\texttt{uho@forth-ev.de}}}
+	{\place{ed08}{FH Wedel}}
+	{\place{ed08}{Wedel, Germany}}
+
+\member{\place{ed08}{Bernd Paysan}}
+	{\place{ed08}{\texttt{bernd.paysan@gmx.de}}}
+	{\place{ed08}{Head Issue GmbH}}
+	{\place{ed08}{Munich, Germany}}
+
+\member{Stephen Pelc}
+	{\email{stephen@mpeforth.com}}
+	{MicroProcessor Engineering Ltd.}
+	{Southampton, UK}
+
+\member{Dr. Bill Stoddart}
+	{\email{bill.stoddart@ntlworld.com}}
+	{University of Teesside}
+	{Middlesbrough, UK}
+
+\member{\place{ed08}{Willi Stricker}}
+	{\place{ed08}{\texttt{willi.stricker@fh-hannover.de}}}
+	{\place{ed08}{FH Hannover}}
+	{\place{ed08}{Hannover, Germany}}
+
+\member{Carsten Strotmann}
+	{\email{carsten@strotmann.de}}
+	{}
+	{Neuenkirchen, Germany}
+
+\member{\place{ed08}{Leon Wagner}}
+	{\place{ed08}{\texttt{leon@forth.com}}}
+	{\place{ed08}{Forth, Inc.}}
+	{\place{ed08}{Los Angeles, USA}}
