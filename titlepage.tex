@@ -61,7 +61,7 @@ $^{\mbox{\small
 
 \makeatletter
 \@tempswafalse
-\ifinlinebody
+\ifinline
 	\begin{center}
 		\huge % Part \thepart \\[2ex]
 		\ifnum\value{part}=1 \textbf{Normative Text}\fi
@@ -100,12 +100,11 @@ may modify this document during the course of its work.
 %
 
 \ifnum\value{part}=1
-	\ifinlinebody
-% Normative Page \ifinlinebody only
+	\ifinline
 \textbf{Notice: \emph{Inline Word Rationale}} (\textit{r}) \\
 As this is a working draft the rationale for a given glossary
 entry is shown in the appropriate section (rationale,
-implementation and testing) within the defintion.
+implementation and testing) within the definition.
 These sections will appear in the appropriate section of
 the appendices (\ref{annex:rationale}, \ref{annex:implement},
 and \ref{annex:test}) in the final document.
@@ -118,8 +117,7 @@ and \ref{annex:test}) in the final document.
 %
 
 \ifnum\value{part}=2
-	\ifinlinebody
-% Informative Page \ifinlinebody only
+	\ifinline
 \textbf{Notice: \emph{Inline Word Rationale}} (\textit{r}) \\
 As this is a working draft the rationale for a given glossary
 entry is shown in the appropriate section (rationale,
