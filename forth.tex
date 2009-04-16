@@ -16,6 +16,9 @@
 
 % =================================================
 
+% Tell LaTeX to record a list of all the files
+\listfiles
+
 % To Do
 %
 % Get rid of labels
@@ -24,8 +27,7 @@
 % add \log to History / Change Log
 
 %\usepackage{supertabular}
-\usepackage{ifthen}
-\usepackage{graphicx}
+\usepackage{graphics}
 \usepackage{randtext}	% Randamize text (for email addresses)
 
 
@@ -249,8 +251,7 @@
 %
 % \begin{rationale} ... \end{rationale}
 % \begin{testing}   ... \end{testing}
-%   \test{<pre>}{<post>}			A test case
-%	\ftest{<pre>}{<post>}{<type>}	A Floating-Point test
+%   \test[<format>]{<pre>}{<post>}	A test case
 % \begin{implement} ... \end{implement}
 
 % ==== worddef ====
@@ -695,18 +696,13 @@
 					% this also cancels the \itshape command
 }
 
-% As part of the testing environment we also provide the \test and
-% \ftest macros to typeset the text of a test case.
+% As part of the testing environment we also provide the \test
+% macro to typeset the text of a test case.
 
-% \test{test code}{expected results}
-\newcommand{\test}{\forth@test{\forth@test@cell}}
-\newcommand{\ftest}{\forth@test{\forth@test@float}}
-\newcommand{\forth@test}[1]{\frenchspacing\obeyspaces#1}
-\newcommand{\forth@test@cell}[2]{%
-	\texttt{T\{ #1 -> #2 \}T}%
-	\nonfrenchspacing\catcode`\ =10}
-\newcommand{\forth@test@float}[3]{%
-	\texttt{T\{ #1 -> #2 #3\}T}%
+% \test[<format>]{<pre>}{<post>}
+\newcommand{\test}{\frenchspacing\obeyspaces\test@arg}
+\newcommand{\test@arg}[3][]{%
+	\texttt{T\{ #2 -> #3 #1\}T}%
 	\nonfrenchspacing\catcode`\ =10}
 
 % ==== Deferred Text ====
@@ -1392,7 +1388,7 @@
 	% This should be on the next even page.
 
 	\pagestyle{empty}
-	\ifthenelse{\isodd{page}}{}{~\newpage}
+	\ifodd\value{page}\else~\newpage\fi
 	~\vfill
 	%	Copyright \copyright{} \number\year \\
 	Forth 200\emph{x} Standards Committee \\[2ex]
