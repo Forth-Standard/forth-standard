@@ -1,0 +1,78 @@
+\annex{References Implementations} % I. (informative annex)
+\label{annex:implement}
+
+\section{Introduction} % I.1
+
+\marginpar{\tiny ed09}\cbstart
+In the most recent review of this document, proposals were encouraged
+to include a references implementation where possible.  Where an
+implementation requires system specific knowledge it was documented.
+
+
+This appendix contains the reference implementations that have been
+accepted by the committee.  This is not a complete reference
+implementation nor do the committee recommend these implementations.
+They are provided solely for the purpose of providing a detailed
+understanding of a definitions requirement.  A systems implementor is
+free to implement any operation in a manner that suites their system,
+but it must exhibit the same behavior as the reference implementation
+given here.
+
+This appendix contains the reference implementations that were
+accepted by the committee.  It is not complete and it is not the
+committeeies intention to recommend these implementations.
+The code is provided to give a systems implementor an indication as
+to the operation of the word, or set of words, given in the reference
+implemention.  A systems implementaor is free to implement any
+operation in a manner that suites their system, but which exhibits
+the same behavior as the reference implementation.
+\cbend
+
+
+\ifinline
+	\newcommand{\impsection}[2]{%
+		\section{The optional #2 word set}
+		\fbox{\parbox{\linewidth}{\slshape
+		In the \emph{review} (r) version of the document the
+		reference implementation for a word is given in the main
+		definition of the word.  The implementation of words in
+		the \textbf{#1} word set will appear here in the final
+		document.
+		}}
+	}
+\else
+	\namespace{imp}
+	\newcommand{\impsection}[2]{%
+		\defersection{#2}
+		\setwordlist{#1}
+		\input{i-#1.sub}
+		\stepsection
+	}
+	\defersection{}
+\fi
+
+\setcounter{section}{5}
+\section{The Core word set}				% I.6
+\ifinline
+	\fbox{\parbox{\linewidth}{\slshape
+	In the \emph{review} (r) version of the document the
+	reference implementaiton for a word are given in the main
+	defintion of the word.  The implementation of words
+	in the \textbf{core} word set will appear here in the
+	final document.
+	}}
+\else
+	\input{i-core.sub}
+\fi
+
+\impsection{block}{Block}				% I.7
+\impsection{double}{Double-Number}		% I.8
+\impsection{exception}{Exception}		% I.9
+\impsection{facility}{Facility}			% I.10
+\impsection{file}{File-Access}			% I.11
+\impsection{floating}{Floating-Point}	% I.12
+\impsection{local}{Locals}				% I.13
+\impsection{memory}{Memory-Allocation}	% I.14
+\impsection{tools}{Programming-Tools}	% I.15
+\impsection{search}{Search-Order}		% I.16
+\impsection{string}{String}				% I.17
