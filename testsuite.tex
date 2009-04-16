@@ -5,59 +5,830 @@
 \section{Introduction} % F.1
 \label{test:intro}
 
+\cbstart\marginpar{\tiny ed09}
 After the publication of the original ANS Forth document
-(ANSI X3.215-1994), John Hayes of the Johns Hopkins University /
-Applied Physics Laboratory developed a test suite. In
-November of 1995 the test suite was released.
+(ANSI X3.215-1994), John Hayes developed a test suite, which
+included both a test harness and a suite of core tests.  The
+harness was extended by Anton Ertl and David N. Williams to
+allow the testing of floating point operations.
+The current revision of the test harness is available from the
+web site:
+\begin{quote}
+	\url{http://www.forth200x.org/tests/ttester.fs}
+\end{quote}
 
-While this suite does test many aspects of the core system, it is not
-comprehensive. A standard system must be capable of passing all of the
-tests within the suite. A system can not claim to be standard simply
-because it is able to pass this test suite.
+% The primary changes from the original are the replacement of
+% ``\texttt{\{}'' by ``\texttt{T\{}'' and ``\texttt{\}}'' by
+% ``\texttt{\}T}''" (to avoid conflicts with existing systems),
+%% the uses of { for locals and } for FSL arrays),
+%% modifications so that the stack is allowed to be non-empty
+%% before T{,
+% and extensions for the handling of floating point tests.
+% Code for testing equality of floating point values comes from
+% David N. Williams, based on Dirk Zoller's implementation of
+% approximate equality.
+
+% Further revisions were provided by Anton Ertl, including the ability
+% to handle either integrated or separate floating point stacks.
+% Explanatory material by C. G. Montgomery, with helpful comments from
+% David Williams and Krishna Myneni.
+
+The teat harness can be used to define regression tests for a set of
+application words.  It can also be used to define tests of words in
+a standard-conforming implementation.
+% An example is the test of the ANS Forth CORE word set.
 
 \section{Test Harness}
 
-The tester defines functions that compare the results of a test with a
-set of expected results. The syntax for each test starts with
-``\verb|{|'' (open brace) followed by a code sequence to test.
-This is followed by ``\verb|->|'', the expected results, and
-``\verb|}|'' (close brace). For example, the following:
+The tester defines functions that compare the results of a test with
+a set of expected results.  The syntax for each test starts with
+``\texttt{T\{}'' (T-open brace) followed by a code sequence to test.
+This is followed by ``\texttt{->}'', the expected results, and
+``\texttt{\}T}'' (close brace-T).  For example, the following:
 \begin{quote}
-	\verb|{ 1 1 + -> 2 }|
+	\test{1 1 \word{+}}{2}
 \end{quote}
-tests that one plus one indeed equals two.  The ``\verb|{|'' does
-nothing; it just makes the test look pretty. The ``\verb|->|'' records
-the stack depth and moves the entire stack contents to an array. In the
-example test, the recorded stack depth is one and the saved array
-contains one value, two. The ``\verb|}|'' compares the current stack
-depth to the saved stack depth.
-If they are equal each value on the stack is removed from the stack and
-compared to its corresponding value in the array. If the depths are not
-equal or if the stack comparison fails, an error is reported. In the
-example test, the expected stack depth is one, the expected value is
-two, and the test passes.
+tests that one plus one indeed equals two.
 
-The tester can be used to define regression tests for a set of
-application words. It can also be used to define tests of words in a
-standard-conforming implementation. An example is the test of the ANS
-Forth CORE word set.
+The ``\texttt{T\{}'' records the stack depth prior to the test code
+so that they can be eliminated from the test.
+The ``\texttt{->}'' records the stack depth and moves the entire stack
+contents to an array.  In the example test, the recorded stack depth
+is one and the saved array contains one value, two.
+The ``\texttt{\}T}'' compares the current stack depth to the saved
+stack depth.  If they are equal each value on the stack is removed
+from the stack and compared to its corresponding value in the array.
+If the depths are not equal or if the stack comparison fails, an error
+is reported.  For exmaple:
 
+\test{1 2 3 \word{SWAP}}{1 3 2} \\
+\test{1 2 3 \word{SWAP}}{1 2 3} \texttt{INCORRECT RESULT:} \test{1 2 3 SWAP}{1 2 3} \\
+\test{1 2 3 \word{SWAP}}{1 2}   \texttt{WRONG NUMBER OF RESULTS:} \test{1 2 3 SWAP}{1 2} \\
 
-\section{Tester Source}
-The following source code provides the tester.
+\subsection{Floating-Point}
+\setwordlist{floating}
 
-\setwordlist{core}
+Floating point testing can involve further complications.  The harness
+attempts to determine whether floating-point support is present, and
+if so, whether there is a separate floating-point stack, and behave
+accordingly.  The \word{CONSTANT}s \texttt{HAS-FLOATING} and
+\texttt{HAS-FLOATING-STACK} contain the results of its efforts, so
+the behavior of the code can be modified by the user if necessary.
+
+Then there are the perennial issues of floating point value
+comparisons.  Exact equality is specified by \texttt{SET-EXACT}
+(the default).  If approximate equality tests are desired, execute
+\texttt{SET-NEAR}.  Then the \linebreak
+\word{FVARIABLE}s \texttt{REL-NEAR} (default 1E-12) and
+\texttt{ABS-NEAR} (default 0E) contain the values to be used in
+comparisons by the (internal) word \texttt{FNEARLY=}.
+
+When there is not a separate floating point stack, and you want to use
+approximate equality for FP values, it is necessary to identify which
+stack items are floating point quantities.  This can be done by
+replacing the closing \texttt{\}T} with a version that specifies
+this, such as \texttt{RRXR\}T} which identifies the stack picture
+\linebreak (\param{r r x r}).  The harness provides such words for all
+combinations of R and X with up to four stack items.  They can be
+used with either an integrated or a separate floating point stacks.
+Adding more if you need them is straightforward; see the examples in
+the source.  Here is an example which also illustrates controlling
+the precision of comparisons:
+
 \begin{tt}
-\word{bs} From: ~ John Hayes S1I\\
-\word{bs} Subject: tester.fr\\
-\word{bs} Date: ~ Mon, 27 Nov 95 13:10:09 PST \\
+SET-NEAR \\
+1E-6 REL-NEAR \word{F!} \\
+\ftest{S" 3.14159E" \word{toFLOAT}}{-1E \word{FACOS} <TRUE>}{RX}
+\end{tt}
+
+\subsection{Error Processing}
+
+The internal word \texttt{ERROR} is vectored, through the
+\texttt{ERROR-XT} variable, so that its action can be changed by
+the user (for example, to add a counter for the number of errors).
+The default action \texttt{ERROR1} can be used as a factor in the
+display of error reports.
+
+\subsection{Source}
+
+The following source code provides the test harness.
+
+\setwordlist{floating}
+\frenchspacing
+\obeyspaces
+\begin{tt}
+\word{bs} This is the source for the ANS test harness, it is based on the\\
+\word{bs} harness originally developed by John Hayes\\
 \\
+\word{bs} (C) 1995 JOHNS HOPKINS UNIVERSITY / APPLIED PHYSICS LABORATORY\\
+\word{bs} MAY BE DISTRIBUTED FREELY AS LONG AS THIS COPYRIGHT NOTICE REMAINS.\\
+\word{bs} VERSION 1.1\\
+\\
+\word{bs} Revision history and possibly newer versions can be found at\\
+\word{bs} http://www.forth200x/tests/ttester.fs\\
+\\
+\word{BASE} \word{@} \\
+\word{HEX} \\
+\\
+\word{VARIABLE} ACTUAL-DEPTH         \word{bs} stack record \\
+\word{CREATE} ACTUAL-RESULTS 20 CELLS ALLOT \\
+\word{VARIABLE} START-DEPTH \\
+\word{VARIABLE} XCURSOR              \word{bs} for ...\}T \\
+\word{VARIABLE} ERROR-XT \\
+\\
+\word{:} ERROR ERROR-XT \word{@} \word{EXECUTE} \word{;}  \word{bs} for vectoring of error reporting \\
+\\
+\word{:} "FLOATING" \word{Sq} FLOATING" \word{;}   \word{bs} only compiled S" in CORE \\
+\word{:} "FLOATING-STACK" \word{Sq} FLOATING-STACK" \word{;} \\
+"FLOATING" \word{ENVIRONMENTq} \word[tools]{[IF]} \\
+\tab \word[tools]{[IF]} \\
+\tab[2] \word{TRUE} \\
+\tab \word[tools]{[ELSE]} \\
+\tab[2] \word{FALSE} \\
+\tab \word[tools]{[THEN]} \\
+\word[tools]{[ELSE]} \\
+\tab \word{FALSE} \\
+\word[tools]{[THEN]} \word{CONSTANT} HAS-FLOATING \\
+\\
+"FLOATING-STACK" \word{ENVIRONMENTq} \word[tools]{[IF]} \\
+\tab \word[tools]{[IF]} \\
+\tab[2] \word{TRUE} \\
+\tab \word[tools]{[ELSE]} \\
+\tab[2] \word{FALSE} \\
+\tab \word[tools]{[THEN]} \\
+\word[tools]{[ELSE]}            \word{bs} We don't know whether the FP stack is separate. \\
+\tab HAS-FLOATING   \word{bs} If we have FLOATING, we assume it is. \\
+\word[tools]{[THEN]} \word{CONSTANT} HAS-FLOATING-STACK \\
+\\
+HAS-FLOATING \word[tools]{[IF]} \\
+\tab \word{bs} Set the following to the relative and absolute tolerances you \\
+\tab \word{bs} want for approximate float equality, to be used with F~ in \\
+\tab \word{bs} FNEARLY=.  Keep the signs, because F~ needs them. \\
+\tab \word{FVARIABLE} REL-NEAR \word{DECIMAL} 1E-12 \word{HEX} REL-NEAR \word{F!} \\
+\tab \word{FVARIABLE} ABS-NEAR \word{DECIMAL}    0E \word{HEX} ABS-NEAR \word{F!} \\
+\\
+\tab \word{bs} When EXACT? is TRUE, \}F uses FEXACTLY=, otherwise FNEARLY=. \\
+\\
+\tab \word{TRUE} \word{VALUE} EXACT? \\
+\tab \word{:} SET-EXACT  \word{p} -{}- )   \word{TRUE} \word{TO} EXACT? \word{;} \\
+\tab \word{:} SET-NEAR   \word{p} -{}- )  \word{FALSE} \word{TO} EXACT? \word{;} \\
+\\
+\tab \word{DECIMAL} \\
+\tab \word{:} FEXACTLY=  \word{p} F: X Y -{}- S: FLAG ) \\
+\tab[2] \word{p} \\
+\tab[2] Leave TRUE if the two floats are identical. \\
+\tab[2] ) \\
+\tab[2] 0E \word{Ftilde} \word{;} \\
+\tab \word{HEX} \\
+\\
+\tab \word{:} FABS=  \word{p} F: X Y -{}- S: FLAG ) \\
+\tab[2] \word{p} \\
+\tab[2] Leave TRUE if the two floats are equal within the tolerance \\
+\tab[2] stored in ABS-NEAR. \\
+\tab[2] ) \\
+\tab[2] ABS-NEAR \word{F@} \word{Ftilde} \word{;} \\
+\\
+\tab \word{:} FREL=  \word{p} F: X Y -{}- S: FLAG ) \\
+\tab[2] \word{p} \\
+\tab[2] Leave TRUE if the two floats are relatively equal based on the \\
+\tab[2] tolerance stored in ABS-NEAR. \\
+\tab[2] ) \\
+\tab[2] REL-NEAR \word{F@} \word{FNEGATE} \word{Ftilde} \word{;} \\
+\\
+\tab \word{:} F2DUP  \word{FOVER} \word{FOVER} \word{;} \\
+\tab \word{:} F2DROP \word{FDROP} \word{FDROP} \word{;} \\
+\\
+\tab \word{:} FNEARLY=  \word{p} F: X Y -{}- S: FLAG ) \\
+\tab[2] \word{p} \\
+\tab[2] Leave TRUE if the two floats are nearly equal.  This is a  \\
+\tab[2] refinement of Dirk Zoller's FEQ to also allow X = Y, including \\
+\tab[2] both zero, or to allow approximately equality when X and Y are too \\
+\tab[2] small to satisfy the relative approximation mode in the F\texttildelow \\
+\tab[2] specification. \\
+\tab[2] ) \\
+\tab[2] F2DUP FEXACTLY= \word{IF} F2DROP \word{TRUE} \word{EXIT} \word{THEN} \\
+\tab[2] F2DUP FREL=     \word{IF} F2DROP \word{TRUE} \word{EXIT} \word{THEN} \\
+\tab[2] FABS= \word{;} \\
+\\
+\tab \word{:} FCONF= \word{p} R1 R2 -{}- F ) \\
+\tab[2] EXACT? \word{IF} \\
+\tab[3]  FEXACTLY= \\
+\tab[2] \word{ELSE} \\
+\tab[3]  FNEARLY= \\
+\tab[2] \word{THEN} \word{;} \\
+\word[tools]{[THEN]} \\
+\\
+HAS-FLOATING-STACK \word[tools]{[IF]} \\
+\tab \word{VARIABLE} ACTUAL-FDEPTH \\
+\tab \word{CREATE} ACTUAL-FRESULTS 20 \word{FLOATS} \word{ALLOT} \\
+\tab \word{VARIABLE} START-FDEPTH \\
+\tab \word{VARIABLE} FCURSOR \\
+\\
+\tab \word{:} EMPTY-FSTACK \word{p} \ldots -{}- \ldots ) \\
+\tab[2] \word{FDEPTH} START-FDEPTH \word{@} \word{less} \word{IF} \\
+\tab[3]   \word{FDEPTH} START-FDEPTH \word{@} \word{SWAP} \word{DO} 0E \word{LOOP} \\
+\tab[2] \word{THEN} \\
+\tab[2] \word{FDEPTH} START-FDEPTH \word{@} \word{more} \word{IF} \\
+\tab[3]   \word{FDEPTH} START-FDEPTH \word{@} \word{DO} \word{FDROP} \word{LOOP} \\
+\tab[2] \word{THEN} \word{;} \\
+\\
+\tab \word{:} F\{ \word{p} -{}- ) \\
+\tab[2] \word{FDEPTH} START-FDEPTH \word{!} 0 FCURSOR \word{!} \word{;} \\
+\\
+\tab \word{:} F-> \word{p} \ldots -{}- \ldots ) \\
+\tab[2] \word{FDEPTH} \word{DUP} ACTUAL-FDEPTH \word{!} \\
+\tab[2] START-FDEPTH \word{@} \word{more} \word{IF} \\
+\tab[3]   \word{FDEPTH} START-FDEPTH \word{@} \word{-} 0 \word{DO} ACTUAL-FRESULTS \word{I} \word{FLOATS} \word{+} \word{F!} \word{LOOP} \\
+\tab[2] \word{THEN} \word{;} \\
+\\
+\tab \word{:} F\} \word{p} \ldots -{}- \ldots ) \\
+\tab[2] \word{FDEPTH} ACTUAL-FDEPTH \word{@} \word{=} \word{IF} \\
+\tab[3]  \word{FDEPTH} START-FDEPTH \word{@} \word{more} \word{IF} \\
+\tab[4]   \word{FDEPTH} START-FDEPTH \word{@} \word{-} 0 \word{DO} \\
+\tab[5]    ACTUAL-FRESULTS \word{I} \word{FLOATS} \word{+} \word{F@} FCONF= \word{INVERT} \word{IF} \\
+\tab[6]     \word{Sq} INCORRECT FP RESULT: " ERROR \word{LEAVE} \\
+\tab[5]    \word{THEN} \\
+\tab[4]   \word{LOOP} \\
+\tab[3]  \word{THEN} \\
+\tab[2] \word{ELSE} \\
+\tab[3]  \word{Sq} WRONG NUMBER OF FP RESULTS: " ERROR \\
+\tab[2] \word{THEN} \word{;} \\
+\\
+\tab \word{:} F...\}T \word{p} -{}- ) \\
+\tab[2] FCURSOR \word{@} START-FDEPTH \word{@} \word{+} ACTUAL-FDEPTH \word{@} \word{ne} \word{IF} \\
+\tab[2]   \word{Sq} NUMBER OF FLOAT RESULTS BEFORE '->' DOES NOT MATCH ...\}T " \\
+\tab[2]   \word{Sq} SPECIFICATION: " ERROR \\
+\tab[2] \word{ELSE} \word{FDEPTH} START-FDEPTH \word{@} \word{=} \word{0=} \word{IF} \\
+\tab[2]   \word{Sq} NUMBER OF FLOAT RESULTS BEFORE AND AFTER '->' DOES NOT MATCH: " \\
+\tab[2]   ERROR \\
+\tab[2] \word{THEN} \word{THEN} \word{;} \\
+\\
+\tab \word{:} FTESTER \word{p} R -{}- ) \\
+\tab[2] \word{FDEPTH} \word{0=} ACTUAL-FDEPTH \word{@} FCURSOR \word{@} START-FDEPTH \word{@} \word{+} \word{1+} \word{less} \word{OR} \word{IF} \\
+\tab[2]   \word{Sq} NUMBER OF FLOAT RESULTS AFTER '->' BELOW ...\}T SPECIFICATION: " \\
+\tab[2]   ERROR  \\
+\tab[2] \word{ELSE} ACTUAL-FRESULTS FCURSOR \word{@} \word{FLOATS} \word{+} \word{F@} FCONF= \word{0=} \word{IF} \\
+\tab[2]   \word{Sq} INCORRECT FP RESULT: " ERROR \\
+\tab[2] \word{THEN} \word{THEN} \\
+\tab[2] 1 FCURSOR \word{+!} \word{;} \\
+\\
+\word[tools]{[ELSE]} \\
+\tab \word{:} EMPTY-FSTACK \word{;} \\
+\tab \word{:} F\{ \word{;} \\
+\tab \word{:} F-> \word{;} \\
+\tab \word{:} F\} \word{;} \\
+\tab \word{:} F...\}T \word{;} \\
+\\
+\tab HAS-FLOATING \word[tools]{[IF]} \\
+\tab[2] \word{DECIMAL} \\
+\tab[2] \word{:} COMPUTE-CELLS-PER-FP \word{p} -{}- U ) \\
+\tab[3]   \word{DEPTH} 0E \word{DEPTH} \word{1-} \word{toR} \word{FDROP} \word{Rfrom} \word{SWAP} \word{-} \word{;} \\
+\tab[2] \word{HEX} \\
+\\
+\tab[2] COMPUTE-CELLS-PER-FP \word{CONSTANT} CELLS-PER-FP \\
+\\
+\tab[2] \word{:} FTESTER \word{p} R -{}- ) \\
+\tab[3]  \word{DEPTH} CELLS-PER-FP \word{less} \\
+\tab[3]  ACTUAL-DEPTH \word{@} XCURSOR \word{@} START-DEPTH \word{@} \word{+} CELLS-PER-FP \word{+} \word{less} \\
+\tab[3]  \word{OR} \word{IF} \\
+\tab[4]   \word{Sq} NUMBER OF RESULTS AFTER '->' BELOW ...\}T SPECIFICATION: " \\
+\tab[4]   ERROR \word{EXIT} \\
+\tab[3]  \word{ELSE} ACTUAL-RESULTS XCURSOR \word{@} \word{CELLS} \word{+} \word{F@} FCONF= \word{0=} \word{IF} \\
+\tab[4]   \word{Sq} INCORRECT FP RESULT: " ERROR \\
+\tab[3]  \word{THEN} \word{THEN} \\
+\tab[3]  CELLS-PER-FP XCURSOR \word{+!} \word{;} \\
+\tab \word[tools]{[THEN]} \\
+\word[tools]{[THEN]} \\
+\\
+\word{:} EMPTY-STACK	\word{bs} ( \ldots -{}- ) empty stack; handles underflowed stack too. \\
+\tab \word{DEPTH} START-DEPTH \word{@} \word{less} \word{IF} \\
+\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{SWAP} \word{DO} 0 \word{LOOP} \\
+\tab \word{THEN} \\
+\tab \word{DEPTH} START-DEPTH \word{@} \word{more} \word{IF} \\
+\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{DO} \word{DROP} \word{LOOP} \\
+\tab \word{THEN} \\
+\tab EMPTY-FSTACK \word{;} \\
+\\
+\word{:} ERROR1	\word{bs} ( C-ADDR U -{}- ) display an error message  \\
+\tab[4.8] \word{bs} followed by the line that had the error. \\
+\tab \word{TYPE} \word{SOURCE} \word{TYPE} \word{CR}			\word{bs} display line corresponding to error \\
+\tab EMPTY-STACK         \word{bs} throw away everything else \\
+\word{;} \\
+\\
+\word{'} ERROR1 ERROR-XT \word{!} \\
+\\
+\word{:} T\{		\word{bs} ( -{}- ) record the pre-test depth. \\
+\tab \word{DEPTH} START-DEPTH \word{!} 0 XCURSOR \word{!} F\{ \word{;} \\
+\\
+\word{:} ->		\word{bs} ( \ldots -{}- ) record depth and contents of stack. \\
+\tab \word{DEPTH} \word{DUP} ACTUAL-DEPTH \word{!}		\word{bs} record depth \\
+\tab START-DEPTH \word{@} \word{more} \word{IF}		\word{bs} if there is something on the stack \\
+\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{-} 0 \word{DO} ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{!} \word{LOOP} \word{bs} save them \\
+\tab \word{THEN} \\
+\tab F-> \word{;} \\
+\\
+\word{:} \}T		\word{bs} ( \ldots -{}- ) comapre stack (expected) contents with saved \\
+\tab   \word{bs} (actual) contents. \\
+\tab \word{DEPTH} ACTUAL-DEPTH \word{@} \word{=} \word{IF}		\tab[4.0]	\word{bs} if depths match \\
+\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{more} \word{IF}	\tab[3.6]	\word{bs} if there is something on the stack \\
+\tab[3] \word{DEPTH} START-DEPTH \word{@} \word{-} 0 \word{DO}	\tab[1.4]	\word{bs} for each stack item \\
+\tab[4] ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{@}	\tab		\word{bs} compare actual with expected \\
+\tab[4] \word{ne} \word{IF} \word{Sq} INCORRECT RESULT: " ERROR \word{LEAVE} \word{THEN} \\
+\tab[3] \word{LOOP} \\
+\tab[2] \word{THEN} \\
+\tab \word{ELSE} \tab[16.6]	\word{bs} depth mismatch \\
+\tab[2] \word{Sq} WRONG NUMBER OF RESULTS: " ERROR \\
+\tab \word{THEN} \\
+\tab F\} \word{;} \\
+\\
+\word{:} ...\}T \word{p} -{}- ) \\
+\tab XCURSOR \word{@} START-DEPTH \word{@} \word{+} ACTUAL-DEPTH \word{@} \word{ne} \word{IF} \\
+\tab[2] \word{Sq} NUMBER OF CELL RESULTS BEFORE '->' DOES NOT MATCH ...\}T " \\
+\tab[2] \word{Sq} SPECIFICATION: " ERROR \\
+\tab \word{ELSE} \word{DEPTH} START-DEPTH \word{@} \word{=} \word{0=} \word{IF} \\
+\tab[2] \word{Sq} NUMBER OF CELL RESULTS BEFORE AND AFTER '->' DOES NOT MATCH: " \\
+\tab[2] ERROR \\
+\tab \word{THEN} \word{THEN} \\
+\tab F...\}T \word{;} \\
+\\
+\word{:} XTESTER \word{p} X -{}- ) \\
+\tab \word{DEPTH} \word{0=} ACTUAL-DEPTH \word{@} XCURSOR \word{@} START-DEPTH \word{@} \word{+} \word{1+} \word{less} \word{OR} \word{IF} \\
+\tab[2] \word{Sq} NUMBER OF CELL RESULTS AFTER '->' BELOW ...\}T SPECIFICATION: " \\
+\tab[2] ERROR \word{EXIT} \\
+\tab \word{ELSE} ACTUAL-RESULTS XCURSOR \word{@} \word{CELLS} \word{+} \word{@} \word{ne} \word{IF} \\
+\tab[2] \word{Sq} INCORRECT CELL RESULT: " ERROR \\
+\tab \word{THEN} \word{THEN} \\
+\tab 1 XCURSOR \word{+!} \word{;} \\
+\\
+\word{:} X\}T    XTESTER                         ...\}T \word{;} \\
+\word{:} XX\}T   XTESTER XTESTER                 ...\}T \word{;} \\
+\word{:} XXX\}T  XTESTER XTESTER XTESTER         ...\}T \word{;} \\
+\word{:} XXXX\}T XTESTER XTESTER XTESTER XTESTER ...\}T \word{;} \\
+\\
+HAS-FLOATING \word[tools]{[IF]} \\
+\tab \word{:} R\}T    FTESTER                         ...\}T \word{;} \\
+\tab \word{:} XR\}T   FTESTER XTESTER                 ...\}T \word{;} \\
+\tab \word{:} RX\}T   XTESTER FTESTER                 ...\}T \word{;} \\
+\tab \word{:} RR\}T   FTESTER FTESTER                 ...\}T \word{;} \\
+\tab \word{:} XXR\}T  FTESTER XTESTER XTESTER         ...\}T \word{;} \\
+\tab \word{:} XRX\}T  XTESTER FTESTER XTESTER         ...\}T \word{;} \\
+\tab \word{:} XRR\}T  FTESTER FTESTER XTESTER         ...\}T \word{;} \\
+\tab \word{:} RXX\}T  XTESTER XTESTER FTESTER         ...\}T \word{;} \\
+\tab \word{:} RXR\}T  FTESTER XTESTER FTESTER         ...\}T \word{;} \\
+\tab \word{:} RRX\}T  XTESTER FTESTER FTESTER         ...\}T \word{;} \\
+\tab \word{:} RRR\}T  FTESTER FTESTER FTESTER         ...\}T \word{;} \\
+\tab \word{:} XXXR\}T FTESTER XTESTER XTESTER XTESTER ...\}T \word{;} \\
+\tab \word{:} XXRX\}T XTESTER FTESTER XTESTER XTESTER ...\}T \word{;} \\
+\tab \word{:} XXRR\}T FTESTER FTESTER XTESTER XTESTER ...\}T \word{;} \\
+\tab \word{:} XRXX\}T XTESTER XTESTER FTESTER XTESTER ...\}T \word{;} \\
+\tab \word{:} XRXR\}T FTESTER XTESTER FTESTER XTESTER ...\}T \word{;} \\
+\tab \word{:} XRRX\}T XTESTER FTESTER FTESTER XTESTER ...\}T \word{;} \\
+\tab \word{:} XRRR\}T FTESTER FTESTER FTESTER XTESTER ...\}T \word{;} \\
+\tab \word{:} RXXX\}T XTESTER XTESTER XTESTER FTESTER ...\}T \word{;} \\
+\tab \word{:} RXXR\}T FTESTER XTESTER XTESTER FTESTER ...\}T \word{;} \\
+\tab \word{:} RXRX\}T XTESTER FTESTER XTESTER FTESTER ...\}T \word{;} \\
+\tab \word{:} RXRR\}T FTESTER FTESTER XTESTER FTESTER ...\}T \word{;} \\
+\tab \word{:} RRXX\}T XTESTER XTESTER FTESTER FTESTER ...\}T \word{;} \\
+\tab \word{:} RRXR\}T FTESTER XTESTER FTESTER FTESTER ...\}T \word{;} \\
+\tab \word{:} RRRX\}T XTESTER FTESTER FTESTER FTESTER ...\}T \word{;} \\
+\tab \word{:} RRRR\}T FTESTER FTESTER FTESTER FTESTER ...\}T \word{;} \\
+\word[tools]{[THEN]} \\
+\\
+\word{bs} Set the following flag to TRUE for more verbose output; this may \\
+\word{bs} allow you to tell which test caused your system to hang. \\
+\word{VARIABLE} VERBOSE \\\mbox{}
+  \word{FALSE} VERBOSE \word{!} \\
+ \\
+\word{:} TESTING	\word{bs} ( -{}- ) TALKING COMMENT. \\
+\tab \word{SOURCE} VERBOSE \word{@} \\
+\tab \word{IF} \word{DUP} \word{toR} \word{TYPE} \word{CR} \word{Rfrom} \word{toIN} \word{!} \\
+\tab \word{ELSE} \word{toIN} \word{!} \word{DROP} \\
+\tab \word{THEN} \word{;} \\
+\\
+\word{BASE} \word{!}
+\end{tt}
+\nonfrenchspacing
+\catcode`\ =10
+
+\section{Core Tests}
+
+The test cases in John Heyes' original test suite were designed to
+test features before they were used in later tests.  Due to the
+structure of this annex the progressive testing has been lost.  This
+section attempts to retain the integrity of the original test suite
+by laying out the test progression for the core word set.
+
+While this suite does test many aspects of the core word set, it is
+not comprehensive.  A standard system \emph{must} pass all of the
+tests within this suite.  A system cannot claim to be standard simply
+because it passes this test suite.
+
+The test starts by verifying basic assumptions about number
+representation.  It then builds on this with tests of boolean logic,
+shifting, and comparisons.  It then tests the basic stack manipulations
+and arithmetic.  Ultimately, it tests the Forth interpreter and
+compiler.
+
+Note that all of the tests in this suite assume the current base is
+\emph{hexadecimal}.
+
+\subsection{Basic Assumptions}
+
+These test assume a two's complement implementation where the range of
+signed numbers is $-2^{n-1}$ $\cdots$ $2^{n-1}-1$ and the range of
+unsinged numbers is $0$ $\cdots$ $2^n-1$.
+
+A method for testing \word{KEY}, \word{QUIT}, \word{ABORT},
+\word{ABORTq}, \word{ENVIRONMENTq}, etc has yet to be proposed.
+
+\test{}{} \tab[10] \texttt{\word{p} Start with a clean slate )} \\
+\texttt{\word{p} Test if any bits are set; Answer in base 1 )} \\
+\test{\word{:} BITSSET? \word{IF} 0 0 \word{ELSE} 0 \word{THEN} \word{;}}{} \\
+\test{ 0 BITSSET?}{0}	\tab[2.8] \texttt{\word{p} Zero is all bits clear )} \\
+\test{ 1 BITSSET?}{0 0}	\tab[1.6] \texttt{\word{p} Other numbers have at least one bit )} \\
+\test{-1 BITSSET?}{0 0}
+
+\subsection{Booleans}
+
+To test the booleans it is first neccessary to test
+\tref{core:AND}{AND}, and \tref{core:INVERT}{INVERT}.  Before moving
+on to the test \tref{core:CONSTANT}{CONSTANT}.  The latter defines
+two constants (\texttt{0S} and \texttt{1S}) which will be used in the
+further test.
+
+It is now possible to complete the testing of
+	\tref{core:AND}{AND},
+	\tref{core:OR}{OR}, and
+	\tref{core:XOR}{XOR}.
+
+\subsection{Shifts}
+
+To test the shift operators it is necessary to calculate the most
+significant bit of a cell:
+
+\begin{quote}
+	\texttt{1S 1 \word{RSHIFT} \word{INVERT} \word{CONSTANT} MSB}
+\end{quote}
+
+\word{RSHIFT} is tested later.
+\texttt{MSB} must have at least one bit set:
+
+\begin{quote}
+	\test{MSB BITSSET?}{0 0}
+\end{quote}
+
+The test \tref{core:2*}{2*}, \tref{core:2/}{2/},
+\tref{core:LSHIFT}{LSHIFT}, and \tref{core:RSHIFT}{RSHIFT}
+can now be performed.
+
+\subsection{Comparisons}
+
+Before testing the comparison operators it is necessary to define
+a few constants to allow the testing of the upper and lower bounds.
+
+\begin{tt}\frenchspacing\obeyspaces
+0 \word{INVERT}                					\word{CONSTANT} MAX-UINT \\
+0 \word{INVERT} 1 \word{RSHIFT}       			\word{CONSTANT} MAX-INT \\
+0 \word{INVERT} 1 \word{RSHIFT} \word{INVERT}	\word{CONSTANT} MIN-INT \\
+0 \word{INVERT} 1 \word{RSHIFT}       			\word{CONSTANT} MID-UINT \\
+0 \word{INVERT} 1 \word{RSHIFT} \word{INVERT}	\word{CONSTANT} MID-UINT+1 \\
+\\
+0S \word{CONSTANT} <FALSE> \\
+1S \word{CONSTANT} <TRUE>
+\end{tt}
+\nonfrenchspacing\catcode`\ =10
+
+With these constants defined, it is now possible to perferom the
+	\tref{core:0=}{0=},
+	\tref{core:=}{=},
+	\tref{core:0less}{0<},
+	\tref{core:less}{<},
+	\tref{core:more}{>},
+	\tref{core:Uless}{U<},
+	\tref{core:MIN}{MIN}, and
+	\tref{core:MAX}{MAX} test.
+
+\subsection{Stack Operators}
+
+The stack operators can be tested without any prepatory work.  The
+``normal'' operators
+	(\tref{core:DROP}{DROP},
+	 \tref{core:DUP}{DUP},
+	 \tref{core:OVER}{OVER},
+	 \tref{core:ROT}{ROT}, and
+	 \tref{core:SWAP}{SWAP})
+should be tested first, followed by the two-cell variants
+	(\tref{core:2DROP}{2DROP},
+	 \tref{core:2DUP}{2DUP},
+	 \tref{core:2OVER}{2OVER} and
+	 \tref{core:2SWAP}{2SWAP})
+with \tref{core:qDUP}{?DUP} and \tref{core:DEPTH}{DEPTH} being
+performed last.
+
+\subsection{Return Stack Operators}
+
+The test \tref{core:toR}{>R} will test all three basic return
+stack operators (\word{toR}, \word{Rfrom}, and \word{R@}).
+
+\subsection{Addition and Subtraction}
+
+Basic addition and subtraction should be tested in the order:
+	\tref{core:+}{+},
+	\tref{core:-}{-},
+	\tref{core:1+}{1+},
+	\tref{core:1-}{1-},
+	\tref{core:ABS}{ABS} and
+	\tref{core:NEGATE}{NEGATE}.
+
+\subsection{Multiplication}
+
+The multiplication operators should be tested in the order:
+	\tref{core:StoD}{S>D},
+	\tref{core:*}{*},
+	\tref{core:M*}{M*}, and
+	\tref{core:UM*}{UM*}.
+
+\subsection{Division}
+
+Due to the complexity of the division operators they are tested
+separately from the multiplication operators.  The basic division
+operators are tested first:
+	\tref{core:FM/MOD}{FM/MOD},
+	\tref{core:SM/REM}{SM/REM}, and
+	\tref{core:UM/MOD}{UM/MOD}.
+
+As the standard allows a system to provide either floored or symmetric
+division, the remaining operators have to be tested depending on the
+system behaviour.  Two words are defined that provide a form of
+conditional compilation.
+
+\begin{tt}
+\word{:} IFFLOORED 
+	\word{[} -3 2 \word{/} -2 = \word{INVERT} \word{]}
+	\word{LITERAL} \word{IF} \word{POSTPONE} \word{bs} \word{THEN}
+\word{;} \\
+\word{:} IFSYM \tab[1.8]
+	\word{[} -3 2 \word{/} -1 = \word{INVERT} \word{]}
+	\word{LITERAL} \word{IF} \word{POSTPONE} \word{bs} \word{THEN}
+\word{;}
+\end{tt}
+
+\texttt{IFSYM} will ignore the rest of the line when it is performed
+on a system with floored division and perform the line on a system
+with symmetric division.  \texttt{IFFLOORED} is the direct inverse,
+ignoring the rest of the line on systems with symmetric division and
+processing it on systems with floored division.
+
+The remaining division operators are tested by defining a version of
+the operator using words which have already been tested (\word{StoD},
+\word{M*}, \word{FM/MOD} and \word{SM/REM}).  The test definition
+handles the special case of differing signes.  As the test definitions
+use the words which have just been tested, the tests must be performed
+in the order:
+	\tref{core:/MOD}{/MOD},
+	\tref{core:/}{/},
+	\tref{core:MOD}{MOD},
+	\tref{core:*/}{*/}, and
+	\tref{core:*/MOD}{*/MOD}.
+
+\subsection{Memory}
+
+As with the other sections, the tests for the memory access words
+build on previously tested words and thus require an order to the
+testing.
+
+The first test (\tref{core@,}{,}) tests \word{HERE}, the signle cell
+memory access words \word{@}, \word{!} and \word{CELL+} as well as
+the double cell access words \word{2@} and \word{2!}.  The tests
+\tref{core:+!}{+!} and \tref{core:CELLS}{CELLS} should then be
+performed.
+
+The test (\tref{core:C,}{C,}) also tests the single character memory
+words \word{C@}, \word{C!}, and \word{CHAR+}, leaving the test
+\tref{core:CHARS}{CHARS} to be performed seperatly.
+
+Finally, the memory access alignment test \tref{core:ALIGN}{ALIGN}
+includes a test of \word{ALIGNED}, leaving \tref{core:ALLOT}{ALLOT}
+as the final test in this group.
+
+\subsection{Characters}
+
+Basic character handling:
+	\tref{core:BL}{BL},
+	\tref{core:CHAR}{CHAR},
+	\tref{core:[CHAR]}{[CHAR]},
+	\tref{core:[}{[} which also tests \word{]}, and
+	\tref{core:Sq}{S\"}.
+
+\subsection{Dictionary}
+
+The dictionary tests define a number of words as part of the test,
+these are included in the approperate test:
+	\tref{core:'}{'},
+	\tref{core:[']}{[']} both of which also test \word{EXECUTE},
+	\tref{core:FIND}{FIND},
+	\tref{core:LITERAL}{LITERAL},
+	\tref{core:COUNT}{COUNT},
+	\tref{core:POSTPONE}{POSTPONE},
+	\tref{core:STATE}{STATE}
+
+\subsection{Flow Control}
+
+The flow control words have to be tested in matching groups.
+First test \tref{core:IF}{IF}, \word{ELSE}, \word{THEN} group.
+Followed by the \word{BEGIN}, \tref{core:WHILE}{WHILE},
+\word{REPEAT} group, and the \word{BEGIN}, \tref{core:UNTIL}{UNTIL}
+pairing.  Finally the \tref{core:RECURSE}{RECURSE} function should
+be tested.
+
+\subsection{Counted Loops}
+
+Counted loops have a set of special condition that require testing.
+As with the flow control words, these words have to be tested as
+a group.
+First the basic counted loop: \word{DO}; \word{I};
+	\tref{core:LOOP}{LOOP},
+followed by loops with a non regular increment:
+	\tref{core:+LOOP}{+LOOP},
+loops within loops:
+	\tref{core:J}{J},
+and aborted loops:
+	\tref{core:LEAVE}{LEAVE};
+	\tref{core:UNLOOP}{UNLOOP} which includes a test for \word{EXIT}.
+
+\subsection{Defining Words}
+
+Although most of the defining words have already been used within the
+test suite, they still need to be tested fully.  The tests include
+	\tref{core::}{:} which also tests \word{;},
+	\tref{core:CONSTANT}{CONSTANT},
+	\tref{core:VARIABLE}{VARIABLE},
+	\tref{core:DOES}{DOES} which includes tests \word{CREATE}, and
+	\tref{core:toBODY}{toBODY} which also tests \word{CREATE}.
+
+\subsection{Evaluate}
+
+As with the defining words, \tref{core:EVALUATE}{EVALUATE} has
+already been used, but it must still be tested fully.
+
+\subsection{Parser Input Source Control}
+
+Testing of the input source can be quit dificult.  The tests
+require line breaks within the test:
+	\tref{core:SOURCE}{SOURCE},
+	\tref{core:toIN}{>IN}, and
+	\tref{core:WORD}{WORD}.
+
+\subsection{Number Patterns}
+
+The number formatting words produce a string, a word that compares
+two strings is required.  This test suite assumes that the optional
+String word set is unavailable.  Thus a string comparison word is
+defined, using only trusted words:
+
+\begin{tt}
+\word{:} S=  \word{bs} ( ADDR1 C1 ADDR2 C2 -{}- T/F ) Compare two strings. \\
+\tab  \word{toR} \word{SWAP} \word{R@} \word{=} \word{IF}	\tab[4.8] \word{bs} Make sure strings have same length \\
+\tab[2]   \word{Rfrom} \word{qDUP} \word{IF}				\tab[6.2] \word{bs} If non-empty strings \\
+\tab[3]     0 \word{DO} \\
+\tab[4]       \word{OVER} \word{C@} \word{OVER} \word{C@} \word{-}
+				\word{IF} \word{2DROP} <FALSE> \word{UNLOOP} \word{EXIT} \word{THEN} \\
+\tab[4]       \word{SWAP} \word{CHAR+} \word{SWAP} \word{CHAR+} \\
+\tab[3]     \word{LOOP} \\
+\tab[2]   \word{THEN} \\
+\tab[2]   \word{2DROP} <TRUE>								\tab[5] \word{bs} If we get here, strings match \\
+\tab  \word{ELSE} \\
+\tab[2]   \word{Rfrom} \word{DROP} \word{2DROP} <FALSE>		\tab[-0.4] \word{bs} Lengths mismatch \\
+\tab  \word{THEN} \word{;}
+\end{tt}
+
+The number formatting words have to be tested as a group with
+	\tref{core:HOLD}{HOLD},
+	\tref{core:SIGN}{SIGN}, and
+	\tref{core:num}{num} all including tests for
+	\word{num-start} and \word{num-end}.
+
+Before the \tref{core:numS}{numS} test can be performed it is
+necessary to calculate the number of bits required to store the
+largest double value.
+
+\begin{tt}
+24 \word{CONSTANT} MAX-BASE							\tab[7.6] \word{bs} BASE 2 {\ldots} 36 \\
+\word{:} COUNT-BITS \\
+\tab 0 0 \word{INVERT}
+	\word{BEGIN} \word{DUP} \word{WHILE} \word{toR} \word{1+} \word{Rfrom} \word{2*} \word{REPEAT}
+	\word{DROP} \word{;} \\
+COUNT-BITS \word{2*} \word{CONSTANT} \#BITS-UD		\tab \word{bs} NUMBER OF BITS IN UD
+\end{tt}
+
+The \tref{core:toNUMBER}{toNUMBER} test can now be performed.
+Finally, the \tref{core:BASE}{BASE} test, which includes tests for
+\word{HEX} and \word{DECIMAL}, can be performed.
+
+\subsection{Memory Movement}
+
+Frist two memory buffers are defined:
+
+\begin{tt}
+\word{CREATE} FBUF 00 \word{C,} 00 \word{C,} 00 \word{C,} \\
+\word{CREATE} SBUF 12 \word{C,} 34 \word{C,} 56 \word{C,} \\
+\word{:} SEEBUF FBUF \word{C@}  FBUF \word{CHAR+} \word{C@}  FBUF \word{CHAR+} \word{CHAR+} \word{C@} \word{;}
+\end{tt}
+
+As the content of \texttt{FBUF} is changed by the
+\tref{core:FILL}{FILL} test, this must be executed before the
+\tref{core:MOVE}{MOVE} test.
+
+\subsection{Output}
+
+As there is no provision for capturing the output stream so that it
+can be compared to an expected result there is not automatic method
+of testing the output generation words.  The user is required to
+validate the output for the \tref{core:EMIT}{EMIT} test.  This tests
+the selection of output words \word{d}, \word{.q}, \word{CR},
+\word{SPACE}, \word{SPACES}, \word{TYPE}, and \word{Ud}.
+
+\subsection{Input}
+
+To test the input word (\tref{core:ACCEPT}{ACCEPT}) the user is
+required to type up to 80 characters.  The system will buffer the
+input sequence and output it to the user for inspection.
+
+\subsection{Dictionary Search Rules}
+
+The final test in this suite is included with \tref{core::}{:} and
+tests the search order of the dictionary.  It asserts that a
+definition that uses its own name in the definition is not recursive
+but rather refers to the previous definition of the word.
+
+\test{\word{:} GDX     123 \word{;}}{}	\tab \texttt{\word{bs} First defintion} \\
+\test{\word{:} GDX GDX 234 \word{;}}{}	\tab \texttt{\word{bs} Second defintion} \\
+\test{GDX}{123 234}
+\cbend
+
+\ifinline
+	\newcommand{\testsection}[2]{%
+		\section{The optional #2 word set}
+		\fbox{\parbox{\linewidth}{\slshape
+		In the \emph{review} (r) version of the document the
+		test cases for a word are given in with the main
+		defintion of the word.  The test cases for the words
+		in the \textbf{#1} wordset will appear here in the
+		final document.
+		}}
+	}
+\else
+	\namespace{test}
+	\newcommand{\testsection}[2]{%
+		\defersection{#2}
+		\setwordlist{#1}
+		\input{t-#1.sub}
+		\stepsection
+	}
+	\defersection{}
+\fi
+
+\setcounter{section}{5}
+\section{The Core word set}				% T.6
+\ifinline
+	\fbox{\parbox{\linewidth}{\slshape
+	In the \emph{review} (r) version of the document the
+	test cases for a word are given in with the main
+	defintion of the word.  The test cases for the words
+	in the \textbf{core} wordset will appear here in the
+	final document.
+	}}
+\else
+	\input{t-core.sub}
+\fi
+
+\testsection{block}{Block}				% T.7
+\testsection{double}{Double-Number}		% T.8
+\testsection{exception}{Exception}		% T.9
+\testsection{facility}{Facility}		% T.10
+\testsection{file}{File-Access}			% T.11
+\testsection{floating}{Floating-Point}	% T.12
+\testsection{local}{Locals}				% T.13
+\testsection{memory}{Memory-Allocation}	% T.14
+\testsection{tools}{Programming-Tools}	% T.15
+\testsection{search}{Search-Order}		% T.16
+\testsection{string}{String}			% T.17
+
+
+\endinput %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Test Harness} % John Hayes' original test harness
+
+\begin{tt}
+\word{bs} From: ~ John Hayes S1I \\
+\word{bs} Subject: core.fr \\
+\word{bs} Date: ~ Mon, 27 Nov 95 13:10:09 PST \\
 \word{bs} (C) 1995 JOHNS HOPKINS UNIVERSITY / APPLIED PHYSICS LABORATORY\\
 \word{bs} MAY BE DISTRIBUTED FREELY AS LONG AS THIS COPYRIGHT NOTICE REMAINS.\\
 \word{bs} VERSION 1.1\\
 \word{HEX} \\
 \\
-\word{bs} SET THE FOLLOWING FLAG TO TRUE FOR MORE VERBOSE OUTPUT; THIS MAY\\
+\word{bs} SET THE FOLLOWING FLAG TO TRUE FOR MORE VERBOSE OUTPUT; THIS MAY \\
 \word{bs} ALLOW YOU TO TELL WHICH TEST CAUSED YOUR SYSTEM TO HANG. \\
 \\
 \word{VARIABLE} VERBOSE \\
@@ -104,10 +875,7 @@ The following source code provides the tester.
 \tab \word{THEN} \word{;}
 \end{tt}
 
-%\setcounter{section}{5}
-%\section{Glossary} % F.6 ============================================
-
-\section{Core Tests}
+\section{Core Tests} % John Hayes' original Core Tests
 
 The test starts by verifying basic assumptions about number
 representation. It then builds on this with tests of boolean logic,
@@ -1219,5 +1987,4 @@ TESTING DICTIONARY SEARCH RULES
 
 \{ \word{:} GDX   123 \word{;} \tab \word{:} GDX   GDX 234 \word{;} -> \} \\
 \{ GDX -> 123 234 \}
-
 \end{tt}
