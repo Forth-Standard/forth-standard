@@ -65,18 +65,20 @@ rem forth.toc	Table of Contents
 rem *.wrd	Words (unordered)
 rem *.wds	Words (sorted)
 rem *.aux	LaTeX auxiliary files
-rem *.rat	Rationale text
+rem *.sub	Auto generated support files
 rem *.undo	LEd backup files
 rem *.cb*	Change Bars
 
 for %%x in (log out toc) do if exist forth.%%x del forth.%%x
-for %%x in (wrd wds aux rat undo) do del *.%%x
+for %%x in (wrd wds aux sub undo) do del *.%%x
 del *.cb*
 
 rem Keep the following:
 rem forth.pdf	PDF Final output
 rem forth.ps	PostScript Final output
 rem forth.dvi	LaTeX DVI output
+
+goto end
 
 rem Clean HTML files
 rem forth.4ct	ToC postfix

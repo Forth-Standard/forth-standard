@@ -65,7 +65,7 @@ clean:
         rm -f forth.out         # Hyperref - PDF Bookmarks
 
         # Document's own support files
-        rm -f *.rat             # Defered text for Rationale
+        rm -f *.sub             # Auto generated support files
         rm -f forth.wrd         # Word list (unsorted)
         rm -f forth.wds         # Word list (sorted)
 
