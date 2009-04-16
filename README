@@ -13,25 +13,27 @@ part of the standard latex2e installation.  If your system does not
 have any of these packages they can be obtained from your local CTAN
 mirror (www.ctan.org).
 
-a4wide:         Setting the paper size correctly
-fancyhdr:       fancy headings
-changebar:      change bars
-ulem:           underline and struck thorough text
-hyperref:       hyper references
-mathptmx:       New-Times-Roman for roman and formula, part of PS-NFSS
-helvet:         Helvetica for sans-serif, part of PS-NFSS
-courier:        Courier font, also part of PS-NFSS
+a4wide:    Setting the paper size correctly
+graphicx:  Enhanced Graphics
+fancyhdr:  Fancy headings
+changebar: Change Bars
+ulem:      Underline and struck thorough text
+hyperref:  Hypertext links
+mathptmx:  New-Times-Roman for roman and formula, part of PS-NFSS
+helvet:    Helvetica for sans-serif, part of PS-NFSS
+courier:   Courier font, also part of PS-NFSS
+parskip:   Non-zero parskip adjustments
 
 In addition to these packages I also make use of the following
 optional packages:
 
-answers: Deferred text - this is provided as a .sty, but the full
-         package is provided in the Support directory.  It is also
-         available on CTAN.
+answers:  Deferred text - this is provided as a .sty, but the full
+          package is provided in the Support directory.  It is also
+          available on CTAN.
 
-history: Change Log - I have been developing this package alongside
-         the document.  The version included here is the full code
-         as it currently exists.
+history:  Change Log - I have been developing this package alongside
+          the document.  The version included here is the full code
+          as it currently exists.
 
 randtext: Randomise text - used to typeset email address in a manner
           that automatic harvester program find impossible to process.
@@ -71,8 +73,8 @@ Define Labels
 -------------
 The first time it runs, it will generate a lot of auxiliary files,
 these contain information needed for the cross referencing system.
-The first time you run latex it will generate a set of "labels" and
-you will see a large number of warnings of the form:
+It will also generate a set of "labels" and you will see a large
+number of warnings of the form:
 
         LaTeX Warning: Reference `search:ONLY' on page 274 undefined
         on input line 398.
@@ -107,12 +109,12 @@ time to resolve all the page numbers correctly.
 
 Change Bars
 -----------
-Now that the text has settled down it we can work out where to
-place the change bars.  This uses a similar technique to the labels,
-in that it collects the information it requires on one run, and then
+Now that the text has settled down we can work out where to place
+the change bars.  This uses a similar technique to the labels, in
+that it collects the information it requires on one run, and then
 uses that information on a second run.  Unfortunately, we have just
-changed the information on the last run, so we have to run the whole
-thing through latex two more times.
+changed the information on the last run, so we have to run the
+whole thing through latex two more times.
 
 
 Configuration
@@ -154,28 +156,27 @@ Labels
 ------
 All words are given a label so they can be referenced, this label
 normally has the same name as the word.  Unfortunately this is not
-always possible.  (As the label is used as the target for a hyperlink
+always possible.  As the label is used as the target for a hyperlink
 it can not contain characters which has special meaning in the target
-format (PS/PDF or HTML).)  These labels are not normally shown, a
-flag is provided to show these label in the word header block and in
-the index.  To enable this feature you must comment out the
+format (PS/PDF or HTML).  These labels are not normally shown, a flag
+is provided to show these label in the word header block and in the
+index.  To enable this feature you must comment out the
 \showreffalse command and uncomment the \showreftrue line.
 
-Rationale Location
-------------------
-The rationale for a word is given in the word definition.  This can
-be show in the definition of the word or in the rationale appendix.
+Informative text Location
+-------------------------
+The informative text for a word is given in the word definition.
+The \inline flag, defined on line 7, controls how these sections
+are presented:
 
-\inlinebody
-        If this is true the rationale for a word will be type set
-        immediately after the word.  Otherwise the text will appear
-        in the appropriate section of Appendix A (Rationale)
+\inlinetrue
+        The informative text is given alongside the main defintion.
+        This is known as the review (r) version of the document.
 
-\inlineintro
-        The Rationale for each wordlist is included in the
-        appropriate section of the wordlist.  To type set this text
-        inline make this flag true.  Otherwise the text will appear
-        in the Rationale appendix (Annex A).
+\inlinefalse
+        The informative text is shipped out to an external file.
+        The file is read back in when the approperate appendix
+        is processed.
 
 
 Macros
@@ -187,7 +188,7 @@ whole thing easier to handle.
 Change Markup
 -------------
 The change markup is provided via the "history" package.  This is
-currently under development.  All changes require a label.  The label
+currently under development.  All changes require a label, the label
 is normally the name of the proposal associated with the change.  All
 markup is identified with a change bar in the margin.  The <text> is
 limited to a single paragraph and must not span a paragraph break.
@@ -222,21 +223,6 @@ commands have been defined to manage the LaTeX wordlists.
 \extended
         Switches the word list label on the definition header to add
         the "EXT" or extended word set.
-
-\begin{intro}
-        This environment provides method for including the rationale
-        for a section in the wordlist definition.  The \inlineintro
-        flag controls how this text is processed.
-
-        \inlinebodyfalse
-                The text will be exported to the appropriate
-                <wordlist>.rat rationale file.  The text is
-                subsequently included into the rationale, appendix A.
-
-        \ifinlinebodytrue
-                The text is typeset in a sans-serif font and indented.
-                the section title will have the word (Rationale)
-                appended.
 
 Word Definition
 ---------------
@@ -308,44 +294,60 @@ headings:
 
 Word Rationale
 --------------
-The defer environment should be used to identify text which is
-to be included in the rationale for a definition.  Only one defer
-section is allowed for each definition.  The Rationale and
-Implementation and Testing sections may ONLY appear in the defer
-environment.
+The rationale environment should be used to identify text which is
+to be included in the rationale for a definition.  Only one rationale
+section is allowed for each definition.
 
-\begin{defer}
-        The \inlinebody flag controls how the text is processed:
+\begin{rationale}
+        The \inline flag controls how the text is processed:
 
-        \ifinlinebodyfalse
-                The text is exported to the appropriate <wordlist>.rat
-                rationale file.  The text is subsequently included
-                into the rationale, appendix A.
+        \inlinefalse
+                The text is exported to an external support file
+                (r-<wordlist>.sub).  The text is subsequently
+                included into the rationale, appendix A.
 
-        \ifinlinebodytrue
+        \inlinetrue
                 All text typeset in a sans-serif font, but the text
                 will appear as part of the word definition.  This is
-                used in the draft versions of the document.
+                used in the review version of the document.
 
-The following commands are used to define section headings within
-the defer environment:
+Testing
+-------
+The testing environment should be used to identify text which is to
+be included in the test cases for a defintion.  It works in the same
+manner as the rationale environment, producing a t-<wordlist>.sub
+support file which is read in by the Testing appendix.
 
-\ratinale               Rationale
+A macros has been defined to present a test case:
 
-\implementation         Implementation
-                        The font is automatically changed to the
-                        teletype font.  If the roman type is require
-                        use the \implementation* command.
+\test[<format>]{<pre>}{<post>}
+        Will generate a test case where <pre> is the code under test,
+        <post> is the expected result, and <format> is the format
+        of the result.  This will produce the following output:
 
-\testing                Testing
-                        The font is automatically changed to the
-                        teletype font.  If the roman font is required
-                        use the \testing* command.
+        T{ <pre> -> <post> <format>}T
 
-\item[<name>]           A none standard section "<name>:"
+        The text is typeset in the teletype font and spaces are *not*
+        ignored.  Additional spaces in the input will appear in the
+        output.  This allow for formatting of a group of test cases.
 
-\defertext{<text>}      Display the <text> in the "normal" (none
-                        teletype) font.
+Reference Implementation
+------------------------
+The implement environment should be used to identify a reference
+implementation for a defintion.  It works in the same manner as the
+rationale environment, producing an i-<wordlist>.sub support file
+which is read in by the Reference Implementation appendix.  The
+teletype font is used for the text in this envirnment.
+
+\textdf{<text>} Typeset the <text> in the default font, sans-serif
+                in the review document and times-new-roman in the
+                final version.  <text> may not span more than a
+                single paragraph.
+
+\dffamily
+                Switch to the default font for the rest of the
+                environment.
+
 
 Special Characters
 ------------------
@@ -367,30 +369,30 @@ There are a number of commands which extend the standard cross
 reference mechanism.  These commands take account of the word list
 and the hyperlinking.
 
-The label are automatically defined for us by the worddef and defer
-environments.  Normally the word label will be <wordlist>:<name>
-however, when <name> contains a character which may confuse PDF, PS,
-or HTML the word has to be given a special label in which case this
-label is used <wordlist>:<label>.
+The label are automatically defined for us by the worddef and
+rationale, testing and implement environments.  Normally the word
+label will be <wordlist>:<name> however, when <name> contains a
+character which may confuse PDF, PS or HTML the word has to be given
+a special label in which case this label is used <wordlist>:<label>.
 
 \word[<wordlist>]{<label>} - word definition
         Reference the word associated with <label>.  The word is
         either in the current wordlist (see \wordlist or \setwordlist),
-        the core wordlist or the optional wordlist.  The word is show
-        in courier-bold and hyperlinked to its definition.
+        the core wordlist or the optional <wordlist>.  The word is
+        shown in courier-bold and hyperlinked to its definition.
 
         If the \showref flag is true (\showreftrue) the word is
         underlined.
 
         If the word has not been defined, or can not be found, a
-        warning is reported and the <label> is typeset struck through
-        with a line.
+        warning is reported and the <label> is typeset struck
+        through with a line.
 
  \xref[<text>]{<label>} - Extended cross reference
         This was originally developed as a tool to help in the
         conversion of existing documents into LaTeX form.  It will
-        look up <label> and places the section number followed by the
-        section name as a hyperlink to the section.
+        look up <label> and places the section number followed by
+        the section name as a hyperlink to the section.
 
         Should <label> not be found it places <label> (between
         brackets) with the optional <text> along side.  The idea
@@ -409,7 +411,7 @@ label is used <wordlist>:<label>.
                 "3.2.1 Extended Xref"
 
         which is hyperlink to section 3.2.1.
-        If the label is not defined, the \xref would produce:
+        If the label foo is not defined, it would produce:
 
                 "[foo: original text]"
 
@@ -429,6 +431,14 @@ label is used <wordlist>:<label>.
 \rref{<label>}{<name>} - Rationale reference
         \rref is the same as \wref except it looks in the rationale
         (rat:) name space.
+
+\tref{<label>}{<name>} - Testing reference
+        \tref is the same as \wref excpet it looks in the testing
+        (test:) name sapce.
+
+\iref{<label>}{<name>} - Implementation reference
+        \iref is the same as \wref excpet it looks in the reference
+        implmentation (imp:) name space.
 
 
 Utilities
