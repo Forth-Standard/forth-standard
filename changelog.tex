@@ -277,14 +277,85 @@
 		to appear in the table of contents.
 	\end{itemize}
 
-\endinput
-\version{08.1}{}{\empty}
+\version{08.1}{Vienna Meeting}{25--26 Septenber, 2008}
 	\begin{itemize}
-	\item[12] Floating word set:
+	\item \xref{process}: \\
+		\textsf{ed08}: Changed ``an standard'' to ``a standard''.
+
+	\item \xref{members}:
 		\begin{enumerate}
-		\item \textsf{X:fp-stack}:
-			A separate floating point stack is now the default,
-			with a combined stack being an environmental
-			dependency.
+		\item \textsf{ed08}: Change of contact details for Peter Knaggs.
+		\item \textsf{ed08}: Added Andres Haley, Ulrich Hoffmann,
+			Bernd Paysan, Willi Stricker, and Leon Wagner.
+		\end{enumerate}
+
+	\item[1] Introduction: \\
+		Added \textsf{X:fp-stack}: Added the combined float/data
+			stack to \xref{intro:obsoleat}.
+
+	\item[10] Facility word set: \\
+		\textsf{ed08}: Changed ``schools of though'' to ``schools of
+			thought'' in rational for \rref{facility:BEGIN-STRUCTURE}{}.
+
+	\item[12] Floating word set:
+		Added \textsf{X:fp-stack}:
+		A separate floating point stack is now the default,
+		with a combined stack being an environmental
+		dependency.
+		(\xref{float:notation},
+		 \xref{float:stack},
+		 \xref{float:env},
+		 \xref{float:restrictions},
+		 \xref{float:dependencies}, and
+		 \wref{floating:FDEPTH}{FDEPTH})
+	\end{itemize}
+
+\endinput
+\version{09.1}{Forth Gesellschaft Meeting}{25--27 March 2009}
+	\begin{itemize}
+	\item[4] Documentation requirements: \\
+		\textsf{ed09}: In the ambiguous conditions for the
+			\textsf{X:deferred} extension, changed ``associated with''
+			to ``assigned to''.
+
+	\item[6] Core Ext wordset: \\
+		\textsf{ed09}: Changed ``associated with'' to ``assigned to''
+			or ``assigned an'' in the definitions of
+			\wref{core:ACTION-OF}{}, \wref{core:DEFER}{},
+			\wref{core:DEFER@}{} and \wref{core:VALUE}.
+
+	\item[13] Locals wordset: \\
+		\textsf{ed09}: Changed ``associated with'' to ``assigned to''
+			or ``assigned an'' in the defintion of
+			\wref{local:LOCAL}{}.
+
+	\item[F] References Implementations (Annex \ref{annex:implement}): \\
+		\textsf{ed09}: Added a new annex to collect the reference
+			implementations.
+
+	\item[G] Test Suite (Annex \ref{annex:test}):
+		\begin{enumerate}
+		\item \textsf{ed09}: Complete revision of introduction and
+			Test Harness to reflect new test harness: including
+			the new \test{}{}\ and \ftest{}{}{xx}\ syntax.  Test
+			harness source code now folded into discussion of the
+			harness.
+
+		\item \textsf{ed09}: Complete revision of Core Test,
+			converted to text with references to the approperate
+			sections for the test, rather than a complete repatition
+			of the tests.
+
+		\item \textsf{ed09}: All test cases have been migrated to the
+			new syntax and reformmated where approperate.
 		\end{enumerate}
 	\end{itemize}
+
+\version{ToDo}{}{\empty}
+	\begin{itemize}
+	\item Introduce new Legacy word set
+	\item Introduce new test cases
+	\item Develop new Globalisation word set
+	\item Develop extended Memory Access word set
+	\end{itemize}
+

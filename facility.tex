@@ -155,13 +155,12 @@ to provide all of the Facility and Facility Extensions word sets.
 	if the operation cannot be performed on the user output device
 	with the specified parameters.
 
-	\begin{defer}
-	\rationale % A.10.6.1.0742 AT-XY
+	\begin{rationale} % A.10.6.1.0742 AT-XY
 		Most implementors supply a method of positioning a cursor on
 		a CRT screen, but there is great variance in names and stack
 		arguments. This version is supported by at least one major
 		vendor.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -179,8 +178,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	of \word[core]{KEY} or \word{EKEY} also return \emph{true},
 	without discarding keyboard events.
 
-	\begin{defer}
-	\rationale % A.10.6.1.1755 KEY?
+	\begin{rationale} % A.10.6.1.1755 KEY?
 		The Technical Committee has gone around several times on the
 		stack effects. Whatever is decided will violate somebody's
 		practice and penalize some machine. This way doesn't interfere
@@ -199,7 +197,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		the application must use \word{KEYq} and \word[core]{KEY} only
 		when it wishes to discard non-character events until a valid
 		character is received.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -242,24 +240,24 @@ to provide all of the Facility and Facility Extensions word sets.
 	\wref{floating:SFFIELD:}{SFFIELD:} and
 	\wref{floating:DFFIELD:}{DFFIELD:}
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.10.6.2.---- +FIELD
 		\word{+FIELD} is not required to align items.  This is
 		deliberate and allows the construction of unaligned data
 		structures for communication with external elements such
 		as a hardware register map or protocol packet.
 		Field alignment has been left to the appropriate
 		\emph{x}\texttt{FIELD:} definition.
+	\end{rationale}
 
-	\implementation
-		\defertext{Create a new field within a structure definition
+	\begin{implement} % I.10.6.2.---- +FIELD
+		\textdf{Create a new field within a structure definition
 			of size \param{n} bytes.}
 
 		\word{:} +FIELD\tab\word{bs} n <"name"> -{}- ; Exec: addr -{}- 'addr \\
 		\tab \word{CREATE} \word{OVER} \word{,} \word{+} \\
 		\tab \word{DOES} \word{@} \word{+} \\
 		\word{;}
-	\end{defer}
+	\end{implement}
 \end{worddef}
 
 
@@ -283,8 +281,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \see \wref{facility:+FIELD}{+FIELD} and
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.10.6.2.---- BEGIN-STRUCTURE
 		There are two schools of \replace{ed08}{though}{thought} regarding named data
 		structures: name first and name last.  The name last
 		school can define a named data structure as follows:
@@ -393,9 +390,10 @@ to provide all of the Facility and Facility Extensions word sets.
 			\texttt{XFIELD:} & 64 bit field \\
 			\end{tabular}
 		\end{center}
+	\end{rationale}
 
-	\implementation
-		\defertext{Begin definition of a new structure. Use in the
+	\begin{implement} % I.10.6.2.---- BEGIN-STRUCTURE
+		\textdf{Begin definition of a new structure. Use in the
 		form \word{BEGIN-STRUCTURE} \arg{name}.  At run time
 		\arg{name} returns the size of the structure.}
 
@@ -404,7 +402,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\tab[2] \word{HERE} 0  0 \word{,} \tab[2] \word{bs}  mark stack, lay dummy \\
 		\tab \word{DOES} \word{@} \tab[6]\word{bs} -{}- rec-len \\
 		\word{;}
-	\end{defer}
+	\end{implement}
 \end{worddef}
 
 
@@ -421,15 +419,14 @@ to provide all of the Facility and Facility Extensions word sets.
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
-	\begin{defer}
-	\implementation
-		\defertext{Create a new field within a structure definition
+	\begin{implement} % I.10.6.2.---- CFIELD
+		\textdf{Create a new field within a structure definition
 		of size a character.}
 
-		\word{:} cfield:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
+		\word{:} CFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab 1 \word{CHARS} \word{+FIELD} \\
 		\word{;}
-	\end{defer}
+	\end{implement}
 \end{worddef}
 
 % -------------------------------------
@@ -443,8 +440,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \see \wref{facility:KEYq}{KEY?},
 	\wref{core:KEY}{KEY}.
 
-	\begin{defer}
-	\rationale % A.10.6.2.1305 EKEY
+	\begin{rationale} % A.10.6.2.1305 EKEY
 		\word{EKEY} provides a standard word to access a
 		system-dependent set of ``raw'' keyboard events, including
 		events corresponding to members of the standard character
@@ -657,7 +653,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		is that the BIOS keyboard functions read only the keyboard. They
 		cannot be ``redirected'' to another ``standard input'' source,
 		as can the DOS STDIN Input functions.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -668,8 +664,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	implementation-defined character set, return that character and
 	\emph{true}. Otherwise return \param{u} and \emph{false}.
 
-	\begin{defer}
-	\rationale % A.10.6.2.1306 EKEY>CHAR
+	\begin{rationale} % A.10.6.2.1306 EKEY>CHAR
 		\word{EKEYtoCHAR} translates a keyboard event into the
 		corresponding member of the character set, if such a
 		correspondence exists for that event.
@@ -677,7 +672,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		It is possible that several different keyboard events may
 		correspond to the same character, and other keyboard events
 		may correspond to no character.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -725,8 +720,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\wref{facility:K-F11}{K-F11}, and
 	\wref{facility:K-F12}{K-F12}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.10.6.2.---- EKEY>FKEY
 		This words has been provided to allow for systems which may not
 		be able to interpret the value returned from \word{EKEY}
 		directly. A simple implementation for a system which is capable
@@ -813,44 +807,46 @@ to provide all of the Facility and Facility Extensions word sets.
 		E.g., a standard program cannot recognise \textsc{Alt-T},
 		because no \word{EKEY} return value for \texttt{T} has been
 		defined.
+	\end{rationale}
 
-	\implementation*
-		The implementation is closely tied to the implementation of
-		\word{EKEY} and therefore unportable.
+	\begin{implement} % I.10.6.2.--- EKEY>FKEY
+		\textdf{The implementation is closely tied to the implementation
+			of \word{EKEY} and therefore unportable.}
+	\end{implement}
 
-	\testing
-		\{ \word{K-LEFT}  \word{TRUE} -> \word{CR} \word{.q} Please press <left>"  \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-RIGHT} \word{TRUE} -> \word{CR} \word{.q} Please press <right>" \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-UP}    \word{TRUE} -> \word{CR} \word{.q} Please press <up>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-DOWN}  \word{TRUE} -> \word{CR} \word{.q} Please press <down>"  \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-HOME}  \word{TRUE} -> \word{CR} \word{.q} Please press <home>"  \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-END}   \word{TRUE} -> \word{CR} \word{.q} Please press <end>"   \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-PRIOR} \word{TRUE} -> \word{CR} \word{.q} Please press <prior>" \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-NEXT}  \word{TRUE} -> \word{CR} \word{.q} Please press <next>"  \word{EKEY} \word{EKEYtoFKEY} \} \\
+	\begin{testing} % T.10.6.2.---- EKEY>FKEY
+		\ttfamily
+		\word{:} TFKEY" \word{p} "ccc<quote>" -{}- u flag ) \\
+		\tab[1.2] \word{CR} \word{.q} Please press " \word{POSTPONE} \word[file]{.q} \word{EKEY} \word{EKEYtoFKEY} \word{;}
 
-		\{ \word{K-F1}    \word{TRUE} -> \word{CR} \word{.q} Please press <F1>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F2}    \word{TRUE} -> \word{CR} \word{.q} Please press <F2>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F3}    \word{TRUE} -> \word{CR} \word{.q} Please press <F3>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F4}    \word{TRUE} -> \word{CR} \word{.q} Please press <F4>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F5}    \word{TRUE} -> \word{CR} \word{.q} Please press <F5>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F6}    \word{TRUE} -> \word{CR} \word{.q} Please press <F6>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F7}    \word{TRUE} -> \word{CR} \word{.q} Please press <F7>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F8}    \word{TRUE} -> \word{CR} \word{.q} Please press <F8>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F9}    \word{TRUE} -> \word{CR} \word{.q} Please press <F9>"    \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F10}   \word{TRUE} -> \word{CR} \word{.q} Please press <F10>"   \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F11}   \word{TRUE} -> \word{CR} \word{.q} Please press <F11>"   \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-F12}   \word{TRUE} -> \word{CR} \word{.q} Please press <F12>"   \word{EKEY} \word{EKEYtoFKEY} \} \\
+		\test{TFKEY" <left>" }{\word{K-LEFT}  <TRUE>} \\
+		\test{TFKEY" <right>"}{\word{K-RIGHT} <TRUE>} \\
+		\test{TFKEY" <up>"   }{\word{K-UP}    <TRUE>} \\
+		\test{TFKEY" <down>" }{\word{K-DOWN}  <TRUE>} \\
+		\test{TFKEY" <home>" }{\word{K-HOME}  <TRUE>} \\
+		\test{TFKEY" <end>"  }{\word{K-END}   <TRUE>} \\
+		\test{TFKEY" <prior>"}{\word{K-PRIOR} <TRUE>} \\
+		\test{TFKEY" <next>" }{\word{K-NEXT}  <TRUE>}
 
-		\{ \word{K-LEFT} \word{K-SHIFT-MASK} \word{OR} \word{TRUE} -> \\
-		\tab \word{CR} \word{.q} Please press <shift-left>" \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-LEFT} \word{K-CTRL-MASK}  \word{OR} \word{TRUE} -> \\
-		\tab \word{CR} \word{.q} Please press <ctrl-left>"  \word{EKEY} \word{EKEYtoFKEY} \} \\
-		\{ \word{K-LEFT} \word{K-ALT-MASK}   \word{OR} \word{TRUE} -> \\
-		\tab \word{CR} \word{.q} Please press <alt-left>"   \word{EKEY} \word{EKEYtoFKEY} \} \\
+		\test{TFKEY" <F1>" }{\word{K-F1}  <TRUE>} \\
+		\test{TFKEY" <F2>" }{\word{K-F2}  <TRUE>} \\
+		\test{TFKEY" <F3>" }{\word{K-F3}  <TRUE>} \\
+		\test{TFKEY" <F4>" }{\word{K-F4}  <TRUE>} \\
+		\test{TFKEY" <F5>" }{\word{K-F5}  <TRUE>} \\
+		\test{TFKEY" <F6>" }{\word{K-F6}  <TRUE>} \\
+		\test{TFKEY" <F7>" }{\word{K-F7}  <TRUE>} \\
+		\test{TFKEY" <F8>" }{\word{K-F8}  <TRUE>} \\
+		\test{TFKEY" <F9>" }{\word{K-F9}  <TRUE>} \\
+		\test{TFKEY" <F10>"}{\word{K-F10} <TRUE>} \\
+		\test{TFKEY" <F11>"}{\word{K-F11} <TRUE>} \\
+		\test{TFKEY" <F11>"}{\word{K-F12} <TRUE>}
 
-		\{ \word{CR} \word{.q} Please press <a>" \word{EKEY} \word{EKEYtoFKEY} \word{NIP} \word{SWAP} \word{EKEYtoCHAR} \\
-		\tab -> \word{FALSE} \word{CHAR} a \word{TRUE} \}
-	\end{defer}
+		\test{TFKEY" <shift-left>"}{\word{K-LEFT} \word{K-SHIFT-MASK} \word{OR} <TRUE>} \\
+		\test{TFKEY" <ctrl-left>" }{\word{K-LEFT} \word{K-CTRL-MASK}  \word{OR} <TRUE>} \\
+		\test{TFKEY" <alt-left>"  }{\word{K-LEFT} \word{K-ALT-MASK}   \word{OR} <TRUE>}
+
+		\test{TFKEY" <a>" \word{SWAP} \word{EKEYtoCHAR}}{<FALSE> CHAR a <TRUE>} \\
+	\end{testing}
 \end{worddef}
 
 
@@ -878,12 +874,11 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EMITq} would not have suffered an indefinite delay. If
 	the device status is indeterminate, \emph{flag} is true.
 
-	\begin{defer}
-	\rationale % A.10.6.2.1325 EMIT?
+	\begin{rationale} % A.10.6.2.1325 EMIT?
 		An indefinite delay is a device related condition, such as
 		printer off-line, that requires operator intervention before
 		the device will accept new data.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 % -------------------------------------
@@ -897,13 +892,12 @@ to provide all of the Facility and Facility Extensions word sets.
 \see \wref{facility:+FIELD}{+FIELD} and
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}.
 
-	\begin{defer}
-	\implementation
-		\defertext{Terminate definition of a structure.}
+	\begin{implement} % I.10.6.2.---- END-STRUCTURE
+		\textdf{Terminate definition of a structure.}
 
 		\word{:} END-STRUCTURE\tab\word{bs} addr n -{}- \\
 		\tab \word{SWAP} \word{!} \word{;} \tab[4.2]\word{bs} set len
-	\end{defer}
+	\end{implement}
 \end{worddef}
 
 
@@ -920,16 +914,14 @@ to provide all of the Facility and Facility Extensions word sets.
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
-	\begin{defer}
-	\implementation
-		\defertext{Create a new field within a structure definition
+	\begin{implement} % I.10.6.2.---- FIELD:
+		\textdf{Create a new field within a structure definition
 		of size a cell. The field is aligned.}
 
 		\word{:} field:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{ALIGNED} 1 \word{CELLS} \word{+FIELD} \\
 		\word{;}
-	\end{defer}
-
+	\end{implement}
 \end{worddef}
 
 % -------------------------------------------------------------------
@@ -1251,15 +1243,14 @@ to provide all of the Facility and Facility Extensions word sets.
 	and upon other system and computer characteristics beyond the
 	scope of this Standard.
 
-	\begin{defer}
-	\rationale % A.10.6.2.1905 MS
+	\begin{rationale} % A.10.6.2.1905 MS
 		Although their frequencies vary, every system has a clock.
 		Since many programs need to time intervals, this word is
 		offered. Use of milliseconds as an internal unit of time is
 		a practical ``least common denominator'' external unit. It
 		is assumed implementors will use ``clock ticks'' (whatever
 		size they are) as an internal unit and convert as appropriate.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -1274,9 +1265,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{+n_5} is the month \{1{\ldots}12\}, and
 	\param{+n_6} is the year (e.g., 1991).
 
-	\begin{defer}
-	\rationale % A.10.6.2.2292 TIME&DATE
+	\begin{rationale} % A.10.6.2.2292 TIME&DATE
 		Most systems have a real-time clock/calendar.
 		This word gives portable access to it.
-	\end{defer}
+	\end{rationale}
 \end{worddef}

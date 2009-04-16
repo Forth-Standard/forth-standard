@@ -256,8 +256,7 @@ sets.
 	execution token \param{xt} and one (\param{1}) if the definition is
 	immediate, minus-one (\param{-1}) otherwise.
 
-	\begin{defer}
-	\rationale % A.16.6.1.219  SEARCH-WORDLIST
+	\begin{rationale} % A.16.6.1.219  SEARCH-WORDLIST
 		The string argument to \word{SEARCH-WORDLIST} is represented
 		by \param{c-addr u}, rather than by just \param{c-addr} as
 		with \word{FIND}. The committee wishes to establish
@@ -272,7 +271,7 @@ sets.
 		not return the string, as does \word{FIND}. This is in
 		accordance with the general principle that Forth words consume
 		their arguments.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -322,8 +321,7 @@ sets.
 	\param{wid_1}. An ambiguous condition exists if there are too
 	many word lists in the search order.
 
-	\begin{defer}
-	\rationale % A.16.6.2.0715 ALSO
+	\begin{rationale} % A.16.6.2.0715 ALSO
 		Here is an implementation of \word{ALSO}/\word{ONLY} in terms
 		of the primitive search-order word set.
 		\setwordlist{core}
@@ -460,7 +458,7 @@ sets.
 		uses a hash table or lookup cache to reduce the search time,
 		\word{SET-ORDER} might need to reconstruct the hash table or
 		flush the cache.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 

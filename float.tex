@@ -280,6 +280,7 @@ See:
 \end{itemize}
 
 \subsubsection{Environmental restrictions} % 12.4.1.4
+\label{float:restrictions}
 
 \begin{itemize}
 \item \place{X:fp-stack}{Keeping floating-point numbers on the data stack.}
@@ -288,6 +289,7 @@ See:
 \subsection{Program documentation} % 12.4.2
 
 \subsubsection{Environmental dependencies} % 12.4.2.1
+\label{float:dependencies}
 
 \begin{itemize}
 \item requiring the floating-point stack to be larger than six items
@@ -370,8 +372,7 @@ word sets.
 		\end{tabular}
 	\end{center}
 
-	\begin{defer}
-	\rationale % A.12.6.1.0558 >FLOAT
+	\begin{rationale} % A.12.6.1.0558 >FLOAT
 		\word{toFLOAT} enables programs to read floating-point data in
 		legible ASCII format. It accepts a much broader syntax than
 		does the text interpreter since the latter defines rules for
@@ -387,7 +388,7 @@ word sets.
 		While \word{toFLOAT} is not required to treat a string of blanks
 		as zero, this behavior is strongly encouraged, since a future
 		version of ANS Forth may include such a requirement.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -525,10 +526,9 @@ word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1492 FCONSTANT
+	\begin{rationale} % A.12.6.1.1492 FCONSTANT
 		Typical use: \texttt{r} \word[floating]{FCONSTANT} \param{name}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -578,14 +578,13 @@ word sets.
 
 	Place \param{r} on the floating-point stack.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1552 FLITERAL
+	\begin{rationale} % A.12.6.1.1552 FLITERAL
 		Typical use:
 			\word[core]{:} \texttt{X} {\ldots}
 				\word[core]{[} {\ldots} \word[core]{p} r ) \word[core]{]}
 				\word{FLITERAL} {\ldots}
 			\word[core]{;}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -695,11 +694,10 @@ word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1630 FVARIABLE
+	\begin{rationale} % A.12.6.1.1630 FVARIABLE
 		Typical use:
 			\word{FVARIABLE} \param{name}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -733,8 +731,7 @@ word sets.
 	\wref{core:BASE}{BASE},
 	\xref[12.3.2 Floating-point operations]{float:ops}.
 
-	\begin{defer}
-	\rationale % A.12.6.1.2143 REPRESENT
+	\begin{rationale} % A.12.6.1.2143 REPRESENT
 		This word provides a primitive for floating-point display.
 		Some floating-point formats, including those specified by
 		IEEE-754, allow representations of numbers outside of an
@@ -743,7 +740,7 @@ word sets.
 		we expect that \word{REPRESENT} will usually be implemented
 		to return appropriate character strings, such as ``+infinity''
 		or ``nan'', possibly truncated.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -819,15 +816,14 @@ word sets.
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
-	\begin{defer}
-	\implementation
-		\defertext{Create a new field within a structure definition
+	\begin{implement} % I.12.6.1.---- DFFIELD
+		\textdf{Create a new field within a structure definition
 		of size a double-float. The field is aligned.}
 
 		\word{:} DFFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{DFALIGNED} 1 \word{DFLOATS} \word[facility]{+FIELD} \\
 		\word{;}
-	\end{defer}
+	\end{implement}
 
 \end{worddef}
 
@@ -875,10 +871,9 @@ word sets.
 
 \see \wref{floating:toFLOAT}{>FLOAT}.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1427 F.
+	\begin{rationale} % A.12.6.1.1427 F.
 		For example, \texttt{1E3} \word{F.} displays \texttt{1000.}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -953,8 +948,7 @@ word sets.
 	An ambiguous condition exists if \param{r_1} and \param{r_2} are
 	zero.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1489 FATAN2
+	\begin{rationale} % A.12.6.1.1489 FATAN2
 		\word{FSINCOS} and \word{FATAN2} are a complementary pair of
 		operators which convert angles to 2-vectors and vice-versa.
 		They are essential to most geometric and physical applications
@@ -984,7 +978,7 @@ word sets.
 		valid unit vector, \word{FATAN2} will accept any non-null vector.
 		An ambiguous condition exists if the vector argument to
 		\word{FATAN2} has zero magnitude.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -1047,8 +1041,7 @@ word sets.
 
 	Raise $e$ to the power \param{r_1} and subtract one, giving \param{r_2}.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1516 FEXPM1
+	\begin{rationale} % A.12.6.1.1516 FEXPM1
 		This function allows accurate computation when its arguments
 		are close to zero, and provides a useful base for the standard
 		exponential functions. Hyperbolic functions such as
@@ -1094,7 +1087,7 @@ word sets.
 				 2.0E0 \word{F/}
 			\word[core]{;}
 		\end{quote}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 % ---------------------------------------------------------
@@ -1112,16 +1105,14 @@ word sets.
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
-	\begin{defer}
-	\implementation
-		\defertext{Create a new field within a structure definition
+	\begin{implement} % I.12.6.1.---- FFIELD
+		\textdf{Create a new field within a structure definition
 		of size a float. The field is aligned.}
 
 		\word{:} FFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{FALIGNED} 1 \word{FLOATS} \word[facility]{+FIELD} \\
 		\word{;}
-	\end{defer}
-
+	\end{implement}
 \end{worddef}
 
 % ---------------------------------------------------------
@@ -1143,8 +1134,7 @@ word sets.
 	plus one. An ambiguous condition exists if \param{r_1} is less
 	than or equal to negative one.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1554 FLNP1
+	\begin{rationale} % A.12.6.1.1554 FLNP1
 		This function allows accurate compilation when its arguments
 		are close to zero, and provides a useful base for the standard
 		logarithmic functions. For example, \word{FLN} can be
@@ -1155,8 +1145,8 @@ word sets.
 				1.0E0 \word{F-} ~ \word{FLNP1}
 			\word[core]{;}
 		\end{quote}
-		See: \rref{floating:FEXPM1}{FEXPM1}.
-	\end{defer}
+	\see \rref{floating:FEXPM1}{FEXPM1}.
+	\end{rationale}
 \end{worddef}
 
 
@@ -1209,10 +1199,9 @@ word sets.
 	\param{r_2} is the sine of the radian angle \param{r_1}. \param{r_3}
 	is the cosine of the radian angle \param{r_1}.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1616 FSINCOS
-		See: \rref{floating:FATAN2}{FATAN2}.
-	\end{defer}
+	\begin{rationale} % A.12.6.1.1616 FSINCOS
+		See \rref{floating:FATAN2}{FATAN2}.
+	\end{rationale}
 \end{worddef}
 
 
@@ -1267,12 +1256,11 @@ word sets.
 	\param{r_3} times the sum of the absolute values of \param{r_1} and
 	\param{r_2}.
 
-	\begin{defer}
-	\rationale % A.12.6.1.1640 F\tilde
+	\begin{rationale} % A.12.6.1.1640 F\tilde
 		This provides the three types of ``floating point equality''
 		in common use --- ``close'' in absolute terms, exact equality
 		as represented, and ``relatively close''.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -1361,15 +1349,14 @@ word sets.
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
-	\begin{defer}
-	\implementation
-		\defertext{Create a new field within a structure definition
+	\begin{implement} % I.12.6.1.---- SFFIELD
+		\textdf{Create a new field within a structure definition
 		of size a single-float. The field is aligned.}
 
 		\word{:} SFFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
 		\tab \word{SFALIGNED} 1 \word{SFLOATS} \word[facility]{+FIELD} \\
 		\word{;}
-	\end{defer}
+	\end{implement}
 
 \end{worddef}
 

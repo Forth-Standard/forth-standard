@@ -317,50 +317,49 @@ to provide all of the Exception and Exception Extensions word sets.
 	perform the function of \wref{core:ABORT}{ABORT} (the version
 	of \word[core]{ABORT} in the Core word set).
 
-\begin{defer}
-\rationale % A.9.6.1.2275 THROW
-	If \word{THROW} is executed with a non zero argument, the effect
-	is as if the corresponding \word{CATCH} had returned it. In that
-	case, the stack depth is the same as it was just before \word{CATCH}
-	began execution. The values of the \param{i*x} stack arguments could
-	have been modified arbitrarily during the execution of \param{xt}.
-	In general, nothing useful may be done with those stack items, but
-	since their number is known (because the stack depth is deterministic),
-	the application may \word[core]{DROP} them to return to a predictable
-	stack state.
+	\begin{rationale} % A.9.6.1.2275 THROW
+		If \word{THROW} is executed with a non zero argument, the effect
+		is as if the corresponding \word{CATCH} had returned it. In that
+		case, the stack depth is the same as it was just before \word{CATCH}
+		began execution. The values of the \param{i*x} stack arguments could
+		have been modified arbitrarily during the execution of \param{xt}.
+		In general, nothing useful may be done with those stack items, but
+		since their number is known (because the stack depth is deterministic),
+		the application may \word[core]{DROP} them to return to a predictable
+		stack state.
 
-	Typical use:
-	\setwordlist{core}
-	\begin{quote}\ttfamily
-		\word{:} could-fail \word{p} -{}- char ) \\
-		\tab \word{KEY} \word{DUP} \word{[CHAR]} Q \word{=}~
-			\word{IF}~ 1 \word[exception]{THROW}
-			\word{THEN}
-		\word{;}
+		Typical use:
+		\setwordlist{core}
+		\begin{quote}\ttfamily
+			\word{:} could-fail \word{p} -{}- char ) \\
+			\tab \word{KEY} \word{DUP} \word{[CHAR]} Q \word{=}~
+				\word{IF}~ 1 \word[exception]{THROW}
+				\word{THEN}
+			\word{;}
 
-		\word{:} do-it \word{p} a b -{}- c) ~
-			\word{2DROP} could-fail \word{;}
+			\word{:} do-it \word{p} a b -{}- c) ~
+				\word{2DROP} could-fail \word{;}
 
-		\word{:} try-it \word{p} -{}-) \\
-		\tab 1 2 \word{[']} do-it~ \word[exception]{CATCH}~ \word{IF} \\
-		\tab~~ \word{p} x1 x2 ) \word{2DROP}
-			\word{.q}  There was an exception" \word{CR} \\
-		\tab \word{ELSE}
-			\word{.q} The character was " \word{EMIT} \word{CR} \\
-		\tab \word{THEN} \\
-		\word{;}
+			\word{:} try-it \word{p} -{}-) \\
+			\tab 1 2 \word{[']} do-it~ \word[exception]{CATCH}~ \word{IF} \\
+			\tab~~ \word{p} x1 x2 ) \word{2DROP}
+				\word{.q}  There was an exception" \word{CR} \\
+			\tab \word{ELSE}
+				\word{.q} The character was " \word{EMIT} \word{CR} \\
+			\tab \word{THEN} \\
+			\word{;}
 
-		\word{;} retry-it \word{p} -{}- ) \\
-		\tab \word{BEGIN}  1 2 \word{[']} do-it \word[exception]{CATCH}~
-			\word{WHILE} \\
-		\tab~~ \word{p} x1 x2) \word{2DROP}
-			\word{.q} Exception, keep trying" \word{CR} \\
-		\tab \word{REPEAT} \word{p} char ) \\
-		\tab \word{.q} The character was " \word{EMIT} \word{CR} \\
-		\word{;}
-	\end{quote}
-	\setwordlist{exception}
-\end{defer}
+			\word{;} retry-it \word{p} -{}- ) \\
+			\tab \word{BEGIN}  1 2 \word{[']} do-it \word[exception]{CATCH}~
+				\word{WHILE} \\
+			\tab~~ \word{p} x1 x2) \word{2DROP}
+				\word{.q} Exception, keep trying" \word{CR} \\
+			\tab \word{REPEAT} \word{p} char ) \\
+			\tab \word{.q} The character was " \word{EMIT} \word{CR} \\
+			\word{;}
+		\end{quote}
+		\setwordlist{exception}
+	\end{rationale}
 \end{worddef}
 
 

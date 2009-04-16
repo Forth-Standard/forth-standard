@@ -10,10 +10,9 @@
 
 	\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:,}{,}
-	\end{defer}
+	\begin{testing} % T.6.1.0010 !
+		See \tref{core:,}{,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -32,11 +31,10 @@
 	\wref{core:numS}{\num{}S},
 	\wref{core:num-start}{<\num}.
 
-	\begin{defer}
-	\testing
-		\word{:} GP3  \word{num-start} 1 0 \word{num} \word{num} \word{num-end} \word{Sq} 01" S= \word{;} \\
-		\{ GP3 -> <TRUE> \}
-	\end{defer}
+	\begin{testing} % T.6.1.0030 #
+		\texttt{\word{:} GP3  \word{num-start} 1 0 \word{num} \word{num} \word{num-end} \word{Sq} 01" S= \word{;}} \\
+		\test{GP3}{<TRUE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -52,13 +50,12 @@
 	\wref{core:numS}{\num{}S},
 	\wref{core:num-start}{<\num}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:num}{\num},
-			\rref{core:numS}{\num{}S},
-			\rref{core:HOLD}{HOLD} and
-			\rref{core:SIGN}{SIGN}.
-	\end{defer}
+	\begin{testing} % T.6.1.0040 #>
+		See \tref{core:num}{\num},
+			\tref{core:numS}{\num{}S},
+			\tref{core:HOLD}{HOLD} and
+			\tref{core:SIGN}{SIGN}.
+	\end{testing}
 \end{worddef}
 
 
@@ -75,30 +72,30 @@
 	\wref{core:num-end}{\num>},
 	\wref{core:num-start}{<\num}.
 
-	\begin{defer}
-	\testing
-		\word{:} GP4  \word{num-start} 1 0 \word{numS} \word{num-end} \word{Sq} 1" S= \word{;} \\
-		\{ GP4 -> <TRUE> \}
+	\begin{testing} % T.6.1.0050 #S
+		\ttfamily
+		\texttt{\word{:} GP4  \word{num-start} 1 0 \word{numS} \word{num-end} \word{Sq} 1" S= \word{;}} \\
+		\test{GP4}{<TRUE>}
 
 		\word{:} GP5 \\
 		\tab \word{BASE} \word{@} <TRUE> \\
 		\tab MAX-BASE \word{1+} 2 \word{DO}		\tab[2] \word{bs} FOR EACH POSSIBLE BASE \\
-		\tab[2] \word{I} \word{BASE} \word{!}	\tab[4.7] \word{bs} TBD: ASSUMES BASE WORKS \\
+		\tab[2] \word{I} \word{BASE} \word{!}	\tab[5.8] \word{bs} TBD: ASSUMES BASE WORKS \\
 		\tab[3] \word{I} 0 \word{num-start} \word{numS} \word{num-end} \word{Sq} 10" S= \word{AND} \\
 		\tab    \word{LOOP} \\
 		\tab    \word{SWAP} \word{BASE} \word{!} \word{;} \\
-		\{ GP5 -> <TRUE> \}
+		\test{GP5}{<TRUE>}
 
 		\word{:} GP6 \\
 		\tab	\word{BASE} \word{@} \word{toR}  2 \word{BASE} \word{!} \\
-		\tab	MAX-UINT MAX-UINT \word{num-start} \word{numS} \word{num-end}	\tab[2]	  \word{bs} MAXIMUM UD TO BINARY \\
-		\tab	\word{Rfrom} \word{BASE} \word{!}								\tab[10.9] \word{bs} S: C-ADDR U \\
+		\tab	MAX-UINT MAX-UINT \word{num-start} \word{numS} \word{num-end}	\tab		\word{bs} MAXIMUM UD TO BINARY \\
+		\tab	\word{Rfrom} \word{BASE} \word{!}								\tab[10.6]	\word{bs} S: C-ADDR U \\
 		\tab	\word{DUP} \#BITS-UD \word{=} \word{SWAP} \\
-		\tab	0 \word{DO}														\tab[13.4]  \word{bs} S: C-ADDR FLAG \\
-		\tab[2]		\word{OVER} \word{C@} \word{[CHAR]} 1 \word{=} \word{AND}	\tab[2.5] \word{bs} ALL ONES \\
+		\tab	0 \word{DO}														\tab[13.6]	\word{bs} S: C-ADDR FLAG \\
+		\tab[2]		\word{OVER} \word{C@} \word{[CHAR]} 1 \word{=} \word{AND}	\tab[1.2]	\word{bs} ALL ONES \\
 		\tab[2]		\word{toR} \word{CHAR+} \word{Rfrom} \\
 		\tab	\word{LOOP} \word{SWAP} \word{DROP} \word{;} \\
-		\{ GP6 -> <TRUE> \}
+		\test{GP6}{<TRUE>}
 
 		\word{:} GP7 \\
 		\tab	\word{BASE} \word{@} \word{toR}		MAX-BASE \word{BASE} \word{!} \\
@@ -112,8 +109,8 @@
 		\tab[2]		1 \word{=} \word{SWAP} \word{C@} 41 \word{I} A \word{-} \word{+} \word{=} \word{AND} \word{AND} \\
 		\tab	\word{LOOP} \\
 		\tab	\word{Rfrom} \word{BASE} \word{!} \word{;} \\
-		\{ GP7 -> <TRUE> \}
-	\end{defer}
+		\test{GP7}{<TRUE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -132,8 +129,7 @@
 	\rref{core:[']}{[']},
 	\xref[D.6.7 Immediacy]{diff:immediate}.
 
-	\begin{defer}
-	\rationale % A.6.1.0070 '
+	\begin{rationale} % A.6.1.0070 '
 		Typical use: {\ldots} \word{'} \param{name}.
 
 		Many Forth systems use a state-smart tick. Many do not.
@@ -141,11 +137,12 @@
 
 	\see \xref[A.3.4.3..2 Interpretation semantics]{rat:interpret},
 		\rref{core:FIND}{FIND}.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GT1 123 \word{;} -> \} \\
-		\{ \word{'} GT1 \word{EXECUTE} -> 123 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0070 '
+		\test{\word{:} GT1 123 \word{;}  }{   } \\
+		\test{\word{'} GT1 \word{EXECUTE}}{123}
+	\end{testing}
 \end{worddef}
 
 
@@ -165,12 +162,9 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\xref[11.6.1.0080 (]{file:p}.
 
-	\begin{defer}
-	\rationale % A.6.1.0080 (
+	\begin{rationale} % A.6.1.0080 (
 		Typical use: {\ldots} \word{p} \param{ccc}\texttt{)} {\ldots}
-
-	\testing* None.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -180,22 +174,21 @@
 	Multiply \param{n_1|u_1} by \param{n_2|u_2} giving the product
 	\param{n_3|u_3}.
 
-	\begin{defer}
-	\testing
-		\{  0  0 \word{*} ->  0 \} \tab[4] \word{bs} TEST IDENTITIE{\bs}S \\
-		\{  0  1 \word{*} ->  0 \} \\
-		\{  1  0 \word{*} ->  0 \} \\
-		\{  1  2 \word{*} ->  2 \} \\
-		\{  2  1 \word{*} ->  2 \} \\
-		\{  3  3 \word{*} ->  9 \} \\
-		\{ -3  3 \word{*} -> -9 \} \\
-		\{  3 -3 \word{*} -> -9 \} \\
-		\{ -3 -3 \word{*} ->  9 \}
+	\begin{testing} % T.6.1.0090 *
+		\test{ 0  0 \word{*}}{ 0} \tab[4] \word{bs} TEST IDENTITIE{\bs}S \\
+		\test{ 0  1 \word{*}}{ 0} \\
+		\test{ 1  0 \word{*}}{ 0} \\
+		\test{ 1  2 \word{*}}{ 2} \\
+		\test{ 2  1 \word{*}}{ 2} \\
+		\test{ 3  3 \word{*}}{ 9} \\
+		\test{-3  3 \word{*}}{-9} \\
+		\test{ 3 -3 \word{*}}{-9} \\
+		\test{-3 -3 \word{*}}{ 9}
 
-		\{ MID-UINT+1 1 \word{RSHIFT} 2 \word{*} -> MID-UINT+1 \} \\
-		\{ MID-UINT+1 2 \word{RSHIFT} 4 \word{*} -> MID-UINT+1 \} \\
-		\{ MID-UINT+1 1 \word{RSHIFT} MID-UINT+1 \word{OR} 2 \word{*} -> MID-UINT+1 \} \\
-	\end{defer}
+		\test{MID-UINT+1 1 \word{RSHIFT} 2 \word{*}              }{MID-UINT+1} \\
+		\test{MID-UINT+1 2 \word{RSHIFT} 4 \word{*}              }{MID-UINT+1} \\
+		\test{MID-UINT+1 1 \word{RSHIFT} MID-UINT+1 \word{OR} 2 \word{*}}{MID-UINT+1} \\
+	\end{testing}
 \end{worddef}
 
 
@@ -215,31 +208,31 @@
 
 \see \xref[3.2.2.1 Integer division]{usage:div}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0100 */
+		\ttfamily
 		IFFLOORED \tab	\word{:} T*/ T*/MOD \word{SWAP} \word{DROP} \word{;} \\
-		IFSYM \tab[2.6]	\word{:} T*/ T*/MOD \word{SWAP} \word{DROP} \word{;}
+		IFSYM \tab[2.8]	\word{:} T*/ T*/MOD \word{SWAP} \word{DROP} \word{;}
 
-		\{       0 2       1 \word{*/} ->       0 2       1 T*/ \} \\
-		\{       1 2       1 \word{*/} ->       1 2       1 T*/ \} \\
-		\{       2 2       1 \word{*/} ->       2 2       1 T*/ \} \\
-		\{      -1 2       1 \word{*/} ->      -1 2       1 T*/ \} \\
-		\{      -2 2       1 \word{*/} ->      -2 2       1 T*/ \} \\
-		\{       0 2      -1 \word{*/} ->       0 2      -1 T*/ \} \\
-		\{       1 2      -1 \word{*/} ->       1 2      -1 T*/ \} \\
-		\{       2 2      -1 \word{*/} ->       2 2      -1 T*/ \} \\
-		\{      -1 2      -1 \word{*/} ->      -1 2      -1 T*/ \} \\
-		\{      -2 2      -1 \word{*/} ->      -2 2      -1 T*/ \} \\
-		\{       2 2       2 \word{*/} ->       2 2       2 T*/ \} \\
-		\{      -1 2      -1 \word{*/} ->      -1 2      -1 T*/ \} \\
-		\{      -2 2      -2 \word{*/} ->      -2 2      -2 T*/ \} \\
-		\{       7 2       3 \word{*/} ->       7 2       3 T*/ \} \\
-		\{       7 2      -3 \word{*/} ->       7 2      -3 T*/ \} \\
-		\{      -7 2       3 \word{*/} ->      -7 2       3 T*/ \} \\
-		\{      -7 2      -3 \word{*/} ->      -7 2      -3 T*/ \} \\
-		\{ MAX-INT 2 MAX-INT \word{*/} -> MAX-INT 2 MAX-INT T*/ \} \\
-		\{ MIN-INT 2 MIN-INT \word{*/} -> MIN-INT 2 MIN-INT T*/ \}
-	\end{defer}
+		\test{      0 2       1 \word{*/}}{      0 2       1 T*/} \\
+		\test{      1 2       1 \word{*/}}{      1 2       1 T*/} \\
+		\test{      2 2       1 \word{*/}}{      2 2       1 T*/} \\
+		\test{     -1 2       1 \word{*/}}{     -1 2       1 T*/} \\
+		\test{     -2 2       1 \word{*/}}{     -2 2       1 T*/} \\
+		\test{      0 2      -1 \word{*/}}{      0 2      -1 T*/} \\
+		\test{      1 2      -1 \word{*/}}{      1 2      -1 T*/} \\
+		\test{      2 2      -1 \word{*/}}{      2 2      -1 T*/} \\
+		\test{     -1 2      -1 \word{*/}}{     -1 2      -1 T*/} \\
+		\test{     -2 2      -1 \word{*/}}{     -2 2      -1 T*/} \\
+		\test{      2 2       2 \word{*/}}{      2 2       2 T*/} \\
+		\test{     -1 2      -1 \word{*/}}{     -1 2      -1 T*/} \\
+		\test{     -2 2      -2 \word{*/}}{     -2 2      -2 T*/} \\
+		\test{      7 2       3 \word{*/}}{      7 2       3 T*/} \\
+		\test{      7 2      -3 \word{*/}}{      7 2      -3 T*/} \\
+		\test{     -7 2       3 \word{*/}}{     -7 2       3 T*/} \\
+		\test{     -7 2      -3 \word{*/}}{     -7 2      -3 T*/} \\
+		\test{MAX-INT 2 MAX-INT \word{*/}}{MAX-INT 2 MAX-INT T*/} \\
+		\test{MIN-INT 2 MIN-INT \word{*/}}{MIN-INT 2 MIN-INT T*/}
+	\end{testing}
 \end{worddef}
 
 
@@ -259,31 +252,31 @@
 
 \see \xref[3.2.2.1 Integer division]{usage:div}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0110 */MOD
+		\ttfamily
 		IFFLOORED \tab	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{;} \\
-		IFSYM \tab[2.6]	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{SM/REM} \word{;}
+		IFSYM \tab[2.8]	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{SM/REM} \word{;}
 
-		\{       0 2       1 \word{*/MOD} ->       0 2       1 T*/MOD \} \\
-		\{       1 2       1 \word{*/MOD} ->       1 2       1 T*/MOD \} \\
-		\{       2 2       1 \word{*/MOD} ->       2 2       1 T*/MOD \} \\
-		\{      -1 2       1 \word{*/MOD} ->      -1 2       1 T*/MOD \} \\
-		\{      -2 2       1 \word{*/MOD} ->      -2 2       1 T*/MOD \} \\
-		\{       0 2      -1 \word{*/MOD} ->       0 2      -1 T*/MOD \} \\
-		\{       1 2      -1 \word{*/MOD} ->       1 2      -1 T*/MOD \} \\
-		\{       2 2      -1 \word{*/MOD} ->       2 2      -1 T*/MOD \} \\
-		\{      -1 2      -1 \word{*/MOD} ->      -1 2      -1 T*/MOD \} \\
-		\{      -2 2      -1 \word{*/MOD} ->      -2 2      -1 T*/MOD \} \\
-		\{       2 2       2 \word{*/MOD} ->       2 2       2 T*/MOD \} \\
-		\{      -1 2      -1 \word{*/MOD} ->      -1 2      -1 T*/MOD \} \\
-		\{      -2 2      -2 \word{*/MOD} ->      -2 2      -2 T*/MOD \} \\
-		\{       7 2       3 \word{*/MOD} ->       7 2       3 T*/MOD \} \\
-		\{       7 2      -3 \word{*/MOD} ->       7 2      -3 T*/MOD \} \\
-		\{      -7 2       3 \word{*/MOD} ->      -7 2       3 T*/MOD \} \\
-		\{      -7 2      -3 \word{*/MOD} ->      -7 2      -3 T*/MOD \} \\
-		\{ MAX-INT 2 MAX-INT \word{*/MOD} -> MAX-INT 2 MAX-INT T*/MOD \} \\
-		\{ MIN-INT 2 MIN-INT \word{*/MOD} -> MIN-INT 2 MIN-INT T*/MOD \} \\
-	\end{defer}
+		\test{      0 2       1 \word{*/MOD}}{      0 2       1 T*/MOD} \\
+		\test{      1 2       1 \word{*/MOD}}{      1 2       1 T*/MOD} \\
+		\test{      2 2       1 \word{*/MOD}}{      2 2       1 T*/MOD} \\
+		\test{     -1 2       1 \word{*/MOD}}{     -1 2       1 T*/MOD} \\
+		\test{     -2 2       1 \word{*/MOD}}{     -2 2       1 T*/MOD} \\
+		\test{      0 2      -1 \word{*/MOD}}{      0 2      -1 T*/MOD} \\
+		\test{      1 2      -1 \word{*/MOD}}{      1 2      -1 T*/MOD} \\
+		\test{      2 2      -1 \word{*/MOD}}{      2 2      -1 T*/MOD} \\
+		\test{     -1 2      -1 \word{*/MOD}}{     -1 2      -1 T*/MOD} \\
+		\test{     -2 2      -1 \word{*/MOD}}{     -2 2      -1 T*/MOD} \\
+		\test{      2 2       2 \word{*/MOD}}{      2 2       2 T*/MOD} \\
+		\test{     -1 2      -1 \word{*/MOD}}{     -1 2      -1 T*/MOD} \\
+		\test{     -2 2      -2 \word{*/MOD}}{     -2 2      -2 T*/MOD} \\
+		\test{      7 2       3 \word{*/MOD}}{      7 2       3 T*/MOD} \\
+		\test{      7 2      -3 \word{*/MOD}}{      7 2      -3 T*/MOD} \\
+		\test{     -7 2       3 \word{*/MOD}}{     -7 2       3 T*/MOD} \\
+		\test{     -7 2      -3 \word{*/MOD}}{     -7 2      -3 T*/MOD} \\
+		\test{MAX-INT 2 MAX-INT \word{*/MOD}}{MAX-INT 2 MAX-INT T*/MOD} \\
+		\test{MIN-INT 2 MIN-INT \word{*/MOD}}{MIN-INT 2 MIN-INT T*/MOD} \\
+	\end{testing}
 \end{worddef}
 
 
@@ -295,19 +288,18 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing
-		\{        0  5 \word{+} ->          5 \} \\
-		\{        5  0 \word{+} ->          5 \} \\
-		\{        0 -5 \word{+} ->         -5 \} \\
-		\{       -5  0 \word{+} ->         -5 \} \\
-		\{        1  2 \word{+} ->          3 \} \\
-		\{        1 -2 \word{+} ->         -1 \} \\
-		\{       -1  2 \word{+} ->          1 \} \\
-		\{       -1 -2 \word{+} ->         -3 \} \\
-		\{       -1  1 \word{+} ->          0 \} \\
-		\{ MID-UINT  1 \word{+} -> MID-UINT+1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0120 +
+		\test{       0  5 \word{+}}{         5} \\
+		\test{       5  0 \word{+}}{         5} \\
+		\test{       0 -5 \word{+}}{        -5} \\
+		\test{      -5  0 \word{+}}{        -5} \\
+		\test{       1  2 \word{+}}{         3} \\
+		\test{       1 -2 \word{+}}{        -1} \\
+		\test{      -1  2 \word{+}}{         1} \\
+		\test{      -1 -2 \word{+}}{        -3} \\
+		\test{      -1  1 \word{+}}{         0} \\
+		\test{MID-UINT  1 \word{+}}{MID-UINT+1}
+	\end{testing}
 \end{worddef}
 
 
@@ -318,13 +310,12 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing
-		\{  0 1ST \word{!}  -> \} \\
-		\{  1 1ST \word{+!} -> \} \\
-		\{    1ST \word{@}  -> 1 \} \\
-		\{ -1 1ST \word{+!} 1ST \word{@} -> 0 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0130 +!
+		\test{ 0 1ST \word{!}       }{ } \\
+		\test{ 1 1ST \word{+!}      }{ } \\
+		\test{   1ST \word{@}       }{1} \\
+		\test{-1 1ST \word{+!} 1ST \word{@}}{0}
+	\end{testing}
 \end{worddef}
 
 
@@ -357,19 +348,19 @@
 	\wref{core:I}{I},
 	\wref{core:LEAVE}{LEAVE}.
 
-	\begin{defer}
-	\rationale % A.6.1.0140 +LOOP
+	\begin{rationale} % A.6.1.0140 +LOOP
 		Typical use:
 			\word{:} \texttt{X} ~{\ldots} limit first \word{DO}
 				{\ldots} step \word{+LOOP}
 			\word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GD2 \word{DO} \word{I} -1 \word{+LOOP} \word{;} -> \} \\
-		\{        1          4 GD2 -> 4 3 2 1 \} \\
-		\{       -1          2 GD2 -> 2 1 0 -1 \} \\
-		\{ MID-UINT MID-UINT+1 GD2 -> MID-UINT+1 MID-UINT \}
-	\end{defer}
+	\begin{testing} % T.6.1.0140 +LOOP
+		\test{\word{:} GD2 \word{DO} \word{I} -1 \word{+LOOP} \word{;}}{} \\
+		\test{       1          4 GD2}{4 3 2  1} \\
+		\test{      -1          2 GD2}{2 1 0 -1} \\
+		\test{MID-UINT MID-UINT+1 GD2}{MID-UINT+1 MID-UINT}
+	\end{testing}
 \end{worddef}
 
 
@@ -385,32 +376,33 @@
 \see \xref[3.3.3 Data space]{usage:dataspace},
 	\xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\rationale % A.6.1.0150 ,
+	\begin{rationale} % A.6.1.0150 ,
 		The use of \word{,} (comma) for compiling execution tokens is
 		not portable.
 
 		See: \wref{core:COMPILE,}{COMPILE,}.
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.0150 ,
+		\ttfamily
 		\word{HERE} 1 \word{,} \\
 		\word{HERE} 2 \word{,} \\
 		\word{CONSTANT} 2ND \\
 		\word{CONSTANT} 1ST
 
-		\{ 1ST 2ND \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
-		\{ 1ST \word{CELL+} -> 2ND \}			\tab[2.6] \word{bs} {\ldots} BY ONE CELL \\
-		\{ 1ST 1 \word{CELLS} \word{+} -> 2ND \} \\
-		\{ 1ST \word{@} 2ND \word{@} -> 1 2 \} \\
-		\{ 5 1ST \word{!} -> \} \\
-		\{ 1ST \word{@} 2ND \word{@} -> 5 2 \} \\
-		\{ 6 2ND \word{!} -> \} \\
-		\{ 1ST \word{@} 2ND \word{@} -> 5 6 \} \\
-		\{ 1ST \word{2@} -> 6 5 \} \\
-		\{ 2 1 1ST \word{2!} -> \} \\
-		\{ 1ST \word{2@} -> 2 1 \} \\
-		\{ 1S 1ST \word{!}  1ST \word{@} -> 1S \} \tab \word{bs} CAN STORE CELL-WIDE VALUE
-	\end{defer}
+		\test{      1ST 2ND \word{Uless}}{<TRUE>} \word{bs} HERE MUST GROW WITH ALLOT \\
+		\test{      1ST \word{CELL+} }{2ND}    \word{bs} {\ldots} BY ONE CELL \\
+		\test{  1ST 1 \word{CELLS} \word{+} }{2ND} \\
+		\test{    1ST \word{@} 2ND \word{@} }{1 2} \\
+		\test{        5 1ST \word{!} }{   } \\
+		\test{    1ST \word{@} 2ND \word{@} }{5 2} \\
+		\test{        6 2ND \word{!} }{   } \\
+		\test{    1ST \word{@} 2ND \word{@} }{5 6} \\
+		\test{          1ST \word{2@}}{6 5} \\
+		\test{      2 1 1ST \word{2!}}{   } \\
+		\test{          1ST \word{2@}}{2 1} \\
+		\test{1S 1ST \word{!}  1ST \word{@} }{1S } \tab \word{bs} CAN STORE CELL-WIDE VALUE
+	\end{testing}
 \end{worddef}
 
 
@@ -422,19 +414,18 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing
-		\{          0  5 \word{-} ->       -5 \} \\
-		\{          5  0 \word{-} ->        5 \} \\
-		\{          0 -5 \word{-} ->        5 \} \\
-		\{         -5  0 \word{-} ->       -5 \} \\
-		\{          1  2 \word{-} ->       -1 \} \\
-		\{          1 -2 \word{-} ->        3 \} \\
-		\{         -1  2 \word{-} ->       -3 \} \\
-		\{         -1 -2 \word{-} ->        1 \} \\
-		\{          0  1 \word{-} ->       -1 \} \\
-		\{ MID-UINT+1  1 \word{-} -> MID-UINT \}
-	\end{defer}
+	\begin{testing} % T.6.1.0160 -
+		\test{         0  5 \word{-}}{      -5} \\
+		\test{         5  0 \word{-}}{       5} \\
+		\test{         0 -5 \word{-}}{       5} \\
+		\test{        -5  0 \word{-}}{      -5} \\
+		\test{         1  2 \word{-}}{      -1} \\
+		\test{         1 -2 \word{-}}{       3} \\
+		\test{        -1  2 \word{-}}{      -3} \\
+		\test{        -1 -2 \word{-}}{       1} \\
+		\test{         0  1 \word{-}}{      -1} \\
+		\test{MID-UINT+1  1 \word{-}}{MID-UINT}
+	\end{testing}
 \end{worddef}
 
 
@@ -446,10 +437,9 @@
 \see \xref[3.2.1.2 Digit conversion]{usage:digits},
 	\xref[3.2.1.3 Free-field number display]{usage:dot}.
 
-	\begin{defer}
-	\testing*
-	\see \rref{core:EMIT}{EMIT}.
-	\end{defer}
+	\begin{testing} % T.6.1.0180 .
+		See \tref{core:EMIT}{EMIT}.
+	\end{testing}
 \end{worddef}
 
 
@@ -472,8 +462,7 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:.p}{.(}.
 
-	\begin{defer}
-	\rationale % A.6.1.0190 ."
+	\begin{rationale} % A.6.1.0190 ."
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{.q} \emph{ccc}\texttt{"} {\ldots}
@@ -489,10 +478,11 @@
 		Program may not use \word{.q} while interpreting. Similarly,
 		a Standard Program may not compile \word{POSTPONE} \word{.q}
 		inside a new word, and then use that word while interpreting.
+	\end{rationale}
 
-	\testing*
-		See \rref{core:EMIT}{EMIT}.
-	\end{defer}
+	\begin{testing} % T.6.1.0190 ."
+		See \tref{core:EMIT}{EMIT}.
+	\end{testing}
 \end{worddef}
 
 
@@ -510,33 +500,33 @@
 
 \see \xref[3.2.2.1 Integer division]{usage:div}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0230 /
+		\ttfamily
 		IFFLOORED \tab	\word{:} T/ T/MOD \word{SWAP} \word{DROP} \word{;} \\
-		IFSYM \tab[2.6] \word{:} T/ T/MOD \word{SWAP} \word{DROP} \word{;}
+		IFSYM \tab[2.8] \word{:} T/ T/MOD \word{SWAP} \word{DROP} \word{;}
 
-		\{       0       1 \word{/} ->       0       1 T/ \} \\
-		\{       1       1 \word{/} ->       1       1 T/ \} \\
-		\{       2       1 \word{/} ->       2       1 T/ \} \\
-		\{      -1       1 \word{/} ->      -1       1 T/ \} \\
-		\{      -2       1 \word{/} ->      -2       1 T/ \} \\
-		\{       0      -1 \word{/} ->       0      -1 T/ \} \\
-		\{       1      -1 \word{/} ->       1      -1 T/ \} \\
-		\{       2      -1 \word{/} ->       2      -1 T/ \} \\
-		\{      -1      -1 \word{/} ->      -1      -1 T/ \} \\
-		\{      -2      -1 \word{/} ->      -2      -1 T/ \} \\
-		\{       2       2 \word{/} ->       2       2 T/ \} \\
-		\{      -1      -1 \word{/} ->      -1      -1 T/ \} \\
-		\{      -2      -2 \word{/} ->      -2      -2 T/ \} \\
-		\{       7       3 \word{/} ->       7       3 T/ \} \\
-		\{       7      -3 \word{/} ->       7      -3 T/ \} \\
-		\{      -7       3 \word{/} ->      -7       3 T/ \} \\
-		\{      -7      -3 \word{/} ->      -7      -3 T/ \} \\
-		\{ MAX-INT       1 \word{/} -> MAX-INT       1 T/ \} \\
-		\{ MIN-INT       1 \word{/} -> MIN-INT       1 T/ \} \\
-		\{ MAX-INT MAX-INT \word{/} -> MAX-INT MAX-INT T/ \} \\
-		\{ MIN-INT MIN-INT \word{/} -> MIN-INT MIN-INT T/ \}
-	\end{defer}
+		\test{      0       1 \word{/}}{      0       1 T/} \\
+		\test{      1       1 \word{/}}{      1       1 T/} \\
+		\test{      2       1 \word{/}}{      2       1 T/} \\
+		\test{     -1       1 \word{/}}{     -1       1 T/} \\
+		\test{     -2       1 \word{/}}{     -2       1 T/} \\
+		\test{      0      -1 \word{/}}{      0      -1 T/} \\
+		\test{      1      -1 \word{/}}{      1      -1 T/} \\
+		\test{      2      -1 \word{/}}{      2      -1 T/} \\
+		\test{     -1      -1 \word{/}}{     -1      -1 T/} \\
+		\test{     -2      -1 \word{/}}{     -2      -1 T/} \\
+		\test{      2       2 \word{/}}{      2       2 T/} \\
+		\test{     -1      -1 \word{/}}{     -1      -1 T/} \\
+		\test{     -2      -2 \word{/}}{     -2      -2 T/} \\
+		\test{      7       3 \word{/}}{      7       3 T/} \\
+		\test{      7      -3 \word{/}}{      7      -3 T/} \\
+		\test{     -7       3 \word{/}}{     -7       3 T/} \\
+		\test{     -7      -3 \word{/}}{     -7      -3 T/} \\
+		\test{MAX-INT       1 \word{/}}{MAX-INT       1 T/} \\
+		\test{MIN-INT       1 \word{/}}{MIN-INT       1 T/} \\
+		\test{MAX-INT MAX-INT \word{/}}{MAX-INT MAX-INT T/} \\
+		\test{MIN-INT MIN-INT \word{/}}{MIN-INT MIN-INT T/}
+	\end{testing}
 \end{worddef}
 
 
@@ -554,33 +544,33 @@
 
 \see \xref[3.2.2.1 Integer division]{usage:div}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0240 /MOD
+		\ttfamily
 		IFFLOORED \tab  \word{:} T/MOD  \word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{;} \\
-		IFSYM \tab[2.6] \word{:} T/MOD  \word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{;}
+		IFSYM \tab[2.8] \word{:} T/MOD  \word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{;}
 
-		\{       0       1 \word{/MOD} ->       0       1 T/MOD \} \\
-		\{       1       1 \word{/MOD} ->       1       1 T/MOD \} \\
-		\{       2       1 \word{/MOD} ->       2       1 T/MOD \} \\
-		\{      -1       1 \word{/MOD} ->      -1       1 T/MOD \} \\
-		\{      -2       1 \word{/MOD} ->      -2       1 T/MOD \} \\
-		\{       0      -1 \word{/MOD} ->       0      -1 T/MOD \} \\
-		\{       1      -1 \word{/MOD} ->       1      -1 T/MOD \} \\
-		\{       2      -1 \word{/MOD} ->       2      -1 T/MOD \} \\
-		\{      -1      -1 \word{/MOD} ->      -1      -1 T/MOD \} \\
-		\{      -2      -1 \word{/MOD} ->      -2      -1 T/MOD \} \\
-		\{       2       2 \word{/MOD} ->       2       2 T/MOD \} \\
-		\{      -1      -1 \word{/MOD} ->      -1      -1 T/MOD \} \\
-		\{      -2      -2 \word{/MOD} ->      -2      -2 T/MOD \} \\
-		\{       7       3 \word{/MOD} ->       7       3 T/MOD \} \\
-		\{       7      -3 \word{/MOD} ->       7      -3 T/MOD \} \\
-		\{      -7       3 \word{/MOD} ->      -7       3 T/MOD \} \\
-		\{      -7      -3 \word{/MOD} ->      -7      -3 T/MOD \} \\
-		\{ MAX-INT       1 \word{/MOD} -> MAX-INT       1 T/MOD \} \\
-		\{ MIN-INT       1 \word{/MOD} -> MIN-INT       1 T/MOD \} \\
-		\{ MAX-INT MAX-INT \word{/MOD} -> MAX-INT MAX-INT T/MOD \} \\
-		\{ MIN-INT MIN-INT \word{/MOD} -> MIN-INT MIN-INT T/MOD \}
-	\end{defer}
+		\test{      0       1 \word{/MOD}}{      0       1 T/MOD} \\
+		\test{      1       1 \word{/MOD}}{      1       1 T/MOD} \\
+		\test{      2       1 \word{/MOD}}{      2       1 T/MOD} \\
+		\test{     -1       1 \word{/MOD}}{     -1       1 T/MOD} \\
+		\test{     -2       1 \word{/MOD}}{     -2       1 T/MOD} \\
+		\test{      0      -1 \word{/MOD}}{      0      -1 T/MOD} \\
+		\test{      1      -1 \word{/MOD}}{      1      -1 T/MOD} \\
+		\test{      2      -1 \word{/MOD}}{      2      -1 T/MOD} \\
+		\test{     -1      -1 \word{/MOD}}{     -1      -1 T/MOD} \\
+		\test{     -2      -1 \word{/MOD}}{     -2      -1 T/MOD} \\
+		\test{      2       2 \word{/MOD}}{      2       2 T/MOD} \\
+		\test{     -1      -1 \word{/MOD}}{     -1      -1 T/MOD} \\
+		\test{     -2      -2 \word{/MOD}}{     -2      -2 T/MOD} \\
+		\test{      7       3 \word{/MOD}}{      7       3 T/MOD} \\
+		\test{      7      -3 \word{/MOD}}{      7      -3 T/MOD} \\
+		\test{     -7       3 \word{/MOD}}{     -7       3 T/MOD} \\
+		\test{     -7      -3 \word{/MOD}}{     -7      -3 T/MOD} \\
+		\test{MAX-INT       1 \word{/MOD}}{MAX-INT       1 T/MOD} \\
+		\test{MIN-INT       1 \word{/MOD}}{MIN-INT       1 T/MOD} \\
+		\test{MAX-INT MAX-INT \word{/MOD}}{MAX-INT MAX-INT T/MOD} \\
+		\test{MIN-INT MIN-INT \word{/MOD}}{MIN-INT MIN-INT T/MOD}
+	\end{testing}
 \end{worddef}
 
 
@@ -589,14 +579,13 @@
 
 	\param{flag} is true if and only if \param{n} is less than zero.
 
-	\begin{defer}
-	\testing
-		\{       0 \word{0less} -> <FALSE> \} \\
-		\{      -1 \word{0less} -> <TRUE>  \} \\
-		\{ MIN-INT \word{0less} -> <TRUE>  \} \\
-		\{       1 \word{0less} -> <FALSE> \} \\
-		\{ MAX-INT \word{0less} -> <FALSE> \}
-	\end{defer}
+	\begin{testing} % T.6.1.0250 0<
+		\test{      0 \word{0less}}{<FALSE>} \\
+		\test{     -1 \word{0less}}{<TRUE> } \\
+		\test{MIN-INT \word{0less}}{<TRUE> } \\
+		\test{      1 \word{0less}}{<FALSE>} \\
+		\test{MAX-INT \word{0less}}{<FALSE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -605,16 +594,15 @@
 
 	\param{flag} is true if and only if \param{x} is equal to zero.
 
-	\begin{defer}
-	\testing
-		\{  0 \word{0=} -> <TRUE>  \} \\
-		\{  1 \word{0=} -> <FALSE> \} \\
-		\{  2 \word{0=} -> <FALSE> \} \\
-		\{ -1 \word{0=} -> <FALSE> \} \\
-		\{ MAX-UINT \word{0=} -> <FALSE> \} \\
-		\{ MIN-INT  \word{0=} -> <FALSE> \} \\
-		\{ MAX-INT  \word{0=} -> <FALSE> \}
-	\end{defer}
+	\begin{testing} % T.6.1.0270 0=
+		\test{       0 \word{0=}}{<TRUE> } \\
+		\test{       1 \word{0=}}{<FALSE>} \\
+		\test{       2 \word{0=}}{<FALSE>} \\
+		\test{      -1 \word{0=}}{<FALSE>} \\
+		\test{MAX-UINT \word{0=}}{<FALSE>} \\
+		\test{MIN-INT  \word{0=}}{<FALSE>} \\
+		\test{MAX-INT  \word{0=}}{<FALSE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -624,13 +612,12 @@
 	Add one (1) to \param{n_1|u_1} giving the sum
 	\param{n_2|u_2}.
 
-	\begin{defer}
-	\testing
-		\{        0 \word{1+} ->          1 \} \\
-		\{       -1 \word{1+} ->          0 \} \\
-		\{        1 \word{1+} ->          2 \} \\
-		\{ MID-UINT \word{1+} -> MID-UINT+1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0290 1+
+		\test{       0 \word{1+}}{         1} \\
+		\test{      -1 \word{1+}}{         0} \\
+		\test{       1 \word{1+}}{         2} \\
+		\test{MID-UINT \word{1+}}{MID-UINT+1}
+	\end{testing}
 \end{worddef}
 
 
@@ -640,13 +627,12 @@
 	Subtract one (1) from \param{n_1|u_1} giving the difference
 	\param{n_2|u_2}.
 
-	\begin{defer}
-	\testing
-		\{          2 \word{1-} ->        1 \} \\
-		\{          1 \word{1-} ->        0 \} \\
-		\{          0 \word{1-} ->       -1 \} \\
-		\{ MID-UINT+1 \word{1-} -> MID-UINT \}
-	\end{defer}
+	\begin{testing} % T.6.1.0300 1-
+		\test{         2 \word{1-}}{       1} \\
+		\test{         1 \word{1-}}{       0} \\
+		\test{         0 \word{1-}}{      -1} \\
+		\test{MID-UINT+1 \word{1-}}{MID-UINT}
+	\end{testing}
 \end{worddef}
 
 
@@ -660,10 +646,9 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:,}{,}
-	\end{defer}
+	\begin{testing} % T.6.1.0310 2!
+		See \tref{core:,}{,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -674,8 +659,7 @@
 	the most-significant bit, filling the vacated least-significant
 	bit with zero.
 
-	\begin{defer}
-	\rationale % A.6.1.0320 2*
+	\begin{rationale} % A.6.1.0320 2*
 		Historically, \word{2*} has been implemented on
 		two's-complement machines as a logical left-shift instruction.
 		Multiplication by two is an efficient side-effect on these
@@ -683,14 +667,15 @@
 		significance and position of bits in a cell. While the name
 		implies multiplication, most implementors have used a hardware
 		left shift to implement \word{2*}.
+	\end{rationale}
 
-	\testing
-		\{ 0S	\word{2*} -> 0S \} \\
-		\{ 1	\word{2*} -> 2 \} \\
-		\{ 4000 \word{2*} -> 8000 \} \\
-		\{ 1S	\word{2*} 1 \word{XOR} -> 1S \} \\
-		\{ MSB	\word{2*} -> 0S \}
-	\end{defer}
+	\begin{testing} % T.6.1.0320 2*
+		\test{  0S \word{2*}      }{  0S} \\
+		\test{   1 \word{2*}      }{   2} \\
+		\test{4000 \word{2*}      }{8000} \\
+		\test{  1S \word{2*} 1 \word{XOR}}{  1S} \\
+		\test{ MSB \word{2*}      }{  0S}
+	\end{testing}
 \end{worddef}
 
 
@@ -701,21 +686,21 @@
 	the least-significant bit, leaving the most-significant bit
 	unchanged.
 
-	\begin{defer}
-	\rationale % A.6.1.0330 2/
+	\begin{rationale} % A.6.1.0330 2/
 		This word has the same common usage and misnaming implications
 		as \word{2*}. It is often implemented on two's-complement
 		machines with a hardware right shift that propagates the sign
 		bit.
+	\end{rationale}
 
-	\testing
-		\{ 0S		\word{2/} -> 0S \} \\
-		\{ 1		\word{2/} -> 0 \} \\
-		\{ 4000		\word{2/} -> 2000 \} \\
-		\{ 1S		\word{2/} -> 1S \} \tab[4] \word{bs} MSB PROPOGATED \\
-		\{ 1S 1 \word{XOR} \word{2/} -> 1S \} \\
-		\{ MSB \word{2/} MSB \word{AND} -> MSB \}
-	\end{defer}
+	\begin{testing} % T.6.1.0330 2/
+		\test{         0S \word{2/}}{  0S} \\
+		\test{          1 \word{2/}}{   0} \\
+		\test{       4000 \word{2/}}{2000} \\
+		\test{         1S \word{2/}}{  1S} \word{bs} MSB PROPOGATED \\
+		\test{   1S 1 \word{XOR} \word{2/}}{  1S} \\
+		\test{MSB \word{2/} MSB \word{AND}}{ MSB}
+	\end{testing}
 \end{worddef}
 
 
@@ -730,13 +715,13 @@
 \see \xref[3.3.3.1  Address alignment]{usage:aaddr},
 	\wref{core:2!}{2!}.
 
-	\begin{defer}
-	\rationale % A.6.1.0350 2@
+	\begin{rationale} % A.6.1.0350 2@
 		With \word{2@} the storage order is specified by the Standard.
+	\end{rationale}
 
-	\testing*
-		See \rref{core:,}{,}
-	\end{defer}
+	\begin{testing} % T.6.1.0350 2@
+		See \tref{core:,}{,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -745,10 +730,9 @@
 
 	Drop cell pair \param{x_1 x_2} from the stack.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 \word{2DROP} -> \}
-	\end{defer}
+	\begin{testing} % T.6.1.0370 2DROP
+		\test{1 2 \word{2DROP}}{}
+	\end{testing}
 \end{worddef}
 
 
@@ -757,10 +741,9 @@
 
 	Duplicate cell pair \param{x_1 x_2}.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 \word{2DUP} -> 1 2 1 2 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0380 2DUP
+		\test{1 2 \word{2DUP}}{1 2 1 2}
+	\end{testing}
 \end{worddef}
 
 
@@ -769,10 +752,9 @@
 
 	Copy cell pair \param{x_1 x_2} to the top of the stack.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 3 4 \word{2OVER} -> 1 2 3 4 1 2 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0400 2OVER
+		\test{1 2 3 4 \word{2OVER}}{1 2 3 4 1 2}
+	\end{testing}
 \end{worddef}
 
 
@@ -781,10 +763,9 @@
 
 	Exchange the top two cell pairs.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 3 4 \word{2SWAP} -> 3 4 1 2 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0430 2SWAP
+		\test{1 2 3 4 \word{2SWAP}}{3 4 1 2}
+	\end{testing}
 \end{worddef}
 
 
@@ -824,8 +805,7 @@
 	\wref{core:]}{]},
 	\wref{tools:;CODE}{;CODE}.
 
-	\begin{defer}
-	\rationale % A.6.1.0450 :
+	\begin{rationale} % A.6.1.0450 :
 		Typical use:
 			\word{:} \emph{name} {\ldots} \word{;}
 
@@ -838,18 +818,19 @@
 		Note that colon does not itself invoke the compiler. Colon sets
 		compilation state so that later words in the parse area are
 		compiled.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} NOP \word{:} \word{POSTPONE} \word{;} \word{;} -> \} \\
-		\{ NOP NOP1		NOP NOP2 -> \} \\
-		\{ 					NOP1 -> \} \\
-		\{ 					NOP2 -> \}
+	\begin{testing} % T.6.1.0450 :
+		\test{\word{:} NOP \word{:} \word{POSTPONE} \word{;} \word{;}}{} \\
+		\test{NOP NOP1 NOP NOP2}{} \\
+		\test{NOP1}{} \\
+		\test{NOP2}{}
 
-		\defertext{The following tests the dictionary search order:}
+		The following tests the dictionary search order:
 
-		\{ \word{:} GDX   123 \word{;} \tab \word{:} GDX   GDX 234 \word{;} -> \} \\
-		\{ GDX -> 123 234 \}
-	\end{defer}
+		\test{\word{:} GDX   123 \word{;} \tab \word{:} GDX   GDX 234 \word{;}}{} \\
+		\test{GDX}{123 234}
+	\end{testing}
 \end{worddef}
 
 
@@ -875,8 +856,7 @@
 \see \xref[3.4 The Forth text interpreter]{usage:command},
 	\xref[3.4.5 Compilation]{usage:compilation}.
 
-	\begin{defer}
-	\rationale % A.6.1.0460 ;
+	\begin{rationale} % A.6.1.0460 ;
 		Typical use:
 			\word{:} \emph{name} {\ldots} \word{;}
 
@@ -889,10 +869,11 @@
 		information about the current definition to allow \word{;} and
 		\word[tools]{;CODE} to determine whether or not any action must
 		be taken to allow it to be found.
+	\end{rationale}
 
-	\testing*
-		See \rref{core::}{:}.
-	\end{defer}
+	\begin{testing} % T.6.1.0460 ;
+		See \tref{core::}{:}.
+	\end{testing}
 \end{worddef}
 
 
@@ -904,25 +885,24 @@
 
 \see \wref{core:Uless}{U<}.
 
-	\begin{defer}
-	\testing
-		\{       0       1 \word{less} -> <TRUE>  \} \\
-		\{       1       2 \word{less} -> <TRUE>  \} \\
-		\{      -1       0 \word{less} -> <TRUE>  \} \\
-		\{      -1       1 \word{less} -> <TRUE>  \} \\
-		\{ MIN-INT       0 \word{less} -> <TRUE>  \} \\
-		\{ MIN-INT MAX-INT \word{less} -> <TRUE>  \} \\
-		\{       0 MAX-INT \word{less} -> <TRUE>  \} \\
-		\{       0       0 \word{less} -> <FALSE> \} \\
-		\{       1       1 \word{less} -> <FALSE> \} \\
-		\{       1       0 \word{less} -> <FALSE> \} \\
-		\{       2       1 \word{less} -> <FALSE> \} \\
-		\{       0      -1 \word{less} -> <FALSE> \} \\
-		\{       1      -1 \word{less} -> <FALSE> \} \\
-		\{       0 MIN-INT \word{less} -> <FALSE> \} \\
-		\{ MAX-INT MIN-INT \word{less} -> <FALSE> \} \\
-		\{ MAX-INT       0 \word{less} -> <FALSE> \}
-	\end{defer}
+	\begin{testing} % T.6.1.0480 <
+		\test{      0       1 \word{less}}{<TRUE> } \\
+		\test{      1       2 \word{less}}{<TRUE> } \\
+		\test{     -1       0 \word{less}}{<TRUE> } \\
+		\test{     -1       1 \word{less}}{<TRUE> } \\
+		\test{MIN-INT       0 \word{less}}{<TRUE> } \\
+		\test{MIN-INT MAX-INT \word{less}}{<TRUE> } \\
+		\test{      0 MAX-INT \word{less}}{<TRUE> } \\
+		\test{      0       0 \word{less}}{<FALSE>} \\
+		\test{      1       1 \word{less}}{<FALSE>} \\
+		\test{      1       0 \word{less}}{<FALSE>} \\
+		\test{      2       1 \word{less}}{<FALSE>} \\
+		\test{      0      -1 \word{less}}{<FALSE>} \\
+		\test{      1      -1 \word{less}}{<FALSE>} \\
+		\test{      0 MIN-INT \word{less}}{<FALSE>} \\
+		\test{MAX-INT MIN-INT \word{less}}{<FALSE>} \\
+		\test{MAX-INT       0 \word{less}}{<FALSE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -935,13 +915,12 @@
 	\wref{core:num-end}{\num>},
 	\wref{core:numS}{\num{}S}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:num}{\num},
-			\rref{core:numS}{\num{}S},
-			\rref{core:HOLD}{HOLD} and
-			\rref{core:SIGN}{SIGN}.
-	\end{defer}
+	\begin{testing} % T.6.1.0490 <#
+		See \tref{core:num}{\num},
+			\tref{core:numS}{\num{}S},
+			\tref{core:HOLD}{HOLD} and
+			\tref{core:SIGN}{SIGN}.
+	\end{testing}
 \end{worddef}
 
 
@@ -951,16 +930,15 @@
 	\param{flag} is true if and only if \param{x_1} is bit-for-bit
 	the same as \param{x_2}.
 
-	\begin{defer}
-	\testing
-		\{  0  0 \word{=} -> <TRUE>  \} \\
-		\{  1  1 \word{=} -> <TRUE>  \} \\
-		\{ -1 -1 \word{=} -> <TRUE>  \} \\
-		\{  1  0 \word{=} -> <FALSE> \} \\
-		\{ -1  0 \word{=} -> <FALSE> \} \\
-		\{  0  1 \word{=} -> <FALSE> \} \\
-		\{  0 -1 \word{=} -> <FALSE> \} \\
-	\end{defer}
+	\begin{testing} % T.6.1.0530 =
+		\test{ 0  0 \word{=}}{<TRUE> } \\
+		\test{ 1  1 \word{=}}{<TRUE> } \\
+		\test{-1 -1 \word{=}}{<TRUE> } \\
+		\test{ 1  0 \word{=}}{<FALSE>} \\
+		\test{-1  0 \word{=}}{<FALSE>} \\
+		\test{ 0  1 \word{=}}{<FALSE>} \\
+		\test{ 0 -1 \word{=}}{<FALSE>} \\
+	\end{testing}
 \end{worddef}
 
 
@@ -971,25 +949,24 @@
 
 \see \wref{core:Umore}{U>}.
 
-	\begin{defer}
-	\testing
-		\{       0       1 \word{more} -> <FALSE> \} \\
-		\{       1       2 \word{more} -> <FALSE> \} \\
-		\{      -1       0 \word{more} -> <FALSE> \} \\
-		\{      -1       1 \word{more} -> <FALSE> \} \\
-		\{ MIN-INT       0 \word{more} -> <FALSE> \} \\
-		\{ MIN-INT MAX-INT \word{more} -> <FALSE> \} \\
-		\{       0 MAX-INT \word{more} -> <FALSE> \} \\
-		\{       0       0 \word{more} -> <FALSE> \} \\
-		\{       1       1 \word{more} -> <FALSE> \} \\
-		\{       1       0 \word{more} -> <TRUE>  \} \\
-		\{       2       1 \word{more} -> <TRUE>  \} \\
-		\{       0      -1 \word{more} -> <TRUE>  \} \\
-		\{       1      -1 \word{more} -> <TRUE>  \} \\
-		\{       0 MIN-INT \word{more} -> <TRUE>  \} \\
-		\{ MAX-INT MIN-INT \word{more} -> <TRUE>  \} \\
-		\{ MAX-INT       0 \word{more} -> <TRUE>  \}
-	\end{defer}
+	\begin{testing} % T.6.1.0540 >
+		\test{      0       1 \word{more}}{<FALSE>} \\
+		\test{      1       2 \word{more}}{<FALSE>} \\
+		\test{     -1       0 \word{more}}{<FALSE>} \\
+		\test{     -1       1 \word{more}}{<FALSE>} \\
+		\test{MIN-INT       0 \word{more}}{<FALSE>} \\
+		\test{MIN-INT MAX-INT \word{more}}{<FALSE>} \\
+		\test{      0 MAX-INT \word{more}}{<FALSE>} \\
+		\test{      0       0 \word{more}}{<FALSE>} \\
+		\test{      1       1 \word{more}}{<FALSE>} \\
+		\test{      1       0 \word{more}}{<TRUE> } \\
+		\test{      2       1 \word{more}}{<TRUE> } \\
+		\test{      0      -1 \word{more}}{<TRUE> } \\
+		\test{      1      -1 \word{more}}{<TRUE> } \\
+		\test{      0 MIN-INT \word{more}}{<TRUE> } \\
+		\test{MAX-INT MIN-INT \word{more}}{<TRUE> } \\
+		\test{MAX-INT       0 \word{more}}{<TRUE> }
+	\end{testing}
 \end{worddef}
 
 
@@ -1002,16 +979,16 @@
 
 \see \xref[3.3.3 Data space]{usage:dataspace}.
 
-	\begin{defer}
-	\rationale % A.6.1.0550 >BODY
+	\begin{rationale} % A.6.1.0550 >BODY
 		\param{a-addr} is the address that \word{HERE} would have
 		returned had it been executed immediately after the execution
 		of the \word{CREATE} that defined \param{xt}.
+	\end{rationale}
 
-	\testing
-		\{ \word{CREATE} CR0 -> \} \\
-		\{ \word{'} CR0 \word{toBODY} -> \word{HERE} \}
-	\end{defer}
+	\begin{testing} % T.6.1.0550 >BODY
+		\test{ \word{CREATE} CR0}{    } \\
+		\test{\word{'} CR0 \word{toBODY}}{\word{HERE}}
+	\end{testing}
 \end{worddef}
 
 
@@ -1022,18 +999,18 @@
 	characters from the start of the input buffer to the start of
 	the parse area.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0560 >IN
+		\ttfamily
 		\word{VARIABLE} SCANS \\
 		\word{:} RESCAN?  -1 SCANS \word{+!} SCANS \word{@} \word{IF} 0 \word{toIN} \word{!} \word{THEN} \word{;}
 
-		\{ 2 SCANS \word{!} \\
-		345 RESCAN? \\
-		-> 345 345 \}
+		\test{  2 SCANS \word{!} \\\mbox{}
+		  345 RESCAN? \\
+		}{345 345}
 
 		\word{:} GS2  5 SCANS \word{!} \word{Sq} 123 RESCAN?" \word{EVALUATE} \word{;} \\
-		\{ GS2 -> 123 123 123 123 123 \}
-	\end{defer}
+		\test{GS2}{123 123 123 123 123}
+	\end{testing}
 \end{worddef}
 
 
@@ -1055,43 +1032,45 @@
 
 \see \xref[3.2.1.2 Digit conversion]{usage:digits}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0570 >NUMBER
+		\ttfamily
 		\word{CREATE} GN-BUF 0 \word{C,} \\
 		\word{:} GN-STRING	 GN-BUF 1 \word{;} \\
 		\word{:} GN-CONSUMED GN-BUF \word{CHAR+} 0 \word{;} \\
 		\word{:} GN'		 \word{[CHAR]} ' \word{WORD} \word{CHAR+} \word{C@} GN-BUF \word{C!}  GN-STRING \word{;}
 
-		\{ 0 0 GN' 0' \word{toNUMBER} ->         0 0 GN-CONSUMED \} \\
-		\{ 0 0 GN' 1' \word{toNUMBER} ->         1 0 GN-CONSUMED \} \\
-		\{ 1 0 GN' 1' \word{toNUMBER} -> BASE @ 1+ 0 GN-CONSUMED \} \\
-		\{ 0 0 GN' -' \word{toNUMBER} ->         0 0 GN-STRING   \} \tab \word{bs} SHOULD FAIL TO CONVERT \\
-		\{ 0 0 GN' +' \word{toNUMBER} ->         0 0 GN-STRING   \} \\
-		\{ 0 0 GN' .' \word{toNUMBER} ->         0 0 GN-STRING   \}
+		\test{0 0 GN' 0' \word{toNUMBER}}{        0 0 GN-CONSUMED} \\
+		\test{0 0 GN' 1' \word{toNUMBER}}{        1 0 GN-CONSUMED} \\
+		\test{1 0 GN' 1' \word{toNUMBER}}{BASE @ 1+ 0 GN-CONSUMED} \\
+		\word{bs} FOLLOWING SHOULD FAIL TO CONVERT \\
+		\test{0 0 GN' -' \word{toNUMBER}}{        0 0 GN-STRING  } \\
+		\test{0 0 GN' +' \word{toNUMBER}}{        0 0 GN-STRING  } \\
+		\test{0 0 GN' .' \word{toNUMBER}}{        0 0 GN-STRING  }
 
 		\word{:} >NUMBER-BASED \\
 		\tab \word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \word{toNUMBER} \word{Rfrom} \word{BASE} \word{!} \word{;}
 
-		\{ 0 0 GN' 2'       10 >NUMBER-BASED ->  2 0 GN-CONSUMED \} \\
-		\{ 0 0 GN' 2'        2 >NUMBER-BASED ->  0 0 GN-STRING   \} \\
-		\{ 0 0 GN' F'       10 >NUMBER-BASED ->  F 0 GN-CONSUMED \} \\
-		\{ 0 0 GN' G'       10 >NUMBER-BASED ->  0 0 GN-STRING   \} \\
-		\{ 0 0 GN' G' MAX-BASE >NUMBER-BASED -> 10 0 GN-CONSUMED \} \\
-		\{ 0 0 GN' Z' MAX-BASE >NUMBER-BASED -> 23 0 GN-CONSUMED \}
+		\test{0 0 GN' 2'       10 >NUMBER-BASED}{ 2 0 GN-CONSUMED} \\
+		\test{0 0 GN' 2'        2 >NUMBER-BASED}{ 0 0 GN-STRING  } \\
+		\test{0 0 GN' F'       10 >NUMBER-BASED}{ F 0 GN-CONSUMED} \\
+		\test{0 0 GN' G'       10 >NUMBER-BASED}{ 0 0 GN-STRING  } \\
+		\test{0 0 GN' G' MAX-BASE >NUMBER-BASED}{10 0 GN-CONSUMED} \\
+		\test{0 0 GN' Z' MAX-BASE >NUMBER-BASED}{23 0 GN-CONSUMED}
 
-		\word{:} GN1 \word{bs} ( UD BASE -{}- UD' LEN ) UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
+		\word{:} GN1 \word{p} UD BASE -{}- UD' LEN ) \\
+		\tab	\word{bs} UD SHOULD EQUAL UD' AND LEN SHOULD BE ZERO. \\
 		\tab	\word{BASE} \word{@} \word{toR} \word{BASE} \word{!} \\
 		\tab	\word{num-start} \word{numS} \word{num-end} \\
 		\tab	0 0 \word{2SWAP} \word{toNUMBER} \word{SWAP} \word{DROP} \tab \word{bs} RETURN LENGTH ONLY \\
 		\tab	\word{Rfrom} \word{BASE} \word{!} \word{;}
 
-		\{        0   0        2 GN1 ->        0   0 0 \} \\
-		\{ MAX-UINT   0        2 GN1 -> MAX-UINT   0 0 \} \\
-		\{ MAX-UINT DUP        2 GN1 -> MAX-UINT DUP 0 \} \\
-		\{        0   0 MAX-BASE GN1 ->        0   0 0 \} \\
-		\{ MAX-UINT   0 MAX-BASE GN1 -> MAX-UINT   0 0 \} \\
-		\{ MAX-UINT DUP MAX-BASE GN1 -> MAX-UINT DUP 0 \}
-	\end{defer}
+		\test{       0   0        2 GN1}{       0   0 0} \\
+		\test{MAX-UINT   0        2 GN1}{MAX-UINT   0 0} \\
+		\test{MAX-UINT DUP        2 GN1}{MAX-UINT DUP 0} \\
+		\test{       0   0 MAX-BASE GN1}{       0   0 0} \\
+		\test{MAX-UINT   0 MAX-BASE GN1}{MAX-UINT   0 0} \\
+		\test{MAX-UINT DUP MAX-BASE GN1}{MAX-UINT DUP 0}
+	\end{testing}
 \end{worddef}
 
 
@@ -1112,16 +1091,15 @@
 	\wref{core:2Rfrom}{2R>},
 	\wref{core:2R@}{2R@}.
 
-	\begin{defer}
-	\testing
-		TESTING \word{toR} \word{Rfrom} \word{R@}
+	\begin{testing} % T.6.1.0580 >R
+		% TESTING \word{toR} \word{Rfrom} \word{R@}
 
-		\{ : GR1 \word{toR} \word{Rfrom} ; -> \} \\
-		\{ : GR2 \word{toR} \word{R@} \word{Rfrom} \word{DROP} ; -> \} \\
-		\{ 123 GR1 -> 123 \} \\
-		\{ 123 GR2 -> 123 \} \\
-		\{ 1S GR1 -> 1S \} \tab[2] \word{p} RETURN STACK HOLDS CELLS )
-	\end{defer}
+		\test{: GR1 \word{toR} \word{Rfrom} ;}{} \\
+		\test{: GR2 \word{toR} \word{R@} \word{Rfrom} \word{DROP} ;}{} \\
+		\test{123 GR1}{123} \\
+		\test{123 GR2}{123} \\
+		\test{ 1S GR1}{ 1S} \tab[2] \word{p} RETURN STACK HOLDS CELLS )
+	\end{testing}
 \end{worddef}
 
 
@@ -1130,12 +1108,11 @@
 
 	Duplicate \param{x} if it is non-zero.
 
-	\begin{defer}
-	\testing
-		\{ -1 \word{qDUP} -> -1 -1 \} \\
-		\{  0 \word{qDUP} ->  0    \} \\
-		\{  1 \word{qDUP} ->  1  1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0630 ?DUP
+		\test{-1 \word{qDUP}}{-1 -1} \\
+		\test{ 0 \word{qDUP}}{ 0   } \\
+		\test{ 1 \word{qDUP}}{ 1  1}
+	\end{testing}
 \end{worddef}
 
 
@@ -1146,10 +1123,9 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:,}{,}
-	\end{defer}
+	\begin{testing} % T.6.1.0650 @
+		See \tref{core:,}{,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1162,10 +1138,6 @@
 	a message.
 
 \see \wref{exception:ABORT}{ABORT}.
-
-	\begin{defer}
-	\testing* None.
-	\end{defer}
 \end{worddef}
 
 
@@ -1191,15 +1163,12 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{exception:ABORTq}{9.6.2.0680 ABORT"}.
 
-	\begin{defer}
-	\rationale % A.6.1.0680 ABORT"
+	\begin{rationale} % A.6.1.0680 ABORT"
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\emph{test} \word{ABORTq} \emph{ccc}\texttt{"}
 			{\ldots} \word{;}
-
-	\testing* None.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -1208,13 +1177,12 @@
 
 	\param{u} is the absolute value of \param{n}.
 
-	\begin{defer}
-	\testing
-		\{       0 \word{ABS} ->          0 \} \\
-		\{       1 \word{ABS} ->          1 \} \\
-		\{      -1 \word{ABS} ->          1 \} \\
-		\{ MIN-INT \word{ABS} -> MID-UINT+1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0690 ABS
+		\test{      0 \word{ABS}}{         0} \\
+		\test{      1 \word{ABS}}{         1} \\
+		\test{     -1 \word{ABS}}{         1} \\
+		\test{MIN-INT \word{ABS}}{MID-UINT+1}
+	\end{testing}
 \end{worddef}
 
 
@@ -1235,8 +1203,7 @@
 
 	\param{+n_2} is the length of the string stored at \param{c-addr}.
 
-	\begin{defer}
-	\rationale % A.6.1.0695 ACCEPT
+	\begin{rationale} % A.6.1.0695 ACCEPT
 		Previous standards specified that collection of the input
 		string terminates when either a ``return'' is received or when
 		\param{+n_1} characters have been received. Terminating when
@@ -1299,8 +1266,10 @@
 		and therefore the display, is implementation-defined. It is
 		recommended that the cursor remain immediately following the
 		entered text after a line terminator is received.
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.0695 ACCEPT
+		\ttfamily
 		\word{CREATE} ABUF 80 \word{CHARS} \word{ALLOT}
 
 		\word{:} ACCEPT-TEST \\
@@ -1310,8 +1279,8 @@
 		\tab[2] ABUF \word{SWAP} \word{TYPE} \word{[CHAR]} " \word{EMIT} \word{CR} \\
 		\word{;}
 
-		\{ ACCEPT-TEST -> \}
-	\end{defer}
+		\test{ACCEPT-TEST}{}
+	\end{testing}
 \end{worddef}
 
 
@@ -1324,8 +1293,7 @@
 \see \xref[3.3.3 Data space]{usage:dataspace},
 	\xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\rationale % A.6.1.0705 ALIGN
+	\begin{rationale} % A.6.1.0705 ALIGN
 		In this Standard we have attempted to provide transportability
 		across various CPU architectures. One of the frequent causes
 		of transportability problems is the requirement of cell-aligned
@@ -1333,19 +1301,21 @@
 		\word{ALIGNED} may be required to build and traverse data
 		structures built with \word{C,}. Implementors may define these
 		words as no-ops on systems for which they aren't functional.
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.0705 ALIGN
+		\ttfamily
 		\word{ALIGN}  1 \word{ALLOT} \word{HERE}  \word{ALIGN} \word{HERE} 3 \word{CELLS} \word{ALLOT} \\
-		\word{CONSTANT} A-ADDR  \word{CONSTANT} UA-ADDR
-		\{ UA-ADDR \word{ALIGNED} -> A-ADDR \} \\
-		\{       1 A-ADDR \word{C!}                A-ADDR              \word{C@} ->       1 \} \\
-		\{    1234 A-ADDR \word{!}                 A-ADDR              \word{@}  ->    1234 \} \\
-		\{ 123 456 A-ADDR \word{2!}                A-ADDR              \word{2@} -> 123 456 \} \\
-		\{       2 A-ADDR \word{CHAR+} \word{C!}   A-ADDR \word{CHAR+} \word{C@} ->       2 \} \\
-		\{       3 A-ADDR \word{CELL+} \word{C!}   A-ADDR \word{CELL+} \word{C@} ->       3 \} \\
-		\{    1234 A-ADDR \word{CELL+} \word{!}    A-ADDR \word{CELL+} \word{@}  ->    1234 \} \\
-		\{ 123 456 A-ADDR \word{CELL+} \word{2!}   A-ADDR \word{CELL+} \word{2@} -> 123 456 \}
-	\end{defer}
+		\word{CONSTANT} A-ADDR  \word{CONSTANT} UA-ADDR \\
+		\test{UA-ADDR \word{ALIGNED}}{A-ADDR} \\
+		\test{      1 A-ADDR \word{C!}         A-ADDR       \word{C@}}{      1} \\
+		\test{   1234 A-ADDR \word{!}          A-ADDR       \word{@} }{   1234} \\
+		\test{123 456 A-ADDR \word{2!}         A-ADDR       \word{2@}}{123 456} \\
+		\test{      2 A-ADDR \word{CHAR+} \word{C!}   A-ADDR \word{CHAR+} \word{C@}}{      2} \\
+		\test{      3 A-ADDR \word{CELL+} \word{C!}   A-ADDR \word{CELL+} \word{C@}}{      3} \\
+		\test{   1234 A-ADDR \word{CELL+} \word{!}    A-ADDR \word{CELL+} \word{@} }{   1234} \\
+		\test{123 456 A-ADDR \word{CELL+} \word{2!}   A-ADDR \word{CELL+} \word{2@}}{123 456}
+	\end{testing}
 \end{worddef}
 
 
@@ -1357,13 +1327,13 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\rationale % A.6.1.0706 ALIGNED
-		See: \rref{core:ALIGN}{ALIGN}.
-
-	\testing*
+	\begin{rationale} % A.6.1.0706 ALIGNED
 		See \rref{core:ALIGN}{ALIGN}.
-	\end{defer}
+	\end{rationale}
+
+	\begin{testing} % T.6.1.0706 ALIGNED
+		See \tref{core:ALIGN}{ALIGN}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1386,16 +1356,16 @@
 
 \see \xref[3.3.3 Data space]{usage:dataspace}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0710 ALLOT
+		\ttfamily
 		\word{HERE} 1 \word{ALLOT} \\
 		\word{HERE} \\
 		\word{CONSTANT} 2NDA \\
 		\word{CONSTANT} 1STA \\
-		\{ 1STA 2NDA \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
-		\{ 1STA \word{1+} -> 2NDA \}			\tab[4.2] \word{bs} {\ldots} BY ONE ADDRESS UNIT \\
+		\test{1STA 2NDA \word{Uless}}{<TRUE>} \tab \word{bs} HERE MUST GROW WITH ALLOT \\
+		\test{     1STA \word{1+}}{  2NDA} \tab \word{bs} {\ldots} BY ONE ADDRESS UNIT \\
 		( MISSING TEST: NEGATIVE ALLOT )
-	\end{defer}
+	\end{testing}
 \end{worddef}
 
 
@@ -1405,21 +1375,20 @@
 	\param{x_3} is the bit-by-bit logical ``and'' of \param{x_1}
 	with \param{x_2}.
 
-	\begin{defer}
-	\testing
-		\{ 0 0 \word{AND} -> 0 \} \\
-		\{ 0 1 \word{AND} -> 0 \} \\
-		\{ 1 0 \word{AND} -> 0 \} \\
-		\{ 1 1 \word{AND} -> 1 \}
+	\begin{testing} % T.6.1.0720 AND
+		\test{0 0 \word{AND}}{0} \\
+		\test{0 1 \word{AND}}{0} \\
+		\test{1 0 \word{AND}}{0} \\
+		\test{1 1 \word{AND}}{1}
 
-		\{ 0 \word{INVERT} 1 \word{AND} -> 1 \} \\
-		\{ 1 \word{INVERT} 1 \word{AND} -> 0 \}
+		\test{0 \word{INVERT} 1 \word{AND}}{1} \\
+		\test{1 \word{INVERT} 1 \word{AND}}{0}
 
-		\{ 0S 0S \word{AND} -> 0S \} \\
-		\{ 0S 1S \word{AND} -> 0S \} \\
-		\{ 1S 0S \word{AND} -> 0S \} \\
-		\{ 1S 1S \word{AND} -> 1S \}
-	\end{defer}
+		\test{0S 0S \word{AND}}{0S} \\
+		\test{0S 1S \word{AND}}{0S} \\
+		\test{1S 0S \word{AND}}{0S} \\
+		\test{1S 1S \word{AND}}{1S}
+	\end{testing}
 \end{worddef}
 
 
@@ -1429,15 +1398,15 @@
 	\param{a-addr} is the address of a cell containing the current
 	number-conversion radix \{\{2...36\}\}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0750 BASE
+		\ttfamily
 		\word{:} GN2	\word{bs} ( -{}- 16 10 ) \\
 		\tab \word{BASE} \word{@} \word{toR}
 			\word{HEX} \word{BASE} \word{@}
 			\word{DECIMAL} \word{BASE} \word{@}
 			\word{Rfrom} \word{BASE} \word{!} \word{;} \\
-		\{ GN2 -> 10 A \}
-	\end{defer}
+		\test{GN2}{10 A}
+	\end{testing}
 \end{worddef}
 
 
@@ -1462,8 +1431,7 @@
 	\wref{core:UNTIL}{UNTIL},
 	\wref{core:WHILE}{WHILE}.
 
-	\begin{defer}
-	\rationale % A.6.1.0760 BEGIN
+	\begin{rationale} % A.6.1.0760 BEGIN
 		Typical use:
 
 		\tab \word{:} \texttt{X} {\ldots}
@@ -1477,10 +1445,12 @@
 			\emph{test} \word{WHILE} {\ldots}
 			\word{REPEAT}
 		\word{;}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:WHILE}{WHILE} and \rref{core:UNTIL}{UNTIL}.
-	\end{defer}
+	\begin{testing} % T.6.2.0760 BEGIN
+		See \tref{core:WHILE}{WHILE} and
+			\tref{core:UNTIL}{UNTIL}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1489,16 +1459,16 @@
 
 	\param{char} is the character value for a space.
 
-	\begin{defer}
-	\rationale % A.6.1.0770 BL
+	\begin{rationale} % A.6.1.0770 BL
 		Because space is used throughout Forth as the standard
 		delimiter, this word is the only way a program has to find and
 		use the system value of ``space''. The value of a space
 		character can not be obtained with \word{CHAR}, for instance.
+	\end{rationale}
 
-	\testing
-		\{ \word{BL} -> 20 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0770 BL
+		\test{\word{BL}}{20}
+	\end{testing}
 \end{worddef}
 
 
@@ -1511,10 +1481,9 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:C,}{C,}
-	\end{defer}
+	\begin{testing} % T.6.1.0850 C!
+		See \tref{core:C,}{C,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1531,22 +1500,22 @@
 \see \xref[3.3.3 Data space]{usage:dataspace},
 	\xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0860 C,
+		\ttfamily
 		\word{HERE} 1 \word{C,} \\
 		\word{HERE} 2 \word{C,} \\
 		\word{CONSTANT} 2NDC \\
 		\word{CONSTANT} 1STC
 
-		\{ 1STC 2NDC \word{Uless} -> <TRUE> \}	\tab \word{bs} HERE MUST GROW WITH ALLOT \\
-		\{ 1STC \word{CHAR+} -> 2NDC \}			\tab[2.6] \word{bs} {\ldots} BY ONE CHAR \\
-		\{ 1STC 1 \word{CHARS} \word{+} -> 2NDC \} \\
-		\{ 1STC \word{C@} 2NDC \word{C@} -> 1 2 \} \\
-		\{ 3 1STC \word{C!} -> \} \\
-		\{ 1STC \word{C@} 2NDC \word{C@} -> 3 2 \} \\
-		\{ 4 2NDC \word{C!} -> \} \\
-		\{ 1STC \word{C@} 2NDC \word{C@} -> 3 4 \}
-	\end{defer}
+		\test{   1STC 2NDC \word{Uless}}{<TRUE>}	\word{bs} HERE MUST GROW WITH ALLOT \\
+		\test{     1STC \word{CHAR+}}{ 2NDC }		\word{bs} {\ldots} BY ONE CHAR \\
+		\test{ 1STC 1 \word{CHARS} \word{+}}{ 2NDC } \\
+		\test{1STC \word{C@} 2NDC \word{C@}}{  1 2 } \\
+		\test{      3 1STC \word{C!}}{      } \\
+		\test{1STC \word{C@} 2NDC \word{C@}}{  3 2 } \\
+		\test{      4 2NDC \word{C!}}{      } \\
+		\test{1STC \word{C@} 2NDC \word{C@}}{  3 4 }
+	\end{testing}
 \end{worddef}
 
 
@@ -1559,10 +1528,9 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:C,}{C,}
-	\end{defer}
+	\begin{testing} % T.6.2.0870 C@
+		See \tref{core:C,}{C,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1574,8 +1542,7 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\rationale % A.6.1.0880 CELL+
+	\begin{rationale} % A.6.1.0880 CELL+
 		As with \word{ALIGN} and \word{ALIGNED}, the words \word{CELLS}
 		and \word{CELL+} were added to aid in transportability across
 		systems with different cell sizes. They are intended to be used
@@ -1590,10 +1557,11 @@
 
 			DATA \word{CELL+} \word{@} \word{d} 0
 		\end{quote}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:,}{,}
-	\end{defer}
+	\begin{testing} % T.6.1.0880 CELL+
+		See \tref{core:,}{,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1602,8 +1570,7 @@
 
 	\param{n_2} is the size in address units of \param{n_1} cells.
 
-	\begin{defer}
-	\rationale % A.6.1.0890 CELLS
+	\begin{rationale} % A.6.1.0890 CELLS
 		See: \rref{core:CELL+}{CELL+}.
 
 		Example:
@@ -1611,18 +1578,21 @@
 			\texttt{100} \word{CELLS} \word{ALLOT} \\
 		(Allots space in the array \texttt{NUMBERS} for 100 cells
 		of data.)
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.0890 CELLS
+		\ttfamily
 		\word{:} BITS \word{p} X -{}- U ) \\
-		\tab 0 \word{SWAP} \word{BEGIN} \word{DUP} \word{WHILE} \word{DUP} MSB \word{AND}
-			\word{IF} \word{toR} \word{1+} \word{Rfrom} \word{THEN} \word{2*} \word{REPEAT} \word{DROP}
+		\tab 0 \word{SWAP} \word{BEGIN} \word{DUP} \word{WHILE} \\
+		\tab[2] \word{DUP} MSB \word{AND} \word{IF} \word{toR} \word{1+} \word{Rfrom} \word{THEN} \word{2*} \\
+		\tab \word{REPEAT} \word{DROP}
 		\word{;}
 
 		\word{p} CELLS >= 1 AU, INTEGRAL MULTIPLE OF CHAR SIZE, >= 16 BITS ) \\
-		\{ 1 \word{CELLS} 1 \word{less} -> <FALSE> \} \\
-		\{ 1 \word{CELLS} 1 \word{CHARS} \word{MOD} -> 0 \} \\
-		\{ 1S BITS 10 \word{less} -> <FALSE> \}
-	\end{defer}
+		\test{1 \word{CELLS} 1 \word{less}        }{<FALSE>} \\
+		\test{1 \word{CELLS} 1 \word{CHARS} \word{MOD}}{   0   } \\
+		\test{1S BITS 10 \word{less}       }{<FALSE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -1635,15 +1605,15 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:[CHAR]}{[CHAR]}.
 
-	\begin{defer}
-	\rationale % A.6.1.0895 CHAR
+	\begin{rationale} % A.6.1.0895 CHAR
 		Typical use: {\ldots}
 			\word{CHAR} \texttt{A} \word{CONSTANT} \texttt{"A"} {\ldots}
+	\end{rationale}
 
-	\testing
-		\{ \word{CHAR} X     -> 58 \} \\
-		\{ \word{CHAR} HELLO -> 48 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0895 CHAR
+		\test{\word{CHAR} X    }{58} \\
+		\test{\word{CHAR} HELLO}{48}
+	\end{testing}
 \end{worddef}
 
 
@@ -1655,10 +1625,9 @@
 
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:C,}{C,}
-	\end{defer}
+	\begin{testing} % T.6.1.0897 CHAR+
+		See \tref{core:C,}{C,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1668,13 +1637,13 @@
 	\param{n_2} is the size in address units of \param{n_1}
 	characters.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.0898 CHARS
+		\ttfamily
 		\word{p} CHARACTERS >= 1 AU, <= SIZE OF CELL, >= 8 BITS ) \\
-		\{ 1 \word{CHARS} 1 \word{less} -> <FALSE> \} \\
-		\{ 1 \word{CHARS} 1 \word{CELLS} \word{more} -> <FALSE> \} \\
+		\test{1 \word{CHARS} 1 \word{less}      }{<FALSE>} \\
+		\test{1 \word{CHARS} 1 \word{CELLS} \word{more}}{<FALSE>} \\
 		\word{p} TBD: HOW TO FIND NUMBER OF BITS? )
-	\end{defer}
+	\end{testing}
 \end{worddef}
 
 
@@ -1694,19 +1663,20 @@
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.6.1.0950 CONSTANT
+	\begin{rationale} % A.6.1.0950 CONSTANT
 		Typical use: {\ldots}
 			\word{DECIMAL} \texttt{10} \word{CONSTANT} \texttt{TEN}
 			{\ldots}
+	\end{rationale}
 
-	\testing
-		\{ 123 \word{CONSTANT} X123 -> \} \\
-		\{ X123 -> 123 \} \\
-		\{ \word{:} EQU \word{CONSTANT} \word{;} -> \} \\
-		\{ X123 EQU Y123 -> \} \\
-		\{ Y123 -> 123 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0950 CONSTANT
+		\test{123 \word{CONSTANT} X123}{} \\
+		\test{X123}{123}
+
+		\test{\word{:} EQU \word{CONSTANT} \word{;}}{} \\
+		\test{X123 EQU Y123}{} \\
+		\test{Y123}{123}
+	\end{testing}
 \end{worddef}
 
 
@@ -1719,10 +1689,9 @@
 	is the contents of the character at \param{c-addr_1}, which is
 	the length in characters of the string at \param{c-addr_2}.
 
-	\begin{defer}
-	\testing
-		\{ GT1STRING \word{COUNT} -> GT1STRING \word{CHAR+} 3 \}
-	\end{defer}
+	\begin{testing} % T.6.1.0980 COUNT
+		\test{GT1STRING \word{COUNT}}{GT1STRING \word{CHAR+} 3}
+	\end{testing}
 \end{worddef}
 
 
@@ -1732,10 +1701,9 @@
 	Cause subsequent output to appear at the beginning of the next
 	line.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:EMIT}{EMIT}.
-	\end{defer}
+	\begin{testing} % T.6.1.0990 CR
+		See \tref{core:EMIT}{EMIT}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1760,8 +1728,7 @@
 \see \xref[3.3.3 Data space]{usage:dataspace},
 	\wref{core:DOES}{DOES>}.
 
-	\begin{defer}
-	\rationale % A.6.1.1000 CREATE
+	\begin{rationale} % A.6.1.1000 CREATE
 		The data-field address of a word defined by \word{CREATE} is
 		given by the data-space pointer immediately following the
 		execution of \word{CREATE}.
@@ -1771,10 +1738,12 @@
 
 		Typical use: {\ldots}
 			\word{CREATE} \texttt{SOMETHING} {\ldots}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:toBODY}{>BODY} and \rref{core:DOES}{DOES}.
-	\end{defer}
+	\begin{testing} % T.6.1.1000 CREATE
+		See \tref{core:toBODY}{>BODY} and
+			\tref{core:DOES}{DOES}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1783,10 +1752,9 @@
 
 	Set the numeric conversion radix to ten (decimal).
 
-	\begin{defer}
-	\testing*
-		See \rref{core:BASE}{BASE}.
-	\end{defer}
+	\begin{testing} % T.6.1.1170 DECIMAL
+		See \tref{core:BASE}{BASE}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1796,12 +1764,11 @@
 	\param{+n} is the number of single-cell values contained in the
 	data stack before \param{+n} was placed on the stack.
 
-	\begin{defer}
-	\testing
-		\{ 0 1 \word{DEPTH} -> 0 1 2 \} \\
-		\{   0 \word{DEPTH} -> 0 1   \} \\
-		\{     \word{DEPTH} -> 0     \}
-	\end{defer}
+	\begin{testing} % T.6.1.1200 DEPTH
+		\test{0 1 \word{DEPTH}}{0 1 2} \\
+		\test{  0 \word{DEPTH}}{0 1  } \\
+		\test{    \word{DEPTH}}{0    }
+	\end{testing}
 \end{worddef}
 
 
@@ -1831,8 +1798,7 @@
 	\wref{core:+LOOP}{+LOOP},
 	\wref{core:LOOP}{LOOP}.
 
-	\begin{defer}
-	\rationale % A.6.1.1240 DO
+	\begin{rationale} % A.6.1.1240 DO
 		Typical use:
 
 		\tab \word{:} \texttt{X} {\ldots}
@@ -1848,14 +1814,15 @@
 				{\ldots}
 			\emph{step} \word{+LOOP}
 		\word{;}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:LOOP}{LOOP},
-			\rref{core:+LOOP}{+LOOP},
-			\rref{core:J}{J},
-			\rref{core:LEAVE}{LEAVE} and
-			\rref{core:UNLOOP}{UNLOOP}.
-	\end{defer}
+	\begin{testing} % T.6.1.1240 DO
+		See \tref{core:LOOP}{LOOP},
+			\tref{core:+LOOP}{+LOOP},
+			\tref{core:J}{J},
+			\tref{core:LEAVE}{LEAVE} and
+			\tref{core:UNLOOP}{UNLOOP}.
+	\end{testing}
 \end{worddef}
 
 
@@ -1904,8 +1871,7 @@
 
 \see \wref{core:CREATE}{CREATE}.
 
-	\begin{defer}
-	\rationale % A.6.1.1250 DOES>
+	\begin{rationale} % A.6.1.1250 DOES>
 		Typical use:
 			\word{:} \texttt{X} {\ldots} \word{DOES} {\ldots} \word{;}
 
@@ -1918,25 +1884,26 @@
 		The compilation behavior makes it clear that the user is not
 		entitled to place \word{DOES} inside any control-flow
 		structures.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} DOES1 \word{DOES} \word{@} 1 \word{+} \word{;} -> \} \\
-		\{ \word{:} DOES2 \word{DOES} \word{@} 2 \word{+} \word{;} -> \} \\
-		\{ \word{CREATE} CR1 -> \} \\
-		\{ CR1 -> \word{HERE}  \} \\
-		\{ 1 \word{,} -> \} \\
-		\{ CR1 \word{@} -> 1 \} \\
-		\{ DOES1 -> \} \\
-		\{ CR1 -> 2 \} \\
-		\{ DOES2 -> \} \\
-		\{ CR1 -> 3 \}
+	\begin{testing} % T.6.1.1250 DOES>
+		\test{\word{:} DOES1 \word{DOES} \word{@} 1 \word{+} \word{;}}{} \\
+		\test{\word{:} DOES2 \word{DOES} \word{@} 2 \word{+} \word{;}}{} \\
+		\test{\word{CREATE} CR1}{} \\
+		\test{CR1  }{\word{HERE}} \\
+		\test{1 \word{,}  }{ } \\
+		\test{CR1 \word{@}}{1} \\
+		\test{DOES1}{ } \\
+		\test{CR1  }{2} \\
+		\test{DOES2}{ } \\
+		\test{CR1  }{3}
 
-		\{ \word{:} WEIRD: \word{CREATE} \word{DOES} 1 \word{+} \word{DOES} 2 \word{+} \word{;} -> \} \\
-		\{ WEIRD: W1 -> \} \\
-		\{ \word{'} W1 \word{toBODY} -> \word{HERE} \} \\
-		\{ W1 -> \word{HERE} 1 \word{+} \} \\
-		\{ W1 -> \word{HERE} 2 \word{+} \}
-	\end{defer}
+		\test{\word{:} WEIRD: \word{CREATE} \word{DOES} 1 \word{+} \word{DOES} 2 \word{+} \word{;}}{} \\
+		\test{WEIRD: W1}{} \\
+		\test{\word{'} W1 \word{toBODY}}{\word{HERE}} \\
+		\test{W1}{\word{HERE} 1 \word{+}} \\
+		\test{W1}{\word{HERE} 2 \word{+}}
+	\end{testing}
 \end{worddef}
 
 
@@ -1945,11 +1912,10 @@
 
 	Remove \param{x} from the stack.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 \word{DROP} -> 1 \} \\
-		\{ 0   \word{DROP} ->   \}
-	\end{defer}
+	\begin{testing} % T.6.1.1260 DROP
+		\test{1 2 \word{DROP}}{1} \\
+		\test{0   \word{DROP}}{ }
+	\end{testing}
 \end{worddef}
 
 
@@ -1958,10 +1924,9 @@
 
 	Duplicate \param{x}.
 
-	\begin{defer}
-	\testing
-		\{ 1 \word{DUP} -> 1 1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.1290 DUP
+		\test{1 \word{DUP}}{1 1}
+	\end{testing}
 \end{worddef}
 
 
@@ -1988,17 +1953,17 @@
 \see \wref{core:IF}{IF},
 	\wref{core:THEN}{THEN}.
 
-	\begin{defer}
-	\rationale % A.6.1.1310 ELSE
+	\begin{rationale} % A.6.1.1310 ELSE
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\emph{test} \word{IF} {\ldots}
 				\word{ELSE} {\ldots} \word{THEN}
 			\word{;}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:IF}{IF}
-	\end{defer}
+	\begin{testing} % T.6.1.1310 ELSE
+		See \tref{core:IF}{IF}.
+	\end{testing}
 \end{worddef}
 
 
@@ -2020,10 +1985,9 @@
 
 \see \wref{core:TYPE}{TYPE}.
 
-	\begin{defer}
-	\testing
-		TESTING OUTPUT: \word{d} \word{.q} \word{CR} \word{EMIT} \word{SPACE} \word{SPACES} \word{TYPE} \word{Ud}
-
+	\begin{testing} % T.6.1.1320 EMIT
+		\ttfamily
+		% TESTING OUTPUT: \word{d} \word{.q} \word{CR} \word{EMIT} \word{SPACE} \word{SPACES} \word{TYPE} \word{Ud}
 		\word{:} OUTPUT-TEST \\[1ex]
 		\tab   \word{.q} YOU SHOULD SEE THE STANDARD GRAPHIC CHARACTERS:" \word{CR} \\
 		\tab   41 \word{BL} \word{DO} \word{I} \word{EMIT} \word{LOOP} \word{CR} \\
@@ -2047,8 +2011,8 @@
 		\tab   \word{.q} UNSIGNED: " 0 \word{Ud} MAX-UINT \word{Ud} \word{CR} \\
 		\word{;}
 
-		\{ OUTPUT-TEST -> \}
-	\end{defer}
+		\test{OUTPUT-TEST}{}
+	\end{testing}
 \end{worddef}
 
 
@@ -2066,8 +2030,7 @@
 	otherwise, the flag is \param{true} and the \param{i*x} returned
 	is of the type specified in the table for the attribute queried.
 
-	\begin{defer}
-	\rationale % A.6.1.1345 ENVIRONMENT?
+	\begin{rationale} % A.6.1.1345 ENVIRONMENT?
 		In a Standard System that contains only the Core word set,
 		effective use of \word{ENVIRONMENTq} requires either its use
 		within a definition, or the use of user-supplied auxiliary
@@ -2085,12 +2048,13 @@
 		\wref{tools:[THEN]}{[THEN]}
 		constitutes an effective suite of words for conditional
 		compilation that works in interpretation state.
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.1345 ENVIRONMENT?
 		\word{bs} should be the same for any query starting with X: \\
-		\{ \word{Sq} X:deferred" \word{ENVIRONMENTq} \word{DUP} \word{0=} \word{XOR} \word{INVERT} -> <TRUE> \} \\
-		\{ \word{Sq} X:notfound" \word{ENVIRONMENTq} \word{DUP} \word{0=} \word{XOR} \word{INVERT} -> <FALSE> \}
-	\end{defer}
+		\test{\word{Sq} X:deferred" \word{ENVIRONMENTq} \word{DUP} \word{0=} \word{XOR} \word{INVERT}}{<TRUE> } \\
+		\test{\word{Sq} X:notfound" \word{ENVIRONMENTq} \word{DUP} \word{0=} \word{XOR} \word{INVERT}}{<FALSE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -2105,8 +2069,7 @@
 	specification. Other stack effects are due to the words
 	\word{EVALUATE}d.
 
-	\begin{defer}
-	\rationale % A.6.1.1360 EVALUATE
+	\begin{rationale} % A.6.1.1360 EVALUATE
 		The Technical Committee is aware that this function is
 		commonly spelled \texttt{EVAL}. However, there exist
 		implementations that could suffer by defining the word as is
@@ -2116,23 +2079,25 @@
 		effects on existing code. The longer spelling was not deemed
 		significant since this is not a word that should be used
 		frequently in source code.
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.1360 EVALUATE
+		\ttfamily
 		\word{:} GE1 \word{Sq} 123" \word{;} \word{IMMEDIATE} \\
 		\word{:} GE2 \word{Sq} 123 1+" \word{;} \word{IMMEDIATE} \\
 		\word{:} GE3 \word{Sq} \word{:} GE4 345 \word{;}" \word{;} \\
 		\word{:} GE5 \word{EVALUATE} \word{;} \word{IMMEDIATE}
 
-		\{ GE1 \word{EVALUATE} -> 123 \} \tab[3] \word{p} TEST EVALUATE IN INTERP. STATE ) \\
-		\{ GE2 \word{EVALUATE} -> 124 \} \\
-		\{ GE3 \word{EVALUATE} ->     \} \\
-		\{ GE4                 -> 345 \}
+		\test{GE1 \word{EVALUATE}}{123} \word{p} TEST EVALUATE IN INTERP. STATE ) \\
+		\test{GE2 \word{EVALUATE}}{124} \\
+		\test{GE3 \word{EVALUATE}}{   } \\
+		\test{GE4         }{345}
 
-		\{ \word{:} GE6 GE1 GE5 \word{;} -> \} \tab[3.4] \word{p} TEST EVALUATE IN COMPILE STATE ) \\
-		\{ GE6 -> 123 \} \\
-		\{ \word{:} GE7 GE2 GE5 \word{;} -> \} \\
-		\{ GE7 -> 124 \} \\
-	\end{defer}
+		\test{\word{:} GE6 GE1 GE5 \word{;}}{} \word{p} TEST EVALUATE IN COMPILE STATE ) \\
+		\test{GE6}{123} \\
+		\test{\word{:} GE7 GE2 GE5 \word{;}}{} \\
+		\test{GE7}{124} \\
+	\end{testing}
 \end{worddef}
 
 
@@ -2146,10 +2111,9 @@
 \see \wref{core:'}{'},
 	\wref{core:[']}{[']}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:'}{'} and \rref{core:[']}{[']}.
-	\end{defer}
+	\begin{testing} % T.6.1.1370 EXECUTE
+		See \tref{core:'}{'} and \tref{core:[']}{[']}.
+	\end{testing}
 \end{worddef}
 
 
@@ -2169,17 +2133,17 @@
 \see \xref[3.2.3.3 Return stack]{usage:returnstack},
 	\wref{core:UNLOOP}{UNLOOP}.
 
-	\begin{defer}
-	\rationale % A.6.1.1380 EXIT
+	\begin{rationale} % A.6.1.1380 EXIT
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\emph{test} \word{IF}
 				{\ldots} \word{EXIT} \word{THEN}
 			{\ldots} \word{;}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:UNLOOP}{UNLOOP}.
-	\end{defer}
+	\begin{testing} % T.6.1.1380 EXIT
+		See \tref{core:UNLOOP}{UNLOOP}.
+	\end{testing}
 \end{worddef}
 
 
@@ -2190,17 +2154,16 @@
 	\param{u} consecutive characters of memory beginning at
 	\param{c-addr}.
 
-	\begin{defer}
-	\testing
-		\{ FBUF 0 20 \word{FILL} -> \} \\
-		\{ SEEBUF -> 00 00 00 \}
+	\begin{testing} % T.6.1.1540 FILL
+		\test{FBUF 0 20 \word{FILL}}{} \\
+		\test{SEEBUF}{00 00 00}
 
-		\{ FBUF 1 20 \word{FILL} -> \} \\
-		\{ SEEBUF -> 20 00 00 \}
+		\test{FBUF 1 20 \word{FILL}}{} \\
+		\test{SEEBUF}{20 00 00}
 
-		\{ FBUF 3 20 \word{FILL} -> \} \\
-		\{ SEEBUF -> 20 20 20 \}
-	\end{defer}
+		\test{FBUF 3 20 \word{FILL}}{} \\
+		\test{SEEBUF}{20 20 20}
+	\end{testing}
 \end{worddef}
 
 
@@ -2221,8 +2184,7 @@
 	\rref{core:POSTPONE}{POSTPONE},
 	\xref[D.6.7 Immediacy]{diff:immediate}.
 
-	\begin{defer}
-	\rationale % A.6.1.1550 FIND
+	\begin{rationale} % A.6.1.1550 FIND
 		One of the more difficult issues which the Committee took on
 		was the problem of divorcing the specification of
 		implementation mechanisms from the specification of the
@@ -2268,8 +2230,10 @@
 		returned by \word{FIND} may depend on \word{STATE}, and \word{'}
 		and \word{[']} may be unable to find words without
 		interpretation semantics.
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.1550 FIND
+		\ttfamily
 		\word{HERE}
 			3 \word{C,}
 			\word{CHAR} G \word{C,}
@@ -2282,10 +2246,10 @@
 			\word{CHAR} T \word{C,}
 			\word{CHAR} 2 \word{C,}
 			\word{CONSTANT} GT2STRING \\
-		\{ GT1STRING \word{FIND} -> \word{'} GT1 -1 \} \\
-		\{ GT2STRING \word{FIND} -> \word{'} GT2 1  \} \\
+		\test{GT1STRING \word{FIND}}{\word{'} GT1 -1} \\
+		\test{GT2STRING \word{FIND}}{\word{'} GT2 1 } \\
 		\word{p} HOW TO SEARCH FOR NON-EXISTENT WORD? )
-	\end{defer}
+	\end{testing}
 \end{worddef}
 
 
@@ -2302,8 +2266,7 @@
 	\wref{core:SM/REM}{6.1.2214 SM/REM},
 	\wref{core:UM/MOD}{6.1.2370 UM/MOD}.
 
-	\begin{defer}
-	\rationale % A.6.1.1561 FM/MOD
+	\begin{rationale} % A.6.1.1561 FM/MOD
 		By introducing the requirement for ``floored'' division,
 		Forth 83 produced much controversy and concern on the part of
 		those who preferred the more common practice followed in other
@@ -2345,43 +2308,44 @@
 				*/\_MOD \word{SWAP} \word{DROP}
 			\word{;}
 		\end{quote}
+	\end{rationale}
 
-	\testing
-		\{       0 \word{StoD}             1 \word{FM/MOD} ->  0       0 \} \\
-		\{       1 \word{StoD}             1 \word{FM/MOD} ->  0       1 \} \\
-		\{       2 \word{StoD}             1 \word{FM/MOD} ->  0       2 \} \\
-		\{      -1 \word{StoD}             1 \word{FM/MOD} ->  0      -1 \} \\
-		\{      -2 \word{StoD}             1 \word{FM/MOD} ->  0      -2 \} \\
-		\{       0 \word{StoD}            -1 \word{FM/MOD} ->  0       0 \} \\
-		\{       1 \word{StoD}            -1 \word{FM/MOD} ->  0      -1 \} \\
-		\{       2 \word{StoD}            -1 \word{FM/MOD} ->  0      -2 \} \\
-		\{      -1 \word{StoD}            -1 \word{FM/MOD} ->  0       1 \} \\
-		\{      -2 \word{StoD}            -1 \word{FM/MOD} ->  0       2 \} \\
-		\{       2 \word{StoD}             2 \word{FM/MOD} ->  0       1 \} \\
-		\{      -1 \word{StoD}            -1 \word{FM/MOD} ->  0       1 \} \\
-		\{      -2 \word{StoD}            -2 \word{FM/MOD} ->  0       1 \} \\
-		\{       7 \word{StoD}             3 \word{FM/MOD} ->  1       2 \} \\
-		\{       7 \word{StoD}            -3 \word{FM/MOD} -> -2      -3 \} \\
-		\{      -7 \word{StoD}             3 \word{FM/MOD} ->  2      -3 \} \\
-		\{      -7 \word{StoD}            -3 \word{FM/MOD} -> -1       2 \} \\
-		\{ MAX-INT \word{StoD}             1 \word{FM/MOD} ->  0 MAX-INT \} \\
-		\{ MIN-INT \word{StoD}             1 \word{FM/MOD} ->  0 MIN-INT \} \\
-		\{ MAX-INT \word{StoD}       MAX-INT \word{FM/MOD} ->  0       1 \} \\
-		\{ MIN-INT \word{StoD}       MIN-INT \word{FM/MOD} ->  0       1 \} \\
-		\{    1S 1                         4 \word{FM/MOD} ->  3 MAX-INT \} \\
-		\{       1 MIN-INT \word{M*}       1 \word{FM/MOD} ->  0 MIN-INT \} \\
-		\{       1 MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0       1 \} \\
-		\{       2 MIN-INT \word{M*}       2 \word{FM/MOD} ->  0 MIN-INT \} \\
-		\{       2 MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0       2 \} \\
-		\{       1 MAX-INT \word{M*}       1 \word{FM/MOD} ->  0 MAX-INT \} \\
-		\{       1 MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0       1 \} \\
-		\{       2 MAX-INT \word{M*}       2 \word{FM/MOD} ->  0 MAX-INT \} \\
-		\{       2 MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0       2 \} \\
-		\{ MIN-INT MIN-INT \word{M*} MIN-INT \word{FM/MOD} ->  0 MIN-INT \} \\
-		\{ MIN-INT MAX-INT \word{M*} MIN-INT \word{FM/MOD} ->  0 MAX-INT \} \\
-		\{ MIN-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0 MIN-INT \} \\
-		\{ MAX-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD} ->  0 MAX-INT \}
-	\end{defer}
+	\begin{testing} % T.6.1.1561 FM/MOD
+		\test{      0 \word{StoD}              1 \word{FM/MOD}}{ 0       0} \\
+		\test{      1 \word{StoD}              1 \word{FM/MOD}}{ 0       1} \\
+		\test{      2 \word{StoD}              1 \word{FM/MOD}}{ 0       2} \\
+		\test{     -1 \word{StoD}              1 \word{FM/MOD}}{ 0      -1} \\
+		\test{     -2 \word{StoD}              1 \word{FM/MOD}}{ 0      -2} \\
+		\test{      0 \word{StoD}             -1 \word{FM/MOD}}{ 0       0} \\
+		\test{      1 \word{StoD}             -1 \word{FM/MOD}}{ 0      -1} \\
+		\test{      2 \word{StoD}             -1 \word{FM/MOD}}{ 0      -2} \\
+		\test{     -1 \word{StoD}             -1 \word{FM/MOD}}{ 0       1} \\
+		\test{     -2 \word{StoD}             -1 \word{FM/MOD}}{ 0       2} \\
+		\test{      2 \word{StoD}              2 \word{FM/MOD}}{ 0       1} \\
+		\test{     -1 \word{StoD}             -1 \word{FM/MOD}}{ 0       1} \\
+		\test{     -2 \word{StoD}             -2 \word{FM/MOD}}{ 0       1} \\
+		\test{      7 \word{StoD}              3 \word{FM/MOD}}{ 1       2} \\
+		\test{      7 \word{StoD}             -3 \word{FM/MOD}}{-2      -3} \\
+		\test{     -7 \word{StoD}              3 \word{FM/MOD}}{ 2      -3} \\
+		\test{     -7 \word{StoD}             -3 \word{FM/MOD}}{-1       2} \\
+		\test{MAX-INT \word{StoD}              1 \word{FM/MOD}}{ 0 MAX-INT} \\
+		\test{MIN-INT \word{StoD}              1 \word{FM/MOD}}{ 0 MIN-INT} \\
+		\test{MAX-INT \word{StoD}        MAX-INT \word{FM/MOD}}{ 0       1} \\
+		\test{MIN-INT \word{StoD}        MIN-INT \word{FM/MOD}}{ 0       1} \\
+		\test{   1S 1                  4 \word{FM/MOD}}{ 3 MAX-INT} \\
+		\test{      1 MIN-INT \word{M*}       1 \word{FM/MOD}}{ 0 MIN-INT} \\
+		\test{      1 MIN-INT \word{M*} MIN-INT \word{FM/MOD}}{ 0       1} \\
+		\test{      2 MIN-INT \word{M*}       2 \word{FM/MOD}}{ 0 MIN-INT} \\
+		\test{      2 MIN-INT \word{M*} MIN-INT \word{FM/MOD}}{ 0       2} \\
+		\test{      1 MAX-INT \word{M*}       1 \word{FM/MOD}}{ 0 MAX-INT} \\
+		\test{      1 MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0       1} \\
+		\test{      2 MAX-INT \word{M*}       2 \word{FM/MOD}}{ 0 MAX-INT} \\
+		\test{      2 MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0       2} \\
+		\test{MIN-INT MIN-INT \word{M*} MIN-INT \word{FM/MOD}}{ 0 MIN-INT} \\
+		\test{MIN-INT MAX-INT \word{M*} MIN-INT \word{FM/MOD}}{ 0 MAX-INT} \\
+		\test{MIN-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0 MIN-INT} \\
+		\test{MAX-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0 MAX-INT}
+	\end{testing}
 \end{worddef}
 
 
@@ -2392,12 +2356,11 @@
 
 \see \xref[3.3.3.2 Contiguous regions]{usage:contiguous}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:,}{,},
-			\rref{core:ALLOT}{ALLOT} and
-			\rref{core:C,}{C,}.
-	\end{defer}
+	\begin{testing} % T.6.1.1650 HERE
+		See \tref{core:,}{,},
+			\tref{core:ALLOT}{ALLOT} and
+			\tref{core:C,}{C,}.
+	\end{testing}
 \end{worddef}
 
 
@@ -2409,11 +2372,11 @@
 	outside of a \word{num-start} \word{num-end} delimited number
 	conversion.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.1670 HOLD
+		\ttfamily
 		\word{:} GP1  \word{num-start} 41 \word{HOLD} 42 \word{HOLD} 0 0 \word{num-end} \word{Sq} BA" S= \word{;} \\
-		\{ GP1 -> <TRUE> \}
-	\end{defer}
+		\test{GP1}{<TRUE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -2429,14 +2392,13 @@
 	An ambiguous condition exists if the loop control parameters
 	are unavailable.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:LOOP}{LOOP},
-			\rref{core:+LOOP}{+LOOP},
-			\rref{core:J}{J},
-			\rref{core:LEAVE}{LEAVE} and
-			\rref{core:UNLOOP}{UNLOOP}.
-	\end{defer}
+	\begin{testing} % T.6.1.1680 I
+		See \tref{core:LOOP}{LOOP},
+			\tref{core:+LOOP}{+LOOP},
+			\tref{core:J}{J},
+			\tref{core:LEAVE}{LEAVE} and
+			\tref{core:UNLOOP}{UNLOOP}.
+	\end{testing}
 \end{worddef}
 
 
@@ -2463,8 +2425,7 @@
 	\wref{core:ELSE}{ELSE},
 	\wref{core:THEN}{THEN}.
 
-	\begin{defer}
-	\rationale % A.6.1.1700 IF
+	\begin{rationale} % A.6.1.1700 IF
 		Typical use:
 
 		\tab \word{:} \texttt{X} {\ldots}
@@ -2477,17 +2438,18 @@
 			\emph{test} \word{IF}
 			{\ldots} \word{ELSE} {\ldots} \word{THEN}
 			{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GI1 \word{IF} 123 \word{THEN} \word{;} -> \} \\
-		\{ \word{:} GI2 \word{IF} 123 \word{ELSE} 234 \word{THEN} \word{;} -> \} \\
-		\{  0 GI1 ->     \} \\
-		\{  1 GI1 -> 123 \} \\
-		\{ -1 GI1 -> 123 \} \\
-		\{  0 GI2 -> 234 \} \\
-		\{  1 GI2 -> 123 \} \\
-		\{ -1 GI1 -> 123 \}
-	\end{defer}
+	\begin{testing} % T.6.1.1700 IF
+		\test{\word{:} GI1 \word{IF} 123 \word{THEN} \word{;}}{} \\
+		\test{\word{:} GI2 \word{IF} 123 \word{ELSE} 234 \word{THEN} \word{;}}{} \\
+		\test{ 0 GI1}{   } \\
+		\test{ 1 GI1}{123} \\
+		\test{-1 GI1}{123} \\
+		\test{ 0 GI2}{234} \\
+		\test{ 1 GI2}{123} \\
+		\test{-1 GI1}{123}
+	\end{testing}
 \end{worddef}
 
 
@@ -2500,18 +2462,18 @@
 
 \see \xref[D.6.7 Immediacy]{diff:immediate}.
 
-	\begin{defer}
-	\rationale % A.6.1.1710 IMMEDIATE
+	\begin{rationale} % A.6.1.1710 IMMEDIATE
 		Typical use:
 			\word{:} \texttt{X}
 			{\ldots} \word{;} \word{IMMEDIATE}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:[']}{[']},
-			\rref{core:POSTPONE}{POSTPONE},
-			\rref{core:STATE}{STATE}, and
-			\rref{core:Sq}{S"}.
-	\end{defer}
+	\begin{testing} % T.6.1.1710 IMMEDIATE
+		See \tref{core:[']}{[']},
+			\tref{core:POSTPONE}{POSTPONE},
+			\tref{core:STATE}{STATE}, and
+			\tref{core:Sq}{S"}.
+	\end{testing}
 \end{worddef}
 
 
@@ -2524,8 +2486,7 @@
 \see \wref{core:NEGATE}{NEGATE},
 	\wref{core:0=}{0=}.
 
-	\begin{defer}
-	\rationale % A.6.1.1720 INVERT
+	\begin{rationale} % A.6.1.1720 INVERT
 		The word \texttt{NOT} was originally provided in Forth as a
 		flag operator to make control structures readable. Under its
 		intended usage the following two definitions would produce
@@ -2566,11 +2527,12 @@
 		that of negating the sense of a flag and that of doing a one's
 		complement operation --- are made available by \word{0=} and
 		\word{INVERT}, respectively.
+	\end{rationale}
 
-	\testing
-		\{ 0S \word{INVERT} -> 1S \} \\
-		\{ 1S \word{INVERT} -> 0S \}
-	\end{defer}
+	\begin{testing} % T.6.1.1720 INVERT
+		\test{0S \word{INVERT}}{1S} \\
+		\test{1S \word{INVERT}}{0S}
+	\end{testing}
 \end{worddef}
 
 
@@ -2586,8 +2548,7 @@
 	ambiguous condition exists if the loop control parameters of
 	the next-outer loop, \param{loop-sys_1}, are unavailable.
 
-	\begin{defer}
-	\rationale % A.6.1.1730 J
+	\begin{rationale} % A.6.1.1730 J
 		\word{J} may only be used with a nested
 		\word{DO} {\ldots} \word{LOOP},
 		\word{DO} {\ldots} \word{+LOOP},
@@ -2602,18 +2563,19 @@
 				\word{LOOP}
 			{\ldots} \word{+LOOP}
 		{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GD3 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} \word{LOOP} \word{;} -> \} \\
-		\{          4        1 GD3 -> 1 2 3    \} \\
-		\{          2       -1 GD3 -> -1 0 1   \} \\
-		\{ MID-UINT+1 MID-UINT GD3 -> MID-UINT \}
+	\begin{testing} % T.6.1.1730 J
+		\test{\word{:} GD3 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} \word{LOOP} \word{;}}{} \\
+		\test{         4        1 GD3}{ 1 2 3  } \\
+		\test{         2       -1 GD3}{-1 0 1  } \\
+		\test{MID-UINT+1 MID-UINT GD3}{MID-UINT}
 
-		\{ \word{:} GD4 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} -1 \word{+LOOP} \word{;} -> \} \\
-		\{        1          4 GD4 -> 4 3 2 1             \} \\
-		\{       -1          2 GD4 -> 2 1 0 -1            \} \\
-		\{ MID-UINT MID-UINT+1 GD4 -> MID-UINT+1 MID-UINT \}
-	\end{defer}
+		\test{\word{:} GD4 \word{DO} 1 0 \word{DO} \word{J} \word{LOOP} -1 \word{+LOOP} \word{;}}{} \\
+		\test{       1          4 GD4}{4 3 2 1            } \\
+		\test{      -1          2 GD4}{2 1 0 -1           } \\
+		\test{MID-UINT MID-UINT+1 GD4}{MID-UINT+1 MID-UINT}
+	\end{testing}
 \end{worddef}
 
 
@@ -2636,10 +2598,6 @@
 
 \see \wref{facility:EKEY}{EKEY},
 	\wref{facility:EKEYq}{KEY?}.
-
-	\begin{defer}
-	\testing* None.
-	\end{defer}
 \end{worddef}
 
 
@@ -2660,8 +2618,7 @@
 	\wref{core:+LOOP}{+LOOP},
 	\wref{core:LOOP}{LOOP}.
 
-	\begin{defer}
-	\rationale % A.6.1.1760 LEAVE
+	\begin{rationale} % A.6.1.1760 LEAVE
 		Note that \word{LEAVE} immediately exits the loop. No words
 		following \word{LEAVE} within the loop will be executed.
 		Typical use:
@@ -2671,15 +2628,16 @@
 				{\ldots} \word{LEAVE}
 			\word{THEN}
 		\word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GD5 123 \word{SWAP} 0 \word{DO}
-			\word{I} 4 \word{more} \word{IF} \word{DROP} 234 \word{LEAVE} \word{THEN} \word{LOOP}
-		\word{;} -> \} \\
-		\{ 1 GD5 -> 123 \} \\
-		\{ 5 GD5 -> 123 \} \\
-		\{ 6 GD5 -> 234 \}
-	\end{defer}
+	\begin{testing} % T.6.1.1760 LEAVE
+		\test{\word{:} GD5 123 \word{SWAP} 0 \word{DO} \\
+		\tab[2] \word{I} 4 \word{more} \word{IF} \word{DROP} 234 \word{LEAVE} \word{THEN} \\
+		\tab \word{LOOP} \word{;}}{} \\
+		\test{1 GD5}{123} \\
+		\test{5 GD5}{123} \\
+		\test{6 GD5}{234}
+	\end{testing}
 \end{worddef}
 
 
@@ -2697,17 +2655,17 @@
 
 	Place \param{x} on the stack.
 
-	\begin{defer}
-	\rationale % A.6.1.1780 LITERAL
+	\begin{rationale} % A.6.1.1780 LITERAL
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{[} \texttt{x} \word{]} \word{LITERAL}
 			{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GT3 GT2 \word{LITERAL} \word{;} -> \} \\
-		\{ GT3 -> \word{'} GT1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.1780 LITERAL
+		\test{\word{:} GT3 GT2 \word{LITERAL} \word{;}}{} \\
+		\test{GT3}{\word{'} GT1}
+	\end{testing}
 \end{worddef}
 
 
@@ -2738,8 +2696,7 @@
 	\wref{core:I}{I},
 	\wref{core:LEAVE}{LEAVE}.
 
-	\begin{defer}
-	\rationale % A.6.1.1800 LOOP
+	\begin{rationale} % A.6.1.1800 LOOP
 		Typical use:
 
 		\tab \word{:} \texttt{X} {\ldots}
@@ -2755,13 +2712,14 @@
 				{\ldots}
 			\word{LOOP}
 		{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GD1 \word{DO} \word{I} \word{LOOP} \word{;} -> \} \\
-		\{          4        1 GD1 ->  1 2 3 \} \\
-		\{          2       -1 GD1 -> -1 0 1 \} \\
-		\{ MID-UINT+1 MID-UINT GD1 -> MID-UINT \}
-	\end{defer}
+	\begin{testing} % T.6.1.1800 LOOP
+		\test{\word{:} GD1 \word{DO} \word{I} \word{LOOP} \word{;}}{} \\
+		\test{         4        1 GD1}{ 1 2 3  } \\
+		\test{         2       -1 GD1}{-1 0 1  } \\
+		\test{MID-UINT+1 MID-UINT GD1}{MID-UINT}
+	\end{testing}
 \end{worddef}
 
 
@@ -2774,15 +2732,14 @@
 	exists if \param{u} is greater than or equal to the number of
 	bits in a cell.
 
-	\begin{defer}
-	\testing
-		\{   1 0 \word{LSHIFT} -> 1 \} \\
-		\{   1 1 \word{LSHIFT} -> 2 \} \\
-		\{   1 2 \word{LSHIFT} -> 4 \} \\
-		\{   1 F \word{LSHIFT} -> 8000 \} \tab[4] \word{bs} BIGGEST GUARANTEED SHIFT \\
-		\{  1S 1 \word{LSHIFT} 1 \word{XOR} -> 1S \} \\
-		\{ MSB 1 \word{LSHIFT} -> 0 \}
-	\end{defer}
+	\begin{testing} % T.6.1.1805 LSHIFT
+		\test{  1 0 \word{LSHIFT}}{   1} \\
+		\test{  1 1 \word{LSHIFT}}{   2} \\
+		\test{  1 2 \word{LSHIFT}}{   4} \\
+		\test{  1 F \word{LSHIFT}}{8000} \tab[2] \word{bs} BIGGEST GUARANTEED SHIFT \\
+		\test{ 1S 1 \word{LSHIFT} 1 \word{XOR}}{1S} \\
+		\test{MSB 1 \word{LSHIFT}}{   0}
+	\end{testing}
 \end{worddef}
 
 
@@ -2791,32 +2748,32 @@
 
 	\param{d} is the signed product of \param{n_1} times \param{n_2}.
 
-	\begin{defer}
-	\rationale % A.6.1.1810 M*
+	\begin{rationale} % A.6.1.1810 M*
 		This word is a useful early step in calculation, going to
 		extra precision conveniently. It has been in use since the
 		Forth systems of the early 1970's.
+	\end{rationale}
 
-	\testing
-		\{       0       0 \word{M*} ->       0 \word{StoD} \} \\
-		\{       0       1 \word{M*} ->       0 \word{StoD} \} \\
-		\{       1       0 \word{M*} ->       0 \word{StoD} \} \\
-		\{       1       2 \word{M*} ->       2 \word{StoD} \} \\
-		\{       2       1 \word{M*} ->       2 \word{StoD} \} \\
-		\{       3       3 \word{M*} ->       9 \word{StoD} \} \\
-		\{      -3       3 \word{M*} ->      -9 \word{StoD} \} \\
-		\{       3      -3 \word{M*} ->      -9 \word{StoD} \} \\
-		\{      -3      -3 \word{M*} ->       9 \word{StoD} \} \\
-		\{       0 MIN-INT \word{M*} ->       0 \word{StoD} \} \\
-		\{       1 MIN-INT \word{M*} -> MIN-INT \word{StoD} \} \\
-		\{       2 MIN-INT \word{M*} ->       0 1S \} \\
-		\{       0 MAX-INT \word{M*} ->       0 \word{StoD} \} \\
-		\{       1 MAX-INT \word{M*} -> MAX-INT \word{StoD} \} \\
-		\{       2 MAX-INT \word{M*} -> MAX-INT     1 \word{LSHIFT} 0 \} \\
-		\{ MIN-INT MIN-INT \word{M*} ->       0 MSB 1 \word{RSHIFT} \} \\
-		\{ MAX-INT MIN-INT \word{M*} ->     MSB MSB \word{2/} \} \\
-		\{ MAX-INT MAX-INT \word{M*} ->       1 MSB \word{2/} \word{INVERT} \}
-	\end{defer}
+	\begin{testing} % T.6.1.1810 M*
+		\test{      0       0 \word{M*}}{      0 \word{StoD}} \\
+		\test{      0       1 \word{M*}}{      0 \word{StoD}} \\
+		\test{      1       0 \word{M*}}{      0 \word{StoD}} \\
+		\test{      1       2 \word{M*}}{      2 \word{StoD}} \\
+		\test{      2       1 \word{M*}}{      2 \word{StoD}} \\
+		\test{      3       3 \word{M*}}{      9 \word{StoD}} \\
+		\test{     -3       3 \word{M*}}{     -9 \word{StoD}} \\
+		\test{      3      -3 \word{M*}}{     -9 \word{StoD}} \\
+		\test{     -3      -3 \word{M*}}{      9 \word{StoD}} \\
+		\test{      0 MIN-INT \word{M*}}{      0 \word{StoD}} \\
+		\test{      1 MIN-INT \word{M*}}{MIN-INT \word{StoD}} \\
+		\test{      2 MIN-INT \word{M*}}{      0 1S } \\
+		\test{      0 MAX-INT \word{M*}}{      0 \word{StoD}} \\
+		\test{      1 MAX-INT \word{M*}}{MAX-INT \word{StoD}} \\
+		\test{      2 MAX-INT \word{M*}}{MAX-INT     1 \word{LSHIFT} 0} \\
+		\test{MIN-INT MIN-INT \word{M*}}{      0 MSB 1 \word{RSHIFT}  } \\
+		\test{MAX-INT MIN-INT \word{M*}}{    MSB MSB \word{2/}        } \\
+		\test{MAX-INT MAX-INT \word{M*}}{      1 MSB \word{2/} \word{INVERT} }
+	\end{testing}
 \end{worddef}
 
 
@@ -2825,25 +2782,24 @@
 
 	\param{n_3} is the greater of \param{n_1} and \param{n_2}.
 
-	\begin{defer}
-	\testing
-		\{       0       1 \word{MAX} ->       1 \} \\
-		\{       1       2 \word{MAX} ->       2 \} \\
-		\{      -1       0 \word{MAX} ->       0 \} \\
-		\{      -1       1 \word{MAX} ->       1 \} \\
-		\{ MIN-INT       0 \word{MAX} ->       0 \} \\
-		\{ MIN-INT MAX-INT \word{MAX} -> MAX-INT \} \\
-		\{       0 MAX-INT \word{MAX} -> MAX-INT \} \\
-		\{       0       0 \word{MAX} ->       0 \} \\
-		\{       1       1 \word{MAX} ->       1 \} \\
-		\{       1       0 \word{MAX} ->       1 \} \\
-		\{       2       1 \word{MAX} ->       2 \} \\
-		\{       0      -1 \word{MAX} ->       0 \} \\
-		\{       1      -1 \word{MAX} ->       1 \} \\
-		\{       0 MIN-INT \word{MAX} ->       0 \} \\
-		\{ MAX-INT MIN-INT \word{MAX} -> MAX-INT \} \\
-		\{ MAX-INT       0 \word{MAX} -> MAX-INT \} \\
-	\end{defer}
+	\begin{testing} % T.6.1.1870 MAX
+		\test{      0       1 \word{MAX}}{      1} \\
+		\test{      1       2 \word{MAX}}{      2} \\
+		\test{     -1       0 \word{MAX}}{      0} \\
+		\test{     -1       1 \word{MAX}}{      1} \\
+		\test{MIN-INT       0 \word{MAX}}{      0} \\
+		\test{MIN-INT MAX-INT \word{MAX}}{MAX-INT} \\
+		\test{      0 MAX-INT \word{MAX}}{MAX-INT} \\
+		\test{      0       0 \word{MAX}}{      0} \\
+		\test{      1       1 \word{MAX}}{      1} \\
+		\test{      1       0 \word{MAX}}{      1} \\
+		\test{      2       1 \word{MAX}}{      2} \\
+		\test{      0      -1 \word{MAX}}{      0} \\
+		\test{      1      -1 \word{MAX}}{      1} \\
+		\test{      0 MIN-INT \word{MAX}}{      0} \\
+		\test{MAX-INT MIN-INT \word{MAX}}{MAX-INT} \\
+		\test{MAX-INT       0 \word{MAX}}{MAX-INT} \\
+	\end{testing}
 \end{worddef}
 
 
@@ -2852,25 +2808,24 @@
 
 	\param{n_3} is the lesser of \param{n_1} and \param{n_2}.
 
-	\begin{defer}
-	\testing
-		\{       0       1 \word{MIN} ->       0 \} \\
-		\{       1       2 \word{MIN} ->       1 \} \\
-		\{      -1       0 \word{MIN} ->      -1 \} \\
-		\{      -1       1 \word{MIN} ->      -1 \} \\
-		\{ MIN-INT       0 \word{MIN} -> MIN-INT \} \\
-		\{ MIN-INT MAX-INT \word{MIN} -> MIN-INT \} \\
-		\{       0 MAX-INT \word{MIN} ->       0 \} \\
-		\{       0       0 \word{MIN} ->       0 \} \\
-		\{       1       1 \word{MIN} ->       1 \} \\
-		\{       1       0 \word{MIN} ->       0 \} \\
-		\{       2       1 \word{MIN} ->       1 \} \\
-		\{       0      -1 \word{MIN} ->      -1 \} \\
-		\{       1      -1 \word{MIN} ->      -1 \} \\
-		\{       0 MIN-INT \word{MIN} -> MIN-INT \} \\
-		\{ MAX-INT MIN-INT \word{MIN} -> MIN-INT \} \\
-		\{ MAX-INT       0 \word{MIN} ->       0 \} \\
-	\end{defer}
+	\begin{testing} % T.6.1.1880 MIN
+		\test{      0       1 \word{MIN}}{      0} \\
+		\test{      1       2 \word{MIN}}{      1} \\
+		\test{     -1       0 \word{MIN}}{     -1} \\
+		\test{     -1       1 \word{MIN}}{     -1} \\
+		\test{MIN-INT       0 \word{MIN}}{MIN-INT} \\
+		\test{MIN-INT MAX-INT \word{MIN}}{MIN-INT} \\
+		\test{      0 MAX-INT \word{MIN}}{      0} \\
+		\test{      0       0 \word{MIN}}{      0} \\
+		\test{      1       1 \word{MIN}}{      1} \\
+		\test{      1       0 \word{MIN}}{      0} \\
+		\test{      2       1 \word{MIN}}{      1} \\
+		\test{      0      -1 \word{MIN}}{     -1} \\
+		\test{      1      -1 \word{MIN}}{     -1} \\
+		\test{      0 MIN-INT \word{MIN}}{MIN-INT} \\
+		\test{MAX-INT MIN-INT \word{MIN}}{MIN-INT} \\
+		\test{MAX-INT       0 \word{MIN}}{      0} \\
+	\end{testing}
 \end{worddef}
 
 
@@ -2888,33 +2843,33 @@
 
 \see \xref[3.2.2.1 Integer division]{usage:div}.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.1890 MOD
+		\ttfamily
 		IFFLOORED \tab 	\word{:} TMOD T/MOD \word{DROP} \word{;} \\
-		IFSYM \tab[2.6]	\word{:} TMOD T/MOD \word{DROP} \word{;}
+		IFSYM \tab[2.8]	\word{:} TMOD T/MOD \word{DROP} \word{;}
 
-		\{       0       1 \word{MOD} ->       0       1 TMOD \} \\
-		\{       1       1 \word{MOD} ->       1       1 TMOD \} \\
-		\{       2       1 \word{MOD} ->       2       1 TMOD \} \\
-		\{      -1       1 \word{MOD} ->      -1       1 TMOD \} \\
-		\{      -2       1 \word{MOD} ->      -2       1 TMOD \} \\
-		\{       0      -1 \word{MOD} ->       0      -1 TMOD \} \\
-		\{       1      -1 \word{MOD} ->       1      -1 TMOD \} \\
-		\{       2      -1 \word{MOD} ->       2      -1 TMOD \} \\
-		\{      -1      -1 \word{MOD} ->      -1      -1 TMOD \} \\
-		\{      -2      -1 \word{MOD} ->      -2      -1 TMOD \} \\
-		\{       2       2 \word{MOD} ->       2       2 TMOD \} \\
-		\{      -1      -1 \word{MOD} ->      -1      -1 TMOD \} \\
-		\{      -2      -2 \word{MOD} ->      -2      -2 TMOD \} \\
-		\{       7       3 \word{MOD} ->       7       3 TMOD \} \\
-		\{       7      -3 \word{MOD} ->       7      -3 TMOD \} \\
-		\{      -7       3 \word{MOD} ->      -7       3 TMOD \} \\
-		\{      -7      -3 \word{MOD} ->      -7      -3 TMOD \} \\
-		\{ MAX-INT       1 \word{MOD} -> MAX-INT       1 TMOD \} \\
-		\{ MIN-INT       1 \word{MOD} -> MIN-INT       1 TMOD \} \\
-		\{ MAX-INT MAX-INT \word{MOD} -> MAX-INT MAX-INT TMOD \} \\
-		\{ MIN-INT MIN-INT \word{MOD} -> MIN-INT MIN-INT TMOD \}
-	\end{defer}
+		\test{      0       1 \word{MOD}}{      0       1 TMOD} \\
+		\test{      1       1 \word{MOD}}{      1       1 TMOD} \\
+		\test{      2       1 \word{MOD}}{      2       1 TMOD} \\
+		\test{     -1       1 \word{MOD}}{     -1       1 TMOD} \\
+		\test{     -2       1 \word{MOD}}{     -2       1 TMOD} \\
+		\test{      0      -1 \word{MOD}}{      0      -1 TMOD} \\
+		\test{      1      -1 \word{MOD}}{      1      -1 TMOD} \\
+		\test{      2      -1 \word{MOD}}{      2      -1 TMOD} \\
+		\test{     -1      -1 \word{MOD}}{     -1      -1 TMOD} \\
+		\test{     -2      -1 \word{MOD}}{     -2      -1 TMOD} \\
+		\test{      2       2 \word{MOD}}{      2       2 TMOD} \\
+		\test{     -1      -1 \word{MOD}}{     -1      -1 TMOD} \\
+		\test{     -2      -2 \word{MOD}}{     -2      -2 TMOD} \\
+		\test{      7       3 \word{MOD}}{      7       3 TMOD} \\
+		\test{      7      -3 \word{MOD}}{      7      -3 TMOD} \\
+		\test{     -7       3 \word{MOD}}{     -7       3 TMOD} \\
+		\test{     -7      -3 \word{MOD}}{     -7      -3 TMOD} \\
+		\test{MAX-INT       1 \word{MOD}}{MAX-INT       1 TMOD} \\
+		\test{MIN-INT       1 \word{MOD}}{MIN-INT       1 TMOD} \\
+		\test{MAX-INT MAX-INT \word{MOD}}{MAX-INT MAX-INT TMOD} \\
+		\test{MIN-INT MIN-INT \word{MOD}}{MIN-INT MIN-INT TMOD}
+	\end{testing}
 \end{worddef}
 
 
@@ -2931,8 +2886,7 @@
 \see	\wref{string:CMOVE}{CMOVE},
 	\wref{string:CMOVEtop}{CMOVE>}.
 
-	\begin{defer}
-	\rationale % A.6.1.1900 MOVE
+	\begin{rationale} % A.6.1.1900 MOVE
 		\word[string]{CMOVE} and \word[string]{CMOVEtop} are the primary
 		move operators in Forth 83. They specify a behavior for moving
 		that implies propagation if the move is suitably invoked. In
@@ -2943,26 +2897,27 @@
 		\word{MOVE} has been defined and added to the Core word set,
 		and \word[string]{CMOVE} and \word[string]{CMOVEtop} have been
 		moved to the String word set.
+	\end{rationale}
 
-	\testing
-		\{ FBUF FBUF 3 \word{CHARS} \word{MOVE} -> \} \tab[3] \word{bs} BIZARRE SPECIAL CASE \\
-		\{ SEEBUF -> 20 20 20 \}
+	\begin{testing} % T.6.1.1900 MOVE
+		\test{FBUF FBUF 3 \word{CHARS} \word{MOVE}}{} \hfill \word{bs} BIZARRE SPECIAL CASE \\
+		\test{SEEBUF}{20 20 20}
 
-		\{ SBUF FBUF 0 \word{CHARS} \word{MOVE} -> \} \\
-		\{ SEEBUF -> 20 20 20 \}
+		\test{SBUF FBUF 0 \word{CHARS} \word{MOVE}}{} \\
+		\test{SEEBUF}{20 20 20}
 
-		\{ SBUF FBUF 1 \word{CHARS} \word{MOVE} -> \} \\
-		\{ SEEBUF -> 12 20 20 \}
+		\test{SBUF FBUF 1 \word{CHARS} \word{MOVE}}{} \\
+		\test{SEEBUF}{12 20 20}
 
-		\{ SBUF FBUF 3 \word{CHARS} \word{MOVE} -> \} \\
-		\{ SEEBUF -> 12 34 56 \}
+		\test{SBUF FBUF 3 \word{CHARS} \word{MOVE}}{} \\
+		\test{SEEBUF}{12 34 56}
 
-		\{ FBUF FBUF \word{CHAR+} 2 \word{CHARS} \word{MOVE} -> \} \\
-		\{ SEEBUF -> 12 12 34 \}
+		\test{FBUF FBUF \word{CHAR+} 2 \word{CHARS} \word{MOVE}}{} \\
+		\test{SEEBUF}{12 12 34}
 
-		\{ FBUF \word{CHAR+} FBUF 2 \word{CHARS} \word{MOVE} -> \} \\
-		\{ SEEBUF -> 12 34 34 \}
-	\end{defer}
+		\test{FBUF \word{CHAR+} FBUF 2 \word{CHARS} \word{MOVE}}{} \\
+		\test{SEEBUF}{12 34 34}
+	\end{testing}
 \end{worddef}
 
 
@@ -2974,15 +2929,13 @@
 \see \wref{core:INVERT}{INVERT},
 	\wref{core:0=}{0=}.
 
-
-	\begin{defer}
-	\testing
-		\{  0 \word{NEGATE} ->  0 \} \\
-		\{  1 \word{NEGATE} -> -1 \} \\
-		\{ -1 \word{NEGATE} ->  1 \} \\
-		\{  2 \word{NEGATE} -> -2 \} \\
-		\{ -2 \word{NEGATE} ->  2 \}
-	\end{defer}
+	\begin{testing} % T.6.1.1910 NEGATE
+		\test{ 0 \word{NEGATE}}{ 0} \\
+		\test{ 1 \word{NEGATE}}{-1} \\
+		\test{-1 \word{NEGATE}}{ 1} \\
+		\test{ 2 \word{NEGATE}}{-2} \\
+		\test{-2 \word{NEGATE}}{ 2}
+	\end{testing}
 \end{worddef}
 
 
@@ -2992,13 +2945,12 @@
 	\param{x_3} is the bit-by-bit inclusive-or of \param{x_1} with
 	\param{x_2}.
 
-	\begin{defer}
-	\testing
-		\{ 0S 0S \word{OR} -> 0S \} \\
-		\{ 0S 1S \word{OR} -> 1S \} \\
-		\{ 1S 0S \word{OR} -> 1S \} \\
-		\{ 1S 1S \word{OR} -> 1S \}
-	\end{defer}
+	\begin{testing} % T.6.1.1980 OR
+		\test{0S 0S \word{OR}}{0S} \\
+		\test{0S 1S \word{OR}}{1S} \\
+		\test{1S 0S \word{OR}}{1S} \\
+		\test{1S 1S \word{OR}}{1S}
+	\end{testing}
 \end{worddef}
 
 
@@ -3007,10 +2959,9 @@
 
 	Place a copy of \param{x_1} on top of the stack.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 \word{OVER} -> 1 2 1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.1990 OVER
+		\test{1 2 \word{OVER}}{1 2 1}
+	\end{testing}
 \end{worddef}
 
 
@@ -3028,8 +2979,7 @@
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.6.1.2033 POSTPONE
+	\begin{rationale} % A.6.1.2033 POSTPONE
 		Typical use:
 
 		\tab \word{:} \texttt{ENDIF}
@@ -3072,16 +3022,17 @@
 		\word{POSTPONE}. Additional discussion can be found in Hayes,
 		J.R., ``Postpone'', \emph{Proceedings of the 1989 Rochester
 		Forth Conference}.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GT4 \word{POSTPONE} GT1 \word{;} \word{IMMEDIATE} -> \} \\
-		\{ \word{:} GT5 GT4 \word{;} -> \} \\
-		\{ GT5 -> 123 \}
+	\begin{testing} % T.6.1.2033 POSTPONE
+		\test{\word{:} GT4 \word{POSTPONE} GT1 \word{;} \word{IMMEDIATE}}{} \\
+		\test{\word{:} GT5 GT4 \word{;}}{} \\
+		\test{GT5}{123}
 
-		\{ \word{:} GT6 345 \word{;} \word{IMMEDIATE} -> \} \\
-		\{ \word{:} GT7 \word{POSTPONE} GT6 \word{;} -> \} \\
-		\{ GT7 -> 345 \}
-	\end{defer}
+		\test{\word{:} GT6 345 \word{;} \word{IMMEDIATE}}{} \\
+		\test{\word{:} GT7 \word{POSTPONE} GT6 \word{;}}{} \\
+		\test{GT7}{345}
+	\end{testing}
 \end{worddef}
 
 
@@ -3102,10 +3053,6 @@
 	\end{itemize}
 
 \see \xref[3.4 The Forth text interpreter]{usage:command}.
-
-	\begin{defer}
-	\testing* None.
-	\end{defer}
 \end{worddef}
 
 
@@ -3126,10 +3073,9 @@
 	\wref{core:2Rfrom}{2R>},
 	\wref{core:2R@}{2R@}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:toR}{>R}.
-	\end{defer}
+	\begin{testing} % T.6.1.2060 R>
+		See \tref{core:toR}{>R}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3150,10 +3096,9 @@
 	\wref{core:2Rfrom}{2R>},
 	\wref{core:2R@}{2R@}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:toR}{>R}.
-	\end{defer}
+	\begin{testing} % T.6.1.2070 R@
+		See \tref{core:toR}{>R}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3171,8 +3116,7 @@
 \see \wref{core:DOES}{DOES>},
 	\wref{core:RECURSE}{RECURSE}.
 
-	\begin{defer}
-	\rationale % A.6.1.2120 RECURSE
+	\begin{rationale} % A.6.1.2120 RECURSE
 		Typical use:
 			\word{:} \texttt{X} {\ldots} \word{RECURSE} {\ldots} \word{;}
 
@@ -3195,17 +3139,18 @@
 		recursion makes unusually heavy use of both stacks and should
 		therefore be used with caution. See alternate definition in
 		\rref{core:REPEAT}{REPEAT}.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GI6 \word{p} N -{}- 0,1,..N ) \word{DUP} \word{IF}
-			\word{DUP} \word{toR} \word{1-} \word{RECURSE} \word{Rfrom}
-		\word{THEN} \word{;} -> \} \\
-		\{ 0 GI6 -> 0 \} \\
-		\{ 1 GI6 -> 0 1 \} \\
-		\{ 2 GI6 -> 0 1 2 \} \\
-		\{ 3 GI6 -> 0 1 2 3 \} \\
-		\{ 4 GI6 -> 0 1 2 3 4 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2120 RECURSE
+		\test{\word{:} GI6 \word{p} N -{}- 0,1,..N ) \\ \mbox{}
+		\tab[1.8] \word{DUP} \word{IF} \word{DUP} \word{toR} \word{1-} \word{RECURSE} \word{Rfrom}
+		\word{THEN} \word{;}}{} \\
+		\test{0 GI6}{0} \\
+		\test{1 GI6}{0 1} \\
+		\test{2 GI6}{0 1 2} \\
+		\test{3 GI6}{0 1 2 3} \\
+		\test{4 GI6}{0 1 2 3 4}
+	\end{testing}
 \end{worddef}
 
 
@@ -3229,8 +3174,7 @@
 \see \wref{core:BEGIN}{BEGIN},
 	\wref{core:WHILE}{WHILE}.
 
-	\begin{defer}
-	\rationale % A.6.1.2140 REPEAT
+	\begin{rationale} % A.6.1.2140 REPEAT
 		Typical use:
 		\begin{quote}\ttfamily
 			\word{:} FACTORIAL \word{p} +n1 -{}- +n2 ) \\
@@ -3242,10 +3186,11 @@
 			\tab \word{REPEAT} \word{DROP} \\
 			\word{;}
 		\end{quote}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:WHILE}{WHILE}
-	\end{defer}
+	\begin{testing} % T.6.1.2140 REPEAT
+		See \tref{core:WHILE}{WHILE}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3254,10 +3199,9 @@
 
 	Rotate the top three stack entries.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 3 \word{ROT} -> 2 3 1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2160 ROT
+		\test{1 2 3 \word{ROT}}{2 3 1}
+	\end{testing}
 \end{worddef}
 
 
@@ -3270,16 +3214,15 @@
 	exists if \param{u} is greater than or equal to the number of
 	bits in a cell.
 
-	\begin{defer}
-	\testing
-		\{ 1 0 \word{RSHIFT} -> 1 \} \\
-		\{ 1 1 \word{RSHIFT} -> 0 \} \\
-		\{ 2 1 \word{RSHIFT} -> 1 \} \\
-		\{ 4 2 \word{RSHIFT} -> 1 \} \\
-		\{ 8000 F \word{RSHIFT} -> 1 \}					\tab[6.6] \word{bs} BIGGEST \\
-		\{ MSB 1 \word{RSHIFT} MSB \word{AND} -> 0 \}	\tab[3] \word{bs} RSHIFT ZERO FILLS MSBS \\
-		\{ MSB 1 \word{RSHIFT} \word{2*} -> MSB \}
-	\end{defer}
+	\begin{testing} % T.6.1.2162 RSHIFT
+		\test{   1 0 \word{RSHIFT}}{1} \\
+		\test{   1 1 \word{RSHIFT}}{0} \\
+		\test{   2 1 \word{RSHIFT}}{1} \\
+		\test{   4 2 \word{RSHIFT}}{1} \\
+		\test{8000 F \word{RSHIFT}}{1}					\tab[5.4] \word{bs} BIGGEST \\
+		\test{ MSB 1 \word{RSHIFT} MSB \word{AND}}{  0} \word{bs} RSHIFT ZERO FILLS MSBS \\
+		\test{ MSB 1 \word{RSHIFT}     \word{2*} }{MSB}
+	\end{testing}
 \end{worddef}
 
 
@@ -3305,8 +3248,7 @@
 	\wref{core:Cq}{C"},
 	\wref{file:Sq}{S"}.
 
-	\begin{defer}
-	\rationale % A.6.1.2165 S"
+	\begin{rationale} % A.6.1.2165 S"
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{Sq} \emph{ccc}\texttt{"}
@@ -3320,12 +3262,13 @@
 		providing two words, \word{Sq} and the Core Extension word
 		\word{Cq} so that users may have whichever behavior they expect
 		with a simple renaming operation.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GC4 \word{Sq} XY" \word{;} -> \} \\
-		\{ GC4 \word{SWAP} \word{DROP} -> 2 \} \\
-		\{ GC4 \word{DROP} \word{DUP} \word{C@} \word{SWAP} \word{CHAR+} \word{C@} -> 58 59 \}
-	\end{defer}
+	\begin{testing} % A.6.1.2165 S"
+		\test{\word{:} GC4 \word{Sq} XY" \word{;}}{ } \\
+		\test{GC4 \word{SWAP} \word{DROP} }{2} \\
+		\test{GC4 \word{DROP} \word{DUP} \word{C@} \word{SWAP} \word{CHAR+} \word{C@}}{58 59}
+	\end{testing}
 \end{worddef}
 
 
@@ -3335,16 +3278,15 @@
 	Convert the number \param{n} to the double-cell number \param{d}
 	with the same numerical value.
 
-	\begin{defer}
-	\testing
-		\{       0 \word{StoD} ->       0  0 \} \\
-		\{       1 \word{StoD} ->       1  0 \} \\
-		\{       2 \word{StoD} ->       2  0 \} \\
-		\{      -1 \word{StoD} ->      -1 -1 \} \\
-		\{      -2 \word{StoD} ->      -2 -1 \} \\
-		\{ MIN-INT \word{StoD} -> MIN-INT -1 \} \\
-		\{ MAX-INT \word{StoD} -> MAX-INT  0 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2170 S>D
+		\test{      0 \word{StoD}}{      0  0} \\
+		\test{      1 \word{StoD}}{      1  0} \\
+		\test{      2 \word{StoD}}{      2  0} \\
+		\test{     -1 \word{StoD}}{     -1 -1} \\
+		\test{     -2 \word{StoD}}{     -2 -1} \\
+		\test{MIN-INT \word{StoD}}{MIN-INT -1} \\
+		\test{MAX-INT \word{StoD}}{MAX-INT  0}
+	\end{testing}
 \end{worddef}
 
 
@@ -3356,11 +3298,11 @@
 	if \word{SIGN} executes outside of a \word{num-start} \word{num-end}
 	delimited number conversion.
 
-	\begin{defer}
-	\testing
+	\begin{testing} % T.6.1.2210 SIGN
+		\ttfamily
 		\word{:} GP2  \word{num-start} -1 \word{SIGN} 0 \word{SIGN} -1 \word{SIGN} 0 0 \word{num-end} \word{Sq} -{}-" S= \word{;} \\
-		\{ GP2 -> <TRUE> \}
-	\end{defer}
+		\test{GP2}{<TRUE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -3377,8 +3319,7 @@
 	\wref{core:FM/MOD}{FM/MOD},
 	\wref{core:UM/MOD}{UM/MOD}.
 
-	\begin{defer}
-	\rationale % A.6.1.2214 SM/REM
+	\begin{rationale} % A.6.1.2214 SM/REM
 		See the previous discussion of division under \word{FM/MOD}.
 		\word{SM/REM} is the symmetric-division primitive, which allows
 		programs to define the following symmetric-division operators:
@@ -3404,39 +3345,40 @@
 				*/-REM \word{SWAP} \word{DROP}
 			\word{;}
 		\end{quote}
+	\end{rationale}
 
-	\testing
-		\{       0 \word{StoD}             1 \word{SM/REM} ->  0       0 \} \\
-		\{       1 \word{StoD}             1 \word{SM/REM} ->  0       1 \} \\
-		\{       2 \word{StoD}             1 \word{SM/REM} ->  0       2 \} \\
-		\{      -1 \word{StoD}             1 \word{SM/REM} ->  0      -1 \} \\
-		\{      -2 \word{StoD}             1 \word{SM/REM} ->  0      -2 \} \\
-		\{       0 \word{StoD}            -1 \word{SM/REM} ->  0       0 \} \\
-		\{       1 \word{StoD}            -1 \word{SM/REM} ->  0      -1 \} \\
-		\{       2 \word{StoD}            -1 \word{SM/REM} ->  0      -2 \} \\
-		\{      -1 \word{StoD}            -1 \word{SM/REM} ->  0       1 \} \\
-		\{      -2 \word{StoD}            -1 \word{SM/REM} ->  0       2 \} \\
-		\{       2 \word{StoD}             2 \word{SM/REM} ->  0       1 \} \\
-		\{      -1 \word{StoD}            -1 \word{SM/REM} ->  0       1 \} \\
-		\{      -2 \word{StoD}            -2 \word{SM/REM} ->  0       1 \} \\
-		\{       7 \word{StoD}             3 \word{SM/REM} ->  1       2 \} \\
-		\{       7 \word{StoD}            -3 \word{SM/REM} ->  1      -2 \} \\
-		\{      -7 \word{StoD}             3 \word{SM/REM} -> -1      -2 \} \\
-		\{      -7 \word{StoD}            -3 \word{SM/REM} -> -1       2 \} \\
-		\{ MAX-INT \word{StoD}             1 \word{SM/REM} ->  0 MAX-INT \} \\
-		\{ MIN-INT \word{StoD}             1 \word{SM/REM} ->  0 MIN-INT \} \\
-		\{ MAX-INT \word{StoD}       MAX-INT \word{SM/REM} ->  0       1 \} \\
-		\{ MIN-INT \word{StoD}       MIN-INT \word{SM/REM} ->  0       1 \} \\
-		\{      1S       1                 4 \word{SM/REM} ->  3 MAX-INT \} \\
-		\{       2 MIN-INT \word{M*}       2 \word{SM/REM} ->  0 MIN-INT \} \\
-		\{       2 MIN-INT \word{M*} MIN-INT \word{SM/REM} ->  0       2 \} \\
-		\{       2 MAX-INT \word{M*}       2 \word{SM/REM} ->  0 MAX-INT \} \\
-		\{       2 MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0       2 \} \\
-		\{ MIN-INT MIN-INT \word{M*} MIN-INT \word{SM/REM} ->  0 MIN-INT \} \\
-		\{ MIN-INT MAX-INT \word{M*} MIN-INT \word{SM/REM} ->  0 MAX-INT \} \\
-		\{ MIN-INT MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0 MIN-INT \} \\
-		\{ MAX-INT MAX-INT \word{M*} MAX-INT \word{SM/REM} ->  0 MAX-INT \}
-	\end{defer}
+	\begin{testing} % T.6.1.2214 SM/REM
+		\test{      0 \word{StoD}              1 \word{SM/REM}}{ 0       0} \\
+		\test{      1 \word{StoD}              1 \word{SM/REM}}{ 0       1} \\
+		\test{      2 \word{StoD}              1 \word{SM/REM}}{ 0       2} \\
+		\test{     -1 \word{StoD}              1 \word{SM/REM}}{ 0      -1} \\
+		\test{     -2 \word{StoD}              1 \word{SM/REM}}{ 0      -2} \\
+		\test{      0 \word{StoD}             -1 \word{SM/REM}}{ 0       0} \\
+		\test{      1 \word{StoD}             -1 \word{SM/REM}}{ 0      -1} \\
+		\test{      2 \word{StoD}             -1 \word{SM/REM}}{ 0      -2} \\
+		\test{     -1 \word{StoD}             -1 \word{SM/REM}}{ 0       1} \\
+		\test{     -2 \word{StoD}             -1 \word{SM/REM}}{ 0       2} \\
+		\test{      2 \word{StoD}              2 \word{SM/REM}}{ 0       1} \\
+		\test{     -1 \word{StoD}             -1 \word{SM/REM}}{ 0       1} \\
+		\test{     -2 \word{StoD}             -2 \word{SM/REM}}{ 0       1} \\
+		\test{      7 \word{StoD}              3 \word{SM/REM}}{ 1       2} \\
+		\test{      7 \word{StoD}             -3 \word{SM/REM}}{ 1      -2} \\
+		\test{     -7 \word{StoD}              3 \word{SM/REM}}{ 1      -2} \\
+		\test{     -7 \word{StoD}             -3 \word{SM/REM}}{-1       2} \\
+		\test{MAX-INT \word{StoD}              1 \word{SM/REM}}{ 0 MAX-INT} \\
+		\test{MIN-INT \word{StoD}              1 \word{SM/REM}}{ 0 MIN-INT} \\
+		\test{MAX-INT \word{StoD}        MAX-INT \word{SM/REM}}{ 0       1} \\
+		\test{MIN-INT \word{StoD}        MIN-INT \word{SM/REM}}{ 0       1} \\
+		\test{     1S 1                4 \word{SM/REM}}{ 3 MAX-INT} \\
+		\test{      2 MIN-INT \word{M*}       2 \word{SM/REM}}{ 0 MIN-INT} \\
+		\test{      2 MIN-INT \word{M*} MIN-INT \word{SM/REM}}{ 0       2} \\
+		\test{      2 MAX-INT \word{M*}       2 \word{SM/REM}}{ 0 MAX-INT} \\
+		\test{      2 MAX-INT \word{M*} MAX-INT \word{SM/REM}}{ 0       2} \\
+		\test{MIN-INT MIN-INT \word{M*} MIN-INT \word{SM/REM}}{ 0 MIN-INT} \\
+		\test{MIN-INT MAX-INT \word{M*} MIN-INT \word{SM/REM}}{ 0 MAX-INT} \\
+		\test{MIN-INT MAX-INT \word{M*} MAX-INT \word{SM/REM}}{ 0 MIN-INT} \\
+		\test{MAX-INT MAX-INT \word{M*} MAX-INT \word{SM/REM}}{ 0 MAX-INT}
+	\end{testing}
 \end{worddef}
 
 
@@ -3446,8 +3388,7 @@
 	\param{c-addr} is the address of, and \param{u} is the number of
 	characters in, the input buffer.
 
-	\begin{defer}
-	\rationale % A.6.1.2216 SOURCE
+	\begin{rationale} % A.6.1.2216 SOURCE
 		\word{SOURCE} simplifies the process of directly accessing the
 		input buffer by hiding the differences between its location
 		for different input sources. This also gives implementors more
@@ -3466,16 +3407,17 @@
 		\word{ELSE}
 			\word{TIB} \word{numTIB} \word{@}
 		\word{THEN}
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.2216 SOURCE
+		\ttfamily
 		\word{:} GS1 \word{Sq} \word{SOURCE}" \word{2DUP} \word{EVALUATE}
 			\word{toR} \word{SWAP} \word{toR} \word{=} \word{Rfrom} \word{Rfrom} \word{=} \word{;} \\
-		\{ GS1 -> <TRUE> <TRUE> \}
+		\test{GS1}{<TRUE> <TRUE>}
 
 		\word{:} GS4 \word{SOURCE} \word{toIN} \word{!} \word{DROP} \word{;} \\
-		\{ GS4 123 456 \\
-		-> \}
-	\end{defer}
+		\test{GS4 123 456 \\\mbox{}\tab[1.2]}{}
+	\end{testing}
 \end{worddef}
 
 
@@ -3484,10 +3426,9 @@
 
 	Display one space.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:EMIT}{EMIT}.
-	\end{defer}
+	\begin{testing} % T.6.1.2220 SPACE
+		See \tref{core:EMIT}{EMIT}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3496,10 +3437,9 @@
 
 	If \param{n} is greater than zero, display \param{n} spaces.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:EMIT}{EMIT}.
-	\end{defer}
+	\begin{testing} % T.6.1.2230 SPACES
+		See \tref{core:EMIT}{EMIT}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3533,8 +3473,7 @@
 	\wref{core::NONAME}{:NONAME},
 	\wref{tools:STATE}{STATE}.
 
-	\begin{defer}
-	\rationale % A.6.1.2250 STATE
+	\begin{rationale} % A.6.1.2250 STATE
 		Although
 		\word{EVALUATE},
 		\word[block]{LOAD},
@@ -3584,13 +3523,14 @@
 		these to affect \word{STATE}. These facts suggest that
 		implementations of \word{]} will do nothing but set \word{STATE}
 		and a single interpreter/compiler loop will monitor \word{STATE}.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GT8 \word{STATE} \word{@} \word{;} \word{IMMEDIATE} -> \} \\
-		\{ GT8 -> 0 \} \\
-		\{ \word{:} GT9 GT8 \word{LITERAL} \word{;} -> \} \\
-		\{ GT9 \word{0=} -> <FALSE> \}
-	\end{defer}
+	\begin{testing} % T.6.1.2250 STATE
+		\test{\word{:} GT8 \word{STATE} \word{@} \word{;} \word{IMMEDIATE}}{} \\
+		\test{GT8}{0} \\
+		\test{\word{:} GT9 GT8 \word{LITERAL} \word{;}}{} \\
+		\test{GT9 \word{0=}}{<FALSE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -3599,10 +3539,9 @@
 
 	Exchange the top two stack items.
 
-	\begin{defer}
-	\testing
-		\{ 1 2 \word{SWAP} -> 2 1 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2260 SWAP
+		\test{1 2 \word{SWAP}}{2 1}
+	\end{testing}
 \end{worddef}
 
 
@@ -3625,8 +3564,7 @@
 \see \wref{core:ELSE}{ELSE},
 	\wref{core:IF}{IF}.
 
-	\begin{defer}
-	\rationale % A.6.1.2270 THEN
+	\begin{rationale} % A.6.1.2270 THEN
 		Typical use:
 
 		\tab \word{:} \texttt{X} {\ldots}
@@ -3638,10 +3576,11 @@
 		\tab \word{:} \texttt{X} {\ldots}
 			\emph{test} \word{IF} {\ldots} \word{ELSE} {\ldots} \word{THEN}
 			{\ldots} \word{;}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:IF}{IF}.
-	\end{defer}
+	\begin{testing} % T.6.1.2270 THEN
+		See \tref{core:IF}{IF}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3661,10 +3600,9 @@
 
 \see \wref{core:EMIT}{EMIT}.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:EMIT}{EMIT}.
-	\end{defer}
+	\begin{testing} % T.6.1.2310 TYPE
+		See \tref{core:EMIT}{EMIT}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3673,10 +3611,9 @@
 
 	Display \param{u} in free field format.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:EMIT}{EMIT}.
-	\end{defer}
+	\begin{testing} % T.6.1.2320 U.
+		See \tref{core:EMIT}{EMIT}.
+	\end{testing}
 \end{worddef}
 
 
@@ -3688,21 +3625,20 @@
 
 \see \wref{core:less}{<}.
 
-	\begin{defer}
-	\testing
-		\{        0        1 \word{Uless} -> <TRUE>  \} \\
-		\{        1        2 \word{Uless} -> <TRUE>  \} \\
-		\{        0 MID-UINT \word{Uless} -> <TRUE>  \} \\
-		\{        0 MAX-UINT \word{Uless} -> <TRUE>  \} \\
-		\{ MID-UINT MAX-UINT \word{Uless} -> <TRUE>  \} \\
-		\{        0        0 \word{Uless} -> <FALSE> \} \\
-		\{        1        1 \word{Uless} -> <FALSE> \} \\
-		\{        1        0 \word{Uless} -> <FALSE> \} \\
-		\{        2        1 \word{Uless} -> <FALSE> \} \\
-		\{ MID-UINT        0 \word{Uless} -> <FALSE> \} \\
-		\{ MAX-UINT        0 \word{Uless} -> <FALSE> \} \\
-		\{ MAX-UINT MID-UINT \word{Uless} -> <FALSE> \}
-	\end{defer}
+	\begin{testing} % T.6.1.2340 U<
+		\test{       0        1 \word{Uless}}{<TRUE> } \\
+		\test{       1        2 \word{Uless}}{<TRUE> } \\
+		\test{       0 MID-UINT \word{Uless}}{<TRUE> } \\
+		\test{       0 MAX-UINT \word{Uless}}{<TRUE> } \\
+		\test{MID-UINT MAX-UINT \word{Uless}}{<TRUE> } \\
+		\test{       0        0 \word{Uless}}{<FALSE>} \\
+		\test{       1        1 \word{Uless}}{<FALSE>} \\
+		\test{       1        0 \word{Uless}}{<FALSE>} \\
+		\test{       2        1 \word{Uless}}{<FALSE>} \\
+		\test{MID-UINT        0 \word{Uless}}{<FALSE>} \\
+		\test{MAX-UINT        0 \word{Uless}}{<FALSE>} \\
+		\test{MAX-UINT MID-UINT \word{Uless}}{<FALSE>}
+	\end{testing}
 \end{worddef}
 
 
@@ -3712,21 +3648,20 @@
 	Multiply \param{u_1} by \param{u_2}, giving the unsigned double-cell
 	product \param{ud}. All values and arithmetic are unsigned.
 
-	\begin{defer}
-	\testing
-		\{ 0 0 \word{UM*} -> 0 0 \} \\
-		\{ 0 1 \word{UM*} -> 0 0 \} \\
-		\{ 1 0 \word{UM*} -> 0 0 \} \\
-		\{ 1 2 \word{UM*} -> 2 0 \} \\
-		\{ 2 1 \word{UM*} -> 2 0 \} \\
-		\{ 3 3 \word{UM*} -> 9 0 \}
+	\begin{testing} % T.6.1.2360 UM*
+		\test{0 0 \word{UM*}}{0 0} \\
+		\test{0 1 \word{UM*}}{0 0} \\
+		\test{1 0 \word{UM*}}{0 0} \\
+		\test{1 2 \word{UM*}}{2 0} \\
+		\test{2 1 \word{UM*}}{2 0} \\
+		\test{3 3 \word{UM*}}{9 0}
 
-		\{ MID-UINT+1 1 \word{RSHIFT} 2 \word{UM*} -> MID-UINT+1 0 \} \\
-		\{ MID-UINT+1 2 \word{UM*} -> 0 1 \} \\
-		\{ MID-UINT+1 4 \word{UM*} -> 0 2 \} \\
-		\{ 1S 2 \word{UM*} -> 1S 1 \word{LSHIFT} 1 \} \\
-		\{ MAX-UINT MAX-UINT \word{UM*} -> 1 1 \word{INVERT} \}
-	\end{defer}
+		\test{MID-UINT+1 1 \word{RSHIFT} 2 \word{UM*}}{ MID-UINT+1 0} \\
+		\test{MID-UINT+1          2 \word{UM*}}{          0 1} \\
+		\test{MID-UINT+1          4 \word{UM*}}{          0 2} \\
+		\test{        1S          2 \word{UM*}}{1S 1 \word{LSHIFT} 1} \\
+		\test{  MAX-UINT   MAX-UINT \word{UM*}}{   1 1 \word{INVERT}}
+	\end{testing}
 \end{worddef}
 
 
@@ -3743,16 +3678,15 @@
 	\wref{core:FM/MOD}{FM/MOD},
 	\wref{core:SM/REM}{SM/REM}.
 
-	\begin{defer}
-	\testing
-		\{        0                   0        1 \word{UM/MOD} -> 0        0 \} \\
-		\{        1                   0        1 \word{UM/MOD} -> 0        1 \} \\
-		\{        1                   0        2 \word{UM/MOD} -> 1        0 \} \\
-		\{        3                   0        2 \word{UM/MOD} -> 1        1 \} \\
-		\{ MAX-UINT        2 \word{UM*}        2 \word{UM/MOD} -> 0 MAX-UINT \} \\
-		\{ MAX-UINT        2 \word{UM*} MAX-UINT \word{UM/MOD} -> 0        2 \} \\
-		\{ MAX-UINT MAX-UINT \word{UM*} MAX-UINT \word{UM/MOD} -> 0 MAX-UINT \}
-	\end{defer}
+	\begin{testing} % T.6.1.2370 UM/MOD
+		\test{       0            0        1 \word{UM/MOD}}{0        0} \\
+		\test{       1            0        1 \word{UM/MOD}}{0        1} \\
+		\test{       1            0        2 \word{UM/MOD}}{1        0} \\
+		\test{       3            0        2 \word{UM/MOD}}{1        1} \\
+		\test{MAX-UINT        2 \word{UM*}        2 \word{UM/MOD}}{0 MAX-UINT} \\
+		\test{MAX-UINT        2 \word{UM*} MAX-UINT \word{UM/MOD}}{0        2} \\
+		\test{MAX-UINT MAX-UINT \word{UM*} MAX-UINT \word{UM/MOD}}{0 MAX-UINT}
+	\end{testing}
 \end{worddef}
 
 
@@ -3771,8 +3705,7 @@
 
 \see \xref[3.2.3.3 Return stack]{usage:returnstack}.
 
-	\begin{defer}
-	\rationale % A.6.1.2380 UNLOOP
+	\begin{rationale} % A.6.1.2380 UNLOOP
 		Typical use:
 		\begin{quote}
 			\word{:} \texttt{X} {\ldots} \\
@@ -3788,19 +3721,20 @@
 		\word{UNLOOP} as a function has been called \texttt{UNDO}.
 		\word{UNLOOP} is more indicative of the action: nothing gets
 		undone --- we simply stop doing it.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GD6 \word{p} PAT: {\small \{0 0\},\{0 0\}\{1 0\}\{1 1\},\{0 0\}\{1 0\}\{1 1\}\{2 0\}\{2 1\}\{2 2\}} ) \\
-			\tab[2] 0 \word{SWAP} 0 \word{DO} \\
-			\tab[3] \word{I} \word{1+} 0 \word{DO}
-				\word{I} \word{J} \word{+} 3 \word{=} \word{IF}
+	\begin{testing} % T.6.1.2380 UNLOOP
+		\test{\word{:} GD6 \word{p} PAT:{\small \{0 0\},\{0 0\}\{1 0\}\{1 1\},\{0 0\}\{1 0\}\{1 1\}\{2 0\}\{2 1\}\{2 2\}} ) \\
+			\tab[2.4] 0 \word{SWAP} 0 \word{DO} \\
+			\tab[3.6] \word{I} \word{1+} 0 \word{DO} \\
+			\tab[4.8] \word{I} \word{J} \word{+} 3 \word{=} \word{IF}
 					\word{I} \word{UNLOOP} \word{I} \word{UNLOOP} \word{EXIT} \word{THEN} \word{1+} \\
-			\tab[2] \word{LOOP} \\
-			\tab	\word{LOOP} \word{;} -> \} \\
-		\{ 1 GD6 -> 1 \} \\
-		\{ 2 GD6 -> 3 \} \\
-		\{ 3 GD6 -> 4 1 2 \}
-	\end{defer}
+			\tab[3.6] \word{LOOP} \\
+			\tab[2.4] \word{LOOP} \word{;}}{} \\
+		\test{1 GD6}{1} \\
+		\test{2 GD6}{3} \\
+		\test{3 GD6}{4 1 2}
+	\end{testing}
 \end{worddef}
 
 
@@ -3822,19 +3756,19 @@
 
 \see \wref{core:BEGIN}{BEGIN}.
 
-	\begin{defer}
-	\rationale % A.6.1.2390 UNTIL
+	\begin{rationale} % A.6.1.2390 UNTIL
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{BEGIN} {\ldots} \emph{test} \word{UNTIL}
 				{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GI4 \word{BEGIN} \word{DUP} \word{1+} \word{DUP} 5 \word{more} \word{UNTIL} \word{;} -> \} \\
-		\{ 3 GI4 -> 3 4 5 6 \} \\
-		\{ 5 GI4 -> 5 6 \} \\
-		\{ 6 GI4 -> 6 7 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2390 UNTIL
+		\test{\word{:} GI4 \word{BEGIN} \word{DUP} \word{1+} \word{DUP} 5 \word{more} \word{UNTIL} \word{;}}{} \\
+		\test{3 GI4}{3 4 5 6} \\
+		\test{5 GI4}{5 6} \\
+		\test{6 GI4}{6 7}
+	\end{testing}
 \end{worddef}
 
 
@@ -3857,16 +3791,16 @@
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.6.1.2410 VARIABLE
+	\begin{rationale} % A.6.1.2410 VARIABLE
 		Typical use:
 			{\ldots} \word{VARIABLE} \texttt{XYZ} {\ldots}
+	\end{rationale}
 
-	\testing
-		\{ \word{VARIABLE} V1 ->     \} \\
-		\{    123 V1 \word{!} ->     \} \\
-		\{        V1 \word{@} -> 123 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2410 VARIABLE
+		\test{\word{VARIABLE} V1}{   } \\
+		\test{   123 V1 \word{!}}{   } \\
+		\test{       V1 \word{@}}{123}
+	\end{testing}
 \end{worddef}
 
 
@@ -3890,31 +3824,31 @@
 	If all bits of \param{x} are zero, continue execution at the
 	location specified by the resolution of \param{orig}.
 
-	\begin{defer}
-	\rationale % A.6.1.2430 WHILE
+	\begin{rationale} % A.6.1.2430 WHILE
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{BEGIN} {\ldots}
 				\emph{test} \word{WHILE}
 				{\ldots} \word{REPEAT}
 			{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GI3 \word{BEGIN} \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \word{;} -> \} \\
-		\{ 0 GI3 -> 0 1 2 3 4 5 \} \\
-		\{ 4 GI3 -> 4 5 \} \\
-		\{ 5 GI3 -> 5 \} \\
-		\{ 6 GI3 -> 6 \}
+	\begin{testing} % T.6.1.2430 WHILE
+		\test{\word{:} GI3 \word{BEGIN} \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \word{;}}{} \\
+		\test{0 GI3}{0 1 2 3 4 5} \\
+		\test{4 GI3}{4 5} \\
+		\test{5 GI3}{5} \\
+		\test{6 GI3}{6}
 
-		\{ \word{:} GI5 \word{BEGIN} \word{DUP} 2 \word{more} \word{WHILE} \\
-		\tab[2] \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \\
-		\tab 123 \word{ELSE} 345 \word{THEN} \word{;} -> \} \\
-		\{ 1 GI5 -> 1 345 \} \\
-		\{ 2 GI5 -> 2 345 \} \\
-		\{ 3 GI5 -> 3 4 5 123 \} \\
-		\{ 4 GI5 -> 4 5 123 \} \\
-		\{ 5 GI5 -> 5 123 \}
-	\end{defer}
+		\test{\word{:} GI5 \word{BEGIN} \word{DUP} 2 \word{more} \word{WHILE} \\
+		\tab[2.4] \word{DUP} 5 \word{less} \word{WHILE} \word{DUP} \word{1+} \word{REPEAT} \\
+		\tab[2.4] 123 \word{ELSE} 345 \word{THEN} \word{;}}{} \\
+		\test{1 GI5}{1 345} \\
+		\test{2 GI5}{2 345} \\
+		\test{3 GI5}{3 4 5 123} \\
+		\test{4 GI5}{4 5 123} \\
+		\test{5 GI5}{5 123}
+	\end{testing}
 \end{worddef}
 
 
@@ -3942,17 +3876,17 @@
 \see \xref[3.3.3.6 Other transient regions]{usage:transient},
 	\xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.6.1.2450 WORD
+	\begin{rationale} % A.6.1.2450 WORD
 		Typical use: \emph{char} \word{WORD} \emph{ccc}\arg{char}
+	\end{rationale}
 
-	\testing
+	\begin{testing} % T.6.1.2450 WORD
+		\ttfamily
 		\word{:} GS3 \word{WORD} \word{COUNT} \word{SWAP} \word{C@} \word{;} \\
-		\{ \word{BL} GS3 HELLO -> 5 \word{CHAR} H \} \\
-		\{ \word{CHAR} " GS3 GOODBYE" -> 7 \word{CHAR} G \} \\
-		\{ BL GS3 \\
-		\word{DROP} -> 0 \} \tab[4] \word{bs} BLANK LINE RETURN ZERO-LENGTH STRING
-	\end{defer}
+		\test{\word{BL} GS3 HELLO}{5 \word{CHAR} H} \\
+		\test{\word{CHAR} " GS3 GOODBYE"}{7 \word{CHAR} G} \\
+		\test{BL GS3 \\\mbox{}   \word{DROP}}{0} \hfill \word{bs} BLANK LINE RETURN ZERO-LENGTH STRING
+	\end{testing}
 \end{worddef}
 
 
@@ -3962,13 +3896,12 @@
 	\param{x_3} is the bit-by-bit exclusive-or of \param{x_1} with
 	\param{x_2}.
 
-	\begin{defer}
-	\testing
-		\{ 0S 0S \word{XOR} -> 0S \} \\
-		\{ 0S 1S \word{XOR} -> 1S \} \\
-		\{ 1S 0S \word{XOR} -> 1S \} \\
-		\{ 1S 1S \word{XOR} -> 0S \}
-	\end{defer}
+	\begin{testing} % T.6.1.2490 XOR
+		\test{0S 0S \word{XOR}}{0S} \\
+		\test{0S 1S \word{XOR}}{1S} \\
+		\test{1S 0S \word{XOR}}{1S} \\
+		\test{1S 1S \word{XOR}}{0S}
+	\end{testing}
 \end{worddef}
 
 
@@ -3988,17 +3921,17 @@
 	\xref[3.4.5 Compilation]{usage:compilation},
 	\wref{core:]}{]}.
 
-	\begin{defer}
-	\rationale % A.6.1.2500 [
+	\begin{rationale} % A.6.1.2500 [
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{[} \texttt{4321} \word{]} \word{LITERAL}
 				{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GC3 \word{[} GC1 \word{]} \word{LITERAL} \word{;} -> \} \\
-		\{ GC3 -> 58 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2500 [
+		\test{\word{:} GC3 \word{[} GC1 \word{]} \word{LITERAL} \word{;}}{} \\
+		\test{GC3}{58}
+	\end{testing}
 \end{worddef}
 
 
@@ -4028,8 +3961,7 @@
 	\rref{core:POSTPONE}{POSTPONE},
 	\xref[Immediate]{diff:immediate}.
 
-	\begin{defer}
-	\rationale % A.6.1.2510 [']
+	\begin{rationale} % A.6.1.2510 [']
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{[']} \emph{name}
@@ -4037,11 +3969,12 @@
 
 		See:
 			\rref{core:FIND}{FIND}.
+	\end{rationale}
 
-	\testing
-		\{ \word{:} GT2 \word{[']} GT1 \word{;} \word{IMMEDIATE} -> \} \\
-		\{ GT2 \word{EXECUTE} -> 123 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2510 [']
+		\test{\word{:} GT2 \word{[']} GT1 \word{;} \word{IMMEDIATE}}{} \\
+		\test{GT2 \word{EXECUTE}}{123}
+	\end{testing}
 \end{worddef}
 
 
@@ -4065,19 +3998,19 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:CHAR}{CHAR}.
 
-	\begin{defer}
-	\rationale % A.6.1.2520 [CHAR]
+	\begin{rationale} % A.6.1.2520 [CHAR]
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{[CHAR]} \emph{c}
 				{\ldots} \word{;}
+	\end{rationale}
 
-	\testing
-		\{ : GC1 \word{[CHAR]} X     ; -> \} \\
-		\{ : GC2 \word{[CHAR]} HELLO ; -> \} \\
-		\{ GC1 -> 58 \} \\
-		\{ GC2 -> 48 \}
-	\end{defer}
+	\begin{testing} % T.6.1.2520 [CHAR]
+		\test{: GC1 \word{[CHAR]} X     ;}{} \\
+		\test{: GC2 \word{[CHAR]} HELLO ;}{} \\
+		\test{GC1}{58} \\
+		\test{GC2}{48}
+	\end{testing}
 \end{worddef}
 
 
@@ -4090,16 +4023,16 @@
 	\xref[3.4.5 Compilation]{usage:compilation},
 	\wref{core:[}{[}.
 
-	\begin{defer}
-	\rationale % A.6.1.2540 ]
+	\begin{rationale} % A.6.1.2540 ]
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{[} \texttt{4321} \word{]} \word{LITERAL}
 				{\ldots} \word{;}
+	\end{rationale}
 
-	\testing*
-		See \rref{core:[}{[}
-	\end{defer}
+	\begin{testing} % T.6.1.2540 ]
+		See \tref{core:[}{[}.
+	\end{testing}
 \end{worddef}
 
 
@@ -4108,9 +4041,14 @@
 
 % Output core-ext rationale to a seperate file
 
-\ifinlinebody\else
-	\Closesolutionfile{deferred}
-	\Opensolutionfile{deferred}[core-ext]
+\ifanswerfiles
+	\Closesolutionfile{rationale}
+%	\Closesolutionfile{testing}
+%	\Closesolutionfile{implementation}
+
+	\Opensolutionfile{rationale}[r-core-ext]
+%	\Opensolutionfile{testing}[t-core-ext]
+%	\Opensolutionfile{implementation}[i-core-ext]
 \fi
 
 
@@ -4124,11 +4062,10 @@
 	This word is obsolescent and is included as a concession to
 	existing implementations.
 
-	\begin{defer}
-	\rationale % A.6.2.0060 #TIB}
+	\begin{rationale} % A.6.2.0060 #TIB
 		The function of \word{numTIB} has been superseded by
 		\word{SOURCE}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4145,11 +4082,10 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:.q}{."}.
 
-	\begin{defer}
-	\rationale % A.6.2.0200 .
+	\begin{rationale} % A.6.2.0200 .
 		Typical use:
 			\word{.p} \emph{ccc}\texttt{)}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4161,10 +4097,9 @@
 	\param{n_1} is greater than \param{n_2}, all digits are displayed
 	with no leading spaces in a field as wide as necessary.
 
-	\begin{defer}
-	\rationale % A.6.2.0210 .R
+	\begin{rationale} % A.6.2.0210 .R
 		In \word{.R}, ``R'' is short for RIGHT.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4202,8 +4137,7 @@
 	\wref{core:2Rfrom}{2R>},
 	\wref{core:2R@}{2R@}.
 
-	\begin{defer}
-	\rationale % A.6.2.0340 2>R
+	\begin{rationale} % A.6.2.0340 2>R
 		Historically, \word{2toR} has been used to implement \word{DO}.
 		Hence the order of parameters on the return stack.
 
@@ -4212,7 +4146,7 @@
 		double-cell number may be transferred to the return stack and
 		still have the most significant cell accessible on the top of
 		the return stack.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4234,12 +4168,11 @@
 	\wref{core:2toR}{2>R},
 	\wref{core:2R@}{2R@}.
 
-	\begin{defer}
-	\rationale % A.6.2.0410 2R>
+	\begin{rationale} % A.6.2.0410 2R>
 		Note that \word{2Rfrom} is not equivalent to \word{Rfrom} \word{Rfrom}.
 		Instead, it mirrors the action of \word{2toR}
 		(see \ref{rat:core:2toR}).
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4296,8 +4229,7 @@
 	effects \param{i*x} and \param{j*x} represent arguments to
 	and results from \param{xt}, respectively.
 
-	\begin{defer}
-	\rationale % A.6.2.0455 :NONAME
+	\begin{rationale} % A.6.2.0455 :NONAME
 		\word{:NONAME} allows a user to create an execution token
 		with the semantics of a colon definition without an associated
 		name. Previously, only \word{:} (colon) could create an
@@ -4406,7 +4338,7 @@
 		count (and execution token):
 
 		\tab {\ldots} \word{'} \texttt{xxx} \word{toBODY} \word[tools]{q} {\ldots}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4452,8 +4384,7 @@
 	\wref{core:LOOP}{LOOP},
 	\wref{core:UNLOOP}{UNLOOP}.
 
-	\begin{defer}
-	\rationale % A.6.2.0620 ?DO
+	\begin{rationale} % A.6.2.0620 ?DO
 		Typical use:
 
 		\tab \word{:} \texttt{FACTORIAL} \word{p} +n1 -{}- +n2 )~
@@ -4469,7 +4400,7 @@
 		systems, this behavior can be intolerable. The Technical
 		Committee considered applying these semantics to DO, but
 		declined on the grounds that it might break existing code.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4507,29 +4438,29 @@
 	\wref{core:DEFER@}{DEFER@} and
 	\wref{core:IS}{IS}.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.6.2.---- ACTION-OF
 		\word{:} \word{ACTION-OF} \\
 		\tab \word{STATE} \word{@} \word{IF} \\
 		\tab[2] \word{POSTPONE} \word{[']} \word{POSTPONE} \word{DEFER@} \\
 		\tab \word{ELSE} \\
 		\tab[2] \word{'} \word{DEFER@} \\
 		\tab \word{THEN} \word{;} \word{IMMEDIATE}
+	\end{implement}
 
-	\testing
-		\{ \word{DEFER} defer1 -> \} \\
-		\{ \word{:} action-defer1 \word{ACTION-OF} defer1 \word{;} -> \}
+	\begin{testing} % T.6.2.---- ACTION-OF
+		\test{\word{DEFER} defer1}{} \\
+		\test{\word{:} action-defer1 \word{ACTION-OF} defer1 \word{;}}{}
 
-		\{ \word{'} \word{*} \word{'} defer1 \word{DEFER!} -> \} \\
-		\{ 2 3 defer1 -> 6 \} \\
-		\{ \word{ACTION-OF} defer1 -> \word{'} \word{*} \} \\
-		\{ action-defer1 -> \word{'} \word{*} \}
+		\test{\word{'} \word{*} \word{'} defer1 \word{DEFER!}}{ } \\
+		\test{         2 3 defer1}{6} \\
+		\test{\word{ACTION-OF} defer1}{\word{'} \word{*}} \\
+		\test{   action-defer1}{\word{'} \word{*}}
 
-		\{ \word{'} \word{+} \word{IS} defer1 -> \} \\
-		\{ 1 2 defer1 -> 3 \} \\
-		\{ \word{ACTION-OF} defer1 -> \word{'} \word{+} \} \\
-		\{ action-defer1 -> \word{'} \word{+} \}
-	\end{defer}
+		\test{\word{'} \word{+} \word{IS} defer1}{ } \\
+		\test{   1 2 defer1}{3} \\
+		\test{\word{ACTION-OF} defer1}{\word{'} \word{+}} \\
+		\test{   action-defer1}{\word{'} \word{+}}
+	\end{testing}
 \end{worddef}
 
 
@@ -4552,8 +4483,7 @@
 
 \see \wref{core:BEGIN}{BEGIN}.
 
-	\begin{defer}
-	\rationale % A.6.2.0700 AGAIN
+	\begin{rationale} % A.6.2.0700 AGAIN
 		Typical use:
 			\word{:} \texttt{X}
 				{\ldots} \word{BEGIN} {\ldots} \word{AGAIN}
@@ -4561,7 +4491,7 @@
 
 		Unless word-sequence has a way to terminate, this is an
 		endless loop.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4587,8 +4517,7 @@
 	\wref{core:Sq}{S"},
 	\wref{file:Sq}{S"}.
 
-	\begin{defer}
-	\rationale % A.6.2.0855 C"
+	\begin{rationale} % A.6.2.0855 C"
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{Cq} \emph{ccc}\texttt{"}
@@ -4611,7 +4540,7 @@
 		eliminating the need for \word{Cq}.
 
 		See: \xref[A.3.1.3.4 Counted strings]{rat:cstring}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4636,8 +4565,7 @@
 	\wref{core:ENDOF}{ENDOF},
 	\wref{core:OF}{OF}.
 
-	\begin{defer}
-	\rationale % A.6.2.0873 CASE
+	\begin{rationale} % A.6.2.0873 CASE
 		Typical use:
 		\begin{quote}
 			\word{:} \texttt{X} {\ldots} \\
@@ -4648,7 +4576,7 @@
 			\tab \word{ENDCASE} {\ldots} \\
 			\word{;}
 		\end{quote}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4663,8 +4591,7 @@
 	by \param{xt} to the execution semantics of the current
 	definition.
 
-	\begin{defer}
-	\rationale % A.6.2.0945 COMPILE,
+	\begin{rationale} % A.6.2.0945 COMPILE,
 		\word{COMPILE,} is the compilation equivalent of
 		\word{EXECUTE}. In many cases, it is possible to compile a
 		word by using \word{POSTPONE} without resorting to the use of
@@ -4696,7 +4623,7 @@
 		the compilation token from the execution token. In these
 		implementations, \word{COMPILE,} might not generate code that
 		is as efficient as normally compiled code.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4719,14 +4646,13 @@
 
 \see \xref[3.2.1.2 Digit conversion]{usage:digits}.
 
-	\begin{defer}
-	\rationale % A.6.2.0970 CONVERT
+	\begin{rationale} % A.6.2.0970 CONVERT
 		\word{CONVERT} may be defined as follows:
 
 		\tab \word{:} \word{CONVERT}~
 			\word{CHAR+} \texttt{65535} \word{toNUMBER} \word{DROP}
 		\word{;}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4749,21 +4675,21 @@
 	\wref{core:DEFER@}{DEFER@}, and
 	\wref{core:IS}{IS}.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.6.2.---- DEFER
 		\word{:} \word{DEFER} \word{p} "name" -{}- ) \\
 		\tab \word{CREATE} \word{[']} \word{ABORT} \word{,} \\
 		\word{DOES} \word{p} {\ldots} -{}- {\ldots} ) \\
 		\tab \word{@} \word{EXECUTE} \word{;}
+	\end{implement}
 
-	\testing
-		\{ \word{DEFER} defer2 -> \} \\
-		\{ \word{'} \word{*} \word{'} defer2 \word{DEFER!} -> \} \\
-		\{ 2 3 defer2 -> 6 \}
+	\begin{testing} % T 6.2.---- DEFER
+		\test{\word{DEFER} defer2}{ } \\
+		\test{\word{'} \word{*} \word{'} defer2 \word{DEFER!}}{} \\
+		\test{  2 3 defer2}{6}
 
-		\{ \word{'} \word{+} \word{IS} defer2 -> \} \\
-		\{ 1 2 defer2 -> 3 \}
-	\end{defer}
+		\test{\word{'} \word{+} \word{IS} defer2}{ } \\
+		\test{   1 2 defer2}{3}
+	\end{testing}
 \end{worddef}
 
 
@@ -4779,20 +4705,20 @@
 	\wref{core:DEFER@}{DEFER@}, and
 	\wref{core:IS}{IS}.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.6.2.---- DEFER!
 		\word{:} \word{DEFER!} \word{p} xt2 xt1 -{}- ) \\
 		\tab \word{toBODY} \word{!} \word{;}
+	\end{implement}
 
-	\testing
-		\{ \word{DEFER} defer3 -> \}
+	\begin{testing} % T.6.2.---- DEFER!
+		\test{\word{DEFER} defer3}{}
 
-		\{ \word{'} \word{*} \word{'} defer3 \word{DEFER!} -> \} \\
-		\{ 2 3 defer3 -> 6 \}
+		\test{\word{'} \word{*} \word{'} defer3 \word{DEFER!}}{} \\
+		\test{2 3 defer3}{6}
 
-		\{ \word{'} \word{+} \word{'} defer3 \word{DEFER!} -> \} \\
-		\{ 1 2 defer3 -> 3 \}
-	\end{defer}
+		\test{\word{'} \word{+} \word{'} defer3 \word{DEFER!}}{} \\
+		\test{1 2 defer3}{3}
+	\end{testing}
 \end{worddef}
 
 
@@ -4809,22 +4735,22 @@
 	\wref{core:DEFER!}{DEFER!}, and
 	\wref{core:IS}{IS}.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.6.2.---- DEFER@
 		\word{:} \word{DEFER@} \word{p} xt1 -{}- xt2 ) \\
 		\tab \word{toBODY} \word{@} \word{;}
+	\end{implement}
 
-	\testing
-		\{ \word{DEFER} defer4 -> \}
+	\begin{testing} % T.6.2.---- DEFER@
+		\test{\word{DEFER} defer4}{}
 
-		\{ \word{'} \word{*} \word{'} defer4 \word{DEFER!} -> \} \\
-		\{ 2 3 defer4 -> 6 \} \\
-		\{ \word{'} defer4 \word{DEFER@} -> \word{'} \word{*} \}
+		\test{\word{'} \word{*} \word{'} defer4 \word{DEFER!}}{} \\
+		\test{2 3 defer4}{6} \\
+		\test{\word{'} defer4 \word{DEFER@}}{\word{'} \word{*}}
 
-		\{ \word{'} \word{+} \word{IS} defer4 -> \} \\
-		\{ 1 2 defer4 -> 3 \} \\
-		\{ \word{'} defer4 \word{DEFER@} -> \word{'} \word{+} \}
-	\end{defer}
+		\test{\word{'} \word{+} \word{IS} defer4}{} \\
+		\test{1 2 defer4}{3} \\
+		\test{\word{'} defer4 \word{DEFER@}}{\word{'} \word{+}}
+	\end{testing}
 \end{worddef}
 
 
@@ -4850,8 +4776,7 @@
 	\wref{core:ENDOF}{ENDOF},
 	\wref{core:OF}{OF}.
 
-	\begin{defer}
-	\rationale % A.6.2.1342 ENDCASE
+	\begin{rationale} % A.6.2.1342 ENDCASE
 		Typical use:
 		\begin{quote}
 			\word{:} \texttt{X} {\ldots} \\
@@ -4862,7 +4787,7 @@
 			\tab \word{ENDCASE} {\ldots} \\
 			\word{;}
 		\end{quote}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4890,8 +4815,7 @@
 	\wref{core:ENDCASE}{ENDCASE},
 	\wref{core:OF}{OF}.
 
-	\begin{defer}
-	\rationale % A.6.2.1343 ENDOF
+	\begin{rationale} % A.6.2.1343 ENDOF
 		Typical use:
 		\begin{quote}
 			\word{:} \texttt{X} {\ldots} \\
@@ -4902,7 +4826,7 @@
 			\tab \word{ENDCASE} {\ldots} \\
 			\word{;}
 		\end{quote}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4937,8 +4861,7 @@
 	existing implementations. Its function is superseded
 	by \wref{core:ACCEPT}{ACCEPT}.
 
-	\begin{defer}
-	\rationale % A.6.2.1390 EXPECT
+	\begin{rationale} % A.6.2.1390 EXPECT
 		Specification of positive integer counts (\param{+n}) for
 		\word{EXPECT} allows some implementors to continue their
 		practice of using a zero or negative value as a flag to
@@ -4947,7 +4870,7 @@
 		the Technical Committee doesn't wish to preclude it
 		unnecessarily. Since actual values are almost always small
 		integers, no functionality is impaired by this restriction.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -4965,10 +4888,9 @@
 
 	Set contents of \word{BASE} to sixteen.
 
-	\begin{defer}
-	\testing*
-		See \rref{core:BASE}{BASE}.
-	\end{defer}
+	\begin{testing} % T.6.2.1660 HEX
+		See \tref{core:BASE}{BASE}.
+	\end{testing}
 \end{worddef}
 
 
@@ -5001,25 +4923,25 @@
 	\wref{core:DEFER!}{DEFER!}, and
 	\wref{core:DEFER@}{DEFER@}.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.6.2.---- IS
 		\word{:} \word{IS} \\
 		\tab \word{STATE} \word{@} \word{IF} \\
 		\tab[2] \word{POSTPONE} \word{[']} \word{POSTPONE} \word{DEFER!} \\
 		\tab \word{ELSE} \\
 		\tab[2] \word{'} \word{DEFER!} \\
 		\tab \word{THEN} \word{;} \word{IMMEDIATE}
+	\end{implement}
 
-	\testing
-		\{ \word{DEFER} defer5 -> \} \\
-		\{ \word{:} is-defer5 \word{IS} defer5 \word{;} -> \}
+	\begin{testing} % T.6.2.---- IS
+		\test{\word{DEFER} defer5}{} \\
+		\test{\word{:} is-defer5 \word{IS} defer5 \word{;}}{}
 
-		\{ \word{'} \word{*} \word{IS} defer5 -> \} \\
-		\{ 2 3 defer5 -> 6 \}
+		\test{\word{'} \word{*} \word{IS} defer5}{} \\
+		\test{2 3 defer5}{6}
 
-		\{ \word{'} \word{+} is-defer5 -> \} \\
-		\{ 1 2 defer5 -> 3 \}
-	\end{defer}
+		\test{\word{'} \word{+} is-defer5}{} \\
+		\test{1 2 defer5}{3}
+	\end{testing}
 \end{worddef}
 
 
@@ -5044,8 +4966,7 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{tools:FORGET}{FORGET}.
 
-	\begin{defer}
-	\rationale % A.6.2.1850 MARKER
+	\begin{rationale} % A.6.2.1850 MARKER
 		As dictionary implementations have become more elaborate
 		and in some cases have used multiple address spaces,
 		\word[tools]{FORGET} has become prohibitively difficult or
@@ -5054,7 +4975,7 @@
 		system to remember ``landmark information'' in advance that
 		specifically marks the spots where the dictionary may at some
 		future time have to be rearranged.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5090,8 +5011,7 @@
 	\wref{core:ENDCASE}{ENDCASE},
 	\wref{core:ENDOF}{ENDOF}.
 
-	\begin{defer}
-	\rationale % A.6.2.1950 OF
+	\begin{rationale} % A.6.2.1950 OF
 		Typical use:
 		\begin{quote}
 			\word{:} \texttt{X} {\ldots} \\
@@ -5102,7 +5022,7 @@
 			\tab \word{ENDCASE} {\ldots} \\
 			\word{;}
 		\end{quote}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5114,8 +5034,7 @@
 
 \see \xref[3.3.3.6 Other transient regions]{usage:transient}.
 
-	\begin{defer}
-	\rationale % A.6.2.2000 PAD
+	\begin{rationale} % A.6.2.2000 PAD
 		\word{PAD} has been available as scratch storage for strings
 		since the earliest Forth implementations. It was brought to
 		our attention that many programmers are reluctant to use
@@ -5123,7 +5042,7 @@
 		\word{PAD} is specifically intended as a programmer convenience,
 		however, which is why we documented the fact that no standard
 		words use it.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5138,8 +5057,7 @@
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.6.2.2008 PARSE
+	\begin{rationale} % A.6.2.2008 PARSE
 		Typical use: \emph{char} \word{PARSE} \emph{ccc}\arg{char}
 
 		The traditional Forth word for parsing is \word{WORD}.
@@ -5241,7 +5159,7 @@
 			If both \word{PARSE} and \texttt{PARSE-WORD} are present,
 			the need for \word{WORD} is largely eliminated.
 		\end{enumerate}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5256,8 +5174,7 @@
 	parse area is empty or contains only white space, the resulting
 	string has length zero.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.6.2.---- PARSE-NAME
 		\word{:} isspace? \word{p} c -{}- f ) \\
 		\tab \word{BL} \word{1+} \word{Uless} \word{;}
 
@@ -5282,29 +5199,29 @@
 		\tab \word{[']} isnotspace? xt-skip \word{p} end-word restlen r: start-word ) \\
 		\tab \word{2DUP} 1 \word{MIN} \word{+} \word{SOURCE} \word{DROP} \word{-} \word{toIN} \word{!} \\
 		\tab \word{DROP} \word{Rfrom} \word{TUCK} \word{-} \word{;}
+	\end{implement}
 
-	\testing
-		\{ \word{PARSE-NAME} abcd \word{Sq} abcd" S= -> <TRUE> \} \\
-		\{ \word{PARSE-NAME} \verb*"  "abcde\verb*"  " \word{Sq} abcde" S= -> <TRUE> \}
+	\begin{testing} % T.6.2.---- PARSE-NAME
+		\test{\word{PARSE-NAME} abcd \word{Sq} abcd" S=}{<TRUE>} \\
+		\test{\word{PARSE-NAME}   abcde   \word{Sq} abcde" S=}{<TRUE>}
 
 		\word{bs} test empty parse area \\
-		\{ \word{PARSE-NAME} \\
-		\tab \word{NIP} -> 0 \} \word{bs} empty line \\
-		\{ PARSE-NAME \verb*"  " \\
-		\tab \word{NIP} -> 0 \} \word{bs} line with white space
+		\test{\word{PARSE-NAME} \\\mbox{}
+		\tab[0.6] \word{NIP}}{0} \word{bs} empty line \\
+		\test{PARSE-NAME    \\\mbox{}
+		\tab[0.6] \word{NIP}}{0} \word{bs} line with white space
 
-		\{ \word{:} parse-name-test \word{p} ``name1'' ``name2'' -{}- n ) \\
-		\tab \word{PARSE-NAME} \word{PARSE-NAME} S= \word{;} -> \}
+		\test{\word{:} parse-name-test \word{p} ``name1'' ``name2'' -{}- n ) \\
+		\tab[0.6] \word{PARSE-NAME} \word{PARSE-NAME} S= \word{;}}{}
 
-		\{ parse-name-test abcd abcd -> <TRUE> \} \\
-		\{ parse-name-test \verb*" abcd" \verb*"  abcd  " -> <TRUE> \} \\
-		\{ parse-name-test abcde abcdf -> <FALSE> \} \\
-		\{ parse-name-test abcdf abcde -> <FALSE> \} \\
-		\{ parse-name-test abcde abcde \\
-		\tab -> <TRUE> \} \\
-		\{ parse-name-test abcde abcde\verb*"  " \\
-		\tab -> <TRUE> \}
-	\end{defer}
+		\test{parse-name-test abcd abcd}{<TRUE>} \\
+		\test{parse-name-test  abcd   abcd  }{<TRUE>} \\
+		\test{parse-name-test abcde abcdf}{<FALSE>} \\
+		\test{parse-name-test abcdf abcde}{<FALSE>} \\
+		\test{parse-name-test abcde abcde \\\tab[1.2]}{<TRUE>} \\
+		\test{parse-name-test abcde abcde  \\\tab[1.2]}{<TRUE>}
+		\word{bs} line with white space
+	\end{testing}
 \end{worddef}
 
 
@@ -5315,11 +5232,10 @@
 	An ambiguous condition exists if there are less than \param{u}+2
 	items on the stack before \word{PICK} is executed.
 
-	\begin{defer}
-	\rationale % A.6.2.2030 PICK}
+	\begin{rationale} % A.6.2.2030 PICK
 		\texttt{0} \word{PICK} is equivalent to \word{DUP} and
 		\texttt{1} \word{PICK} is equivalent to \word{OVER}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5335,11 +5251,10 @@
 	This word is obsolescent and is included as a concession to
 	existing implementations.
 
-	\begin{defer}
-	\rationale % A.6.2.2040 QUERY
+	\begin{rationale} % A.6.2.2040 QUERY
 		The function of \word{QUERY} may be performed with \word{ACCEPT}
 		and \word{EVALUATE}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5362,8 +5277,7 @@
 \see \wref{block:REFILL}{REFILL},
 	\wref{file:REFILL}{REFILL}.
 
-	\begin{defer}
-	\rationale % A.6.2.2125 REFILL
+	\begin{rationale} % A.6.2.2125 REFILL
 		This word is a useful generalization of \word{QUERY}.
 		Re-defining \word{QUERY} to meet this specification would
 		have broken existing code. \word{REFILL} is designed to behave
@@ -5372,7 +5286,7 @@
 		could still return a false value if, for instance, a
 		communication channel closes so that the system knows that no
 		more input will be available.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5397,12 +5311,11 @@
 	An ambiguous condition exists if there are less than \param{u}+2
 	items on the stack before \word{ROLL} is executed.
 
-	\begin{defer}
-	\rationale % A.6.2.2150 ROLL
+	\begin{rationale} % A.6.2.2150 ROLL
 		\texttt{2} \word{ROLL} is equivalent to \word{ROT},
 		\texttt{1} \word{ROLL} is equivalent to \word{SWAP} and
 		\texttt{0} \word{ROLL} is a null operation.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5412,8 +5325,7 @@
 	\param{x_1} through \param{x_n} describe the current state of the
 	input source specification for later use by \word{RESTORE-INPUT}.
 
-	\begin{defer}
-	\rationale % A.6.2.2182 SAVE-INPUT
+	\begin{rationale} % A.6.2.2182 SAVE-INPUT
 		\word{SAVE-INPUT} and \word{RESTORE-INPUT} allow the same
 		degree of input source repositioning within a text file as is
 		available with \word[block]{BLOCK} input. \word{SAVE-INPUT}
@@ -5522,7 +5434,7 @@
 		These are examples only; a Standard Program may not assume any
 		particular meaning for the individual stack items returned by
 		\word{SAVE-INPUT}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5566,11 +5478,10 @@
 	This word is obsolescent and is included as a concession to
 	existing implementations.
 
-	\begin{defer}
-	\rationale % A.6.2.2290 TIB
+	\begin{rationale} % A.6.2.2290 TIB
 		The function of \word{TIB} has been superseded by
 		\word{SOURCE}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5605,8 +5516,7 @@
 \see \wref{core:VALUE}{VALUE}
 	 and \wref{local:LOCAL}{(LOCAL)}.
 
-	\begin{defer}
-	\rationale % A.6.2.2295 TO
+	\begin{rationale} % A.6.2.2295 TO
 		Historically, some implementations of \word{TO} have not
 		explicitly parsed. Instead, they set a mode flag that is
 		tested by the subsequent execution of \param{name}. ANS Forth
@@ -5614,10 +5524,11 @@
 		\word{TO}'s effect will be predictable.
 
 		Typical use: \texttt{x} \word{TO} \emph{name}
+	\end{rationale}
 
-	\testing*
-		See \wref{core:VALUE}{VALUE}.
-	\end{defer}
+	\begin{testing} % T.6.2.---- TO
+		See \tref{core:VALUE}{VALUE}.
+	\end{testing}
 \end{worddef}
 
 
@@ -5629,11 +5540,10 @@
 
 \see \xref[3.1.3.1 Flags]{usage:flags}.
 
-	\begin{defer}
-	\rationale % A.6.2.2298 TRUE
+	\begin{rationale} % A.6.2.2298 TRUE
 		\word{TRUE} is equivalent to the phrase
 		\texttt{0} \word{0=}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5698,8 +5608,7 @@
 \see \xref[3.4.1 Parsing]{usage:parsing}
 	and \wref{core:TO}{TO}.
 
-	\begin{defer}
-	\rationale % A.6.2.2405 VALUE
+	\begin{rationale} % A.6.2.2405 VALUE
 		Typical use:
 		\begin{quote}\ttfamily
 			0 \word{VALUE} data
@@ -5710,17 +5619,18 @@
 		\end{quote}
 		\texttt{EXCHANGE} leaves \param{n_1} in \texttt{data} and
 		returns the prior value \param{n_2}.
+	\end{rationale}
 
-	\testing
-		\{ 0 \word{VALUE} Tval -> \} \\
-		\{ Tval -> 0 \} \\
+	\begin{testing} % T.6.2.2405 VALUE
+		\test{0 \word{VALUE} Tval}{} \\
+		\test{Tval}{0} \\
 
-		\{ 1 \word{TO} Tval -> \} \\
-		\{ Tval -> 1 \} \\
+		\test{1 \word{TO} Tval}{} \\
+		\test{Tval}{1}
 
 		\word{:} SETTval Tval \word{SWAP} \word{TO} Tval \word{;} \\
-		\{ 2 SETTval Tval -> 1 2 \}
-	\end{defer}
+		\test{2 SETTval Tval}{1 2}
+	\end{testing}
 \end{worddef}
 
 
@@ -5740,8 +5650,7 @@
 	\param{n_1|u_1}, \param{n_2|u_2}, and \param{n_3|u_3} are not
 	all the same type.
 
-	\begin{defer}
-	\rationale % A.6.2.2440 WITHIN
+	\begin{rationale} % A.6.2.2440 WITHIN
 		We describe \word{WITHIN} without mentioning circular number
 		spaces (an undefined term) or providing the code. Here is a
 		number line with the overflow point ($o$) at the far right and
@@ -5815,7 +5724,7 @@
 				\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} ~
 			\word{;}
 		\end{quote}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5834,13 +5743,12 @@
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.6.2.2530 [COMPILE]
+	\begin{rationale} % A.6.2.2530 [COMPILE]
 		Typical use:
 			\word{:} \texttt{name2} {\ldots}
 				\word{[COMPILE]} \texttt{name1}
 			{\ldots} \word{;} ~ \word{IMMEDIATE}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -5856,10 +5764,9 @@
 
 \see \wref{block:bs}{\bs}.
 
-	\begin{defer}
-	\rationale % A.6.2.2535 \
+	\begin{rationale} % A.6.2.2535 \
 		Typical use:
 			\texttt{5} \word{CONSTANT} \texttt{THAT}
 			~ \word{bs} ~ \texttt{THIS IS A COMMENT ABOUT THAT}
-	\end{defer}
+	\end{rationale}
 \end{worddef}

@@ -137,11 +137,10 @@ Extensions word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.8.6.1.0360 2CONSTANT
+	\begin{rationale} % A.8.6.1.0360 2CONSTANT
 		Typical use:
 			\texttt{x1} \texttt{x2} \word{2CONSTANT} \emph{name}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -159,15 +158,14 @@ Extensions word sets.
 
 	Place cell pair \param{x_1 x_2} on the stack.
 
-	\begin{defer}
-	\rationale % A.8.6.1.0390 2LITERAL
+	\begin{rationale} % A.8.6.1.0390 2LITERAL
 		\setwordlist{core}
 		Typical use:
 			\word{:} \texttt{X} {\ldots}
 				\word{[} \texttt{x1} \texttt{x2} \word{]} \word[double]{2LITERAL}
 			{\ldots} \word{;}
 		\setwordlist{double}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -192,11 +190,10 @@ Extensions word sets.
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:VARIABLE}{VARIABLE}.
 
-	\begin{defer}
-	\rationale % A.8.6.1.0440 2VARIABLE
+	\begin{rationale} % A.8.6.1.0440 2VARIABLE
 		Typical use:
 			\word{2VARIABLE} \param{name}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -231,10 +228,9 @@ Extensions word sets.
 	is greater than \param{n}, all digits are displayed with no
 	leading spaces in a field as wide as necessary.
 
-	\begin{defer}
-	\rationale % A.8.6.1.1070 D.R
+	\begin{rationale} % A.8.6.1.1070 D.R
 		In \word{D.R}, the ``R'' is short for RIGHT.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -259,10 +255,9 @@ Extensions word sets.
 	toward the most-significant bit, filling the vacated
 	least-significant bit with zero.
 
-	\begin{defer}
-	\rationale % A.8.6.1.1090 D2*
-		See: \rref{core:2*}{2*} for applicable discussion.
-	\end{defer}
+	\begin{rationale} % A.8.6.1.1090 D2*
+		See \tref{core:2*}{2*} for applicable discussion.
+	\end{rationale}
 \end{worddef}
 
 
@@ -273,10 +268,9 @@ Extensions word sets.
 	toward the least-significant bit, leaving the most-significant
 	bit unchanged.
 
-	\begin{defer}
-	\rationale % A.8.6.1.1100 D2/
-		See: \rref{core:2/}{2/} for applicable discussion.
-	\end{defer}
+	\begin{rationale} % A.8.6.1.1100 D2/
+		See \tref{core:2/}{2/} for applicable discussion.
+	\end{rationale}
 \end{worddef}
 
 
@@ -303,15 +297,14 @@ Extensions word sets.
 	exists if \param{d} lies outside the range of a signed single-cell
 	number.
 
-	\begin{defer}
-	\rationale % A.8.6.1.1140 D>S
+	\begin{rationale} % A.8.6.1.1140 D>S
 		There exist number representations, e.g., the sign-magnitude
 		representation, where reduction from double- to single-precision
 		cannot simply be done with \word[core]{DROP}. This word,
 		equivalent to \word[core]{DROP} on two's complement systems,
 		desensitizes application code to number representation and
 		facilitates portability.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -352,15 +345,14 @@ Extensions word sets.
 	if \param{+n_2} is zero or negative, or the quotient lies outside
 	of the range of a double-precision signed integer.
 
-	\begin{defer}
-	\rationale % A.8.6.1.1820 M*/
+	\begin{rationale} % A.8.6.1.1820 M*/
 		\word{M*/} was once described by Chuck Moore as the most
 		useful arithmetic operator in Forth. It is the main workhorse
 		in most computations involving double-cell numbers. Note that
 		some systems allow signed divisors. This can cost a lot in
 		performance on some CPUs. The requirement for a positive
 		divisor has not proven to be a problem.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -369,10 +361,9 @@ Extensions word sets.
 
 	Add \param{n} to \param{d_1|ud_1}, giving the sum \param{d_2|ud_2}.
 
-	\begin{defer}
-	\rationale % A.8.6.1.1830 M+
+	\begin{rationale} % A.8.6.1.1830 M+
 		\word{M+} is the classical method for integrating.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 

@@ -312,8 +312,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:R/W}{R/W},
 	\wref{file:W/O}{W/O}.
 
-	\begin{defer}
-	\rationale % A.11.6.1.0765 BIN
+	\begin{rationale} % A.11.6.1.0765 BIN
 		Some operating systems require that files be opened in a
 		different mode to access their contents as an unstructured
 		stream of binary data rather than as a sequence of lines.
@@ -326,7 +325,7 @@ provide all of the File Access and File Access Extensions word sets.
 		Technical Committee has declined to address issues regarding
 		the impact of ``wide'' characters on the File and Block word
 		sets.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -354,8 +353,7 @@ provide all of the File Access and File Access Extensions word sets.
 	Otherwise, \param{ior} is the implementation-defined I/O result
 	code and \param{fileid} is undefined.
 
-	\begin{defer}
-	\rationale % A.11.6.1.1010 CREATE-FILE
+	\begin{rationale} % A.11.6.1.1010 CREATE-FILE
 		Typical use:
 
 		\tab \word[core]{:} \texttt{X} {\ldots}
@@ -363,7 +361,7 @@ provide all of the File Access and File Access Extensions word sets.
 				\word{CREATE-FILE}
 				\word[core]{ABORTq} \texttt{CREATE-FILE FAILED"}
 			\word[core]{;}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -424,8 +422,7 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \xref[11.3.4 Input source]{file:source}.
 
-	\begin{defer}
-	\rationale % A.11.6.1.1717 INCLUDE-FILE
+	\begin{rationale} % A.11.6.1.1717 INCLUDE-FILE
 		Here are two implementation alternatives for saving the input
 		source specification in the presence of text file input:
 
@@ -442,7 +439,7 @@ provide all of the File Access and File Access Extensions word sets.
 			use of ``pseudo-files'' such as pipes and other
 			sequential-access-only communication channels.
 		\end{enumerate}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -476,14 +473,14 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \wref{file:INCLUDE-FILE}{INCLUDE-FILE}.
 
-	\begin{defer}
-	\rationale % A.11.6.1.1718 INCLUDED
+	\begin{rationale} % A.11.6.1.1718 INCLUDED
 		Typical use:
 			{\ldots} \word{Sq} \texttt{filename"} \word{INCLUDED} {\ldots}
+	\end{rationale}
 
-	\testing*
-		See \rref{file:REQUIRED}{REQUIRED}.
-	\end{defer}
+	\begin{testing} % T.11.6.1.1718 INCLUDED
+		See \tref{file:REQUIRED}{REQUIRED}.
+	\end{testing}
 \end{worddef}
 
 
@@ -502,15 +499,14 @@ provide all of the File Access and File Access Extensions word sets.
 	Otherwise, \param{ior} is the implementation-defined I/O
 	result code and \param{fileid} is undefined.
 
-	\begin{defer}
-	\rationale % A.11.6.1.1970 OPEN-FILE
+	\begin{rationale} % A.11.6.1.1970 OPEN-FILE
 		Typical use:
 
 		\tab \word[core]{:} \texttt{X} {\ldots}
 				\word{Sq} \texttt{ TEST.FTH"} \word{R/W}
 				\word{OPEN-FILE}~ \word[core]{ABORTq} \texttt{OPEN-FILE FAILED"}
 			{\ldots} \word[core]{;}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -567,8 +563,7 @@ provide all of the File Access and File Access Extensions word sets.
 	At the conclusion of the operation, \word{FILE-POSITION} returns
 	the next file position after the last character read.
 
-	\begin{defer}
-	\rationale % A.11.6.1.2080 READ-FILE
+	\begin{rationale} % A.11.6.1.2080 READ-FILE
 		A typical sequential file-processing algorithm might look like:
 		\begin{quote}\ttfamily\setwordlist{core}
 			\begin{tabbing}
@@ -587,7 +582,7 @@ provide all of the File Access and File Access Extensions word sets.
 		non-zero values of the \param{ior} return value from
 		\word{READ-FILE}. End-of-file is reported as a zero value of
 		the ``length'' return value.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -625,8 +620,7 @@ provide all of the File Access and File Access Extensions word sets.
 	At the conclusion of the operation, \word{FILE-POSITION} returns
 	the next file position after the last character read.
 
-	\begin{defer}
-	\rationale % A.11.6.1.2090 READ-LINE
+	\begin{rationale} % A.11.6.1.2090 READ-LINE
 		Implementations are allowed to store the line terminator in
 		the memory buffer in order to allow the use of line reading
 		functions provided by host operating systems, some of which
@@ -664,7 +658,7 @@ provide all of the File Access and File Access Extensions word sets.
 		\word{READ-LINE} needs a separate end-of-file flag because
 		empty (zero-length) lines are a routine occurrence, so a
 		zero-length line cannot be used to signify end-of-file.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -731,8 +725,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{core:Sq}{S"},
 	\xref[11.3.5 Other transient regions]{file:buffers}.
 
-	\begin{defer}
-	\rationale % A.11.6.1.2165 S"
+	\begin{rationale} % A.11.6.1.2165 S"
 		Typical use:
 			{\ldots} \word{Sq} \emph{ccc}\texttt{"} {\ldots}
 
@@ -759,7 +752,7 @@ provide all of the File Access and File Access Extensions word sets.
 		advised to use \word[core]{PARSE} or \word[core]{WORD}
 		\word[core]{COUNT} instead of \word{Sq}, preventing the
 		overwriting of the interpreted string buffer.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -867,20 +860,21 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \wref{file:INCLUDED}{INCLUDED}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.11.6.2.---- INCLUDE
 		Typical use:
 		\begin{quote}
 			\word{INCLUDE} \texttt{filename}
 		\end{quote}
+	\end{rationale}
 
-	\implementation
+	\begin{implement} % I.11.6.2.---- INCLUDE
 		\word{:} INCLUDE \word{p} i*x "name" -{}- j*x ) \\
 		\tab \word{PARSE-NAME} \word{INCLUDED} \word{;}
+	\end{implement}
 
-	\testing*
-		See \rref{file:REQUIRED}{REQUIRED}.
-	\end{defer}
+	\begin{testing} % T.11.6.2.---- INCLUDE
+		See \tref{file:REQUIRED}{REQUIRED}.
+	\end{testing}
 \end{worddef}
 
 
@@ -919,20 +913,21 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \wref{file:REQUIRED}{REQUIRED}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.11.6.2.---- REQUIRE
 		Typical use:
 		\begin{quote}
 			\word{REQUIRE} \texttt{filename}
 		\end{quote}
+	\end{rationale}
 
-	\implementation
+	\begin{implement} % I.11.6.2.---- REQUIRE
 		\word{:} REQUIRE \word{p} i*x "name" -{}- i*x ) \\
 		\tab \word{PARSE-NAME} \word{REQUIRED} \word{;}
+	\end{implement}
 
-	\testing*
-		See \rref{file:REQUIRED}{REQUIRED}.
-	\end{defer}
+	\begin{testing} % T.11.6.2.---- REQUIRE
+		See \tref{file:REQUIRED}{REQUIRED}.
+	\end{testing}
 \end{worddef}
 
 
@@ -960,14 +955,15 @@ provide all of the File Access and File Access Extensions word sets.
 	An ambiguous condition exists if the stack effect of including the
 	file is not \stack{i*x}{i*x}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.11.6.2.---- REQUIRED
 		Typical use:
 		\begin{quote}
 			\word{Sq} \texttt{filename"} \word{REQUIRED}
 		\end{quote}
+	\end{rationale}
 
-	\implementation*
+	\begin{implement}
+		\dffamily
 		This implementation does not implement the requirements with
 		regard to \word{MARKER} and \word[tools]{FORGET} (\word{REQUIRED}
 		only includes each file once, whether a marker was executed or
@@ -1021,8 +1017,9 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab \word{ELSE} \\
 		\tab[2] \word{2DROP} \\
 		\tab \word{THEN} \word{;}
+	\end{implement}
 
-	\testing*
+	\begin{testing} % T.11.6.2.---- REQUIRED
 		This test requires two additional files:
 			\texttt{required-helper1.fs} and
 			\texttt{required-helper2.fs}.
@@ -1032,19 +1029,18 @@ provide all of the File Access and File Access Extensions word sets.
 		\end{quote}
 		As for the test themselves:
 
-		\ttfamily
-		\{ 0 \\
+		\test{0 \\
 		\tab \word{Sq} required-helper1.fs" \word{REQUIRED} \word{bs} Increment TOS \\
 		\tab \word{REQUIRE} required-helper1.fs				\word{bs} Ignore - already loaded \\
 		\tab \word{INCLUDE} required-helper1.fs				\word{bs} Increment TOS \\
-		 -> 2 \} \\
+		}{2} \\
 
-		\{ 0 \\
+		\test{0 \\
 		\tab \word{INCLUDE} required-helper2.fs				\word{bs} Increment TOS \\
 		\tab \word{Sq} required-helper2.fs" \word{REQUIRED} \word{bs} Ignored - already loaded \\
 		\tab \word{REQUIRE} required-helper2.fs				\word{bs} Ignored - already loaded \\
 		\tab \word{Sq} required-helper2.fs" \word{INCLUDED}	\word{bs} Increment TOS \\
-		 -> 2 \}
-	\end{defer}
+		}{2}
+	\end{testing}
 \end{worddef}
 

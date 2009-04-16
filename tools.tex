@@ -160,11 +160,10 @@ Extensions word sets.
 
 \see \xref[3.3.3.6 Other transient regions]{usage:transient}.
 
-	\begin{defer}
-	\rationale % A.15.6.1.0220 .S
+	\begin{rationale} % A.15.6.1.0220 .S
 		\word[tools]{.S} is a debugging convenience found on almost
 		all Forth systems. It is universally mentioned in Forth texts.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -210,12 +209,11 @@ Extensions word sets.
 
 \see \xref[3.3.3.6 Other transient regions]{usage:transient}.
 
-	\begin{defer}
-	\rationale % A.15.6.1.2194 SEE
+	\begin{rationale} % A.15.6.1.2194 SEE
 		\word[tools]{SEE} acts as an on-line form of documentation of
 		words, allowing modification of words by decompiling and
 		regenerating with appropriate changes.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -231,11 +229,10 @@ Extensions word sets.
 
 \see \xref[3.3.3.6 Other transient regions]{usage:transient}.
 
-	\begin{defer}
-	\rationale % A.15.6.1.2465 WORDS
+	\begin{rationale} % A.15.6.1.2465 WORDS
 		\word[tools]{WORDS} is a debugging convenience found on almost
 		all Forth systems. It is universally referred to in Forth texts.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -281,8 +278,7 @@ Extensions word sets.
 
 \see \wref{core:DOES}{DOES>}.
 
-	\begin{defer}
-	\rationale % A.15.6.2.0470 ;CODE
+	\begin{rationale} % A.15.6.2.0470 ;CODE
 		Typical use:
 		\word[core]{:} \texttt{namex}
 			{\ldots} \arg{create} {\ldots}
@@ -291,7 +287,7 @@ Extensions word sets.
 		where \texttt{namex} is a defining word, and \arg{create} is
 		\word[core]{CREATE} or any user defined word that calls
 		\word[core]{CREATE}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -356,15 +352,14 @@ Extensions word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.15.6.2.0930 CODE
+	\begin{rationale} % A.15.6.2.0930 CODE
 		Some Forth systems implement the assembly function by adding
 		an \word[tools]{ASSEMBLER} word list to the search order,
 		using the text interpreter to parse a postfix assembly
 		language with lexical characteristics similar to Forth source
 		code. Typically, in such systems, assembly ends when a word
 		\texttt{END-CODE} is interpreted.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -385,8 +380,7 @@ Extensions word sets.
 	If the control-flow stack is implemented using the data stack,
 	\param{u} shall be the topmost item on the data stack.
 
-	\begin{defer}
-	\rationale % A.15.6.2.1015 CS-PICK
+	\begin{rationale} % A.15.6.2.1015 CS-PICK
 		The intent is to reiterate a \param{dest} on the control-flow
 		stack so that it can be resolved more than once. For example:
 		\setwordlist{core}
@@ -410,7 +404,7 @@ Extensions word sets.
 			\word{;}
 		\end{quote}
 		\setwordlist{tools}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -433,8 +427,7 @@ Extensions word sets.
 	If the control-flow stack is implemented using the data stack,
 	\param{u} shall be the topmost item on the data stack.
 
-	\begin{defer}
-	\rationale % A.15.6.2.1020 CS-ROLL
+	\begin{rationale} % A.15.6.2.1020 CS-ROLL
 		The intent is to modify the order in which the \param{orig}s
 		and \param{dest}s on the control-flow stack are to be resolved
 		by subsequent control-flow words. For example, \word[core]{WHILE}
@@ -448,7 +441,7 @@ Extensions word sets.
 			\word{;} \word{IMMEDIATE}
 		\end{quote}
 		\setwordlist{tools}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -481,8 +474,7 @@ Extensions word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.15.6.2.1580 FORGET
+	\begin{rationale} % A.15.6.2.1580 FORGET
 		Typical use:
 			{\ldots} \word{FORGET} \emph{name} {\ldots}
 
@@ -495,7 +487,7 @@ Extensions word sets.
 		\word{FORGET} know how much RAM to recover when an array
 		is forgotten? A general and preferred solution is provided by
 		\word[core]{MARKER}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -531,10 +523,9 @@ Extensions word sets.
 	otherwise return a false flag.
 	\word{[DEFINED]} is an immediate word.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.15.6.2.---- [DEFINED]
 		\word{:} \word{[DEFINED]} \word{BL} \word{WORD} \word{FIND} \word{NIP} \word{0ne} \word{;} \word{IMMEDIATE}
-	\end{defer}
+	\end{implement}
 \end{worddef}
 
 
@@ -555,14 +546,13 @@ Extensions word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.15.6.2.2531 [ELSE]
+	\begin{rationale} % A.15.6.2.2531 [ELSE]
 		Typical use:
 			{\ldots} \emph{flag}
 			\word[tools]{[IF]} {\ldots}
 			\word[tools]{[ELSE]} {\ldots}
 			\word[tools]{[THEN]} {\ldots}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -589,14 +579,13 @@ Extensions word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing}.
 
-	\begin{defer}
-	\rationale % A.15.6.2.2532 [IF]
+	\begin{rationale} % A.15.6.2.2532 [IF]
 		Typical use:
 			{\ldots} \emph{flag}
 			\word[tools]{[IF]} {\ldots}
 			\word[tools]{[ELSE]} {\ldots}
 			\word[tools]{[THEN]} {\ldots}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -609,8 +598,7 @@ Extensions word sets.
 
 	Does nothing. \word{[THEN]} is an immediate word.
 
-	\begin{defer}
-	\rationale % A.15.6.2.2533 [THEN]
+	\begin{rationale} % A.15.6.2.2533 [THEN]
 		Typical use:
 			{\ldots} \emph{flag}
 			\word[tools]{[IF]} {\ldots}
@@ -683,7 +671,7 @@ Extensions word sets.
 		\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE} \\
 		\end{tabbing}
 		\end{quote}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -700,8 +688,7 @@ Extensions word sets.
 	otherwise return a true flag. \word{[UNDEFINED]} is an immediate
 	word.
 
-	\begin{defer}
-	\implementation
+	\begin{implement} % I.15.6.2.---- [UNDEFINED]
 		\word{:} \word{[UNDEFINED]} \word{BL} \word{WORD} \word{FIND} \word{NIP} \word{0=} \word{;} \word{IMMEDIATE}
-	\end{defer}
+	\end{implement}
 \end{worddef}

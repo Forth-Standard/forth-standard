@@ -2,8 +2,12 @@
 \label{annex:rationale}
 \setwordlist{core}
 
+\ifanswerfiles
+	\namespace{rat}
+\fi
+
 \newcommand{\readrationale}[1]{%
-	\ifinlinebody
+	\ifinline
 		\fbox{\parbox{\linewidth}{\slshape
 		In the \emph{review} (r) version of the document the
 		rationale text for each of the words is given in with
@@ -12,7 +16,9 @@
 		the final document.
 		}}
 	\else
-		\input{#1.rat}
+		\defersection{}
+		\input{r-#1.sub}
+		\stepsection
 	\fi
 }
 
@@ -1118,19 +1124,19 @@ extension can be tested with the following test cases:
 
 \begin{tt}
 	\word{DECIMAL} \\
-	\{ \#1289       -> 1289        \} \\
-	\{ \#12346789.  -> 12346789.   \} \\
-	\{ \#-1289      -> -1289       \} \\
-	\{ \#-12346789. -> -12346789.  \} \\
-	\{ \$12eF       -> 4847        \} \\
-	\{ \$12aBcDeF.  -> 313249263.  \} \\
-	\{ \$-12eF      -> -4847       \} \\
-	\{ \$-12AbCdEf. -> -313249263. \} \\
-	\{ \%10010110   -> 150         \} \\
-	\{ \%10010110.  -> 150.        \} \\
-	\{ \%-10010110  -> -150        \} \\
-	\{ \%-10010110. -> -150.       \} \\
-	\{ 'z'          -> 122         \}
+	\test{\#1289      }{1289       } \\
+	\test{\#12346789. }{12346789.  } \\
+	\test{\#-1289     }{-1289      } \\
+	\test{\#-12346789.}{-12346789. } \\
+	\test{\$12eF      }{4847       } \\
+	\test{\$12aBcDeF. }{313249263. } \\
+	\test{\$-12eF     }{-4847      } \\
+	\test{\$-12AbCdEf.}{-313249263.} \\
+	\test{\%10010110  }{150        } \\
+	\test{\%10010110. }{150.       } \\
+	\test{\%-10010110 }{-150       } \\
+	\test{\%-10010110.}{-150.      } \\
+	\test{'z'         }{122        }
 \end{tt}
 
 \setcounter{subsubsection}{2}
@@ -2150,10 +2156,10 @@ or may not need information stored in the compilation word list.
 
 \readrationale{search}
 
-
 \section{The optional String word set} % A.17 =======================
 \setwordlist{string}
 \label{rat:string}
+
 
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.17.6 ============================

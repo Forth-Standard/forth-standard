@@ -90,15 +90,14 @@ to provide all of the String and String Extensions word sets.
 	\param{c-addr_2 u_2}, begins at \param{c-addr_1} plus \param{n}
 	characters and is \param{u_1} minus \param{n} characters long.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.17.6.1.0245 /STRING
 		\word{/STRING} is used to remove or add characters relative
 		to the ``left'' end of the character string. Positive values
 		of \param{n} will exclude characters from the string while
 		negative values of \param{n} will include characters to the
 		left of the string. \word{/STRING} is a natural factor of
 		\word[core]{WORD} and commonly available.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -122,8 +121,7 @@ to provide all of the String and String Extensions word sets.
 \item[Contrast with]
 	\wref{string:CMOVEtop}{CMOVE>}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.17.6.1.0910 CMOVE
 		If \param{c-addr_2} lies within the source region (i.e., when
 		\param{c-addr_2} is not less than \param{c-addr_1} and
 		\param{c-addr_2} is less than the quantity \param{c-addr_1 u}
@@ -138,7 +136,7 @@ to provide all of the String and String Extensions word sets.
 
 		Rationale for \word{CMOVE} and \word{CMOVEtop} follows
 		\word[core]{MOVE}.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -153,8 +151,7 @@ to provide all of the String and String Extensions word sets.
 \item[Contrast with:]
 	\wref{string:CMOVE}{CMOVE}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.17.6.1.0920 CMOVE>
 		If \param{c-addr_1} lies within the destination region (i.e.,
 		when \param{c-addr_1} is greater than or equal to
 		\param{c-addr_2} and \param{c-addr_2} is less than the
@@ -168,7 +165,7 @@ to provide all of the String and String Extensions word sets.
 			3 \word{CMOVEtop}
 		\end{quote}
 		the string at address 100 is ``DDDD''.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -189,13 +186,12 @@ to provide all of the String and String Extensions word sets.
 	numeric value than the corresponding character in the string
 	specified by \param{c-addr_2 u_2} and one (1) otherwise.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.17.6.1.0935 COMPARE
 		Existing Forth systems perform string comparison operations
 		using words that differ in spelling, input and output
 		arguments, and case sensitivity. One in widespread use
 		was chosen.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -209,13 +205,12 @@ to provide all of the String and String Extensions word sets.
 	match and \param{c-addr_3} is \param{c-addr_1} and \param{u_3}
 	is \param{u_1}.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.17.6.1.2191 SEARCH
 		Existing Forth systems perform string searching operations
 		using words that differ in spelling, input and output
 		arguments, and case sensitivity. One in widespread use was
 		chosen.
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
@@ -236,8 +231,7 @@ to provide all of the String and String Extensions word sets.
 	the characters specified by \param{c-addr_1 u} during
 	compilation. A program shall not alter the returned string.
 
-	\begin{defer}
-	\rationale
+	\begin{rationale} % A.17.6.1.2212 SLITERAL
 		The current functionality of \wref{core:Sq}{S"} may be
 		provided by the following definition:
 		\setwordlist{core}
@@ -248,7 +242,7 @@ to provide all of the String and String Extensions word sets.
 			\word{;} \word{IMMEDIATE}
 		\end{quote}
 		\setwordlist{string}
-	\end{defer}
+	\end{rationale}
 \end{worddef}
 
 
