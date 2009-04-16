@@ -1,12 +1,12 @@
 \documentclass[10pt]{book}
 \usepackage{a4wide}
-%\includeonly{members-2x}
+%\includeonly{testsuite}
 
 % ========== Document Organisation Flags ==========
 
-\newif\ifinlinebody		% Inline Rationale glossary matter
-\inlinebodytrue
-%\inlinebodyfalse
+\newif\ifinline			% Inline Rationale glossary matter
+\inlinetrue
+%\inlinefalse
 
 \newif\ifshowref		% Display Cross Reference labels
 %\showreftrue
@@ -56,7 +56,7 @@
 \makeatletter
 \newcommand{\docversion}{%
 	\revision
-	\ifinlinebody
+	\ifinline
 		\textit{r}%		word Rationale only
 	\fi%
 	\ifshowref
@@ -83,13 +83,12 @@
 
 
 \usepackage{answers}
-\renewcommand{\solutionextension}{rat} % Default file extension
 
 % The answerfile switch controls the use of deferred text.
 % Turning it on will allow text to be exported to a "solution"
 % file, while turning it off will simply place the text in line.
 
-\ifinlinebody
+\ifinline
 	\answerfilesfalse
 \else
 	\answerfilestrue
@@ -171,10 +170,13 @@
 	% Set up a file ready for the deferred text
 	%
 	\ifanswerfiles
-		\Ifopen{deferred}{
-			\Closesolutionfile{deferred}
-		}{}
-		\Opensolutionfile{deferred}[#1]
+		\Closesolutionfile{rationale}
+		\Closesolutionfile{testing}
+		\Closesolutionfile{implementation}
+
+		\Opensolutionfile{rationale}[r-#1]
+		\Opensolutionfile{testing}[t-#1]
+		\Opensolutionfile{implementation}[i-#1]
 	\fi
 }
 
@@ -229,8 +231,6 @@
 % \note[<number>]	Note with an optional <number>
 % \runtime[<type>]	Run-time semantics, with a given <type>
 % \see				Reference to other words (See)
-% \ratinale			Rationale
-% \testing			Testing
 %
 % \item[<name>]		None standard section "<name>:"
 %
@@ -239,14 +239,19 @@
 %		See the definition of \param for the rules.
 %
 % \stack[<stack>]{<before>}{<after>}
-%		Type set a stack picture according to the same notation rules
-%		as used form \param.
+%		Type set a stack picture according to the same notation
+%		rules as used form \param.
 %
-% \begin{defer} ... \end{defer}
-%		All text which should appear in the rational must be given
-%		inside the defer environment. This allows the text to be
-%		shipped out to a separate file if deferred text is enabled,
-%		\inlinebody is false.
+% All text which should appear in one of the appendices in the
+% final document must appear within the associated environment.
+% This allows the text to be shipped out to a separate .sub support
+% file, when inlineing is disabled (\ifinline is false).
+%
+% \begin{rationale} ... \end{rationale}
+% \begin{testing}   ... \end{testing}
+%   \test{<pre>}{<post>}			A test case
+%	\ftest{<pre>}{<post>}{<type>}	A Floating-Point test
+% \begin{implement} ... \end{implement}
 
 % ==== worddef ====
 
@@ -298,7 +303,7 @@
 }
 
 % Now we process the second pair of parameters: <sub-number> and
-% <name>. So we define (or redefine) the macros:
+% <name>.  So we define (or redefine) the macros:
 % \word@label	if \word@label is \empty this is redefined to <name>
 % \word@sub		the two digit sub-division number
 % \word@name	the name of the word being defined
@@ -330,6 +335,19 @@
 
 \newcommand{\word@def@d}[1][\empty]{% ...[<proposal>]
 	\ifx#1\empty\let\word@prop=\empty\else\def\word@prop{#1}\fi
+%	\word@def@test
+	\word@def@begin
+}
+
+% Now we have collected all of the parameters we can start the word
+% definition.  We break this into separate sections, first we generate
+% the word index entry (\word@def@index) then the word's banner in the
+% glossary (\word@def@head), and finally we set up the environment for
+% the text of the definition itself (\word@def@body).
+% However, before we do any of this, we ensure that all new words have
+% a proposal attached. 
+
+\newcommand{\word@def@begin}{%
 	\ifx\empty\word@prop
 		% No proposal - word must be from ANS Forth '94
 		\if@star
@@ -346,7 +364,7 @@
 
 \newcommand{\word@def@index}{%
 	\immediate\write\wordfile{\string\indexentry%
-		\if@star*\fi%		* = Changebar
+		\if@star*\fi%			* = Changebar
 		\ifnum\value{word@core}=\value{chapter}{\thesection}\else{\thesubsection}\fi%	1: <section>
 		{\word@num}%			2: <number>
 		{\word@sub}%			3: <sub number>
@@ -387,11 +405,11 @@
 	%
 	% Start change bar
 	%
-	\if@star
+	\if@star%
 		\cbstart%
-		\ifinlinebody\else%
-			\Writetofile{deferred}{\protect\cbstart}%
-		\fi%
+		\Writetofile{rationale}{\protect\cbstart}%
+		\Writetofile{testing}{\protect\cbstart}%
+		\Writetofile{implement}{\protect\cbstart}%
 	\fi%
 	%
 	% Define the hyper target before the glossary entry
@@ -413,7 +431,7 @@
 				\thesection
 			\else
 				% In all other word sets
-				\thesubsection%
+				\thesubsection
 			\fi
 			%
 			% Word number
@@ -516,7 +534,6 @@
 		\addtolength{\leftmargin}{\labelsep}
 		\renewcommand{\makelabel}{\word@item}
 	}
-%	\samepage
 }
 
 % ==== Word Footer ====
@@ -537,12 +554,12 @@
 	%
 	% End the change bar, if it was enabled
 	%
-	\if@star
+	\if@star%
 		\cbend%
-		\ifinlinebody\else%
-			\Writetofile{deferred}{\protect\cbend}%
-		\fi%
-	\fi
+		\Writetofile{rationale}{\protect\cbend}%
+		\Writetofile{testing}{\protect\cbend}%
+		\Writetofile{implement}{\protect\cbend}%
+	\fi%
 	%
 	% Leave some extra space after the list
 	%
@@ -604,7 +621,7 @@
 	\catcode`\"=\active		% Syntax element: "name"
 
 % Because we are inside a simple group, we have to use \gdef rather
-% than \newcommand. The \param@set command installs the new specials
+% than \newcommand. The \stack@set command installs the new specials
 % for the next function call.
 
 \gdef\stack@set{%
@@ -678,98 +695,177 @@
 					% this also cancels the \itshape command
 }
 
+% As part of the testing environment we also provide the \test and
+% \ftest macros to typeset the text of a test case.
+
+% \test{test code}{expected results}
+\newcommand{\test}{\forth@test{\forth@test@cell}}
+\newcommand{\ftest}{\forth@test{\forth@test@float}}
+\newcommand{\forth@test}[1]{\frenchspacing\obeyspaces#1}
+\newcommand{\forth@test@cell}[2]{%
+	\texttt{T\{ #1 -> #2 \}T}%
+	\nonfrenchspacing\catcode`\ =10}
+\newcommand{\forth@test@float}[3]{%
+	\texttt{T\{ #1 -> #2 #3\}T}%
+	\nonfrenchspacing\catcode`\ =10}
+
 % ==== Deferred Text ====
 %
-% The defer environment should be used to identify text which is
-% to be included in the rationale for a definition. Only one defer
-% section is allowed for each definition. Both the Rationale and
-% Testing sections may only appear in the defer environment.
+% \begin{rationale} ... \end{rationale}
+% \begin{testing}   ... \end{testing}
+%   \test{<pre>}{<post>}	A test case
+% \begin{implement} ... \end{implement}
 %
-% If we are inlineing (\inlinebodyture) we simply ignore the defer
-% environment. The \rationale command must define a cross reference
-% label (and hyper link target) for use by \rref. Otherwise we have
-% to ship the text out to the deferred text file for the given
-% wordlist.
+% Deferred text refers to those parts of a words definition that
+% do not appear in the main normative definition.  Such informative
+% text appears in a separate appendix.  Be in the Rationale, Test
+% cases, or a reference implementation.
+%
+% Rather than defining sections as we have done for the different
+% sematic descriptions, we have to define environments so that we
+% can either include the text in with the normative definition as
+% it is much easer to review the text in this way, or export the
+% text to another file, which can then be included into the
+% appropriate section of the appendix.
+%
+% We have to provide two separate versions of these environments.
+% One is used when we are inlining (\inlinetrue) and the other when
+% we are exporting (\inlinefalse).
 
-% For this some knowledge of the answers package is required. This
-% package allows us to define an association between two environments
-% and a "solution" file:
-%
-% \Newassociation{defertext}{deferredtext}{deferred}
-%
-% When a defertext environment is encountered the text will be written
-% out to the associated solution file (deferred in this case). The text
-% is placed in the deferredtext environment, so that it may be processed
-% correctly.
-%
-% However, if \ifanswerfiles is false, the text is not shipped out to
-% the solution file, but simply processed directly in the deferredtext
-% environment.
-%
-% The deferredtext environment is executed with a number of parameters.
-% These are defined by the \deferredtextparams macro. This allows us to
-% capture then environment in which the defertext environment was found,
-% and pass on any relevant information to the deferred text environment.
-%
-% The command:
-%
-%	\Opensolutionfile{deferred}[filename]
-%
-% associates an actual file name (in this case filename) with the
-% solution file handle deferred. This allow a single solution file
-% handle to be associated with multiple physical files, one per
-% wordlist.
-
-% So that's the background, no on to the defer environment!
-%
-% We start by defining a boolean flag to enable the \rationale and
-% \testing macros or spit out an error message if it is used outside
-% of the defer environment
-
-% Rather than defining several new flags, we will use a simple counter
-% to control both error handling and the generation of the section
-% label for deferred (rationale) text.
-%
-% 0: Not in defer environment
-% 1: Start of defer environment
-% 2: Rationale header output
-% 3: Implementation header output
-% 4: Testing header output
-
-\newcounter{defer@state}
-
-\ifinlinebody
-	% We are inlineing the text.
-
-	% Define our own defer environment which does very little
-	\newenvironment{defer}{%
-		% Enable rationale sections
-		\setcounter{defer@state}{1}
-		\def\@noitemerr{}
-	}{%
-		% Have we output a section heading
-		\ifnum\value{defer@state}=1
-			% No - report an error
-			\word@error{Something wrong here --- missing a rationale
-				heading}
-		\fi
-		% Disable defer headings
-		\setcounter{defer@state}{0}
+\ifinline
+	% We have to define the "inline" version of these environments.
+	% These will simply show the text inline with the normative
+	% description.
+	
+	% We define two helper macros.  The first of which will output
+	% the section <title> and define a hyper target for the <title>
+	% based on the current name <space>.
+	\newcommand{\inline@section}[2]{% {<space>}{<title>}
+		% In the review version of the document we change the font
+		% for of the informative text to help distinguish it from
+		% the normative text.  In the final version it will appear
+		% in a seperate appendix.
+		\sffamily
+		%
+		% Output the section <title> and define an associated
+		% hyper taget in the given name <space>.
+		\item[\hyperdef{#1.\word@list}{\word@label}{#2}]
 	}
 
+	% We need to fake a latex label for this section of the words
+	% definition.  This macro will fake a label for the given
+	% <annex> within a given name <space>.
+	\newcommand{\inline@label}[2]{% {<space>}{<annex>}
+		% We start by fakeing the current label value
+		\def\@currentlabel{%
+			#2.%
+			\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
+			\ifx\word@num\empty.0\else.\word@num\fi%
+			\ifx\word@sub\empty\else.\word@sub\fi%
+		}
+		% The text of the label
+		\edef\@currentlabelname{\word@name}
+		% The hyper target for this label
+		\def\@currentHref{#1.\word@list.\word@label}
+		% Finally, the label itself
+		\label{#1:\word@list:\word@label}
+	}
+
+	% \begin{rationale} ... \end{rationale}
+	% The rationale environment must define a cross reference label
+	% (and hyper link target) for use by \rref.
+
+	\newenvironment{rationale}{%
+		\inline@section{rat}{Rationale}
+		\inline@label{rat}{\ref{annex:rationale}}
+	}{
+		% Switch back to the normal font
+		\rmfamily
+	}
+
+	% \begin{testing} ... \end{testing}
+	% Now we need to do something simular for the testing environment.
+	\newenvironment{testing}{
+		\inline@section{test}{Testing}
+		\inline@label{test}{\ref{annex:test}}
+	}{
+		\rmfamily
+	}
+
+	% \begin{implment} ... \end{implment}
+	% And the same again for the reference implementation.
+	\newenvironment{implement}{%
+		\inline@section{imp}{Implementation}
+		\ttfamily
+	}{%
+		\rmfamily
+	}
+
+	% Sometime we want "normal" text in the implementation and
+	% testing sections.  We deine a "Deferred Font" to hide the
+	% sf/rm font switch.
+	\newcommand{\textdf}[1]{\textsf{#1}}
+	\newcommand{\dffamily}{\sffamily}
 \else
-	% We are deferring the text for inclusion in the Rational appendix
+	% We are not "inline," so we have to ship the informative text
+	% out to their respective appendices.
+	%
+	% For this some knowledge of the answers package is required.
+	% This package allows us to define an association between two
+	% environments and a "solution" file:
+	%
+	% \Newassociation{defertext}{deferredtext}{deferred}
+	%
+	% When a <defertext> environment is encountered the text will
+	% be written out to the associated solution file (<deferred> in
+	% this case).  The text is placed in the <deferredtext>
+	% environment, so that it may be processed correctly.
+	%
+	% The <deferredtext> environment is executed with a number of
+	% parameters.  These are defined by the \deferredtextparams
+	% macro.  This allows us to capture the environment in which the
+	% defertext environment was found, and pass on any relevant
+	% information to the deferred text environment.
+	%
+	% The command:
+	%
+	%	\Opensolutionfile{deferred}[filename]
+	%
+	% associates an actual file name (in this case <filename>) with
+	% the solution file handle <deferred>.  This allows a single
+	% solution file handle to be associated with multiple physical
+	% files, one per wordlist.
+	%
+	% So that's the background, no on to the deferred environments!
 
-	% Let answers package define the defer environment for us.
+	% Override the default file extension (.tex) for these support
+	% files.  Making it something else (.sub) will make it easy to
+	% delete them after a run.
+	\renewcommand{\solutionextension}{sub}
 
-	\Newassociation{defer}{worddefer}{deferred}
+	% Define a new solution handle for each of the informative
+	% encironments:
 
-	% The text in the defer environment will be placed inside a
-	% worddefer environment.
+	\Newassociation{rationale}{worddefer}{rationale}
+	\Newassociation{testing}{worddefer}{testing}
+	\Newassociation{implement}{worddefer}{implementation}
 
-	% Define a set of parameters to the worddefer environment.
-	% The \worddeferparams macro is used to capture the current state,
-	% so that it may be passed to the worddefer environment.
+	\newcommand{\prerationale}{%
+		\item[Rationale] See \rref{\word@list:\word@label}{\word@name}
+	}
+
+	\newcommand{\pretesting}{%
+		\item[Testing] See \tref{\word@list:\word@label}{\word@name}
+	}
+
+	\newcommand{\preimplement}{%
+		\item[Implementation] See \iref{\word@list:\word@label}{\word@name}
+	}	
+
+	% The text for all three environments will be processed by
+	% the worddefer environment.  This will be given a number
+	% of paramaters, which must capture the current environment
+	% when the source environment was used.
 
 	\renewcommand{\worddeferparams}{%
 		{\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi}%	Section (or sub-section) number
@@ -780,27 +876,91 @@
 		{\word@name}%		6 The LaTeX name for the word
 	}
 
+	% The exported text has to interact with the appendix which
+	% includes the text.  It does this though the following
+	% interface:
+
+	% The appendix must define a namespace for itself.  This tells
+	% worddefer which label to generate (rat, test or imp).
+
+	\def\defer@space{%
+		\@latex@error{No name space defined - Use the
+			\protect\namespace command to define a namespace}\@ehc
+	}
+
+	\newcommand{\namespace}[1]{%
+		\gdef\defer@space{#1}
+	}
+
+	% If the appendix generates a header for each section, there is
+	% the potential for a header to appear with no body if there is
+	% no exported text for the appendix in a given wordlist.  To
+	% prevent this rather unsightly situation the appendix uses the
+	% \defersection command to define the current section heading.
+
+	\newcommand{\defersection}[1]{\gdef\defer@title{#1}}
+
+	% deferword will output an approperate section heading, and then
+	% resets \defer@title to \empty so that it is only output once.
+
+	% However, as we do not output a section header, we still need to
+	% be able to increment the section number, so that the numbering
+	% keeps in step with the wordlist definitions.  Thus we provide
+	% a macro to increment the section number if the header was not
+	% output.  This should be called after the support file has been
+	% input into the document.
+
+	\newcommand{\stepsection}{%
+		\ifx\defer@title\empty\else
+			\stepcounter{section}
+		\fi
+	}
+
+	% Now we have set up the environment we can finally override the
+	% default worddefer environment.  This takes six paramaters which
+	% where defined by \deferwordparams to be:
+	%
+	% #1	Section (or sub-section) number
+	% #2	Word number or \empty
+	% #3	Word sub-number
+	% #4	The current word list
+	% #5	The label for the word
+	% #6	The LaTeX name for the word
+
 	% We redefine the standard worddefer environment to take account
 	% of the parameters we have just defined.
 
-	\newcommand{\word@defer@error}[1]{%
-		\@latex@error{%
-			In rationale for \word@num\space "\word@name" of wordset
-			"\word@list" \MessageBreak #1}\@ehc
-	}
+%	\newcommand{\word@defer@error}[1]{%
+%		\@latex@error{%
+%			In rationale for \word@num\space "\word@name" of wordset
+%			"\word@list" \MessageBreak #1}\@ehc
+%	}
+
+	\let\format@rat\rmfamily
+	\let\format@test\rmfamily
+	\let\format@imp\ttfamily
 
 	\renewenvironment{worddefer}[6]{%
 		%
 		% Output the section heading
 		%
+		\ifx\defer@title\empty\else
+			\section{The optional \defer@title{} word set}
+			\label{\defer@space:\defer@title}
+			\gdef\defer@title{}
+		\fi
+		%
+		% Output the word header.
+		% Mark the header as the target for the hyperlink.
+		%
 		\par
-		\hyperdef{rat.#4}{#5}{%
-			\textbf{A.#1%
+		\hyperdef{\defer@space.#4}{#5}{%
+			\textbf{\rmfamily\thechapter.#1%
 				\ifnum#2=0\empty.\rule[.8ex]{2em}{.5pt}\else.#2\fi%
 				\ifx#3\empty\else.#3\fi
 				\quad \hyperref{}{}{#4.#5}{\texttt{#6}}
 			}
-		} \\[-1.6\baselineskip]
+		} \\[-1.4\baselineskip]
 		%
 		% Start the body environment
 		%
@@ -814,7 +974,7 @@
 		%
 		% Store a few values just incase there is an error
 		%
-		\def\word@num{A.#1%
+		\def\word@num{\thechapter.#1%
 			\ifx#2\empty.--\else.#2\fi%
 			\ifx#3\empty\else.#3\fi}
 		\def\word@list{#4}
@@ -823,138 +983,41 @@
 		%
 		% Create a few variables, used by \label
 		%
-		\def\@currentlabel{A.#1%
+		\def\@currentlabel{\thechapter.#1%
 			\ifx#2\empty.0\else.#2\fi%
 			\ifx#3\empty\else .#3\fi
 		}
 		\edef\@currentlabelname{#6}
-		\def\@currentHref{rat.#4.#5}
+		\def\@currentHref{\defer@space.#4.#5}
 		%
 		% Record a cross reference label for the section
 		%
-		\label{rat:\word@list:\word@label}
+		\label{\defer@space:\word@list:\word@label}
 		%
-		% Enable the defer headings
+		% Format the section
 		%
-		\setcounter{defer@state}{1}
+		\csname format@\defer@space\endcsname
 		%
 		% Patch the error message to report "rationale"
 		%
-		\let\word@error=\word@defer@error
+%		\let\word@error=\word@defer@error
 	}{
 		%
 		% Ignore the no \item error
 		%
-		\def\@noitemerr{}
-		%
-		% Check to see if either rationale section heading
-		%
-		\ifnum\value{defer@state}=1
-			\word@defer@error{Something wrong here --- missing a
-				rationale heading}
-		\fi
+%		\def\@noitemerr{}
 		%
 		% End the list environment
 		%
 		\end{list}
-		%
-		% Disable defer headings
-		%
-		\setcounter{defer@state}{0}
 	}
+
+	% Sometime we want "normal" text in the implementation and
+	% testing sections.  We deine a "Deferred Font" to hide the
+	% sf/rm font switch.
+	\newcommand{\textdf}[1]{\textrm{#1}}
+	\newcommand{\dffamily}{\rmfamily}
 \fi
-
-% Defer section headings
-
-\newcommand{\defer@heading}[3]{% {<state>}{<command>}{<heading>}
-	\ifnum\value{defer@state}=0
-		% Using a heading outside of the defer environment
-		\word@error{\protect#2\space may only be used inside a defer
-			environment}
-	\else
-		% We are in the defer environment
-		\ifnum\value{defer@state}=#1
-			% Already used this heading
-			\word@error{Only one \protect#2\space section allowed per
-				word}
-		\fi
-		\ifnum\value{defer@state}>#1
-			% Heading is out of sequence
-			\word@error{\protect#2\space must be before
-				\ifcase\value{defer@state}
-				\or\or
-				\or\protect\implementation%
-				\or\protect\testing\fi}
-		\fi
-		\ifinlinebody\sffamily\else\rmfamily\fi
-		\ifnum\value{defer@state}=1
-			% First heading in defer environment
-			\ifinlinebody
-				\item[\hyperdef{rat.\word@list}{\word@label}{#3}]
-				% Set up for \label
-				\def\@currentlabel{%
-					A.\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
-					\ifx\word@num\empty.0\else.\word@num\fi%
-					\ifx\word@sub\empty\else .\word@sub\fi
-				}
-				\edef\@currentlabelname{\word@name}
-				\def\@currentHref{rat.\word@list.\word@label}
-				% Record a cross reference label for the section
-				\label{rat:\word@list:\word@label}
-			\fi
-		\else
-			\ifinlinebody
-				\item[#3]
-			\else
-				\item[#3] ~\\
-			\fi
-		\fi
-		\setcounter{defer@state}{#1}
-	\fi
-}
-
-\newcommand{\rationale}{%
-	\defer@heading{2}{\rationale}{Rationale}
-	\ifinlinebody\sffamily\fi
-}
-
-
-% We need to call the @star version of the internal word so we can read
-% (get rid of) the "*". The non-star version does the actual work.
-
-\newcommand{\implementation}{%
-	\@ifnextchar*{\defer@imp@star}{\defer@imp}
-}
-
-\newcommand{\defer@imp@star}[1]{
-	\defer@imp
-	\ifinlinebody\sffamily\else\rmfamily\fi
-}
-
-\newcommand{\defer@imp}{
-	\defer@heading{3}{\implementation}{Implementation}
-	\ttfamily
-}
-
-
-\newcommand{\testing}{
-	\@ifnextchar*{\defer@test@star}{\defer@test}
-}
-
-\newcommand{\defer@test@star}[1]{
-	\defer@test
-	\ifinlinebody\sffamily\else\rmfamily\fi
-}
-
-\newcommand{\defer@test}{
-	\defer@heading{4}{\testing}{Testing}
-	\ttfamily
-}
-
-
-\newcommand{\defertext}[1]{
-	{\ifinlinebody\sffamily\else\rmfamily\fi #1}
-}
 
 
 % ========== Special Characters ==========
@@ -999,11 +1062,13 @@
 \newcommand{\word@word}[4]{% {number}{page}{name}{link}
 	\hyperref{}{}{#4}{%
 		\textbf{\texttt{%
+			\frenchspacing%
 			\ifshowref
 				\underline{#3}%
 			\else%
 				{#3}%
 			\fi%
+			\nonfrenchspacing
 		}}%
 	}%
 }
@@ -1016,7 +1081,7 @@
 \else
 	\newcommand{\@noword}[2]{% {<wordset>}{<word>}
 		\@latex@warning{Can't find definition of "#2" in wordlist
-			"#1", reference in file \includefile}{}
+			"#1", reference in file \includefile}{}%
 	}
 \fi
 
@@ -1056,15 +1121,16 @@
 
 % \xref[<text>]{<label>}
 % Extended cross reference.
+%
 % This was originally developed as a tool to help in the conversion of
 % existing documents into LaTeX form. It relies on the extended \label
-% command provided by the hyperref package. It will look up <label>
+% command provided by the hyperref package.  It will look up <label>
 % and places the section number followed by the section name as a
-% hyperlink to <label>. Should <label> not be found it places <label>
-% (between brackets) with the optional <text> along side. The idea
-% being that the user can see what was in the original document (<text>),
-% and which <label> was not found. If the <text> is not given, the
-% traditional double question mark is used.
+% hyperlink to <label>.  Should <label> not be found it places <label>
+% (between brackets) with the optional <text> along side.  The idea
+% being that the user can see what was in the original document
+% (<text>), and which <label> was not found.  If the <text> is not
+% given, the traditional double question mark is used.
 %
 % Thus for the following example, the label "foo" refers to section
 % 3.2.1 which has the name "Foo", the text:
@@ -1081,12 +1147,12 @@
 %
 %	section [foo: original text].
 %
-% where the "[foo: original text]" appears in bold. This is intended to
-% indicate that the label foo was not found, but the original document
-% had "original text" as the text which should appear here.
+% where the "[foo: original text]" appears in bold. This is intended
+% to indicate that the label foo was not found, but the original
+% document had "original text" as the text which should appear here.
 
 % We define a helper command which interprets the parameters generated
-% by executing the label. It will output the section number (#1) and
+% by executing the label.  It will output the section number (#1) and
 % title (#3)
 
 \newcommand{\word@xref}[4]{% {number}{page}{name}{link}
@@ -1144,14 +1210,46 @@
 		\@latex@warning{Reference `#1' to rationale of `#2' on page
 			\thepage\space undefined}%
 	\else%
-		\ifinlinebody
+		\ifinline%
 			\expandafter\expandafter\expandafter\word@ref@inline\csname r@#1\endcsname%
-		\else
+		\else%
 			\expandafter\expandafter\expandafter\word@ref\csname r@rat:#1\endcsname%
 		\fi%
 	\fi%
 }
 
+% \tref{<label>}{<name>} - Testing
+
+\newcommand{\word@test@inline}[4]{\word@ref{\ref{annex:test}.#1}{#2}{#3}{#4}}
+\newcommand{\tref}[2]{% {<label>}{<name>}
+	\expandafter\ifx\csname r@test:#1\endcsname\relax%
+		\textbf{[test:#1] #2}%
+		\@latex@warning{Reference '#1' to testing of '#2' on page
+			\thepage\space undefined}%
+	\else%
+		\ifinline%
+			\expandafter\expandafter\expandafter\word@test@inline\csname r@#1\endcsname%
+		\else%
+			\expandafter\expandafter\expandafter\word@ref\csname r@test:#1\endcsname%
+		\fi%
+	\fi%
+}
+
+% \iref{<label>}{<name>} - Implementation
+\newcommand{\word@imp@inline}[4]{\word@ref{\ref{annex:implement}.#1}{#2}{#3}{#4}}
+\newcommand{\iref}[2]{% {<label>}{<name>}
+	\expandafter\ifx\csname r@imp:#1\endcsname\relax%
+		\textbf{[imp:#1] #2}%
+		\@latex@warning{Reference '#1' to implementation of '#2' on page
+			\thepage\space undefined}%
+	\else%
+		\ifinline%
+			\expandafter\expandafter\expandafter\word@imp@inline\csname r@#1\endcsname%
+		\else%
+			\expandafter\expandafter\expandafter\word@ref\csname r@imp:#1\endcsname%
+		\fi%
+	\fi%
+}
 % =============================================
 
 
@@ -1270,7 +1368,9 @@
 \include{string}
 
 % Close the deferred output files
-\Closesolutionfile{deferred}
+\Closesolutionfile{rationale}
+\Closesolutionfile{testing}
+\Closesolutionfile{implementation}
 
 % Close the glossary file
 \immediate\closeout\wordfile
@@ -1284,7 +1384,7 @@
 % We do not bother to produce a new title page only when we
 % are inlineing the rational.
 
-\ifinlinebody
+\ifinline
 	% Save the current page number
 	\setcounter{savepage}{\value{page}}
 
@@ -1323,6 +1423,7 @@
 \include{history}
 \include{diff}
 \include{port}
+\include{implement}
 \include{testsuite}
 
 % Part V: Index
