@@ -1002,9 +1002,9 @@ were used for keyboard editing functions and ``invisible'' words.
 
 \subsubsection{Data space} % A.3.3.3
 
-The words \word{numTIB}, \word{toIN}, \word{BASE}, \word[block]{BLK},
+The words \word[legacy]{numTIB}, \word{toIN}, \word{BASE}, \word[block]{BLK},
 \word[block]{SCR}, \word{SOURCE}, \word{SOURCE-ID}, \word{STATE}, and
-\word{TIB} contain information used by the Forth system in its
+\word[legacy]{TIB} contain information used by the Forth system in its
 operation and may be of use to the application. Any assumption made
 by the application about data available in the Forth system it did
 not store other than the data just listed is an environmental
@@ -1136,7 +1136,7 @@ extension can be tested with the following test cases:
 	\test{\%10010110. }{150.       } \\
 	\test{\%-10010110 }{-150       } \\
 	\test{\%-10010110.}{-150.      } \\
-	\test{'z'         }{122        }
+	\test{'z' \       }{122        }
 \end{tt}
 
 \setcounter{subsubsection}{2}
@@ -1270,6 +1270,7 @@ Forth implementations.
 
 \setcounter{subsection}{1}
 \subsection{Core extension words} % A.6.2 =================
+\label{rat:core-ext}
 
 The words in this collection fall into several categories:
 
@@ -1283,8 +1284,9 @@ The words in this collection fall into several categories:
 \item Words that are primarily useful in narrowly defined types of
 	applications or are in less frequent use (e.g., \word{PARSE});
 
-\item Words that are being deprecated in favor of new words introduced
-	to solve specific problems (e.g., \word{CONVERT}).
+\item \remove{x:legacy}{%
+	Words that are being deprecated in favor of new words introduced
+	to solve specific problems (e.g., \word[legacy]{CONVERT}).}
 \end{itemize}
 
 Because of the varied justifications for inclusion of these words,
@@ -2165,3 +2167,27 @@ or may not need information stored in the compilation word list.
 \subsection{Glossary} % A.17.6 ============================
 
 \readrationale{string}
+
+
+\section{The optional Legacy word set} % A.x =======================
+\setwordlist{string}
+\label{rat:legacy}
+
+\place{x:legacy}{%
+As implementations have become more elaborate and practices have
+been superceded, the words that support those practices are now
+considered obsolete.  These words were marked as obsolete in the
+previous standard.  They have been grouped together into the legacy
+word set as although obsolete these words are still to be found in
+widespread use in legacy code.}
+
+\place{x:legacy}{%
+Their definitions are retained in this word set, so that legacy
+code will continue to operate.  However, their use in new
+implementations or new program is strongly discouraged.}
+
+\setcounter{subsection}{5}
+\subsection{Glossary} % A.xx.6 ============================
+
+\readrationale{legacy}
+
