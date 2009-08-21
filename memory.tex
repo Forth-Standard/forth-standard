@@ -150,6 +150,20 @@ Memory-Allocation Extensions word sets.
 \see \wref{core:HERE}{HERE},
 	\wref{memory:FREE}{FREE},
 	\wref{memory:RESIZE}{RESIZE}.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{100 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
+		\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned} \\
+		\test{addr \word{@} \word{FREE}}{0}
+
+		\test{99 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
+		\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned}
+
+		\test{addr \word{@} \word{FREE}}{0} \\
+		\test{-1 \word{ALLOCATE} \word{SWAP} \word{DROP} \word{0=}}{<FALSE>} \tab \word{bs} \textdf{Memory allocate failed}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -200,6 +214,22 @@ Memory-Allocation Extensions word sets.
 \see \wref{core:HERE}{HERE},
 	\wref{memory:ALLOCATE}{ALLOCATE},
 	\wref{memory:FREE}{FREE}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\test{50 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
+		addr \word{@} 50 writemem addr \word{@} 50 checkmem
+
+		\test{addr \word{@} 28 \word{RESIZE} \word{SWAP} addr \word{!}}{0} \\
+		addr \word{@} 28 checkmem
+
+		\test{addr \word{@} 200 \word{RESIZE} \word{SWAP} addr \word{!}}{0} \\
+		addr \word{@} 28 checkmem
+
+		\test{addr \word{@} -1 \word{RESIZE} \word{0=}}{addr \word{@} <FALSE>} \\
+		\test{addr \word{@} \word{FREE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 

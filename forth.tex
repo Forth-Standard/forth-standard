@@ -6,18 +6,18 @@
 
 \newif\ifinline			% Inline Rationale glossary matter
 \inlinetrue
-%\inlinefalse
+\inlinefalse
 
 \newif\ifshowref		% Display Cross Reference labels
 %\showreftrue
 \showreffalse
 
-\newcommand{\revision}{08.1}	% Document Revision
+\newcommand{\revision}{09.2}	% Document Revision
 
 % =================================================
 
 % Tell LaTeX to record a list of all the files
-\listfiles
+%\listfiles
 
 % To Do
 %
@@ -27,7 +27,7 @@
 % add \log to History / Change Log
 
 %\usepackage{supertabular}
-\usepackage{graphics}
+\usepackage{graphicx}
 \usepackage{randtext}	% Randamize text (for email addresses)
 
 
@@ -1082,7 +1082,7 @@
 \fi
 
 % \word[<wordlist>]{<wordlabel>}
-% Typeset the work associated with the label <wordlabel>. The word is
+% Typeset the word associated with the label <wordlabel>. The word is
 % either in the current wordlist, the core word list or the optional
 % <wordlist>. The word is hyperlinked back to its definition.
 %
@@ -1289,6 +1289,10 @@
 	\edef\@currentlabelname{#1}%
 }
 
+\newcommand{\patch}[1]{%
+	\marginpar{\tiny\textsf{#1}}
+}
+
 % ========================================
 
 % Modify itemize and enumerate environments
@@ -1360,8 +1364,11 @@
 \include{memory}
 \include{tools}
 \include{search}
-\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
 \include{string}
+
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\include{legacy}
 
 % Close the deferred output files
 \Closesolutionfile{rationale}

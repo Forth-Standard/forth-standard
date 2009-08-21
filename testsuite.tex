@@ -62,8 +62,8 @@ If the depths are not equal or if the stack comparison fails, an error
 is reported.  For exmaple:
 
 \test{1 2 3 \word{SWAP}}{1 3 2} \\
-\test{1 2 3 \word{SWAP}}{1 2 3} \texttt{INCORRECT RESULT:} \test{1 2 3 SWAP}{1 2 3} \\
-\test{1 2 3 \word{SWAP}}{1 2}   \texttt{WRONG NUMBER OF RESULTS:} \test{1 2 3 SWAP}{1 2} \\
+\test{1 2 3 \word{SWAP}}{1 2 3}\ \texttt{INCORRECT RESULT:} \test{1 2 3 SWAP}{1 2 3} \\
+\test{1 2 3 \word{SWAP}}{1 2}\   \texttt{WRONG NUMBER OF RESULTS:} \test{1 2 3 SWAP}{1 2} \\
 
 \subsection{Floating-Point}
 \setwordlist{floating}
@@ -98,7 +98,7 @@ the precision of comparisons:
 \begin{tt}
 SET-NEAR \\
 1E-6 REL-NEAR \word{F!} \\
-\ftest{S" 3.14159E" \word{toFLOAT}}{-1E \word{FACOS} <TRUE>}{RX}
+\test[RX]{S" 3.14159E" \word{toFLOAT}}{-1E \word{FACOS} <TRUE>}
 \end{tt}
 
 \subsection{Error Processing}
@@ -597,10 +597,10 @@ As with the other sections, the tests for the memory access words
 build on previously tested words and thus require an order to the
 testing.
 
-The first test (\tref{core@,}{,}) tests \word{HERE}, the signle cell
-memory access words \word{@}, \word{!} and \word{CELL+} as well as
-the double cell access words \word{2@} and \word{2!}.  The tests
-\tref{core:+!}{+!} and \tref{core:CELLS}{CELLS} should then be
+The first test (\tref{core:,}{,} (comma)) tests \word{HERE}, the
+signle cell memory access words \word{@}, \word{!} and \word{CELL+}
+as well as the double cell access words \word{2@} and \word{2!}.  The
+tests \tref{core:+!}{+!} and \tref{core:CELLS}{CELLS} should then be
 performed.
 
 The test (\tref{core:C,}{C,}) also tests the single character memory
@@ -766,9 +766,9 @@ but rather refers to the previous definition of the word.
 \test{GDX}{123 234}
 \cbend
 
+
 \ifinline
-	\newcommand{\testsection}[2]{%
-		\section{The optional #2 word set}
+	\newcommand{\readtest}[1]{% {<file>}
 		\fbox{\parbox{\linewidth}{\slshape
 		In the \emph{review} (r) version of the document the
 		test cases for a word are given in with the main
@@ -777,7 +777,16 @@ but rather refers to the previous definition of the word.
 		final document.
 		}}
 	}
+
+	\newcommand{\testsection}[2]{% {<file>}{<Wordlist>}
+		\section{The optional #2 word set}
+		\readtest{#1}
+	}
 \else
+	\newcommand{\readtest}[2]{%
+		\input{t-#1.sub}
+	}
+
 	\namespace{test}
 	\newcommand{\testsection}[2]{%
 		\defersection{#2}
@@ -788,31 +797,264 @@ but rather refers to the previous definition of the word.
 	\defersection{}
 \fi
 
-\setcounter{section}{5}
-\section{The Core word set}				% T.6
-\ifinline
-	\fbox{\parbox{\linewidth}{\slshape
-	In the \emph{review} (r) version of the document the
-	test cases for a word are given in with the main
-	defintion of the word.  The test cases for the words
-	in the \textbf{core} wordset will appear here in the
-	final document.
-	}}
-\else
-	\input{t-core.sub}
-\fi
 
-\testsection{block}{Block}				% T.7
-\testsection{double}{Double-Number}		% T.8
-\testsection{exception}{Exception}		% T.9
+\setcounter{section}{5}
+\section{The Core word set} % T.6
+\readtest{core}
+
+% ===================================================================
+
+\testsection{block}{Block}						% T.7
+
+% ===================================================================
+
+\section{The optional Double-Number word set} % T.8
+\setwordlist{double}
+\defersection{}
+
+\cbstart\patch{x:test}
+Two additional constants are defined to assist tests in this wordset:
+
+\begin{tt}\frenchspacing\obeyspaces
+MAX-INT \word{2/}  \word{CONSTANT} HI-INT   \word{bs} 001...1 \\
+MIN-INT \word{2/}  \word{CONSTANT} LO-INT   \word{bs} 110...1
+\end{tt}
+\nonfrenchspacing\catcode`\ =10
+
+Before anything can be tested, the text interpreter must be
+tested (\ref{test:dbl:in}).
+Once the \tref{double:2CONSTANT}{2CONSTANT} test has been preformed
+we can also define a number of double constants:
+
+\begin{tt}\frenchspacing\obeyspaces
+~     1S MAX-INT \word{2CONSTANT} MAX-2INT   \word{bs} 01...1 \\\mbox{}
+      0 MIN-INT \word{2CONSTANT} MIN-2INT   \word{bs} 10...0 \\
+MAX-2INT      \word{2/} \word{2CONSTANT} HI-2INT    \word{bs} 001...1 \\
+MIN-2INT      \word{2/} \word{2CONSTANT} LO-2INT    \word{bs} 110...0
+\end{tt}
+\nonfrenchspacing\catcode`\ =10
+
+The rest of the word set can be tesed:
+\tref{double:DNEGATE}{},
+\tref{double:D+}{}, \tref{double:D-}{},
+\tref{double:D0less}{}, \tref{double:D0=}{},
+\tref{double:D2*}{}, \tref{double:D2/}{},
+\tref{double:Dless}{}, \tref{double:D=}{},
+\tref{double:2LITERAL}{}, \tref{double:2VARIABLE}{},
+\tref{double:DMAX}{}, \tref{double:DMIN}{},
+\tref{double:DtoS}{}, \tref{double:DABS}{},
+\tref{double:M+}{}, \tref{double:M*/}{} and
+\tref{double:D.R}{} which also tests \word{D.} before moving on
+to the existion words with the
+\tref{double:2ROT}{} and \tref{double:DUless}{} tests.
+
+\setcounter{subsection}{3}
+\setcounter{subsubsection}{1}
+\subsubsection{Text interpreter input number conversion}
+\label{test:dbl:in}
+
+\test{ 1.}{ 1  0} \\
+\test{-2.}{-2 -1} \\
+\test{\word{:} rdl1  3.\ \word{;} rdl1}{ 3  0} \\
+\test{\word{:} rdl2 -4.\ \word{;} rdl2}{-4 -1}
+
+\cbend
+\readtest{double}
+
+% ===================================================================
+
+\section{The optional Exception word set} % T.9
+\setwordlist{exception}
+\defersection{}
+
+\cbstart\patch{x:test}
+The test \tref{exception:CATCH}{} also test \word{THROW}.  This should
+be followed by the test \tref{exception:ABORTq}{} which also test
+\word{ABORT}.  Finally, the general exception handling is tested in
+\ref{test:throw}.
+
+\setcounter{subsection}{3}
+\setcounter{subsubsection}{5}
+\subsubsection{Exception handling}
+\label{test:throw}
+
+Ideally all of the throw codes should be tested.  Here only the
+thow code for an ``Undefined Word'' exception is tested, assuming
+that the word \texttt{\$\$UndefedWord\$\$} is undefined.
+
+\begin{tt}
+\word{DECIMAL} \\
+\word{:} t7 \word{Sq} 333 \$\$UndefedWord\$\$ 334" \word{EVALUATE} 335 \word{;} \\
+\word{:} t8 \word{Sq} 222 t7 223" \word{EVALUATE} 224 \word{;} \\
+\word{:} t9 \word{Sq} 111 112 t8 113" \word{EVALUATE} 114 \word{;}
+\end{tt}
+
+\test{6 7 \word{'} t9 c6 3}{6 7 13 3}
+
+\cbend
+\readtest{exception}
+
+% ===================================================================
+
 \testsection{facility}{Facility}		% T.10
-\testsection{file}{File-Access}			% T.11
+
+% ===================================================================
+
+\section{The optional File-Access word set} % T.11
+\setwordlist{file}
+\defersection{}
+
+\cbstart\patch{x:test}
+These tests create files in the current directory, if all goes well
+these will be deleted.  If something fails they may not be deleted.
+If this is a problem ensure you set a suitable directory before
+running this test.  Currently, there is no ANS standard way of doing
+this.  the file names used in these test are:
+``\texttt{fatest1.txt}'', ``\texttt{fatest2.txt}'' and
+``\texttt{fatest3.txt}''.
+
+The test \tref{file:CREATE-FILE}{} also tests \word{CLOSE-FILE},
+\tref{file:WRITE-LINE}{} also tests \word{W/O} and \word{OPEN-FILE},
+\tref{file:READ-LINE}{} includes a test for \word{R/O},
+\tref{file:REPOSITION-FILE}{} includes tests for \word{R/W},
+\word{WRITE-FILE}, \word{READ-FILE}, \word{FILE-POSITION}, and
+\word{Sq}.
+The \tref{file:FILE-SIZE}{} test includes a test for \word{BIN}.
+The test \tref{file:RESIZE-FILE}{} should then be run followd by
+the \tref{file:DELETE-FILE}{} test.
+
+The \tref{file:p}{} test should be next, followed by
+\tref{file:SOURCE-ID}{} the test which test the extended versions of
+\word{p} and \word{SOURCE-ID} respectivly.
+
+Finally \tref{file:RENAME-FILE}{} tests the extended words
+\word{RENAME-FILE}, \word{FILE-STATUS}, and \word{FLUSH-FILE}.
+
+\cbend
+\readtest{file}
+
+% ===================================================================
+
 \testsection{floating}{Floating-Point}	% T.12
 \testsection{local}{Locals}				% T.13
-\testsection{memory}{Memory-Allocation}	% T.14
+
+% ===================================================================
+
+\section{The optional Memory-Allocation word set} % T.14
+\setwordlist{memory}
+\defersection{}
+
+\cbstart\patch{x:test}
+These test require a new variable to hold the address of the allocated
+memory.  Two helper words are defined to populate the allocated memory
+and to check the memory:
+
+\begin{tt}\frenchspacing\obeyspaces
+\word{VARIABLE} addr
+
+\word{:} writemem \word{p} ad n -{}- ) \\
+\tab 0 \word{DO} \word{I} \word{1+} \word{OVER} \word{C!} \word{1+} \word{LOOP} \word{DROP} \\
+\word{;}
+
+\word{:} checkmem \word{p} ad n -{}- ) \\
+\tab 0 \word{DO} \\
+\tab[2] \word{DUP} \word{C@} \word{SWAP} \word{toR} \\
+\tab[2] \test{}{\word{Rfrom} \word{I} \word{1+} \word{SWAP} \word{toR}} \\
+\tab[2] \word{Rfrom} \word{1+} \\
+\tab \word{LOOP} \\
+\tab \word{DROP} \\
+\word{;}
+\end{tt}
+\nonfrenchspacing\catcode`\ =10
+
+The test \tref{memory:ALLOCATE}{} includes a test for \word{FREE}.
+
+\cbend
+\readtest{memory}
+
+% ===================================================================
+
 \testsection{tools}{Programming-Tools}	% T.15
-\testsection{search}{Search-Order}		% T.16
-\testsection{string}{String}			% T.17
+
+% ===================================================================
+
+\section{The optional Search-Order word set} % T.16
+\setwordlist{search}
+\defersection{}
+
+\cbstart\patch{x:test}
+The search order is reset to a known state before the tests can be
+run.
+
+\begin{tt}
+\word{ONLY} \word{FORTH} \word{DEFINITIONS}
+\end{tt}
+
+Define two word list (wid) variables used by the tests.
+
+\begin{tt}
+\word{VARIABLE} wid1 \\
+\word{VARIABLE} wid2
+\end{tt}
+
+In order to test the search order it in necessary to remember the
+existing search order before modifying it.  The existing search order
+is saved and the \texttt{get-orderlist} defined to access it.
+
+\begin{tt}
+\word{:} save-orderlist \word{p} widn {\ldots} wid1 n -{}- ) \\
+\tab \word{DUP} \word{,} 0 \word{qDO} \word{,} \word{LOOP} \\
+\word{;}
+
+\word{CREATE} order-list \\
+\test{\word{GET-ORDER} save-orderlist}{}
+
+\word{:} get-orderlist  ( -{}- widn {\ldots} wid1 n ) \\
+\tab order-list \word{DUP} \word{@} \word{CELLS}	\tab[1] ( -{}- ad n ) \\
+\tab \word{OVER} \word{+}							\tab[10.5] ( -{}- AD AD' ) \\
+\tab \word{qDO} \word{I} \word{@} -1 \word{CELLS} \word{+LOOP} \tab[1]  ( -{}- ) \\
+\word{;}
+\end{tt}
+
+Having obtained a copy of the current wordlist, the testing of the
+wordlist can begin with test \tref{search:FORTH-WORDLIST}{} followed
+by \tref{search:SET-ORDER}{} which also test \word{GET-ORDER}, then
+\tref{search:ALSO}{} and \tref{search:ONLY}{} before moving on to
+\tref{search:SET-CURRENT}{} which also test \word{GET-CURRENT} and
+\word{WORDLIST}.  This should be followed by the test
+\tref{search:DEFINITIONS}{} which also tests \word{PREVIOUS} and the
+\tref{search:SEARCH-WORDLIST}{} and \tref{search:FIND}{} tests.
+Finally the \tref{search:ORDER}{} test can be performed.
+
+\cbend
+\readtest{search}
+
+% ===================================================================
+
+\section{The optional String word set} % T.17
+\setwordlist{string}
+\defersection{}
+
+\cbstart\patch{x:test}
+Most of the tests in this wordlist require a known string which is
+defined as:
+
+\test{\word{:} s1 \word{Sq} abcdefghijklmnopqrstuvwxyz" \word{;}}{}
+
+The tests should be carried out in the order:
+\tref{string:/STRING}{},
+\tref{string:SEARCH}{},
+\tref{string:-TRAILING}{},
+\tref{string:COMPARE}{},
+\tref{string:BLANK}{} and
+\tref{string:SLITERAL}{}.
+
+\cbend
+\readtest{string}
+
+% ===================================================================
+
+\testsection{legacy}{Legacy}			% T.18 ?
 
 
 \endinput %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

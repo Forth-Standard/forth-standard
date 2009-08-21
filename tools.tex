@@ -73,18 +73,18 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \subsubsection{Ambiguous conditions} % 15.4.1.2
 
 \begin{itemize}
-\item deleting the compilation word-list (\wref{tools:FORGET}{FORGET});
+\item \remove{x:legacy}{deleting the compilation word-list (\wref{legacy:FORGET}{FORGET});}
 \item fewer than $u+1$ items on control-flow stack
 	(\wref{tools:CS-PICK}{CS-PICK},
 	 \wref{tools:CS-ROLL}{CS-ROLL});
-\item \emph{name} can't be found (\wref{tools:FORGET}{FORGET});
+\item \remove{x:legacy}{\emph{name} can't be found (\wref{legacy:FORGET}{FORGET});}
 \item \emph{name} not defined via \wref{core:CREATE}{CREATE}
 	(\wref{tools:;CODE}{;CODE});
 \item \wref{core:POSTPONE}{POSTPONE} applied to \wref{tools:[IF]}{[IF]};
 \item reaching the end of the input source before matching
 	\wref{tools:[ELSE]}{[ELSE]} or \wref{tools:[THEN]}{[THEN]}
 	(\wref{tools:[IF]}{[IF]});
-\item removing a needed definition (\wref{tools:FORGET}{FORGET}).
+\item \remove{x:legacy}{removing a needed definition (\wref{legacy:FORGET}{FORGET}).}
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -309,6 +309,13 @@ Extensions word sets.
 
 	Continue execution at the location specified by the resolution
 	of \param{orig}.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{:} pt1 \word{AHEAD} 1111 2222 \word{THEN} 3333 \word{;}}{} \\
+		\test{pt1}{3333}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -405,6 +412,34 @@ Extensions word sets.
 		\end{quote}
 		\setwordlist{tools}
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:} ?repeat \\
+		\tab 0 \word{CS-PICK} \word{POSTPONE} \word{UNTIL} \\
+		\word{;} \word{IMMEDIATE}
+
+		\word{VARIABLE} pt4
+
+		\word{:} <= \word{more} \word{0=} \word{;}
+
+		\test{\word{:} pt5  \word{p} n1 -{}- ) \\
+		\tab[2.4] pt4 \word{!} \\
+		\tab[2.4] \word{BEGIN} \\
+		\tab[3.4] -1 pt4 \word{+!} \\
+		\tab[3.4] pt4 \word{@} 4 <= ?repeat \tab \word{bs} \textdf{Back to \word{BEGIN} if false} \\
+		\tab[3.4] 111 \\
+		\tab[3.4] pt4 \word{@} 3 <= ?repeat \\
+		\tab[3.4] 222 \\
+		\tab[3.4] pt4 \word{@} 2 <= ?repeat \\
+		\tab[3.4] 333 \\
+		\tab[3.4] pt4 \word{@} 1 \word{=} \\
+		\tab[2.4] \word{UNTIL} \\
+		\tab[1.2] \word{;}}{}
+
+		\test{6 pt5}{111 111 222 111 222 333 111 222 333}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -442,6 +477,63 @@ Extensions word sets.
 		\end{quote}
 		\setwordlist{tools}
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\test{\word{:} ?DONE \word{p} dest -{}- orig dest )  \tab \word{bs} \textdf{Same as WHILE} \\
+		\tab[2.4] \word{POSTPONE} \word{IF} 1 \word{CS-ROLL} \\
+		\tab[1.2] \word{;} \word{IMMEDIATE}}{} \\
+		\test{\word{:} pt6 \\
+		\tab[2.4] \word{toR} \\
+		\tab[2.4] \word{BEGIN} \\
+		\tab[3.4] \word{R@} \\
+		\tab[2.4] ?DONE \\
+		\tab[3.4] \word{R@} \\
+		\tab[3.4] \word{Rfrom} \word{1-} \word{toR} \\
+		\tab[2.4] \word{REPEAT} \\
+		\tab[2.4] \word{Rfrom} \word{DROP} \\
+		\tab[1.2] \word{;}}{}
+
+		\test{5 pt6}{5 4 3 2 1}
+
+		\word{:} mix\_up 2 \word{CS-ROLL} \word{;} \word{IMMEDIATE} \tab \word{bs} \textdf{cs-rot}
+
+		\word{:} pt7 \word{p} f3 f2 f1 -{}- ? ) \\
+		\tab \word{IF} 1111 \word{ROT} \word{ROT}	\tab		( -{}- 1111 f3 f2 )		\tab[1.8]	( cs:\ -{}- o1 ) \\
+		\tab[2]	\word{IF} 2222 \word{SWAP}			\tab[0.6]	( -{}- 1111 2222 f3 )	\tab[0.6]	( cs:\ -{}- o1 o2 ) \\
+		\tab[3]		\word{IF}															\tab[18.8]	( cs:\ -{}- o1 o2 o3 ) \\
+		\tab[4]			3333 mix\_up							( -{}- 1111 2222 3333 )	\tab[-0.8]	( cs:\ -{}- o2 o3 o1 ) \\
+		\tab[3]		\word{THEN}															\tab[17.6]	( cs:\ -{}- o2 o3 ) \\
+		\tab[3]		4444	\tab[1] \word{bs} \textdf{Hence failure of first IF comes here and falls through} \\
+		\tab[2]	\word{THEN}																\tab[18.6]	( cs:\ -{}- o2 ) \\
+		\tab[2]	5555 		\tab[2] \word{bs} \textdf{Failure of 3rd IF comes here} \\
+		\tab[1] \word{THEN}																\tab[19.6]	( cs:\ -{}- ) \\
+		\tab[1] 6666 		\tab[3] \word{bs} \textdf{Failure of 2nd IF comes here} \\
+		\tab \word{;}
+
+		\test{-1 -1 -1 pt7}{1111 2222 3333 4444 5555 6666} \\
+		\test{ 0 -1 -1 pt7}{1111 2222 5555 6666          } \\
+		\test{ 0  0 -1 pt7}{1111 0    6666               } \\
+		\test{ 0  0  0 pt7}{0    0    4444 5555 6666     }
+
+		\word{:} [1cs-roll] 1 \word{CS-ROLL} \word{;} \word{IMMEDIATE}
+
+		\test{\word{:} pt8 \\
+		\tab[2.2] \word{toR} \\
+		\tab[2.2] \word{AHEAD} 111 \\
+		\tab[2.2] \word{BEGIN} 222 \\
+		\tab[3.2]   [1cs-roll] \\
+		\tab[3.2]   \word{THEN} \\
+		\tab[3.2]   333 \\
+		\tab[3.2]   \word{Rfrom} \word{1-} \word{toR} \\
+		\tab[3.2]   \word{R@} \word{0less} \\
+		\tab[2.2] \word{UNTIL} \\
+		\tab[2.2] \word{Rfrom} \word{DROP} \\
+		\tab[1.2] \word{;}}{}
+
+		\test{1 pt8}{333 222 333}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -455,40 +547,40 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1580}{FORGET}
-\item \stack{"<spaces>name"}{}
-
-	Skip leading space delimiters. Parse \param{name} delimited by a
-	space. Find \param{name}, then delete \param{name} from the
-	dictionary along with all words added to the dictionary after
-	\param{name}. An ambiguous condition exists if \param{name} cannot
-	be found.
-
-	If the Search-Order word set is present, \word{FORGET} searches
-	the compilation word list. An ambiguous condition exists if the
-	compilation word list is deleted.
-
-	An ambiguous condition exists if \word{FORGET} removes a word
-	required for correct execution. Note: This word is obsolescent
-	and is included as a concession to existing implementations.
-
-\see \xref[3.4.1 Parsing]{usage:parsing}.
-
-	\begin{rationale} % A.15.6.2.1580 FORGET
-		Typical use:
-			{\ldots} \word{FORGET} \emph{name} {\ldots}
-
-		\word{FORGET} assumes that all the information needed to
-		restore the dictionary to its previous state is inferable
-		somehow from the forgotten word. While this may be true in
-		simple linear dictionary models, it is difficult to implement
-		in other Forth systems; e.g., those with multiple address
-		spaces. For example, if Forth is embedded in ROM, how does
-		\word{FORGET} know how much RAM to recover when an array
-		is forgotten? A general and preferred solution is provided by
-		\word[core]{MARKER}.
-	\end{rationale}
-\end{worddef}
+% \begin{worddef}{1580}{FORGET}
+% \item \stack{"<spaces>name"}{}
+% 
+% 	Skip leading space delimiters. Parse \param{name} delimited by a
+% 	space. Find \param{name}, then delete \param{name} from the
+% 	dictionary along with all words added to the dictionary after
+% 	\param{name}. An ambiguous condition exists if \param{name} cannot
+% 	be found.
+% 
+% 	If the Search-Order word set is present, \word{FORGET} searches
+% 	the compilation word list. An ambiguous condition exists if the
+% 	compilation word list is deleted.
+% 
+% 	An ambiguous condition exists if \word{FORGET} removes a word
+% 	required for correct execution. Note: This word is obsolescent
+% 	and is included as a concession to existing implementations.
+% 
+% \see \xref[3.4.1 Parsing]{usage:parsing}.
+% 
+% 	\begin{rationale} % A.15.6.2.1580 FORGET
+% 		Typical use:
+% 			{\ldots} \word{FORGET} \emph{name} {\ldots}
+% 
+% 		\word{FORGET} assumes that all the information needed to
+% 		restore the dictionary to its previous state is inferable
+% 		somehow from the forgotten word. While this may be true in
+% 		simple linear dictionary models, it is difficult to implement
+% 		in other Forth systems; e.g., those with multiple address
+% 		spaces. For example, if Forth is embedded in ROM, how does
+% 		\word{FORGET} know how much RAM to recover when an array
+% 		is forgotten? A general and preferred solution is provided by
+% 		\word[core]{MARKER}.
+% 	\end{rationale}
+% \end{worddef}
 
 
 \begin{worddef}{2250}{STATE}
@@ -672,6 +764,37 @@ Extensions word sets.
 		\end{tabbing}
 		\end{quote}
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{<TRUE>  \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{111} \\
+		\test{<FALSE> \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{222}
+
+		\test{\word{:} pt2 \word{[}  0 \word{]} \word{[IF]} 1111 \word{[ELSE]} 2222 \word{[THEN]} \word{;} pt2}{2222} \\
+		\test{\word{:} pt3 \word{[} -1 \word{]} \word{[IF]} 3333 \word{[ELSE]} 4444 \word{[THEN]} \word{;} pt3}{3333}
+
+		\word{bs} \textdf{Code spread over more than 1 line} \\
+		\test{<TRUE>  \word{[IF]} 1 \\
+		\tab[8] 2 \\
+		\tab[6] \word{[ELSE]} \\
+		\tab[8] 3 \\
+		\tab[8] 4 \\
+		\tab[6] \word{[THEN]}}{1 2}\\
+		\test{<FALSE> \word{[IF]} \\
+		\tab[8] 1 2 \\
+		\tab[6] \word{[ELSE]} \\
+		\tab[8] 3 4 \\
+		\tab[6] \word{[THEN]}}{3 4}
+
+		\word{bs} \textdf{Nested} \\
+		\word{:} <T> <TRUE>~ \word{;} \\
+		\word{:} <F> <FALSE> \word{:} \\
+		\test{<T> \word{[IF]} 1 <T> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{1 2} \\
+		\test{<F> \word{[IF]} 1 <T> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{4} \\
+		\test{<T> \word{[IF]} 1 <F> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{1 3} \\
+		\test{<F> \word{[IF]} 1 <F> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{4}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 

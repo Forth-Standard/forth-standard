@@ -193,6 +193,43 @@ sets.
 	compilation word list.
 
 \see \xref[16.3.3 Finding Definition Names]{search:find}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS}}{} \\
+		\test{\word{GET-CURRENT}}{FORTH-WORDLIST}
+
+		\test{\word{GET-ORDER} wid2 \word{@} \word{SWAP} \word{1+} \word{SET-ORDER} \word{DEFINITIONS} \word{GET-CURRENT}\\}{wid2 \word{@}} \\
+		\test{\word{GET-ORDER}}{get-orderlist wid2 \word{@} \word{SWAP} \word{1+}} \\
+		\test{\word{PREVIOUS} \word{GET-ORDER}}{get-orderlist} \\
+		\test{\word{DEFINITIONS} \word{GET-CURRENT}}{FORTH-WORDLIST}
+
+		\word{:} alsowid2 \word{ALSO} \word{GET-ORDER} wid2 \word{@} \word{ROT} \word{DROP} \word{SWAP} \word{SET-ORDER} \word{;} \\
+		alsowid2 \\
+		\word{:} w1 1234 \word{;} \\
+		\word{DEFINITIONS}
+		\word{:} w1 -9876 \word{;} \word{IMMEDIATE}
+
+		\word{ONLY} \word{FORTH} \\
+		\test{w1}{1234} \\
+		\word{DEFINITIONS} \\
+		\test{w1}{1234} \\
+		alsowid2 \\
+		\test{w1}{-9876} \\
+		\word{DEFINITIONS}
+		\test{w1}{-9876}
+
+		\word{ONLY} \word{FORTH} \word{DEFINITIONS} \\
+		\word{:} so5  \word{DUP} \word{IF} \word{SWAP} \word{EXECUTE} \word{THEN} \word{;}
+
+		\test{\word{Sq} w1" wid1 \word{@} \word{SEARCH-WORDLIST} so5}{-1  1234} \\
+		\test{\word{Sq} w1" wid2 \word{@} \word{SEARCH-WORDLIST} so5}{ 1 -9876}
+
+		\word{:} c"w1" \word{Cq} w1" \word{;} \\
+		\test{alsowid2 c"w1" \word{FIND} so5}{ 1 -9876} \\
+		\test{previous c"w1" \word{FIND} so5}{-1  1234}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -216,6 +253,18 @@ sets.
 	\wref{core:POSTPONE}{POSTPONE},
 	\wref{core:[']}{[']},
 	\xref[D.6.7 Immediacy]{diff:immediate}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:} c"dup" \word{Cq} DUP" \word{;} \\
+		\word{:} c".("~ \word{Cq} .("~ \word{;} \\
+		\word{:} c"x"~~ \word{Cq} unknown word" \word{;}
+
+		\test{c"dup" \word{FIND}}{xt  \word{@} -1} \\
+		\test{c".("  \word{FIND}}{xti \word{@}  1} \\
+		\test{c"x"   \word{FIND}}{c"x"   0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -226,6 +275,12 @@ sets.
 	all standard words provided by the implementation. This word list
 	is initially the compilation word list and is part of the initial
 	search order.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{FORTH-WORDLIST} wid1 \word{!}}{}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -272,6 +327,18 @@ sets.
 		accordance with the general principle that Forth words consume
 		their arguments.
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{ONLY} \word{FORTH} \word{DEFINITIONS} \\
+		\word{VARIABLE} xt~ \word{'} \word{DUP} xt~ \word{!} \\
+		\word{VARIABLE} xti \word{'} \word{.p}~ xti \word{!} \word{bs} \textdf{Immediate word}
+
+		\test{\word{Sq} DUP" wid1 \word{@} \word{SEARCH-WORDLIST}}{xt  \word{@} -1} \\
+		\test{\word{Sq} .("  wid1 \word{@} \word{SEARCH-WORDLIST}}{xti \word{@}  1} \\
+		\test{\word{Sq} DUP" wid2 \word{@} \word{SEARCH-WORDLIST}}{       0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -280,6 +347,18 @@ sets.
 
 	Set the compilation word list to the word list identified by
 	\param{wid}.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{GET-CURRENT}}{wid1 \word{@}}
+
+		\test{\word{WORDLIST} wid2 \word{!}}{} \\
+		\test{wid2 \word{@} \word{SET-CURRENT}}{} \\
+		\test{\word{GET-CURRENT}}{wid2 \word{@}}
+
+		\test{wid1 \word{@} \word{SET-CURRENT}}{}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -295,6 +374,28 @@ sets.
 	order shall include the words \word{FORTH-WORDLIST} and
 	\word{SET-ORDER}. A system shall allow \param{n} to be at least
 	eight.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\test{\word{GET-ORDER} \word{OVER}     }{\word{GET-ORDER} wid1 \word{@}} \\% \word{bs} \textdf{Forth wordlist at top} \\
+		\test{\word{GET-ORDER} \word{SET-ORDER}}{} \\% \tab \word{bs} \textdf{Effectively noop} \\
+		\test{\word{GET-ORDER}          }{get-orderlist} % \tab \word{bs} \textdf{Check nothing changed} \\
+
+		\test{get-orderlist \word{DROP} get-orderList \word{2*} \word{SET-ORDER}}{} \\
+		\test{\word{GET-ORDER}}{get-orderlist \word{DROP} get-orderList \word{2*}} \\
+		\test{get-orderlist \word{SET-ORDER} \word{GET-ORDER}}{get-orderlist}
+
+		\word{:} so2a \word{GET-ORDER} get-orderlist \word{SET-ORDER} \word{;} \\
+		\word{:} so2 0 \word{SET-ORDER} so2a \word{;}
+
+		\test{so2}{0}	\tab[1.5] \word{bs} \textdf{0 SET-ORDER leaves an empty search order}
+
+		\word{:} so3 -1 \word{SET-ORDER} so2a \word{;} \\
+		\word{:} so4 \word{ONLY} so2a \word{;}
+
+		\test{so3}{so4}	\tab \word{bs} \textdf{-1 SET-ORDER is the same as ONLY}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -459,6 +560,12 @@ sets.
 		\word{SET-ORDER} might need to reconstruct the hash table or
 		flush the cache.
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{ALSO} \word{GET-ORDER} \word{ONLY}}{get-orderlist \word{OVER} \word{SWAP} \word{1+}}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -478,6 +585,17 @@ sets.
 	Set the search order to the implementation-defined minimum search
 	order. The minimum search order shall include the words
 	\word{FORTH-WORDLIST} and \word{SET-ORDER}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\test{\word{ONLY} \word{FORTH} \word{GET-ORDER}}{get-orderlist}
+
+		\word{:} so1 \word{SET-ORDER} {;} \word{bs} \textdf{In case it is unavailable in the forth wordlist}
+
+		\test{\word{ONLY} \word{FORTH-WORDLIST} 1 \word{SET-ORDER} get-orderlist so1}{} \\
+		\test{\word{GET-ORDER}}{get-orderlist}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -494,6 +612,16 @@ sets.
 	identified by \word[core]{num-end}.
 
 \see \xref[3.3.3.6 Other Transient Regions]{usage:transient}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{CR} \word{.p} ONLY FORTH DEFINITIONS search order and compilation list) \word{CR} \\
+		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS} \word{ORDER}}{}
+
+		\word{CR} \word{.p} Plus another unnamed wordlist at the head of the search order) \word{CR} \\
+		\test{alsowid2 \word{DEFINITIONS} \word{ORDER}}{}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 

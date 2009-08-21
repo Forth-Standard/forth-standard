@@ -297,6 +297,14 @@ provide all of the File Access and File Access Extensions word sets.
 	buffer from the next line of the file, set \word[core]{toIN} to
 	zero, and resume parsing, repeating this process until either a
 	right parenthesis is found or the end of the file is reached.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{p} 1 2 3 \\
+		\tab[2.4] 4 5 6 \\
+		\tab[2.4] 7 8 9 ) 11 22 33}{11 22 33}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -362,6 +370,16 @@ provide all of the File Access and File Access Extensions word sets.
 				\word[core]{ABORTq} \texttt{CREATE-FILE FAILED"}
 			\word[core]{;}
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:} fn1 \word{Sq} fatest1.txt" \word{;} \\
+		\word{VARIABLE} fid1
+
+		\test{fn1 \word{R/W} \word{CREATE-FILE} \word{SWAP} fid1 \word{!}}{0} \\
+		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -371,6 +389,14 @@ provide all of the File Access and File Access Extensions word sets.
 	Delete the file named in the character string specified by
 	\param{c-addr u}. \param{ior} is the implementation-defined
 	I/O result code.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{fn2 \word{DELETE-FILE}}{0} \\
+		\test{fn2 \word{R/W} \word{BIN} \word{OPEN-FILE} \word{SWAP} \word{DROP}}{0} \\
+		\test{fn2 \word{DELETE-FILE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -391,6 +417,33 @@ provide all of the File Access and File Access Extensions word sets.
 	result code. This operation does not affect the value returned
 	by \word{FILE-POSITION}. \param{ud} is undefined if \param{ior}
 	is non-zero.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:} cbuf buf bsize 0 \word{FILL} \word{;} \\
+		\word{:} fn2 \word{Sq} fatest2.txt" \word{;} \\
+		\word{VARIABLE} fid2 \\
+		\word{:} setpad \word{PAD} 50 0 \word{DO} \word{I} \word{OVER} \word{C!} \word{CHAR+} \word{LOOP} \word{DROP} \word{;}
+
+		setpad
+
+		\textdf{\textbf{Note:} If anything else is defined
+			\texttt{setpad} must be called again as the pad may move}
+
+		\test{fn2 \word{R/W} \word{BIN} \word{CREATE-FILE} \word{SWAP} fid2 \word{!}}{0} \\
+		\test{\word{PAD} 50 fid2 \word{@} \word{WRITE-FILE} fid2 \word{@} \word{FLUSH-FILE}}{0 0} \\
+		\test{fid2 \word{@} \word{FILE-SIZE}}{50. 0} \\
+		\test{0. fid2 \word{@} \word{REPOSITION-FILE}}{0} \\
+		\test{cbuf buf 29 fid2 \word{@} \word{READ-FILE}}{29 0} \\
+		\test{\word{PAD} 29 buf 29 \word[string]{COMPARE}}{0} \\
+		\test{\word{PAD} 30 buf 30 \word[string]{COMPARE}}{1} \\
+		\test{cbuf buf 29 fid2 \word{@} \word{READ-FILE}}{21 0} \\
+		\test{\word{PAD} 29 \word{+} 21 buf 21 \word[string]{COMPARE}}{0} \\
+		\test{fid2 \word{@} \word{FILE-SIZE} \word{DROP} fid2 \word{@} \word{FILE-POSITION} \word{DROP} \word[double]{D=}}{<TRUE>} \\
+		\test{buf 10 fid2 \word{@} \word{READ-FILE}}{0 0} \\
+		\test{fid2 \word{@} \word{CLOSE-FILE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -659,6 +712,21 @@ provide all of the File Access and File Access Extensions word sets.
 		empty (zero-length) lines are a routine occurrence, so a
 		zero-length line cannot be used to signify end-of-file.
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		200 \word{CONSTANT} bsize \\
+		\word{CREATE} buf bsize \word{ALLOT} \\
+		\word{VARIABLE} \#chars
+
+		\test{fn1 \word{R/O} \word{OPEN-FILE} \word{SWAP} fid1 \word{!}}{0} \\
+		\test{fid1 \word{@} \word{FILE-POSITION}}{0. 0} \\
+		\test{buf 100 fid1 \word{@} \word{READ-LINE} \word{ROT} \word{DUP} \#chars \word{!}}{\\
+		\tab[1.2] <TRUE> 0 line1 \word{SWAP} \word{DROP}} \\
+		\test{buf \#chars \word{@} line1 \word[string]{COMPARE}}{0} \\
+		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -672,6 +740,38 @@ provide all of the File Access and File Access Extensions word sets.
 
 	At the conclusion of the operation, \word{FILE-POSITION}
 	returns the value \param{ud}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:} line2 \word{Sq} Line 2 blah blah blah" \word{;} \\
+		\word{:} rl1 buf 100 fid1 \word{@} \word{READ-LINE} \word{;} \\
+		\word[double]{2VARIABLE} fp
+
+		\test{fn1 \word{R/W} \word{OPEN-FILE} \word{SWAP} fid1 \word{!}}{0} \\
+		\test{fid1 \word{@} \word{FILE-SIZE} \word{DROP} fid1 \word{@} \word{REPOSITION-FILE}}{0} \\
+		\test{fid1 \word{@} \word{FILE-SIZE}}{fid1 \word{@} \word{FILE-POSITION}}
+
+		\test{line2 fid1 \word{@} \word{WRITE-FILE}}{0} \\
+		\test{10. fid1 \word{@} \word{REPOSITION-FILE}}{0} \\
+		\test{fid1 \word{@} \word{FILE-POSITION}}{10. 0}
+
+		\test{0. fid1 \word{@} \word{REPOSITION-FILE}}{0} \\
+		\test{rl1}{line1 \word{SWAP} \word{DROP} <TRUE> 0} \\
+		\test{rl1}{\word{ROT} \word{DUP} \#chars \word{!}}{<TRUE> 0 line2 \word{SWAP} \word{DROP}} \\
+		\test{buf \#chars \word{@} line2 \word[string]{COMPARE}}{0} \\
+		\test{rl1}{0 <FALSE> 0}
+
+		\test{fid1 \word{@} \word{FILE-POSITION} \word{ROT} \word{ROT} fp \word{2!}}{0} \\
+		\test{fp \word{2@} fid1 \word{@} \word{FILE-SIZE} \word{DROP} \word[double]{D=}}{<TRUE>} \\
+		\test{\word{Sq} " fid1 \word{@} \word{WRITE-LINE}}{0} \\
+		\test{\word{Sq} " fid1 \word{@} \word{WRITE-LINE}}{0} \\
+		\test{fp \word{2@} fid1 \word{@} \word{REPOSITION-FILE}}{0} \\
+		\test{rl1}{0 <TRUE>  0} \\
+		\test{rl1}{0 <TRUE>  0} \\
+		\test{rl1}{0 <FALSE> 0} \\
+		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -692,6 +792,25 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \wref{file:READ-FILE}{READ-FILE},
 	\wref{file:READ-LINE}{READ-LINE}.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\texttt{setpad} \\
+		\test{fn2 \word{R/W} \word{BIN} \word{OPEN-FILE} \word{SWAP} fid2 \word{!}}{0} \\
+		\test{37. fid2 \word{@} \word{RESIZE-FILE}}{0} \\
+		\test{fid2 \word{@} \word{FILE-SIZE}}{37. 0} \\
+		\test{0. fid2 \word{@} \word{REPOSITION-FILE}}{0} \\
+		\test{cbuf buf 100 fid2 \word{@} \word{READ-FILE}}{37 0} \\
+		\test{\word{PAD} 37 buf 37 \word[string]{COMPARE}}{0} \\
+		\test{\word{PAD} 38 buf 38 \word[string]{COMPARE}}{1} \\
+		\test{500. fid2 \word{@} \word{RESIZE-FILE}}{0} \\
+		\test{fid2 \word{@} \word{FILE-SIZE}}{500. 0} \\
+		\test{0. fid2 \word{@} \word{REPOSITION-FILE}}{0} \\
+		\test{cbuf buf 100 fid2 \word{@} \word{READ-FILE}}{100 0} \\
+		\test{\word{PAD} 37 buf 37 \word[string]{COMPARE}}{0} \\
+		\test{fid2 \word{@} \word{CLOSE-FILE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -775,6 +894,12 @@ provide all of the File Access and File Access Extensions word sets.
 
 	An ambiguous condition exists if \word{SOURCE-ID} is used when
 	\word[block]{BLK} contains a non-zero value.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{SOURCE-ID} \word{DUP} -1 \word{=} \word{SWAP} \word{0=} \word{OR}}{<FALSE>}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -821,6 +946,16 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \wref{file:READ-FILE}{READ-FILE},
 	\wref{file:READ-LINE}{READ-LINE}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:} line1 \word{Sq} Line 1" \word{;}
+
+		\test{fn1 \word{W/O} \word{OPEN-FILE} \word{SWAP} fid1 \word{!}}{0} \\
+		\test{line1 fid1 \word{@} \word{WRITE-LINE}}{0} \\
+		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -900,6 +1035,27 @@ provide all of the File Access and File Access Extensions word sets.
 	Rename the file named by the character string \param{c-addr_1 u_1}
 	to the name in the character string \param{c-addr_2 u_2}.
 	\param{ior} is the implementation-defined I/O result code.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:} fn3 \word{Sq} fatest3.txt" \word{;} \\
+		\word{:} >end fid1 \word{@} \word{FILE-SIZE} \word{DROP} fid1 \word{@} \word{REPOSITION-FILE} \word{;}
+
+		\test{fn3 \word{DELETE-FILE} \word{DROP}}{} \\
+		\test{fn1 fn3 \word{RENAME-FILE}}{0} \\
+		\word{bs} \textdf{\ Return value is undefined} \\
+		\test{fn1 \word{FILE-STATUS} \word{SWAP} \word{DROP} \word{0=}}{<FALSE>} \\
+		\test{fn3 \word{FILE-STATUS} \word{SWAP} \word{DROP} \word{0=}}{<TRUE> } \\
+		\test{fn3 \word{R/W} \word{OPEN-FILE} \word{SWAP} fid1 \word{!}}{0} \\
+		\test{>end}{0} \\
+		\test{\word{Sq} Final line" fid1 \word{@} \word{WRITE-LINE}}{0} \\
+		\test{fid1 \word{@} \word{FLUSH-FILE}}{0} \tab \word{bs} \textdf{Can only test \word{FLUSH-FILE} doesn't fail} \\
+		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
+
+		\word{bs} \textdf{Tidy the test folder} \\
+		\test{fn3 \word{DELETE-FILE} \word{DROP}}{}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -936,7 +1092,7 @@ provide all of the File Access and File Access Extensions word sets.
 
 	If the file specified by \param{c-addr u} has been \word{INCLUDED}
 	or \word{REQUIRED} already, but not between the definition and
-	execution of a marker (or equivalent usage of \word[tools]{FORGET}),
+	execution of a marker (or equivalent usage of \word[legacy]{FORGET}),
 	discard \param{c-addr u}; otherwise, perform the function of
 	\word{INCLUDED}.
 
@@ -965,7 +1121,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\begin{implement}
 		\dffamily
 		This implementation does not implement the requirements with
-		regard to \word{MARKER} and \word[tools]{FORGET} (\word{REQUIRED}
+		regard to \word{MARKER} and \word[legacy]{FORGET} (\word{REQUIRED}
 		only includes each file once, whether a marker was executed or
 		not), so it is not a correct implementation on systems that
 		support these words. It extends the definition of \word{INCLUDED}

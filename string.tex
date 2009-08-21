@@ -79,6 +79,20 @@ to provide all of the String and String Extensions word sets.
 	character string specified by \param{c-addr u_1}. If \param{u_1}
 	is zero or the entire string consists of spaces, \param{u_2} is
 	zero.
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{:}  s8 \word{Sq} abc  " \word{;}}{} \\
+		\test{\word{:}  s9 \word{Sq}      " \word{;}}{} \\
+		\test{\word{:} s10 \word{Sq}    a " \word{;}}{}
+
+		\test{ s1 \word{-TRAILING}}{s1}		\tab \word{bs} ``\texttt{abcdefghijklmnopqrstuvwxyz}'' \\
+		\test{ s8 \word{-TRAILING}}{s8 2 -} 			\tab[2.5] \word{bs} ``\texttt{abc~~}'' \\
+		\test{ s7 \word{-TRAILING}}{s7}					\tab[5.2] \word{bs} ``\texttt{~}'' \\
+		\test{ s9 \word{-TRAILING}}{s9 \word{DROP} 0}	\tab[1] \word{bs} ``\texttt{~~~~~}'' \\
+		\test{s10 \word{-TRAILING}}{s10 1-}				\tab[2.8] \word{bs} ``\texttt{~~~a~}''
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -98,6 +112,14 @@ to provide all of the String and String Extensions word sets.
 		left of the string. \word{/STRING} is a natural factor of
 		\word[core]{WORD} and commonly available.
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{s1  5 \word{/STRING}}{s1 \word{SWAP} 5 \word{+} \word{SWAP} 5 \word{-}} \\
+		\test{s1 10 \word{/STRING} -4 \word{/STRING}}{s1 6 \word{/STRING}} \\
+		\test{s1  0 \word{/STRING}}{s1}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -107,6 +129,16 @@ to provide all of the String and String Extensions word sets.
 	If \param{u} is greater than zero, store the character value for
 	space in \param{u} consecutive character positions beginning at
 	\param{c-addr}.
+
+	\begin{testing} \ttfamily
+	\cbstart\patch{x:test}
+		\word{:} s13 \word{Sq} aaaaa~~~~~~a" \word{;}						\tab[4.5] \word{bs} \textdf{Six spaces}
+
+		\test{\word{PAD} 25 \word{CHAR} a \word{FILL}}{}					\tab[2.8] \word{bs} \textdf{Fill PAD with 25 'a's} \\
+		\test{\word{PAD} 5 \word{CHARS} \word{+} 6 \word{BLANK}}{}	\tab[1] \word{bs} \textdf{Put 6 spaced from character 5} \\
+		\test{\word{PAD} 12 s13 \word{COMPARE}}{0}							\tab[2.2] \word{bs} \textdf{PAD Should now be same as s13}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -192,6 +224,36 @@ to provide all of the String and String Extensions word sets.
 		arguments, and case sensitivity. One in widespread use
 		was chosen.
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\test{s1        s1 \word{COMPARE}}{ 0 } \\
+		\test{s1  PAD SWAP \word{CMOVE}  }{   } \tab \word{bs} \textdf{Copy s1 to PAD} \\
+		\test{s1  PAD OVER \word{COMPARE}}{ 0 } \\
+		\test{s1     PAD 6 \word{COMPARE}}{ 1 } \\
+		\test{PAD 10    s1 \word{COMPARE}}{-1 } \\
+		\test{s1     PAD 0 \word{COMPARE}}{ 1 } \\
+		\test{PAD  0    s1 \word{COMPARE}}{-1 } \\
+		\test{s1        s6 \word{COMPARE}}{ 1 } \\
+		\test{s6        s1 \word{COMPARE}}{-1 }
+
+		\word{:} "abdde"~ \word{Sq} abdde"~ \word{;} \\
+		\word{:} "abbde"~ \word{Sq} abbde"~ \word{;} \\
+		\word{:} "abcdf"~ \word{Sq} abcdf"~ \word{;} \\
+		\word{:} "abcdee" \word{Sq} abcdee" \word{;}
+
+		\test{s1 "abdde"  \word{COMPARE}}{-1} \\
+		\test{s1 "abbde"  \word{COMPARE}}{ 1} \\
+		\test{s1 "abcdf"  \word{COMPARE}}{-1} \\
+		\test{s1 "abcdee" \word{COMPARE}}{ 1}
+
+		\word{:} s11 \word{Sq} 0abc" \word{;} \\
+		\word{:} s12 \word{Sq} 0aBc" \word{;}
+
+		\test{s11 s12 \word{COMPARE}}{ 1} \\
+		\test{s12 s11 \word{COMPARE}}{-1}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -211,6 +273,24 @@ to provide all of the String and String Extensions word sets.
 		arguments, and case sensitivity. One in widespread use was
 		chosen.
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{:} s2 \word{Sq} abc"   \word{;}}{} \\
+		\test{\word{:} s3 \word{Sq} jklmn" \word{;}}{} \\
+		\test{\word{:} s4 \word{Sq} z"     \word{;}}{} \\
+		\test{\word{:} s5 \word{Sq} mnoq"  \word{;}}{} \\
+		\test{\word{:} s6 \word{Sq} 12345" \word{;}}{} \\
+		\test{\word{:} s7 \word{Sq} "      \word{;}}{}
+
+		\test{s1 s2 \word{SEARCH}}{s1 <TRUE> } \\
+		\test{s1 s3 \word{SEARCH}}{s1  9 \word{/STRING} <TRUE> } \\
+		\test{s1 s4 \word{SEARCH}}{s1 25 \word{/STRING} <TRUE> } \\
+		\test{s1 s5 \word{SEARCH}}{s1 <FALSE>} \\
+		\test{s1 s6 \word{SEARCH}}{s1 <FALSE>} \\
+		\test{s1 s7 \word{SEARCH}}{s1 <TRUE> } 
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -243,6 +323,14 @@ to provide all of the String and String Extensions word sets.
 		\end{quote}
 		\setwordlist{string}
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{:} s14 \word{[} s1 \word{]} \word{SLITERAL} \word{;}}{} \\
+		\test{s1 s14 \word{COMPARE}}{0} \\
+		\test{s1 s14 \word{ROT} \word{=} \word{ROT} \word{ROT} \word{=}}{<TRUE> <FALSE>}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 

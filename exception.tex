@@ -117,7 +117,7 @@ See: \xref[3.4.4 Possible actions on an ambiguous condition]{usage:ambiguous}.
 \throwdef{-12}{argument type mismatch}
 \throwdef{-13}{undefined word}
 \throwdef{-14}{interpreting a compile-only word}
-\throwdef{-15}{invalid \word[tools]{FORGET}}
+\throwdef{-15}{invalid \word[legacy]{FORGET}}
 \throwdef{-16}{attempt to use zero-length string as a name}
 \throwdef{-17}{pictured numeric output string overflow}
 \throwdef{-18}{parsed string overflow}
@@ -281,6 +281,10 @@ to provide all of the Exception and Exception Extensions word sets.
 	have been returned by \param{xt} \word[core]{EXECUTE}. Otherwise,
 	the remainder of the execution semantics are given by
 	\word{THROW}.
+
+	\begin{testing}
+		\place{x:test}{See \tref{exception:CATCH}{}.}
+	\end{testing}
 \end{worddef}
 
 
@@ -360,6 +364,33 @@ to provide all of the Exception and Exception Extensions word sets.
 		\end{quote}
 		\setwordlist{exception}
 	\end{rationale}
+
+	\begin{testing} \ttfamily
+	\cbstart\patch{x:test}
+		\word{DECIMAL}
+
+		\word{:} t1 9 \word{;} \\
+		\word{:} c1 1 2 3 \word{[']} t1 \word{CATCH} \word{;} \\
+		\test{c1}{1 2 3 9 0} \tab \word{bs} \textdf{No THROW executed}
+
+		\word{:} t2 8 0 \word{THROW} \word{;} \\
+		\word{:} c2 1 2 \word{[']} t2 \word{CATCH} \word{;}
+		\test{c2}{1 2 8 0} \tab \word{bs} \textdf{0 THROW does nothing}
+
+		\word{:} t3 7 8 9 99 \word{THROW} \word{;} \\
+		\word{:} c3 1 2 \word{[']} t3 \word{CATCH} \word{;}\\
+		\test{c3}{1 2 99} \tab \word{bs} \textdf{Restores stack to \word{CATCH} depth}
+
+		\word{:} t4 \word{1-} \word{DUP} \word{0more} \word{IF} \word{RECURSE} \word{ELSE} 999 \word{THROW} -222 \word{THEN} \word{;} \\
+		\word{:} c4 3 4 5 10 \word{[']} t4 \word{CATCH} -111 \word{;} \\
+		\test{c4}{3 4 5 0 999 -111} \tab[3] \word{bs} \textdf{Test return stack unwinding}
+
+		\word{:} t5 \word{2DROP} \word{2DROP} 9999 \word{THROW} \word{;} \\
+		\word{:} c5 1 2 3 4 \word{[']} t5 \word{CATCH} \tab[4.5] \word{bs} \textdf{Test depth restored correctly} \\
+		\tab \word{DEPTH} \word{toR} \word{DROP} \word{2DROP} \word{2DROP} \word{Rfrom} \word{;} \tab \word{bs} \textdf{after stack has been emptied} \\
+		\test{c5}{5}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -375,6 +406,10 @@ to provide all of the Exception and Exception Extensions word sets.
 	Perform the function of \texttt{-1} \word{THROW}.
 
 \see \wref{core:ABORT}{ABORT}.
+
+	\begin{testing}
+		\place{x:test}{See \tref{exception:ABORTq}{}.}
+	\end{testing}
 \end{worddef}
 
 
@@ -402,4 +437,31 @@ to provide all of the Exception and Exception Extensions word sets.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:ABORTq}{ABORT"}.
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{DECIMAL} \\
+		\mbox{}~-1	\word{CONSTANT} exc\_abort \\
+		\mbox{}~-2 \word{CONSTANT} exc\_abort" \\
+		-13 \word{CONSTANT} exc\_undef \\
+		\word{:} t6 \word{ABORT} \word{;}
+
+		\textdf{The 77 in \texttt{t10} is necessary for the second
+			\word{ABORTq} test as the data stack is restored to a
+			depth of 2 when \word{THROW} is executed.  The 77 ensures
+			the top of stack value is known for the results check.}
+
+		\word{:} t10 77 \word{SWAP} \word{ABORTq} This should not be displayed" \word{;} \\
+		\word{:} c6 \word{CATCH} \\
+		\tab \word{CASE} exc\_abort~ \word{OF} 11 \word{ENDOF} \\
+		\tab[3.5]		 exc\_abort" \word{OF} 12 \word{ENDOF} \\
+		\tab[3.5]		 exc\_undef~ \word{OF} 13 \word{ENDOF} \\
+		\tab \word{ENDCASE} \\
+		\word{;}
+
+		\test{1 2 \word{'}  t6 c6}{1 2 11 } \tab \word{bs} \textdf{Test that ABORT is caught} \\
+		\test{3 0 \word{'} t10 c6}{3 77   } \tab \word{bs} \textdf{ABORT" does nothing} \\
+		\test{4 5 \word{'} t10 c6}{4 77 12} \tab \word{bs} \textdf{ABORT" caught, no message}
+	\cbend
+	\end{testing}
 \end{worddef}
