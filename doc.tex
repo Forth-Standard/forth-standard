@@ -22,8 +22,8 @@ item.
 
 \item behavior of \wref{core:EMIT}{EMIT} for non-graphic characters;
 
-\item character editing of \wref{core:ACCEPT}{ACCEPT} and
-	\wref{core:EXPECT}{EXPECT};
+\item character editing of \wref{core:ACCEPT}{ACCEPT}
+	\remove{x:legacy}{and \wref{legacy:EXPECT}{EXPECT}};
 
 \item character set (\xref[Character types]{usage:char},
 	\wref{core:EMIT}{EMIT}, \wref{core:KEY}{KEY});
@@ -44,7 +44,7 @@ item.
 	(\xref[Digit conversion]{usage:digits});
 
 \item display after input terminates in \wref{core:ACCEPT}{ACCEPT}
-	and \wref{core:EXPECT}{EXPECT};
+	\remove{x:legacy}{and \wref{legacy:EXPECT}{EXPECT}};
 
 \item exception abort sequence (as in \wref{core:ABORTq}{ABORT"});
 
@@ -124,6 +124,7 @@ item.
 
 
 \subsection{Ambiguous conditions} % 4.1.2 ===========================
+\label{doc:ambiguous}
 
 A system shall document the system action taken upon each of the
 general or specific ambiguous conditions identified in this
@@ -189,7 +190,7 @@ combination of factors:
 	 \wref{core:FM/MOD}{FM/MOD},
 	 \wref{core:SM/REM}{SM/REM},
 	 \wref{core:UM/MOD}{UM/MOD},
-	 \wref{core:CONVERT}{CONVERT},
+	 \remove{x:legacy}{\wref{legacy:CONVERT}{CONVERT},}
 	 \wref{double:M*/}{M*/});
 
 \item reading from an empty data stack or return stack
@@ -350,6 +351,7 @@ A system shall provide the following information:
 \label{doc:program}
 
 \subsection{Environmental dependencies} % 4.2.1
+\label{doc:env}
 
 A program shall document the following environmental dependencies,
 where they apply, and should document other known environmental
@@ -362,8 +364,8 @@ dependencies:
 	(\xref[Other transient regions]{usage:transient});
 
 \item depending on the presence or absence of non-graphic characters
-	in a received string (\wref{core:ACCEPT}{ACCEPT},
-	\wref{core:EXPECT}{EXPECT});
+	in a received string (\wref{core:ACCEPT}{ACCEPT}\remove{x:legacy}{,
+	\wref{legacy:EXPECT}{EXPECT}});
 
 \item relying on a particular rounding direction
 	(\xref[Integer division]{usage:div});

@@ -289,9 +289,93 @@
 			Bernd Paysan, Willi Stricker, and Leon Wagner.
 		\end{enumerate}
 
-	\item[1] Introduction: \\
-		Added \textsf{X:fp-stack}: Added the combined float/data
+	\item[1] Introduction:
+		\begin{enumerate}
+		\item \textsf{X:fp-stack}: Added the combined float/data
 			stack to \xref{intro:obsoleat}.
+		\item \textsf{x:legacy}: Removed reference to obsolute words
+			from \xref{intro:obsoleat}.
+		\end{enumerate}
+
+	\item[4] Documentation requirements:
+		\begin{enumerate}
+		\item \textsf{x:legacy}: Moved system documentation
+			requirements (\ref{doc:system}) for 
+			\word[legacy]{EXPECT} to Legacy word set.
+		\item \textsf{x:legacy}: Moved \xref{doc:ambiguous} for
+			\word[legacy]{CONVERT} to Legacy word set.
+		\item \textsf{x:legacy}: Moved \xref{doc:env} for
+			\word[legacy]{EXPECT} to Legacy word set.
+		\end{enumerate}
+
+	\item[6] Core wordset:
+		\begin{enumerate}
+		\item \textsf{x:legacy}: Moved
+			\word[legacy]{numTIB},
+			\word[legacy]{CONVERT},
+			\word[legacy]{EXPECT},
+			\word[legacy]{QUERY},
+			\word[legacy]{SPAN} and
+			\word[legacy]{TIB}
+			to the new Legacy word set.
+
+		\item \textsf{x:test}: Added test cases:
+			\tref{core:RECURSE}{},
+			\tref{core::NONAME}{},
+			\tref{core:qDO}{},
+			\tref{core:Cq}{},
+			\tref{core:CASE}{},
+			\tref{core:COMPILE,}{},
+			\tref{core:FALSE}{},
+			\tref{core:SAVE-INPUT}{},
+			\tref{core:TRUE}{},
+			\tref{core:VALUE}{} and
+			\tref{core:[COMPILE]}{}.
+		\end{enumerate}
+
+	\item[8] Double Numbers worset: \\
+		\textsf{x:test}: Added test cases:
+		\ref{test:dbl:in},
+		\tref{double:2CONSTANT}{}, 
+		\tref{double:2LITERAL}{},
+		\tref{double:2VARIABLE}{},
+		\tref{double:D+}{},
+		\tref{double:D-}{},
+		\tref{double:D.R}{},
+		\tref{double:D0less}{},
+		\tref{double:D0=}{},
+		\tref{double:D2*}{},
+		\tref{double:D2/}{},
+		\tref{double:Dless}{},
+		\tref{double:D=}{},
+		\tref{double:DtoS}{},
+		\tref{double:DABS}{},
+		\tref{double:DMAX}{},
+		\tref{double:DMIN}{},
+		\tref{double:DNEGATE}{},
+		\tref{double:M*/}{},
+		\tref{double:M+}{},
+		\tref{double:2ROT}{} and
+		\tref{double:DUless}{}.
+
+	\item[9] Exception wordset: \\
+		\textsf{x:test}: Added test cases
+		\ref{test:throw},
+		\tref{exception:CATCH}{} and
+		\tref{exception:ABORTq}{}.
+
+	\item[11] File-Access wordset: \\
+		\textsf{x:test}: Added test cases:
+		\tref{file:p}{},
+		\tref{file:CREATE-FILE}{},
+		\tref{file:DELETE-FILE}{},
+		\tref{file:FILE-SIZE}{},
+		\tref{file:READ-LINE}{},
+		\tref{file:REPOSITION-FILE}{},
+		\tref{file:RESIZE-FILE}{},
+		\tref{file:SOURCE-ID}{},
+		\tref{file:WRITE-LINE}{} and
+		\tref{file:RENAME-FILE}{}.
 
 	\item[10] Facility word set: \\
 		\textsf{ed08}: Changed ``schools of though'' to ``schools of
@@ -308,9 +392,63 @@
 		 \xref{float:restrictions},
 		 \xref{float:dependencies}, and
 		 \wref{floating:FDEPTH}{FDEPTH})
+
+	\item[14] Memory Allocation wordset: \\
+		\textsf{x:test}: Added test cases for
+		\tref{memory:ALLOCATE}{} and \tref{memory:RESIZE}{}.
+
+	\item[15] The optional Programming-Tools word set:
+		\begin{enumerate}
+		\item \textsf{x:legacy}: Moved ambiguous conditions relating
+			to \word[legacy]{FORGET} to Legacy word set.
+
+		\item \textsf{x:test}: Added test cases for:
+			\tref{tools:AHEAD}{},
+			\tref{tools:CS-PICK}{},
+			\tref{tools:CS-ROLL}{} and
+			\tref{tools:[THEN]}{}.
+		\end{enumerate}
+
+	\item[16] Search-Order wordset: \\
+		\textsf{x:test}: Added test cases for:
+		\tref{search:DEFINITIONS}{},
+		\tref{search:FIND}{},
+		\tref{search:FORTH-WORDLIST}{},
+		\tref{search:SEARCH-WORDLIST}{},
+		\tref{search:SET-CURRENT}{},
+		\tref{search:SET-ORDER}{},
+		\tref{search:ALSO}{},
+		\tref{search:ONLY}{} and
+		\tref{search:ORDER}{}.
+
+	\item[17] String wordset: \\
+		\textsf{x:test}: Added test cases for:
+		\tref{string:-TRAILING}{},
+		\tref{string:/STRING}{},
+		\tref{string:BLANK}{},
+		\tref{string:COMPARE}{},
+		\tref{string:SEARCH}{} and
+		\tref{string:SLITERAL}{}.
+
+	\item[18] The optinal Legacy wordset (\xref{wordlist:legacy}):
+		\begin{enumerate}
+		\item \textsf{x:legacy}:
+			Added new Legacy word set, updating ``obsolete'' status.
+
+		\item \textsf{x:test}:
+			Added a test case for \tref{legacy:CONVERT}{}.
+		\end{enumerate}
+
+	\item[A] Rationale:
+		\begin{enumerate}
+		\item \textsf{x:legacy}: Removed ``deprecated words'' from the
+			rational for \xref{rat:core-ext}.
+
+		\item \textsf{x:legacy}: Added rationale for the Legacy word
+			set (\xref{rat:legacy}).
+		\end{enumerate}
 	\end{itemize}
 
-\endinput
 \version{09.1}{Forth Gesellschaft Meeting}{25--27 March 2009}
 	\begin{itemize}
 	\item[4] Documentation requirements: \\
@@ -318,28 +456,29 @@
 			\textsf{X:deferred} extension, changed ``associated with''
 			to ``assigned to''.
 
-	\item[6] Core Ext wordset: \\
-		\textsf{ed09}: Changed ``associated with'' to ``assigned to''
+	\item[6] Core wordset: \\
+		\textsf{ed09}:
+			Changed ``associated with'' to ``assigned to''
 			or ``assigned an'' in the definitions of
 			\wref{core:ACTION-OF}{}, \wref{core:DEFER}{},
 			\wref{core:DEFER@}{} and \wref{core:VALUE}.
 
 	\item[13] Locals wordset: \\
-		\textsf{ed09}: Changed ``associated with'' to ``assigned to''
+		\textsf{ed09}:
+			Changed ``associated with'' to ``assigned to''
 			or ``assigned an'' in the defintion of
 			\wref{local:LOCAL}{}.
 
-	\item[F] References Implementations (Annex \ref{annex:implement}): \\
-		\textsf{ed09}: Added a new annex to collect the reference
-			implementations.
+	\item[F] References Implementations (\xref{annex:implement}): \\
+		\textsf{ed09}:
+			Added a new annex to collect the reference implementations.
 
-	\item[G] Test Suite (Annex \ref{annex:test}):
+	\item[G] Test Suite (\xref{annex:test}):
 		\begin{enumerate}
 		\item \textsf{ed09}: Complete revision of introduction and
 			Test Harness to reflect new test harness: including
-			the new \test{}{}\ and \ftest{}{}{xx}\ syntax.  Test
-			harness source code now folded into discussion of the
-			harness.
+			the new \verb"T{ -> }T" syntax.  Test harness source
+			code now folded into discussion of the harness.
 
 		\item \textsf{ed09}: Complete revision of Core Test,
 			converted to text with references to the approperate
@@ -351,10 +490,10 @@
 		\end{enumerate}
 	\end{itemize}
 
+\endinput
+
 \version{ToDo}{}{\empty}
 	\begin{itemize}
-	\item Introduce new Legacy word set
-	\item Introduce new test cases
 	\item Develop new Globalisation word set
 	\item Develop extended Memory Access word set
 	\end{itemize}

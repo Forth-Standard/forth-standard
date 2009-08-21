@@ -356,10 +356,44 @@
 	\end{rationale}
 
 	\begin{testing} % T.6.1.0140 +LOOP
+		\ttfamily
 		\test{\word{:} GD2 \word{DO} \word{I} -1 \word{+LOOP} \word{;}}{} \\
 		\test{       1          4 GD2}{4 3 2  1} \\
 		\test{      -1          2 GD2}{2 1 0 -1} \\
 		\test{MID-UINT MID-UINT+1 GD2}{MID-UINT+1 MID-UINT}
+
+		\word{VARIABLE} gditerations \\
+		\word{VARIABLE} gdincrement
+
+		\word{:} gd7 \word{p} limit start increment -{}- ) \\
+		\tab gdincrement \word{!} \\
+		\tab 0 gditerations \word{!} \\
+		\tab \word{DO} \\
+		\tab[2] 1 gditerations \word{+!} \\
+		\tab[2] \word{I} \\
+		\tab[2] gditerations \word{@}  6 \word{=} \word{IF} \word{LEAVE} \word{THEN} \\
+		\tab[2] gdincrement \word{@} \\
+		\tab \word{+LOOP} gditerations \word{@} \\
+		\word{;}
+
+		\test{   4  4  -1 gd7}{ 4                  1 } \\
+		\test{   1  4  -1 gd7}{ 4  3  2  1         4 } \\
+		\test{   4  1  -1 gd7}{ 1  0 -1 -2  -3  -4 6 } \\
+		\test{   4  1   0 gd7}{ 1  1  1  1   1   1 6 } \\
+		\test{   0  0   0 gd7}{ 0  0  0  0   0   0 6 } \\
+		\test{   1  4   0 gd7}{ 4  4  4  4   4   4 6 } \\
+		\test{   1  4   1 gd7}{ 4  5  6  7   8   9 6 } \\
+		\test{   4  1   1 gd7}{ 1  2  3            3 } \\
+		\test{   4  4   1 gd7}{ 4  5  6  7   8   9 6 } \\
+		\test{   2 -1  -1 gd7}{-1 -2 -3 -4  -5  -6 6 } \\
+		\test{  -1  2  -1 gd7}{ 2  1  0 -1         4 } \\
+		\test{   2 -1   0 gd7}{-1 -1 -1 -1  -1  -1 6 } \\
+		\test{  -1  2   0 gd7}{ 2  2  2  2   2   2 6 } \\
+		\test{  -1  2   1 gd7}{ 2  3  4  5   6   7 6 } \\
+		\test{   2 -1   1 gd7}{-1 0 1              3 } \\
+		\test{ -20 30 -10 gd7}{30 20 10  0 -10 -20 6 } \\
+		\test{ -20 31 -10 gd7}{31 21 11  1  -9 -19 6 } \\
+		\test{ -20 29 -10 gd7}{29 19  9 -1 -11     5 }
 	\end{testing}
 \end{worddef}
 
@@ -1214,7 +1248,7 @@
 		functions are often implemented by system components beyond the
 		control of the Forth implementation, this Standard imposes no
 		such requirement. A Standard Program may only assume that it
-		can receive an input string with \word{ACCEPT} or \word{EXPECT}.
+		can receive an input string with \word{ACCEPT} or \word[legacy]{EXPECT}.
 		The detailed sequence of user actions necessary to prepare and
 		transmit that line are beyond the scope of this Standard.
 
@@ -1227,9 +1261,9 @@
 		Since actual values are almost always small integers, no
 		functionality is impaired by this restriction.
 
-		\word{ACCEPT} and \word{EXPECT} perform similar functions.
+		\word{ACCEPT} and \word[legacy]{EXPECT} perform similar functions.
 		\word{ACCEPT} is recommended for new programs, and future use
-		of \word{EXPECT} is discouraged.
+		of \word[legacy]{EXPECT} is discouraged.
 
 		It is recommended that all non-graphic characters be reserved
 		for editing or control functions and not be stored in the input
@@ -1246,21 +1280,21 @@
 		the string is signified by the user pressing a ``Return'' or
 		``Enter'' key.
 
-		As in previous standards, \word{EXPECT} returns the input
+		As in previous standards, \word[legacy]{EXPECT} returns the input
 		string immediately after the requested number of characters
 		are entered, as well as when a line terminator is received.
 		The ``automatic termination after specified count of characters
 		have been entered'' behavior is widely considered undesirable
 		because the user ``loses control'' of the input editing process
 		at a potentially unknown time (the user does not necessarily
-		know how many characters were requested from \word{EXPECT}).
-		Thus \word{EXPECT} and \word{SPAN} have been made obsolescent
+		know how many characters were requested from \word[legacy]{EXPECT}).
+		Thus \word[legacy]{EXPECT} and \word[legacy]{SPAN} have been made obsolescent
 		and exist in the Standard only as a concession to existing
-		implementations. If \word{EXPECT} exists in a Standard System
+		implementations. If \word[legacy]{EXPECT} exists in a Standard System
 		it must have the ``automatic termination'' behavior.
 
 		\word{ACCEPT} does not have the ``automatic termination''
-		behavior of \word{EXPECT}. However, because external system
+		behavior of \word[legacy]{EXPECT}. However, because external system
 		hardware and software may perform the \word{ACCEPT} function,
 		when a line terminator is received the action of the cursor,
 		and therefore the display, is implementation-defined. It is
@@ -2096,7 +2130,9 @@
 		\test{\word{:} GE6 GE1 GE5 \word{;}}{} \word{p} TEST EVALUATE IN COMPILE STATE ) \\
 		\test{GE6}{123} \\
 		\test{\word{:} GE7 GE2 GE5 \word{;}}{} \\
-		\test{GE7}{124} \\
+		\test{GE7}{124}
+
+		\place{x:test}{\textdf{See \ref{test:throw} for additional test.}}
 	\end{testing}
 \end{worddef}
 
@@ -3150,6 +3186,31 @@
 		\test{2 GI6}{0 1 2} \\
 		\test{3 GI6}{0 1 2 3} \\
 		\test{4 GI6}{0 1 2 3 4}
+
+		\cbstart\patch{x:test}
+		\word{DECIMAL} \\	
+		\test{\word{:NONAME} \word{p} n -{}- 0, 1, .., n ) \\
+			\tab[2] \word{DUP} \word{IF} \word{DUP} \word{toR} \word{1-} \word{RECURSE} \word{Rfrom} \word{THEN} \\
+		\tab \word{;} \\
+		\tab \word{CONSTANT} rn1}{} \\
+		\test{0 rn1 EXECUTE}{0} \\
+		\test{4 rn1 EXECUTE}{0 1 2 3 4}
+
+		\word{:NONAME}  \word{p} n -{}- n1 ) \\
+		\tab \word{1-} \word{DUP} \\
+		\tab \word{CASE} 0 \word{OF} \word{EXIT} \word{ENDOF} \\
+		\tab[2] 1 \word{OF} 11 \word{SWAP} \word{RECURSE} \word{ENDOF} \\
+		\tab[2] 2 \word{OF} 22 \word{SWAP} \word{RECURSE} \word{ENDOF} \\
+		\tab[2] 3 \word{OF} 33 \word{SWAP} \word{RECURSE} \word{ENDOF} \\
+		\tab[2] \word{DROP} \word{ABS} \word{RECURSE} \word{EXIT} \\
+		\tab \word{ENDCASE} \\
+		\word{;} \word{CONSTANT} rn2
+
+		\test{ 1 rn2 EXECUTE}{0} \\
+		\test{ 2 rn2 EXECUTE}{11 0} \\
+		\test{ 4 rn2 EXECUTE}{33 22 11 0} \\
+		\test{25 rn2 EXECUTE}{33 22 11 0}
+		\cbend
 	\end{testing}
 \end{worddef}
 
@@ -3219,8 +3280,8 @@
 		\test{   1 1 \word{RSHIFT}}{0} \\
 		\test{   2 1 \word{RSHIFT}}{1} \\
 		\test{   4 2 \word{RSHIFT}}{1} \\
-		\test{8000 F \word{RSHIFT}}{1}					\tab[5.4] \word{bs} BIGGEST \\
-		\test{ MSB 1 \word{RSHIFT} MSB \word{AND}}{  0} \word{bs} RSHIFT ZERO FILLS MSBS \\
+		\test{8000 F \word{RSHIFT}}{1}					\tab[6.4] \word{bs} BIGGEST \\
+		\test{ MSB 1 \word{RSHIFT} MSB \word{AND}}{  0} \tab[1] \word{bs} RSHIFT ZERO FILLS MSBS \\
 		\test{ MSB 1 \word{RSHIFT}     \word{2*} }{MSB}
 	\end{testing}
 \end{worddef}
@@ -3395,8 +3456,8 @@
 		flexibility in their implementation of buffering mechanisms
 		for different input sources. The committee moved away from an
 		input buffer specification consisting of a collection of
-		individual variables, declaring \word{TIB} and \word{numTIB}
-		obsolescent.
+		individual variables, declaring \word[legacy]{TIB} and
+		\word[legacy]{numTIB} obsolescent.
 
 		\word{SOURCE} in this form exists in F83, polyFORTH, LMI's
 		Forths and others. In conventional systems it is equivalent to
@@ -3405,7 +3466,7 @@
 		\tab \word[block]{BLK} \word{@} \word{IF}
 			\word[block]{BLK} \word{@} \word[block]{BLOCK} 1024
 		\word{ELSE}
-			\word{TIB} \word{numTIB} \word{@}
+			\word[legacy]{TIB} \word[legacy]{numTIB} \word{@}
 		\word{THEN}
 	\end{rationale}
 
@@ -3870,8 +3931,8 @@
 \note
 	The requirement to follow the string with a space is obsolescent
 	and is included as a concession to existing programs that use
-	\word{CONVERT}. A program shall not depend on the existence of
-	the space.
+	\word[legacy]{CONVERT}. A program shall not depend on the
+	existence of the space.
 
 \see \xref[3.3.3.6 Other transient regions]{usage:transient},
 	\xref[3.4.1 Parsing]{usage:parsing}.
@@ -4052,21 +4113,21 @@
 \fi
 
 
-\begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b]
-\item \stack{}{a-addr}
-
-	\param{a-addr} is the address of a cell containing the number
-	of characters in the terminal input buffer.
-
-\note
-	This word is obsolescent and is included as a concession to
-	existing implementations.
-
-	\begin{rationale} % A.6.2.0060 #TIB
-		The function of \word{numTIB} has been superseded by
-		\word{SOURCE}.
-	\end{rationale}
-\end{worddef}
+% \begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b]
+% \item \stack{}{a-addr}
+% 
+% 	\param{a-addr} is the address of a cell containing the number
+% 	of characters in the terminal input buffer.
+% 
+% \note
+% 	This word is obsolescent and is included as a concession to
+% 	existing implementations.
+% 
+% 	\begin{rationale} % A.6.2.0060 #TIB
+% 		The function of \word{numTIB} has been superseded by
+% 		\word{SOURCE}.
+% 	\end{rationale}
+% \end{worddef}
 
 
 \begin{worddef}[.p]{0200}{.(}[dot-paren]
@@ -4339,6 +4400,17 @@
 
 		\tab {\ldots} \word{'} \texttt{xxx} \word{toBODY} \word[tools]{q} {\ldots}
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+	\word{VARIABLE} nn1 \\
+	\word{VARIABLE} nn2 \\
+	\test{:NONAME 1234 ; nn1 !}{} \\
+	\test{:NONAME 9876 ; nn2 !}{} \\
+	\test{nn1 @ EXECUTE}{1234} \\
+	\test{nn2 @ EXECUTE}{9876}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -4401,6 +4473,70 @@
 		Committee considered applying these semantics to DO, but
 		declined on the grounds that it might break existing code.
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+	\word{DECIMAL}
+
+	\word{:} qd \word{qDO} \word{I} \word{LOOP} \word{;} \\
+	\test{  789   789 qd}{} \\
+	\test{-9876 -9876 qd}{} \\
+	\test{    5     0 qd}{0 1 2 3 4}
+
+	\word{:} qd1 \word{qDO} \word{I} 10 \word{+LOOP} \word{;} \\
+	\test{50 1 qd1}{1 11 21 31 41} \\
+	\test{50 0 qd1}{0 10 20 30 40}
+
+	\word{:} qd2 \word{qDO} \word{I} 3 \word{more} \word{IF} \word{LEAVE} \word{ELSE} \word{I} \word{THEN} \word{LOOP} \word{;} \\
+	\test{5 -1 qd2}{-1 0 1 2 3}
+
+	\word{:} qd3 \word{qDO} \word{I} 1 \word{+LOOP} \word{;} \\
+	\test{4  4 qd3}{} \\
+	\test{4  1 qd3}{ 1 2 3} \\
+	\test{2 -1 qd3}{-1 0 1}
+
+	\word{:} qd4 \word{qDO} \word{I} -1 \word{+LOOP} \word{;} \\
+	\test{ 4 4 qd4}{} \\
+	\test{ 1 4 qd4}{4 3 2  1} \\
+	\test{-1 2 qd4}{2 1 0 -1}
+
+	\word{:} qd5 \word{qDO} \word{I} -10 \word{+LOOP} \word{;} \\
+	\test{  1 50 qd5}{50 40 30 20 10  } \\
+	\test{  0 50 qd5}{50 40 30 20 10 0} \\
+	\test{-25 10 qd5}{10 0 -10 -20    }
+
+	\word{VARIABLE} qditerations \\
+	\word{VARIABLE} qdincrement
+
+	\word{:} qd6 \word{p} limit start increment -{}- )
+	\tab qdincrement \word{!} \\
+	\tab 0 qditerations \word{!} \\
+	\tab \word{qDO} \\
+	\tab[2] 1 qditerations \word{+!} \\
+	\tab[2] \word{I} \\
+	\tab[2] qditerations \word{@}  6 \word{=} \word{IF} \word{LEAVE} \word{THEN} \\
+	\tab[2] qdincrement \word{@} \\
+	\tab \word{+LOOP} qditerations \word{@} \\
+	\word{;}
+
+	\test{ 4  4 -1 qd6}{                  0 } \\
+	\test{ 1  4 -1 qd6}{ 4  3  2  1       4 } \\
+	\test{ 4  1 -1 qd6}{ 1  0 -1 -2 -3 -4 6 } \\
+	\test{ 4  1  0 qd6}{ 1  1  1  1  1  1 6 } \\
+	\test{ 0  0  0 qd6}{                  0 } \\
+	\test{ 1  4  0 qd6}{ 4  4  4  4  4  4 6 } \\
+	\test{ 1  4  1 qd6}{ 4  5  6  7  8  9 6 } \\
+	\test{ 4  1  1 qd6}{ 1  2  3          3 } \\
+	\test{ 4  4  1 qd6}{                  0 } \\
+	\test{ 2 -1 -1 qd6}{-1 -2 -3 -4 -5 -6 6 } \\
+	\test{-1  2 -1 qd6}{ 2  1  0 -1       4 } \\
+	\test{ 2 -1  0 qd6}{-1 -1 -1 -1 -1 -1 6 } \\
+	\test{-1  2  0 qd6}{ 2  2  2  2  2  2 6 } \\
+	\test{-1  2  1 qd6}{ 2  3  4  5  6  7 6 } \\
+	\test{ 2 -1  1 qd6}{-1  0  1          3 }
+
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -4541,6 +4677,15 @@
 
 		See: \xref[A.3.1.3.4 Counted strings]{rat:cstring}.
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\test{\word{:} cq1 \word{Cq} 123\texttt{"} \word{;}}{} \\
+		\test{\word{:} cq2 \word{Cq} \texttt{"} \word{;}   }{} \\
+		\test{cq1 \word{COUNT} \word{EVALUATE}}{123} \\
+		\test{cq2 \word{COUNT} \word{EVALUATE}}{   }
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -4577,6 +4722,43 @@
 			\word{;}
 		\end{quote}
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+		\cbstart\patch{x:test}
+		\word{:} cs1 \word{CASE} 1 \word{OF} 111 \word{ENDOF} \\
+		\tab 2 \word{OF} 222 \word{ENDOF} \\
+		\tab 3 \word{OF} 333 \word{ENDOF} \\
+		\tab \word{toR} 999 \word{Rfrom} \\
+		\tab \word{ENDCASE} \\
+		\word{;}
+
+		\test{1 cs1}{111} \\
+		\test{2 cs1}{222} \\
+		\test{3 cs1}{333} \\
+		\test{4 cs1}{999} \\
+
+		\word{:} cs2 \word{toR} \word{CASE} \\
+		\tab -1 \word{OF} \word{CASE} \word{R@} 1 \word{OF} 100 \word{ENDOF} \\
+		\tab[7.3] 2 \word{OF} 200 \word{ENDOF} \\
+		\tab[7.3] \word{toR} -300 \word{Rfrom} \\
+		\tab[3.5] \word{ENDCASE} \\
+		\tab[2] \word{ENDOF} \\
+		\tab -2 \word{OF} \word{CASE} \word{R@} 1 \word{OF} -99  \word{ENDOF} \\
+		\tab[7.3] \word{toR} -199 \word{Rfrom} \\
+		\tab[3.5] \word{ENDCASE} \\
+		\tab[2] \word{ENDOF} \\
+		\tab[2] \word{toR} 299 \word{Rfrom} \\
+		\tab \word{ENDCASE} \word{Rfrom} \word{DROP}
+		\word{;}
+
+		\test{-1 1 cs2}{ 100} \\
+		\test{-1 2 cs2}{ 200} \\
+		\test{-1 3 cs2}{-300} \\
+		\test{-2 1 cs2}{ -99} \\
+		\test{-2 2 cs2}{-199} \\
+		\test{ 0 2 cs2}{ 299}
+		\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -4624,36 +4806,45 @@
 		implementations, \word{COMPILE,} might not generate code that
 		is as efficient as normally compiled code.
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\word{:NONAME} \word{DUP} \word{+} \word{;} \word{CONSTANT} dup+ \\
+		\test{\word{:} q dup+ \word{COMPILE,} \word{;}}{} \\
+		\test{\word{:} as \word{[} q \word{]} \word{;}}{} \\
+		\test{123 as}{246}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
-\begin{worddef}{0970}{CONVERT}
-\item \stack{ud_1 c-addr_1}{ud_2 c-addr_2}
-
-	\param{ud_2} is the result of converting the characters within
-	the text beginning at the first character after \param{c-addr_1}
-	into digits, using the number in \word{BASE}, and adding each
-	digit to \param{ud_1} after multiplying \param{ud_1} by the
-	number in \word{BASE}. Conversion continues until a character
-	that is not convertible is encountered. \param{c-addr_2} is
-	the location of the first unconverted character. An ambiguous
-	condition exists if \param{ud_2} overflows.
-
-\note
-	This word is obsolescent and is included as a concession to
-	existing implementations. Its function is superseded by
-	\wref{core:toNUMBER}{>NUMBER}.
-
-\see \xref[3.2.1.2 Digit conversion]{usage:digits}.
-
-	\begin{rationale} % A.6.2.0970 CONVERT
-		\word{CONVERT} may be defined as follows:
-
-		\tab \word{:} \word{CONVERT}~
-			\word{CHAR+} \texttt{65535} \word{toNUMBER} \word{DROP}
-		\word{;}
-	\end{rationale}
-\end{worddef}
+% \begin{worddef}{0970}{CONVERT}
+% \item \stack{ud_1 c-addr_1}{ud_2 c-addr_2}
+% 
+% 	\param{ud_2} is the result of converting the characters within
+% 	the text beginning at the first character after \param{c-addr_1}
+% 	into digits, using the number in \word{BASE}, and adding each
+% 	digit to \param{ud_1} after multiplying \param{ud_1} by the
+% 	number in \word{BASE}. Conversion continues until a character
+% 	that is not convertible is encountered. \param{c-addr_2} is
+% 	the location of the first unconverted character. An ambiguous
+% 	condition exists if \param{ud_2} overflows.
+% 
+% \note
+% 	This word is obsolescent and is included as a concession to
+% 	existing implementations. Its function is superseded by
+% 	\wref{core:toNUMBER}{>NUMBER}.
+% 
+% \see \xref[3.2.1.2 Digit conversion]{usage:digits}.
+% 
+% 	\begin{rationale} % A.6.2.0970 CONVERT
+% 		\word{CONVERT} may be defined as follows:
+% 
+% 		\tab \word{:} \word{CONVERT}~
+% 			\word{CHAR+} \texttt{65535} \word{toNUMBER} \word{DROP}
+% 		\word{;}
+% 	\end{rationale}
+% \end{worddef}
 
 
 \begin{worddef}{}{DEFER}[][X:deferred]
@@ -4788,6 +4979,10 @@
 			\word{;}
 		\end{quote}
 	\end{rationale}
+
+	\begin{testing}
+		\place{x:test}{See \tref{core:CASE}{}.}
+	\end{testing}
 \end{worddef}
 
 
@@ -4827,6 +5022,10 @@
 			\word{;}
 		\end{quote}
 	\end{rationale}
+
+	\begin{testing}
+		\place{x:test}{See \tref{core:CASE}{}.}
+	\end{testing}
 \end{worddef}
 
 
@@ -4839,39 +5038,39 @@
 \end{worddef}
 
 
-\begin{worddef}{1390}{EXPECT}
-\item \stack{c-addr +n}{}
-
-	Receive a string of at most \param{+n} characters. Display graphic
-	characters as they are received. A program that depends on
-	the presence or absence of non-graphic characters in the
-	string has an environmental dependency. The editing functions,
-	if any, that the system performs in order to construct the
-	string of characters are implementation-defined.
-
-	Input terminates when an implementation-defined line terminator
-	is received or when the string is \param{+n} characters long. When
-	input terminates, nothing is appended to the string and the
-	display is maintained in an implementation-defined way.
-
-	Store the string at \param{c-addr} and its length in \word{SPAN}.
-
-\note
-	This word is obsolescent and is included as a concession to
-	existing implementations. Its function is superseded
-	by \wref{core:ACCEPT}{ACCEPT}.
-
-	\begin{rationale} % A.6.2.1390 EXPECT
-		Specification of positive integer counts (\param{+n}) for
-		\word{EXPECT} allows some implementors to continue their
-		practice of using a zero or negative value as a flag to
-		trigger special behavior. Insofar as such behavior is outside
-		the Standard, Standard Programs cannot depend upon it, but
-		the Technical Committee doesn't wish to preclude it
-		unnecessarily. Since actual values are almost always small
-		integers, no functionality is impaired by this restriction.
-	\end{rationale}
-\end{worddef}
+% \begin{worddef}{1390}{EXPECT}
+% \item \stack{c-addr +n}{}
+% 
+% 	Receive a string of at most \param{+n} characters. Display graphic
+% 	characters as they are received. A program that depends on
+% 	the presence or absence of non-graphic characters in the
+% 	string has an environmental dependency. The editing functions,
+% 	if any, that the system performs in order to construct the
+% 	string of characters are implementation-defined.
+% 
+% 	Input terminates when an implementation-defined line terminator
+% 	is received or when the string is \param{+n} characters long. When
+% 	input terminates, nothing is appended to the string and the
+% 	display is maintained in an implementation-defined way.
+% 
+% 	Store the string at \param{c-addr} and its length in \word{SPAN}.
+% 
+% \note
+% 	This word is obsolescent and is included as a concession to
+% 	existing implementations. Its function is superseded
+% 	by \wref{core:ACCEPT}{ACCEPT}.
+% 
+% 	\begin{rationale} % A.6.2.1390 EXPECT
+% 		Specification of positive integer counts (\param{+n}) for
+% 		\word{EXPECT} allows some implementors to continue their
+% 		practice of using a zero or negative value as a flag to
+% 		trigger special behavior. Insofar as such behavior is outside
+% 		the Standard, Standard Programs cannot depend upon it, but
+% 		the Technical Committee doesn't wish to preclude it
+% 		unnecessarily. Since actual values are almost always small
+% 		integers, no functionality is impaired by this restriction.
+% 	\end{rationale}
+% \end{worddef}
 
 
 \begin{worddef}{1485}{FALSE}
@@ -4880,6 +5079,13 @@
 	Return a \param{false} flag.
 
 \see \xref[3.1.3.1 Flags]{usage:flags}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+	\test{\word{FALSE}}{0} \\
+	\test{\word{FALSE}}{<FALSE>}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -4964,12 +5170,12 @@
 	as numeric base is affected.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{tools:FORGET}{FORGET}.
+	\wref{legacy:FORGET}{FORGET}.
 
 	\begin{rationale} % A.6.2.1850 MARKER
 		As dictionary implementations have become more elaborate
 		and in some cases have used multiple address spaces,
-		\word[tools]{FORGET} has become prohibitively difficult or
+		\word[legacy]{FORGET} has become prohibitively difficult or
 		impossible to implement on many Forth systems. \word{MARKER}
 		greatly eases the problem by making it possible for the
 		system to remember ``landmark information'' in advance that
@@ -5023,6 +5229,10 @@
 			\word{;}
 		\end{quote}
 	\end{rationale}
+
+	\begin{testing}
+		\place{x:test}{See \tref{core:CASE}{}.}
+	\end{testing}
 \end{worddef}
 
 
@@ -5207,9 +5417,9 @@
 
 		\word{bs} test empty parse area \\
 		\test{\word{PARSE-NAME} \\\mbox{}
-		\tab[0.6] \word{NIP}}{0} \word{bs} empty line \\
+		\tab[0.6] \word{NIP}}{0} \tab \word{bs} empty line \\
 		\test{PARSE-NAME    \\\mbox{}
-		\tab[0.6] \word{NIP}}{0} \word{bs} line with white space
+		\tab[0.6] \word{NIP}}{0} \tab \word{bs} line with white space
 
 		\test{\word{:} parse-name-test \word{p} ``name1'' ``name2'' -{}- n ) \\
 		\tab[0.6] \word{PARSE-NAME} \word{PARSE-NAME} S= \word{;}}{}
@@ -5220,7 +5430,7 @@
 		\test{parse-name-test abcdf abcde}{<FALSE>} \\
 		\test{parse-name-test abcde abcde \\\tab[1.2]}{<TRUE>} \\
 		\test{parse-name-test abcde abcde  \\\tab[1.2]}{<TRUE>}
-		\word{bs} line with white space
+		\tab \word{bs} line with white space
 	\end{testing}
 \end{worddef}
 
@@ -5239,23 +5449,23 @@
 \end{worddef}
 
 
-\begin{worddef}{2040}{QUERY}
-\item \stack{}{}
-
-	Make the user input device the input source. Receive input into
-	the terminal input buffer, replacing any previous contents. Make
-	the result, whose address is returned by \word{TIB}, the input
-	buffer. Set \word{toIN} to zero.
-
-\note
-	This word is obsolescent and is included as a concession to
-	existing implementations.
-
-	\begin{rationale} % A.6.2.2040 QUERY
-		The function of \word{QUERY} may be performed with \word{ACCEPT}
-		and \word{EVALUATE}.
-	\end{rationale}
-\end{worddef}
+% \begin{worddef}{2040}{QUERY}
+% \item \stack{}{}
+% 
+% 	Make the user input device the input source. Receive input into
+% 	the terminal input buffer, replacing any previous contents. Make
+% 	the result, whose address is returned by \word{TIB}, the input
+% 	buffer. Set \word{toIN} to zero.
+% 
+% \note
+% 	This word is obsolescent and is included as a concession to
+% 	existing implementations.
+% 
+% 	\begin{rationale} % A.6.2.2040 QUERY
+% 		The function of \word{QUERY} may be performed with \word{ACCEPT}
+% 		and \word{EVALUATE}.
+% 	\end{rationale}
+% \end{worddef}
 
 
 \begin{worddef}{2125}{REFILL}
@@ -5278,11 +5488,11 @@
 	\wref{file:REFILL}{REFILL}.
 
 	\begin{rationale} % A.6.2.2125 REFILL
-		This word is a useful generalization of \word{QUERY}.
-		Re-defining \word{QUERY} to meet this specification would
+		This word is a useful generalization of \word[legacy]{QUERY}.
+		Re-defining \word[legacy]{QUERY} to meet this specification would
 		have broken existing code. \word{REFILL} is designed to behave
 		reasonably for all possible input sources. If the input source
-		is coming from the user, as with \word{QUERY}, \word{REFILL}
+		is coming from the user, as with \word[legacy]{QUERY}, \word{REFILL}
 		could still return a false value if, for instance, a
 		communication channel closes so that the system knows that no
 		more input will be available.
@@ -5435,6 +5645,75 @@
 		particular meaning for the individual stack items returned by
 		\word{SAVE-INPUT}.
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+	\cbstart\patch{x:test}
+		\textdf{Testing with a file source} \\
+		\word{VARIABLE} siv -1 siv \word{!}
+
+		\word{:} NeverExecuted \\
+		\tab \word{.q} This should never be executed\texttt{"} \word{ABORT} \\
+		\word{;}
+
+		11111 \word{SAVE-INPUT}
+
+		siv \word{@}
+
+		\word[tools]{[IF]} \\
+		\tab 0 siv \word{!} \\
+		\tab \word{RESTORE-INPUT} \\
+		\tab NeverExecuted \\
+		\word[tools]{[ELSE]} \\
+		\tab \word{bs} \textdf{Testing the ELSE part is executed} \\
+		\tab 22222 \\
+		\word[tools]{[THEN]}
+
+		\test{}{11111 0 22222} \tab \word{bs} \textdf{0 comes from \word{RESTORE-INPUT}}
+
+		\textdf{Testing with a string source} \\
+		\word{VARIABLE} si\_inc 0 si\_inc \word{!}
+
+		\word{:} si1 \\
+		\tab si\_inc \word{@} \word{toIN} \word{+!} \\
+		\tab 15 si\_inc \word{!} \\
+		\word{;}
+
+		\word{:} s\$ \word{Sq} \word{SAVE-INPUT} si1 \word{RESTORE-INPUT} 12345\texttt{"} \word{;}
+
+		\test{s\$ \word{EVALUATE} si\_inc \word{@}}{0 2345 15}
+
+		\textdf{Testing nesting} \\
+		\word{:} read\_a\_line \\
+		\tab \word{REFILL} \word{0=} \\
+		\tab \word{ABORTq} \word{REFILL} failed\texttt{"} \\
+		\word{;}
+
+		0 si\_inc \word{!} \\
+		\word[double]{2VARIABLE} 2res -1.\ 2res \word{2!}
+
+		\word{:} si2 \\
+		\tab read\_a\_line \\
+		\tab read\_a\_line \\
+		\tab \word{SAVE-INPUT} \\
+		\tab read\_a\_line \\
+		\tab read\_a\_line \\
+		\tab s\$ \word{EVALUATE} 2res \word{2!} \\
+		\tab \word{RESTORE-INPUT} \\
+		\word{;}
+
+		\textdf{\textbf{WARNING:} do not delete or insert lines of
+			text after si2 is called otherwise the next test will
+			fail}
+
+		si2 \\
+		33333 \tab[7.75] \word{bs} \textdf{This line should be ignored} \\
+		2res 2@ 44444 \tab[3] \word{bs} \textdf{\word{RESTORE-INPUT} should return to this line}
+
+		55555
+
+		\test{}{0 0 2345 44444 55555}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -5457,32 +5736,32 @@
 \end{worddef}
 
 
-\begin{worddef}{2240}{SPAN}
-\item \stack{}{a-addr}
+% \begin{worddef}{2240}{SPAN}
+% \item \stack{}{a-addr}
+% 
+% 	\param{a-addr} is the address of a cell containing the count of
+% 	characters stored by the last execution of \word{EXPECT}.
+% 
+% \note
+% 	This word is obsolescent and is included as a concession to
+% 	existing implementations.
+% \end{worddef}
 
-	\param{a-addr} is the address of a cell containing the count of
-	characters stored by the last execution of \word{EXPECT}.
 
-\note
-	This word is obsolescent and is included as a concession to
-	existing implementations.
-\end{worddef}
-
-
-\begin{worddef}{2290}{TIB}[t-i-b]
-\item \stack{}{c-addr}
-
-	\param{c-addr} is the address of the terminal input buffer.
-
-\note
-	This word is obsolescent and is included as a concession to
-	existing implementations.
-
-	\begin{rationale} % A.6.2.2290 TIB
-		The function of \word{TIB} has been superseded by
-		\word{SOURCE}.
-	\end{rationale}
-\end{worddef}
+% \begin{worddef}{2290}{TIB}[t-i-b]
+% \item \stack{}{c-addr}
+% 
+% 	\param{c-addr} is the address of the terminal input buffer.
+% 
+% \note
+% 	This word is obsolescent and is included as a concession to
+% 	existing implementations.
+% 
+% 	\begin{rationale} % A.6.2.2290 TIB
+% 		The function of \word{TIB} has been superseded by
+% 		\word{SOURCE}.
+% 	\end{rationale}
+% \end{worddef}
 
 
 \begin{worddef}{2295}{TO}
@@ -5544,6 +5823,13 @@
 		\word{TRUE} is equivalent to the phrase
 		\texttt{0} \word{0=}.
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+	\test{\word{TRUE}}{<TRUE>} \\
+	\test{\word{TRUE}}{0 INVERT} \\
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
@@ -5622,14 +5908,23 @@
 	\end{rationale}
 
 	\begin{testing} % T.6.2.2405 VALUE
-		\test{0 \word{VALUE} Tval}{} \\
-		\test{Tval}{0} \\
+		\cbstart\patch{x:test}
+		\test{ 111 VALUE v1}{} \\
+		\test{-999 VALUE v2}{} \\
+		\test{v1}{ 111} \\
+		\test{v2}{-999} \\
+		\test{222 TO v1}{} \\
+		\test{v1}{222}
 
-		\test{1 \word{TO} Tval}{} \\
-		\test{Tval}{1}
+		\test{\word{:} vd1 v1 \word{;}}{} \\
+		\test{vd1}{222}
 
-		\word{:} SETTval Tval \word{SWAP} \word{TO} Tval \word{;} \\
-		\test{2 SETTval Tval}{1 2}
+		\test{\word{:} vd2 \word{TO} v2 \word{;}}{} \\
+		\test{v2}{-999} \\
+		\test{-333 vd2}{} \\
+		\test{v2}{-333} \\
+		\test{v1}{ 222}
+		\cbend
 	\end{testing}
 \end{worddef}
 
@@ -5749,6 +6044,24 @@
 				\word{[COMPILE]} \texttt{name1}
 			{\ldots} \word{;} ~ \word{IMMEDIATE}
 	\end{rationale}
+
+	\begin{testing}
+	\cbstart\patch{x:test}
+		\textdf{With default compilation semantics} \\
+		\test{\word{:} [c1] \word{[COMPILE]} \word{DUP} \word{;} \word{IMMEDIATE}}{} \\
+		\test{123 [c1]}{123 123}
+
+		\textdf{With an immediate word} \\
+		\test{\word{:} [c2] \word{[COMPILE]} [c1] \word{;}}{} \\
+		\test{234 [c2]}{234 234}
+
+		\textdf{With special compilation semantics} \\
+		\test{\word{:} [cif] \word{[COMPILE]} \word{IF} \word{;} \word{IMMEDIATE}}{} \\
+		\test{\word{:} [c3]  [cif] 111 \word{ELSE} 222 \word{THEN} \word{;}}{} \\
+		\test{-1 [c3]}{111} \\
+		\test{ 0 [c3]}{222}
+	\cbend
+	\end{testing}
 \end{worddef}
 
 
