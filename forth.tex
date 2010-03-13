@@ -1,6 +1,9 @@
 \documentclass[10pt]{book}
 \usepackage{a4wide}
-%\includeonly{testsuite}
+%\includeonly{titlepage,foreword,foreword-ans,process,members-2x}
+%\includeonly{intro,notation,usage,doc,label}
+%\includeonly{core,block,double,exception,facility,file,float,locals,memory,tools,search,string}
+%\includeonly{rationale,bib,history,diff,port,implement,testsuite}
 
 % ========== Document Organisation Flags ==========
 
@@ -9,10 +12,10 @@
 \inlinefalse
 
 \newif\ifshowref		% Display Cross Reference labels
-%\showreftrue
+\showreftrue
 \showreffalse
 
-\newcommand{\revision}{09.2}	% Document Revision
+\newcommand{\revision}{09.3}	% Document Revision
 
 % =================================================
 
@@ -847,15 +850,15 @@
 	\Newassociation{implement}{worddefer}{implementation}
 
 	\newcommand{\prerationale}{%
-		\item[Rationale] See \rref{\word@list:\word@label}{\word@name}
+		\item[\sout{Rationale}] \remove{ed09b}{See \rref{\word@list:\word@label}{\word@name}.}
 	}
 
 	\newcommand{\pretesting}{%
-		\item[Testing] See \tref{\word@list:\word@label}{\word@name}
+		\item[\sout{Testing}] \remove{ed09b}{See \tref{\word@list:\word@label}{\word@name}.}
 	}
 
 	\newcommand{\preimplement}{%
-		\item[Implementation] See \iref{\word@list:\word@label}{\word@name}
+		\item[\sout{Implementation}] \remove{ed09b}{See \iref{\word@list:\word@label}{\word@name}.}
 	}	
 
 	% The text for all three environments will be processed by
@@ -1289,8 +1292,15 @@
 	\edef\@currentlabelname{#1}%
 }
 
-\newcommand{\patch}[1]{%
+\newcommand{\patch}[1]{% {<name>}
 	\marginpar{\tiny\textsf{#1}}
+}
+
+\newcommand{\strike}[3][3]{% [<end-space>]{<height>}{<width>}
+	\rule{-#3pt}{0pt}%
+	\rule[#2pt]{#3pt}{.5pt}%
+	\rule[#2pt]{3pt}{.5pt}%
+	\rule{-#1pt}{0pt}%
 }
 
 % ========================================
@@ -1325,12 +1335,12 @@
 
 \frontmatter
 \setcounter{tocdepth}{2}
-{\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
-%{\parskip 0pt \listoftables}	\addcontentsline{toc}{chapter}{\listtablename}
-%{\parskip 0pt \listoffigures}	\addcontentsline{toc}{chapter}{\listfigurename}
-%{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
+%{\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
+%%{\parskip 0pt \listoftables}	\addcontentsline{toc}{chapter}{\listtablename}
+%%{\parskip 0pt \listoffigures}	\addcontentsline{toc}{chapter}{\listfigurename}
+%%{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
 
-\newpage
+%\newpage
 \include{foreword}
 \include{foreword-ans}
 \include{process}
@@ -1364,19 +1374,15 @@
 \include{memory}
 \include{tools}
 \include{search}
-\include{string}
-
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
-\include{legacy}
+\include{string}
+%\include{legacy}
 
 % Close the deferred output files
 \Closesolutionfile{rationale}
 \Closesolutionfile{testing}
 \Closesolutionfile{implementation}
-
-% Close the glossary file
-\immediate\closeout\wordfile
 
 \flushbottom
 \cfoot{}
@@ -1387,7 +1393,7 @@
 % We do not bother to produce a new title page only when we
 % are inlineing the rational.
 
-\ifinline
+\iffalse%ifinline
 	% Save the current page number
 	\setcounter{savepage}{\value{page}}
 
@@ -1429,12 +1435,16 @@
 \include{implement}
 \include{testsuite}
 
+% Close the glossary file
+\immediate\closeout\wordfile
+
 % Part V: Index
 
 %\closehistory
 \include{changelog}
 \include{alpha}
 
+\end{document}
 
 % Back Page
 \pagestyle{empty}
