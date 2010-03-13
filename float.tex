@@ -32,15 +32,13 @@
 \stepcounter{subsubsection}
 \subsubsection{Stack notation} % 12.2.2.2
 
-Floating-point stack notation \remove{X:fp-stack}{when the
-floating-point stack is separate from the data stack} is:
+Floating-point stack notation is:
 \begin{quote}
 	\stack[F]{before}{after}
 \end{quote}
 
-\place{X:fp-stack}{A unified stack notation is provided for systems
-with the environmental restriction that the floating-point numbers are
-kept on the data stack.}
+A unified stack notation is provided for systems with the environmental
+restriction that the floating-point numbers are kept on the data stack.
 
 \section{Additional usage requirements} % 12.3
 
@@ -103,6 +101,10 @@ having zero as its least significant bit shall be delivered.
 floating-point operation to the representable value nearest to and
 no greater than the result.
 
+\place{x:ftrunc}{``Round toward zero'' means round the result of a
+floating-point operation to the representable value nearest to zero,
+frequently referred to as ``truncation''.}
+
 \subsection{Floating-point stack} % 12.3.3
 \label{float:stack}
 
@@ -110,11 +112,8 @@ A last in, first out list that shall be used by all floating-point
 operators.
 
 The width of the floating-point stack is implementation-defined.
-\replace{X:fp-stack}{By default the}{The} floating-point stack
-shall be separate from the data and return stacks.
-\remove{X:fp-stack}{A program may determine whether floating-point
-numbers are kept on the data stack by passing the string
-``\texttt{FLOATING-STACK}'' to \word[core]{ENVIRONMENTq}.}
+The floating-point stack shall be separate from the data and return
+stacks.
 
 The size of a floating-point stack shall be at least 6 items.
 
@@ -140,14 +139,9 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 		\texttt{FLOATING-EXT}	& \emph{flag}		& no	&
 			floating-point extensions word set present \\
 		\texttt{FLOATING-STACK} & \emph{n} & yes &
-			\remove{X:fp-stack}{If $n$ = zero,
-			floating-point numbers are kept on the data
-			stack; otherwise} $n$ is the maximum depth of
-			the separate floating-point stack.
-			\place{X:fp-stack}{On systems with the
-			environmental restriction of keeping
-			floating-point items on the data stack,
-			$n=0$.}\\
+			the maximum depth of the separate floating-point stack.
+			On systems with the environmental restriction of keeping
+			floating-point items on the data stack, \emph{n} = 0. \\
 		\texttt{MAX-FLOAT}		& \emph{r}			& yes	&
 			largest usable floating-point number \\
 		\hline\hline
@@ -229,6 +223,7 @@ See:
 \end{itemize}
 
 \subsubsection{Ambiguous conditions} % 12.4.1.2
+\label{float:ambiguous}
 \begin{itemize}
 \item \word{DF@} or \word{DF!} is used with an address that is not
 	double-float aligned;
@@ -240,9 +235,9 @@ See:
 	single-float aligned;
 \item \word[core]{BASE} is not decimal
 	(\wref{floating:REPRESENT}{REPRESENT},
-	 \wref{floating:F.}{F.},
-	 \wref{floating:FE.}{FE.},
-	 \wref{floating:FS.}{FS.});
+	 \wref{floating:Fd}{F.},
+	 \wref{floating:FEd}{FE.},
+	 \wref{floating:FSd}{FS.});
 \item both arguments equal zero (\wref{floating:FATAN2}{FATAN2});
 \item cosine of argument is zero for \wref{floating:FTAN}{FTAN};
 \item \param{d} can't be precisely represented as \emph{float} in
@@ -260,7 +255,7 @@ See:
 	(\wref{floating:FLN}{FLN},
 	 \wref{floating:FLOG}{FLOG});
 \item \emph{float} less than zero
-	(\wref{floating:FASINH}{FASINH},
+	(\remove{x:fasinh}{\wref{floating:FASINH}{FASINH},}
 	 \wref{floating:FSQRT}{FSQRT});
 \item \emph{float} magnitude greater than one
 	(\wref{floating:FACOS}{FACOS},
@@ -269,9 +264,9 @@ See:
 \item integer part of \emph{float} can't be represented by \param{d} in
 	\wref{floating:FtoD}{F>D};
 \item string larger than pictured-numeric output area
-	(\wref{floating:F.}{F.},
-	 \wref{floating:FE.}{FE.},
-	 \wref{floating:FS.}{FS.}).
+	(\wref{floating:Fd}{F.},
+	 \wref{floating:FEd}{FE.},
+	 \wref{floating:FSd}{FS.}).
 \end{itemize}
 
 \subsubsection{Other system documentation} % 12.4.1.3
@@ -283,7 +278,7 @@ See:
 \label{float:restrictions}
 
 \begin{itemize}
-\item \place{X:fp-stack}{Keeping floating-point numbers on the data stack.}
+\item Keeping floating-point numbers on the data stack.
 \end{itemize}
 
 \subsection{Program documentation} % 12.4.2
@@ -294,8 +289,8 @@ See:
 \begin{itemize}
 \item requiring the floating-point stack to be larger than six items
 	(\xref[12.3.3 Floating-point stack]{float:stack}).
-\item \place{X:fp-stack}{requiring floating-point numbers to be kept
-	on the data stack, with $n$ cells per floating point number.}
+\item requiring floating-point numbers to be kept on the data stack,
+	with $n$ cells per floating point number.
 \end{itemize}
 
 \subsubsection{Other program documentation} % 12.4.2.2
@@ -372,6 +367,8 @@ word sets.
 		\end{tabular}
 	\end{center}
 
+\see \place{ed09b}{\rref{floating:toFLOAT}{}.}
+
 	\begin{rationale} % A.12.6.1.0558 >FLOAT
 		\word{toFLOAT} enables programs to read floating-point data in
 		legible ASCII format. It accepts a much broader syntax than
@@ -410,12 +407,12 @@ word sets.
 \end{worddef}
 
 
-%\begin{worddef}{1410}{F*}[f-star]
-%\item \stack[F]{r_1 r_2}{r_3} or
-%	\stack{r_1 r_2}{r_3}
-%
-%	Multiply \param{r_1} by \param{r_2} giving \param{r_3}.
-%\end{worddef}
+\begin{worddef}{1410}{F*}[f-star]
+\item \stack[F]{r_1 r_2}{r_3} or
+	\stack{r_1 r_2}{r_3}
+
+	Multiply \param{r_1} by \param{r_2} giving \param{r_3}.
+\end{worddef}
 
 
 \begin{worddef}{1420}{F+}[f-plus]
@@ -524,7 +521,8 @@ word sets.
 
 	Place \param{r} on the floating-point stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}.
+\see \xref[3.4.1 Parsing]{usage:parsing}%
+	\place{ed09b}{, \rref{floating:FCONSTANT}{}}.
 
 	\begin{rationale} % A.12.6.1.1492 FCONSTANT
 		Typical use: \texttt{r} \word[floating]{FCONSTANT} \param{name}
@@ -536,12 +534,10 @@ word sets.
 \item \stack{}{+n}
 
 	\param{+n} is the number of values contained on the
-	\remove{X:fp-stack}{default separate} floating-point stack. If
-	\replace{X:fp-stack}{floating-point numbers are kept}{the
-	system has an environmental restriction of keeping the
-	floating-point numbers} on the data stack, \param{+n} is the
-	current number of possible floating-point values contained on
-	the data stack.
+	floating-point stack. If the system has an environmental
+	restriction of keeping the floating-point numbers on the
+	data stack, \param{+n} is the current number of possible
+	floating-point values contained on the data stack.
 \end{worddef}
 
 
@@ -578,6 +574,8 @@ word sets.
 
 	Place \param{r} on the floating-point stack.
 
+\see \place{ed09b}{\rref{floating:FLITERAL}{}.}
+
 	\begin{rationale} % A.12.6.1.1552 FLITERAL
 		Typical use:
 			\word[core]{:} \texttt{X} {\ldots}
@@ -604,12 +602,16 @@ word sets.
 \end{worddef}
 
 
+\newpage
 \begin{worddef}{1558}{FLOOR}
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
 
 	Round \param{r_1} to an integral value using the ``round toward
 	negative infinity'' rule, giving \param{r_2}.
+
+\see \place{x:ftrunc}{\xref{float:ops}, \wref{floating:FROUND}{} and
+	\wref{floating:FTRUNC}{}.}
 \end{worddef}
 
 
@@ -660,9 +662,8 @@ word sets.
 	Round \param{r_1} to an integral value using the ``round to nearest''
 	rule, giving \param{r_2}.
 
-	\begin{see}
-		\xref[12.3.2 Floating-point operations]{float:ops}.
-	\end{see}
+\see \xref[12.3.2 Floating-point operations]{float:ops}%
+	\place{x:ftrunc}{, \wref{floating:FLOOR}{} and \wref{floating:FTRUNC}{}}.
 \end{worddef}
 
 
@@ -692,7 +693,8 @@ word sets.
 	responsible for initializing the contents of the reserved
 	space.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}.
+\see \xref[3.4.1 Parsing]{usage:parsing}%
+	\place{ed09b}{, \rref{floating:FVARIABLE}{}}.
 
 	\begin{rationale} % A.12.6.1.1630 FVARIABLE
 		Typical use:
@@ -729,7 +731,8 @@ word sets.
 
 \see \xref[3.2.1.2 Digit conversion]{usage:digits},
 	\wref{core:BASE}{BASE},
-	\xref[12.3.2 Floating-point operations]{float:ops}.
+	\xref[12.3.2 Floating-point operations]{float:ops}%
+	\place{ed09b}{, \rref{floating:REPRESENT}{}}.
 
 	\begin{rationale} % A.12.6.1.2143 REPRESENT
 		This word provides a primitive for floating-point display.
@@ -847,16 +850,16 @@ word sets.
 \end{worddef}
 
 
-%\begin{worddef}{1415}{F**}[f-star-star]
-%\item \stack[F]{r_1 r_2}{r_3} or
-%	\stack{r_1 r_2}{r_3}
-%
-%	Raise \param{r_1} to the power \param{r_2}, giving the product
-%	\param{r_3}.
-%\end{worddef}
+\begin{worddef}{1415}{F**}[f-star-star]
+\item \stack[F]{r_1 r_2}{r_3} or
+	\stack{r_1 r_2}{r_3}
+
+	Raise \param{r_1} to the power \param{r_2}, giving the product
+	\param{r_3}.
+\end{worddef}
 
 
-\begin{worddef}{1427}{F.}[f-dot]
+\begin{worddef}[Fd]{1427}{F.}[f-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
 
@@ -869,10 +872,11 @@ word sets.
 	is not (decimal) ten or if the character string representation
 	exceeds the size of the pictured numeric output string buffer.
 
-\see \wref{floating:toFLOAT}{>FLOAT}.
+\see \wref{floating:toFLOAT}{>FLOAT}%
+	\place{ed09b}{, \rref{floating:Fd}{}}.
 
 	\begin{rationale} % A.12.6.1.1427 F.
-		For example, \texttt{1E3} \word{F.} displays \texttt{1000.}.
+		For example, \texttt{1E3} \word{Fd} displays \texttt{1000.} .
 	\end{rationale}
 \end{worddef}
 
@@ -922,31 +926,49 @@ word sets.
 \end{worddef}
 
 
+% ---------------------------------------------------------
+
 \begin{worddef}{1487}{FASINH}[f-a-cinch]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
 
 	\param{r_2} is the floating-point value whose hyperbolic sine is
-	\param{r_1}. An ambiguous condition exists if \param{r_1} is less
-	than zero.
+	\param{r_1}.
+	\remove{x:fasinh}{An ambiguous condition exists if %\param{r_1}
+ is
+		less than zero.}
 \end{worddef}
+% ---------------------------------------------------------
 
 
 \begin{worddef}{1488}{FATAN}[f-a-tan]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
 
-	\param{r_2} is the principal radian angle whose tangent is \param{r_1}.
+	\param{r_2} is the principal radian angle whose tangent is
+	\param{r_1}.
 \end{worddef}
 
+% ---------------------------------------------------------
 
 \begin{worddef}{1489}{FATAN2}[f-a-tan-two]
 \item \stack[F]{r_1 r_2}{r_3} or
 	\stack{r_1 r_2}{r_3}
 
-	\param{r_3} is the radian angle whose tangent is \param{r_1/r_2}.
+	\param{r_3} is the \place{x:fatan2}{principal} radian angle
+	\place{x:fatan2}{(between -$\pi$ and $\pi$)} whose tangent is
+	\param{r_1/r_2}.
+	\place{x:fatan2}{A system which returns false for ``\texttt{-0E
+	0E 0E \word{Ftilde}}'' shall return a value (approximating)
+	$-\pi$ when}
+\param{r_1}\strike{-2.6}{10}
+	\place{x:fatan2}{$=$ 0E and}
+\param{r_2}\strike{-2.6}{10}
+	\place{x:fatan2}{is negative.}
 	An ambiguous condition exists if \param{r_1} and \param{r_2} are
 	zero.
+
+\see \place{ed09b}{\rref{floating:FATAN2}{}.}
 
 	\begin{rationale} % A.12.6.1.1489 FATAN2
 		\word{FSINCOS} and \word{FATAN2} are a complementary pair of
@@ -960,13 +982,13 @@ word sets.
 		of the given angle, measured counter-clockwise from the positive
 		X-axis. The order of results on the stack, namely $y$ underneath
 		$x$, permits the 2-vector data type to be additionally viewed
-		and used as a ratio approximating the tangent of the angle. Thus
-		the phrase \word{FSINCOS} \word{F/} is functionally equivalent
-		to \word{FTAN}, but is useful over only a limited and
-		discontinuous range of angles, whereas \word{FSINCOS} and
-		\word{FATAN2} are useful for all angles. This ordering has been
-		found convenient for nearly two decades, and has the added
-		benefit of being easy to remember. A corollary to this
+		and used as a ratio approximating the tangent of the angle.
+		Thus the phrase \word{FSINCOS} \word{F/} is functionally
+		equivalent to \word{FTAN}, but is useful over only a limited
+		and discontinuous range of angles, whereas \word{FSINCOS} and
+		\word{FATAN2} are useful for all angles. This ordering has
+		been found convenient for nearly two decades, and has the
+		added benefit of being easy to remember. A corollary to this
 		observation is that vectors in general should appear on the
 		stack in this order.
 
@@ -979,8 +1001,153 @@ word sets.
 		An ambiguous condition exists if the vector argument to
 		\word{FATAN2} has zero magnitude.
 	\end{rationale}
+
+	\begin{testing}\ttfamily
+\cbstart\patch{x:fatan2}
+		\word[tools]{[UNDEFINED]} ~NaN \word[tools]{[IF]} ~0e 0e \word{F/} \word{FCONSTANT} ~NaN \word[tools]{[THEN]} \\
+		\word[tools]{[UNDEFINED]} +Inf \word[tools]{[IF]} ~1e 0e \word{F/} \word{FCONSTANT} +Inf \word[tools]{[THEN]} \\
+		\word[tools]{[UNDEFINED]} -Inf \word[tools]{[IF]} -1e 0e \word{F/} \word{FCONSTANT} -Inf \word[tools]{[THEN]}
+
+		\word{TRUE} verbose \word{!} \\
+		\word{DECIMAL}
+
+		\textdf{The test harnes default for \texttt{EXACT?} is TRUE.
+			Uncomment the following line if your system needs it to
+			be FALSE} \\
+		\word{bs} SET-NEAR
+
+		\word{VARIABLE} \#errors    0 \#errors \word{!}
+
+		\word{:NONAME} \word{p} c-addr u -{}- ) \\
+		\tab \word{p} \textdf{Display an error message followed by the
+			line that had the error\@.} ) \\
+		\tab 1 \#errors \word{+!} error1 \word{;} error-xt \word{!}
+
+%		\word[tools]{[UNDEFINED]} $\backslash\backslash$ \word[tools]{[IF]} \\
+%		\tab \word{:} $\backslash\backslash$ \word{p} -{}- )
+%			-1 \word{PARSE} \word{2DROP} \word{BEGIN} \word{REFILL} \word{0=} \word{UNTIL} \word{;} \\
+%		\word[tools]{[THEN]} \\
+
+		\word[tools]{[UNDEFINED]} pi \word[tools]{[IF]} \\
+		\tab 0.3141592653589793238463E1 \word{FCONSTANT} pi \\
+		\word[tools]{[THEN]}
+
+		\word[tools]{[UNDEFINED]} -pi \word[tools]{[IF]} \\
+		\tab pi \word{FNEGATE} \word{FCONSTANT} -pi \\
+		\word[tools]{[THEN]}
+
+		\word{FALSE} \word[tools]{[IF]} \\
+		\tab ~0.7853981633974483096157E0 \word{FCONSTANT} ~~pi/4 \\
+		\tab -0.7853981633974483096157E0 \word{FCONSTANT} ~-pi/4 \\
+		\tab ~0.1570796326794896619231E1 \word{FCONSTANT} ~~pi/2 \\
+		\tab -0.1570796326794896619231E1 \word{FCONSTANT} ~-pi/2 \\
+		\tab ~0.4712388980384689857694E1 \word{FCONSTANT} ~3pi/2 \\
+		\tab ~0.2356194490192344928847E1 \word{FCONSTANT} ~3pi/4 \\
+		\tab -0.2356194490192344928847E1 \word{FCONSTANT} -3pi/4 \\
+		\word[tools]{[ELSE]} \\
+		\tab ~pi~~ 4e \word{F/} \word{FCONSTANT} ~~pi/4 \\
+		\tab -pi~~ 4e \word{F/} \word{FCONSTANT} ~-pi/4 \\
+		\tab ~pi~~ 2e \word{F/} \word{FCONSTANT} ~~pi/2 \\
+		\tab -pi~~ 2e \word{F/} \word{FCONSTANT} ~-pi/2 \\
+		\tab ~pi/2 3e \word{F*} \word{FCONSTANT} ~3pi/2 \\
+		\tab ~pi/4 3e \word{F*} \word{FCONSTANT} ~3pi/4 \\
+		\tab -pi/4 3e \word{F*} \word{FCONSTANT} -3pi/4 \\
+		\word[tools]{[THEN]}
+
+		verbose \word{@} \word[tools]{[IF]} \\
+		\tab \word[tools]{:NONAME} \word{p} -{}- fp.separate? ) \\
+		\tab[2] \word{DEPTH} \word{toR} 1e \word{DEPTH} \word{Rfrom} \word{FDROP} \word{2Rfrom} \word{=} \word{;} \word{EXECUTE} \\
+		\tab \word{CR} \word{.p} \textdf{floating-point and data stacks} ) \\
+		\tab \word[tools]{[IF]} \word{.p} \textdf{*separate*} ) \word[tools]{[ELSE]} \word{.p} \textdf{*not separate*} ) \word[tools]{[THEN]} \\
+		\tab \word{CR} \\
+		\word[tools]{[THEN]}
+
+		TESTING normal values
+
+		\word{bs} ~~y~~~x~~~~~~~~~~~~~~rad~~~~~~~~~deg \\
+		\test[R]{ 0e  1e \word{FATAN2}}{  0e  }\tab \word{bs} ~~0 \\
+		\test[R]{ 1e  1e \word{FATAN2}}{  pi/4}\tab \word{bs} ~45 \\
+		\test[R]{ 1e  0e \word{FATAN2}}{  pi/2}\tab \word{bs} ~90 \\
+		\test[R]{-1e -1e \word{FATAN2}}{-3pi/4}\tab \word{bs} 135 \\
+		\test[R]{ 0e -1e \word{FATAN2}}{  pi  }\tab \word{bs} 180 \\
+		\test[R]{-1e  1e \word{FATAN2}}{ -pi/4}\tab \word{bs} 225 \\
+		\test[R]{-1e  0e \word{FATAN2}}{ -pi/2}\tab \word{bs} 270 \\
+		\test[R]{-1e  1e \word{FATAN2}}{ -pi/4}\tab \word{bs} 315
+
+		TESTING Single UNIX 3 special values spec
+
+		\word{bs} \textdf{ISO C / Single UNIX Specification Version 3:} \\
+		\word{bs} \tab \url{http://www.unix.org/single_unix_specification/} \\
+		\word{bs} \textdf{Select ``Topic'', then ``Math Interfaces'', then ``\texttt{atan2()}'':} \\
+		\word{bs} \tab \url{http://www.opengroup.org/onlinepubs/009695399/functions/atan2f.html}
+
+		\word{bs} \textdf{If $y$ is +/-0 and $x$ is < 0, +/-pi shall be returned.} \\
+		\test[R]{ 0e -1e \word{FATAN2}}{ pi} \\
+		\test[R]{-0e -1e \word{FATAN2}}{-pi}
+
+		\word{bs} \textdf{If $y$ is +/-0 and $x$ is > 0, +/-0 shall be returned.} \\
+		\test[R]{ 0e  1e \word{FATAN2}}{ 0e}\\
+		\test[R]{-0e  1e \word{FATAN2}}{-0e}\\
+
+		\word{bs} \textdf{If $y$ is < 0 and $x$ is +/-0, -pi/2 shall be returned.} \\
+		\test[R]{-1e  0e \word{FATAN2}}{-pi/2} \\
+		\test[R]{-1e -0e \word{FATAN2}}{-pi/2} \\
+
+		\word{bs} \textdf{If $y$ is > 0 and $x$ is +/-0, pi/2 shall be returned.} \\
+		\test[R]{ 1e  0e \word{FATAN2}}{pi/2} \\
+		\test[R]{ 1e -0e \word{FATAN2}}{pi/2} \\
+
+		TESTING Single UNIX 3 special values optional spec
+
+		\word{bs} \textdf{Optional ISO C / single UNIX specs:}
+
+		\word{bs} \textdf{If either $x$ or $y$ is NaN, a NaN shall be returned.} \\
+		\test[R]{NaN  1e \word{FATAN2}}{NaN}\\
+		\test[R]{ 1e NaN \word{FATAN2}}{NaN}\\
+		\test[R]{NaN NaN \word{FATAN2}}{NaN}
+
+		\word{bs} \textdf{If $y$ is +/-0 and $x$ is -0, +/-pi shall be returned.} \\
+		\test[R]{ 0e -0e \word{FATAN2}}{ pi}\\
+		\test[R]{-0e -0e \word{FATAN2}}{-pi}
+
+		\word{bs} \textdf{If $y$ is +/-0 and $x$ is +0, +/-0 shall be returned.} \\
+		\test[R]{ 0e  0e \word{FATAN2}}{+0e}\\
+		\test[R]{-0e  0e \word{FATAN2}}{-0e}
+
+		\word{bs} \textdf{For finite values of +/-$y$ > 0, if $x$ is -Inf, +/-pi shall be returned.} \\
+		\test[R]{ 1e -Inf \word{FATAN2}}{ pi}\\
+		\test[R]{-1e -Inf \word{FATAN2}}{-pi}
+
+		\word{bs} \textdf{For finite values of +/-$y$ > 0, if $x$ is +Inf, +/-0 shall be returned.} \\
+		\test[R]{ 1e +Inf \word{FATAN2}}{+0e}\\
+		\test[R]{-1e +Inf \word{FATAN2}}{-0e}
+
+		\word{bs} \textdf{For finite values of $x$, if $y$ is +/-Inf, +/-pi/2 shall be returned.} \\
+		\test[R]{+Inf  1e \word{FATAN2}}{ pi/2}\\
+		\test[R]{+Inf -1e \word{FATAN2}}{ pi/2}\\
+		\test[R]{+Inf  0e \word{FATAN2}}{ pi/2}\\
+		\test[R]{+Inf -0e \word{FATAN2}}{ pi/2}\\
+		\test[R]{-Inf  1e \word{FATAN2}}{-pi/2}\\
+		\test[R]{-Inf -1e \word{FATAN2}}{-pi/2}\\
+		\test[R]{-Inf  0e \word{FATAN2}}{-pi/2}\\
+		\test[R]{-Inf -0e \word{FATAN2}}{-pi/2}
+
+		\word{bs} \textdf{If $y$ is +/-Inf and $x$ is -Inf, +/-3pi/4 shall be returned.} \\
+		\test[R]{+Inf -Inf \word{FATAN2}}{ 3pi/4}\\
+		\test[R]{-Inf -Inf \word{FATAN2}}{-3pi/4}
+
+		\word{bs} \textdf{If $y$ is +/-Inf and $x$ is +Inf, +/-pi/4 shall be returned.} \\
+		\test[R]{+Inf +Inf \word{FATAN2}}{ pi/4}\\
+		\test[R]{-Inf +Inf \word{FATAN2}}{-pi/4}
+
+		verbose \word{@} \word[tools]{[IF]} \\
+		\tab \word{CR} \word{.p} \textdf{\#ERRORS:} ) \#errors \word{@} \word{d} \word{CR} \\
+		\word[tools]{[THEN]}
+\cbend
+	\end{testing}
 \end{worddef}
 
+% ---------------------------------------------------------
 
 \begin{worddef}{1491}{FATANH}[f-a-tan-h]
 \item \stack[F]{r_1}{r_2} or
@@ -1008,7 +1175,7 @@ word sets.
 \end{worddef}
 
 
-\begin{worddef}{1513}{FE.}[f-e-dot]
+\begin{worddef}[FEd]{1513}{FE.}[f-e-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
 
@@ -1040,6 +1207,8 @@ word sets.
 	\stack{r_1}{r_2}
 
 	Raise $e$ to the power \param{r_1} and subtract one, giving \param{r_2}.
+
+\see \place{ed09b}{\rref{floating:FEXPM1}{}.}
 
 	\begin{rationale} % A.12.6.1.1516 FEXPM1
 		This function allows accurate computation when its arguments
@@ -1134,6 +1303,8 @@ word sets.
 	plus one. An ambiguous condition exists if \param{r_1} is less
 	than or equal to negative one.
 
+\see \place{ed09b}{\rref{floating:FLNP1}{}.}
+
 	\begin{rationale} % A.12.6.1.1554 FLNP1
 		This function allows accurate compilation when its arguments
 		are close to zero, and provides a useful base for the standard
@@ -1159,7 +1330,7 @@ word sets.
 \end{worddef}
 
 
-\begin{worddef}{1613}{FS.}[f-s-dot]
+\begin{worddef}[FSd]{1613}{FS.}[f-s-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
 
@@ -1199,8 +1370,10 @@ word sets.
 	\param{r_2} is the sine of the radian angle \param{r_1}. \param{r_3}
 	is the cosine of the radian angle \param{r_1}.
 
+\see \place{ed09b}{\rref{floating:FATAN2}{FATAN2}.}
+
 	\begin{rationale} % A.12.6.1.1616 FSINCOS
-		See \rref{floating:FATAN2}{FATAN2}.
+		\remove{ed09b}{See \rref{floating:FATAN2}{FATAN2}.}
 	\end{rationale}
 \end{worddef}
 
@@ -1238,6 +1411,107 @@ word sets.
 	\param{r_2} is the hyperbolic tangent of \param{r_1}.
 \end{worddef}
 
+% ---------------------------------------------------------
+
+\begin{worddef*}{}{FTRUNC}[f-trunc][x:ftrunc]
+\item \stack[F]{r_1}{r_2} or \stack{r_1}{r_2}
+
+	Round \param{r_1} to an integral value using the ``round
+	towards zero'' rule, giving \param{r_2}.
+
+\see \xref{float:ops}, \wref{floating:FROUND}{} and \wref{floating:FLOOR}{}.
+
+	\begin{implement}
+		\word{:} \word{FTRUNC}   \word{p} r1 -{}- r2 ) \\
+		\tab[3.8] \word{FDUP} \word{F0=} \word{0=} \\
+		\tab \word{IF}	\tab[1] \word{FDUP} \word{F0less} \\
+		\tab \word{IF}	\tab[1] \word{FNEGATE} \word{FLOOR} \word{FNEGATE} \\
+		\tab \word{ELSE}\tab \word{FLOOR} \\
+		\tab \word{THEN} \\
+		\tab \word{THEN}\tab \word{;}
+	\end{implement}
+
+	\begin{testing}
+		\texttt{SET-EXACT}
+
+		\test{-0E          \word{FTRUNC} \word{F0=}}{<TRUE>} \\
+		\test{-1E-9        \word{FTRUNC} \word{F0=}}{<TRUE>} \\
+		\test{-0.9E        \word{FTRUNC} \word{F0=}}{<TRUE>} \\
+		\test{-1E  1E-5 F+ \word{FTRUNC} \word{F0=}}{<TRUE>} \\
+		\test[R]{0E           \word{FTRUNC}    }{ 0E  } \\    
+		\test[R]{1E-9         \word{FTRUNC}    }{ 0E  } \\
+		\test[R]{-1E -1E-5 F+ \word{FTRUNC}    }{-1E  } \\
+		\test[R]{3.14E        \word{FTRUNC}    }{ 3E  } \\
+		\test[R]{3.99E        \word{FTRUNC}    }{ 3E  } \\  
+		\test[R]{4E           \word{FTRUNC}    }{ 4E  } \\
+		\test[R]{-4E          \word{FTRUNC}    }{-4E  } \\
+		\test[R]{-4.1E        \word{FTRUNC}    }{-4E  }
+	\end{testing}
+\end{worddef*}
+
+% ---------------------------------------------------------
+
+\begin{worddef*}{}{FVALUE}[f-value][X:fvalue]
+\item \stack[F]{r}{--} \stack{"<spaces>name"}{} or
+	\stack{r "<spaces>name"}{}
+
+	Skip leading space delimiters.  Parse \param{name} delimited by a
+	space.  Create a definition for \param{name} with the execution
+	semantics defined below, with an initial value equal to \param{r}.
+
+	\param{name} is referred to as a ``f-value''.
+
+\execute[name]
+	\stack[F]{}{r} or \stack{}{r}
+
+	Place \param{r} on the floating point stack.  The value of
+	\param{r} is that given when \param{name} was created, until the
+	phrase ``\param{r} \word{TO} \param{name}'' is executed, causing
+	a new value of \param{r} to be assigned to \param{name}.
+
+\runtime[\word{TO} \param{name}]
+	\stack[F]{r}{} or \stack{r}{}
+
+	Assign the value \param{r} to \param{name}.
+
+\see \xref{usage:parsing} and \wref{core:TO}{}
+
+	\begin{implement}
+		\dffamily
+		The implementation of \word{FVALUE} requires detailed
+		knowledge of the host implementation of \word{VALUE} and
+		\word{TO}.
+
+		\begin{quote}\ttfamily
+			\word{VARIABLE} \%var \\
+			\word{:} \word{TO} 1 \%var \word{!} \word{;}
+
+			\word{:} \word{FVALUE} \word{p} F: r -{}- ) \word{p} "<spaces>name" -{}- ) \\
+			\tab \word{CREATE} \word{F,} \\
+			\tab \word{DOES} \%var \word{@} \word{IF} \word{F!} \word{ELSE} \word{F@} \word{THEN} \\
+			\tab[4] 0 \%var \word{!} \word{;}
+
+			\word{:} \word{VALUE} \word{p} x "<spaces>name" -{}- ) \\
+			\tab \word{CREATE} \word{,} \\
+			\tab \word{DOES} \%var \word{@} \word{IF} ~\word{!} \word{ELSE} ~\word{@} \word{THEN} \\
+			\tab[4] 0 \%var \word{!} \word{;}
+		\end{quote}
+	\end{implement}
+
+	\begin{testing}\ttfamily
+		\test{0e0 \word{FVALUE} Tval}{} \\
+		\test[R]{Tval}{0e0} \\
+		\test{1e0 \word{TO} Tval}{} \\
+		\test[R]{Tval}{1e0} \\[2ex]
+		\word{:} setTval Tval \word{FSWAP} \word{TO} Tval \word{;} \\
+		\test[RR]{2e0 setTval Tval}{1e0 2e0} \\[2ex]
+		\test{5e0 \word{TO} Tval}{} \\
+		\word{:} [execute] \word{EXECUTE} \word{;} \word{IMMEDIATE} \\
+		\test[R]{\word{'} Tval \word{]} [execute] \word{[}}{2e0}
+	\end{testing}
+\end{worddef*}
+
+% ---------------------------------------------------------
 
 \begin{worddef}[Ftilde]{1640}{F\tilde}[f-proximate]
 \item \stack{}{flag} \stack[F]{r_1 r_2 r_3}{} or
@@ -1256,6 +1530,8 @@ word sets.
 	\param{r_3} times the sum of the absolute values of \param{r_1} and
 	\param{r_2}.
 
+\see \place{ed09b}{\rref{floating:Ftilde}{}.}
+
 	\begin{rationale} % A.12.6.1.1640 F\tilde
 		This provides the three types of ``floating point equality''
 		in common use --- ``close'' in absolute terms, exact equality
@@ -1268,15 +1544,15 @@ word sets.
 \item \stack{}{u}
 
 	Return the number of significant digits currently used by
-	\word{F.}, \word{FE.}, or \word{FS.} as \param{u}.
+	\word{Fd}, \word{FEd}, or \word{FSd} as \param{u}.
 \end{worddef}
 
 
 \begin{worddef}{2200}{SET-PRECISION}
 \item \stack{u}{}
 
-	Set the number of significant digits currently used by \word{F.},
-	\word{FE.}, or \word{FS.} to \param{u}.
+	Set the number of significant digits currently used by \word{Fd},
+	\word{FEd}, or \word{FSd} to \param{u}.
 \end{worddef}
 
 
