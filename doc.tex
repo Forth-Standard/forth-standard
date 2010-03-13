@@ -23,7 +23,7 @@ item.
 \item behavior of \wref{core:EMIT}{EMIT} for non-graphic characters;
 
 \item character editing of \wref{core:ACCEPT}{ACCEPT}
-	\remove{x:legacy}{and \wref{legacy:EXPECT}{EXPECT}};
+	and \wref{core:EXPECT}{EXPECT};
 
 \item character set (\xref[Character types]{usage:char},
 	\wref{core:EMIT}{EMIT}, \wref{core:KEY}{KEY});
@@ -44,7 +44,7 @@ item.
 	(\xref[Digit conversion]{usage:digits});
 
 \item display after input terminates in \wref{core:ACCEPT}{ACCEPT}
-	\remove{x:legacy}{and \wref{legacy:EXPECT}{EXPECT}};
+	and \wref{core:EXPECT}{EXPECT};
 
 \item exception abort sequence (as in \wref{core:ABORTq}{ABORT"});
 
@@ -190,7 +190,7 @@ combination of factors:
 	 \wref{core:FM/MOD}{FM/MOD},
 	 \wref{core:SM/REM}{SM/REM},
 	 \wref{core:UM/MOD}{UM/MOD},
-	 \remove{x:legacy}{\wref{legacy:CONVERT}{CONVERT},}
+	 \wref{core:CONVERT}{CONVERT},
 	 \wref{double:M*/}{M*/});
 
 \item reading from an empty data stack or return stack
@@ -281,8 +281,7 @@ as a consequence of specific extensions.
 \item[\textsf{X:deferred}] ~
 	\begin{itemize}
 \item access to a deferred word, a word defined by \wref{core:DEFER}{DEFER},
-	which has yet to be \replace{ed09}{associated with}{assigned to}
-	an \param{xt}.
+	which has yet to be assigned to an \param{xt}.
 
 \item access to a deferred word, a word defined by \wref{core:DEFER}{DEFER},
 	which was not defined by \wref{core:DEFER}{DEFER}.
@@ -364,8 +363,8 @@ dependencies:
 	(\xref[Other transient regions]{usage:transient});
 
 \item depending on the presence or absence of non-graphic characters
-	in a received string (\wref{core:ACCEPT}{ACCEPT}\remove{x:legacy}{,
-	\wref{legacy:EXPECT}{EXPECT}});
+	in a received string (\wref{core:ACCEPT}{ACCEPT},
+	\wref{core:EXPECT}{EXPECT});
 
 \item relying on a particular rounding direction
 	(\xref[Integer division]{usage:div});
@@ -389,6 +388,12 @@ dependencies:
 \item using lower case for standard definition names or depending
 	on the case sensitivity of a system
 	(\xref[Definition names]{usage:names});
+
+\item \place{x:namelen}{using definition names of more than 31
+	characters in length (\xref{usage:names});}
+
+%\item \place{x:namelen}{using non graphic characters in a definition
+%	name (\xref{usage:names});}
 
 \item using the graphic character with a value of hex 24
 	(\xref[Graphic characters]{usage:ASCII}).
