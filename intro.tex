@@ -113,33 +113,27 @@ been adopted to ease creation of portable programs.
 \label{intro:obsoleat}
 
 This Standard adopts certain words and practices that cause
-some previously used words \place{X:fp-stack}{and practices}
-to become obsolescent.
-\remove{x:legacy}{%
-Although
-retained here because of their widespread use, their use in
-new implementations or new programs is discouraged, because
-they may be withdrawn from future revisions of the Standard.}
+some previously used words and practices to become obsolescent.
+Although retained here because of their widespread use, their
+use in new implementations or new programs is discouraged, because
+they may be withdrawn from future revisions of the Standard.
 
-\remove{x:legacy}{%
-This Standard designates the following words as obsolescent:}
+This Standard designates the following words as obsolescent:
 
-\setwordlist{legacy}
+\setwordlist{core}
 \begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
-  \remove{x:legacy}{\ref{legacy:numTIB}}	& \remove{x:legacy}{\word{numTIB}}
-& \remove{x:legacy}{\ref{legacy:FORGET}}	& \remove{x:legacy}{\word{FORGET}}
-& \remove{x:legacy}{\ref{legacy:SPAN}}		& \remove{x:legacy}{\word{SPAN}} \\
-  \remove{x:legacy}{\ref{legacy:CONVERT}}	& \remove{x:legacy}{\word{CONVERT}}
-& \remove{x:legacy}{\ref{legacy:QUERY}}		& \remove{x:legacy}{\word{QUERY}}
-& \remove{x:legacy}{\ref{legacy:TIB}}		& \remove{x:legacy}{\word{TIB}} \\
-  \remove{x:legacy}{\ref{legacy:EXPECT}}	& \remove{x:legacy}{\word{EXPECT}} \\
+  \ref{core:numTIB}		& \word{numTIB}
+& \ref{tools:FORGET}	& \word[tools]{FORGET}
+& \ref{core:SPAN}		& \word{SPAN} \\
+  \ref{core:CONVERT}	& \word{CONVERT}
+& \ref{core:QUERY}		& \word{QUERY}
+& \ref{core:TIB}		& \word{TIB} \\
+  \ref{core:EXPECT}		& \word{EXPECT} \\
 \end{tabular}
 
-\place{X:fp-stack}{%
 This standard designates the following practice as obsolescent:
-}
+
 \begin{itemize}
-\item \place{X:fp-stack}{Requiring floating-point numbers to
-	be kept on the data stack. (This has always been an
-	environmental dependency.)}
+\item Requiring floating-point numbers to be kept on the data stack.
+	(This has always been an environmental dependency.)
 \end{itemize}
