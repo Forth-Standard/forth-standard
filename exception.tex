@@ -117,7 +117,7 @@ See: \xref[3.4.4 Possible actions on an ambiguous condition]{usage:ambiguous}.
 \throwdef{-12}{argument type mismatch}
 \throwdef{-13}{undefined word}
 \throwdef{-14}{interpreting a compile-only word}
-\throwdef{-15}{invalid \word[legacy]{FORGET}}
+\throwdef{-15}{invalid \word[tools]{FORGET}}
 \throwdef{-16}{attempt to use zero-length string as a name}
 \throwdef{-17}{pictured numeric output string overflow}
 \throwdef{-18}{parsed string overflow}
@@ -282,8 +282,10 @@ to provide all of the Exception and Exception Extensions word sets.
 	the remainder of the execution semantics are given by
 	\word{THROW}.
 
+\see \place{ed09b}{\rref{exception:THROW}{}.}
+
 	\begin{testing}
-		\place{x:test}{See \tref{exception:CATCH}{}.}
+		See \replace{ed09b}{\tref{exception:CATCH}{}}{\tref{exception:THROW}{}.}
 	\end{testing}
 \end{worddef}
 
@@ -320,6 +322,8 @@ to provide all of the Exception and Exception Extensions word sets.
 	the \word{THROW} code \param{n}. Subsequently, the system shall
 	perform the function of \wref{core:ABORT}{ABORT} (the version
 	of \word[core]{ABORT} in the Core word set).
+
+\see \place{ed09b}{\rref{exception:THROW}{}.}
 
 	\begin{rationale} % A.9.6.1.2275 THROW
 		If \word{THROW} is executed with a non zero argument, the effect
@@ -366,7 +370,6 @@ to provide all of the Exception and Exception Extensions word sets.
 	\end{rationale}
 
 	\begin{testing} \ttfamily
-	\cbstart\patch{x:test}
 		\word{DECIMAL}
 
 		\word{:} t1 9 \word{;} \\
@@ -389,7 +392,6 @@ to provide all of the Exception and Exception Extensions word sets.
 		\word{:} c5 1 2 3 4 \word{[']} t5 \word{CATCH} \tab[4.5] \word{bs} \textdf{Test depth restored correctly} \\
 		\tab \word{DEPTH} \word{toR} \word{DROP} \word{2DROP} \word{2DROP} \word{Rfrom} \word{;} \tab \word{bs} \textdf{after stack has been emptied} \\
 		\test{c5}{5}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -408,7 +410,7 @@ to provide all of the Exception and Exception Extensions word sets.
 \see \wref{core:ABORT}{ABORT}.
 
 	\begin{testing}
-		\place{x:test}{See \tref{exception:ABORTq}{}.}
+		See \tref{exception:ABORTq}{}.
 	\end{testing}
 \end{worddef}
 
@@ -439,7 +441,6 @@ to provide all of the Exception and Exception Extensions word sets.
 	\wref{core:ABORTq}{ABORT"}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{DECIMAL} \\
 		\mbox{}~-1	\word{CONSTANT} exc\_abort \\
 		\mbox{}~-2 \word{CONSTANT} exc\_abort" \\
@@ -462,6 +463,5 @@ to provide all of the Exception and Exception Extensions word sets.
 		\test{1 2 \word{'}  t6 c6}{1 2 11 } \tab \word{bs} \textdf{Test that ABORT is caught} \\
 		\test{3 0 \word{'} t10 c6}{3 77   } \tab \word{bs} \textdf{ABORT" does nothing} \\
 		\test{4 5 \word{'} t10 c6}{4 77 12} \tab \word{bs} \textdf{ABORT" caught, no message}
-	\cbend
 	\end{testing}
 \end{worddef}

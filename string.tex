@@ -81,7 +81,6 @@ to provide all of the String and String Extensions word sets.
 	zero.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{:}  s8 \word{Sq} abc  " \word{;}}{} \\
 		\test{\word{:}  s9 \word{Sq}      " \word{;}}{} \\
 		\test{\word{:} s10 \word{Sq}    a " \word{;}}{}
@@ -91,7 +90,6 @@ to provide all of the String and String Extensions word sets.
 		\test{ s7 \word{-TRAILING}}{s7}					\tab[5.2] \word{bs} ``\texttt{~}'' \\
 		\test{ s9 \word{-TRAILING}}{s9 \word{DROP} 0}	\tab[1] \word{bs} ``\texttt{~~~~~}'' \\
 		\test{s10 \word{-TRAILING}}{s10 1-}				\tab[2.8] \word{bs} ``\texttt{~~~a~}''
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -104,6 +102,8 @@ to provide all of the String and String Extensions word sets.
 	\param{c-addr_2 u_2}, begins at \param{c-addr_1} plus \param{n}
 	characters and is \param{u_1} minus \param{n} characters long.
 
+\see \place{ed09b}{\rref{string:/STRING}{}.}
+
 	\begin{rationale} % A.17.6.1.0245 /STRING
 		\word{/STRING} is used to remove or add characters relative
 		to the ``left'' end of the character string. Positive values
@@ -114,11 +114,9 @@ to provide all of the String and String Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{s1  5 \word{/STRING}}{s1 \word{SWAP} 5 \word{+} \word{SWAP} 5 \word{-}} \\
 		\test{s1 10 \word{/STRING} -4 \word{/STRING}}{s1 6 \word{/STRING}} \\
 		\test{s1  0 \word{/STRING}}{s1}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -131,13 +129,11 @@ to provide all of the String and String Extensions word sets.
 	\param{c-addr}.
 
 	\begin{testing} \ttfamily
-	\cbstart\patch{x:test}
 		\word{:} s13 \word{Sq} aaaaa~~~~~~a" \word{;}						\tab[4.5] \word{bs} \textdf{Six spaces}
 
 		\test{\word{PAD} 25 \word{CHAR} a \word{FILL}}{}					\tab[2.8] \word{bs} \textdf{Fill PAD with 25 'a's} \\
 		\test{\word{PAD} 5 \word{CHARS} \word{+} 6 \word{BLANK}}{}	\tab[1] \word{bs} \textdf{Put 6 spaced from character 5} \\
 		\test{\word{PAD} 12 s13 \word{COMPARE}}{0}							\tab[2.2] \word{bs} \textdf{PAD Should now be same as s13}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -150,8 +146,10 @@ to provide all of the String and String Extensions word sets.
 	that starting at \param{c-addr_2}, proceeding character-by-character
 	from lower addresses to higher addresses.
 
-\item[Contrast with]
-	\wref{string:CMOVEtop}{CMOVE>}.
+\item[\sout{Contrast with}]
+	\remove{ed09b}{\wref{string:CMOVEtop}{CMOVE>}.}
+
+\see \place{ed09b}{\wref{string:CMOVEtop}{}, \rref{string:CMOVE}{}.}
 
 	\begin{rationale} % A.17.6.1.0910 CMOVE
 		If \param{c-addr_2} lies within the source region (i.e., when
@@ -180,8 +178,10 @@ to provide all of the String and String Extensions word sets.
 	that starting at \param{c-addr_2}, proceeding character-by-character
 	from higher addresses to lower addresses.
 
-\item[Contrast with:]
-	\wref{string:CMOVE}{CMOVE}.
+\item[\sout{Contrast with:}]
+	\remove{ed09b}{\wref{string:CMOVE}{CMOVE}.}
+
+\see \place{ed09b}{\wref{string:CMOVE}{}, \rref{string:CMOVEtop}{}.}
 
 	\begin{rationale} % A.17.6.1.0920 CMOVE>
 		If \param{c-addr_1} lies within the destination region (i.e.,
@@ -218,6 +218,8 @@ to provide all of the String and String Extensions word sets.
 	numeric value than the corresponding character in the string
 	specified by \param{c-addr_2 u_2} and one (1) otherwise.
 
+\see \place{ed09b}{\rref{string:COMPARE}{}.}
+
 	\begin{rationale} % A.17.6.1.0935 COMPARE
 		Existing Forth systems perform string comparison operations
 		using words that differ in spelling, input and output
@@ -226,7 +228,6 @@ to provide all of the String and String Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\test{s1        s1 \word{COMPARE}}{ 0 } \\
 		\test{s1  PAD SWAP \word{CMOVE}  }{   } \tab \word{bs} \textdf{Copy s1 to PAD} \\
 		\test{s1  PAD OVER \word{COMPARE}}{ 0 } \\
@@ -252,7 +253,6 @@ to provide all of the String and String Extensions word sets.
 
 		\test{s11 s12 \word{COMPARE}}{ 1} \\
 		\test{s12 s11 \word{COMPARE}}{-1}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -267,6 +267,8 @@ to provide all of the String and String Extensions word sets.
 	match and \param{c-addr_3} is \param{c-addr_1} and \param{u_3}
 	is \param{u_1}.
 
+\see \place{ed09b}{\rref{string:SEARCH}{}.}
+
 	\begin{rationale} % A.17.6.1.2191 SEARCH
 		Existing Forth systems perform string searching operations
 		using words that differ in spelling, input and output
@@ -275,7 +277,6 @@ to provide all of the String and String Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{:} s2 \word{Sq} abc"   \word{;}}{} \\
 		\test{\word{:} s3 \word{Sq} jklmn" \word{;}}{} \\
 		\test{\word{:} s4 \word{Sq} z"     \word{;}}{} \\
@@ -289,7 +290,6 @@ to provide all of the String and String Extensions word sets.
 		\test{s1 s5 \word{SEARCH}}{s1 <FALSE>} \\
 		\test{s1 s6 \word{SEARCH}}{s1 <FALSE>} \\
 		\test{s1 s7 \word{SEARCH}}{s1 <TRUE> } 
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -311,6 +311,8 @@ to provide all of the String and String Extensions word sets.
 	the characters specified by \param{c-addr_1 u} during
 	compilation. A program shall not alter the returned string.
 
+\see \place{ed09b}{\rref{string:SLITERAL}{}.}
+
 	\begin{rationale} % A.17.6.1.2212 SLITERAL
 		The current functionality of \wref{core:Sq}{S"} may be
 		provided by the following definition:
@@ -325,11 +327,9 @@ to provide all of the String and String Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{:} s14 \word{[} s1 \word{]} \word{SLITERAL} \word{;}}{} \\
 		\test{s1 s14 \word{COMPARE}}{0} \\
 		\test{s1 s14 \word{ROT} \word{=} \word{ROT} \word{ROT} \word{=}}{<TRUE> <FALSE>}
-	\cbend
 	\end{testing}
 \end{worddef}
 

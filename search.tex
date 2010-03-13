@@ -195,7 +195,6 @@ sets.
 \see \xref[16.3.3 Finding Definition Names]{search:find}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS}}{} \\
 		\test{\word{GET-CURRENT}}{FORTH-WORDLIST}
 
@@ -227,8 +226,7 @@ sets.
 
 		\word{:} c"w1" \word{Cq} w1" \word{;} \\
 		\test{alsowid2 c"w1" \word{FIND} so5}{ 1 -9876} \\
-		\test{previous c"w1" \word{FIND} so5}{-1  1234}
-	\cbend
+		\test{\word{PREVIOUS} c"w1" \word{FIND} so5}{-1  1234}
 	\end{testing}
 \end{worddef}
 
@@ -255,7 +253,6 @@ sets.
 	\xref[D.6.7 Immediacy]{diff:immediate}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{:} c"dup" \word{Cq} DUP" \word{;} \\
 		\word{:} c".("~ \word{Cq} .("~ \word{;} \\
 		\word{:} c"x"~~ \word{Cq} unknown word" \word{;}
@@ -263,7 +260,6 @@ sets.
 		\test{c"dup" \word{FIND}}{xt  \word{@} -1} \\
 		\test{c".("  \word{FIND}}{xti \word{@}  1} \\
 		\test{c"x"   \word{FIND}}{c"x"   0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -277,9 +273,7 @@ sets.
 	search order.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{FORTH-WORDLIST} wid1 \word{!}}{}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -311,6 +305,8 @@ sets.
 	execution token \param{xt} and one (\param{1}) if the definition is
 	immediate, minus-one (\param{-1}) otherwise.
 
+\see \place{ed09b}{\rref{search:SEARCH-WORDLIST}{}.}
+
 	\begin{rationale} % A.16.6.1.219  SEARCH-WORDLIST
 		The string argument to \word{SEARCH-WORDLIST} is represented
 		by \param{c-addr u}, rather than by just \param{c-addr} as
@@ -329,7 +325,6 @@ sets.
 	\end{rationale}
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{ONLY} \word{FORTH} \word{DEFINITIONS} \\
 		\word{VARIABLE} xt~ \word{'} \word{DUP} xt~ \word{!} \\
 		\word{VARIABLE} xti \word{'} \word{.p}~ xti \word{!} \word{bs} \textdf{Immediate word}
@@ -337,7 +332,6 @@ sets.
 		\test{\word{Sq} DUP" wid1 \word{@} \word{SEARCH-WORDLIST}}{xt  \word{@} -1} \\
 		\test{\word{Sq} .("  wid1 \word{@} \word{SEARCH-WORDLIST}}{xti \word{@}  1} \\
 		\test{\word{Sq} DUP" wid2 \word{@} \word{SEARCH-WORDLIST}}{       0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -349,7 +343,6 @@ sets.
 	\param{wid}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{GET-CURRENT}}{wid1 \word{@}}
 
 		\test{\word{WORDLIST} wid2 \word{!}}{} \\
@@ -357,7 +350,6 @@ sets.
 		\test{\word{GET-CURRENT}}{wid2 \word{@}}
 
 		\test{wid1 \word{@} \word{SET-CURRENT}}{}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -376,7 +368,6 @@ sets.
 	eight.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\test{\word{GET-ORDER} \word{OVER}     }{\word{GET-ORDER} wid1 \word{@}} \\% \word{bs} \textdf{Forth wordlist at top} \\
 		\test{\word{GET-ORDER} \word{SET-ORDER}}{} \\% \tab \word{bs} \textdf{Effectively noop} \\
 		\test{\word{GET-ORDER}          }{get-orderlist} % \tab \word{bs} \textdf{Check nothing changed} \\
@@ -394,7 +385,6 @@ sets.
 		\word{:} so4 \word{ONLY} so2a \word{;}
 
 		\test{so3}{so4}	\tab \word{bs} \textdf{-1 SET-ORDER is the same as ONLY}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -421,6 +411,8 @@ sets.
 	first) into \param{wid_n}, {\ldots} \param{wid_2}, \param{wid_1},
 	\param{wid_1}. An ambiguous condition exists if there are too
 	many word lists in the search order.
+
+\see \place{ed09b}{\rref{search:ALSO}{}.}
 
 	\begin{rationale} % A.16.6.2.0715 ALSO
 		Here is an implementation of \word{ALSO}/\word{ONLY} in terms
@@ -562,9 +554,7 @@ sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{ALSO} \word{GET-ORDER} \word{ONLY}}{get-orderlist \word{OVER} \word{SWAP} \word{1+}}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -587,14 +577,12 @@ sets.
 	\word{FORTH-WORDLIST} and \word{SET-ORDER}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\test{\word{ONLY} \word{FORTH} \word{GET-ORDER}}{get-orderlist}
 
 		\word{:} so1 \word{SET-ORDER} {;} \word{bs} \textdf{In case it is unavailable in the forth wordlist}
 
 		\test{\word{ONLY} \word{FORTH-WORDLIST} 1 \word{SET-ORDER} get-orderlist so1}{} \\
 		\test{\word{GET-ORDER}}{get-orderlist}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -614,13 +602,11 @@ sets.
 \see \xref[3.3.3.6 Other Transient Regions]{usage:transient}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{CR} \word{.p} ONLY FORTH DEFINITIONS search order and compilation list) \word{CR} \\
 		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS} \word{ORDER}}{}
 
 		\word{CR} \word{.p} Plus another unnamed wordlist at the head of the search order) \word{CR} \\
 		\test{alsowid2 \word{DEFINITIONS} \word{ORDER}}{}
-	\cbend
 	\end{testing}
 \end{worddef}
 

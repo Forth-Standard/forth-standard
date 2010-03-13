@@ -5,7 +5,6 @@
 \section{Introduction} % F.1
 \label{test:intro}
 
-\cbstart\marginpar{\tiny ed09}
 After the publication of the original ANS Forth document
 (ANSI X3.215-1994), John Hayes developed a test suite, which
 included both a test harness and a suite of core tests.  The
@@ -39,6 +38,7 @@ a standard-conforming implementation.
 % An example is the test of the ANS Forth CORE word set.
 
 \section{Test Harness}
+\label{test:harness}
 
 The tester defines functions that compare the results of a test with
 a set of expected results.  The syntax for each test starts with
@@ -59,7 +59,7 @@ The ``\texttt{\}T}'' compares the current stack depth to the saved
 stack depth.  If they are equal each value on the stack is removed
 from the stack and compared to its corresponding value in the array.
 If the depths are not equal or if the stack comparison fails, an error
-is reported.  For exmaple:
+is reported.  For \replace{ed09b}{exmaple}{example}:
 
 \test{1 2 3 \word{SWAP}}{1 3 2} \\
 \test{1 2 3 \word{SWAP}}{1 2 3}\ \texttt{INCORRECT RESULT:} \test{1 2 3 SWAP}{1 2 3} \\
@@ -405,21 +405,29 @@ HAS-FLOATING \word[tools]{[IF]} \\
 \tab \word{ELSE} \word{toIN} \word{!} \word{DROP} \\
 \tab \word{THEN} \word{;} \\
 \\
+% : TESTING  \ ( -- ) Talking Comment
+%   POSTPONE \
+%   VERBOSE @ IF
+%     SOURCE TYPE CR
+%   THEN
+% ;
 \word{BASE} \word{!}
 \end{tt}
 \nonfrenchspacing
 \catcode`\ =10
 
 \section{Core Tests}
+\label{test:core}
 
-The test cases in John Heyes' original test suite were designed to
+The test cases in John \replace{ed09b}{Heyes}{Hayes}' original test suite were designed to
 test features before they were used in later tests.  Due to the
 structure of this annex the progressive testing has been lost.  This
 section attempts to retain the integrity of the original test suite
 by laying out the test progression for the core word set.
 
 While this suite does test many aspects of the core word set, it is
-not comprehensive.  A standard system \emph{must} pass all of the
+not comprehensive.  A standard system
+\emph{\replace{ed09b}{must}{should}} pass all of the
 tests within this suite.  A system cannot claim to be standard simply
 because it passes this test suite.
 
@@ -764,7 +772,6 @@ but rather refers to the previous definition of the word.
 \test{\word{:} GDX     123 \word{;}}{}	\tab \texttt{\word{bs} First defintion} \\
 \test{\word{:} GDX GDX 234 \word{;}}{}	\tab \texttt{\word{bs} Second defintion} \\
 \test{GDX}{123 234}
-\cbend
 
 
 \ifinline
@@ -782,6 +789,8 @@ but rather refers to the previous definition of the word.
 		\section{The optional #2 word set}
 		\readtest{#1}
 	}
+
+	\newcommand{\defersection}{}
 \else
 	\newcommand{\readtest}[2]{%
 		\input{t-#1.sub}
@@ -812,7 +821,6 @@ but rather refers to the previous definition of the word.
 \setwordlist{double}
 \defersection{}
 
-\cbstart\patch{x:test}
 Two additional constants are defined to assist tests in this wordset:
 
 \begin{tt}\frenchspacing\obeyspaces
@@ -858,7 +866,6 @@ to the existion words with the
 \test{\word{:} rdl1  3.\ \word{;} rdl1}{ 3  0} \\
 \test{\word{:} rdl2 -4.\ \word{;} rdl2}{-4 -1}
 
-\cbend
 \readtest{double}
 
 % ===================================================================
@@ -867,7 +874,6 @@ to the existion words with the
 \setwordlist{exception}
 \defersection{}
 
-\cbstart\patch{x:test}
 The test \tref{exception:CATCH}{} also test \word{THROW}.  This should
 be followed by the test \tref{exception:ABORTq}{} which also test
 \word{ABORT}.  Finally, the general exception handling is tested in
@@ -891,7 +897,6 @@ that the word \texttt{\$\$UndefedWord\$\$} is undefined.
 
 \test{6 7 \word{'} t9 c6 3}{6 7 13 3}
 
-\cbend
 \readtest{exception}
 
 % ===================================================================
@@ -904,7 +909,6 @@ that the word \texttt{\$\$UndefedWord\$\$} is undefined.
 \setwordlist{file}
 \defersection{}
 
-\cbstart\patch{x:test}
 These tests create files in the current directory, if all goes well
 these will be deleted.  If something fails they may not be deleted.
 If this is a problem ensure you set a suitable directory before
@@ -930,7 +934,6 @@ The \tref{file:p}{} test should be next, followed by
 Finally \tref{file:RENAME-FILE}{} tests the extended words
 \word{RENAME-FILE}, \word{FILE-STATUS}, and \word{FLUSH-FILE}.
 
-\cbend
 \readtest{file}
 
 % ===================================================================
@@ -944,7 +947,6 @@ Finally \tref{file:RENAME-FILE}{} tests the extended words
 \setwordlist{memory}
 \defersection{}
 
-\cbstart\patch{x:test}
 These test require a new variable to hold the address of the allocated
 memory.  Two helper words are defined to populate the allocated memory
 and to check the memory:
@@ -969,7 +971,6 @@ and to check the memory:
 
 The test \tref{memory:ALLOCATE}{} includes a test for \word{FREE}.
 
-\cbend
 \readtest{memory}
 
 % ===================================================================
@@ -982,7 +983,6 @@ The test \tref{memory:ALLOCATE}{} includes a test for \word{FREE}.
 \setwordlist{search}
 \defersection{}
 
-\cbstart\patch{x:test}
 The search order is reset to a known state before the tests can be
 run.
 
@@ -1026,7 +1026,6 @@ by \tref{search:SET-ORDER}{} which also test \word{GET-ORDER}, then
 \tref{search:SEARCH-WORDLIST}{} and \tref{search:FIND}{} tests.
 Finally the \tref{search:ORDER}{} test can be performed.
 
-\cbend
 \readtest{search}
 
 % ===================================================================
@@ -1035,7 +1034,6 @@ Finally the \tref{search:ORDER}{} test can be performed.
 \setwordlist{string}
 \defersection{}
 
-\cbstart\patch{x:test}
 Most of the tests in this wordlist require a known string which is
 defined as:
 
@@ -1049,12 +1047,11 @@ The tests should be carried out in the order:
 \tref{string:BLANK}{} and
 \tref{string:SLITERAL}{}.
 
-\cbend
 \readtest{string}
 
 % ===================================================================
 
-\testsection{legacy}{Legacy}			% T.18 ?
+% \testsection{legacy}{Legacy}			% T.18 ?
 
 
 \endinput %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

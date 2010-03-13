@@ -131,7 +131,6 @@ Memory-Allocation Extensions word sets.
 
 \subsection{Memory-Allocation words} % 14.6.1
 
-
 \begin{worddef}{0707}{ALLOCATE}
 \item \stack{u}{a-addr ior}
 
@@ -152,17 +151,22 @@ Memory-Allocation Extensions word sets.
 	\wref{memory:RESIZE}{RESIZE}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
+		\ttfamily
+		\place{ed09b}{\word{VARIABLE} datsp}
+
+		\place{ed09b}{\word{HERE} datsp \word{!}} \\
 		\test{100 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
-		\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned} \\
+		\remove{ed09b}{\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned}} \\
+		\place{ed09b}{\test{addr \word{@} \word{ALIGNED}}{addr \word{@}}				\tab \word{bs} \textdf{Test address is aligned}} \\
+		\place{ed09b}{\test{\word{HERE}}{datsp \word{@}}									\tab[5] \word{bs} \textdf{Check data space pointer is unchanged}}\\
 		\test{addr \word{@} \word{FREE}}{0}
 
 		\test{99 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
-		\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned}
+		\remove{ed09b}{\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned}} \\
+		\place{ed09b}{\test{addr \word{@} \word{ALIGNED}}{addr \word{@}} \tab \word{bs} \textdf{Test address is aligned}} \\
 
 		\test{addr \word{@} \word{FREE}}{0} \\
 		\test{-1 \word{ALLOCATE} \word{SWAP} \word{DROP} \word{0=}}{<FALSE>} \tab \word{bs} \textdf{Memory allocate failed}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -216,7 +220,6 @@ Memory-Allocation Extensions word sets.
 	\wref{memory:FREE}{FREE}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\test{50 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
 		addr \word{@} 50 writemem addr \word{@} 50 checkmem
 
@@ -228,7 +231,6 @@ Memory-Allocation Extensions word sets.
 
 		\test{addr \word{@} -1 \word{RESIZE} \word{0=}}{addr \word{@} <FALSE>} \\
 		\test{addr \word{@} \word{FREE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 

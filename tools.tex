@@ -70,21 +70,26 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \item source and format of display by \wref{tools:SEE}{SEE}.
 \end{itemize}
 
+\newpage
 \subsubsection{Ambiguous conditions} % 15.4.1.2
+\label{tools:ambiguous}
 
 \begin{itemize}
-\item \remove{x:legacy}{deleting the compilation word-list (\wref{legacy:FORGET}{FORGET});}
+%\item \remove{x:legacy}{deleting the compilation word-list (\wref{tools:FORGET}{});}
+\item deleting the compilation word-list (\wref{tools:FORGET}{});
 \item fewer than $u+1$ items on control-flow stack
 	(\wref{tools:CS-PICK}{CS-PICK},
 	 \wref{tools:CS-ROLL}{CS-ROLL});
-\item \remove{x:legacy}{\emph{name} can't be found (\wref{legacy:FORGET}{FORGET});}
+%\item \remove{x:legacy}{\emph{name} can't be found (\wref{tools:FORGET}{});}
+\item \emph{name} can't be found (\wref{tools:FORGET}{});
 \item \emph{name} not defined via \wref{core:CREATE}{CREATE}
 	(\wref{tools:;CODE}{;CODE});
 \item \wref{core:POSTPONE}{POSTPONE} applied to \wref{tools:[IF]}{[IF]};
 \item reaching the end of the input source before matching
 	\wref{tools:[ELSE]}{[ELSE]} or \wref{tools:[THEN]}{[THEN]}
 	(\wref{tools:[IF]}{[IF]});
-\item \remove{x:legacy}{removing a needed definition (\wref{legacy:FORGET}{FORGET}).}
+%\item \remove{x:legacy}{removing a needed definition (\wref{tools:FORGET}{}).}
+\item removing a needed definition (\wref{tools:FORGET}{}).
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -158,7 +163,8 @@ Extensions word sets.
 	Consequently, its use may corrupt the transient region identified
 	by \word[core]{num-end}.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}%
+	\place{ed09b}{, \rref{tools:.S}{}}.
 
 	\begin{rationale} % A.15.6.1.0220 .S
 		\word[tools]{.S} is a debugging convenience found on almost
@@ -207,7 +213,8 @@ Extensions word sets.
 	words. Consequently, its use may corrupt the transient region
 	identified by \word[core]{num-end}.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}%
+	\place{ed09b}{, \rref{tools:SEE}{}}.
 
 	\begin{rationale} % A.15.6.1.2194 SEE
 		\word[tools]{SEE} acts as an on-line form of documentation of
@@ -227,7 +234,8 @@ Extensions word sets.
 	words. Consequently, its use may corrupt the transient region
 	identified by \word[core]{num-end}.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient}.
+\see \xref[3.3.3.6 Other transient regions]{usage:transient}%
+	\place{ed09b}{, \rref{tools:WORDS}{}}.
 
 	\begin{rationale} % A.15.6.1.2465 WORDS
 		\word[tools]{WORDS} is a debugging convenience found on almost
@@ -276,7 +284,8 @@ Extensions word sets.
 	Perform the machine code sequence that was generated following
 	\word{;CODE}.
 
-\see \wref{core:DOES}{DOES>}.
+\see \wref{core:DOES}{DOES>}%
+	\place{ed09b}{, \rref{tools:;CODE}{}}.
 
 	\begin{rationale} % A.15.6.2.0470 ;CODE
 		Typical use:
@@ -311,10 +320,8 @@ Extensions word sets.
 	of \param{orig}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{:} pt1 \word{AHEAD} 1111 2222 \word{THEN} 3333 \word{;}}{} \\
 		\test{pt1}{3333}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -357,7 +364,8 @@ Extensions word sets.
 	Execute the machine code sequence that was generated following
 	\word{CODE}.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}.
+\see \xref[3.4.1 Parsing]{usage:parsing}%
+	\place{ed09b}{, \rref{tools:CODE}{}}.
 
 	\begin{rationale} % A.15.6.2.0930 CODE
 		Some Forth systems implement the assembly function by adding
@@ -387,6 +395,8 @@ Extensions word sets.
 	If the control-flow stack is implemented using the data stack,
 	\param{u} shall be the topmost item on the data stack.
 
+\see \place{ed09b}{\rref{tools:CS-PICK}{}.}
+
 	\begin{rationale} % A.15.6.2.1015 CS-PICK
 		The intent is to reiterate a \param{dest} on the control-flow
 		stack so that it can be resolved more than once. For example:
@@ -414,7 +424,6 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{:} ?repeat \\
 		\tab 0 \word{CS-PICK} \word{POSTPONE} \word{UNTIL} \\
 		\word{;} \word{IMMEDIATE}
@@ -438,7 +447,6 @@ Extensions word sets.
 		\tab[1.2] \word{;}}{}
 
 		\test{6 pt5}{111 111 222 111 222 333 111 222 333}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -462,6 +470,8 @@ Extensions word sets.
 	If the control-flow stack is implemented using the data stack,
 	\param{u} shall be the topmost item on the data stack.
 
+\see \place{ed09b}{\rref{tools:CS-ROLL}{}.}
+
 	\begin{rationale} % A.15.6.2.1020 CS-ROLL
 		The intent is to modify the order in which the \param{orig}s
 		and \param{dest}s on the control-flow stack are to be resolved
@@ -479,7 +489,6 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\test{\word{:} ?DONE \word{p} dest -{}- orig dest )  \tab \word{bs} \textdf{Same as WHILE} \\
 		\tab[2.4] \word{POSTPONE} \word{IF} 1 \word{CS-ROLL} \\
 		\tab[1.2] \word{;} \word{IMMEDIATE}}{} \\
@@ -532,7 +541,6 @@ Extensions word sets.
 		\tab[1.2] \word{;}}{}
 
 		\test{1 pt8}{333 222 333}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -547,40 +555,41 @@ Extensions word sets.
 \end{worddef}
 
 
-% \begin{worddef}{1580}{FORGET}
-% \item \stack{"<spaces>name"}{}
-% 
-% 	Skip leading space delimiters. Parse \param{name} delimited by a
-% 	space. Find \param{name}, then delete \param{name} from the
-% 	dictionary along with all words added to the dictionary after
-% 	\param{name}. An ambiguous condition exists if \param{name} cannot
-% 	be found.
-% 
-% 	If the Search-Order word set is present, \word{FORGET} searches
-% 	the compilation word list. An ambiguous condition exists if the
-% 	compilation word list is deleted.
-% 
-% 	An ambiguous condition exists if \word{FORGET} removes a word
-% 	required for correct execution. Note: This word is obsolescent
-% 	and is included as a concession to existing implementations.
-% 
-% \see \xref[3.4.1 Parsing]{usage:parsing}.
-% 
-% 	\begin{rationale} % A.15.6.2.1580 FORGET
-% 		Typical use:
-% 			{\ldots} \word{FORGET} \emph{name} {\ldots}
-% 
-% 		\word{FORGET} assumes that all the information needed to
-% 		restore the dictionary to its previous state is inferable
-% 		somehow from the forgotten word. While this may be true in
-% 		simple linear dictionary models, it is difficult to implement
-% 		in other Forth systems; e.g., those with multiple address
-% 		spaces. For example, if Forth is embedded in ROM, how does
-% 		\word{FORGET} know how much RAM to recover when an array
-% 		is forgotten? A general and preferred solution is provided by
-% 		\word[core]{MARKER}.
-% 	\end{rationale}
-% \end{worddef}
+\begin{worddef}{1580}{FORGET}
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a
+	space. Find \param{name}, then delete \param{name} from the
+	dictionary along with all words added to the dictionary after
+	\param{name}. An ambiguous condition exists if \param{name} cannot
+	be found.
+
+	If the Search-Order word set is present, \word{FORGET} searches
+	the compilation word list. An ambiguous condition exists if the
+	compilation word list is deleted.
+
+	An ambiguous condition exists if \word{FORGET} removes a word
+	required for correct execution. Note: This word is obsolescent
+	and is included as a concession to existing implementations.
+
+\see \xref[3.4.1 Parsing]{usage:parsing}%
+	\place{ed09b}{, \rref{tools:FORGET}{}}.
+
+	\begin{rationale} % A.15.6.2.1580 FORGET
+		Typical use:
+			{\ldots} \word{FORGET} \emph{name} {\ldots}
+
+		\word{FORGET} assumes that all the information needed to
+		restore the dictionary to its previous state is inferable
+		somehow from the forgotten word. While this may be true in
+		simple linear dictionary models, it is difficult to implement
+		in other Forth systems; e.g., those with multiple address
+		spaces. For example, if Forth is embedded in ROM, how does
+		\word{FORGET} know how much RAM to recover when an array
+		is forgotten? A general and preferred solution is provided by
+		\word[core]{MARKER}.
+	\end{rationale}
+\end{worddef}
 
 
 \begin{worddef}{2250}{STATE}
@@ -636,7 +645,8 @@ Extensions word sets.
 	refilled as with \word[core]{REFILL}. \word{[ELSE]} is an
 	immediate word.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}.
+\see \xref[3.4.1 Parsing]{usage:parsing}%
+	\place{ed09b}{, \rref{tools:[ELSE]}{}}.
 
 	\begin{rationale} % A.15.6.2.2531 [ELSE]
 		Typical use:
@@ -669,7 +679,8 @@ Extensions word sets.
 	reached and cannot be refilled before the terminating
 	\word{[ELSE]} or \word{[THEN]} is parsed.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}.
+\see \xref[3.4.1 Parsing]{usage:parsing}%
+	\place{ed09b}{, \rref{tools:[IF]}{}}.
 
 	\begin{rationale} % A.15.6.2.2532 [IF]
 		Typical use:
@@ -690,6 +701,7 @@ Extensions word sets.
 
 	Does nothing. \word{[THEN]} is an immediate word.
 
+\see \place{ed09b}{\rref{tools:[THEN]}{}.}
 	\begin{rationale} % A.15.6.2.2533 [THEN]
 		Typical use:
 			{\ldots} \emph{flag}
@@ -766,7 +778,6 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{<TRUE>  \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{111} \\
 		\test{<FALSE> \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{222}
 
@@ -793,7 +804,6 @@ Extensions word sets.
 		\test{<F> \word{[IF]} 1 <T> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{4} \\
 		\test{<T> \word{[IF]} 1 <F> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{1 3} \\
 		\test{<F> \word{[IF]} 1 <F> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{4}
-	\cbend
 	\end{testing}
 \end{worddef}
 

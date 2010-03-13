@@ -299,11 +299,9 @@ provide all of the File Access and File Access Extensions word sets.
 	right parenthesis is found or the end of the file is reached.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{p} 1 2 3 \\
 		\tab[2.4] 4 5 6 \\
 		\tab[2.4] 7 8 9 ) 11 22 33}{11 22 33}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -318,7 +316,8 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \wref{file:R/O}{R/O},
 	\wref{file:R/W}{R/W},
-	\wref{file:W/O}{W/O}.
+	\wref{file:W/O}{W/O}%
+	\place{ed09b}{, \rref{file:BIN}{}}.
 
 	\begin{rationale} % A.11.6.1.0765 BIN
 		Some operating systems require that files be opened in a
@@ -361,6 +360,8 @@ provide all of the File Access and File Access Extensions word sets.
 	Otherwise, \param{ior} is the implementation-defined I/O result
 	code and \param{fileid} is undefined.
 
+\see \place{ed09b}{\rref{file:CREATE-FILE}{}.}
+
 	\begin{rationale} % A.11.6.1.1010 CREATE-FILE
 		Typical use:
 
@@ -372,13 +373,11 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{:} fn1 \word{Sq} fatest1.txt" \word{;} \\
 		\word{VARIABLE} fid1
 
 		\test{fn1 \word{R/W} \word{CREATE-FILE} \word{SWAP} fid1 \word{!}}{0} \\
 		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -391,11 +390,9 @@ provide all of the File Access and File Access Extensions word sets.
 	I/O result code.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{fn2 \word{DELETE-FILE}}{0} \\
 		\test{fn2 \word{R/W} \word{BIN} \word{OPEN-FILE} \word{SWAP} \word{DROP}}{0} \\
 		\test{fn2 \word{DELETE-FILE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -419,7 +416,6 @@ provide all of the File Access and File Access Extensions word sets.
 	is non-zero.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{:} cbuf buf bsize 0 \word{FILL} \word{;} \\
 		\word{:} fn2 \word{Sq} fatest2.txt" \word{;} \\
 		\word{VARIABLE} fid2 \\
@@ -442,7 +438,6 @@ provide all of the File Access and File Access Extensions word sets.
 		\test{fid2 \word{@} \word{FILE-SIZE} \word{DROP} fid2 \word{@} \word{FILE-POSITION} \word{DROP} \word[double]{D=}}{<TRUE>} \\
 		\test{buf 10 fid2 \word{@} \word{READ-FILE}}{0 0} \\
 		\test{fid2 \word{@} \word{CLOSE-FILE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -473,7 +468,8 @@ provide all of the File Access and File Access Extensions word sets.
 	condition exists, the status (open or closed) of any files that
 	were being interpreted is implementation-defined.
 
-\see \xref[11.3.4 Input source]{file:source}.
+\see \xref[11.3.4 Input source]{file:source}%
+	\place{ed09b}{, \rref{file:INCLUDE-FILE}{}}.
 
 	\begin{rationale} % A.11.6.1.1717 INCLUDE-FILE
 		Here are two implementation alternatives for saving the input
@@ -524,7 +520,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\word{INCLUDED} may allocate memory in data space before it
 	starts interpreting the file.
 
-\see \wref{file:INCLUDE-FILE}{INCLUDE-FILE}.
+\see \wref{file:INCLUDE-FILE}{INCLUDE-FILE}%
+	\place{ed09b}{, \rref{file:INCLUDED}{}}.
 
 	\begin{rationale} % A.11.6.1.1718 INCLUDED
 		Typical use:
@@ -551,6 +548,8 @@ provide all of the File Access and File Access Extensions word sets.
 
 	Otherwise, \param{ior} is the implementation-defined I/O
 	result code and \param{fileid} is undefined.
+
+\see \place{ed09b}{\rref{file:OPEN-FILE}{}.}
 
 	\begin{rationale} % A.11.6.1.1970 OPEN-FILE
 		Typical use:
@@ -616,6 +615,8 @@ provide all of the File Access and File Access Extensions word sets.
 	At the conclusion of the operation, \word{FILE-POSITION} returns
 	the next file position after the last character read.
 
+\see \place{ed09b}{\rref{file:READ-FILE}{}.}
+
 	\begin{rationale} % A.11.6.1.2080 READ-FILE
 		A typical sequential file-processing algorithm might look like:
 		\begin{quote}\ttfamily\setwordlist{core}
@@ -673,6 +674,8 @@ provide all of the File Access and File Access Extensions word sets.
 	At the conclusion of the operation, \word{FILE-POSITION} returns
 	the next file position after the last character read.
 
+\see \place{ed09b}{\rref{file:READ-LINE}{}.}
+
 	\begin{rationale} % A.11.6.1.2090 READ-LINE
 		Implementations are allowed to store the line terminator in
 		the memory buffer in order to allow the use of line reading
@@ -714,7 +717,6 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		200 \word{CONSTANT} bsize \\
 		\word{CREATE} buf bsize \word{ALLOT} \\
 		\word{VARIABLE} \#chars
@@ -725,7 +727,6 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab[1.2] <TRUE> 0 line1 \word{SWAP} \word{DROP}} \\
 		\test{buf \#chars \word{@} line1 \word[string]{COMPARE}}{0} \\
 		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -742,7 +743,6 @@ provide all of the File Access and File Access Extensions word sets.
 	returns the value \param{ud}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{:} line2 \word{Sq} Line 2 blah blah blah" \word{;} \\
 		\word{:} rl1 buf 100 fid1 \word{@} \word{READ-LINE} \word{;} \\
 		\word[double]{2VARIABLE} fp
@@ -770,7 +770,6 @@ provide all of the File Access and File Access Extensions word sets.
 		\test{rl1}{0 <TRUE>  0} \\
 		\test{rl1}{0 <FALSE> 0} \\
 		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -794,7 +793,6 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:READ-LINE}{READ-LINE}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\texttt{setpad} \\
 		\test{fn2 \word{R/W} \word{BIN} \word{OPEN-FILE} \word{SWAP} fid2 \word{!}}{0} \\
 		\test{37. fid2 \word{@} \word{RESIZE-FILE}}{0} \\
@@ -809,7 +807,6 @@ provide all of the File Access and File Access Extensions word sets.
 		\test{cbuf buf 100 fid2 \word{@} \word{READ-FILE}}{100 0} \\
 		\test{\word{PAD} 37 buf 37 \word[string]{COMPARE}}{0} \\
 		\test{fid2 \word{@} \word{CLOSE-FILE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -842,7 +839,8 @@ provide all of the File Access and File Access Extensions word sets.
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Cq}{C"},
 	\wref{core:Sq}{S"},
-	\xref[11.3.5 Other transient regions]{file:buffers}.
+	\xref[11.3.5 Other transient regions]{file:buffers}%
+	\place{ed09b}{, \rref{file:Sq}{}}.
 
 	\begin{rationale} % A.11.6.1.2165 S"
 		Typical use:
@@ -896,9 +894,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\word[block]{BLK} contains a non-zero value.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{SOURCE-ID} \word{DUP} -1 \word{=} \word{SWAP} \word{0=} \word{OR}}{<FALSE>}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -948,13 +944,11 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:READ-LINE}{READ-LINE}.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{:} line1 \word{Sq} Line 1" \word{;}
 
 		\test{fn1 \word{W/O} \word{OPEN-FILE} \word{SWAP} fid1 \word{!}}{0} \\
 		\test{line1 fid1 \word{@} \word{WRITE-LINE}}{0} \\
 		\test{fid1 \word{@} \word{CLOSE-FILE}}{0}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -993,7 +987,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\param{name} on the stack and perform the function of
 	\word{INCLUDED}.
 
-\see \wref{file:INCLUDED}{INCLUDED}.
+\see \wref{file:INCLUDED}{INCLUDED}%
+	\place{ed09b}{, \rref{file:INCLUDE}{}.}
 
 	\begin{rationale} % A.11.6.2.---- INCLUDE
 		Typical use:
@@ -1037,7 +1032,6 @@ provide all of the File Access and File Access Extensions word sets.
 	\param{ior} is the implementation-defined I/O result code.
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\word{:} fn3 \word{Sq} fatest3.txt" \word{;} \\
 		\word{:} >end fid1 \word{@} \word{FILE-SIZE} \word{DROP} fid1 \word{@} \word{REPOSITION-FILE} \word{;}
 
@@ -1054,7 +1048,6 @@ provide all of the File Access and File Access Extensions word sets.
 
 		\word{bs} \textdf{Tidy the test folder} \\
 		\test{fn3 \word{DELETE-FILE} \word{DROP}}{}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -1067,7 +1060,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\param{name} on the stack and perform the function of
 	\word{REQUIRED}.
 
-\see \wref{file:REQUIRED}{REQUIRED}.
+\see \wref{file:REQUIRED}{REQUIRED},
+	\place{ed09b}{, \rref{file:REQUIRE}{}.}
 
 	\begin{rationale} % A.11.6.2.---- REQUIRE
 		Typical use:
@@ -1087,12 +1081,13 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
+\newpage
 \begin{worddef}{}{REQUIRED}[][X:required]
 \item \stack{i*x c-addr u}{i*x}
 
 	If the file specified by \param{c-addr u} has been \word{INCLUDED}
 	or \word{REQUIRED} already, but not between the definition and
-	execution of a marker (or equivalent usage of \word[legacy]{FORGET}),
+	execution of a marker (or equivalent usage of \word[tools]{FORGET}),
 	discard \param{c-addr u}; otherwise, perform the function of
 	\word{INCLUDED}.
 
@@ -1111,6 +1106,8 @@ provide all of the File Access and File Access Extensions word sets.
 	An ambiguous condition exists if the stack effect of including the
 	file is not \stack{i*x}{i*x}.
 
+\see \place{ed09b}{\rref{file:REQUIRED}{}.}
+
 	\begin{rationale} % A.11.6.2.---- REQUIRED
 		Typical use:
 		\begin{quote}
@@ -1121,7 +1118,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\begin{implement}
 		\dffamily
 		This implementation does not implement the requirements with
-		regard to \word{MARKER} and \word[legacy]{FORGET} (\word{REQUIRED}
+		regard to \word{MARKER} and \word[tools]{FORGET} (\word{REQUIRED}
 		only includes each file once, whether a marker was executed or
 		not), so it is not a correct implementation on systems that
 		support these words. It extends the definition of \word{INCLUDED}

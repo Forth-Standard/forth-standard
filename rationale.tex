@@ -1002,9 +1002,9 @@ were used for keyboard editing functions and ``invisible'' words.
 
 \subsubsection{Data space} % A.3.3.3
 
-The words \word[legacy]{numTIB}, \word{toIN}, \word{BASE}, \word[block]{BLK},
+The words \word{numTIB}, \word{toIN}, \word{BASE}, \word[block]{BLK},
 \word[block]{SCR}, \word{SOURCE}, \word{SOURCE-ID}, \word{STATE}, and
-\word[legacy]{TIB} contain information used by the Forth system in its
+and \word{TIB} contain information used by the Forth system in its
 operation and may be of use to the application. Any assumption made
 by the application about data available in the Forth system it did
 not store other than the data just listed is an environmental
@@ -1267,7 +1267,6 @@ Forth implementations.
 
 \readrationale{core}
 
-
 \setcounter{subsection}{1}
 \subsection{Core extension words} % A.6.2 =================
 \label{rat:core-ext}
@@ -1284,9 +1283,8 @@ The words in this collection fall into several categories:
 \item Words that are primarily useful in narrowly defined types of
 	applications or are in less frequent use (e.g., \word{PARSE});
 
-\item \remove{x:legacy}{%
-	Words that are being deprecated in favor of new words introduced
-	to solve specific problems (e.g., \word[legacy]{CONVERT}).}
+\item Words that are being deprecated in favor of new words introduced
+	to solve specific problems (e.g., \word{CONVERT}).
 \end{itemize}
 
 Because of the varied justifications for inclusion of these words,
@@ -1936,9 +1934,9 @@ preceding the declaration of \texttt{A+} is illegal. Likewise the use
 of \texttt{ZERO} to define \texttt{ANSWER} is illegal because it
 generates executable code between uses of \word{LOCAL}.
 Finally, \texttt{MOE} terminates illegally (no \texttt{END-LOCALS}).
-\texttt{BOB} in f) violates the rule against declaring two sets of
+\texttt{BOB} \replace{ed09b}{in f) violates}{inviolate} the rule against declaring two sets of
 locals.
-% \replace[1]{inf) violates}{inviolate}
+% \replace[X:sttruct]{in f) violates}{inviolate}
 
 \begin{enumerate}
 \item[g)] \begin{quote}\ttfamily
@@ -2169,25 +2167,23 @@ or may not need information stored in the compilation word list.
 \readrationale{string}
 
 
-\section{The optional Legacy word set} % A.x =======================
-\setwordlist{string}
-\label{rat:legacy}
-
-\place{x:legacy}{%
-As implementations have become more elaborate and practices have
-been superceded, the words that support those practices are now
-considered obsolete.  These words were marked as obsolete in the
-previous standard.  They have been grouped together into the legacy
-word set as although obsolete these words are still to be found in
-widespread use in legacy code.}
-
-\place{x:legacy}{%
-Their definitions are retained in this word set, so that legacy
-code will continue to operate.  However, their use in new
-implementations or new program is strongly discouraged.}
-
-\setcounter{subsection}{5}
-\subsection{Glossary} % A.xx.6 ============================
-
-\readrationale{legacy}
+%\section{The optional Legacy word set} % A.x =======================
+%\setwordlist{string}
+%\label{rat:legacy}
+%
+%As implementations have become more elaborate and practices have
+%been superceded, the words that support those practices are now
+%considered obsolete.  These words were marked as obsolete in the
+%previous standard.  They have been grouped together into the legacy
+%word set as although obsolete these words are still to be found in
+%widespread use in legacy code.
+%
+%Their definitions are retained in this word set, so that legacy
+%code will continue to operate.  However, their use in new
+%implementations or new program is strongly discouraged.
+%
+%\setcounter{subsection}{5}
+%\subsection{Glossary} % A.xx.6 ============================
+%
+%\readrationale{legacy}
 

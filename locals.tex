@@ -280,9 +280,7 @@ to provide all of the Locals and Locals Extensions word sets.
 \runtime[\word{TO} \param{local}]
 	\stack{x}{}
 
-	\replace{ed09}{Associate}{Assign} the value \param{x} \replace{ed09}{with}{to}
-	the local value
-	\param{local}.
+	Assign the value \param{x} to the local value \param{local}.
 
 \see \xref[3.4 The Forth text interpreter]{usage:command} and
 	\wref{core:TO}{TO}.
@@ -315,6 +313,8 @@ to provide all of the Locals and Locals Extensions word sets.
 	identifier \param{name_2} with \param{x_2}, etc. When invoked,
 	each local will return its value. The value of a local may be
 	changed using \wref{core:TO}{TO}.
+
+\see \place{ed09b}{\rref{local:LOCALS}{}.}
 
 	\begin{rationale} % A.13.6.2.1795 LOCALS|
 		A possible implementation of this word and an example of usage
