@@ -155,6 +155,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	if the operation cannot be performed on the user output device
 	with the specified parameters.
 
+\see \place{ed09b}{\rref{facility:AT-XY}{}.}
+
 	\begin{rationale} % A.10.6.1.0742 AT-XY
 		Most implementors supply a method of positioning a cursor on
 		a CRT screen, but there is great variance in names and stack
@@ -178,6 +180,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	of \word[core]{KEY} or \word{EKEY} also return \emph{true},
 	without discarding keyboard events.
 
+\see \place{ed09b}{\rref{facility:KEYq}{}.}
+
 	\begin{rationale} % A.10.6.1.1755 KEY?
 		The Technical Committee has gone around several times on the
 		stack effects. Whatever is decided will violate somebody's
@@ -188,7 +192,9 @@ to provide all of the Facility and Facility Extensions word sets.
 		the character.
 
 		Use of \word[core]{KEY} or \word{KEYq} indicates that the
-		application does not wish to bother with non-character events,
+		application does not wish to
+\replace{ed09b}{bother with}{process}
+		non-character events,
 		so they are discarded, in anticipation of eventually receiving
 		a valid character. Applications wishing to handle non-character
 		events must use \word{EKEY} and \word{EKEYq}. It is possible
@@ -237,8 +243,9 @@ to provide all of the Facility and Facility Extensions word sets.
 	\wref{facility:CFIELD:}{CFIELD:},
 	\wref{facility:FIELD:}{FIELD:},
 	\wref{floating:FFIELD:}{FFIELD:},
-	\wref{floating:SFFIELD:}{SFFIELD:} and
-	\wref{floating:DFFIELD:}{DFFIELD:}
+	\wref{floating:SFFIELD:}{SFFIELD:} \remove{ed09b}{and}
+	\wref{floating:DFFIELD:}{DFFIELD:}%
+	\place{ed09b}{, \rref{facility:+FIELD}{}}.
 
 	\begin{rationale} % A.10.6.2.---- +FIELD
 		\word{+FIELD} is not required to align items.  This is
@@ -279,10 +286,12 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{END-STRUCTURE} being executed.
 
 \see \wref{facility:+FIELD}{+FIELD} and
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
+	\place{ed09b}{, \rref{facility:BEGIN-STRUCTURE}{}}.
+
 
 	\begin{rationale} % A.10.6.2.---- BEGIN-STRUCTURE
-		There are two schools of \replace{ed08}{though}{thought} regarding named data
+		There are two schools of thought regarding named data
 		structures: name first and name last.  The name last
 		school can define a named data structure as follows:
 
@@ -416,7 +425,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{quote}
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \remove{ed09b}{and}
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
 	\begin{implement} % I.10.6.2.---- CFIELD
@@ -438,16 +447,60 @@ to provide all of the Facility and Facility Extensions word sets.
 	is implementation defined.
 
 \see \wref{facility:KEYq}{KEY?},
-	\wref{core:KEY}{KEY}.
+	\wref{core:KEY}{KEY}%
+	\place{ed09b}{, \rref{facility:EKEY}{}.}
+
 
 	\begin{rationale} % A.10.6.2.1305 EKEY
+\cbstart\patch{x:key-ekey}\uline{%
+		For some input devices, such as keyboards, more information is
+		available than can be returned by a single execution of
+		\word{KEY}.  \word{EKEY} provides a standard word to access a
+		system-\linebreak dependent set of events.}
+
+	\uline{%
+		\word{EKEY} and \word{EKEYq} are implementation specific; no
+		assumption can be made regarding the interaction between the
+		pairs \word{EKEY}/\word{EKEYq} and \word{KEY}/\word{KEYq}.
+		This standard does not define a timing relationship between
+		\word{KEYq} and \word{EKEYq}.  Undefined results may be
+		avoided by using only one pairing of \word{KEY}/\word{KEYq}
+		or \word{EKEY}/\word{EKEYq} in a program for each input
+		stream.}
+
+	\uline{%
+		\word{EKEY} assumes no particular numerical correspondence
+		between particular event code values and the values
+		representing standard characters.  On some systems, this may
+		allow two separate keys that correspond to the same standard
+		character to be distinguished from one another.  A standard
+		program may only interpret the results of \word{EKEY} via the
+		translation words provided for that purpose
+		(\word{EKEYtoCHAR} and \word{EKEYtoFKEY}).}
+
+	\uline{%
+		In systems that combine both keyboard and mouse events into a
+		single ``event stream'', the value returned by \word{EKEY}
+		may be inadequate to represent the full range of input
+		possibilities.  In such systems, a single ``event record''
+		may include a time stamp, the (x,y) coordinates of the mouse
+		position, the keyboard state, and the state of the mouse
+		buttons; \word{EKEY} could return the address of an ``event
+		record'' from which this information can be extracted.}
+
+	\uline{%
+		See: \rref{core:KEY}{}, \wref{facility:EKEYtoCHAR}{} and
+		\wref{facility:EKEYtoFKEY}{}.}
+
+	\sout{%
 		\word{EKEY} provides a standard word to access a
 		system-dependent set of ``raw'' keyboard events, including
 		events corresponding to members of the standard character
 		set, events corresponding to other members of the
 		implementation-defined character set, and keystrokes that
-		do not correspond to members of the character set.
+		do not correspond to members of the character set.}
 
+	\sout{%
 		\word{EKEY} assumes no particular numerical correspondence
 		between particular event code values and the values
 		representing standard characters. On some systems, this may
@@ -455,8 +508,9 @@ to provide all of the Facility and Facility Extensions word sets.
 		character to be distinguished from one another.
 		A standard program may only interpret the results of
 		\word{EKEY} via the translation words provided for that
-		purpose (\word{EKEYtoCHAR} and \word{EKEYtoFKEY}).
+		purpose (\word{EKEYtoCHAR} and \word{EKEYtoFKEY}).}
 
+	\sout{%
 		In systems that combine both keyboard and mouse events into
 		a single ``event stream'', the single number returned by
 		\word{EKEY} may be inadequate to represent the full range of
@@ -465,8 +519,9 @@ to provide all of the Facility and Facility Extensions word sets.
 		the mouse position, the keyboard state, and the state of
 		the mouse buttons. In such systems, it might be appropriate
 		for \word{EKEY} to return the address of an ``event record''
-		from which the other information could be extracted.
+		from which the other information could be extracted.}
 
+	\sout{%
 		While the standard specifies a timing relationship between
 		\word{EKEYq}, \word{KEYq}, \word{EKEY} and \word{KEY}, some
 		programmers find that confusing.
@@ -475,8 +530,9 @@ to provide all of the Facility and Facility Extensions word sets.
 		\word{KEY} where the application does not require access to
 		anything other than the standard character set.  Use
 		\word{EKEYq} and \word{EKEY} when extended functionality is
-		required.
+		required.}
 
+	\sout{%
 		Also, consider a hypothetical Forth system running under
 		MS-DOS on a PC-compatible computer. Assume that the
 		implementation-defined character set is the ``normal'' 8-bit
@@ -486,82 +542,88 @@ to provide all of the Facility and Facility Extensions word sets.
 		mathematical symbols, and some graphical symbols used for line
 		drawing. In addition to those characters, the keyboard can
 		generate various other ``scan codes'', representing such
-		non-character events as arrow keys and function keys.
+		non-character events as arrow keys and function keys.}
 
+	\sout{%
 		There may be multiple keys, with different scan codes,
 		corresponding to the same standard character. For example,
 		the character representing the number ``1'' often appears both
 		in the row of number keys above the alphabetic keys, and also
-		in the separate numeric keypad.
+		in the separate numeric keypad.}
 
+	\sout{%
 		When a program asks the MS-DOS operating system for a keyboard
 		event, it receives either a single non-zero byte, representing
 		a character, or a zero byte followed by a ``scan code'' byte,
 		representing a non-character keyboard event (e.g., a function
-		key).
+		key).}
 
+	\sout{%
 		\word{EKEY} represents each keyboard event as a single number,
 		rather than as a sequence of numbers. For the system described
 		above, the following would be a reasonable implementation of
-		\word{EKEY} and related words:
+		\word{EKEY} and related words:}
 
 		\begin{quote}
-			The \texttt{MAX-CHAR} environmental query would return 255.
+\sout{The \texttt{MAX-CHAR} environmental query would return 255.}
 
-			Assume the existence of a word
-			\texttt{DOS-KEY} \stack{}{char}
-			which executes the MS-DOS ``Direct STDIN Input'' system call
+\sout{Assume the existence of a word \texttt{DOS-KEY}}
+\stack{}{char}\strike[6]{2.2}{60}
+\sout{which executes the MS-DOS ``Direct STDIN Input'' system call
 			(Interrupt 21h, Function 07h) and a word
-			\texttt{DOS-KEY?} \stack{}{flag}
-			which executes the MS-DOS ``Check STDIN Status'' system call
-			(Interrupt 21h, Function 0Bh).
+			\texttt{DOS-KEY?}}
+\stack{}{flag}\strike[6]{2.2}{60}
+\sout{which executes the MS-DOS ``Check STDIN Status'' system call
+			(Interrupt 21h, Function 0Bh).}
 
 			\ttfamily
 			\begin{tabbing}
-			\tab \= \tab \= \tab \= \tab \= \hspace{7em} \= \kill
-			\word{:} \word{EKEYq}~ \word{p} -{}- flag )~
-				DOS-KEY?~ \word{0ne} \word{;} \\[\parskip]
+			\tab \= \tab \= \tab \= \tab \= \hspace{9em} \= \kill
+    \sout{\word{:} \word{EKEYq}~ \word{p} -{}- flag )~
+				DOS-KEY?~ \word{0ne} \word{;}} \\[\parskip]
 
-			\word{:} \word{EKEY}~ \word{p} -{}- u )~
+    \sout{\word{:} \word{EKEY}~ \word{p} -{}- u )~
 				DOS-KEY~ \word{qDUP} \word{0=} \word{IF}~
-					DOS-KEY 256 \word{+}~ \word{THEN} \word{;} \\[\parskip]
+					DOS-KEY 256 \word{+}~ \word{THEN} \word{;}} \\[\parskip]
 
-			\+ \word{:} \word{EKEYtoCHAR} \word{p} u -{}- u false | char true ) \\
-				\+ \word{DUP} 255 \word{more} \word{IF} 		\>\>\>\>	\word{p} u ) \\
-					\word{DUP} 259 \word{=} \word{IF} 		\>\>\>		\word{bs} 259 is Ctrl-@ (ASCII NUL) \\
-					\> \word{DROP} 0 \word{TRUE} \word{EXIT}\>\>		\word{bs} so replace with character \\
-				\- \word{THEN} \word{FALSE} \word{EXIT}		\>\>\>		\word{bs} otherwise extended character \\
-			\- \word{THEN} \word{TRUE}						\>\>\>\>	\word{bs} normal extended ASCII char. \\
-			\word{;} \\[\parskip]
+\+ \sout{\word{:} \word{EKEYtoCHAR} \word{p} u -{}- u false | char true )} \\
+\+ \sout{\word{DUP} 255 \word{more} \word{IF}} 		\>\>\>\>	\sout{\word{p} u )} \\
+   \sout{\word{DUP} 259 \word{=} \word{IF}}	 		\>\>\>		\sout{\word{bs} 259 is Ctrl-@ (ASCII NUL)} \\
+\> \sout{\word{DROP} 0 \word{TRUE} \word{EXIT}}		\>\>		\sout{\word{bs} so replace with character} \\
+\- \sout{\word{THEN} \word{FALSE} \word{EXIT}}		\>\>\>		\sout{\word{bs} otherwise extended character} \\
+\- \sout{\word{THEN} \word{TRUE}}					\>\>\>\>	\sout{\word{bs} normal extended ASCII char.} \\
+   \sout{\word{;}} \\[\parskip]
 
-			\word{VARIABLE} PENDING-CHAR ~ -1 PENDING-CHAR \word{!} \\[\parskip]
+   \sout{\word{VARIABLE} PENDING-CHAR ~ -1 PENDING-CHAR \word{!}} \\[\parskip]
 
-			\+ \word{:} \word{KEYq}~ \word{p} -{}- flag ) \\
-				\+ PENDING-CHAR \word{@} \word{0less} \word{IF} \\
-					\+ \word{BEGIN}~ \word{EKEYq} \word{WHILE} \\
-						\+ \word{EKEY} \word{EKEYtoCHAR} \word{IF} \\
-						\-	PENDING-CHAR \word{!}~ \word{TRUE} \word{EXIT} \\
-					\- \word{THEN} \word{DROP} \\
-				\- \word{REPEAT}~ \word{FALSE} \word{EXIT} \\
-			\- \word{THEN}~ \word{TRUE} \\
-			\word{;} \\[\parskip]
+\+ \sout{\word{:} \word{KEYq}~ \word{p} -{}- flag )} \\
+\+ \sout{PENDING-CHAR \word{@} \word{0less} \word{IF}} \\
+\+ \sout{\word{BEGIN}~ \word{EKEYq} \word{WHILE}} \\
+\+ \sout{\word{EKEY} \word{EKEYtoCHAR} \word{IF}} \\
+\- \sout{PENDING-CHAR \word{!}~ \word{TRUE} \word{EXIT}} \\
+\- \sout{\word{THEN} \word{DROP}} \\
+\- \sout{\word{REPEAT}~ \word{FALSE} \word{EXIT}} \\
+\- \sout{\word{THEN}~ \word{TRUE}} \\
+   \sout{\word{;}} \\[\parskip]
 
-			\+ \word{:} \word{KEY}~ \word{p} -{}- char ) \\
-				\+ PENDING-CHAR \word{@} \word{0less} \word{IF} \\
-					\word{BEGIN}~ \word{EKEY}~ \word{EKEYtoCHAR} \word{0=} \word{WHILE} \\
-					\> \word{DROP} \\
-				\-	\word{REPEAT}~ \word{EXIT} \\
-			\- \word{THEN}~ PENDING-CHAR \word{@}~ -1 PENDING-CHAR \word{!} \\
-			\word{;}
+\+ \sout{\word{:} \word{KEY}~ \word{p} -{}- char )} \\
+\+ \sout{PENDING-CHAR \word{@} \word{0less} \word{IF}} \\
+   \sout{\word{BEGIN}~ \word{EKEY}~ \word{EKEYtoCHAR} \word{0=} \word{WHILE}} \\
+\> \sout{\word{DROP}} \\
+\- \sout{\word{REPEAT}~ \word{EXIT}} \\
+\- \sout{\word{THEN}~ PENDING-CHAR \word{@}~ -1 PENDING-CHAR \word{!}} \\
+   \sout{\word{;}}
 			\end{tabbing}
 		\end{quote}
 
+	\sout{%
 		This is a full-featured implementation, providing the
 		application program with an easy way to either handle
 		non-character events (with \word{EKEY}), or to ignore them
 		and to only consider ``real'' characters (with
-		\word{KEY}).
+		\word{KEY}).}
 
+	\sout{%
 		Note that \word{EKEY} maps scan codes from 0 to 255 into
 		numbers from 256 to 511. \word{EKEY} maps the number 259,
 		representing the keyboard combination Ctrl-Shift-@, to the
@@ -569,8 +631,9 @@ to provide all of the Facility and Facility Extensions word sets.
 		keyboards generate ASCII NUL for Ctrl-Shift-@, so we use that
 		key combination for ASCII NUL (which is otherwise unavailable
 		from MS-DOS, because the zero byte signifies that another
-		scan-code byte follows).
+		scan-code byte follows).}
 
+	\sout{%
 		One consequence of using the ``Direct STDIN Input'' system call
 		(function 7) instead of the ``STDIN Input'' system call
 		(function 8) is that the normal DOS ``Ctrl-C interrupt'' behavior
@@ -583,54 +646,61 @@ to provide all of the Facility and Facility Extensions word sets.
 		sequence as a Ctrl-C, even though the 3 is really a scan code
 		and not a character. One ``best of both worlds'' solution is to
 		use function 8 for the first byte received by \word{EKEY}, and
-		function 7 for the scan code byte. For example:
+		function 7 for the scan code byte. For example:}
 
 		\begin{quote}
 			\ttfamily
 			\begin{tabbing}
 			\tab \= \tab \= \tab \= \tab \= \hspace{7em} \= \kill
-			\+ \word{:} \word{EKEY}~ \word{p} -{}- u ) \\
-				\+ DOS-KEY-FUNCTION-8~ \word{qDUP}~ \word{0=}~ \word{IF} \\
-					DOS-KEY-FUNCTION-7~ \word{DUP} 3~ \word{=}~ \word{IF} \\
-					\> \word{DROP} 0~ \word{ELSE}~ 256 \word{+}\\
-				\- \word{THEN} \\
-			\- \word{THEN} \\
-			\word{;}
+\+ \sout{\word{:} \word{EKEY}~ \word{p} -{}- u )} \\
+\+ \sout{DOS-KEY-FUNCTION-8~ \word{qDUP}~ \word{0=}~ \word{IF}} \\
+   \sout{DOS-KEY-FUNCTION-7~ \word{DUP} 3~ \word{=}~ \word{IF}} \\
+\> \sout{\word{DROP} 0~ \word{ELSE}~ 256 \word{+}} \\
+\- \sout{\word{THEN}} \\
+\- \sout{\word{THEN}} \\
+   \sout{\word{;}}
 			\end{tabbing}
 		\end{quote}
 
+	\sout{%
 		Of course, if the Forth implementor chooses to pass Ctrl-C
 		through to the program, without using it for its usual
 		interrupt function, then DOS function 7 is appropriate in both
 		cases (and some additional care must be taken to prevent a
 		typed-ahead Ctrl-C from interrupting the Forth system during
-		output operations).
+		output operations).}
 
+	\sout{%
 		A Forth system might also choose a simpler implementation of
-		\word{KEY}, without implementing \word{EKEY}, as follows:
+		\word{KEY}, without implementing \word{EKEY}, as follows:}
 
 		\begin{quote}\ttfamily
+	\sout{%
 			\word{:} \word{KEY}~~ \word{p} -{}- char )~
 				DOS-KEY~
-			\word{;}
+			\word{;}}
 
+	\sout{%
 			\word{:} \word{KEYq}~ \word{p} -{}- flag )~
 				DOS-KEY?~ \word{0ne}~
-			\word{;}
+			\word{;}}
 		\end{quote}
 
-		The disadvantages of the simpler version are:
+	\sout{%
+		The disadvantages of the simpler version are:}
 
 		\begin{enumerate}
-		\item An application program that uses \word{KEY},
+		\item \sout{%
+			An application program that uses \word{KEY},
 			expecting to receive only valid characters, might receive a
 			sequence of bytes (e.g., a zero byte followed by a byte with
 			the same numerical value as the letter ``A'' that appears to
 			contain a valid character, even though the user pressed a key
 			(e.g., function key 4) that does not correspond to any valid
-			character.
+			character.}
 
-		\item An application program that wishes to handle non-character
+		\item \sout{%
+			An application program that wishes to handle non-character
 			events will have to execute \word{KEY} twice if it
 			returns zero the first time. This might appear to be a
 			reasonable and easy thing to do. However, such code is not
@@ -641,9 +711,10 @@ to provide all of the Facility and Facility Extensions word sets.
 			table or set of constants listing the system-dependent key
 			codes used to access particular application functions.
 			Without \word{EKEY}, the algorithm, not just the table, is
-			likely to be system dependent.
+			likely to be system dependent.}
 		\end{enumerate}
 
+	\sout{%
 		Another approach to \word{EKEY} on MS-DOS is to use the BIOS
 		``Read Keyboard Status'' function (Interrupt 16h, Function 01h)
 		or the related ``Check Keyboard'' function (Interrupt 16h,
@@ -652,7 +723,8 @@ to provide all of the Facility and Facility Extensions word sets.
 		to the same character (e.g. the two ``1'' keys). The disadvantage
 		is that the BIOS keyboard functions read only the keyboard. They
 		cannot be ``redirected'' to another ``standard input'' source,
-		as can the DOS STDIN Input functions.
+		as can the DOS STDIN Input functions.}
+\cbend
 	\end{rationale}
 \end{worddef}
 
@@ -663,6 +735,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	If the keyboard event \param{u} corresponds to a character in the
 	implementation-defined character set, return that character and
 	\emph{true}. Otherwise return \param{u} and \emph{false}.
+
+\see \place{ed09b}{\rref{facility:EKEYtoCHAR}{}.}
 
 	\begin{rationale} % A.10.6.2.1306 EKEY>CHAR
 		\word{EKEYtoCHAR} translates a keyboard event into the
@@ -717,8 +791,10 @@ to provide all of the Facility and Facility Extensions word sets.
 	\wref{facility:K-F8}{K-F8},
 	\wref{facility:K-F9}{K-F9},
 	\wref{facility:K-F10}{K-F10},
-	\wref{facility:K-F11}{K-F11}, and
-	\wref{facility:K-F12}{K-F12}.
+	\wref{facility:K-F11}{K-F11}, \remove{ed09b}{and}
+	\wref{facility:K-F12}{K-F12}%
+	\place{ed09b}{, \rref{facility:EKEYtoFKEY}{}.}
+
 
 	\begin{rationale} % A.10.6.2.---- EKEY>FKEY
 		This words has been provided to allow for systems which may not
@@ -873,6 +949,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	accept data and the execution of \word[core]{EMIT} in place of
 	\word{EMITq} would not have suffered an indefinite delay. If
 	the device status is indeterminate, \emph{flag} is true.
+
+\see \place{ed09b}{\rref{facility:EMITq}{}.}
 
 	\begin{rationale} % A.10.6.2.1325 EMIT?
 		An indefinite delay is a device related condition, such as
@@ -1243,6 +1321,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	and upon other system and computer characteristics beyond the
 	scope of this Standard.
 
+\see \place{ed09b}{\rref{facility:MS}{}.}
+
 	\begin{rationale} % A.10.6.2.1905 MS
 		Although their frequencies vary, every system has a clock.
 		Since many programs need to time intervals, this word is
@@ -1264,6 +1344,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{+n_4} is the day \{1{\ldots}31\},
 	\param{+n_5} is the month \{1{\ldots}12\}, and
 	\param{+n_6} is the year (e.g., 1991).
+
+\see \place{ed09b}{\rref{facility:TIMEandDATE}{}.}
 
 	\begin{rationale} % A.10.6.2.2292 TIME&DATE
 		Most systems have a real-time clock/calendar.

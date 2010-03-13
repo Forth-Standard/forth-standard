@@ -135,7 +135,9 @@ Extensions word sets.
 
 	Place cell pair \param{x_1 x_2} on the stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}.
+\see \xref[3.4.1 Parsing]{usage:parsing}%
+	\place{ed09b}{, \rref{double:2CONSTANT}{}}.
+
 
 	\begin{rationale} % A.8.6.1.0360 2CONSTANT
 		Typical use:
@@ -143,7 +145,6 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{1 2 \word{2CONSTANT} 2c1}{} \\
 		\test{2c1}{1 2}
 
@@ -153,7 +154,6 @@ Extensions word sets.
 		\test{\word{:} cd2 \word{2CONSTANT} \word{;}}{} \\
 		\test{-1 -2 cd2 2c2}{} \\
 		\test{2c2}{-1 -2}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -172,6 +172,8 @@ Extensions word sets.
 
 	Place cell pair \param{x_1 x_2} on the stack.
 
+\see \place{ed09b}{\rref{double:2LITERAL}{}.}
+
 	\begin{rationale} % A.8.6.1.0390 2LITERAL
 		\setwordlist{core}
 		Typical use:
@@ -182,10 +184,8 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{:} cd1 \word{[} MAX-2INT \word{]} \word{2LITERAL} \word{;}}{}\\
 		\test{cd1}{MAX-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -209,7 +209,8 @@ Extensions word sets.
 	responsible for initializing the contents.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:VARIABLE}{VARIABLE}.
+	\wref{core:VARIABLE}{VARIABLE}%
+	\place{ed09b}{, \rref{double:2VARIABLE}{}}.
 
 	\begin{rationale} % A.8.6.1.0440 2VARIABLE
 		Typical use:
@@ -217,7 +218,6 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{\word{2VARIABLE} 2v1}{} \\
 		\test{0. 2v1 \word{2!}}{  } \\
 		\test{   2v1 \word{2@}}{0.} \\
@@ -229,7 +229,6 @@ Extensions word sets.
 		\test{\word{:} cd3 2v2 \word{2!} \word{;}}{} \\
 		\test{-2 -1 cd3}{} \\
 		\test{2v2 \word{2@}}{-2 -1}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -241,7 +240,6 @@ Extensions word sets.
 	\param{d_3|ud_3}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{ 0.  5. \word{D+}}{ 5.} \tab[11.5] \word{bs} small integers \\
 		\test{-5.  0. \word{D+}}{-5.} \\
 		\test{ 1.  2. \word{D+}}{ 3.} \\
@@ -269,7 +267,6 @@ Extensions word sets.
 		\test{MAX-2INT  LO-2INT \word{D+}}{HI-2INT} \\
 		\test{ LO-2INT     \word{2DUP} \word{D+}}{MIN-2INT} \\
 		\test{ HI-2INT MIN-2INT \word{D+} 1.\ \word{D+}}{LO-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -281,7 +278,6 @@ Extensions word sets.
 	difference \param{d_3|ud_3}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{ 0.  5. \word{D-}}{-5.} \tab[6] \word{bs} small integers \\
 		\test{ 5.  0. \word{D-}}{ 5.} \\
 		\test{ 0. -5. \word{D-}}{ 5.} \\
@@ -311,7 +307,6 @@ Extensions word sets.
 		\test{ LO-2INT  hi-2INT \word{D-}}{min-2INT 1. \word{D+}} \\
 		\test{MIN-2INT min-2INT \word{D-}}{0.} \\
 		\test{MIN-2INT  lo-2INT \word{D-}}{lo-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -322,7 +317,7 @@ Extensions word sets.
 	Display \param{d} in free field format.
 
 	\begin{testing}
-	\place{x:test}{See \tref{double:D.R}{}.}
+		See \tref{double:D.R}{}.
 	\end{testing}
 \end{worddef}
 
@@ -335,12 +330,13 @@ Extensions word sets.
 	is greater than \param{n}, all digits are displayed with no
 	leading spaces in a field as wide as necessary.
 
+\see \place{ed09b}{\rref{double:D.R}{}.}
+
 	\begin{rationale} % A.8.6.1.1070 D.R
 		In \word{D.R}, the ``R'' is short for RIGHT.
 	\end{rationale}
 
 	\begin{testing}\ttfamily\obeyspaces
-	\cbstart\patch{x:test}
 		MAX-2INT 71 73 \word{M*/} \word{2CONSTANT} dbl1 \\
 		MIN-2INT 73 79 \word{M*/} \word{2CONSTANT} dbl2
 
@@ -365,7 +361,6 @@ Extensions word sets.
 		\word{;}
 
 		\test{DoubleOutput}{}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -376,7 +371,6 @@ Extensions word sets.
 	\param{flag} is true if and only if \param{d} is less than zero.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{               0. \word{D0less}}{<FALSE>} \\
 		\test{               1. \word{D0less}}{<FALSE>} \\
 		\test{ MIN-INT        0 \word{D0less}}{<FALSE>} \\
@@ -384,7 +378,6 @@ Extensions word sets.
 		\test{         MAX-2INT \word{D0less}}{<FALSE>} \\
 		\test{              -1. \word{D0less}}{<TRUE> } \\
 		\test{         MIN-2INT \word{D0less}}{<TRUE> }
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -395,7 +388,6 @@ Extensions word sets.
 	\param{flag} is true if and only if \param{xd} is equal to zero.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{              1. \word{D0=}}{<FALSE>} \\
 		\test{MIN-INT        0 \word{D0=}}{<FALSE>} \\
 		\test{        MAX-2INT \word{D0=}}{<FALSE>} \\
@@ -403,7 +395,6 @@ Extensions word sets.
 		\test{              0. \word{D0=}}{<TRUE> } \\
 		\test{             -1. \word{D0=}}{<FALSE>} \\
 		\test{      0  MIN-INT \word{D0=}}{<FALSE>}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -415,17 +406,17 @@ Extensions word sets.
 	toward the most-significant bit, filling the vacated
 	least-significant bit with zero.
 
+\see \place{ed09b}{\rref{core:2*}{}.}
+
 	\begin{rationale} % A.8.6.1.1090 D2*
-		See \tref{core:2*}{2*} for applicable discussion.
+		\remove{ed09b}{See \tref{core:2*}{2*} for applicable discussion.}
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{             0. \word{D2*}}{0. \word{D2*}} \\
 		\test{MIN-INT       0 \word{D2*}}{0 1} \\
 		\test{        HI-2INT \word{D2*}}{MAX-2INT 1. \word{D-}} \\
 		\test{        LO-2INT \word{D2*}}{MIN-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -437,19 +428,19 @@ Extensions word sets.
 	toward the least-significant bit, leaving the most-significant
 	bit unchanged.
 
+\see \place{ed09b}{\rref{core:2/}{}.}
+
 	\begin{rationale} % A.8.6.1.1100 D2/
-		See \tref{core:2/}{2/} for applicable discussion.
+		\remove{ed09b}{See \tref{core:2/}{2/} for applicable discussion.}
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{      0. \word{D2/}}{0.       } \\
 		\test{      1. \word{D2/}}{0.       } \\
 		\test{     0 1 \word{D2/}}{MIN-INT 0} \\
 		\test{MAX-2INT \word{D2/}}{HI-2INT  } \\
 		\test{     -1. \word{D2/}}{-1.      } \\
 		\test{MIN-2INT \word{D2/}}{LO-2INT  }
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -461,7 +452,6 @@ Extensions word sets.
 	\param{d_2}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{      0.       1. \word{Dless}}{<TRUE> } \\
 		\test{      0.       0. \word{Dless}}{<FALSE>} \\
 		\test{      1.       0. \word{Dless}}{<FALSE>} \\
@@ -476,7 +466,6 @@ Extensions word sets.
 
 		\test{MAX-2INT \word{2DUP} -1. \word{D+} \word{Dless}}{<FALSE>} \\
 		\test{MIN-2INT \word{2DUP}  1. \word{D+} \word{Dless}}{<TRUE> }
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -488,7 +477,6 @@ Extensions word sets.
 	the same as \param{xd_2}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{     -1.      -1. \word{D=}}{<TRUE> } \\
 		\test{     -1.       0. \word{D=}}{<FALSE>} \\
 		\test{     -1.       1. \word{D=}}{<FALSE>} \\
@@ -517,7 +505,6 @@ Extensions word sets.
 		\test{MIN-2INT MIN-2INT \word{D=}}{<TRUE> } \\
 		\test{MIN-2INT LO-2INT  \word{D=}}{<FALSE>} \\
 		\test{MIN-2INT MAX-2INT \word{D=}}{<FALSE>}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -529,6 +516,8 @@ Extensions word sets.
 	exists if \param{d} lies outside the range of a signed single-cell
 	number.
 
+\see \place{ed09b}{\rref{double:DtoS}{}.}
+
 	\begin{rationale} % A.8.6.1.1140 D>S
 		There exist number representations, e.g., the sign-magnitude
 		representation, where reduction from double- to single-precision
@@ -539,12 +528,10 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{   1234  0 \word{DtoS}}{ 1234  } \\
 		\test{  -1234 -1 \word{DtoS}}{-1234  } \\
 		\test{MAX-INT  0 \word{DtoS}}{MAX-INT} \\
 		\test{MIN-INT -1 \word{DtoS}}{MIN-INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -555,12 +542,10 @@ Extensions word sets.
 	\param{ud} is the absolute value of \param{d}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{      1. \word{DABS}}{1.      } \\
 		\test{     -1. \word{DABS}}{1.      } \\
 		\test{MAX-2INT \word{DABS}}{MAX-2INT} \\
 		\test{MIN-2INT 1. \word{D+} \word{DABS}}{MAX-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -571,7 +556,6 @@ Extensions word sets.
 	\param{d_3} is the greater of \param{d_1} and \param{d_2}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{      1.       2. \word{DMAX}}{ 2.     } \\
 		\test{      1.       0. \word{DMAX}}{ 1.     } \\
 		\test{      1.      -1. \word{DMAX}}{ 1.     } \\
@@ -590,7 +574,6 @@ Extensions word sets.
 		\test{MAX-2INT      -1. \word{DMAX}}{MAX-2INT} \\
 		\test{MIN-2INT       1. \word{DMAX}}{ 1.     } \\
 		\test{MIN-2INT      -1. \word{DMAX}}{-1.     }
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -601,7 +584,6 @@ Extensions word sets.
 	\param{d_3} is the lesser of \param{d_1} and \param{d_2}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{      1.       2. \word{DMIN}}{ 1.     } \\
 		\test{      1.       0. \word{DMIN}}{ 0.     } \\
 		\test{      1.      -1. \word{DMIN}}{-1.     } \\
@@ -620,7 +602,6 @@ Extensions word sets.
 		\test{MAX-2INT      -1. \word{DMIN}}{-1.     } \\
 		\test{MIN-2INT       1. \word{DMIN}}{MIN-2INT} \\
 		\test{MIN-2INT      -1. \word{DMIN}}{MIN-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -631,14 +612,12 @@ Extensions word sets.
 	\param{d_2} is the negation of \param{d_1}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{  0.\ \word{DNEGATE}}{ 0.} \\
 		\test{  1.\ \word{DNEGATE}}{-1.} \\
 		\test{ -1.\ \word{DNEGATE}}{ 1.} \\
 		\test{max-2int \word{DNEGATE}}{min-2int \word{SWAP} \word{1+} \word{SWAP}} \\
 		\test{min-2int \word{SWAP} \word{1+} \word{SWAP} \word{DNEGATE}}{max-2int}
-	\cbend
-\end{testing}
+	\end{testing}
 \end{worddef}
 
 
@@ -651,6 +630,8 @@ Extensions word sets.
 	if \param{+n_2} is zero or negative, or the quotient lies outside
 	of the range of a double-precision signed integer.
 
+\see \place{ed09b}{\rref{double:M*/}{}.}
+
 	\begin{rationale} % A.8.6.1.1820 M*/
 		\word{M*/} was once described by Chuck Moore as the most
 		useful arithmetic operator in Forth. It is the main workhorse
@@ -661,7 +642,6 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{testing}\ttfamily
-	\cbstart\patch{x:test}
 		\textdf{To correct the result if the division is floored,
 			only used when necessary, i.e., negative quotient and
 			remainder $\not=$ 0.}
@@ -684,7 +664,6 @@ Extensions word sets.
 		\test{MIN-2INT LO-2INT \word{NIP} \word{1-} MAX-INT \word{M*/}}{MIN-INT 3 + HI-2INT \word{NIP} 2 \word{+}} \\
 		\test{MAX-2INT LO-2INT \word{NIP} \word{DUP} \word{NEGATE} \word{M*/}}{MAX-2INT \word{DNEGATE}} \\
 		\test{MIN-2INT MAX-INT            \word{DUP} \word{M*/}}{MIN-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -694,17 +673,17 @@ Extensions word sets.
 
 	Add \param{n} to \param{d_1|ud_1}, giving the sum \param{d_2|ud_2}.
 
+\see \place{ed09b}{\rref{double:M+}{}.}
+
 	\begin{rationale} % A.8.6.1.1830 M+
 		\word{M+} is the classical method for integrating.
 	\end{rationale}
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{HI-2INT   1 \word{M+}}{HI-2INT   1. \word{D+}} \\
 		\test{MAX-2INT -1 \word{M+}}{MAX-2INT -1. \word{D+}} \\
 		\test{MIN-2INT  1 \word{M+}}{MIN-2INT  1. \word{D+}} \\
 		\test{LO-2INT  -1 \word{M+}}{LO-2INT  -1. \word{D+}}
-	\cbend
 	\end{testing}
 \end{worddef}
 
@@ -719,13 +698,95 @@ Extensions word sets.
 	\param{x_1 x_2} to the top of the stack.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{      1.       2. 3. \word{2ROT}}{      2. 3.       1.} \\
 		\test{MAX-2INT MIN-2INT 1. \word{2ROT}}{MIN-2INT 1. MAX-2INT}
-	\cbend
 	\end{testing}
 \end{worddef}
 
+% ---------------------------------------------------------
+
+\begin{worddef*}{}{2VALUE}[two-value][X:2value]
+\item \stack{x_1 x_2 "<spaces>name"}{}
+
+	Skip leading space delimiters.  Parse \param{name} delimited by a
+	space.  Create a definition for \param{name} with the execution
+	semantics defined below, with an initial value of \param{x_1 x_2}.
+
+	\param{name} is referred to as a ``two-value''.
+
+\execute[name]
+	\stack{}{x_1 x_2}
+
+	Place cell pair \param{x_1 x_2} on the stack.  The value of
+	\param{x_1 x_2} is that given when \param{name} was created,
+	until the phrase ``\param{x_1 x_2} \word{TO} \param{name}'' is
+	executed, causing a new cell pair \param{x_1 x_2} to be assigned
+	to \param{name}.
+
+\runtime[\word{TO} \param{name}]
+	\stack{x_1 x_2}{}
+
+	Assign the cell pair \param{x_1 x_2} to \param{name}.
+
+\see \xref{usage:parsing} and \wref{core:TO}{}%
+	\place{ed09b}{, \rref{double:2VALUE}{}}.
+
+	\begin{rationale}
+		Typical use:
+		\begin{quote}\ttfamily
+			\word{:} fn1 \word{Sq} filename" \word{;} \\
+			fn1 \word{2VALUE} myfile \\
+			myfile \word[file]{INCLUDED} \\[2ex]
+			\word{:} fn2 \word{Sq} filename2" \word{;} \\
+			fn2 \word{TO} myfile \\
+			myfile \word[file]{INCLUDED}
+		\end{quote}
+	\end{rationale}
+
+	\begin{implement}
+		\dffamily
+		The implementation of \word{TO} to include \word{2VALUE}s
+		requires detailed knowledge of the host implementation of
+		\word{VALUE} and \word{TO}, which is the main reason why
+		\word{2VALUE} should be standardized.  The order in which
+		the two cells are stored in memory is not specified in the
+		definition for \word{2VALUE} but this reference implementation
+		has to assume one ordering --- this is not intended to be
+		definitive.
+
+		\begin{quote}\ttfamily
+			\word{:} \word{2VALUE} \word{p} x1 x2 -{}- ) \\
+			\tab \word{CREATE} \word{,} \word{,} \\
+			\tab \word{DOES} \word{2@} \word{p} -{}- x1 x2 ) \\
+			\word{;}
+		\end{quote}
+
+		The corresponding implementation of \word{TO} disregards the
+		issue that \word{TO} must also work for integer \word{VALUE}s
+		and locals.
+
+		\begin{quote}\ttfamily
+			\word{:} \word{TO} \word{p} x1 x2 "<spaces>name" -{}- ) \\
+			\tab \word{'} \word{toBODY} \\
+			\tab \word{STATE} \word{@} \word{IF} \\
+			\tab[2] \word{POSTPONE} \word{2LITERAL} \word{POSTPONE} \word{2!} \\
+			\tab \word{ELSE} \\
+			\tab[2] \word{2!} \\
+			\tab \word{THEN} \\
+			\word{;} \word{IMMEDIATE}
+		\end{quote}
+	\end{implement}
+
+	\begin{testing}\ttfamily
+		\test{1 2 \word{2VALUE} t2val}{} \\
+		\test{t2val}{1 2} \\[2ex]
+		\test{3 4 \word{TO} t2val}{} \\
+		\test{t2val}{3 4} \\[2ex]
+		\word{:} sett2val t2val \word{2SWAP} \word{TO} t2val \word{;} \\
+		\test{5 6 sett2val t2val}{3 4 5 6}
+	\end{testing}
+\end{worddef*}
+% ---------------------------------------------------------
 
 \begin{worddef}[DUless]{1270}{DU<}[d-u-less]
 \item \stack{ud_1 ud_2}{flag}
@@ -734,7 +795,6 @@ Extensions word sets.
 	\param{ud_2}.
 
 	\begin{testing}
-	\cbstart\patch{x:test}
 		\test{      1.       1. \word{DUless}}{<FALSE>} \\
 		\test{      1.      -1. \word{DUless}}{<TRUE> } \\
 		\test{     -1.       1. \word{DUless}}{<FALSE>} \\
@@ -745,6 +805,5 @@ Extensions word sets.
 		\test{MAX-2INT MIN-2INT \word{DUless}}{<TRUE> } \\
 		\test{MIN-2INT MAX-2INT \word{DUless}}{<FALSE>} \\
 		\test{MIN-2INT  LO-2INT \word{DUless}}{<TRUE> }
-	\cbend
 	\end{testing}
 \end{worddef}
