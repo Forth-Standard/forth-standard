@@ -28,6 +28,8 @@
 	\par\vspace{-1ex}
 }
 
+% =========================================================
+
 \version{05}{Original Text}{\empty}
 	Original document based on the dpANS99a basis document distributed
 	as part of the review undertaken by the X3/X3J14 TC in 1999.
@@ -85,6 +87,8 @@
 	\item[G] Annex F (Alphabetic list of words) now annex G.
 	\end{enumerate}
 
+% =========================================================
+
 \version{06.2}{Minor additions}{30 August 2006}
 	\begin{enumerate}
 	\item Added validation and reference implementations for new words:
@@ -100,6 +104,8 @@
 	\item Annex G was sorted numerically, this was changed to a full
 		Alphabetical sort.
 	\end{enumerate}
+
+% =========================================================
 
 \version{07.1}{Cambridge Meeting}{14--15 September, 2006}
 	\begin{itemize}
@@ -196,6 +202,8 @@
 		annex H.
 	\end{itemize}
 
+% =========================================================
+
 \version{07.2}{Dagstuhl Meeting}{13--14 September, 2007}
 	\begin{itemize}
 	\item \LaTeX{} source file now given in page footer.
@@ -223,10 +231,8 @@
 	\item[4] Documentation requirements: \\
 		Added ambiguous condition for \textsf{X:structures}.
 
-	\item[6] Glossary:
-		\begin{enumerate}
-		\item Inline text is now in sans-serif
-		\end{enumerate}
+	\item[6] Glossary: \\
+		Inline text is now in sans-serif.
 
 	\item[8] Double-Number word set: \\
 		\textsf{X:number-prefix}: added ``, except a \arg{cnum},''
@@ -277,6 +283,8 @@
 		to appear in the table of contents.
 	\end{itemize}
 
+% =========================================================
+
 \version{08.1}{Vienna Meeting}{25--26 Septenber, 2008}
 	\begin{itemize}
 	\item \xref{process}: \\
@@ -285,41 +293,17 @@
 	\item \xref{members}:
 		\begin{enumerate}
 		\item \textsf{ed08}: Change of contact details for Peter Knaggs.
-		\item \textsf{ed08}: Added Andres Haley, Ulrich Hoffmann,
+		\item \textsf{ed08}: Added Andrew Haley, Ulrich Hoffmann,
 			Bernd Paysan, Willi Stricker, and Leon Wagner.
 		\end{enumerate}
 
-	\item[1] Introduction:
-		\begin{enumerate}
-		\item \textsf{X:fp-stack}: Added the combined float/data
+	\item[1] Introduction: \\
+		\textsf{X:fp-stack}: Added the combined float/data
 			stack to \xref{intro:obsoleat}.
-		\item \textsf{x:legacy}: Removed reference to obsolute words
-			from \xref{intro:obsoleat}.
-		\end{enumerate}
 
-	\item[4] Documentation requirements:
-		\begin{enumerate}
-		\item \textsf{x:legacy}: Moved system documentation
-			requirements (\ref{doc:system}) for 
-			\word[legacy]{EXPECT} to Legacy word set.
-		\item \textsf{x:legacy}: Moved \xref{doc:ambiguous} for
-			\word[legacy]{CONVERT} to Legacy word set.
-		\item \textsf{x:legacy}: Moved \xref{doc:env} for
-			\word[legacy]{EXPECT} to Legacy word set.
-		\end{enumerate}
 
-	\item[6] Core wordset:
-		\begin{enumerate}
-		\item \textsf{x:legacy}: Moved
-			\word[legacy]{numTIB},
-			\word[legacy]{CONVERT},
-			\word[legacy]{EXPECT},
-			\word[legacy]{QUERY},
-			\word[legacy]{SPAN} and
-			\word[legacy]{TIB}
-			to the new Legacy word set.
-
-		\item \textsf{x:test}: Added test cases:
+	\item[6] Core wordset: \\
+		\textsf{x:test}: Added test cases:
 			\tref{core:RECURSE}{},
 			\tref{core::NONAME}{},
 			\tref{core:qDO}{},
@@ -331,7 +315,6 @@
 			\tref{core:TRUE}{},
 			\tref{core:VALUE}{} and
 			\tref{core:[COMPILE]}{}.
-		\end{enumerate}
 
 	\item[8] Double Numbers worset: \\
 		\textsf{x:test}: Added test cases:
@@ -381,7 +364,7 @@
 		\textsf{ed08}: Changed ``schools of though'' to ``schools of
 			thought'' in rational for \rref{facility:BEGIN-STRUCTURE}{}.
 
-	\item[12] Floating word set:
+	\item[12] Floating word set: \\
 		Added \textsf{X:fp-stack}:
 		A separate floating point stack is now the default,
 		with a combined stack being an environmental
@@ -397,17 +380,12 @@
 		\textsf{x:test}: Added test cases for
 		\tref{memory:ALLOCATE}{} and \tref{memory:RESIZE}{}.
 
-	\item[15] The optional Programming-Tools word set:
-		\begin{enumerate}
-		\item \textsf{x:legacy}: Moved ambiguous conditions relating
-			to \word[legacy]{FORGET} to Legacy word set.
-
-		\item \textsf{x:test}: Added test cases for:
+	\item[15] The optional Programming-Tools word set: \\
+		\textsf{x:test}: Added test cases for:
 			\tref{tools:AHEAD}{},
 			\tref{tools:CS-PICK}{},
 			\tref{tools:CS-ROLL}{} and
 			\tref{tools:[THEN]}{}.
-		\end{enumerate}
 
 	\item[16] Search-Order wordset: \\
 		\textsf{x:test}: Added test cases for:
@@ -430,24 +408,24 @@
 		\tref{string:SEARCH}{} and
 		\tref{string:SLITERAL}{}.
 
-	\item[18] The optinal Legacy wordset (\xref{wordlist:legacy}):
+	\item[F] Test Suite (\xref{annex:test}):
 		\begin{enumerate}
-		\item \textsf{x:legacy}:
-			Added new Legacy word set, updating ``obsolete'' status.
+		\item \textsf{x:test}: Complete revision of introduction and
+			Test Harness to reflect new test harness: including
+			the new \verb"T{ -> }T" syntax.  Test harness source
+			code now folded into discussion of the harness.
 
-		\item \textsf{x:test}:
-			Added a test case for \tref{legacy:CONVERT}{}.
-		\end{enumerate}
+		\item \textsf{x:test}: Complete revision of Core Test,
+			converted to text with references to the approperate
+			sections for the test, rather than a complete repatition
+			of the tests.
 
-	\item[A] Rationale:
-		\begin{enumerate}
-		\item \textsf{x:legacy}: Removed ``deprecated words'' from the
-			rational for \xref{rat:core-ext}.
-
-		\item \textsf{x:legacy}: Added rationale for the Legacy word
-			set (\xref{rat:legacy}).
+		\item \textsf{x:test}: All test cases have been migrated to the
+			new syntax and reformmated where approperate.
 		\end{enumerate}
 	\end{itemize}
+
+% =========================================================
 
 \version{09.1}{Forth Gesellschaft Meeting}{25--27 March 2009}
 	\begin{itemize}
@@ -470,31 +448,158 @@
 			\wref{local:LOCAL}{}.
 
 	\item[F] References Implementations (\xref{annex:implement}): \\
-		\textsf{ed09}:
+		\textsf{x:reference}:
 			Added a new annex to collect the reference implementations.
+	\end{itemize}
 
-	\item[G] Test Suite (\xref{annex:test}):
+% =========================================================
+
+\version{09.2}{Exeter Meeting}{2--4 September, 2009}
+	\begin{itemize}
+	\item \xref{members}:
 		\begin{enumerate}
-		\item \textsf{ed09}: Complete revision of introduction and
-			Test Harness to reflect new test harness: including
-			the new \verb"T{ -> }T" syntax.  Test harness source
-			code now folded into discussion of the harness.
+		\item \textsf{ed09b}: Added doctrinal designation for Anton Ertl and
+			Ulrich Hoffmann.
+		\item \textsf{ed09b}: Changed contact details for Bill Stoddart and
+			Leon Wagner.
+		\end{enumerate}
 
-		\item \textsf{ed09}: Complete revision of Core Test,
-			converted to text with references to the approperate
-			sections for the test, rather than a complete repatition
-			of the tests.
+	\item[3] Usage requirements:
+		\begin{enumerate}
+		\item \textsf{X:key-ekey}: Replaced first paragraph of
+			\xref{usage:char}.
+		\item \textsf{X:key-ekey}: Added section
+			\xref{usage:pchar}.
+		\item Added \textsf{X:2value}, \textsf{X:fatan2}, \textsf{X:ftrunc}
+			and \textsf{X:fvalue:} to table \xref{table:extensions}.
+		\item \textsf{X:namelen}: Extended first paragraph of
+			\xref{usage:names}.
+		\end{enumerate}
 
-		\item \textsf{ed09}: All test cases have been migrated to the
-			new syntax and reformmated where approperate.
+	\item[4] Documentation requirements: \\
+		\textsf{X:namelen}: Added use of names longer than 31
+			characters to \xref{doc:env}.
+
+	\item[6--17] \textsf{ed09b}: Preparation for Snapshot document,
+		replaced ``Rationale:'' reference with a ``See:'' reference,
+		removed ``Implementation:'' and ``Testing:'' references.
+
+	\item[6] Core Word set: \\
+		\textsf{X:key-ekey}: Added rational for \wref{core:KEY}{}.
+
+	\item[8] Double-Number Word Set: \\
+		\textsf{X:2value}: Added \wref{double:2VALUE}{}.
+
+	\item[9] Exception Word Set:
+		\begin{enumerate}
+		\item \textsf{ed09b}: Add reference to
+			\rref{exception:THROW}{} to definition of
+			\wref{exception:CATCH}{}.
+
+		\item \textsf{ed09b}: Replace reference to
+			\tref{exception:CATCH}{} with \tref{exception:THROW}{}
+			in \tref{exception:CATCH}{}.
+		\end{enumerate}
+
+	\item[10] Facility Word Set:
+		\begin{enumerate}
+		\item \textsf{ed09b}: Replaced ``bother with'' with
+			``process'' in \rref{facility:KEYq}{}.
+		\item \textsf{X:key-ekey}: Complete rewrite of
+			\rref{facility:EKEY}{}.
+		\end{enumerate}
+
+	\item[12] Floating-Point Word Set:
+		\begin{enumerate}
+		\item \textsf{X:ftrunc}: Added ``Round toward zero'' to \xref{float:ops}
+			and a ``see also'' clause to \wref{floating:FLOOR}{}.
+		\item \textsf{X:fasinh}: Removed the ``float less than zero'' ambiguous
+			condition from \wref{floating:FASINH}{} and the reference to
+			\wref{floating:FASINH}{} from the ambiguous conditions
+			(\xref{float:ambiguous}).
+		\item \textsf{X:ftrunc}: Added\wref{floating:FTRUNC}{} and reference to
+			\wref{floating:FLOOR}{} and to \wref{floating:FROUND}{}.
+		\item \textsf{X:fatan2}: Revised description of
+			\wref{floating:FATAN2}{}, adding a test section.
+		\item \textsf{X:fvalue}: Added \wref{floating:FVALUE}{}.
+		\end{enumerate}
+
+	\item[A] Rational: \
+		\textsf{ed09b:} Corrected ``in f) violates'' to ``inviolate'' in
+		\xref{rat:floating}.
+
+	\item[G] Test Suite
+		\begin{enumerate}
+		\item \textsf{ed09b}: Corrected ``exmaple'' to ``example'' in
+			\xref{test:harness}
+		\item \textsf{ed09b}: Corrected ``Heyes'' to ``Hayes''
+			in \xref{test:core}.
+		\item \textsf{ed09b}: Reduced severity of test by replacing
+			``must'' with ``should'' in \xref{test:core}.
 		\end{enumerate}
 	\end{itemize}
+
 
 \endinput
 
 \version{ToDo}{}{\empty}
 	\begin{itemize}
+	\item Legacy words
 	\item Develop new Globalisation word set
 	\item Develop extended Memory Access word set
 	\end{itemize}
 
+%	\item[1] Introduction:
+%		\begin{enumerate}
+%		\item \textsf{x:legacy}: Removed reference to obsolete words
+%			from \xref{intro:obsolete}.
+%		\end{enumerate}
+
+%	\item[4] Documentation requirements:
+%		\begin{enumerate}
+%		\item \textsf{x:legacy}: Moved system documentation
+%			requirements (\ref{doc:system}) for 
+%			\word[legacy]{EXPECT} to Legacy word set.
+%		\item \textsf{x:legacy}: Moved \xref{doc:ambiguous} for
+%			\word[legacy]{CONVERT} to Legacy word set.
+%		\item \textsf{x:legacy}: Moved \xref{doc:env} for
+%			\word[legacy]{EXPECT} to Legacy word set.
+%		\end{enumerate}
+
+%	\item[6] Core wordset:
+%		\begin{enumerate}
+%		\item \textsf{x:legacy}: Moved
+%			\word[legacy]{numTIB},
+%			\word[legacy]{CONVERT},
+%			\word[legacy]{EXPECT},
+%			\word[legacy]{QUERY},
+%			\word[legacy]{SPAN} and
+%			\word[legacy]{TIB}
+%			to the new Legacy word set.
+%		\end{enumerate}
+
+%	\item[15] The optional Programming-Tools word set:
+%		\begin{enumerate}
+%		\item \textsf{x:legacy}: Moved \xref{tools:ambiguous}{ambiguous
+%			conditions} relating to \word[legacy]{FORGET} to Legacy
+%			word set
+%
+%		\end{enumerate}
+
+%	\item[18] The optional Legacy wordset (\xref{wordlist:legacy}):
+%		\begin{enumerate}
+%		\item \textsf{x:legacy}:
+%			Added new Legacy word set, updating ``obsolete'' status.
+%
+%		\textsf{x:test}:
+%			Added a test case for \tref{legacy:CONVERT}{}.
+%		\end{enumerate}
+
+%	\item[A] Rationale:
+%		\begin{enumerate}
+%		\item \textsf{x:legacy}: Removed ``deprecated words'' from the
+%			rational for \xref{rat:core-ext}.
+%
+%		\item \textsf{x:legacy}: Added rationale for the Legacy word
+%			set (\xref{rat:legacy}).
+%		\end{enumerate}
