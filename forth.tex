@@ -601,8 +601,8 @@
 % First we define the functions which are going to be called by our
 % special characters
 
-\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% ^
-\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% _
+\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% _
+\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% ^
 \newcommand{\stack@mul}{\ensuremath{\mathbin\times}}			% *
 \newcommand{\stack@bar}{~\textbar~}								% |
 \newcommand{\stack@opa}{\ensuremath{\langle}}					% <
@@ -721,7 +721,7 @@
 % cases, or a reference implementation.
 %
 % Rather than defining sections as we have done for the different
-% sematic descriptions, we have to define environments so that we
+% semantic descriptions, we have to define environments so that we
 % can either include the text in with the normative definition as
 % it is much easer to review the text in this way, or export the
 % text to another file, which can then be included into the
@@ -743,11 +743,11 @@
 		% In the review version of the document we change the font
 		% for of the informative text to help distinguish it from
 		% the normative text.  In the final version it will appear
-		% in a seperate appendix.
+		% in a separate appendix.
 		\sffamily
 		%
 		% Output the section <title> and define an associated
-		% hyper taget in the given name <space>.
+		% hyper target in the given name <space>.
 		\item[\hyperdef{#1.\word@list}{\word@label}{#2}]
 	}
 
@@ -755,7 +755,7 @@
 	% definition.  This macro will fake a label for the given
 	% <annex> within a given name <space>.
 	\newcommand{\inline@label}[2]{% {<space>}{<annex>}
-		% We start by fakeing the current label value
+		% We start by faking the current label value
 		\def\@currentlabel{%
 			#2.%
 			\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
@@ -783,7 +783,7 @@
 	}
 
 	% \begin{testing} ... \end{testing}
-	% Now we need to do something simular for the testing environment.
+	% Now we need to do something similar for the testing environment.
 	\newenvironment{testing}{
 		\inline@section{test}{Testing}
 		\inline@label{test}{\ref{annex:test}}
@@ -801,7 +801,7 @@
 	}
 
 	% Sometime we want "normal" text in the implementation and
-	% testing sections.  We deine a "Deferred Font" to hide the
+	% testing sections.  We define a "Deferred Font" to hide the
 	% sf/rm font switch.
 	\newcommand{\textdf}[1]{\textsf{#1}}
 	\newcommand{\dffamily}{\sffamily}
@@ -843,7 +843,7 @@
 	\renewcommand{\solutionextension}{sub}
 
 	% Define a new solution handle for each of the informative
-	% encironments:
+	% environments:
 
 	\Newassociation{rationale}{worddefer}{rationale}
 	\Newassociation{testing}{worddefer}{testing}
@@ -899,7 +899,7 @@
 
 	\newcommand{\defersection}[1]{\gdef\defer@title{#1}}
 
-	% deferword will output an approperate section heading, and then
+	% deferword will output an appropriate section heading, and then
 	% resets \defer@title to \empty so that it is only output once.
 
 	% However, as we do not output a section header, we still need to
@@ -916,7 +916,7 @@
 	}
 
 	% Now we have set up the environment we can finally override the
-	% default worddefer environment.  This takes six paramaters which
+	% default worddefer environment.  This takes six parameters which
 	% where defined by \deferwordparams to be:
 	%
 	% #1	Section (or sub-section) number
@@ -971,7 +971,7 @@
 		}
 		\item\relax
 		%
-		% Store a few values just incase there is an error
+		% Store a few values just in case there is an error
 		%
 		\def\word@num{\thechapter.#1%
 			\ifx#2\empty.--\else.#2\fi%
@@ -1012,7 +1012,7 @@
 	}
 
 	% Sometime we want "normal" text in the implementation and
-	% testing sections.  We deine a "Deferred Font" to hide the
+	% testing sections.  We define a "Deferred Font" to hide the
 	% sf/rm font switch.
 	\newcommand{\textdf}[1]{\textrm{#1}}
 	\newcommand{\dffamily}{\rmfamily}
@@ -1031,7 +1031,6 @@
 
 % \bs       => \
 \newcommand{\bs}{\char"5C}
-
 
 % \tilde    => ~
 \renewcommand{\tilde}{\char"7E}
@@ -1391,7 +1390,7 @@
 % ========== New Title Page ==========
 
 % We do not bother to produce a new title page only when we
-% are inlineing the rational.
+% are inlineing the rationale.
 
 \iffalse%ifinline
 	% Save the current page number
