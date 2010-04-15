@@ -285,7 +285,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{name} is executed prior to the associated
 	\word{END-STRUCTURE} being executed.
 
-\see \wref{facility:+FIELD}{+FIELD} and
+\see \wref{facility:+FIELD}{+FIELD}\replace{ed10}{ and}{,}
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
 	\place{ed09b}{, \rref{facility:BEGIN-STRUCTURE}{}}.
 
@@ -875,12 +875,12 @@ to provide all of the Facility and Facility Extensions word sets.
 	\item[Shift keys] ~\\
 		Note that, as defined, the shift key masks
 		(\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
-		 \wref{facility:K-CTRL-MASK}{K-CTRL-MASK} and
+		 \wref{facility:K-CTRL-MASK}{K-CTRL-MASK}\replace{ed10}{ and}{,}
 		 \wref{facility:K-ALT-MASK}{K-ALT-MASK})
-		are only useful for recognising shifted cursor and function
+		are only useful for \replace{ed10}{recognising}{recognizing} shifted cursor and function
 		keys, because these are the only values defined for use with
 		\word{EKEYtoFKEY}.
-		E.g., a standard program cannot recognise \textsc{Alt-T},
+		E.g., a standard program cannot \replace{ed10}{recognise}{recognize} \textsc{Alt-T},
 		because no \word{EKEY} return value for \texttt{T} has been
 		defined.
 	\end{rationale}
@@ -967,7 +967,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	Terminate definition of a structure started by
 	\word{BEGIN-STRUCTURE}.
 
-\see \wref{facility:+FIELD}{+FIELD} and
+\see \wref{facility:+FIELD}{+FIELD}\replace{ed10}{ and}{,}
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}.
 
 	\begin{implement} % I.10.6.2.---- END-STRUCTURE
@@ -989,7 +989,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{quote}
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE} and
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}\replace{ed10}{ and}{,}
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
 
 	\begin{implement} % I.10.6.2.---- FIELD:
@@ -1342,7 +1342,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{+n_2} is the minute \{0{\ldots}59\},
 	\param{+n_3} is the hour \{0{\ldots}23\},
 	\param{+n_4} is the day \{1{\ldots}31\},
-	\param{+n_5} is the month \{1{\ldots}12\}, and
+	\param{+n_5} is the month \{1{\ldots}12\}, \remove{ed10}{and}
 	\param{+n_6} is the year (e.g., 1991).
 
 \see \place{ed09b}{\rref{facility:TIMEandDATE}{}.}
