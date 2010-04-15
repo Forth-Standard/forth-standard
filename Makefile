@@ -1,7 +1,10 @@
 # Default target simply complains
 
+$PDFTEX = pdflatex --save-size=10000
+$TEX = latex
+
 usage:
-        @echo "Usage: make [ dvi | ps | pdf | clean ]"
+	@echo "Usage: make [ dvi | ps | pdf | clean ]"
 
 # Define a few short-cut targets
 
@@ -13,66 +16,66 @@ html: forth.html
 # Now for the actual detail
 
 one:
-        pdflatex forth.tex
+	$(PDFTEX) forth.tex
 
 forth.wrd: forth.tex *.tex
-        pdflatex forth.tex
+	$(PDFTEX) forth.tex
 
 forth.wds: forth.wrd
-        perl sort.pl < forth.wrd > forth.wds
+	perl sort.pl < forth.wrd > forth.wds
 
 forth.dvi: forth.wds
-        latex \scrollmode\input forth.tex
-        latex forth.tex
+	$(TEX) "\scrollmode\input forth.tex"
+	$(TEX) forth.tex
 
-        # Now for the change bars
-        latex forth.tex
-        latex forth.tex
+	# Now for the change bars
+	$(TEX) forth.tex
+	$(TEX) forth.tex
 
-        # Stop make from re-building when the ps target is used
-        touch forth.wds         # update .wds as .wrd has been updated
-        touch forth.dvi         # now we have to update the .dvi
+	# Stop make from re-building when the ps target is used
+	touch forth.wds		# update .wds as .wrd has been updated
+	touch forth.dvi		# now we have to update the .dvi
 
 forth.ps: forth.dvi
-        dvips -K -t A4 forth
+	dvips -K -t A4 forth
 
 forth.pdf: forth.wds
-        pdflatex \scrollmode\input forth.tex
-        pdflatex forth.tex
+	$(PDFTEX) "\scrollmode\input forth.tex"
+	$(PDFTEX) forth.tex
 
-        # Now for the change bars
-        pdflatex forth.tex
-        pdflatex forth.tex
+	# Now for the change bars
+	$(PDFTEX) forth.tex
+	$(PDFTEX) forth.tex
 
 zip: *.tex clean
-        (cd ..; zip -9 -r basis.zip basis -x \*CVS\* -x \*.pdf -x \*.zip)
-        mv ../basis.zip basis-`grep \\revision\} forth.tex | cut -c24-27`-`date +%b-%d`.zip
+	(cd ..; zip -9 -r basis.zip basis -x \*CVS\* -x \*.pdf -x \*.zip)
+	mv ../basis.zip basis-`grep \\revision\} forth.tex | cut -c24-27`-`date +%b-%d`.zip
 
 # This is not currently supported in the latex source,
 # but at least we get something usable, one day ...
 
 forth.html: forth.wds
-        htlatex forth
+	htlatex forth
 
 clean:
-        # First we clean the LaTeX files
-        rm -f forth.log         # LaTeX Log file
-        rm -f forth.toc         # Table of Contents
-        rm -f *.aux             # Auxiliary files
+	# First we clean the LaTeX files
+	rm -f forth.log		# LaTeX Log file
+	rm -f forth.toc		# Table of Contents
+	rm -f *.aux		# Auxiliary files
 
-        # The package extension support files
-        rm -f forth.cb*         # Changebar
-        rm -f forth.out         # Hyperref - PDF Bookmarks
+	# The package extension support files
+	rm -f forth.cb*		# Changebar
+	rm -f forth.out		# Hyperref - PDF Bookmarks
 
-        # Document's own support files
-        rm -f *.sub             # Auto generated support files
-        rm -f forth.wrd         # Word list (unsorted)
-        rm -f forth.wds         # Word list (sorted)
+	# Document's own support files
+	rm -f *.sub		# Auto generated support files
+	rm -f forth.wrd		# Word list (unsorted)
+	rm -f forth.wds		# Word list (sorted)
 
-        # htlatex (text4ht) support files
-        rm -f forth.4ct         # ToC postfix
-        rm -f forth.4tc         # ToC prefix
-        rm -f forth.idv         # Fonts extract
-        rm -f forth.lg          # log file
-        rm -f forth.xref        # Cross references
-        rm -f forth*.tmp
+	# htlatex (text4ht) support files
+	rm -f forth.4ct		# ToC postfix
+	rm -f forth.4tc		# ToC prefix
+	rm -f forth.idv		# Fonts extract
+	rm -f forth.lg		# log file
+	rm -f forth.xref	# Cross references
+	rm -f forth*.tmp
