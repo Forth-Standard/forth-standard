@@ -258,6 +258,13 @@ to provide all of the Locals and Locals Extensions word sets.
 	name with \word{TO}. An ambiguous condition exists when local is
 	executed while in interpretation state.
 
+\scrollmode
+\runtime[\word{TO} \param{local}]
+\place{ed10}{\stack{x}{}}
+
+	\place{ed10}{Assign the value \param{x} to the local value \param{local}.}
+\errorstopmode
+
 \note
 	This word does not have special compilation semantics in the
 	usual sense because it provides access to a system capability
@@ -277,10 +284,12 @@ to provide all of the Locals and Locals Extensions word sets.
 	is described in detail in section \xref[13.3.3 Processing
 	locals]{local:locals}.
 
+\scrollmode
 \runtime[\word{TO} \param{local}]
-	\stack{x}{}
+	\remove{ed10}{\stack{x}{}}
 
-	Assign the value \param{x} to the local value \param{local}.
+	\remove{ed10}{Assign the value \param{x} to the local value \param{local}.}
+\errorstopmode
 
 \see \xref[3.4 The Forth text interpreter]{usage:command} and
 	\wref{core:TO}{TO}.
