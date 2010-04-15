@@ -1,9 +1,10 @@
-rem @echo off
+@echo off
+set latex=pdflatex --save-size=10000
 
 if x%1 == xone	 goto single
 if x%1 == xdvi   goto dvi
 if x%1 == xps    goto ps
-if x%1 == xpdf   goto pdf
+if x%1 == xpdf   goto process
 if x%1 == xclean goto clean
 if x%1 == xhtml  goto dvi
 if x%1 == xzip   goto zip
@@ -13,30 +14,28 @@ echo "Usage: make [ dvi | ps | pdf | clean ]"
 goto end
 
 :single
-latex forth
+%latex% forth
 goto end
 
 :dvi
 set latex=latex
 goto process
 
-:pdf
-set latex=pdflatex
-goto process
-
 :process
-rem Get the word list (index)
+title 1/5: Extract support files
 %latex% \scrollmode\input forth.tex
 perl sort.pl < forth.wrd > forth.wds
 
 if x%1 == xhtml goto html
 
-rem Get the labels
+title 2/5: Create Labels
 %latex% forth
+title 3/5: Resove Labels
 %latex% forth
 
-rem Get the change bars
+title 4/5: Create Change Bar
 %latex% forth
+title 5/5: Set Change Bar
 %latex% forth
 
 if not x%1 == xps goto end
@@ -96,3 +95,4 @@ rem *.html	HTML files
 rem *.css	HTML Style Sheets
 
 :end
+title Command prompt
