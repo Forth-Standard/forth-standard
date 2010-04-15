@@ -154,7 +154,8 @@
 \execute
 	\stack{"ccc<paren>"}{}
 
-	Parse \param{ccc} delimited by \word{p} (right parenthesis).
+	Parse \param{ccc} delimited by \replace{ed10}{\word{p}}{\texttt{)}}
+	(right parenthesis).
 	\word{p} is an immediate word.
 
 	The number of characters in \param{ccc} may be zero to the
@@ -964,7 +965,7 @@
 	\begin{testing} % T.6.1.0490 <#
 		See \tref{core:num}{\num},
 			\tref{core:numS}{\num{}S},
-			\tref{core:HOLD}{HOLD} and
+			\tref{core:HOLD}{HOLD}\replace{ed10}{ and}{,}
 			\tref{core:SIGN}{SIGN}.
 	\end{testing}
 \end{worddef}
@@ -1501,7 +1502,7 @@
 	\end{rationale}
 
 	\begin{testing} % T.6.2.0760 BEGIN
-		See \tref{core:WHILE}{WHILE} and
+		See \tref{core:WHILE}{WHILE}\replace{ed10}{ and}{,}
 			\tref{core:UNTIL}{UNTIL}.
 	\end{testing}
 \end{worddef}
@@ -1881,7 +1882,7 @@
 		See \tref{core:LOOP}{LOOP},
 			\tref{core:+LOOP}{+LOOP},
 			\tref{core:J}{J},
-			\tref{core:LEAVE}{LEAVE} and
+			\tref{core:LEAVE}{LEAVE}\replace{ed10}{ and}{,}
 			\tref{core:UNLOOP}{UNLOOP}.
 	\end{testing}
 \end{worddef}
@@ -2109,7 +2110,7 @@
 		\wref{core:ENVIRONMENTq}{ENVIRONMENT?},
 		\wref{file:Sq}{S"},
 		\wref{tools:[IF]}{[IF]},
-		\wref{tools:[ELSE]}{[ELSE]}, and
+		\wref{tools:[ELSE]}{[ELSE]},\replace{ed10}{ and}{,}
 		\wref{tools:[THEN]}{[THEN]}
 		constitutes an effective suite of words for conditional
 		compilation that works in interpretation state.
@@ -2430,7 +2431,7 @@
 
 	\begin{testing} % T.6.1.1650 HERE
 		See \tref{core:,}{,},
-			\tref{core:ALLOT}{ALLOT} and
+			\tref{core:ALLOT}{ALLOT}\replace{ed10}{ and}{,}
 			\tref{core:C,}{C,}.
 	\end{testing}
 \end{worddef}
@@ -2468,7 +2469,7 @@
 		See \tref{core:LOOP}{LOOP},
 			\tref{core:+LOOP}{+LOOP},
 			\tref{core:J}{J},
-			\tref{core:LEAVE}{LEAVE} and
+			\tref{core:LEAVE}{LEAVE}\replace{ed10}{ and}{,}
 			\tref{core:UNLOOP}{UNLOOP}.
 	\end{testing}
 \end{worddef}
@@ -2545,7 +2546,7 @@
 	\begin{testing} % T.6.1.1710 IMMEDIATE
 		See \tref{core:[']}{[']},
 			\tref{core:POSTPONE}{POSTPONE},
-			\tref{core:STATE}{STATE}, and
+			\tref{core:STATE}{STATE}, \remove{ed10}{and}
 			\tref{core:Sq}{S"}.
 	\end{testing}
 \end{worddef}
@@ -3584,7 +3585,7 @@
 	\word{ABORT},
 	\word{QUIT},
 	\word{:NONAME},
-	\word{[} (left-bracket), and
+	\word{[} (left-bracket), \remove{ed10}{and}
 	\word{]} (right-bracket).
 
 \note
@@ -3605,14 +3606,14 @@
 		Although
 		\word{EVALUATE},
 		\word[block]{LOAD},
-		\word[file]{INCLUDE-FILE}, and
+		\word[file]{INCLUDE-FILE}, \remove{ed10}{and}
 		\word[file]{INCLUDED}
 		are not listed as words which alter \word{STATE}, the text
 		interpreted by any one of these words could include one or
 		more words which explicitly alter \word{STATE}.
 		\word{EVALUATE},
 		\word[block]{LOAD},
-		\word[file]{INCLUDE-FILE}, and
+		\word[file]{INCLUDE-FILE}, \remove{ed10}{and}
 		\word[file]{INCLUDED}
 		do not in themselves alter \word{STATE}.
 
@@ -4658,7 +4659,7 @@
 
 \see \wref{core:DEFER}{DEFER},
 	\wref{core:DEFER!}{DEFER!},
-	\wref{core:DEFER@}{DEFER@} and
+	\wref{core:DEFER@}{DEFER@}\replace{ed10}{ and}{,}
 	\wref{core:IS}{IS}.
 
 	\begin{implement} % I.6.2.---- ACTION-OF
@@ -4948,7 +4949,7 @@
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER!}{DEFER!},
-	\wref{core:DEFER@}{DEFER@}, and
+	\wref{core:DEFER@}{DEFER@}, \remove{ed10}{and}
 	\wref{core:IS}{IS}.
 
 	\begin{implement} % I.6.2.---- DEFER
@@ -4978,7 +4979,7 @@
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER}{DEFER},
-	\wref{core:DEFER@}{DEFER@}, and
+	\wref{core:DEFER@}{DEFER@}, \remove{ed10}{and}
 	\wref{core:IS}{IS}.
 
 	\begin{implement} % I.6.2.---- DEFER!
@@ -5008,7 +5009,7 @@
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER}{DEFER},
-	\wref{core:DEFER!}{DEFER!}, and
+	\wref{core:DEFER!}{DEFER!}, \remove{ed10}{and}
 	\wref{core:IS}{IS}.
 
 	\begin{implement} % I.6.2.---- DEFER@
@@ -5211,7 +5212,7 @@
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER}{DEFER},
-	\wref{core:DEFER!}{DEFER!}, and
+	\wref{core:DEFER!}{DEFER!}, \remove{ed10}{and}
 	\wref{core:DEFER@}{DEFER@}.
 
 	\begin{implement} % I.6.2.---- IS
