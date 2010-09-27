@@ -2,5 +2,6 @@
 *.dvi
 *.log
 *.toc
+*.out
 *.sub
-Backup
+*.cb*

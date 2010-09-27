@@ -850,15 +850,15 @@
 	\Newassociation{implement}{worddefer}{implementation}
 
 	\newcommand{\prerationale}{%
-		\item[\sout{Rationale}] \remove{ed09b}{See \rref{\word@list:\word@label}{\word@name}.}
+%		\item[Rationale] See \rref{\word@list:\word@label}{\word@name}.
 	}
 
 	\newcommand{\pretesting}{%
-		\item[\sout{Testing}] \remove{ed09b}{See \tref{\word@list:\word@label}{\word@name}.}
+%		\item[Testing] See \tref{\word@list:\word@label}{\word@name}.
 	}
 
 	\newcommand{\preimplement}{%
-		\item[\sout{Implementation}] \remove{ed09b}{See \iref{\word@list:\word@label}{\word@name}.}
+%		\item[Implementation] See \iref{\word@list:\word@label}{\word@name}.
 	}	
 
 	% The text for all three environments will be processed by
@@ -1179,7 +1179,7 @@
 %	<label> will be of the form <wordlist>:<label> i.e., core:store
 %	<name>	is the LaTeX which will be typeset for the word reference
 
-\newcommand{\word@ref}[4]{%
+\newcommand{\word@ref}[4]{% <section> <page> <name> <label>
 	\hyperref{}{}{#4}{\textbf{#1}} \linebreak[3]
 	\hyperref{}{}{#4}{\texttt{#3}}%
 }
@@ -1326,6 +1326,8 @@
 % Reserve a counter for the second title page
 \newcounter{savepage}
 
+\reject{ed10}
+
 \begin{document}
 
 \include{titlepage}
@@ -1362,17 +1364,17 @@
 \cfoot{\collate}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
-\include{core}
-\include{block}
-\include{double}
-\include{exception}
-\include{facility}
-\include{file}
-\include{float}
-\include{locals}
-\include{memory}
-\include{tools}
-\include{search}
+\include{core}			% 6
+\include{block}		% 7
+\include{double}		% 8
+\include{exception}	% 9
+\include{facility}	% 10
+\include{file}			% 11
+\include{float}		% 12
+\include{locals}		% 13
+\include{memory}		% 14
+\include{tools}		% 15
+\include{search}		% 16
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
 \include{string}

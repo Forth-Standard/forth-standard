@@ -126,17 +126,13 @@ shall also accept an argument that is a subtype of \param{i}.
 \subsection{Character types} % 3.1.2
 \label{usage:char}
 
-\remove{x:key-ekey}{Characters shall be at least one address unit
-wide, contain at least eight bits, and have a size less than or equal
-to cell size.}
-
-\place{x:key-ekey}{Characters shall have the following properties:}
+Characters shall have the following properties:
 \begin{itemize}
-\item \place{x:key-ekey}{at least one address unit wide;} \\[-4ex]
-\item \place{x:key-ekey}{contain at least eight bits;} \\[-4ex]
-\item \place{x:key-ekey}{be of fixed width;} \\[-4ex]
-\item \place{x:key-ekey}{have a size less than or equal to cell size;} \\[-4ex]
-\item \place{x:key-ekey}{be unsigned.}
+\item at least one address unit wide; \\[-4ex]
+\item contain at least eight bits; \\[-4ex]
+\item be of fixed width; \\[-4ex]
+\item have a size less than or equal to cell size; \\[-4ex]
+\item be unsigned.
 \end{itemize}
 
 The characters provided by a system shall include the graphic
@@ -212,10 +208,9 @@ characters have an environmental dependency.
 \subsubsection{Primitive Character} % 3.1.2.3
 \label{usage:pchar}
 
-\place{x:key-ekey}{%
 A primitive character (pchar) is a character with no restrictions on
 its contents.  Unless otherwise stated, a ``character'' refers to a
-primitive character.}
+primitive character.
 
 \subsection{Single-cell types} % 3.1.3
 \label{usage:cell}
@@ -671,14 +666,14 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
-\place{x:2value}{\texttt{X:2value}} & -- & -- & \place{x:2value}{the \textsf{X:2value} extension is present} \\
+		\texttt{X:2value}				& -- & -- & the \textsf{X:2value} extension is present \\
 		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
 		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
-		\texttt{X:ekeys}			& -- & -- & the \textsf{X:ekeys} extension is present \\
+		\texttt{X:ekeys}				& -- & -- & the \textsf{X:ekeys} extension is present \\
 		\texttt{X:extension-query}	& -- & -- & the \textsf{X:extension-query} extension is present\\
-\place{x:fatan2}{\texttt{X:fatan2}} & -- & -- & \place{x:fatan2}{the \textsf{X:fatan2} extension is present} \\
-\place{x:ftrunc}{\texttt{X:ftrunc}} & -- & -- & \place{x:ftrunc}{the \textsf{X:ftrunc} extension is present} \\
-\place{x:fvalue}{\texttt{X:fvalue}} & -- & -- & \place{x:fvalue}{the \textsf{X:fvalue} extension is present} \\
+		\texttt{X:fatan2}				& -- & -- & the \textsf{X:fatan2} extension is present \\
+		\texttt{X:ftrunc}				& -- & -- & the \textsf{X:ftrunc} extension is present \\
+		\texttt{X:fvalue}				& -- & -- & the \textsf{X:fvalue} extension is present \\
 		\texttt{X:number-prefix}	& -- & -- & the \textsf{X:number-prefix} extension is present \\
 		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
 		\texttt{X:required}			& -- & -- & the \textsf{X:required} extension is present \\
@@ -718,10 +713,10 @@ shall be the one found during a search for the name.
 
 Definition names shall contain \{1 {\ldots} 31\} characters.
 A system may allow or prohibit the creation of definition names
-containing non-standard characters.
-\place{x:namelen}{A system may allow the creation of definition
-names longer than 31 characters.  Programs with definition names
-longer than 31 characters have an environmental dependancy.}
+containing non-standard characters.  A system may allow the creation
+of definition names longer than 31 characters.  Programs with
+definition names longer than 31 characters have an environmental
+dependency.
 
 Programs that use lower case for standard definition names or depend
 on the case-sensitivity properties of a system have an environmental

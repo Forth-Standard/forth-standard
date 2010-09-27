@@ -895,3 +895,71 @@ words to be available with no additional programmer action.
 	some action to make the words required by that program available
 	for execution.
 \end{description}
+
+% =========================================================
+\endinput
+\newpage
+\section{ANS Forth '94} % D.7
+
+\subsection{Removed Definitions} % D.7.1
+\place{x:legacy}{%
+	This standard removes the seven words that were marked `obsolescent'
+	in the ANS Forth '94 document.  These are:}
+
+\begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
+  \place{x:legacy}{   6.2.0060}	& \place{x:legacy}{\textbf{\#TIB}}
+& \place{x:legacy}{15.6.2.1580}	& \place{x:legacy}{\textbf{FORGET}}
+& \place{x:legacy}{   6.2.2240}	& \place{x:legacy}{\textbf{SPAN}} \\
+  \place{x:legacy}{   6.2.0970}	& \place{x:legacy}{\textbf{CONVERT}}
+& \place{x:legacy}{   6.2.2040}	& \place{x:legacy}{\textbf{QUERY}}
+& \place{x:legacy}{   6.2.2290}	& \place{x:legacy}{\textbf{TIB}} \\
+  \place{x:legacy}{   6.2.1390}	& \place{x:legacy}{\textbf{EXPECT}} \\
+\end{tabular}
+
+\place{x:legacy}{%
+    Reuse of these names is strongly discouraged.}
+
+% \glossary[*]{<number>}{<sub>}{<name>}{<wordset>}{<ext>}{<proposal>}{<label>}{<english>}
+
+\makeatletter
+\newcommand{\wordindex}[9][]{%
+	%
+	% Define the hyper link target
+	%
+	\hyperdef{#5}{#8}{}
+	%
+	% Define the word label
+	%
+	\def\@currentlabel{%
+			\thesubsection%
+			\ifx#2\empty.0\else.#2\fi%
+			\ifx#3\empty\else.#3\fi%
+	}
+	\edef\@currentlabelname{#4}
+	\def\@currentHref{#5.#8}
+	\label{#5:#8}
+	%
+	% Write the word glossary entry
+	%
+	\immediate\write\wordfile{\string\indexentry%
+		\ifx#1\empty\else *\fi%	* = Changebar
+		{\thesubsection}%		1: <section>
+		{#2}%					2: <number>
+		{#3}%					3: <sub number>
+		{#4}%					4: <name>
+		{#5}%					5: <wordlist>
+		{#6}%					6: <ext>
+		{#7}%					7: <proposal>
+		{#8}%					8: <label>
+		{#9}%					9: <english>
+	}
+}
+\makeatother
+
+\wordindex[*]{0060}{}{\num{}TIB}{core}	{EXT}{X:legacy}{numTAB}	{number-t-i-b}
+\wordindex[*]{0970}{}{CONVERT}	{core}	{EXT}{X:legacy}{CONVERT}{}
+\wordindex[*]{1390}{}{EXPECT}	{core}	{EXT}{X:legacy}{EXPECT}	{}
+\wordindex[*]{1580}{}{FORGET}	{tools}	{EXT}{X:legacy}{FORGET}	{}
+\wordindex[*]{2040}{}{QUERY}	{core}	{EXT}{X:legacy}{QUERY}	{}
+\wordindex[*]{2240}{}{SPAN}		{core}	{EXT}{X:legacy}{SPAN}	{}
+\wordindex[*]{2290}{}{TIB}		{core}	{EXT}{X:legacy}{TIB}	{t-i-b}

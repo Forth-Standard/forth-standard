@@ -163,8 +163,8 @@ Extensions word sets.
 	Consequently, its use may corrupt the transient region identified
 	by \word[core]{num-end}.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient}%
-	\place{ed09b}{, \rref{tools:.S}{}}.
+\see \xref[3.3.3.6 Other transient regions]{usage:transient},
+	\rref{tools:.S}{}.
 
 	\begin{rationale} % A.15.6.1.0220 .S
 		\word[tools]{.S} is a debugging convenience found on almost
@@ -213,8 +213,8 @@ Extensions word sets.
 	words. Consequently, its use may corrupt the transient region
 	identified by \word[core]{num-end}.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient}%
-	\place{ed09b}{, \rref{tools:SEE}{}}.
+\see \xref[3.3.3.6 Other transient regions]{usage:transient},
+	\rref{tools:SEE}{}.
 
 	\begin{rationale} % A.15.6.1.2194 SEE
 		\word[tools]{SEE} acts as an on-line form of documentation of
@@ -234,8 +234,8 @@ Extensions word sets.
 	words. Consequently, its use may corrupt the transient region
 	identified by \word[core]{num-end}.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient}%
-	\place{ed09b}{, \rref{tools:WORDS}{}}.
+\see \xref[3.3.3.6 Other transient regions]{usage:transient},
+	\rref{tools:WORDS}{}.
 
 	\begin{rationale} % A.15.6.1.2465 WORDS
 		\word[tools]{WORDS} is a debugging convenience found on almost
@@ -284,8 +284,8 @@ Extensions word sets.
 	Perform the machine code sequence that was generated following
 	\word{;CODE}.
 
-\see \wref{core:DOES}{DOES>}%
-	\place{ed09b}{, \rref{tools:;CODE}{}}.
+\see \wref{core:DOES}{DOES>},
+	\rref{tools:;CODE}{}.
 
 	\begin{rationale} % A.15.6.2.0470 ;CODE
 		Typical use:
@@ -364,8 +364,8 @@ Extensions word sets.
 	Execute the machine code sequence that was generated following
 	\word{CODE}.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{tools:CODE}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{tools:CODE}{}.
 
 	\begin{rationale} % A.15.6.2.0930 CODE
 		Some Forth systems implement the assembly function by adding
@@ -395,7 +395,7 @@ Extensions word sets.
 	If the control-flow stack is implemented using the data stack,
 	\param{u} shall be the topmost item on the data stack.
 
-\see \place{ed09b}{\rref{tools:CS-PICK}{}.}
+\see \rref{tools:CS-PICK}{}.
 
 	\begin{rationale} % A.15.6.2.1015 CS-PICK
 		The intent is to reiterate a \param{dest} on the control-flow
@@ -470,7 +470,7 @@ Extensions word sets.
 	If the control-flow stack is implemented using the data stack,
 	\param{u} shall be the topmost item on the data stack.
 
-\see \place{ed09b}{\rref{tools:CS-ROLL}{}.}
+\see \rref{tools:CS-ROLL}{}.
 
 	\begin{rationale} % A.15.6.2.1020 CS-ROLL
 		The intent is to modify the order in which the \param{orig}s
@@ -572,8 +572,8 @@ Extensions word sets.
 	required for correct execution. Note: This word is obsolescent
 	and is included as a concession to existing implementations.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{tools:FORGET}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{tools:FORGET}{}.
 
 	\begin{rationale} % A.15.6.2.1580 FORGET
 		Typical use:
@@ -645,8 +645,8 @@ Extensions word sets.
 	refilled as with \word[core]{REFILL}. \word{[ELSE]} is an
 	immediate word.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{tools:[ELSE]}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{tools:[ELSE]}{}.
 
 	\begin{rationale} % A.15.6.2.2531 [ELSE]
 		Typical use:
@@ -679,8 +679,8 @@ Extensions word sets.
 	reached and cannot be refilled before the terminating
 	\word{[ELSE]} or \word{[THEN]} is parsed.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{tools:[IF]}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{tools:[IF]}{}.
 
 	\begin{rationale} % A.15.6.2.2532 [IF]
 		Typical use:
@@ -701,7 +701,8 @@ Extensions word sets.
 
 	Does nothing. \word{[THEN]} is an immediate word.
 
-\see \place{ed09b}{\rref{tools:[THEN]}{}.}
+\see \rref{tools:[THEN]}{}.
+
 	\begin{rationale} % A.15.6.2.2533 [THEN]
 		Typical use:
 			{\ldots} \emph{flag}

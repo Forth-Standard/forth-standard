@@ -152,18 +152,16 @@ Memory-Allocation Extensions word sets.
 
 	\begin{testing}
 		\ttfamily
-		\place{ed09b}{\word{VARIABLE} datsp}
+		\word{VARIABLE} datsp
 
-		\place{ed09b}{\word{HERE} datsp \word{!}} \\
+		\word{HERE} datsp \word{!} \\
 		\test{100 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
-		\remove{ed09b}{\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned}} \\
-		\place{ed09b}{\test{addr \word{@} \word{ALIGNED}}{addr \word{@}}				\tab \word{bs} \textdf{Test address is aligned}} \\
-		\place{ed09b}{\test{\word{HERE}}{datsp \word{@}}									\tab[5] \word{bs} \textdf{Check data space pointer is unchanged}}\\
+		\test{addr \word{@} \word{ALIGNED}}{addr \word{@}}				\tab \word{bs} \textdf{Test address is aligned} \\
+		\test{\word{HERE}}{datsp \word{@}}									\tab[5] \word{bs} \textdf{Check data space pointer is unchanged}\\
 		\test{addr \word{@} \word{FREE}}{0}
 
 		\test{99 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
-		\remove{ed09b}{\test{addr \word{@} 1 \word{CELLS} \word{1-} \word{AND}}{0} \tab \word{bs} \textdf{Test address is aligned}} \\
-		\place{ed09b}{\test{addr \word{@} \word{ALIGNED}}{addr \word{@}} \tab \word{bs} \textdf{Test address is aligned}} \\
+		\test{addr \word{@} \word{ALIGNED}}{addr \word{@}} \tab \word{bs} \textdf{Test address is aligned} \\
 
 		\test{addr \word{@} \word{FREE}}{0} \\
 		\test{-1 \word{ALLOCATE} \word{SWAP} \word{DROP} \word{0=}}{<FALSE>} \tab \word{bs} \textdf{Memory allocate failed}

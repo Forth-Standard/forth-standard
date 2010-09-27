@@ -125,10 +125,10 @@
 
 \see \xref[3.4 The Forth text interpreter]{usage:interpret},
 	\xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:'}{},
 	\rref{core:POSTPONE}{POSTPONE},
 	\rref{core:[']}{[']},
-	\xref[D.6.7 Immediacy]{diff:immediate}%
-	\place{ed09b}{, \rref{core:'}{}}.
+	\xref[D.6.7 Immediacy]{diff:immediate}.
 
 	\begin{rationale} % A.6.1.0070 '
 		Typical use: {\ldots} \word{'} \param{name}.
@@ -162,8 +162,8 @@
 	number of characters in the parse area.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\xref[11.6.1.0080 (]{file:p}%
-	\place{ed09b}{, \rref{core:p}{}}.
+	\xref[11.6.1.0080 (]{file:p},
+	\rref{core:p}{}.
 
 	\begin{rationale} % A.6.1.0080 (
 		Typical use: {\ldots} \word{p} \param{ccc}\texttt{)} {\ldots}
@@ -349,8 +349,8 @@
 
 \see \wref{core:DO}{DO},
 	\wref{core:I}{I},
-	\wref{core:LEAVE}{LEAVE}%
-	\place{ed09b}{, \rref{core:+LOOP}{}}.
+	\wref{core:LEAVE}{LEAVE},
+	\rref{core:+LOOP}{}.
 
 	\begin{rationale} % A.6.1.0140 +LOOP
 		Typical use:
@@ -412,8 +412,8 @@
 	pointer is not aligned prior to execution of \word{,}.
 
 \see \xref[3.3.3 Data space]{usage:dataspace},
-	\xref[3.3.3.1 Address alignment]{usage:aaddr}%
-	\place{ed09b}{, \rref{core:,}{}}.
+	\xref[3.3.3.1 Address alignment]{usage:aaddr},
+	\rref{core:,}{}.
 
 	\begin{rationale} % A.6.1.0150 ,
 		The use of \word{,} (comma) for compiling execution tokens is
@@ -499,8 +499,8 @@
 	Display \param{ccc}.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:.p}{.(}%
-	\place{ed09b}{, \rref{core:.q}{}}.
+	\wref{core:.p}{.(},
+	\rref{core:.q}{}.
 
 	\begin{rationale} % A.6.1.0190 ."
 		Typical use:
@@ -699,7 +699,7 @@
 	the most-significant bit, filling the vacated least-significant
 	bit with zero.
 
-\see \place{ed09b}{\rref{core:2*}{}.}
+\see \rref{core:2*}{}.
 
 	\begin{rationale} % A.6.1.0320 2*
 		Historically, \word{2*} has been implemented on
@@ -728,7 +728,7 @@
 	the least-significant bit, leaving the most-significant bit
 	unchanged.
 
-\see \place{ed09b}{\rref{core:2/}{}.}
+\see \rref{core:2/}{}.
 
 	\begin{rationale} % A.6.1.0330 2/
 		This word has the same common usage and misnaming implications
@@ -757,8 +757,8 @@
 	\word{DUP} \word{CELL+} \word{@} \word{SWAP} \word{@}.
 
 \see \xref[3.3.3.1  Address alignment]{usage:aaddr},
-	\wref{core:2!}{2!}%
-	\place{ed09b}{, \rref{core:2@}{}}.
+	\wref{core:2!}{2!},
+	\rref{core:2@}{}.
 
 	\begin{rationale} % A.6.1.0350 2@
 		With \word{2@} the storage order is specified by the Standard.
@@ -848,8 +848,8 @@
 	\wref{core:DOES}{DOES>},
 	\wref{core:[}{[},
 	\wref{core:]}{]},
-	\wref{tools:;CODE}{;CODE}%
-	\place{ed09b}{, \rref{core::}{}}.
+	\wref{tools:;CODE}{;CODE},
+	\rref{core::}{}.
 
 	\begin{rationale} % A.6.1.0450 :
 		Typical use:
@@ -900,8 +900,8 @@
 	Return to the calling definition specified by \param{nest-sys}.
 
 \see \xref[3.4 The Forth text interpreter]{usage:command},
-	\xref[3.4.5 Compilation]{usage:compilation}%
-	\place{ed09b}{, \rref{core:;}{}}.
+	\xref[3.4.5 Compilation]{usage:compilation},
+	\rref{core:;}{}.
 
 	\begin{rationale} % A.6.1.0460 ;
 		Typical use:
@@ -1024,8 +1024,8 @@
 	\param{xt}. An ambiguous condition exists if \param{xt} is not
 	for a word defined via \word{CREATE}.
 
-\see \xref[3.3.3 Data space]{usage:dataspace}%
-	\place{ed09b}{, \rref{core:toBODY}{}}.
+\see \xref[3.3.3 Data space]{usage:dataspace},
+	\rref{core:toBODY}{}.
 
 	\begin{rationale} % A.6.1.0550 >BODY
 		\param{a-addr} is the address that \word{HERE} would have
@@ -1209,8 +1209,8 @@
 	abort sequence that includes the function of \word{ABORT}.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{exception:ABORTq}{9.6.2.0680 ABORT"}%
-	\place{ed09b}{, \rref{core:ABORTq}{}}.
+	\wref{exception:ABORTq}{9.6.2.0680 ABORT"},
+	\rref{core:ABORTq}{}.
 
 	\begin{rationale} % A.6.1.0680 ABORT"
 		Typical use:
@@ -1252,7 +1252,7 @@
 
 	\param{+n_2} is the length of the string stored at \param{c-addr}.
 
-\see \place{ed09b}{\rref{core:ACCEPT}{}.}
+\see \rref{core:ACCEPT}{}.
 
 	\begin{rationale} % A.6.1.0695 ACCEPT
 		Previous standards specified that collection of the input
@@ -1342,8 +1342,8 @@
 	to align it.
 
 \see \xref[3.3.3 Data space]{usage:dataspace},
-	\xref[3.3.3.1 Address alignment]{usage:aaddr}%
-	\place{ed09b}{, \rref{core:ALIGN}{}}.
+	\xref[3.3.3.1 Address alignment]{usage:aaddr},
+	\rref{core:ALIGN}{}.
 
 	\begin{rationale} % A.6.1.0705 ALIGN
 		In this Standard we have attempted to provide transportability
@@ -1377,16 +1377,8 @@
 	\param{a-addr} is the first aligned address greater than or equal
 	to \param{addr}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}%
-	\place{ed09b}{, \wref{core:ALIGN}{}}.
-
-	\begin{rationale} % A.6.1.0706 ALIGNED
-		\remove{ed09b}{See \rref{core:ALIGN}{ALIGN}.}
-	\end{rationale}
-
-	\begin{testing} % T.6.1.0706 ALIGNED
-		\remove{ed09b}{See \tref{core:ALIGN}{ALIGN}.}
-	\end{testing}
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr},
+	\wref{core:ALIGN}{}.
 \end{worddef}
 
 
@@ -1482,8 +1474,8 @@
 \see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
 	\wref{core:REPEAT}{REPEAT},
 	\wref{core:UNTIL}{UNTIL},
-	\wref{core:WHILE}{WHILE}%
-	\place{ed09b}{, \rref{core:BEGIN}{}}.
+	\wref{core:WHILE}{WHILE},
+	\rref{core:BEGIN}{}.
 
 	\begin{rationale} % A.6.1.0760 BEGIN
 		Typical use:
@@ -1513,7 +1505,7 @@
 
 	\param{char} is the character value for a space.
 
-\see \place{ed09b}{\rref{core:BL}{}.}
+\see \rref{core:BL}{}.
 
 	\begin{rationale} % A.6.1.0770 BL
 		Because space is used throughout Forth as the standard
@@ -1596,8 +1588,8 @@
 	Add the size in address units of a cell to \param{a-addr_1}, giving
 	\param{a-addr_2}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}%
-	\place{ed09b}{, \rref{core:CELL+}{}}.
+\see \xref[3.3.3.1 Address alignment]{usage:aaddr},
+	\rref{core:CELL+}{}.
 
 	\begin{rationale} % A.6.1.0880 CELL+
 		As with \word{ALIGN} and \word{ALIGNED}, the words \word{CELLS}
@@ -1627,15 +1619,16 @@
 
 	\param{n_2} is the size in address units of \param{n_1} cells.
 
-\see \place{ed09b}{\rref{core:CELLS}{}, \rref{core:CELL+}{}.}
-	\begin{rationale} % A.6.1.0890 CELLS
-		\remove{ed09b}{See: \rref{core:CELL+}{CELL+}.}
+\see \rref{core:CELL+}{}, \rref{core:CELLS}{}.
 
+	\begin{rationale} % A.6.1.0890 CELLS
 		Example:
+		\begin{quote}
 			\word{CREATE} \texttt{NUMBERS} ~
-			\texttt{100} \word{CELLS} \word{ALLOT} \\
-		(Allots space in the array \texttt{NUMBERS} for 100 cells
-		of data.)
+			\texttt{100} \word{CELLS} \word{ALLOT}
+		\end{quote}
+		Allots space in the array \texttt{NUMBERS} for 100 cells
+		of data.
 	\end{rationale}
 
 	\begin{testing} % T.6.1.0890 CELLS
@@ -1661,8 +1654,8 @@
 	a space. Put the value of its first character onto the stack.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:[CHAR]}{[CHAR]}%
-	\place{ed09b}{, \rref{core:CHAR}{}}.
+	\wref{core:[CHAR]}{[CHAR]},
+	\rref{core:CHAR}{}.
 
 	\begin{rationale} % A.6.1.0895 CHAR
 		Typical use: {\ldots}
@@ -1720,8 +1713,8 @@
 
 	Place \param{x} on the stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{core:CONSTANT}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:CONSTANT}{}.
 
 	\begin{rationale} % A.6.1.0950 CONSTANT
 		Typical use: {\ldots}
@@ -1786,8 +1779,8 @@
 	using \word{DOES}.
 
 \see \xref[3.3.3 Data space]{usage:dataspace},
-	\wref{core:DOES}{DOES>}%
-	\place{ed09b}{, \rref{core:CREATE}{}}.
+	\wref{core:DOES}{DOES>},
+	\rref{core:CREATE}{}.
 
 	\begin{rationale} % A.6.1.1000 CREATE
 		The data-field address of a word defined by \word{CREATE} is
@@ -1857,8 +1850,8 @@
 
 \see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
 	\wref{core:+LOOP}{+LOOP},
-	\wref{core:LOOP}{LOOP}%
-	\place{ed09b}{, \rref{core:DO}{}}.
+	\wref{core:LOOP}{LOOP},
+	\rref{core:DO}{}.
 
 	\begin{rationale} % A.6.1.1240 DO
 		Typical use:
@@ -1931,8 +1924,8 @@
 	represent arguments to and results from \param{name},
 	respectively.
 
-\see \wref{core:CREATE}{CREATE}%
-	\place{ed09b}{, \rref{core:DOES}{}}.
+\see \wref{core:CREATE}{CREATE},
+	\rref{core:DOES}{}.
 
 	\begin{rationale} % A.6.1.1250 DOES>
 		Typical use:
@@ -2014,8 +2007,8 @@
 	\param{orig_2}.
 
 \see \wref{core:IF}{IF},
-	\wref{core:THEN}{THEN}%
-	\place{ed09b}{, \rref{core:ELSE}{}}.
+	\wref{core:THEN}{THEN},
+	\rref{core:ELSE}{}.
 
 	\begin{rationale} % A.6.1.1310 ELSE
 		Typical use:
@@ -2094,7 +2087,7 @@
 	otherwise, the flag is \param{true} and the \param{i*x} returned
 	is of the type specified in the table for the attribute queried.
 
-\see \place{ed09b}{\rref{core:ENVIRONMENTq}{}.}
+\see \rref{core:ENVIRONMENTq}{}.
 
 	\begin{rationale} % A.6.1.1345 ENVIRONMENT?
 		In a Standard System that contains only the Core word set,
@@ -2135,7 +2128,7 @@
 	specification. Other stack effects are due to the words
 	\word{EVALUATE}d.
 
-\see \place{ed09b}{\rref{core:EVALUATE}{}.}
+\see \rref{core:EVALUATE}{}.
 
 	\begin{rationale} % A.6.1.1360 EVALUATE
 		The Technical Committee is aware that this function is
@@ -2201,8 +2194,8 @@
 	by executing \word{UNLOOP}.
 
 \see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:UNLOOP}{UNLOOP}%
-	\place{ed09b}{, \rref{core:EXIT}{}}.
+	\wref{core:UNLOOP}{UNLOOP},
+	\rref{core:EXIT}{}.
 
 	\begin{rationale} % A.6.1.1380 EXIT
 		Typical use:
@@ -2251,10 +2244,10 @@
 
 \see \xref[3.4.2 Finding definition names]{usage:find},
 	\rref{core:'}{'},
-	\rref{core:[']}{[']},
+	\rref{core:FIND}{},
 	\rref{core:POSTPONE}{POSTPONE},
-	\xref[D.6.7 Immediacy]{diff:immediate}%
-	\place{ed09b}{, \rref{core:FIND}{}}.
+	\rref{core:[']}{[']},
+	\xref[D.6.7 Immediacy]{diff:immediate}.
 
 	\begin{rationale} % A.6.1.1550 FIND
 		One of the more difficult issues which the Committee took on
@@ -2336,8 +2329,8 @@
 
 \see \xref[3.2.2.1 Integer division]{usage:div},
 	\wref{core:SM/REM}{6.1.2214 SM/REM},
-	\wref{core:UM/MOD}{6.1.2370 UM/MOD}%
-	\place{ed09b}{, \rref{core:FM/MOD}{}}.
+	\wref{core:UM/MOD}{6.1.2370 UM/MOD},
+	\rref{core:FM/MOD}{}.
 
 	\begin{rationale} % A.6.1.1561 FM/MOD
 		By introducing the requirement for ``floored'' division,
@@ -2496,8 +2489,8 @@
 
 \see \xref[3.2.3.2 Control flow stack]{usage:controlstack},
 	\wref{core:ELSE}{ELSE},
-	\wref{core:THEN}{THEN}%
-	\place{ed09b}{, \rref{core:IF}{}}.
+	\wref{core:THEN}{THEN},
+	\rref{core:IF}{}.
 
 	\begin{rationale} % A.6.1.1700 IF
 		Typical use:
@@ -2534,8 +2527,8 @@
 	condition exists if the most recent definition does not have a
 	name.
 
-\see \xref[D.6.7 Immediacy]{diff:immediate}%
-	\place{ed09b}{, \rref{core:IMMEDIATE}{}}.
+\see \xref[D.6.7 Immediacy]{diff:immediate},
+	\rref{core:IMMEDIATE}{}.
 
 	\begin{rationale} % A.6.1.1710 IMMEDIATE
 		Typical use:
@@ -2559,8 +2552,8 @@
 	\param{x_2}.
 
 \see \wref{core:NEGATE}{NEGATE},
-	\wref{core:0=}{0=}%
-	\place{ed09b}{, \rref{core:INVERT}{}}.
+	\wref{core:0=}{0=},
+	\rref{core:INVERT}{}.
 
 	\begin{rationale} % A.6.1.1720 INVERT
 		The word \texttt{NOT} was originally provided in Forth as a
@@ -2624,7 +2617,7 @@
 	ambiguous condition exists if the loop control parameters of
 	the next-outer loop, \param{loop-sys_1}, are unavailable.
 
-\see \place{ed09b}{\rref{core:J}{}.}
+\see \rref{core:J}{}.
 
 	\begin{rationale} % A.6.1.1730 J
 		\word{J} may only be used with a nested
@@ -2674,20 +2667,19 @@
 	Programs that require the ability to receive control characters
 	have an environmental dependency.
 
-\see \place{x:key-ekey}{\wref{facility:KEYq}{},}
-	\wref{facility:EKEY}{EKEY} \place{x:key-ekey}{,}
-	\wref{facility:EKEYq}{KEY?}%
-	\place{ed09b}{, \rref{core:KEY}{}}.
+\see \wref{facility:EKEY}{EKEY},
+	\wref{facility:EKEYq}{KEY?},
+	\wref{facility:KEYq}{},
+	\rref{core:KEY}{}.
 
 	\begin{rationale} % KEY
-		\place{x:key-ekey}{%
 		Use of \word{KEY} indicates that the application is processing
 		primitive characters.  Some input devices, e.g., keyboards,
 		may provide more information than can be represented as a
 		primitive character and such an event may be received as an
-		implementation-specific sequence of primitive characters.}
+		implementation-specific sequence of primitive characters.
 
-		\place{x:key-ekey}{See \rref{facility:EKEY}{}.}
+		See \rref{facility:EKEY}{}.
 	\end{rationale}
 \end{worddef}
 
@@ -2707,8 +2699,8 @@
 
 \see \xref[3.2.3.3 Return stack]{usage:returnstack},
 	\wref{core:+LOOP}{+LOOP},
-	\wref{core:LOOP}{LOOP}%
-	\place{ed09b}{, \rref{core:LEAVE}{}}.
+	\wref{core:LOOP}{LOOP},
+	\rref{core:LEAVE}{}.
 
 	\begin{rationale} % A.6.1.1760 LEAVE
 		Note that \word{LEAVE} immediately exits the loop. No words
@@ -2747,7 +2739,7 @@
 
 	Place \param{x} on the stack.
 
-\see \place{ed09b}{\rref{core:LITERAL}{}.}
+\see \rref{core:LITERAL}{}.
 
 	\begin{rationale} % A.6.1.1780 LITERAL
 		Typical use:
@@ -2789,7 +2781,7 @@
 \see \wref{core:DO}{DO},
 	\wref{core:I}{I},
 	\wref{core:LEAVE}{LEAVE}%
-	\place{ed09b}{, \rref{core:LOOP}{}}.
+	\rref{core:LOOP}{}.
 
 	\begin{rationale} % A.6.1.1800 LOOP
 		Typical use:
@@ -2843,7 +2835,7 @@
 
 	\param{d} is the signed product of \param{n_1} times \param{n_2}.
 
-\see \place{ed09b}{\rref{core:M*}{}.}
+\see \rref{core:M*}{}.
 
 	\begin{rationale} % A.6.1.1810 M*
 		This word is a useful early step in calculation, going to
@@ -2981,8 +2973,8 @@
 	\param{addr_1} contained before the move.
 
 \see	\wref{string:CMOVE}{CMOVE},
-	\wref{string:CMOVEtop}{CMOVE>}%
-	\place{ed09b}{, \rref{core:MOVE}{}}.
+	\wref{string:CMOVEtop}{CMOVE>},
+	\rref{core:MOVE}{}.
 
 	\begin{rationale} % A.6.1.1900 MOVE
 		\word[string]{CMOVE} and \word[string]{CMOVEtop} are the primary
@@ -3075,8 +3067,8 @@
 	\param{name} to the current definition. An ambiguous condition
 	exists if \param{name} is not found.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{core:POSTPONE}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:POSTPONE}{}.
 
 	\begin{rationale} % A.6.1.2033 POSTPONE
 		Typical use:
@@ -3213,8 +3205,8 @@
 	\word{RECURSE} appears in a definition after \word{DOES}.
 
 \see \wref{core:DOES}{DOES>},
-	\wref{core:RECURSE}{RECURSE}%
-	\place{ed09b}{, \rref{core:RECURSE}{}}.
+	\wref{core:RECURSE}{RECURSE},
+	\rref{core:RECURSE}{}.
 
 	\begin{rationale} % A.6.1.2120 RECURSE
 		Typical use:
@@ -3295,8 +3287,8 @@
 	Continue execution at the location given by \param{dest}.
 
 \see \wref{core:BEGIN}{BEGIN},
-	\wref{core:WHILE}{WHILE}%
-	\place{ed09b}{, \rref{core:REPEAT}{}}.
+	\wref{core:WHILE}{WHILE},
+	\rref{core:REPEAT}{}.
 
 	\begin{rationale} % A.6.1.2140 REPEAT
 		Typical use:
@@ -3370,8 +3362,8 @@
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Cq}{C"},
-	\wref{file:Sq}{S"}%
-	\place{ed09b}{, \rref{core:Sq}{}}.
+	\wref{file:Sq}{S"},
+	\rref{core:Sq}{}.
 
 	\begin{rationale} % A.6.1.2165 S"
 		Typical use:
@@ -3442,8 +3434,8 @@
 
 \see \xref[3.2.2.1 Integer division]{usage:div},
 	\wref{core:FM/MOD}{FM/MOD},
-	\wref{core:UM/MOD}{UM/MOD}%
-	\place{ed09b}{, \rref{core:SM/REM}{}}.
+	\wref{core:UM/MOD}{UM/MOD},
+	\rref{core:SM/REM}{}.
 
 	\begin{rationale} % A.6.1.2214 SM/REM
 		See the previous discussion of division under \word{FM/MOD}.
@@ -3514,7 +3506,7 @@
 	\param{c-addr} is the address of, and \param{u} is the number of
 	characters in, the input buffer.
 
-\see \place{ed09b}{\rref{core:SOURCE}{}.}
+\see \rref{core:SOURCE}{}.
 
 	\begin{rationale} % A.6.1.2216 SOURCE
 		\word{SOURCE} simplifies the process of directly accessing the
@@ -3599,8 +3591,8 @@
 	\wref{core:[}{[},
 	\wref{core:]}{]},
 	\wref{core::NONAME}{:NONAME},
-	\wref{tools:STATE}{STATE}%
-	\place{ed09b}{, \rref{core:STATE}{}}.
+	\wref{tools:STATE}{STATE},
+	\rref{core:STATE}{}.
 
 	\begin{rationale} % A.6.1.2250 STATE
 		Although
@@ -3691,8 +3683,8 @@
 	Continue execution.
 
 \see \wref{core:ELSE}{ELSE},
-	\wref{core:IF}{IF}%
-	\place{ed09b}{, \rref{core:THEN}{}}.
+	\wref{core:IF}{IF},
+	\rref{core:THEN}{}.
 
 	\begin{rationale} % A.6.1.2270 THEN
 		Typical use:
@@ -3833,8 +3825,8 @@
 	before the definition may be \word{EXIT}ed. An ambiguous
 	condition exists if the loop-control parameters are unavailable.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack}%
-	\place{ed09b}{, \rref{core:UNLOOP}{}}.
+\see \xref[3.2.3.3 Return stack]{usage:returnstack},
+	\rref{core:UNLOOP}{}.
 
 	\begin{rationale} % A.6.1.2380 UNLOOP
 		Typical use:
@@ -3885,8 +3877,8 @@
 	If all bits of \param{x} are zero, continue execution at the
 	location specified by \param{dest}.
 
-\see \wref{core:BEGIN}{BEGIN}%
-	\place{ed09b}{, \rref{core:UNTIL}{}}.
+\see \wref{core:BEGIN}{BEGIN},
+	\rref{core:UNTIL}{}.
 
 	\begin{rationale} % A.6.1.2390 UNTIL
 		Typical use:
@@ -3921,8 +3913,8 @@
 	is responsible for initializing the contents of the reserved
 	cell.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{core:VARIABLE}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:VARIABLE}{}.
 
 	\begin{rationale} % A.6.1.2410 VARIABLE
 		Typical use:
@@ -3957,7 +3949,7 @@
 	If all bits of \param{x} are zero, continue execution at the
 	location specified by the resolution of \param{orig}.
 
-\see \place{ed09b}{\rref{core:WHILE}{}.}
+\see \rref{core:WHILE}{}.
 
 	\begin{rationale} % A.6.1.2430 WHILE
 		Typical use:
@@ -4009,8 +4001,8 @@
 	existence of the space.
 
 \see \xref[3.3.3.6 Other transient regions]{usage:transient},
-	\xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{core:WORD}{}}.
+	\xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:WORD}{}.
 
 	\begin{rationale} % A.6.1.2450 WORD
 		Typical use: \emph{char} \word{WORD} \emph{ccc}\arg{char}
@@ -4062,8 +4054,8 @@
 
 \see \xref[The Forth text interpreter]{usage:command},
 	\xref[3.4.5 Compilation]{usage:compilation},
-	\wref{core:]}{]}%
-	\place{ed09b}{, \rref{core:[}{}}.
+	\wref{core:]}{]},
+	\rref{core:[}{}.
 
 	\begin{rationale} % A.6.1.2500 [
 		Typical use:
@@ -4101,10 +4093,11 @@
 	``\word{'} \texttt{X}'' outside of compilation state.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
+	\wref{core:FIND}{},
 	\rref{core:'}{'}
 	\rref{core:POSTPONE}{POSTPONE},
-	\xref[Immediate]{diff:immediate}%
-	\place{ed09b}{, \wref{core:FIND}{}, \rref{core:[']}{}}.
+	\rref{core:[']}{},
+	\xref[Immediate]{diff:immediate}.
 
 	\begin{rationale} % A.6.1.2510 [']
 		Typical use:
@@ -4141,8 +4134,8 @@
 	\param{name}, on the stack.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:CHAR}{CHAR}%
-	\place{ed09b}{, \rref{core:[CHAR]}{}}.
+	\wref{core:CHAR}{CHAR},
+	\rref{core:[CHAR]}{}.
 
 	\begin{rationale} % A.6.1.2520 [CHAR]
 		Typical use:
@@ -4167,8 +4160,8 @@
 
 \see \xref[3.4 The Forth text interpreter]{usage:command},
 	\xref[3.4.5 Compilation]{usage:compilation},
-	\wref{core:[}{[}%
-	\place{ed09b}{, \rref{core:]}{}}.
+	\wref{core:[}{[},
+	\rref{core:]}{}.
 
 	\begin{rationale} % A.6.1.2540 ]
 		Typical use:
@@ -4227,8 +4220,8 @@
 	parenthesis). \word{.p} is an immediate word.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:.q}{."}%
-	\place{ed09b}{, \rref{core:.p}{}}.
+	\wref{core:.q}{."},
+	\rref{core:.p}{}.
 
 	\begin{rationale} % A.6.2.0200 .
 		Typical use:
@@ -4245,7 +4238,7 @@
 	\param{n_1} is greater than \param{n_2}, all digits are displayed
 	with no leading spaces in a field as wide as necessary.
 
-\see \place{ed09b}{\rref{core:.R}{}.}
+\see \rref{core:.R}{}.
 
 	\begin{rationale} % A.6.2.0210 .R
 		In \word{.R}, ``R'' is short for RIGHT.
@@ -4285,8 +4278,8 @@
 	\wref{core:Rfrom}{R>},
 	\wref{core:R@}{R@},
 	\wref{core:2Rfrom}{2R>},
-	\wref{core:2R@}{2R@}%
-	\place{ed09b}{, \rref{core:2toR}{}}.
+	\wref{core:2R@}{2R@},
+	\rref{core:2toR}{}.
 
 	\begin{rationale} % A.6.2.0340 2>R
 		Historically, \word{2toR} has been used to implement \word{DO}.
@@ -4317,8 +4310,8 @@
 	\wref{core:Rfrom}{R>}
 	\wref{core:R@}{R@}
 	\wref{core:2toR}{2>R},
-	\wref{core:2R@}{2R@}%
-	\place{ed09b}{, \rref{core:2Rfrom}{}}.
+	\wref{core:2R@}{2R@},
+	\rref{core:2Rfrom}{}.
 
 	\begin{rationale} % A.6.2.0410 2R>
 		Note that \word{2Rfrom} is not equivalent to \word{Rfrom} \word{Rfrom}.
@@ -4381,7 +4374,7 @@
 	effects \param{i*x} and \param{j*x} represent arguments to
 	and results from \param{xt}, respectively.
 
-\see \place{ed09b}{\rref{core::NONAME}{}.}
+\see \rref{core::NONAME}{}.
 
 	\begin{rationale} % A.6.2.0455 :NONAME
 		\word{:NONAME} allows a user to create an execution token
@@ -4545,8 +4538,8 @@
 	\wref{core:I}{I},
 	\wref{core:LEAVE}{LEAVE},
 	\wref{core:LOOP}{LOOP},
-	\wref{core:UNLOOP}{UNLOOP}%
-	\place{ed09b}{\rref{core:qDO}{}}.
+	\wref{core:UNLOOP}{UNLOOP},
+	\rref{core:qDO}{}.
 
 	\begin{rationale} % A.6.2.0620 ?DO
 		Typical use:
@@ -4705,8 +4698,8 @@
 	If no other control flow words are used, any program code
 	after \word{AGAIN} will not be executed.
 
-\see \wref{core:BEGIN}{BEGIN}%
-	\place{ed09b}{, \rref{core:AGAIN}{}}.
+\see \wref{core:BEGIN}{BEGIN},
+	\rref{core:AGAIN}{}.
 
 	\begin{rationale} % A.6.2.0700 AGAIN
 		Typical use:
@@ -4740,8 +4733,8 @@
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Sq}{S"},
-	\wref{file:Sq}{S"}%
-	\place{ed09b}{\rref{core:Cq}{}.}
+	\wref{file:Sq}{S"},
+	\rref{core:Cq}{}.
 
 	\begin{rationale} % A.6.2.0855 C"
 		Typical use:
@@ -4796,8 +4789,8 @@
 
 \see \wref{core:ENDCASE}{ENDCASE},
 	\wref{core:ENDOF}{ENDOF},
-	\wref{core:OF}{OF}%
-	\place{ed09b}{, \rref{core:CASE}{}}.
+	\wref{core:OF}{OF},
+	\rref{core:CASE}{}.
 
 	\begin{rationale} % A.6.2.0873 CASE
 		Typical use:
@@ -4860,7 +4853,7 @@
 	by \param{xt} to the execution semantics of the current
 	definition.
 
-\see \place{ed09b}{\rref{core:COMPILE,}{}.}
+\see \rref{core:COMPILE,}{}.
 
 	\begin{rationale} % A.6.2.0945 COMPILE,
 		\word{COMPILE,} is the compilation equivalent of
@@ -5051,8 +5044,8 @@
 
 \see \wref{core:CASE}{CASE},
 	\wref{core:ENDOF}{ENDOF},
-	\wref{core:OF}{OF}%
-	\place{ed09b}{, \rref{core:ENDCASE}{}}.
+	\wref{core:OF}{OF},
+	\rref{core:ENDCASE}{}.
 
 	\begin{rationale} % A.6.2.1342 ENDCASE
 		Typical use:
@@ -5095,8 +5088,8 @@
 
 \see \wref{core:CASE}{CASE},
 	\wref{core:ENDCASE}{ENDCASE},
-	\wref{core:OF}{OF}%
-	\place{ed09b}{, \rref{core:ENDOF}{}}.
+	\wref{core:OF}{OF},
+	\rref{core:ENDOF}{}.
 
 	\begin{rationale} % A.6.2.1343 ENDOF
 		Typical use:
@@ -5256,8 +5249,8 @@
 	as numeric base is affected.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{tools:FORGET}{FORGET}%
-	\place{ed09b}{, \rref{core:MARKER}{}.}
+	\wref{tools:FORGET}{FORGET},
+	\rref{core:MARKER}{}.
 
 	\begin{rationale} % A.6.2.1850 MARKER
 		As dictionary implementations have become more elaborate
@@ -5302,8 +5295,8 @@
 
 \see \wref{core:CASE}{CASE},
 	\wref{core:ENDCASE}{ENDCASE},
-	\wref{core:ENDOF}{ENDOF}%
-	\place{ed09b}{, \rref{core:OF}{}}.
+	\wref{core:ENDOF}{ENDOF},
+	\rref{core:OF}{}.
 
 	\begin{rationale} % A.6.2.1950 OF
 		Typical use:
@@ -5330,8 +5323,8 @@
 	\param{c-addr} is the address of a transient region that can
 	be used to hold data for intermediate processing.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient}%
-	\place{ed09b}{, \rref{core:PAD}{}}.
+\see \xref[3.3.3.6 Other transient regions]{usage:transient},
+	\rref{core:PAD}{}.
 
 	\begin{rationale} % A.6.2.2000 PAD
 		\word{PAD} has been available as scratch storage for strings
@@ -5354,8 +5347,8 @@
 	\param{u} is the length of the parsed string. If the parse area
 	was empty, the resulting string has a zero length.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{core:PARSE}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:PARSE}{}.
 
 	\begin{rationale} % A.6.2.2008 PARSE
 		Typical use: \emph{char} \word{PARSE} \emph{ccc}\arg{char}
@@ -5532,7 +5525,7 @@
 	An ambiguous condition exists if there are less than \param{u}+2
 	items on the stack before \word{PICK} is executed.
 
-\see \place{ed09b}{\rref{core:PICK}{}.}
+\see \rref{core:PICK}{}.
 
 	\begin{rationale} % A.6.2.2030 PICK
 		\texttt{0} \word{PICK} is equivalent to \word{DUP} and
@@ -5577,8 +5570,8 @@
 	\emph{false} and perform no other action.
 
 \see \wref{block:REFILL}{REFILL},
-	\wref{file:REFILL}{REFILL}%
-	\place{ed09b}{, \rref{core:REFILL}{}}.
+	\wref{file:REFILL}{REFILL},
+	\rref{core:REFILL}{}.
 
 	\begin{rationale} % A.6.2.2125 REFILL
 		This word is a useful generalization of \word{QUERY}.
@@ -5614,7 +5607,7 @@
 	An ambiguous condition exists if there are less than \param{u}+2
 	items on the stack before \word{ROLL} is executed.
 
-\see \place{ed09b}{\rref{core:ROLL}{}.}
+\see \rref{core:ROLL}{}.
 
 	\begin{rationale} % A.6.2.2150 ROLL
 		\texttt{2} \word{ROLL} is equivalent to \word{ROT},
@@ -5630,7 +5623,7 @@
 	\param{x_1} through \param{x_n} describe the current state of the
 	input source specification for later use by \word{RESTORE-INPUT}.
 
-\see \place{ed09b}{\rref{core:SAVE-INPUT}{}.}
+\see \rref{core:SAVE-INPUT}{}.
 
 	\begin{rationale} % A.6.2.2182 SAVE-INPUT
 		\word{SAVE-INPUT} and \word{RESTORE-INPUT} allow the same
@@ -5852,7 +5845,7 @@
 	This word is obsolescent and is included as a concession to
 	existing implementations.
 
-\see \place{ed09b}{\rref{core:TIB}{}.}
+\see \rref{core:TIB}{}.
 
 	\begin{rationale} % A.6.2.2290 TIB
 		The function of \word{TIB} has been superseded by
@@ -5890,8 +5883,8 @@
 	\word{TO}.
 
 \see \wref{core:VALUE}{VALUE},
-	 \remove{ed09b}{and} \wref{local:LOCAL}{(LOCAL)}%
-	 \place{ed09b}{, \rref{core:TO}{}}.
+	 \wref{local:LOCAL}{(LOCAL)},
+	 \rref{core:TO}{}.
 
 	\begin{rationale} % A.6.2.2295 TO
 		Historically, some implementations of \word{TO} have not
@@ -5915,8 +5908,8 @@
 	Return a \param{true} flag, a single-cell value with all
 	bits set.
 
-\see \xref[3.1.3.1 Flags]{usage:flags}%
-	\place{ed09b}{, \rref{core:TRUE}{}.}
+\see \xref[3.1.3.1 Flags]{usage:flags},
+	\rref{core:TRUE}{}.
 
 	\begin{rationale} % A.6.2.2298 TRUE
 		\word{TRUE} is equivalent to the phrase
@@ -5988,8 +5981,8 @@
 	Assign the value \param{x} to \param{name}.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\remove{ed09b}{and} \wref{core:TO}{TO}%
-	\place{ed09b}{, \rref{core:VALUE}{}.}
+	\wref{core:TO}{TO},
+	\rref{core:VALUE}{}.
 
 	\begin{rationale} % A.6.2.2405 VALUE
 		Typical use:
@@ -6040,7 +6033,7 @@
 	\param{n_1|u_1}, \param{n_2|u_2}, and \param{n_3|u_3} are not
 	all the same type.
 
-\see \place{ed09b}{\rref{core:WITHIN}{}.}
+\see \rref{core:WITHIN}{}.
 
 	\begin{rationale} % A.6.2.2440 WITHIN
 		We describe \word{WITHIN} without mentioning circular number
@@ -6133,8 +6126,8 @@
 	otherwise append the execution semantics of \param{name}. An
 	ambiguous condition exists if \param{name} is not found.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{core:[COMPILE]}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{core:[COMPILE]}{}.
 
 	\begin{rationale} % A.6.2.2530 [COMPILE]
 		Typical use:
@@ -6171,8 +6164,8 @@
 	Parse and discard the remainder of the parse area.
 	\word{bs} is an immediate word.
 
-\see \wref{block:bs}{\bs}%
-	\place{ed09b}{, \rref{core:bs}{}}.
+\see \wref{block:bs}{\bs},
+	\rref{core:bs}{}.
 
 	\begin{rationale} % A.6.2.2535 \
 		Typical use:

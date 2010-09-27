@@ -102,7 +102,7 @@ to provide all of the String and String Extensions word sets.
 	\param{c-addr_2 u_2}, begins at \param{c-addr_1} plus \param{n}
 	characters and is \param{u_1} minus \param{n} characters long.
 
-\see \place{ed09b}{\rref{string:/STRING}{}.}
+\see \rref{string:/STRING}{}.
 
 	\begin{rationale} % A.17.6.1.0245 /STRING
 		\word{/STRING} is used to remove or add characters relative
@@ -146,10 +146,7 @@ to provide all of the String and String Extensions word sets.
 	that starting at \param{c-addr_2}, proceeding character-by-character
 	from lower addresses to higher addresses.
 
-\item[\sout{Contrast with}]
-	\remove{ed09b}{\wref{string:CMOVEtop}{CMOVE>}.}
-
-\see \place{ed09b}{\wref{string:CMOVEtop}{}, \rref{string:CMOVE}{}.}
+\see \wref{string:CMOVEtop}{}, \rref{string:CMOVE}{}.
 
 	\begin{rationale} % A.17.6.1.0910 CMOVE
 		If \param{c-addr_2} lies within the source region (i.e., when
@@ -178,10 +175,7 @@ to provide all of the String and String Extensions word sets.
 	that starting at \param{c-addr_2}, proceeding character-by-character
 	from higher addresses to lower addresses.
 
-\item[\sout{Contrast with:}]
-	\remove{ed09b}{\wref{string:CMOVE}{CMOVE}.}
-
-\see \place{ed09b}{\wref{string:CMOVE}{}, \rref{string:CMOVEtop}{}.}
+\see \wref{string:CMOVE}{}, \rref{string:CMOVEtop}{}.
 
 	\begin{rationale} % A.17.6.1.0920 CMOVE>
 		If \param{c-addr_1} lies within the destination region (i.e.,
@@ -218,7 +212,7 @@ to provide all of the String and String Extensions word sets.
 	numeric value than the corresponding character in the string
 	specified by \param{c-addr_2 u_2} and one (1) otherwise.
 
-\see \place{ed09b}{\rref{string:COMPARE}{}.}
+\see \rref{string:COMPARE}{}.
 
 	\begin{rationale} % A.17.6.1.0935 COMPARE
 		Existing Forth systems perform string comparison operations
@@ -267,7 +261,7 @@ to provide all of the String and String Extensions word sets.
 	match and \param{c-addr_3} is \param{c-addr_1} and \param{u_3}
 	is \param{u_1}.
 
-\see \place{ed09b}{\rref{string:SEARCH}{}.}
+\see \rref{string:SEARCH}{}.
 
 	\begin{rationale} % A.17.6.1.2191 SEARCH
 		Existing Forth systems perform string searching operations
@@ -311,7 +305,7 @@ to provide all of the String and String Extensions word sets.
 	the characters specified by \param{c-addr_1 u} during
 	compilation. A program shall not alter the returned string.
 
-\see \place{ed09b}{\rref{string:SLITERAL}{}.}
+\see \rref{string:SLITERAL}{}.
 
 	\begin{rationale} % A.17.6.1.2212 SLITERAL
 		The current functionality of \wref{core:Sq}{S"} may be

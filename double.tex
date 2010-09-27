@@ -135,8 +135,8 @@ Extensions word sets.
 
 	Place cell pair \param{x_1 x_2} on the stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing}%
-	\place{ed09b}{, \rref{double:2CONSTANT}{}}.
+\see \xref[3.4.1 Parsing]{usage:parsing},
+	\rref{double:2CONSTANT}{}.
 
 
 	\begin{rationale} % A.8.6.1.0360 2CONSTANT
@@ -172,7 +172,7 @@ Extensions word sets.
 
 	Place cell pair \param{x_1 x_2} on the stack.
 
-\see \place{ed09b}{\rref{double:2LITERAL}{}.}
+\see \rref{double:2LITERAL}{}.
 
 	\begin{rationale} % A.8.6.1.0390 2LITERAL
 		\setwordlist{core}
@@ -209,8 +209,8 @@ Extensions word sets.
 	responsible for initializing the contents.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:VARIABLE}{VARIABLE}%
-	\place{ed09b}{, \rref{double:2VARIABLE}{}}.
+	\wref{core:VARIABLE}{VARIABLE},
+	\rref{double:2VARIABLE}{}.
 
 	\begin{rationale} % A.8.6.1.0440 2VARIABLE
 		Typical use:
@@ -330,7 +330,7 @@ Extensions word sets.
 	is greater than \param{n}, all digits are displayed with no
 	leading spaces in a field as wide as necessary.
 
-\see \place{ed09b}{\rref{double:D.R}{}.}
+\see \rref{double:D.R}{}.
 
 	\begin{rationale} % A.8.6.1.1070 D.R
 		In \word{D.R}, the ``R'' is short for RIGHT.
@@ -406,11 +406,7 @@ Extensions word sets.
 	toward the most-significant bit, filling the vacated
 	least-significant bit with zero.
 
-\see \place{ed09b}{\rref{core:2*}{}.}
-
-	\begin{rationale} % A.8.6.1.1090 D2*
-		\remove{ed09b}{See \tref{core:2*}{2*} for applicable discussion.}
-	\end{rationale}
+\see \rref{core:2*}{}.
 
 	\begin{testing}
 		\test{             0. \word{D2*}}{0. \word{D2*}} \\
@@ -428,11 +424,7 @@ Extensions word sets.
 	toward the least-significant bit, leaving the most-significant
 	bit unchanged.
 
-\see \place{ed09b}{\rref{core:2/}{}.}
-
-	\begin{rationale} % A.8.6.1.1100 D2/
-		\remove{ed09b}{See \tref{core:2/}{2/} for applicable discussion.}
-	\end{rationale}
+\see \rref{core:2/}{}.
 
 	\begin{testing}
 		\test{      0. \word{D2/}}{0.       } \\
@@ -516,7 +508,7 @@ Extensions word sets.
 	exists if \param{d} lies outside the range of a signed single-cell
 	number.
 
-\see \place{ed09b}{\rref{double:DtoS}{}.}
+\see \rref{double:DtoS}{}.
 
 	\begin{rationale} % A.8.6.1.1140 D>S
 		There exist number representations, e.g., the sign-magnitude
@@ -630,7 +622,7 @@ Extensions word sets.
 	if \param{+n_2} is zero or negative, or the quotient lies outside
 	of the range of a double-precision signed integer.
 
-\see \place{ed09b}{\rref{double:M*/}{}.}
+\see \rref{double:M*/}{}.
 
 	\begin{rationale} % A.8.6.1.1820 M*/
 		\word{M*/} was once described by Chuck Moore as the most
@@ -673,7 +665,7 @@ Extensions word sets.
 
 	Add \param{n} to \param{d_1|ud_1}, giving the sum \param{d_2|ud_2}.
 
-\see \place{ed09b}{\rref{double:M+}{}.}
+\see \rref{double:M+}{}.
 
 	\begin{rationale} % A.8.6.1.1830 M+
 		\word{M+} is the classical method for integrating.
@@ -705,7 +697,7 @@ Extensions word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef*}{}{2VALUE}[two-value][X:2value]
+\begin{worddef}{}{2VALUE}[two-value][X:2value]
 \item \stack{x_1 x_2 "<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
@@ -728,8 +720,8 @@ Extensions word sets.
 
 	Assign the cell pair \param{x_1 x_2} to \param{name}.
 
-\see \xref{usage:parsing} and \wref{core:TO}{}%
-	\place{ed09b}{, \rref{double:2VALUE}{}}.
+\see \xref{usage:parsing} and \wref{core:TO}{},
+	\rref{double:2VALUE}{}.
 
 	\begin{rationale}
 		Typical use:
@@ -785,7 +777,7 @@ Extensions word sets.
 		\word{:} sett2val t2val \word{2SWAP} \word{TO} t2val \word{;} \\
 		\test{5 6 sett2val t2val}{3 4 5 6}
 	\end{testing}
-\end{worddef*}
+\end{worddef}
 % ---------------------------------------------------------
 
 \begin{worddef}[DUless]{1270}{DU<}[d-u-less]
