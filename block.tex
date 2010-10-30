@@ -20,28 +20,30 @@
 
 \section{Additional usage requirements} % 7.3
 
-\subsection{Environmental queries} % 7.3.1
+\subsection{Environmental queries\strike{2.4}{155}} % 7.3.1
+\cbstart\patch{x:wordset-query}%
 
-Append table \ref{block:env} to table \ref{table:env}.
+\sout{Append table \ref{block:env} to table \ref{table:env}.}
 
-See: \xref[3.2.6 Environmental queries]{usage:env}.
+See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
 
 \begin{table}[h]
   \begin{center}
-	\caption{Environmental Query Strings}
+	\caption{Environmental Query Strings\strike{2.4}{165}}
 	\label{block:env}
 	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
 		\hline\hline
-		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
 		\hline
-		\texttt{BLOCK}		& \emph{flag}	& no	&
-			block word set present \\
-		\texttt{BLOCK-EXT}	& \emph{flag}	& no	&
-			block extensions word set present \\
+		\sout{\texttt{BLOCK}}		& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{block word set present} \\
+		\sout{\texttt{BLOCK-EXT}}	& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{block extensions word set present} \\
 		\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
+\cbend
 
 \subsection{Data space} % 7.3.2
 
@@ -305,7 +307,7 @@ to provide all of the Block and Block Extensions word sets.
 
 \see \wref{block:BLOCK}{BLOCK},
 	\wref{block:BUFFER}{BUFFER},
-	\wref{block:FLUSH}{FLUSH},
+	\wref{block:FLUSH}{FLUSH},\\
 	\wref{block:SAVE-BUFFERS}{SAVE-BUFFERS}.
 \end{worddef}
 

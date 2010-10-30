@@ -63,7 +63,7 @@ is reported.  For example:
 
 \test{1 2 3 \word{SWAP}}{1 3 2} \\
 \test{1 2 3 \word{SWAP}}{1 2 3}\ \texttt{INCORRECT RESULT:} \test{1 2 3 SWAP}{1 2 3} \\
-\test{1 2 3 \word{SWAP}}{1 2}\   \texttt{WRONG NUMBER OF RESULTS:} \test{1 2 3 SWAP}{1 2} \\
+\test{1 2 \word{SWAP}}{1}\   \texttt{WRONG NUMBER OF RESULTS:} \test{1 2 SWAP}{1} \\
 
 \subsection{Floating-Point}
 \setwordlist{floating}
@@ -238,7 +238,7 @@ HAS-FLOATING-STACK \word[tools]{[IF]} \\
 \tab \word{:} F-> \word{p} \ldots -{}- \ldots ) \\
 \tab[2] \word{FDEPTH} \word{DUP} ACTUAL-FDEPTH \word{!} \\
 \tab[2] START-FDEPTH \word{@} \word{more} \word{IF} \\
-\tab[3]   \word{FDEPTH} START-FDEPTH \word{@} \word{-} 0 \word{DO} ACTUAL-FRESULTS \word{I} \word{FLOATS} \word{+} \word{F!} \word{LOOP} \\
+\tab[2.5]   \word{FDEPTH} START-FDEPTH \word{@} \word{-} 0 \word{DO} ACTUAL-FRESULTS \word{I} \word{FLOATS} \word{+} \word{F!} \word{LOOP} \\
 \tab[2] \word{THEN} \word{;} \\
 \\
 \tab \word{:} F\} \word{p} \ldots -{}- \ldots ) \\
@@ -323,14 +323,16 @@ HAS-FLOATING-STACK \word[tools]{[IF]} \\
 \word{:} ->		\word{bs} ( \ldots -{}- ) record depth and contents of stack. \\
 \tab \word{DEPTH} \word{DUP} ACTUAL-DEPTH \word{!}		\word{bs} record depth \\
 \tab START-DEPTH \word{@} \word{more} \word{IF}		\word{bs} if there is something on the stack \\
-\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{-} 0 \word{DO} ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{!} \word{LOOP} \word{bs} save them \\
+\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{-} 0 \word{DO} \word{bs} save them \\
+\tab[3] 		ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{!} \\
+\tab[2] \word{LOOP} \\
 \tab \word{THEN} \\
 \tab F-> \word{;} \\
 \\
 \word{:} \}T		\word{bs} ( \ldots -{}- ) comapre stack (expected) contents with saved \\
 \tab   \word{bs} (actual) contents. \\
 \tab \word{DEPTH} ACTUAL-DEPTH \word{@} \word{=} \word{IF}		\tab[4.0]	\word{bs} if depths match \\
-\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{more} \word{IF}	\tab[3.6]	\word{bs} if there is something on the stack \\
+\tab[2] \word{DEPTH} START-DEPTH \word{@} \word{more} \word{IF}	\tab[3.6]	\word{bs} if something on the stack \\
 \tab[3] \word{DEPTH} START-DEPTH \word{@} \word{-} 0 \word{DO}	\tab[1.4]	\word{bs} for each stack item \\
 \tab[4] ACTUAL-RESULTS \word{I} \word{CELLS} \word{+} \word{@}	\tab		\word{bs} compare actual with expected \\
 \tab[4] \word{ne} \word{IF} \word{Sq} INCORRECT RESULT: " ERROR \word{LEAVE} \word{THEN} \\
@@ -527,7 +529,7 @@ The stack operators can be tested without any prepatory work.  The
 should be tested first, followed by the two-cell variants
 	(\tref{core:2DROP}{2DROP},
 	 \tref{core:2DUP}{2DUP},
-	 \tref{core:2OVER}{2OVER} and
+	 \tref{core:2OVER}{2OVER} and \linebreak
 	 \tref{core:2SWAP}{2SWAP})
 with \tref{core:qDUP}{?DUP} and \tref{core:DEPTH}{DEPTH} being
 performed last.
@@ -615,7 +617,7 @@ words \word{C@}, \word{C!}, and \word{CHAR+}, leaving the test
 \tref{core:CHARS}{CHARS} to be performed seperatly.
 
 Finally, the memory access alignment test \tref{core:ALIGN}{ALIGN}
-includes a test of \word{ALIGNED}, leaving \tref{core:ALLOT}{ALLOT}
+includes a test of \word{ALIGNED}, leaving \linebreak \tref{core:ALLOT}{ALLOT}
 as the final test in this group.
 
 \subsection{Characters}
@@ -744,7 +746,7 @@ Frist two memory buffers are defined:
 
 As the content of \texttt{FBUF} is changed by the
 \tref{core:FILL}{FILL} test, this must be executed before the
-\tref{core:MOVE}{MOVE} test.
+\linebreak \tref{core:MOVE}{MOVE} test.
 
 \subsection{Output}
 
@@ -830,7 +832,7 @@ MIN-INT \word{2/}  \word{CONSTANT} LO-INT   \word{bs} 110...1
 
 Before anything can be tested, the text interpreter must be
 tested (\ref{test:dbl:in}).
-Once the \tref{double:2CONSTANT}{2CONSTANT} test has been preformed
+Once the \linebreak \tref{double:2CONSTANT}{2CONSTANT} test has been preformed
 we can also define a number of double constants:
 
 \begin{tt}\frenchspacing\obeyspaces
@@ -848,7 +850,7 @@ The rest of the word set can be tesed:
 \tref{double:D2*}{}, \tref{double:D2/}{},
 \tref{double:Dless}{}, \tref{double:D=}{},
 \tref{double:2LITERAL}{}, \tref{double:2VARIABLE}{},
-\tref{double:DMAX}{}, \tref{double:DMIN}{},
+\tref{double:DMAX}{}, \tref{double:DMIN}{}, \linebreak
 \tref{double:DtoS}{}, \tref{double:DABS}{},
 \tref{double:M+}{}, \tref{double:M*/}{} and
 \tref{double:D.R}{} which also tests \word{D.} before moving on
@@ -917,9 +919,9 @@ this.  the file names used in these test are:
 ``\texttt{fatest3.txt}''.
 
 The test \tref{file:CREATE-FILE}{} also tests \word{CLOSE-FILE},
-\tref{file:WRITE-LINE}{} also tests \word{W/O} and \word{OPEN-FILE},
+\tref{file:WRITE-LINE}{} \linebreak also tests \word{W/O} and \word{OPEN-FILE},
 \tref{file:READ-LINE}{} includes a test for \word{R/O},
-\tref{file:REPOSITION-FILE}{} includes tests for \word{R/W},
+\tref{file:REPOSITION-FILE} includes tests for \word{R/W},
 \word{WRITE-FILE}, \word{READ-FILE}, \word{FILE-POSITION}, and
 \word{Sq}.
 The \tref{file:FILE-SIZE}{} test includes a test for \word{BIN}.
@@ -1040,17 +1042,28 @@ defined as:
 
 The tests should be carried out in the order:
 \tref{string:/STRING}{},
-\tref{string:SEARCH}{},
+\tref{string:SEARCH}{}, \linebreak
 \tref{string:-TRAILING}{},
 \tref{string:COMPARE}{},
-\tref{string:BLANK}{} and
+\tref{string:BLANK}{} and \linebreak
 \tref{string:SLITERAL}{}.
 
 \readtest{string}
 
 % ===================================================================
 
-% \testsection{legacy}{Legacy}			% T.18 ?
+\cbstart\patch{x:xchar}
+\section{The optional Extended Character word set} % T.18
+\setwordlist{xchar}
+\defersection{}
+
+These test assume the UTF-8 character encoding is being used.
+\cbend
+
+\readtest{xchar}
+
+% ===================================================================
+
 
 
 \endinput %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

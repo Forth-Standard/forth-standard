@@ -41,27 +41,30 @@ Programs that use more than seven bits of a character by
 
 See: \xref[3.1.2 Character types]{usage:char}.
 
-\subsection{Environmental queries} % 10.3.2
-Append table \ref{facility:env} to table \ref{table:env}.
+\subsection{Environmental queries\strike{2.4}{160}} % 10.3.2
+\cbstart\patch{x:wordset-query}%
 
-See: \xref[3.2.6 Environmental queries]{usage:env}.
+\sout{Append table \ref{facility:env} to table \ref{table:env}.}
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
 
 \begin{table}[h]
   \begin{center}
-	\caption{Environmental Query Strings}
+	\caption{Environmental Query Strings\strike{2.4}{165}}
 	\label{facility:env}
 	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
 		\hline\hline
-		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
 		\hline
-		\texttt{FACILITY}		& \emph{flag}	& no	&
-			facility word set present \\
-		\texttt{FACILITY-EXT}	& \emph{flag}	& no	&
-			facility extensions word set present \\
+		\sout{\texttt{FACILITY}}		& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{facility word set present} \\
+		\sout{\texttt{FACILITY-EXT}}	& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{facility extensions word set present} \\
 		\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
+\cbend
 
 \section{Additional documentation requirements} % 10.4
 
@@ -238,11 +241,11 @@ to provide all of the Facility and Facility Extensions word sets.
 
 \see \wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
-	\wref{facility:CFIELD:}{CFIELD:},
+	\wref{facility:CFIELD:}{CFIELD:}, \\
 	\wref{facility:FIELD:}{FIELD:},
 	\wref{floating:FFIELD:}{FFIELD:},
 	\wref{floating:SFFIELD:}{SFFIELD:},
-	\wref{floating:DFFIELD:}{DFFIELD:},
+	\wref{floating:DFFIELD:}{DFFIELD:}, \\
 	\rref{facility:+FIELD}{}.
 
 	\begin{rationale} % A.10.6.2.---- +FIELD
@@ -341,7 +344,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		\word{END-STRUCTURE}
 		\end{quote}
 
-	\item[Alignment]
+	\item[Alignment] ~\\
 		In practice, structures are used for two different purposes
 		with incompatible requirements:
 		\begin{enumerate}
@@ -361,7 +364,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		Many languages cater for the first use, but ignore the
 		second.  This leads to various customized solutions, usage
 		requirements, portability problems, bugs, etc.
-		\word{+FIELD} is defined to be non-aligning, while the
+		\word{+FIELD} is defined to be non-a\-lign\-ing, while the
 		named field defining words (\emph{x}\texttt{FIELD:}) are
 		aligning.  This is intentional and allows for both uses.
 
@@ -370,8 +373,8 @@ to provide all of the Facility and Facility Extensions word sets.
 
 		\begin{center}
 			\begin{tabular}{rl}
-		\word{CFIELD:}				& a character \\
-		\word{FIELD:}				& a native integer (single cell) \\
+		\word{CFIELD:}					& a character \\
+		\word{FIELD:}					& a native integer (single cell) \\
 		\word[floating]{FFIELD:}	& a native float \\
 		\word[floating]{SFFIELD:}	& a 32 bit float \\
 		\word[floating]{DFFIELD:}	& a 64 bit float
@@ -384,7 +387,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		% Note that these also satisfy the alignment requirements of
 		% the host system, whereas \word{+FIELD} does not.
 
-	\item[Future]
+	\item[Future] ~\\
 		The following cannot be defined until the required addressing
 		has been defined. The names should be considered reserved
 		until then.
@@ -413,35 +416,55 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{CFIELD:}[c-field-colon][X:structures]
-\item \stack{}{}
+\begin{worddef*}{}{CFIELD:}[c-field-colon][X:structures]
+\item \stack{}{}\strike{2.5}{35} \stack{n_1 "<spaces>name"}{n_2}\strike{-3}{120}
 
-	The semantics of \word{CFIELD:} are identical to the
-	execution semantics of the phrase:
+	\sout{%
+		The semantics of \word{CFIELD:} are identical to the
+		execution semantics of the phrase:}
 	\begin{quote}\ttfamily
-		1 \word{CHARS} \word{+FIELD}
+	\sout{1 \word{CHARS} \word{+FIELD}}
 	\end{quote}
+
+	\uline{Skip leading space delimiters. Parse \param{name} delimited by
+	a space. \param{Offset} is the first character aligned value greater
+	than or equal to}
+	\param{n_1}\strike{-2.6}{11}.
+	\param{n_2 = offset + 1}\strike{-2.6}{60} \uline{character.}
+
+	\uline{Create a definition for \param{name} with the execution semantics
+	given below.}
+
+\execute[name] \stack{a-addr_1}{a-addr_2}\strike{-3}{170}
+
+	\uline{Add the \param{offset} calculated during the compile time action
+	to}
+	\param{a-addr_1}\strike{-2.6}{34}
+	\uline{giving the character aligned address}
+	\param{a-addr_2}\strike{-2.6}{34}.
+
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
+	\uline{, \\ \rref{facility:FIELD:}{}}.
 
 	\begin{implement} % I.10.6.2.---- CFIELD
-		\textdf{Create a new field within a structure definition
-		of size a character.}
+		\sout{\textdf{Create a new field within a structure definition
+		of size a character.}}
 
-		\word{:} CFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
-		\tab 1 \word{CHARS} \word{+FIELD} \\
-		\word{;}
+		\sout{\word{:} CFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr} \\
+		\tab \sout{1 \word{CHARS} \word{+FIELD}} \\
+		\sout{\word{;}}
 	\end{implement}
-\end{worddef}
+\end{worddef*}
 
 % -------------------------------------
 
 \begin{worddef}{1305}{EKEY}[e-key]
-\item \stack{}{u}
+\item \stack{}{\replace{x:ekey}{u}{x}}
 
-	Receive one keyboard event \param{u}. The encoding of keyboard events
+	Receive one keyboard event \param{\replace{x:ekey}{u}{x}}. The encoding of keyboard events
 	is implementation defined.
 
 \see \wref{core:KEY}{KEY},
@@ -460,7 +483,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		pairs \word{EKEY}/\word{EKEYq} and \word{KEY}/\word{KEYq}.
 		This standard does not define a timing relationship between
 		\word{KEYq} and \word{EKEYq}.  Undefined results may be
-		avoided by using only one pairing of \word{KEY}/\word{KEYq}
+		avoided by using only one pairing of \word{KEY}/ \word{KEYq}
 		or \word{EKEY}/\word{EKEYq} in a program for each input
 		stream.
 
@@ -490,11 +513,11 @@ to provide all of the Facility and Facility Extensions word sets.
 
 
 \begin{worddef}[EKEYtoCHAR]{1306}{EKEY>CHAR}[e-key-to-char]
-\item \stack{u}{u false | char true}
+\item \stack{\replace{x:ekey}{u}{x}}{\replace{x:ekey}{u}{x} false | char true}
 
-	If the keyboard event \param{u} corresponds to a character in the
+	If the keyboard event \param{\replace{x:ekey}{u}{x}} corresponds to a character in the
 	implementation-defined character set, return that character and
-	\emph{true}. Otherwise return \param{u} and \emph{false}.
+	\emph{true}. Otherwise return \param{\replace{x:ekey}{u}{x}} and \emph{false}.
 
 \see \rref{facility:EKEYtoCHAR}{}.
 
@@ -514,11 +537,11 @@ to provide all of the Facility and Facility Extensions word sets.
 
 
 \begin{worddef}[EKEYtoFKEY]{}{EKEY>FKEY}[e-key-to-f-key][X:ekeys]
-\item \stack{u_1}{u_2 f}
+\item \stack{\replace{x:ekey}{u_1}{x}}{\replace{x:ekey}{u_2 f}{ u flag}}
 
-	If the keyboard event \param{u_1} corresponds to a keypress in the
+	If the keyboard event \param{\replace{x:ekey}{u_1}{x}} corresponds to a keypress in the
 	implementation-defined special key set, return that key's id
-	\param{u_2} and \param{true}. Otherwise return \param{u_1} and
+	\param{\replace{x:ekey}{u_2}{u}} and \param{true}. Otherwise return \param{\replace{x:ekey}{u_1}{x}} and
 	\param{false}.
 
 \note
@@ -530,29 +553,29 @@ to provide all of the Facility and Facility Extensions word sets.
 \see \wref{facility:EKEY}{EKEY},
 	\wref{facility:K-DELETE}{K-DELETE},
 	\wref{facility:K-DOWN}{K-DOWN},
-	\wref{facility:K-END}{K-END},
+	\wref{facility:K-END}{K-END}, \\
 	\wref{facility:K-HOME}{K-HOME},
 	\wref{facility:K-INSERT}{K-INSERT},
 	\wref{facility:K-LEFT}{K-LEFT},
-	\wref{facility:K-NEXT}{K-NEXT},
+	\wref{facility:K-NEXT}{K-NEXT}, \\
 	\wref{facility:K-PRIOR}{K-PRIOR},
 	\wref{facility:K-RIGHT}{K-RIGHT},
 	\wref{facility:K-UP}{K-UP},
-	\wref{facility:K-ALT-MASK}{K-ALT-MASK},
+	\wref{facility:K-ALT-MASK}{K-ALT-MASK}, \\
 	\wref{facility:K-CTRL-MASK}{K-CTRL-MASK},
 	\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
 	\wref{facility:K-F1}{K-F1},
-	\wref{facility:K-F2}{K-F2},
+	\wref{facility:K-F2}{K-F2}, \\
 	\wref{facility:K-F3}{K-F3},
 	\wref{facility:K-F4}{K-F4},
 	\wref{facility:K-F5}{K-F5},
 	\wref{facility:K-F6}{K-F6},
-	\wref{facility:K-F7}{K-F7},
+	\wref{facility:K-F7}{K-F7}, \\
 	\wref{facility:K-F8}{K-F8},
 	\wref{facility:K-F9}{K-F9},
 	\wref{facility:K-F10}{K-F10},
 	\wref{facility:K-F11}{K-F11},
-	\wref{facility:K-F12}{K-F12},
+	\wref{facility:K-F12}{K-F12}, \\
 	\rref{facility:EKEYtoFKEY}{}.
 
 
@@ -635,12 +658,12 @@ to provide all of the Facility and Facility Extensions word sets.
 	\item[Shift keys] ~\\
 		Note that, as defined, the shift key masks
 		(\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
-		 \wref{facility:K-CTRL-MASK}{K-CTRL-MASK}\replace{ed10}{ and}{,}
+		 \wref{facility:K-CTRL-MASK}{K-CTRL-MASK} and
 		 \wref{facility:K-ALT-MASK}{K-ALT-MASK})
-		are only useful for \replace{ed10}{recognising}{recognizing} shifted cursor and function
+		are only useful for recognizing shifted cursor and function
 		keys, because these are the only values defined for use with
 		\word{EKEYtoFKEY}.
-		E.g., a standard program cannot \replace{ed10}{recognise}{recognize} \textsc{Alt-T},
+		E.g., a standard program cannot recognize \textsc{Alt-T},
 		because no \word{EKEY} return value for \texttt{T} has been
 		defined.
 	\end{rationale}
@@ -739,28 +762,72 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{FIELD:}[field-colon][X:structures]
-\item \stack{}{}
+\begin{worddef*}{}{FIELD:}[field-colon][X:structures]
+\item \stack{}{}\strike{2.5}{35} \stack{n_1 "<spaces>name"}{n_2}\strike{-3}{120}
 
-	The semantics of \word{FIELD:} are identical to the
-	execution semantics of the phrase:
+	\sout{%
+		The semantics of \word{FIELD:} are identical to the
+		execution semantics of the phrase:}
 	\begin{quote}\ttfamily
-		\word{ALIGNED} 1 \word{CELLS} \word{+FIELD}
+	\sout{\word{ALIGNED} 1 \word{CELLS} \word{+FIELD}}
 	\end{quote}
+
+	\uline{Skip leading space delimiters. Parse \param{name} delimited by
+	a space. \param{Offset} is the first cell aligned value greater
+	than or equal to}
+	\param{n_1}\strike{-2.6}{11}.
+	\param{n_2 = offset + 1}\strike{-2.6}{60} \uline{cell.}
+
+	\uline{Create a definition for \param{name} with the execution semantics
+	given below.}
+
+\execute[name] \stack{a-addr_1}{a-addr_2}\strike{-3}{170}
+
+	\uline{Add the \param{offset} calculated during the compile time action
+	to}
+	\param{a-addr_1}\strike{-2.6}{34}
+	\uline{giving the cell aligned address}
+	\param{a-addr_2}\strike{-2.6}{34}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}\replace{ed10}{ and}{,}
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}.
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
+	\uline{, \rref{facility:FIELD:}{}}.
+
+	\begin{rationale}
+		\uline{Create an aligned single cell field in a data structure.}
+
+		\uline{The various \emph{x}\texttt{FIELD:} words provide for different
+		alignment and size allocation.}
+
+		\uline{The \emph{x}\texttt{FIELD:} words could be defined as:}
+
+		\begin{tabbing}
+			\tab \= \tab[7] \= \tab[5] \= \tab[6] \= \tab[5.2] \= \kill
+			\> \word{:} \word{FIELD:}   \>\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;} \> \word{bs} cell aligned
+	\strike{-2.5}{297}\\
+			\> \word{:} \word{CFIELD:}  \>\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} \> \word{bs} character aligned
+	\strike{-2.5}{320}
+		\setwordlist{floating} \\
+			\> \word{:} \word{FFIELD:}  \>\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \> \word{bs} float aligned
+	\strike{-2.5}{300} \\
+			\> \word{:} \word{SFFIELD:} \>\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \> \word{bs} single-float aligned
+	\strike{-2.5}{326} \\
+			\> \word{:} \word{DFFIELD:} \>\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;} \> \word{bs} double-float aligned
+	\strike{-2.5}{329.5}
+		\setwordlist{facility}
+		\end{tabbing}
+	\end{rationale}
 
 	\begin{implement} % I.10.6.2.---- FIELD:
-		\textdf{Create a new field within a structure definition
-		of size a cell. The field is aligned.}
+		\sout{\textdf{Create a new field within a structure definition
+		of size a cell. The field is aligned.}}
 
-		\word{:} field:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr \\
-		\tab \word{ALIGNED} 1 \word{CELLS} \word{+FIELD} \\
-		\word{;}
+		\sout{\word{:} field:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr} \\
+		\tab \sout{\word{ALIGNED} 1 \word{CELLS} \word{+FIELD}} \\
+		\sout{\word{;}}
 	\end{implement}
-\end{worddef}
+\end{worddef*}
 
 % -------------------------------------------------------------------
 
@@ -1077,7 +1144,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 \note
 	The actual length and variability of the time period depends
-	upon the implementation-defined resolution of the system clock
+	upon the {im\-ple\-ment\-ation-de\-fin\-ed} resolution of the system clock
 	and upon other system and computer characteristics beyond the
 	scope of this Standard.
 
@@ -1102,7 +1169,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{+n_2} is the minute \{0{\ldots}59\},
 	\param{+n_3} is the hour \{0{\ldots}23\},
 	\param{+n_4} is the day \{1{\ldots}31\},
-	\param{+n_5} is the month \{1{\ldots}12\}, \remove{ed10}{and}
+	\param{+n_5} is the month \{1{\ldots}12\} and
 	\param{+n_6} is the year (e.g., 1991).
 
 \see \rref{facility:TIMEandDATE}{}.

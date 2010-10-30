@@ -128,7 +128,7 @@ shall also accept an argument that is a subtype of \param{i}.
 
 Characters shall have the following properties:
 \begin{itemize}
-\item at least one address unit wide; \\[-4ex]
+\item \place{ed10b}{be} at least one address unit wide; \\[-4ex]
 \item contain at least eight bits; \\[-4ex]
 \item be of fixed width; \\[-4ex]
 \item have a size less than or equal to cell size; \\[-4ex]
@@ -199,7 +199,7 @@ particular type fonts or styles. The graphics here are examples.
 All non-graphic characters included in the implementation-defined
 character set are defined in this Standard as control characters.
 In particular, the characters \{0 {\ldots} 31\}, which could be
-included in the implementation-defined character set, are control
+included in the im\-ple\-ment\-ation-de\-fined character set, are control
 characters.
 
 Programs that require the ability to send or receive control
@@ -236,9 +236,9 @@ standard word shall be a single-cell value with all bits clear.
 \subsubsection{Integers} % 3.1.3.2
 
 The implementation-defined range of signed integers shall include
-\{-32767 {\ldots} +32767\}. The imple\-mentation-defined range of
+\{-32767 {\ldots} +32767\}. The im\-ple\-ment\-ation-de\-fined range of
 non-negative integers shall include \{0 {\ldots} 32767\}. The
-imple\-mentation-defined range of unsigned integers shall include
+implementation-defined range of unsigned integers shall include
 \{0 {\ldots} 65535\}.
 
 \subsubsection{Addresses} % 3.1.3.3
@@ -252,7 +252,7 @@ identifies exactly one such storage element.
 See \xref[3.3.3 Data space]{usage:dataspace}.
 
 The set of character-aligned addresses, addresses at which a
-character can be accessed, is an implementation-defined subset of
+character can be accessed, is an im\-ple\-ment\-ation-de\-fined subset of
 all addresses. Adding the size of a character to a character-aligned
 address shall produce another character-aligned address.
 
@@ -445,7 +445,8 @@ implementation-defined default result, or have an environmental
 dependency on the desired rounding direction.
 
 \begin{table}[ht]
-  \begin{minipage}{0.5\textwidth}
+\begin{center}
+  \begin{minipage}{0.48\textwidth}
 	\begin{center}
 		\caption{Floored Division Example}
 
@@ -465,7 +466,7 @@ dependency on the desired rounding direction.
 		\end{tabular}
 	\end{center}
   \end{minipage}
-  \begin{minipage}{0.5\textwidth}
+  \begin{minipage}{0.48\textwidth}
 	\begin{center}
 		\caption{Symmetric Division Example}
 		\label{table:round}
@@ -484,6 +485,7 @@ dependency on the desired rounding direction.
 		\end{tabular}
 	\end{center}
   \end{minipage}
+\end{center}
 \end{table}
 
 \subsubsection{Other integer operations} % 3.2.2.2
@@ -584,47 +586,48 @@ the valid input strings and corresponding returned value for
 inquiring about the programming environment with
 \word{ENVIRONMENTq}.
 
+\patch{x:workset-query}
 \begin{table}[ht]
   \begin{center}
 	\caption{Environmental Query Strings}
 	\label{table:env}
-	\begin{tabular}{p{9.5em}rcp{0.42\textwidth}}
+	\begin{tabular}{p{11em}rcp{0.42\textwidth}}
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
 		\texttt{/COUNTED-STRING}	& \emph{n}		& yes	&
 			maximum size of a counted string, in characters \\
-		\texttt{/HOLD}				& \emph{n}		& yes	&
+		\texttt{/HOLD}					& \emph{n}		& yes	&
 			size of the pictured numeric output string buffer,
 
 			in characters \\
 
-		\texttt{/PAD}				& \emph{n}		& yes	&
+		\texttt{/PAD}					& \emph{n}		& yes	&
 			size of the scratch area pointed to by \word{PAD},
 			in characters \\
 		\texttt{ADDRESS-UNIT-BITS}	& \emph{n}		& yes	&
 			size of one address unit, in bits \\
-		\texttt{CORE}				& \emph{flag}	& no	&
-			true if complete core word set present
-			(i.e., not a subset as defined in \ref{label:system}) \\
-		\texttt{CORE-EXT}			& \emph{flag}	& no	&
-			true if core extensions word set present \\
-		\texttt{FLOORED}			& \emph{flag}	& yes	&
+		\remove{x:wordset-query}{\texttt{CORE}}				& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{true if complete core word set present
+			(i.e., not a subset as defined in \ref{label:system})} \\
+		\remove{x:wordset-query}{\texttt{CORE-EXT}}			& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{true if core extensions word set present} \\
+		\texttt{FLOORED}				& \emph{flag}	& yes	&
 			true if floored division is the default \\
-		\texttt{MAX-CHAR}			& \emph{u}		& yes	&
+		\texttt{MAX-CHAR}				& \emph{u}		& yes	&
 			maximum value of any character in the
-			imple\-mentation-defined character set \\
-		\texttt{MAX-D}				& \emph{d}		& yes	&
+			implementation-defined character set \\
+		\texttt{MAX-D}					& \emph{d}		& yes	&
 			largest usable signed double number \\
-		\texttt{MAX-N}				& \emph{n}		& yes	&
+		\texttt{MAX-N}					& \emph{n}		& yes	&
 			largest usable signed integer \\
-		\texttt{MAX-U}				& \emph{u}		& yes	&
+		\texttt{MAX-U}					& \emph{u}		& yes	&
 			largest usable unsigned integer \\
 		\texttt{MAX-UD}				& \emph{ud}		& yes	&
 			largest usable unsigned double number \\
 		\texttt{RETURN-STACK-CELLS}	& \emph{n}		& yes	&
 			maximum size of the return stack, in cells \\
-		\texttt{STACK-CELLS}		& \emph{n}		& yes	&
+		\texttt{STACK-CELLS}			& \emph{n}		& yes	&
 			maximum size of the data stack, in cells \\
 		\hline\hline
 	\end{tabular}
@@ -662,7 +665,7 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
   \begin{center}
 	\caption{Forth 200\emph{x} Extensions}
 	\label{table:extensions}
-	\begin{tabular}{p{9.5em}rcp{0.42\textwidth}}
+	\begin{tabular}{p{11em}rcp{0.42\textwidth}}
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
@@ -670,19 +673,77 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
 		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
 		\texttt{X:ekeys}				& -- & -- & the \textsf{X:ekeys} extension is present \\
+\place{x:escaped-strings}{\texttt{X:escaped-strings}} & -- & -- & \place{x:escaped-strings}{the \textsf{X:escaped-strings} extension is present} \\
 		\texttt{X:extension-query}	& -- & -- & the \textsf{X:extension-query} extension is present\\
 		\texttt{X:fatan2}				& -- & -- & the \textsf{X:fatan2} extension is present \\
 		\texttt{X:ftrunc}				& -- & -- & the \textsf{X:ftrunc} extension is present \\
 		\texttt{X:fvalue}				& -- & -- & the \textsf{X:fvalue} extension is present \\
+\place{x:n-to-r}{\texttt{X:n-to-r}} & -- & -- & \place{x:n-to-r}{the \textsf{X:n-to-r} extension is present} \\
 		\texttt{X:number-prefix}	& -- & -- & the \textsf{X:number-prefix} extension is present \\
 		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
 		\texttt{X:required}			& -- & -- & the \textsf{X:required} extension is present \\
 		\texttt{X:structures}		& -- & -- & the \textsf{X:structures} extension is present \\
+\place{x:synonym}{\texttt{X:synonym}} & -- & -- & \place{x:synonym}{the \textsf{X:synonym} extensions is present} \\
 		\texttt{X:throw-iors}		& -- & -- & the \textsf{X:throw-iors} extension is present \\
+\place{x:xchar}{\texttt{X:xchar}} & -- & -- & \place{x:xchar}{the \textsf{X:xchar} extension is present} \\
 		\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
+
+
+\cbstart%
+\subsection{Obsolescent Environmental Queries\strike{-2}{220}}
+\label{usage:obsolete}
+\hfill\textsf{x:wordset-query}
+
+\uline{%
+This standard designates the practice of using \word{ENVIRONMENTq} to inquire
+whether a given word set is present as obsolescent.  If such a query, as listed
+in table \ref{table:obsolete}, returns \param{true}, the word set is present in
+the form defined by the Forth-94 Standard.
+As these queries will be withdrawn from future revisions of the Standard
+their use in new programs is discouraged.
+}
+
+\newcommand{\query}[2]{% <wordset><wordset name>
+	\uline{\texttt{#1}} & \uline{\emph{flag}} & \uline{no} &
+		\uline{Forth-94 #2 word set present.} \\
+	\uline{\texttt{#1-EXT}} & \uline{\emph{flag}} & \uline{no} &
+		\uline{Forth-94 #2 extensions word set present.} \\
+}
+
+%\patch{x:wordlist-query}
+\begin{table}[ht]
+  \begin{center}
+	\caption{Obsolescent Environmental Query Strings\strike{-2}{212}}
+	\label{table:obsolete}
+	\begin{tabular}{p{10em}r@{~~}c@{~~}p{0.55\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{\uline{String \hfill Value data type}} & \uline{Constant?} & \uline{Meaning} \\
+		\hline
+		\uline{\texttt{CORE}} & \uline{\emph{flag}} & \uline{no} &
+			\uline{true if complete core word set of Forth-94 is present} \\
+		&&&\uline{(i.e., not a subset as defined in \ref{label:system})} \\
+		\uline{\texttt{CORE-EXT}} & \uline{\emph{flag}} & \uline{no} &
+			\uline{true if the core extensions word set of Forth-94 is present} \\
+		\query{BLOCK}{block}
+		\query{DOUBLE}{double number}
+		\query{EXCEPTION}{exception}
+		\query{FACILITY}{facility}
+		\query{FILE}{file}
+		\query{FLOATING}{floating-point}
+		\query{LOCALS}{locals}
+		\query{MEMORY-ALLOC}{memory-allocation}
+		\query{TOOLS}{programming-tools}
+		\query{SEARCH-ORDER}{search-order}
+		\query{STRING}{string}
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+\cbend
+
 
 \section{The Forth dictionary} % 3.3 ================================
 \label{usage:dict}
@@ -876,7 +937,8 @@ the regions returned by \word{WORD} and \word{num-end} may overlap in
 memory. Consequently, use of one of these words can corrupt a region
 returned earlier by a different word. The other words that construct
 pictured numeric output strings (\word{num-start}, \word{num}, \word{numS},
-and \word{HOLD})  may also modify the contents of these regions.
+\remove{x:xchar}{and} \word{HOLD}\place{x:xchar}{, \word{HOLDS}, and
+\word[xchar]{XHOLD}})  may also modify the contents of these regions.
 Words that display numbers may be implemented using pictured numeric
 output words. Consequently, \word{d} (dot), \word{.R},
 \word[tools]{.S}, \word[tools]{q}, \word[double]{D.},
@@ -910,7 +972,7 @@ from a user input device.
 
 Such interactive systems usually furnish a ``prompt'' indicating
 that they have accepted a user request and acted on it. The
-imple\-mentation-defined Forth prompt should contain the word ``OK''
+implementation-defined Forth prompt should contain the word ``OK''
 in some combination of upper or lower case.
 
 Text interpretation (see \wref{core:EVALUATE}{EVALUATE} and
@@ -1009,7 +1071,7 @@ a syntax or program-construct checker.
 \label{usage:numbers}
 
 When converting input numbers, the text interpreter shall recognize
-integer numbers in the form \arg{BASEnum}; if the
+integer numbers in the form \linebreak \arg{BASEnum}; if the
 \textsf{X:number-prefixes} extension is present, the text
 interpreter shall recognize integer numbers in the form
 \arg{anynum}.

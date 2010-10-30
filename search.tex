@@ -47,18 +47,19 @@ Append table \ref{search:env} to table \ref{table:env}.
 
 See: \xref[3.2.6 Environmental queries]{usage:env}.
 
+\patch{x:wordset-query}
 \begin{table}[ht]
   \begin{center}
 	\caption{Environmental Query Strings}
 	\label{search:env}
-	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+	\begin{tabular}{p{10em}rcp{0.42\textwidth}}
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
-		\texttt{SEARCH-ORDER}		& \emph{flag}	& no	&
-			search-order word set present \\
-		\texttt{SEARCH-ORDER-EXT}	& \emph{flag}	& no	&
-			search-order extensions word set present \\
+		\remove{x:wordset-query}{\texttt{SEARCH-ORDER}}		& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{search-order word set present} \\
+		\remove{x:wordset-query}{\texttt{SEARCH-ORDER-EXT}}& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{search-order extensions word set present} \\
 		\texttt{WORDLISTS}			& \emph{n}		& yes	&
 			maximum number of word lists usable in the search order\\
 		\hline\hline
@@ -437,29 +438,29 @@ sets.
 			~~~~~~~~~~~~\word{bs} DROP u+1 stack items \\
 		\word{;}
 
-		\word{CREATE} \word[search]{FORTH} ~
+		\word{CREATE} \word[search]{FORTH}
 		\word[search]{FORTH-WORDLIST} \word{,} DO-VOCABULARY
 
-		\word{:} VOCABULARY ~~~\word{p} name -{}- )
-			\word[search]{WORDLIST} \word{CREATE} \word{,} ~ DO-VOCABULARY
+		\word{:} VOCABULARY ~\word{p} name -{}- )
+			\word[search]{WORDLIST} \word{CREATE} \word{,} DO-VOCABULARY
 		\word{;}
 
-		\word{:} \word[search]{ALSO} ~~~~~~~~~\word{p} -{}- )
+		\word{:} \word[search]{ALSO} ~~~~~~~\word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{OVER}
 			\word{SWAP} 1+ \word[search]{SET-ORDER}
 		\word{;}
 
-		\word{:} \word[search]{PREVIOUS} ~~~~~\word{p} -{}- )
+		\word{:} \word[search]{PREVIOUS} ~~~\word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{SWAP}
 			\word{DROP} 1- \word[search]{SET-ORDER}
 		\word{;}
 
-		\word{:} \word[search]{DEFINITIONS} ~~\word{p} -{}- )
+		\word{:} \word[search]{DEFINITIONS} \word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{OVER}
 			\word[search]{SET-CURRENT} DISCARD
 		\word{;}
 
-		\word{:} \word[search]{ONLY} ~~~~~~~~~\word{p} -{}- )
+		\word{:} \word[search]{ONLY} ~~~~~~~\word{p} -{}- )
 			ROOT ROOT ~ 2 \word[search]{SET-ORDER}
 		\word{;}
 
@@ -605,7 +606,7 @@ sets.
 		\word{CR} \word{.p} ONLY FORTH DEFINITIONS search order and compilation list) \word{CR} \\
 		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS} \word{ORDER}}{}
 
-		\word{CR} \word{.p} Plus another unnamed wordlist at the head of the search order) \word{CR} \\
+		\word{CR} \word{.p} Plus another unnamed wordlist at head of search order) \word{CR} \\
 		\test{alsowid2 \word{DEFINITIONS} \word{ORDER}}{}
 	\end{testing}
 \end{worddef}

@@ -44,8 +44,8 @@ given here.
 \ifinline
 	\fbox{\parbox{\linewidth}{\slshape
 	In the \emph{review} (r) version of the document the
-	reference implementaiton for a word is given in the main
-	defintion of the word.  The implementation of words
+	reference implementation for a word is given in the main
+	definition of the word.  The implementation of words
 	in the \textbf{core} word set will appear here in the
 	final document.
 	}}
@@ -53,14 +53,34 @@ given here.
 	\input{i-core.sub}
 \fi
 
-\impsection{block}{Block}				% I.7
+\impsection{block}{Block}					% I.7
 \impsection{double}{Double-Number}		% I.8
 \impsection{exception}{Exception}		% I.9
 \impsection{facility}{Facility}			% I.10
 \impsection{file}{File-Access}			% I.11
 \impsection{floating}{Floating-Point}	% I.12
-\impsection{local}{Locals}				% I.13
+\impsection{local}{Locals}					% I.13
 \impsection{memory}{Memory-Allocation}	% I.14
 \impsection{tools}{Programming-Tools}	% I.15
 \impsection{search}{Search-Order}		% I.16
 \impsection{string}{String}				% I.17
+
+\cbstart\patch{x:xchar}%
+\section{The optional Extended Character wordset} % I.18
+
+This reference implementation assumes the UTF-8 character encoding
+is being used.
+\cbend
+
+\ifinline
+	\fbox{\parbox{\linewidth}{\slshape
+	In the \emph{review} (r) version of the document the
+	reference implementation for a word is given in the main
+	definition of the word.  The implementation of words
+	in the \textbf{core} word set will appear here in the
+	final document.
+	}}
+\else
+	\defersection{}
+	\input{i-xchar.sub}
+\fi

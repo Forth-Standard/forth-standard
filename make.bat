@@ -1,7 +1,7 @@
 @echo off
 set latex=pdflatex --save-size=10000
 
-if x%1 == xone	 goto single
+if x%1 == xone   goto single
 if x%1 == xdvi   goto dvi
 if x%1 == xps    goto ps
 if x%1 == xpdf   goto process
@@ -18,7 +18,7 @@ goto end
 goto end
 
 :dvi
-set latex=latex
+set latex=latex --save-size=10000
 goto process
 
 :process

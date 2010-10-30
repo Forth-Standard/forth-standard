@@ -114,14 +114,14 @@ standards. In particular:
 	``standard'' operating system, using OS text files for source code,
 	rather than the traditional Forth ``blocks''.
 \item Some Forth systems allow external operating system software,
-	windowing software, terminal concentrators, or communications
+	windowing software, terminal con\-cen\-tratores, or communications
 	channels to handle or preprocess user input, resulting in deviations
 	from the input editing, character set availability, and screen
 	management behavior prescribed by Forth 83.
 \end{itemize}
 
 Competitive pressure from other programming languages (predominantly
-``C'') and from other Forth vendors have led Forth vendors to
+``C'') and from other Forth ven\-dors have led Forth vendors to
 optimizations that do not fit in well with the ``virtual machine
 model'' implied by existing Forth standards.
 
@@ -201,8 +201,9 @@ implementation.
 	be changed, substituting either an implementation-defined bit-mask
 	constant, or a procedure to calculate a bit mask in a
 	stack-width-independent way. Here are some procedures for
-	constructing width-independent bit masks:
-	\begin{quote}\ttfamily
+	constructing width-in\-de\-pend\-ent bit masks:
+
+	\begin{tt}
 		1 \word{CONSTANT} LO-BIT \\
 		\word{TRUE} 1 \word{RSHIFT}
 			\quad \word{INVERT}
@@ -216,8 +217,8 @@ implementation.
 			0 \word{SWAP}	0 \word{qDO}
 				1 \word{RSHIFT}	HI-BIT \word{OR}
 			\word{LOOP}
-		\word{;} \\
-	\end{quote}
+		\word{;}
+	\end{tt}
 \end{description}
 
 Programs that depend upon the ``modulo 65536'' behavior implicit in
@@ -250,19 +251,19 @@ signed-magnitude.
 
 \item[Impact:]
 	An ANS Forth Standard Program may declare an ``environmental
-	dependency on two's-complement arithmetic''. This means that the
+	dependency on two's-com\-ple\-ment arithmetic''. This means that the
 	otherwise-Standard Program is only guaranteed to work on
 	two's-complement machines. Effectively, this is not a severe
 	restriction, because the overwhelming majority of current
 	computers use two's-complement. The committee knows of no Forth-83
-	compliant implementations for non-two's-complement machines at
+	com\-pli\-ant implementations for non-two's-complement machines at
 	present, so existing Forth-83 programs will still work on the same
 	class of machines on which they currently work.
 
 \item[Transition/Conversion:]
 	Existing programs wishing to take advantage of the possibility of
 	ANS Forth Standard Systems on non-two's-complement machines may
-	do so by eliminating the use of arithmetic operators to perform
+	do so by eliminating the use of a\-rith\-me\-tic operators to perform
 	logical functions, by deriving bit-mask constants from bit
 	operations as described in the section about stack width, by
 	restricting the usage range of unsigned numbers to the range of
@@ -522,7 +523,7 @@ and specifying their results rather than their specific compile-time
 actions.
 
 To force the compilation of a word that would normally be executed,
-Forth 83 provided the words \texttt{COMPILE}, used with non-immediate
+Forth 83 provided the words \linebreak \texttt{COMPILE}, used with non-immediate
 words, and \word{[COMPILE]}, used with immediate words. ANS Forth
 provides the single word \word{POSTPONE}, which is used with both
 immediate and non-immediate words, automatically selecting the
@@ -744,7 +745,7 @@ portion of the ANS Forth Search Order word set.
 
 \item[Reason:]
 	Vocabularies are an area of much divergence among existing systems.
-	Considering major vendors' systems and previous standards, there
+	Considering major ven\-dors' systems and previous standards, there
 	are at least 5 different and mutually incompatible behaviors of
 	words defined by \texttt{VOCABULARY}. Forth 83 took a step in the
 	direction of ``run-time search-order specification'' by declining
@@ -797,7 +798,7 @@ portion of the ANS Forth Search Order word set.
 
 Forth 83 marked words with ``multiprogramming impact'' by the letter
 ``M'' in the first lines of their descriptions. ANS Forth has removed
-the ``M'' designation from the word descriptions, moving the discussion
+the ``M'' designation from the word descriptions, moving the dis\-cus\-sion
 of multiprogramming impact to this non-normative annex.
 
 \begin{description}
@@ -849,7 +850,7 @@ of multiprogramming impact to this non-normative annex.
 	The only difference is the documentation method used to define
 	the \word[block]{BLOCK} usage rules. The Technical Committee
 	believes that the current method is clearer than the concept of
-	``multiprogramming impact''.
+	``multi\-pro\-gram\-ming impact''.
 
 \item[Transition/Conversion:]
 	none needed.
@@ -897,27 +898,32 @@ words to be available with no additional programmer action.
 \end{description}
 
 % =========================================================
-\endinput
-\newpage
+
+\cbstart\patch{x:legacy}
 \section{ANS Forth '94} % D.7
+\label{diff:forth94}
 
 \subsection{Removed Definitions} % D.7.1
-\place{x:legacy}{%
-	This standard removes the seven words that were marked `obsolescent'
+\uline{%
+	This standard removes six words that were marked `obsolescent'
 	in the ANS Forth '94 document.  These are:}
 
 \begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
-  \place{x:legacy}{   6.2.0060}	& \place{x:legacy}{\textbf{\#TIB}}
-& \place{x:legacy}{15.6.2.1580}	& \place{x:legacy}{\textbf{FORGET}}
-& \place{x:legacy}{   6.2.2240}	& \place{x:legacy}{\textbf{SPAN}} \\
-  \place{x:legacy}{   6.2.0970}	& \place{x:legacy}{\textbf{CONVERT}}
-& \place{x:legacy}{   6.2.2040}	& \place{x:legacy}{\textbf{QUERY}}
-& \place{x:legacy}{   6.2.2290}	& \place{x:legacy}{\textbf{TIB}} \\
-  \place{x:legacy}{   6.2.1390}	& \place{x:legacy}{\textbf{EXPECT}} \\
+
+
+	\uline{6.2.0060}	& \uline{\textbf{\#TIB}}
+&	\uline{6.2.1390}	& \uline{\textbf{EXPECT}}
+&	\uline{6.2.2240}	& \uline{\textbf{SPAN}} \\
+	\uline{6.2.0970}	& \uline{\textbf{CONVERT}}
+&	\uline{6.2.2040}	& \uline{\textbf{QUERY}}
+&	\uline{6.2.2290}	& \uline{\textbf{TIB}} \\
 \end{tabular}
 
-\place{x:legacy}{%
+\uline{%
     Reuse of these names is strongly discouraged.}
+
+\cbend
+\endinput
 
 % \glossary[*]{<number>}{<sub>}{<name>}{<wordset>}{<ext>}{<proposal>}{<label>}{<english>}
 
@@ -956,10 +962,10 @@ words to be available with no additional programmer action.
 }
 \makeatother
 
-\wordindex[*]{0060}{}{\num{}TIB}{core}	{EXT}{X:legacy}{numTAB}	{number-t-i-b}
+\wordindex[*]{0060}{}{\num{}TIB}	{core}	{EXT}{X:legacy}{numTAB}	{number-t-i-b}
 \wordindex[*]{0970}{}{CONVERT}	{core}	{EXT}{X:legacy}{CONVERT}{}
-\wordindex[*]{1390}{}{EXPECT}	{core}	{EXT}{X:legacy}{EXPECT}	{}
-\wordindex[*]{1580}{}{FORGET}	{tools}	{EXT}{X:legacy}{FORGET}	{}
-\wordindex[*]{2040}{}{QUERY}	{core}	{EXT}{X:legacy}{QUERY}	{}
+\wordindex[*]{1390}{}{EXPECT}		{core}	{EXT}{X:legacy}{EXPECT}	{}
+%\wordindex[*]{1580}{}{FORGET}	{tools}	{EXT}{X:legacy}{FORGET}	{}
+\wordindex[*]{2040}{}{QUERY}		{core}	{EXT}{X:legacy}{QUERY}	{}
 \wordindex[*]{2240}{}{SPAN}		{core}	{EXT}{X:legacy}{SPAN}	{}
-\wordindex[*]{2290}{}{TIB}		{core}	{EXT}{X:legacy}{TIB}	{t-i-b}
+\wordindex[*]{2290}{}{TIB}			{core}	{EXT}{X:legacy}{TIB}		{t-i-b}

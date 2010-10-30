@@ -24,6 +24,7 @@ Append table \ref{local:env} to table \ref{table:env}.
 
 See: \xref[3.2.6 Environmental queries]{usage:env}.
 
+\patch{x:wordset-query}
 \begin{table}[h]
   \begin{center}
 	\caption{Environmental Query Strings}
@@ -34,10 +35,10 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 		\hline
 		\texttt{\#LOCALS}		& \emph{n}	& yes	&
 			maximum number of local variables in a definition \\
-		\texttt{LOCALS}	& \emph{flag}	& no	&
-			locals word set present \\
-		\texttt{LOCALS-EXT}	& \emph{flag}	& no	&
-			locals extensions word set present \\
+		\remove{x:wordset-query}{\texttt{LOCALS}}	& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{locals word set present} \\
+		\remove{x:wordset-query}{\texttt{LOCALS-EXT}}	& \sout{\emph{flag}}	& \sout{no}	&
+			\sout{locals extensions word set present} \\
 		\hline\hline
 	\end{tabular}
   \end{center}
@@ -258,12 +259,11 @@ to provide all of the Locals and Locals Extensions word sets.
 	name with \word{TO}. An ambiguous condition exists when local is
 	executed while in interpretation state.
 
-\scrollmode
-\runtime[\word{TO} \param{local}]
-\place{ed10}{\stack{x}{}}
+\patch{ed10}\cbstart
+\runtime[\word{TO} \param{local}] \stack{x}{}\strike{-2.5}{121}
+\cbend
 
 	\place{ed10}{Assign the value \param{x} to the local value \param{local}.}
-\errorstopmode
 
 \note
 	This word does not have special compilation semantics in the
@@ -284,12 +284,11 @@ to provide all of the Locals and Locals Extensions word sets.
 	is described in detail in section \xref[13.3.3 Processing
 	locals]{local:locals}.
 
-\scrollmode
-\runtime[\word{TO} \param{local}]
-	\remove{ed10}{\stack{x}{}}
+\patch{ed10}\cbstart
+\runtime[\word{TO} \param{local}] \stack{x}{}\strike{2.5}{121}
+\cbend
 
 	\remove{ed10}{Assign the value \param{x} to the local value \param{local}.}
-\errorstopmode
 
 \see \xref[3.4 The Forth text interpreter]{usage:command} and
 	\wref{core:TO}{TO}.

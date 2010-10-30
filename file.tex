@@ -103,28 +103,30 @@ When they do:
 \end{itemize}
 
 
-\subsection{Environmental queries} % 11.3.3
+\subsection{Environmental queries\strike{2.4}{160}} % 11.3.3
+\cbstart\patch{x:wordset-query}%
 
-Append table \ref{file:env} to table \ref{table:env}.
+\sout{Append table \ref{file:env} to table \ref{table:env}.}
 
-See: \xref[3.2.6 Environmental queries]{usage:env}.
+See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
 
 \begin{table}[ht]
   \begin{center}
-	\caption{Environmental Query Strings}
+	\caption{Environmental Query Strings\strike{2.4}{165}}
 	\label{file:env}
 	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
 		\hline\hline
-		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
 		\hline
-		\texttt{FILE}		& \emph{flag}		& no	&
-			file word set present \\
-		\texttt{FILE-EXT}	& \emph{flag}		& no	&
-			file extensions word set present \\
+		\sout{\texttt{FILE}}		& \sout{\emph{flag}}		& \sout{no}	&
+			\sout{file word set present} \\
+		\sout{\texttt{FILE-EXT}}	& \sout{\emph{flag}}		& \sout{no}	&
+			\sout{file extensions word set present} \\
 		\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
+\cbend
 
 \subsection{Input source} % 11.3.4
 \label{file:source}
@@ -178,10 +180,10 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 \begin{itemize}
 \item file access methods used by
 	\wref{file:BIN}{BIN},
-	\wref{file:CREATE-FILE}{CREATE-FILE},
+	\wref{file:CREATE-FILE}{CREATE-FILE}, \\
 	\wref{file:OPEN-FILE}{OPEN-FILE},
 	\wref{file:R/O}{R/O},
-	\wref{file:R/W}{R/W}, \remove{ed10}{and}
+	\wref{file:R/W}{R/W} and
 	\wref{file:W/O}{W/O};
 \item file exceptions;
 \item file line terminator (\wref{file:READ-LINE}{READ-LINE});
@@ -205,7 +207,7 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 \item attempting to position a file outside its boundaries
 	(\wref{file:REPOSITION-FILE}{REPOSITION-FILE});
 \item attempting to read from file positions not yet written
-	(\wref{file:READ-FILE}{READ-FILE}, \wref{file:READ-LINE}{READ-LINE});
+	(\wref{file:READ-FILE}{READ-FILE}, \\ \wref{file:READ-LINE}{READ-LINE});
 \item \emph{fileid} is invalid (\wref{file:INCLUDE-FILE}{INCLUDE-FILE});
 \item I/O exception reading or closing \emph{fileid}
 	(\wref{file:INCLUDE-FILE}{INCLUDE-FILE},
@@ -388,7 +390,7 @@ provide all of the File Access and File Access Extensions word sets.
 \item \stack{c-addr u}{ior}
 
 	Delete the file named in the character string specified by
-	\param{c-addr u}. \param{ior} is the implementation-defined
+	\param{c-addr u}. \param{ior} is the {im\-ple\-ment\-ation-de\-fin\-ed}
 	I/O result code.
 
 	\begin{testing}
@@ -412,10 +414,12 @@ provide all of the File Access and File Access Extensions word sets.
 \item \stack{fileid}{ud ior}
 
 	\param{ud} is the size, in characters, of the file identified by
-	\param{fileid}. \param{ior} is the implementation-defined I/O
+	\param{fileid}. \param{ior} is the {im\-ple\-ment\-ation-de\-fin\-ed} I/O
 	result code. This operation does not affect the value returned
-	by \word{FILE-POSITION}. \param{ud} is undefined if \param{ior}
-	is non-zero.
+	by
+	\hyperref{}{file}{FILE-POSITION}{\textbf{\texttt{FILE-}}}
+	\hyperref{}{file}{FILE-POSITION}{\textbf{\texttt{POSITION}}}.
+	\param{ud} is undefined if \param{ior} is non-zero.
 
 	\begin{testing}\ttfamily
 		\word{:} cbuf buf bsize 0 \word{FILL} \word{;} \\
@@ -468,7 +472,7 @@ provide all of the File Access and File Access Extensions word sets.
 	there is an I/O exception reading \param{fileid}, or if an I/O
 	exception occurs while closing \param{fileid}. When an ambiguous
 	condition exists, the status (open or closed) of any files that
-	were being interpreted is implementation-defined.
+	were being interpreted is {im\-ple\-ment\-ation-de\-fin\-ed}.
 
 \see \xref[11.3.4 Input source]{file:source},
 	\rref{file:INCLUDE-FILE}{}.
@@ -702,8 +706,8 @@ provide all of the File Access and File Access Extensions word sets.
 			\word{BEGIN}				\>\> \word{p} ) \\
 			\> {\ldots} \word[file]{READ-LINE} \word[exception]{THROW}
 										\>	 \word{p} length not-eof-flag ) \\
-			\word{WHILE} 				\>\> \word{p} length ) \\
-			\> {\ldots}					\>	 \word{p} ) \\
+			\word{WHILE} 			\>\> \word{p} length ) \\
+			\> {\ldots}				\>	 \word{p} ) \\
 			\word{REPEAT} \word{DROP}	\>\> \word{p} ) \\
 		  \end{tabbing}
 		\end{quote}\setwordlist{file}
@@ -788,8 +792,10 @@ provide all of the File Access and File Access Extensions word sets.
 	operation might not have been written.
 
 	At the conclusion of the operation, \word{FILE-SIZE} returns
-	the value \param{ud} and \word{FILE-POSITION} returns an
-	unspecified value.
+	the value \param{ud} and
+	\hyperref{}{file}{FILE-POSITION}{\textbf{\texttt{FILE-}}} \linebreak
+	\hyperref{}{file}{FILE-POSITION}{\textbf{\texttt{POSITION}}}
+	returns an unspecified value.
 
 \see \wref{file:READ-FILE}{READ-FILE},
 	\wref{file:READ-LINE}{READ-LINE}.
@@ -841,7 +847,7 @@ provide all of the File Access and File Access Extensions word sets.
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Cq}{C"},
 	\wref{core:Sq}{S"},
-	\xref[11.3.5 Other transient regions]{file:buffers},
+	\xref[11.3.5 Other transient regions]{file:buffers}, \\
 	\rref{file:Sq}{}.
 
 	\begin{rationale} % A.11.6.1.2165 S"

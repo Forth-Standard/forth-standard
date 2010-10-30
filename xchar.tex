@@ -1,0 +1,805 @@
+\cbstart\patch{x:xchar}%
+\chapter{The optional Extended Characters wordset} % 18
+\wordlist{xchar}
+
+\section{Introduction} % 18.1
+
+This wordset deals with variable width character encodings.  It also
+works with fixed width encodings.
+
+Since the standard specifies ASCII encoding for characters, only
+ASCII-compatible encodings may be used.  Because ASCII compatibility
+has so many benefits, most encodings actually are ASCII compatible.
+The characters beyond the ASCII encoding are called ``extended
+characters'' (xchars).
+
+All words dealing with strings shall handle xchars when the xchar
+wordset is present.  This includes dictionary definitions, so the
+dictionary entries should not use bit 8 for other purposes.  White
+space parsing does not have to treat code points greater than \$20
+as white space.
+
+\section{Additional terms and notation} % 18.2
+
+\subsection{Definition of Terms} % 18.2.1
+
+\begin{description}
+\item[code point:] A member of an extended character set.
+\end{description}
+
+\subsection{Parsed-text notation}
+
+Append table \ref{xchar:syntax} to table \ref{table:syntax}.
+
+\begin{table}[ht]
+	\begin{center}
+		\caption{Parsed text abbreviations}
+		\label{xchar:syntax}
+		\begin{tabular}{ll}
+		\hline\hline
+			\emph{Abbreviation} & \emph{Description} \\ \hline
+			\param{<xchar>} & the delimiting extended character \\
+		\hline\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+See: \xref{notation:parsed}.
+
+\section{Additional usage requirements} % 18.3
+
+\subsection{Data types} % 18.3.1
+
+Append table \ref{xchar:types} to table \ref{table:datatypes}.
+
+\begin{table}[ht]
+	\begin{center}
+		\caption{Data Types}
+		\label{xchar:types}
+		\begin{tabular}{llr}
+			\hline\hline
+			\emph{Symbol}		& \emph{Data type} & \emph{Size on stack} \\ \hline
+			\emph{pchar}		& primitive character		& 1 cell \\
+			\emph{xchar}		& extended character			& 1 cell \\
+			\emph{xc-addr}		& xchar-aligned address		& 1 cell \\
+%			\emph{xc-addr u}	& character-aligned string		& 2 cells \\
+			\hline\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+See: \xref{usage:data}.
+
+\subsubsection{Extended Characters} % 18.3.1.1
+
+An extended character (xchar) is the code point of a character within an
+extended character set; on the stack it is a subset of \emph{u}.  Extended
+characters are stored in memory encoded as one or more primitive characters
+(pchars).
+
+%\begin{description}
+%\item[xc-addr] is the address of an xchar in memory.
+%	Alignment requirements are the same as \emph{c-addr}.
+
+%\item[xc-addr u] is a string of xchars in memory, starting at
+%  \emph{xc-addr}, \emph{u} pchars long.
+%\end{description}
+
+
+\subsection{Environmental queries} % 18.3.2.
+
+Append table \ref{xchar:env} to table \ref{table:env}.
+
+\begin{table}[ht]
+	\begin{center}
+		\caption{Environmental Query Strings}
+		\label{xchar:env}
+		\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+			\hline\hline
+			\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+			\hline
+			\texttt{XCHAR-ENCODING}		& \emph{c-addr u} & no &
+				Returns a printable ASCII string that represents the encoding,
+				and use the preferred MIME name (if any) or the name in the
+				IANA character-set register\footnotemark[1] (RFC-1700) such
+				as ``\texttt{ISO-LATIN-1}'' or ``\texttt{UTF--8}'',
+				with the exception of ``\texttt{ASCII}'', where the alias
+				``\texttt{ASCII}'' is preferred. \\
+
+			\texttt{MAX-XCHAR}			& \emph{u} & no &
+				Maximal value for \emph{xchar} \\
+			\texttt{XCHAR-MAXMEM}		& \emph{u} & no &
+				Maximal memory consumed by an \emph{xchar} in address units \\
+			\hline\hline \\[-1ex]
+			\multicolumn{4}{l}{\footnotemark[1]
+				\url{http://www.iana.org/assignments/character-sets}} \\
+		\end{tabular}
+	\end{center}
+\end{table}
+
+See: \xref[3.2.6 Environmental queries]{usage:env}.
+
+% Append table \ref{xchar:extensions} to table \ref{table:extensions}.
+
+% \begin{table}[ht]
+%  \begin{center}
+%	\caption{Forth 200\emph{x} Extensions}
+%	\label{xchar:extensions}
+%	\begin{tabular}{p{9.5em}rcp{0.42\textwidth}}
+%		\hline\hline
+%		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+%		\hline
+%		\texttt{X:xchar}	& --	& --	& The
+%                \textsf{X:xchar} extension is present \\
+%		\hline\hline
+%	\end{tabular}
+%  \end{center}
+%\end{table}
+
+\subsection{Common encodings} % 18.3.3
+
+Input and files are often encoded iso--latin--1 or utf--8.  The encoding
+depends on settings of the computer system such as the LANG environment
+variable on Unix.  You can use the system consistently only when you do
+not change the encoding, or only use the ASCII subset.
+The typical practice in environments requiring more than one encoding
+is that the base system is ASCII only, and the character set is then
+extended to specify the required encoding.
+
+%\subsection{Exception Handling} % 18.3.5
+%
+%Append table \ref{xchar:throw} to table \ref{table:throw}:
+%
+%\begin{table}[ht]
+%	\begin{center}
+%		\caption{\word[exception]{THROW} code assignments}
+%		\label{xchar:throw}
+%		\begin{tabular}{ll}
+%			\hline\hline
+%			Code & Reserved for \\\hline
+%			-77 & Malformed xchar
+%			\\ \hline\hline
+%		\end{tabular}
+%	\end{center}
+%\end{table}
+
+\subsection{The Forth text interpreter} % 18.3.4
+
+In section \xref{usage:numbers}{}, \arg{cnum} should be redefined to be:
+
+\begin{center}
+	\begin{tabular}{ll}
+		\arg{cnum}		& the number is the value of \arg{xchar}
+	\end{tabular}
+\end{center}
+
+\section{Additional documentation requirements} % 18.4
+
+\subsection{System documentation} % 18.4.1
+
+\subsubsection{Implementation-defined options} % 18.4.1.1
+
+Terminal string IO like \word{TYPE} and \word{ACCEPT} also are extended to
+work with xchars in the string.  Since Unicode input and display poses a
+number of challenges like input method editors for different languages,
+left-to-right and right-to-left writing, and most fonts contain only a subset
+of Unicode glyphs, systems should document their capabilities.  File IO and
+in-memory string handling should work transparently with xchars.
+
+%\begin{itemize}
+%\item no additional requirements
+%\end{itemize}
+
+\subsubsection{Ambiguous conditions} % 18.4.1.2
+
+\begin{itemize}
+\item the data in memory does not encode a valid xchar
+	(\wref{xchar:X-SIZE}{});
+\item the xchar value is outside the range of allowed code points of
+	the current character set used.
+\item words improperly used outside
+	\wref{core:num-start}{<\num} and \wref{core:num-end}{\num>}
+	(\wref{xchar:XHOLD}{}).
+\end{itemize}
+
+\subsubsection{Other system documentation} % 18.4.1.3
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\subsection{Program documentation} % 18.4.2
+\begin{itemize}
+\item no additional requirements.
+\end{itemize}
+
+\section{Compliance and labeling} % 18.5
+
+\subsection{ANS Forth systems} % 18.5.1
+
+The phrase ``Providing the Extended Character word set'' shall be
+appended to the label of any Standard System that provides all of
+the Extended Character word set.
+
+The phrase ``Providing \emph{name(s)} from the Extended Character
+Extensions word set'' shall be appended to the label of any Standard
+System that provides portions of the Extended Character Extensions
+word set.
+
+The phrase ``Providing the Extended Character Extensions word set''
+shall be appended to the label of any Standard System that provides
+all of the Extended Character and Extended Character Extensions
+word sets.
+
+\subsection{ANS Forth programs} % 18.5.2
+
+The phrase ``Requiring the Extended Character word set'' shall be
+appended to the label of Standard Programs that require the system
+to provide the Extended Character word set.
+
+The phrase ``Requiring \emph{name(s)} from the Extended Character
+Extensions word set'' shall be appended to the label of Standard Programs
+that require the system to provide portions of the Extended Character
+Extensions word set.
+
+The phrase ``Requiring the Extended Character Extensions word set''
+shall be appended to the label of Standard Programs that require the
+system to provide all of the Extended Character Exception and
+Extended Character Extensions word sets.
+
+\section{Glossary} % 18.6
+
+\subsection{Extended Character words} % 18.6.1
+\cbend
+
+\begin{worddef*}{}{X-SIZE}[][x:xchar]
+\item \stack{xc-addr u_1}{u_2}
+
+	\param{u_2} is the number of pchars used to encode the first xchar
+	stored in the string \param{xc-addr u1}.  To calculate the size of
+	the xchar, only the bytes inside the buffer may be accessed.  An
+	ambiguous condition exists if the xchar is incomplete or malformed.
+
+	\begin{implement}
+	\word{:} \word{X-SIZE} \word{p} xc-addr u1 -{}- u2 ) \\
+	\tab \word{0=} ~~~~~~~~\word{IF} \word{DROP} 0 \word{EXIT} \word{THEN} \\
+	\tab \word{bs} \textdf{length of UTF-8 char starting at u8-addr (accesses only u8-addr)} \\
+	\tab \word{C@} \\
+	\tab \word{DUP} \$80 \word{Uless} \word{IF} \word{DROP} 1 \word{EXIT} \word{THEN} \\
+	\tab \word{DUP} \$c0 \word{Uless} \word{IF} -77 \word[exception]{THROW} ~~\word{THEN} \\
+	\tab \word{DUP} \$e0 \word{Uless} \word{IF} \word{DROP} 2 \word{EXIT} \word{THEN} \\
+	\tab \word{DUP} \$f0 \word{Uless} \word{IF} \word{DROP} 3 \word{EXIT} \word{THEN} \\
+	\tab \word{DUP} \$f8 \word{Uless} \word{IF} \word{DROP} 4 \word{EXIT} \word{THEN} \\
+	\tab \word{DUP} \$fc \word{Uless} \word{IF} \word{DROP} 5 \word{EXIT} \word{THEN} \\
+	\tab \word{DUP} \$fe \word{Uless} \word{IF} \word{DROP} 6 \word{EXIT} \word{THEN} \\
+	\tab -77 \word[exception]{THROW} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XC!+}[x-c-store-plus][x:char]
+\item \stack{xchar xc-addr_1}{xc-addr_2}
+
+	Stores the \param{xchar} at \param{xc-addr_1}.  \param{xc-addr_2}
+	points to the first memory location after the stored \param{xchar}.
+
+	\begin{implement}
+	\word{:} \word{XC!+} \word{p} xchar xc-addr -{}- xc-addr' ) \\
+	\tab \word{OVER} \$80 \word{Uless} \word{IF} \word{TUCK} \word{C!} \word{CHAR+} \word{EXIT} \word{THEN} \word{bs} \textdf{special case ASCII} \\
+	\tab \word{toR} 0 \word{SWAP} \$3F \\
+	\tab \word{BEGIN} \word{2DUP} \word{Umore} \word{WHILE} \\
+	\tab[2] \word{2/} \word{toR} \word{DUP} \$3F \word{AND} \$80 \word{OR} \word{SWAP} 6 \word{RSHIFT} \word{Rfrom} \\
+	\tab \word{REPEAT} \$7F \word{XOR} \word{2*} \word{OR} \word{Rfrom} \\
+	\tab \word{BEGIN} \word{OVER} \$80 \word{Uless} \word{0=} \word{WHILE} \word{TUCK} \word{C!} \word{CHAR+} \word{REPEAT} \word{NIP} \\
+	\word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}[XC!+q]{}{XC!+?}[x-c-store-plus-query][x:xchar]
+\item \stack{xchar xc-addr_1 u_1}{xc-addr_2 u_2 flag}
+
+	Stores the \param{xchar} into the string buffer specified by
+	\param{xc-addr_1 u_1}.  \param{xc-addr_2 u_2} is the remaining string
+	buffer.  If the \param{xchar} did fit into the buffer, \param{flag}
+	is true, otherwise \param{flag} is false, and \param{xc-addr_2 u_2}
+	equal \param{xc-addr_1 u_1}.  \word{XC!+q} is safe for buffer overflows.
+
+	\begin{implement}
+	\word{:} \word{XC!+q} \word{p} xchar xc-addr u -{}- xc-addr' u' flag ) \\
+	\tab \word{toR} \word{OVER} \word{XC-SIZE} \word{R@} \word{OVER} \word{Uless} \word{IF} \word{p} xchar xc-addr1 len r: u1 ) \\
+	\tab[2] \word{bs} \textdf{not enough space} \\
+	\tab[2] \word{DROP} \word{NIP} \word{Rfrom} \word{FALSE} \\
+	\tab \word{ELSE} \\
+	\tab[2] \word{toR} \word{XC!+} \word{Rfrom} \word{Rfrom} \word{SWAP} \word{-} \word{TRUE} \\
+	\tab \word{THEN} \word{;}
+	\end{implement}
+
+	\begin{testing}
+	\test{\$ffff \word{PAD} 4 \word{XC!+q}}{\word{PAD} 3 \word{+} 1 <TRUE>}
+	\end{testing}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XC,}[x-c-comma][x:xchar]
+\item \stack{xchar}{}
+
+	Append the encoding of \param{xchar} to the dictionary.
+
+\see \wref{core:C,}{}.
+
+	\begin{implement}
+	\word{:} \word{XC,} \word{p} xchar -{}- ) \word{HERE} \word{XC!+} DP \word{!} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XC-SIZE}[x-c-size][x:xchar]
+\item \stack{xchar}{u}
+
+	\param{u} is the number of pchars used to encode \param{xchar} in memory.
+
+	\begin{implement}
+	\word{:} \word{XC-SIZE} \word{p} xchar -{}- n ) \\
+	\tab \word{DUP} \$80 \word{Uless} \word{IF} \word{DROP} 1 \word{EXIT} \word{THEN} \word{bs} \textdf{special case ASCII} \\
+	\tab \$800  2 \word{toR} \\
+	\tab \word{BEGIN} \word{2DUP} U>= \word{WHILE}  5 \word{LSHIFT} \word{Rfrom} \word{1+} \word{toR} \word{DUP} \word{0=} \word{UNTIL} \word{THEN} \\
+	\tab \word{2DROP} \word{Rfrom} \\
+	\word{;}
+	\end{implement}
+
+	\begin{testing}
+		This test assumes UTF-8 encoding is being used.
+
+		\ttfamily
+		\word{HEX} \\
+		\test{     0 \word{XC-SIZE}}{1} \\
+		\test{    7f \word{XC-SIZE}}{1} \\
+		\test{    80 \word{XC-SIZE}}{2} \\
+		\test{   7ff \word{XC-SIZE}}{2} \\
+		\test{   800 \word{XC-SIZE}}{3} \\
+		\test{  ffff \word{XC-SIZE}}{3} \\
+		\test{ 10000 \word{XC-SIZE}}{4} \\
+		\test{1fffff \word{XC-SIZE}}{4}
+  \end{testing}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XC@+}[x-c-fetch-plus][x:xchar]
+\item \stack{xc-addr_1}{xc-addr_2 xchar}
+
+	Fetches the \param{xchar} at \param{xc-addr_1}.  \param{xc-addr_2}
+	points to the first memory location after the retrieved \param{xchar}.
+
+	\begin{implement}
+	\word{:} \word{XC@+} \word{p} xc-addr -{}- xc-addr' u ) \\
+	\tab \word{COUNT} \word{DUP} \$80 \word{Uless} \word{IF} \word{EXIT} \word{THEN}  \word{bs} \textdf{special case ASCII} \\
+   \tab \$7F \word{AND} \$40 \word{toR} \\
+	\tab \word{BEGIN} \word{DUP} \word{R@} \word{AND} \word{WHILE} \word{R@} \word{XOR} \\
+	\tab[2] 6 \word{LSHIFT} \word{Rfrom} 5 \word{LSHIFT} \word{toR} \word{toR} \word{COUNT} \\
+	\tab[2] \$3F \word{AND} \word{Rfrom} \word{OR} \\
+	\tab \word{REPEAT} \word{Rfrom} \word{DROP} \\
+	\word{;}
+	\end{implement}
+
+%	\begin{testing}
+%		\ttfamily
+%		\word{HEX} \\
+%		\word{:} test-string \word{Sq}
+%			\begin{CJK}{UTF8}{cyberbit}
+%				恭喜发财
+%			\end{CJK}!"
+%		\word{;} \\
+%		\word{:} TXC@ \word{XC@+} \word{SWAP} \word{;}
+%
+%		\test{test-string \word{DROP} TXC@ TXC@ TXC@ TXC@ TXC@ \word{DROP} \\}{606D 559C 53D1 8D22 21}
+%  \end{testing}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XCHAR+}[x-char-plus][x:xchar]
+\item \stack{xc-addr_1}{xc-addr_2}
+
+	Adds the size of the xchar stored at \param{xc-addr_1} to this address,
+	giving \param{xc-addr_2}.
+
+\see \wref{core:CHAR+}{}.
+
+	\begin{implement}
+	\word{:} \word{XCHAR+} \word{p} xc-addr -{}- xc-addr' )  \word{XC@+} \word{DROP} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XEMIT}[x-emit][x:xchar]
+\item \stack{xchar}{}
+
+	Prints an \param{xchar} on the terminal.
+
+\see \wref{core:EMIT}.
+
+	\begin{implement}
+	\word{:} \word{XEMIT} \word{p} xchar -{}- ) \\
+	\tab \word{DUP} \$80 \word{Uless} \word{IF} \word{EMIT} \word{EXIT} \word{THEN} \word{bs} \textdf{special case ASCII} \\
+	\tab 0 \word{SWAP} \$3F \\
+	\tab \word{BEGIN} \word{2DUP} \word{Umore} \word{WHILE} \\
+	\tab[2] \word{2/} \word{toR} \word{DUP} \$3F \word{AND} \$80 \word{OR} \word{SWAP} 6 \word{RSHIFT} \word{Rfrom} \\
+	\tab \word{REPEAT} \$7F \word{XOR} \word{2*} \word{OR} \\
+	\tab \word{BEGIN} \word{DUP} \$80 \word{Uless} \word{0=} \word{WHILE} \word{EMIT} \word{REPEAT} \word{DROP}\\
+	\word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XKEY}[x-key][x:xchar]
+\item \stack{}{xchar}
+
+	Reads an \param{xchar} from the terminal.  This will discard all input
+	events up to the completion of the \param{xchar}.
+
+\see \wref{core:KEY}{}.
+
+	\begin{implement}
+	\word{:} \word{XKEY} \word{p} -{}- xchar ) \\
+	\tab \word{KEY} \word{DUP} \$80 \word{Uless} \word{IF} \word{EXIT} \word{THEN} \word{bs} \textdf{special case ASCII} \\
+	\tab \$7F \word{AND} \$40 \word{toR} \\
+	\tab \word{BEGIN} \word{DUP} \word{R@} \word{AND} \word{WHILE} \word{R@} \word{XOR} \\
+	\tab[2] 6 \word{LSHIFT} \word{Rfrom} 5 \word{LSHIFT} \word{toR} \word{toR} \word{KEY} \\
+	\tab[2] \$3F \word{AND} \word{Rfrom} \word{OR} \\
+	\tab \word{REPEAT} \word{Rfrom} \word{DROP} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}[XKEYq]{}{XKEY?}[x-key-query][x:xchar]
+\item \stack{}{flag}
+
+	\param{Flag} is true when it's possible to do \word{XKEY} without
+	blocking.  Subsequent \word[facility]{KEYq}, \word{KEY},
+	\word[facility]{EKEYq}, and \word[facility]{EKEY} may be affected
+	by \word{XKEYq}.
+
+\see \wref{facility:KEYq}{}.
+\end{worddef*}
+
+
+\subsection{Extended Character extension words} % 18.6.2
+\extended
+
+\begin{worddef*}{}{+X/STRING}[plus-x-string][x:xchar]
+\item \stack{xc-addr_1 u_1}{xc-addr_2 u_2}
+
+	Step forward by one xchar in the buffer defined by \param{xc-addr_1 u_1}.
+	\param{xc-addr_2 u_2} is the remaining buffer after stepping over the
+	first xchar in the buffer.
+
+	\begin{implement}
+	\word{:} \word{+X/STRING} \word{p} xc-addr1 u1 -{}- xc-addr2 u2 ) \\
+	\tab \word{OVER} \word{DUP} \word{XCHAR+} \word{SWAP} \word{-} \word[string]{/STRING} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{}{-TRAILING-GARBAGE}[minus-trailing-garbage][x:xchar]
+\item \stack{xc-addr u_1}{xc-addr u_2}
+
+	Examine the last xchar in the string \param{xc-addr u_1} --- if the
+	encoding is correct and it represents a full xchar, \param{u_2} equals
+	\param{u_1}, otherwise, \param{u_2} represents the string without the
+	last (garbled) xchar.  \word{-TRAILING-GARBAGE} does not change this
+	garbled xchar.
+
+	\begin{implement}
+	\word{:} \word{-TRAILING-GARBAGE} \word{p} xc-addr u1 -{}- xc-addr u2 ) \\
+	\tab \word{2DUP} \word{+} \word{DUP} \word{XCHAR-} \word{p} addr u1 end1 end2 ) \\
+	\tab \word{2DUP} \word{DUP} \word{OVER} \word{OVER} \word{-} \word{X-SIZE} \word{+} \word{=} \word{IF} \word{bs} \textdf{last xchar ok} \\
+	\tab[2] \word{2DROP} \\
+	\tab \word{ELSE} \\
+	\tab[2] \word{NIP} \word{NIP} \word{OVER} \word{-} \\
+	\tab \word{THEN} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{0895}{CHAR}[][x:xchar]
+\item \stack{"<spaces>name"}{xchar}
+
+	Skip leading space delimiters.  Parse \param{name} delimited by a space.
+	Put the value of its first \param{xchar} onto the stack.
+
+\see \wref{core:CHAR}.
+
+	\begin{rationale}
+		The behavior of the extended version of \word{CHAR} is fully backward
+		compatible with \wref{core:CHAR}{}.
+	\end{rationale}
+
+	\begin{implement}
+	\word{:} \word{CHAR} \word{p} "name" -{}- xchar )
+		\word{BL} \word{WORD} \word{COUNT} \word{DROP} \word{XC@+} \word{NIP} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}[EKEYtoXCHAR]{}{EKEY>XCHAR}[e-key-to-x-char][x:xchar]
+\item \stack{x}{xchar true | x false}
+
+	If the keyboard event \param{x} corresponds to an xchar, return the
+	\param{xchar} and \param{true}.  Otherwise, return \param{x} and
+	\param{false}.
+
+\see \wref{facility:EKEY}{},
+	\wref{facility:EKEYtoCHAR}{},
+	\wref{facility:EKEYtoFKEY}{}.
+\end{worddef*}
+
+
+\begin{worddef*}{2008}{PARSE}[][x:xchar]
+\item \stack{xchar "ccc<xchar>"}{c-addr u}
+
+  Parse \param{ccc} in the input stream delimited by \param{xchar}.
+
+	\param{c-addr} is the address (within the input buffer) and \param{u}
+	is the length of the parsed string. If the parse area was empty, the
+	resulting string has a zero length.
+
+\see \xref{usage:parsing}{},
+	\wref{core:PARSE}{},
+	\rref{core:PARSE}{}.
+\end{worddef*}
+
+
+\begin{worddef*}{}{X-WIDTH}[][x:xchar]
+\item \stack{xc-addr u}{n}
+
+	\param{n} is the number of monospace ASCII characters that take the same
+	space to display as the xchar string \param{xc-addr u}; assuming a
+	monospaced display font, i.e., xchar width is always an integer multiple
+	of the width of an ASCII character.
+
+	\begin{implement}
+	\word{:} \word{X-WIDTH} \word{p} xc-addr u -{}- n ) \\
+	\tab 0 \word{ROT} \word{ROT} \word{OVER} \word{+} \word{SWAP} \word{qDO} \\
+	\tab[2] \word{I} \word{XC@+} \word{SWAP} \word{toR} \word{XC-WIDTH} \word{+} \\
+	\tab \word{Rfrom} \word{I} \word{-} \word{+LOOP} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XC-WIDTH}[x-c-width][x:xchar]
+\item \stack{xchar}{n}
+
+	\param{n} is the number of monospace ASCII characters that take the same
+	space to display as the \param{xchar}; i.e., \param{xchar} width is always
+	an integer multiple of the width of an ASCII char.
+
+	\begin{implement}
+	\word{:} wc, \word{p} n low high -{}- )  \word{1+} \word{,} \word{,} \word{,} \word{;}
+
+	\word{CREATE} wc-table \word{bs} \textdf{derived from wcwidth source code, for UCS32} \\
+	0 ~0300 ~0357 wc,\tab[2]
+	0 ~035D ~036F wc,\tab[2]
+	0 ~0483 ~0486 wc,\\
+	0 ~0488 ~0489 wc,\tab[2]
+	0 ~0591 ~05A1 wc,\tab[2]
+	0 ~05A3 ~05B9 wc,\\
+	0 ~05BB ~05BD wc,\tab[2]
+	0 ~05BF ~05BF wc,\tab[2]
+	0 ~05C1 ~05C2 wc,\\
+	0 ~05C4 ~05C4 wc,\tab[2]
+	0 ~0600 ~0603 wc,\tab[2]
+	0 ~0610 ~0615 wc,\\
+	0 ~064B ~0658 wc,\tab[2]
+	0 ~0670 ~0670 wc,\tab[2]
+	0 ~06D6 ~06E4 wc,\\
+	0 ~06E7 ~06E8 wc,\tab[2]
+	0 ~06EA ~06ED wc,\tab[2]
+	0 ~070F ~070F wc,\\
+	0 ~0711 ~0711 wc,\tab[2]
+	0 ~0730 ~074A wc,\tab[2]
+	0 ~07A6 ~07B0 wc,\\
+	0 ~0901 ~0902 wc,\tab[2]
+	0 ~093C ~093C wc,\tab[2]
+	0 ~0941 ~0948 wc,\\
+	0 ~094D ~094D wc,\tab[2]
+	0 ~0951 ~0954 wc,\tab[2]
+	0 ~0962 ~0963 wc,\\
+	0 ~0981 ~0981 wc,\tab[2]
+	0 ~09BC ~09BC wc,\tab[2]
+	0 ~09C1 ~09C4 wc,\\
+	0 ~09CD ~09CD wc,\tab[2]
+	0 ~09E2 ~09E3 wc,\tab[2]
+	0 ~0A01 ~0A02 wc,\\
+	0 ~0A3C ~0A3C wc,\tab[2]
+	0 ~0A41 ~0A42 wc,\tab[2]
+	0 ~0A47 ~0A48 wc,\\
+	0 ~0A4B ~0A4D wc,\tab[2]
+	0 ~0A70 ~0A71 wc,\tab[2]
+	0 ~0A81 ~0A82 wc,\\
+	0 ~0ABC ~0ABC wc,\tab[2]
+	0 ~0AC1 ~0AC5 wc,\tab[2]
+	0 ~0AC7 ~0AC8 wc,\\
+	0 ~0ACD ~0ACD wc,\tab[2]
+	0 ~0AE2 ~0AE3 wc,\tab[2]
+	0 ~0B01 ~0B01 wc,\\
+	0 ~0B3C ~0B3C wc,\tab[2]
+	0 ~0B3F ~0B3F wc,\tab[2]
+	0 ~0B41 ~0B43 wc,\\
+	0 ~0B4D ~0B4D wc,\tab[2]
+	0 ~0B56 ~0B56 wc,\tab[2]
+	0 ~0B82 ~0B82 wc,\\
+	0 ~0BC0 ~0BC0 wc,\tab[2]
+	0 ~0BCD ~0BCD wc,\tab[2]
+	0 ~0C3E ~0C40 wc,\\
+	0 ~0C46 ~0C48 wc,\tab[2]
+	0 ~0C4A ~0C4D wc,\tab[2]
+	0 ~0C55 ~0C56 wc,\\
+	0 ~0CBC ~0CBC wc,\tab[2]
+	0 ~0CBF ~0CBF wc,\tab[2]
+	0 ~0CC6 ~0CC6 wc,\\
+	0 ~0CCC ~0CCD wc,\tab[2]
+	0 ~0D41 ~0D43 wc,\tab[2]
+	0 ~0D4D ~0D4D wc,\\
+	0 ~0DCA ~0DCA wc,\tab[2]
+	0 ~0DD2 ~0DD4 wc,\tab[2]
+	0 ~0DD6 ~0DD6 wc,\\
+	0 ~0E31 ~0E31 wc,\tab[2]
+	0 ~0E34 ~0E3A wc,\tab[2]
+	0 ~0E47 ~0E4E wc,\\
+	0 ~0EB1 ~0EB1 wc,\tab[2]
+	0 ~0EB4 ~0EB9 wc,\tab[2]
+	0 ~0EBB ~0EBC wc,\\
+	0 ~0EC8 ~0ECD wc,\tab[2]
+	0 ~0F18 ~0F19 wc,\tab[2]
+	0 ~0F35 ~0F35 wc,\\
+	0 ~0F37 ~0F37 wc,\tab[2]
+	0 ~0F39 ~0F39 wc,\tab[2]
+	0 ~0F71 ~0F7E wc,\\
+	0 ~0F80 ~0F84 wc,\tab[2]
+	0 ~0F86 ~0F87 wc,\tab[2]
+	0 ~0F90 ~0F97 wc,\\
+	0 ~0F99 ~0FBC wc,\tab[2]
+	0 ~0FC6 ~0FC6 wc,\tab[2]
+	0 ~102D ~1030 wc,\\
+	0 ~1032 ~1032 wc,\tab[2]
+	0 ~1036 ~1037 wc,\tab[2]
+	0 ~1039 ~1039 wc,\\
+	0 ~1058 ~1059 wc,\tab[2]
+	1 ~0000 ~1100 wc,\tab[2]
+	2 ~1100 ~115f wc,\\
+	0 ~1160 ~11FF wc,\tab[2]
+	0 ~1712 ~1714 wc,\tab[2]
+	0 ~1732 ~1734 wc,\\
+	0 ~1752 ~1753 wc,\tab[2]
+	0 ~1772 ~1773 wc,\tab[2]
+	0 ~17B4 ~17B5 wc,\\
+	0 ~17B7 ~17BD wc,\tab[2]
+	0 ~17C6 ~17C6 wc,\tab[2]
+	0 ~17C9 ~17D3 wc,\\
+	0 ~17DD ~17DD wc,\tab[2]
+	0 ~180B ~180D wc,\tab[2]
+	0 ~18A9 ~18A9 wc,\\
+	0 ~1920 ~1922 wc,\tab[2]
+	0 ~1927 ~1928 wc,\tab[2]
+	0 ~1932 ~1932 wc,\\
+	0 ~1939 ~193B wc,\tab[2]
+	0 ~200B ~200F wc,\tab[2]
+	0 ~202A ~202E wc,\\
+	0 ~2060 ~2063 wc,\tab[2]
+	0 ~206A ~206F wc,\tab[2]
+	0 ~20D0 ~20EA wc,\\
+	2 ~2329 ~232A wc,\tab[2]
+	0 ~302A ~302F wc,\tab[2]
+	2 ~2E80 ~303E wc,\\
+	0 ~3099 ~309A wc,\tab[2]
+	2 ~3040 ~A4CF wc,\tab[2]
+	2 ~AC00 ~D7A3 wc,\\
+	2 ~F900 ~FAFF wc,\tab[2]
+	0 ~FB1E ~FB1E wc,\tab[2]
+	0 ~FE00 ~FE0F wc,\\
+	0 ~FE20 ~FE23 wc,\tab[2]
+	2 ~FE30 ~FE6F wc,\tab[2]
+	0 ~FEFF ~FEFF wc,\\
+	2 ~FF00 ~FF60 wc,\tab[2]
+	2 ~FFE0 ~FFE6 wc,\tab[2]
+	0 ~FFF9 ~FFFB wc,\\
+	0 1D167 1D169 wc,\tab[2]
+	0 1D173 1D182 wc,\tab[2]
+	0 1D185 1D18B wc,\\
+	0 1D1AA 1D1AD wc,\tab[2]
+	2 20000 2FFFD wc,\tab[2]
+	2 30000 3FFFD wc,\\
+	0 E0001 E0001 wc,\tab[2]
+	0 E0020 E007F wc,\tab[2]
+	0 E0100 E01EF wc,\\
+	\word{HERE} wc-table \word{-} \word{CONSTANT} \#wc-table
+
+	\word{bs} \textdf{inefficient table walk:}
+
+	\word{:} \word{XC-WIDTH} \word{p} xchar -{}- n ) \\
+	\tab wc-table \#wc-table \word{OVER} \word{+} \word{SWAP} \word{qDO} \\
+	\tab[2] \word{DUP} \word{I} \word{2@} \word{WITHIN} \word{IF}
+		\word{DROP} \word{I} 2 \word{CELLS} \word{+} \word{@} \word{UNLOOP} \word{EXIT} \word{THEN} \\
+	\tab 3 \word{CELLS} \word{+LOOP} \word{DROP} 1 \word{;}
+	\end{implement}
+
+	\begin{testing}
+		\test{\$606D \word{XC-WIDTH}}{2} \\
+		\test{  \$41 \word{XC-WIDTH}}{1} \\
+		\test{\$2060 \word{XC-WIDTH}}{0}
+	\end{testing}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XCHAR-}[x-char-minus][x:xchar]
+\item \stack{xc-addr_1}{xc-addr_2}
+
+	Goes backward from \param{xc-addr_1} until it finds an xchar so that the
+	size of this xchar added to \param{xc-addr_2} gives \param{xc-addr1}.
+	There is an ambiguous condition when the encoding doesn't permit reliable
+	backward stepping through the text.
+
+	\begin{implement}
+	\word{:} \word{XCHAR-} \word{p} xc-addr -{}- xc-addr' ) \\
+	\tab \word{BEGIN}  1 \word{CHARS} \word{-} \word{DUP} \word{C@} \$C0 \word{AND} \$80 \word{ne} \word{UNTIL} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{}{XHOLD}[x-hold][x:xchar]
+\item \stack{xchar}{}
+
+	Adds \param{xchar} to the picture numeric output string.  An ambiguous
+	condition exists if \word{XHOLD} executes outside of a \word{num-start}
+	\word{num-end} delimited number conversion.
+
+\see \wref{core:HOLD}{}.
+
+	\begin{implement}
+	\word{CREATE} xholdbuf 8 \word{ALLOT}
+
+	\word{:} \word{XHOLD} \word{p} xchar -{}- )
+		xholdbuf \word{TUCK} \word{XC!+} \word{OVER} \word{-} \word{HOLDS} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}[XSTRING-]{}{X\bs{}STRING-}[x-string-minus][x:xchar]
+\item \stack{xc-addr u_1}{xc-addr u_2}
+
+	Search for the penultimate xchar in the string \param{xc-addr u_1}.
+	The string \param{xc-addr u_2} contains all xchars of
+	\param{xc-addr u_1}, but the last.  Unlike \word{XCHAR-},
+	\word{XSTRING-} can be implemented in encodings where xchar
+	boundaries can only reliably detected when scanning in forward
+	direction.
+
+	\begin{implement}
+	\word{:} \word{XSTRING-} \word{p} xc-addr u -{}- xc-addr u' ) \\
+	\tab \word{OVER} \word{+} \word{XCHAR-} \word{OVER} \word{-} \word{;}
+	\end{implement}
+\end{worddef*}
+
+
+\begin{worddef*}{2520}{[CHAR]}[bracket-char][x:char]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile \stack{"<spaces>name"}{}
+
+	Skip leading space delimiters.  Parse \param{name} delimited by a space.
+	Append the run-time semantics given below to the current definition.
+
+\runtime \stack{}{xchar}
+
+	Place \param{xchar}, the value of the first xchar of \param{name}, on
+	the stack.
+
+\see \wref{core:[CHAR]}.
+
+	\begin{implement}
+	\word{:} \word{[CHAR]} \word{p} "name" -{}- rt:xchar ) \\
+	\tab \word{CHAR} \word{POSTPONE} \word{LITERAL} \word{;} \word{IMMEDIATE}
+	\end{implement}
+\end{worddef*}
+
+\endinput

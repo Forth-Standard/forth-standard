@@ -1,21 +1,24 @@
 \documentclass[10pt]{book}
+%\setlength\overfullrule{5pt}	% Draft
 \usepackage{a4wide}
 %\includeonly{titlepage,foreword,foreword-ans,process,members-2x}
 %\includeonly{intro,notation,usage,doc,label}
-%\includeonly{core,block,double,exception,facility,file,float,locals,memory,tools,search,string}
+%\includeonly{core,block,double,exception,facility,file,float}
+%\includeonly{locals,memory,tools,search,string,xchar}
 %\includeonly{rationale,bib,history,diff,port,implement,testsuite}
+%\includeonly{changelog}
 
 % ========== Document Organisation Flags ==========
 
 \newif\ifinline			% Inline Rationale glossary matter
-\inlinetrue
+%\inlinetrue
 \inlinefalse
 
 \newif\ifshowref		% Display Cross Reference labels
-\showreftrue
+%\showreftrue
 \showreffalse
 
-\newcommand{\revision}{09.3}	% Document Revision
+\newcommand{\revision}{10.2}	% Document Revision
 
 % =================================================
 
@@ -49,8 +52,12 @@
 
 % Define a our new version
 \renewcommand{\include}[1]{%
-	\gdef\includefile{#1}%	Remember the filename
-	\forth@include{#1}%		Include it
+	\IfFileExists{#1.tex}{%
+		\gdef\includefile{#1}%	Remember the filename
+		\forth@include{#1}%		Include it
+	}{%
+		\@latex@error{File "#1.tex" Not Found!}\@ehc
+	}
 }
 
 % ========== Page Header / Footer ==========
@@ -352,6 +359,10 @@
 % a proposal attached. 
 
 \newcommand{\word@def@begin}{%
+	\typeout{%
+		\ifx\empty\word@num----\else\word@num\fi
+		\ifx\empty\word@sub\else.\word@sub\fi
+		\space\includefile:\word@label}
 	\ifx\empty\word@prop
 		% No proposal - word must be from ANS Forth '94
 		\if@star
@@ -494,7 +505,7 @@
 		% No proposal - word must be from ANS Forth '94
 	\else
 		\mbox{} \hfill	% flush right (under the wordset name)
-		\textsf{\small \word@prop}
+		\textsf{\small \word@prop}%
 	\fi
 	%
 	% Define the label for this word
@@ -601,15 +612,15 @@
 % First we define the functions which are going to be called by our
 % special characters
 
-\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% _
-\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% ^
-\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}			% *
-\newcommand{\stack@bar}{~\textbar~}								% |
-\newcommand{\stack@opa}{\ensuremath{\langle}}					% <
-\newcommand{\stack@cla}{\ensuremath{\rangle}}					% >
+\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}  % _
+\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}   % ^
+\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}           % *
+\newcommand{\stack@bar}{~\textbar~}                            % |
+\newcommand{\stack@opa}{\ensuremath{\langle}}                  % <
+\newcommand{\stack@cla}{\ensuremath{\rangle}}                  % >
 
 \newif\if@stack@quote\@stack@quotetrue
-\newcommand{\stack@qot}{%										% "
+\newcommand{\stack@qot}{%                                      % "
 	\if@stack@quote``\@stack@quotefalse\else''\@stack@quotetrue\fi}
 
 % Now we have to activate the special characters we are going to
@@ -617,12 +628,12 @@
 % group so we don't screw up the rest of the system.
 
 \begingroup
-	\catcode`\_=\active		% Subscript:      _1 or _{12}
-	\catcode`\*=\active		% Multiply:       1*2
-	\catcode`\|=\active		% Alternative:    u|n
-	\catcode`\<=\active		% Start text:     <ccc>
-	\catcode`\>=\active		% End text:       <ccc>
-	\catcode`\"=\active		% Syntax element: "name"
+	\catcode`\_=\active  % Subscript:      _1 or _{12}
+	\catcode`\*=\active  % Multiply:       1*2
+	\catcode`\|=\active  % Alternative:    u|n
+	\catcode`\<=\active  % Start text:     <ccc>
+	\catcode`\>=\active  % End text:       <ccc>
+	\catcode`\"=\active  % Syntax element: "name"
 
 % Because we are inside a simple group, we have to use \gdef rather
 % than \newcommand. The \stack@set command installs the new specials
@@ -849,17 +860,21 @@
 	\Newassociation{testing}{worddefer}{testing}
 	\Newassociation{implement}{worddefer}{implementation}
 
-	\newcommand{\prerationale}{%
+	% The pre<x> macros are invoked before the text is shipped out to
+	% the auxiliary file.  We use them to redirect the reader to the
+	% appropriate appendix.
+
+%	\newcommand{\prerationale}{%
 %		\item[Rationale] See \rref{\word@list:\word@label}{\word@name}.
-	}
+%	}
 
-	\newcommand{\pretesting}{%
+%	\newcommand{\pretesting}{%
 %		\item[Testing] See \tref{\word@list:\word@label}{\word@name}.
-	}
+%	}
 
-	\newcommand{\preimplement}{%
+%	\newcommand{\preimplement}{%
 %		\item[Implementation] See \iref{\word@list:\word@label}{\word@name}.
-	}	
+%	}	
 
 	% The text for all three environments will be processed by
 	% the worddefer environment.  This will be given a number
@@ -935,6 +950,11 @@
 %			"\word@list" \MessageBreak #1}\@ehc
 %	}
 
+	% The \format@<x> commands are called by the general worddefer environment
+	% to initialise the formatting for the section.  In the rationale and test
+	% appendices this is the "normal" roman font, but in the implementation
+	% appendix this is the type-type (courier) font.
+
 	\let\format@rat\rmfamily
 	\let\format@test\rmfamily
 	\let\format@imp\ttfamily
@@ -992,6 +1012,7 @@
 		% Record a cross reference label for the section
 		%
 		\label{\defer@space:\word@list:\word@label}
+		\typeout{\ifnum#2=0----\else #2\fi: \defer@space:\word@list:\word@label}
 		%
 		% Format the section
 		%
@@ -1326,17 +1347,18 @@
 % Reserve a counter for the second title page
 \newcounter{savepage}
 
-\reject{ed10}
-
 \begin{document}
 
+% \nochangebars\rule{\linewidth}{1pt}\hspace*{-\linewidth}\rule[3pt]{\linewidth}{1pt}
+
+\include{hyphenation}
 \include{titlepage}
 \thispagestyle{empty}
 \def\includefile{}
 
 \frontmatter
 \setcounter{tocdepth}{2}
-%{\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
+{\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
 %%{\parskip 0pt \listoftables}	\addcontentsline{toc}{chapter}{\listtablename}
 %%{\parskip 0pt \listoffigures}	\addcontentsline{toc}{chapter}{\listfigurename}
 %%{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
@@ -1375,10 +1397,10 @@
 \include{memory}		% 14
 \include{tools}		% 15
 \include{search}		% 16
+\include{string}		% 17
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
-\include{string}
-%\include{legacy}
+\include{xchar}		% 18
 
 % Close the deferred output files
 \Closesolutionfile{rationale}

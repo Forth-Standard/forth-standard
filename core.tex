@@ -1146,7 +1146,7 @@
 		\test{: GR2 \word{toR} \word{R@} \word{Rfrom} \word{DROP} ;}{} \\
 		\test{123 GR1}{123} \\
 		\test{123 GR2}{123} \\
-		\test{ 1S GR1}{ 1S} \tab[2] \word{p} RETURN STACK HOLDS CELLS )
+		\test{ 1S GR1}{ 1S} \tab[2] \word{p} \textdf{Return stack holds cells} )
 	\end{testing}
 \end{worddef}
 
@@ -1265,7 +1265,8 @@
 		functions are often implemented by system components beyond the
 		control of the Forth implementation, this Standard imposes no
 		such requirement. A Standard Program may only assume that it
-		can receive an input string with \word{ACCEPT} or \word{EXPECT}.
+		can receive an input string with \word{ACCEPT}
+	\remove{x:legacy}{or \word{EXPECT}}.
 		The detailed sequence of user actions necessary to prepare and
 		transmit that line are beyond the scope of this Standard.
 
@@ -1278,9 +1279,10 @@
 		Since actual values are almost always small integers, no
 		functionality is impaired by this restriction.
 
+	\remove{x:legacy}{%
 		\word{ACCEPT} and \word{EXPECT} perform similar functions.
 		\word{ACCEPT} is recommended for new programs, and future use
-		of \word{EXPECT} is discouraged.
+		of \word{EXPECT} is discouraged.}
 
 		It is recommended that all non-graphic characters be reserved
 		for editing or control functions and not be stored in the input
@@ -1297,6 +1299,7 @@
 		the string is signified by the user pressing a ``Return'' or
 		``Enter'' key.
 
+	\remove{x:legacy}{%
 		As in previous standards, \word{EXPECT} returns the input
 		string immediately after the requested number of characters
 		are entered, as well as when a line terminator is received.
@@ -1308,10 +1311,12 @@
 		Thus \word{EXPECT} and \word{SPAN} have been made obsolescent
 		and exist in the Standard only as a concession to existing
 		implementations. If \word{EXPECT} exists in a Standard System
-		it must have the ``automatic termination'' behavior.
+		it must have the ``automatic termination'' behavior.}
 
+	\remove{x:legacy}{%
 		\word{ACCEPT} does not have the ``automatic termination''
-		behavior of \word{EXPECT}. However, because external system
+		behavior of \word{EXPECT}. However, because}
+	\place{x:legacy}{Because} external system
 		hardware and software may perform the \word{ACCEPT} function,
 		when a line terminator is received the action of the cursor,
 		and therefore the display, is implementation-defined. It is
@@ -1474,7 +1479,7 @@
 \see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
 	\wref{core:REPEAT}{REPEAT},
 	\wref{core:UNTIL}{UNTIL},
-	\wref{core:WHILE}{WHILE},
+	\wref{core:WHILE}{WHILE}, \\
 	\rref{core:BEGIN}{}.
 
 	\begin{rationale} % A.6.1.0760 BEGIN
@@ -2103,7 +2108,7 @@
 		\wref{core:ENVIRONMENTq}{ENVIRONMENT?},
 		\wref{file:Sq}{S"},
 		\wref{tools:[IF]}{[IF]},
-		\wref{tools:[ELSE]}{[ELSE]},\replace{ed10}{ and}{,}
+		\wref{tools:[ELSE]}{[ELSE]} and
 		\wref{tools:[THEN]}{[THEN]}
 		constitutes an effective suite of words for conditional
 		compilation that works in interpretation state.
@@ -2244,7 +2249,7 @@
 
 \see \xref[3.4.2 Finding definition names]{usage:find},
 	\rref{core:'}{'},
-	\rref{core:FIND}{},
+	\rref{core:FIND}{}, \\
 	\rref{core:POSTPONE}{POSTPONE},
 	\rref{core:[']}{[']},
 	\xref[D.6.7 Immediacy]{diff:immediate}.
@@ -2281,7 +2286,7 @@
 		Type 3 mechanisms and optimizations of type 2 implementations
 		were hampered by the explicit specification of immediacy or
 		non-immediacy of all standard words. \word{POSTPONE} allowed
-		de-specification of immediacy or non-immediacy for all but a
+		de-spec\-i\-fi\-ca\-tion of immediacy or non-immediacy for all but a
 		few Forth words whose behavior must be \word{STATE}-independent.
 
 		One type 3 implementation, Charles Moore's cmForth, has both
@@ -2525,10 +2530,11 @@
 
 	Make the most recent definition an immediate word. An ambiguous
 	condition exists if the most recent definition does not have a
-	name.
+	name \place{x:synonym}{or if it was defined as a \word[tools]{SYNONYM}.}
 
-\see \xref[D.6.7 Immediacy]{diff:immediate},
-	\rref{core:IMMEDIATE}{}.
+\see \place{x:synonym}{\wref{tools:SYNONYM},}
+	\rref{core:IMMEDIATE}{},
+	\xref[D.6.7 Immediacy]{diff:immediate}.
 
 	\begin{rationale} % A.6.1.1710 IMMEDIATE
 		Typical use:
@@ -3083,6 +3089,7 @@
 
 		\word{POSTPONE} replaces most of the functionality of
 		\texttt{COMPILE} and  \word{[COMPILE]}. \texttt{COMPILE} and
+	\linebreak
 		\word{[COMPILE]} are used for the same purpose: postpone the
 		compilation behavior of the next word in the parse area.
 		\texttt{COMPILE} was designed to be applied to non-immediate
@@ -3335,8 +3342,8 @@
 		\test{   1 1 \word{RSHIFT}}{0} \\
 		\test{   2 1 \word{RSHIFT}}{1} \\
 		\test{   4 2 \word{RSHIFT}}{1} \\
-		\test{8000 F \word{RSHIFT}}{1}					\tab[6.4] \word{bs} BIGGEST \\
-		\test{ MSB 1 \word{RSHIFT} MSB \word{AND}}{  0} \tab[1] \word{bs} RSHIFT ZERO FILLS MSBS \\
+		\test{8000 F \word{RSHIFT}}{1}						\tab[7] \word{bs} \textdf{Biggest} \\
+		\test{ MSB 1 \word{RSHIFT} MSB \word{AND}}{  0} \tab[1] \word{bs} RSHIFT \textdf{zero fills MSBs} \\
 		\test{ MSB 1 \word{RSHIFT}     \word{2*} }{MSB}
 	\end{testing}
 \end{worddef}
@@ -3363,6 +3370,7 @@
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Cq}{C"},
 	\wref{file:Sq}{S"},
+	\place{x:escaped-strings}{\wref{core:Seq}{},}
 	\rref{core:Sq}{}.
 
 	\begin{rationale} % A.6.1.2165 S"
@@ -3499,7 +3507,6 @@
 	\end{testing}
 \end{worddef}
 
-
 \begin{worddef}{2216}{SOURCE}
 \item \stack{}{c-addr u}
 
@@ -3515,18 +3522,20 @@
 		flexibility in their implementation of buffering mechanisms
 		for different input sources. The committee moved away from an
 		input buffer specification consisting of a collection of
-		individual variables, declaring \word{TIB} and
-		\word{numTIB} obsolescent.
+		individual variables%
+		\remove{x:legacy}{, declaring \word{TIB} and \word{numTIB} obsolescent}.
 
+	\remove{x:legacy}{%
 		\word{SOURCE} in this form exists in F83, polyFORTH, LMI's
 		Forths and others. In conventional systems it is equivalent to
-		the phrase
+		the phrase}
 
+	\remove{x:legacy}{%
 		\tab \word[block]{BLK} \word{@} \word{IF}
 			\word[block]{BLK} \word{@} \word[block]{BLOCK} 1024
 		\word{ELSE}
 			\word{TIB} \word{numTIB} \word{@}
-		\word{THEN}
+		\word{THEN}}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.2216 SOURCE
@@ -3598,14 +3607,14 @@
 		Although
 		\word{EVALUATE},
 		\word[block]{LOAD},
-		\word[file]{INCLUDE-FILE}, \remove{ed10}{and}
+		\word[file]{INCLUDE-FILE} and
 		\word[file]{INCLUDED}
 		are not listed as words which alter \word{STATE}, the text
 		interpreted by any one of these words could include one or
 		more words which explicitly alter \word{STATE}.
 		\word{EVALUATE},
 		\word[block]{LOAD},
-		\word[file]{INCLUDE-FILE}, \remove{ed10}{and}
+		\word[file]{INCLUDE-FILE} and
 		\word[file]{INCLUDED}
 		do not in themselves alter \word{STATE}.
 
@@ -3990,15 +3999,17 @@
 	\param{c-addr} is the address of a transient region containing
 	the parsed word as a counted string. If the parse area was
 	empty or contained no characters other than the delimiter, the
-	resulting string has a zero length. A space, not included in the
-	length, follows the string. A program may replace characters
-	within the string.
+	resulting string has a zero length.
+	\remove{x:legacy}{A space, not included in the length, follows
+	the string.}
+	A program may replace characters within the string.
 
 \note
+\remove{x:legacy}{%
 	The requirement to follow the string with a space is obsolescent
 	and is included as a concession to existing programs that use
-	\word{CONVERT}. A program shall not depend on the
-	existence of the space.
+	\word{CONVERT}. A program shall not depend on the existence of
+	the space.}
 
 \see \xref[3.3.3.6 Other transient regions]{usage:transient},
 	\xref[3.4.1 Parsing]{usage:parsing},
@@ -4007,12 +4018,12 @@
 	\begin{rationale} % A.6.1.2450 WORD
 		Typical use: \emph{char} \word{WORD} \emph{ccc}\arg{char}
 
-%	\place{x:legacy}{%
-%		As a concession to the obsolesecent word \word{CONVERT},
-%		Forth '94 required an implementation to put a space after
-%		the string placed by \word{WORD}.  This standard neither
-%		requires nor prohibits such a space.
-%	}
+	\remove{x:legacy}{%
+		As a concession to the obsolescent word \word{CONVERT},
+		Forth '94 required an implementation to put a space after
+		the string placed by \word{WORD}.  This standard neither
+		requires nor prohibits such a space.
+	}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.2450 WORD
@@ -4020,7 +4031,7 @@
 		\word{:} GS3 \word{WORD} \word{COUNT} \word{SWAP} \word{C@} \word{;} \\
 		\test{\word{BL} GS3 HELLO}{5 \word{CHAR} H} \\
 		\test{\word{CHAR} " GS3 GOODBYE"}{7 \word{CHAR} G} \\
-		\test{BL GS3 \\\mbox{}   \word{DROP}}{0} \hfill \word{bs} BLANK LINE RETURN ZERO-LENGTH STRING
+		\test{BL GS3 \\\mbox{}   \word{DROP}}{0} \hfill \word{bs} \textdf{Blank lines return zero-length strings}
 	\end{testing}
 \end{worddef}
 
@@ -4191,22 +4202,22 @@
 %	\Opensolutionfile{implementation}[i-core-ext]
 \fi
 
+\begin{worddef*}[numTIB]{0060}{\num{}TIB}[number-t-i-b][x:legacy]
+\item \stack{}{a-addr}\strike{2.5}{65}
 
-\begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b]
-\item \stack{}{a-addr}
-
+\sout{
 	\param{a-addr} is the address of a cell containing the number
-	of characters in the terminal input buffer.
+	of characters in the terminal input buffer.}
 
-\note
+\note\sout{
 	This word is obsolescent and is included as a concession to
-	existing implementations.
+	existing implementations.}
 
 	\begin{rationale} % A.6.2.0060 #TIB
-		The function of \word{numTIB} has been superseded by
-		\word{SOURCE}.
+\sout{	The function of \word{numTIB} has been superseded by
+		\word{SOURCE}.}
 	\end{rationale}
-\end{worddef}
+\end{worddef*}
 
 
 \begin{worddef}[.p]{0200}{.(}[dot-paren]
@@ -4303,7 +4314,7 @@
 	\stack[R]{x_1 x_2}{}
 
 	Transfer cell pair \param{x_1 x_2} from the return stack.
-	Semantically equivalent to \word{Rfrom} \word{Rfrom} word{SWAP}.
+	Semantically equivalent to \word{Rfrom} \word{Rfrom} \word{SWAP}.
 
 \see \xref[3.2.3.3 Return stack]{usage:returnstack},
 	\wref{core:toR}{>R}
@@ -4535,7 +4546,7 @@
 \see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
 	\wref{core:+LOOP}{+LOOP},
 	\wref{core:DO}{DO},
-	\wref{core:I}{I},
+	\wref{core:I}{I}, \\
 	\wref{core:LEAVE}{LEAVE},
 	\wref{core:LOOP}{LOOP},
 	\wref{core:UNLOOP}{UNLOOP},
@@ -4898,33 +4909,42 @@
 \end{worddef}
 
 
-\begin{worddef}{0970}{CONVERT}
-\item \stack{ud_1 c-addr_1}{ud_2 c-addr_2}
+\begin{worddef*}{0970}{CONVERT}[][x:legacy]
+\item \stack{ud_1 c-addr_1}{ud_2 c-addr_2}\strike{2.5}{130}
 
-	\param{ud_2} is the result of converting the characters within
-	the text beginning at the first character after \param{c-addr_1}
-	into digits, using the number in \word{BASE}, and adding each
-	digit to \param{ud_1} after multiplying \param{ud_1} by the
+	\param{ud_2}\strike{2.5}{15}
+	\sout{is the result of converting the characters within
+	the text beginning at the first character after}
+	\param{c-addr_1}\strike{2.5}{35}
+	\sout{into digits, using the number in \word{BASE}, and adding each
+	digit to}
+	\param{ud_1}\strike{2.5}{17}
+	\sout{after multiplying}
+	\param{ud_1}\strike{2.5}{17}
+	\sout{by the
 	number in \word{BASE}. Conversion continues until a character
-	that is not convertible is encountered. \param{c-addr_2} is
+	that is not convertible is encountered.}
+	\param{c-addr_2}\strike{2.5}{35}
+	\sout{is
 	the location of the first unconverted character. An ambiguous
-	condition exists if \param{ud_2} overflows.
+	condition exists if}
+	\param{ud_2}\strike{2.5}{17} \sout{overflows.}
 
-\note
+\note\sout{
 	This word is obsolescent and is included as a concession to
 	existing implementations. Its function is superseded by
-	\wref{core:toNUMBER}{>NUMBER}.
+	\wref{core:toNUMBER}{>NUMBER}.}
 
-\see \xref[3.2.1.2 Digit conversion]{usage:digits}.
+\see \xref[3.2.1.2 Digit conversion]{usage:digits}.\strike{2.5}{105}
 
 	\begin{rationale} % A.6.2.0970 CONVERT
-		\word{CONVERT} may be defined as follows:
+	\sout{\word{CONVERT} may be defined as follows:}
 
-		\tab \word{:} \word{CONVERT}~
+		\tab \sout{\word{:} \word{CONVERT}~
 			\word{CHAR+} \texttt{65535} \word{toNUMBER} \word{DROP}
-		\word{;}
+		\word{;}}
 	\end{rationale}
-\end{worddef}
+\end{worddef*}
 
 
 \begin{worddef}{}{DEFER}[][X:deferred]
@@ -5119,39 +5139,42 @@
 \end{worddef}
 
 
-\begin{worddef}{1390}{EXPECT}
-\item \stack{c-addr +n}{}
+\begin{worddef*}{1390}{EXPECT}[][x:legacy]
+\item \stack{c-addr +n}{}\strike{2.5}{80}
 
+\sout{%
 	Receive a string of at most \param{+n} characters. Display graphic
 	characters as they are received. A program that depends on
 	the presence or absence of non-graphic characters in the
 	string has an environmental dependency. The editing functions,
 	if any, that the system performs in order to construct the
-	string of characters are implementation-defined.
+	string of characters are implementation-defined.}
 
+\sout{%
 	Input terminates when an implementation-defined line terminator
 	is received or when the string is \param{+n} characters long. When
 	input terminates, nothing is appended to the string and the
-	display is maintained in an implementation-defined way.
+	display is maintained in an implementation-defined way.}
 
-	Store the string at \param{c-addr} and its length in \word{SPAN}.
+\sout{%
+	Store the string at \param{c-addr} and its length in \word{SPAN}.}
 
-\note
+\note\sout{%
 	This word is obsolescent and is included as a concession to
 	existing implementations. Its function is superseded
-	by \wref{core:ACCEPT}{ACCEPT}.
+	by \wref{core:ACCEPT}{ACCEPT}.}
 
 	\begin{rationale} % A.6.2.1390 EXPECT
-		Specification of positive integer counts (\param{+n}) for
+	\sout{Specification of positive integer counts (\param{+n}) for
 		\word{EXPECT} allows some implementors to continue their
 		practice of using a zero or negative value as a flag to
 		trigger special behavior. Insofar as such behavior is outside
 		the Standard, Standard Programs cannot depend upon it, but
 		the Technical Committee doesn't wish to preclude it
 		unnecessarily. Since actual values are almost always small
-		integers, no functionality is impaired by this restriction.
+		integers, no functionality is impaired by this restriction.}
 	\end{rationale}
-\end{worddef}
+\end{worddef*}
 
 
 \begin{worddef}{1485}{FALSE}
@@ -5178,6 +5201,29 @@
 	\end{testing}
 \end{worddef}
 
+% ===================================================================
+
+\begin{worddef*}{}{HOLDS}[][x:xchar]
+\item \stack{c-addr u}{}
+
+	Adds the string represented by \param{c-addr u} to the pictured numeric
+	output string.  An ambiguous condition exists if \word{HOLDS} executes
+	outside of a \word{num-start} \word{num-end} delimited number conversion.
+
+\see \wref{core:HOLD}{}.
+
+	\begin{implement}
+	\word{:} \word{HOLDS} \word{p} addr u -{}- ) \\
+	\tab[0.6] \word{BEGIN} \word{DUP} \word{WHILE} \word{1-} \word{2DUP} \word{+}
+	\word{C@} \word{HOLD} \word{REPEAT} \word{2DROP} \word{;}
+	\end{implement}
+
+	\begin{testing}
+		\test{0. \word{num-start} \word[file]{Sq} Test" \word{HOLDS} \word{num-end} \word[file]{Sq} Test" \word[string]{COMPARE}}{0}
+	\end{testing}
+\end{worddef*}
+
+% ===================================================================
 
 \begin{worddef}{}{IS}[][X:deferred]
 \interpret
@@ -5534,23 +5580,24 @@
 \end{worddef}
 
 
-\begin{worddef}{2040}{QUERY}
-\item \stack{}{}
+\begin{worddef*}{2040}{QUERY}[][x:legacy]
+\item \stack{}{}\strike{2.5}{40}
 
+\sout{%
 	Make the user input device the input source. Receive input into
 	the terminal input buffer, replacing any previous contents. Make
 	the result, whose address is returned by \word{TIB}, the input
-	buffer. Set \word{toIN} to zero.
+	buffer. Set \word{toIN} to zero.}
 
-\note
+\note\sout{%
 	This word is obsolescent and is included as a concession to
-	existing implementations.
+	existing implementations.}
 
 	\begin{rationale} % A.6.2.2040 QUERY
-		The function of \word{QUERY} may be performed with \word{ACCEPT}
-		and \word{EVALUATE}.
+	\sout{The function of \word{QUERY} may be performed with \word{ACCEPT}
+		and \word{EVALUATE}.}
 	\end{rationale}
-\end{worddef}
+\end{worddef*}
 
 
 \begin{worddef}{2125}{REFILL}
@@ -5574,11 +5621,13 @@
 	\rref{core:REFILL}{}.
 
 	\begin{rationale} % A.6.2.2125 REFILL
-		This word is a useful generalization of \word{QUERY}.
+	\remove{x:legacy}{This word is a useful generalization of \word{QUERY}.
 		Re-defining \word{QUERY} to meet this specification would
-		have broken existing code. \word{REFILL} is designed to behave
+		have broken existing code.}
+
+		\word{REFILL} is designed to behave
 		reasonably for all possible input sources. If the input source
-		is coming from the user, as with \word{QUERY}, \word{REFILL}
+		is coming from the user, \remove{x:legacy}{as with \word{QUERY},} \word{REFILL}
 		could still return a false value if, for instance, a
 		communication channel closes so that the system knows that no
 		more input will be available.
@@ -5596,7 +5645,8 @@
 	An ambiguous condition exists if the input source represented
 	by the arguments is not the same as the current input source.
 
-\see \rref{core:SAVE-INPUT}{SAVE-INPUT}.
+\see \place{x:n-to-r}{\wref{tools:NtoR}{}, \wref{tools:NRfrom}{},}
+	  \rref{core:SAVE-INPUT}{SAVE-INPUT}.
 \end{worddef}
 
 
@@ -5616,6 +5666,61 @@
 	\end{rationale}
 \end{worddef}
 
+% -------------------------------------------------------------------
+
+\begin{worddef*}[Seq]{}{S\bs"}[s-slash-quote][X:escaped-strings]
+
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile \stack{"ccc<quote>"}{} \\
+	Parse \param{ccc} delimited by \verb|"| (double-quote), using the
+	translation rules below. Append the run-time semantics given below to
+	the current definition.
+
+\item[Translation rules]
+	Characters are processed one at a time and appended to the compiled
+	string. If the character is a `\bs' character it is processed by
+	parsing and substituting one or more \linebreak characters as follows, where
+	the character after the backslash is case sensitive:
+
+	\begin{tabular}{llll}
+		\verb|\a|	& BEL		& (alert,		& ASCII 7) \\
+		\verb|\b|	& BS		& (backspace,	& ASCII 8) \\
+		\verb|\e|	& ESC		& (escape,		& ASCII 27) \\
+		\verb|\f|	& FF		& (form feed,	& ASCII 12) \\
+		\verb|\l|	& LF		& (line feed,	& ASCII 10) \\
+		\verb|\m|	& CR/LF	& pair			& (ASCII 13, 10) \\
+		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent newline, eg, CR/LF, LF, or LF/CR)} \\
+		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
+		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
+		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
+		\verb|\v|	& VT		& (vertical tab,		& ASCII 11) \\
+		\verb|\z|	& NUL		& (no character,		& ASCII 0) \\
+		\verb|\"|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
+		\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
+		&&\multicolumn{2}{p{27em}}{
+			The resulting character is the conversion of these two hexadecimal
+			digits. An ambiguous conditions exists if \texttt{\bs{x}} is not
+			followed by two hexadecimal characters.} \\
+		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & (ASCII 92) \\
+	\end{tabular}
+
+	An ambiguous condition exists if a \bs{} is placed before any character,
+	other than those defined in here.
+
+\runtime \stack{}{c-addr u} \\
+	Return \param{c-addr} and \param{u} describing a string consisting of
+	the translation of the characters \param{ccc}.  A program shall not
+	alter the returned string.
+
+\see \xref{usage:parsing},
+	\wref{core:Cq}{},
+	\wref{file:Sq}{},
+	\rref{core:Sq}{}.
+\end{worddef*}
+
+% -------------------------------------------------------------------
 
 \begin{worddef}{2182}{SAVE-INPUT}
 \item \stack{}{x_n {\ldots} x_1 n}
@@ -5623,7 +5728,8 @@
 	\param{x_1} through \param{x_n} describe the current state of the
 	input source specification for later use by \word{RESTORE-INPUT}.
 
-\see \rref{core:SAVE-INPUT}{}.
+\see \place{x:n-to-r}{\wref{tools:NtoR}{}, \wref{tools:NRfrom}{},}
+	  \rref{core:SAVE-INPUT}{}.
 
 	\begin{rationale} % A.6.2.2182 SAVE-INPUT
 		\word{SAVE-INPUT} and \word{RESTORE-INPUT} allow the same
@@ -5664,9 +5770,11 @@
 		\end{quote}
 
 		After \word{EVALUATE} returns, the input source specification
-		is restored to its previous state, thus \word{SAVE-INPUT} and
-		\word{RESTORE-INPUT} are called with the same input source in
-		effect.
+		is restored to its previous state, thus
+		\hyperref{}{core}{SAVE-INPUT}{\textbf{\texttt{SAVE-}}}
+		\hyperref{}{core}{SAVE-INPUT}{\textbf{\texttt{INPUT}}}
+		and \word{RESTORE-INPUT} are called with the same input source
+		in effect.
 
 		In the above examples, the \word{EVALUATE} phrase could have
 		been replaced by a phrase involving \word[file]{INCLUDE-FILE}
@@ -5824,34 +5932,35 @@
 \end{worddef}
 
 
-\begin{worddef}{2240}{SPAN}
-\item \stack{}{a-addr}
+\begin{worddef*}{2240}{SPAN}[][x:legacy]
+\item \stack{}{a-addr}\strike{2.5}{65}
 
+\sout{%
 	\param{a-addr} is the address of a cell containing the count of
-	characters stored by the last execution of \word{EXPECT}.
+	characters stored by the last execution of \word{EXPECT}.}
 
-\note
+\note\sout{%
 	This word is obsolescent and is included as a concession to
-	existing implementations.
-\end{worddef}
+	existing implementations.}
+\end{worddef*}
 
 
-\begin{worddef}{2290}{TIB}[t-i-b]
-\item \stack{}{c-addr}
+\begin{worddef*}{2290}{TIB}[t-i-b][x:legacy]
+\item \stack{}{c-addr}\strike{2.5}{65}
 
-	\param{c-addr} is the address of the terminal input buffer.
+	\sout{\param{c-addr} is the address of the terminal input buffer.}
 
-\note
+\note\sout{%
 	This word is obsolescent and is included as a concession to
-	existing implementations.
+	existing implementations.}
 
-\see \rref{core:TIB}{}.
+\see \sout{\rref{core:TIB}{}.}
 
 	\begin{rationale} % A.6.2.2290 TIB
-		The function of \word{TIB} has been superseded by
-		\word{SOURCE}.
+		\sout{The function of \word{TIB} has been superseded by
+		\word{SOURCE}.}
 	\end{rationale}
-\end{worddef}
+\end{worddef*}
 
 
 \begin{worddef}{2295}{TO}
@@ -6073,8 +6182,8 @@
 		One obvious implementation does not work:
 		\begin{quote}\ttfamily
 			\word{:} \word{WITHIN} \word{p} test low high -{}- flag ) \\
-			\tab \word{toR} ~ \word{OVER} \word{less} \word{0=} \word{p} test flag1 )
-				~ \word{SWAP} \word{Rfrom} \word{less} \word{p} flag1 flag2 )
+			\tab \word{toR} \word{OVER} \word{less} \word{0=} \word{p} test flag1 )
+				\word{SWAP} \word{Rfrom} \word{less} \word{p} flag1 flag2 )
 				\word{AND} \\
 			\word{;}
 		\end{quote}

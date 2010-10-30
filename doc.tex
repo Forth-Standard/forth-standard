@@ -23,7 +23,7 @@ item.
 \item behavior of \wref{core:EMIT}{EMIT} for non-graphic characters;
 
 \item character editing of \wref{core:ACCEPT}{ACCEPT}
-	and \wref{core:EXPECT}{EXPECT};
+	\remove{x:legacy}{and \wref{core:EXPECT}{EXPECT}};
 
 \item character set (\xref[Character types]{usage:char},
 	\wref{core:EMIT}{EMIT}, \wref{core:KEY}{KEY});
@@ -44,7 +44,7 @@ item.
 	(\xref[Digit conversion]{usage:digits});
 
 \item display after input terminates in \wref{core:ACCEPT}{ACCEPT}
-	and \wref{core:EXPECT}{EXPECT};
+	\remove{x:legacy}{and \wref{core:EXPECT}{EXPECT}};
 
 \item exception abort sequence (as in \wref{core:ABORTq}{ABORT"});
 
@@ -95,11 +95,12 @@ item.
 \item size of the keyboard terminal input buffer
 	(\xref[Input buffers]{usage:inbuf});
 
-\item size of the pictured numeric output string buffer
+\item size of the pictured numeric output string buffer 
 	(\xref[Other transient regions]{usage:transient});
 
 \item size of the scratch area whose address is returned by
-	\wref{core:PAD}{PAD} (\xref[Other transient regions]{usage:transient});
+	\wref{core:PAD}{PAD} \\
+	(\xref[Other transient regions]{usage:transient});
 
 \item system case-sensitivity characteristics
 	(\xref[Finding definition names]{usage:find});
@@ -190,7 +191,7 @@ combination of factors:
 	 \wref{core:FM/MOD}{FM/MOD},
 	 \wref{core:SM/REM}{SM/REM},
 	 \wref{core:UM/MOD}{UM/MOD},
-	 \wref{core:CONVERT}{CONVERT},
+	\remove{x:legacy}{\wref{core:CONVERT}{CONVERT},}
 	 \wref{double:M*/}{M*/});
 
 \item reading from an empty data stack or return stack
@@ -268,7 +269,9 @@ glossary entries of the relevant words:
 \item words improperly used outside
 	\wref{core:num-start}{<\num} and \wref{core:num-end}{\num>}
 	(\wref{core:num}{\num}, \wref{core:numS}{\num{}S},
-	 \wref{core:HOLD}{HOLD}, \wref{core:SIGN}{SIGN}).
+	 \wref{core:HOLD}{HOLD},
+	 \place{x:xchar}{\wref{core:HOLDS}{},}
+	 \wref{core:SIGN}{SIGN}).
 \end{itemize}
 
 The following specific ambiguous conditions are have been introduced
@@ -293,34 +296,46 @@ as a consequence of specific extensions.
 
 % ==== X: Required ====
 
-\item[\textsf{X:required}] ~
+\item[\sout{\textsf{X:required}}] ~\cbstart\patch{ed10b}
 	\begin{itemize}
-\item a file is required while it is being \word[file]{REQUIRED}
-	(\ref{file:REQUIRED}) or \word[file]{INCLUDED} (\ref{file:INCLUDED}).
+\item \sout{a file is required while it is being \word[file]{REQUIRED}
+	(\ref{file:REQUIRED}) or \word[file]{INCLUDED} (\ref{file:INCLUDED}).}
 
-\item a marker is defined outside and executed inside a file or vice
+\item \sout{a marker is defined outside and executed inside a file or vice
 	versa, and the file is \word[file]{REQUIRED} (\ref{file:REQUIRED})
-	again.
+	again.}
 
-\item the same file is required twice using different names (e.g.,
+\item \sout{the same file is required twice using different names (e.g.,
 	through symbolic links), or different files with the same name are
 	provided to \wref{file:REQUIRED}{REQUIRED} (by doing some renaming
-	between the invocations of \word[file]{REQUIRED}).
+	between the invocations of \word[file]{REQUIRED}).}
 
-\item the stack effect of including with \wref{file:REQUIRED}{REQUIRED}
-	the file is not \stack{i*x}{i*x}.
+\item \sout{the stack effect of including with \wref{file:REQUIRED}{REQUIRED}
+	the file is not} \stack{i*x}{i*x}.\strike{2.5}{100}
 	\end{itemize}
+\cbend
 
 % ==== X: Structures ====
 
-\item[\textsf{X:structures}] ~
+\item[\sout{\textsf{X:structures}}] ~\cbstart\patch{ed10b}
 	\begin{itemize}
-\item A \param{name} defined by
+\item \sout{A \param{name} defined by
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
 	is executed before the corresponding
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}
-	has been executed.
+	has been executed.}
 	\end{itemize}
+\cbend
+
+% ==== X: Escaped Strings ====
+
+\item[\uline{\textsf{X:escaped-strings}}]~\cbstart\patch{x:escaped-strings}
+	\begin{itemize}
+	\item \uline{\bs{x} is not followed by two hexadecimal characters (\wref{core:Seq}{}).}
+	\item \uline{a \bs{} is placed before any character, other than those defined in
+		\wref{core:Seq}{}.}
+	\end{itemize}
+\cbend
 \end{description}
 
 
@@ -363,13 +378,13 @@ dependencies:
 	(\xref[Other transient regions]{usage:transient});
 
 \item depending on the presence or absence of non-graphic characters
-	in a received string (\wref{core:ACCEPT}{ACCEPT},
-	\wref{core:EXPECT}{EXPECT});
+	in a received string (\wref{core:ACCEPT}{ACCEPT}%
+	\remove{x:legacy}{, \wref{core:EXPECT}{EXPECT}});
 
 \item relying on a particular rounding direction
 	(\xref[Integer division]{usage:div});
 
-\item requiring a particular number representation and arithmetic
+\item requiring a particular number representation and arithmetic \\
 	(\xref[Internal number representation]{usage:number});
 
 \item requiring non-standard words or techniques

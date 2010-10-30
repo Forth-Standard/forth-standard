@@ -33,28 +33,30 @@ Append table \ref{mem:types} to table \ref{table:datatypes}.
 \end{table}
 
 
-\subsection{Environmental queries} % 14.3.2
+\subsection{Environmental queries\strike{2.4}{160}} % 14.3.2
+\cbstart\patch{x:wordset-query}%
 
-Append table \ref{mem:env} to table \ref{table:env}.
+\sout{Append table \ref{mem:env} to table \ref{table:env}.}
 
-See: \xref[3.2.6 Environmental queries]{usage:env}.
+See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
 
 \begin{table}[ht]
   \begin{center}
-	\caption{Environmental Query Strings}
+	\caption{Environmental Query Strings\strike{2.4}{165}}
 	\label{mem:env}
-	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
+	\begin{tabular}{p{10em}rcp{0.42\textwidth}}
 		\hline\hline
-		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
 		\hline
-		\texttt{MEMORY-ALLOC}		& \emph{flag}		& no	&
-			memory-allocation word set present \\
-		\texttt{MEMORY-ALLOC-EXT}	& \emph{flag}		& no	&
-			memory-allocation extensions word set present \\
+		\sout{\texttt{MEMORY-ALLOC}}		& \sout{\emph{flag}}		& \sout{no}	&
+			\sout{memory-allocation word set present} \\
+		\sout{\texttt{MEMORY-ALLOC-EXT}}	& \sout{\emph{flag}}		& \sout{no}	&
+			\sout{memory-allocation extensions word set present} \\
 		\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
+\cbend
 
 \subsection{Allocated regions} % 14.3.3
 
@@ -124,7 +126,7 @@ Memory-Allocation Extensions word set.
 The phrase ``Requiring the Memory-Allocation Extensions word set''
 shall be appended to the label of Standard Programs that require
 the system to provide all of the Memory-Allocation and
-Memory-Allocation Extensions word sets.
+Memory-Al\-lo\-ca\-tion Extensions word sets.
 
 
 \section{Glossary} % 14.6
@@ -143,7 +145,7 @@ Memory-Allocation Extensions word sets.
 	zero.
 
 	If the operation fails, \param{a-addr} does not represent a valid
-	address and \param{ior} is the implementation-defined I/O result
+	address and \param{ior} is the {im\-ple\-ment\-ation-de\-fin\-ed} I/O result
 	code.
 
 \see \wref{core:HERE}{HERE},

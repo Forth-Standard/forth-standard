@@ -12,30 +12,32 @@ None.
 
 \section{Additional usage requirements} % 15.3
 
-\subsection{Environmental queries} % 15.3.1
+\subsection{Environmental queries\strike{2.4}{160}} % 15.3.1
 
-Append table \ref{tools:env} to table \ref{table:env}.
+\cbstart\patch{x:wordset-query}%
+\sout{Append table \ref{tools:env} to table \ref{table:env}.}
 
-See: \xref[3.2.6 Environmental queries]{usage:env}.
+See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
 
 \begin{table}[ht]
   \begin{center}
-	\caption{Environmental Query Strings}
+	\caption{Environmental Query Strings\strike{2.4}{165}}
 	\label{tools:env}
 	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
 		\hline\hline
-		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
 		\hline
-		\texttt{TOOLS}		& \emph{flag}		& no	&
-			programming-tools word set present \\
-		\texttt{TOOLS-EXT}	& \emph{flag}		& no	&
-			programming-tools extensions word set present \\
+		\sout{\texttt{TOOLS}}		& \sout{\emph{flag}}		& \sout{no}	&
+			\sout{programming-tools word set present} \\
+		\sout{\texttt{TOOLS-EXT}}	& \sout{\emph{flag}}		& \sout{no}	&
+			\sout{programming-tools extensions word set present} \\
 %		\texttt{X:defined}	& --				& --	&
 %			the \textsf{X:defined} extension is present \\
 		\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
+\cbend
 
 \subsection{The Forth dictionary} % 15.3.2
 \label{tools:dict}
@@ -70,7 +72,6 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \item source and format of display by \wref{tools:SEE}{SEE}.
 \end{itemize}
 
-\newpage
 \subsubsection{Ambiguous conditions} % 15.4.1.2
 \label{tools:ambiguous}
 
@@ -81,7 +82,7 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 	(\wref{tools:CS-PICK}{CS-PICK},
 	 \wref{tools:CS-ROLL}{CS-ROLL});
 %\item \remove{x:legacy}{\emph{name} can't be found (\wref{tools:FORGET}{});}
-\item \emph{name} can't be found (\wref{tools:FORGET}{});
+\item \emph{name} can't be found (\wref{tools:FORGET}{}\place{x:synonym}{, \wref{tools:SYNONYM}{}});
 \item \emph{name} not defined via \wref{core:CREATE}{CREATE}
 	(\wref{tools:;CODE}{;CODE});
 \item \wref{core:POSTPONE}{POSTPONE} applied to \wref{tools:[IF]}{[IF]};
@@ -90,6 +91,9 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 	(\wref{tools:[IF]}{[IF]});
 %\item \remove{x:legacy}{removing a needed definition (\wref{tools:FORGET}{}).}
 \item removing a needed definition (\wref{tools:FORGET}{}).
+\item \place{x:synonym}{\wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{}.}
+\item \place{x:n-to-r}{\wref{tools:NRfrom}{} is used with data not stored by
+	\wref{tools:NtoR}{}.}
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -579,6 +583,8 @@ Extensions word sets.
 		Typical use:
 			{\ldots} \word{FORGET} \emph{name} {\ldots}
 
+\cbstart\patch{x:legacy}
+\sout{%
 		\word{FORGET} assumes that all the information needed to
 		restore the dictionary to its previous state is inferable
 		somehow from the forgotten word. While this may be true in
@@ -587,9 +593,146 @@ Extensions word sets.
 		spaces. For example, if Forth is embedded in ROM, how does
 		\word{FORGET} know how much RAM to recover when an array
 		is forgotten? A general and preferred solution is provided by
-		\word[core]{MARKER}.
+		\word[core]{MARKER}.}
+
+	\uline{%
+		\word{FORGET} tries to infer information about the previous dictionary
+		state from the forgotten word, which is not always possible.  In
+		consequence, \word{FORGET} is guaranteed to restore the state of name
+		space, but not necessarily the state of dictionary.}
+
+	\uline{For example,}
+		\begin{quote}
+			\uline{\word{ALIGN} \word{HERE} 100 \word{CELLS} \word{ALLOT} \word{CONSTANT} mybuffer} \\
+			\uline{\word{FORGET} mybuffer}
+		\end{quote}
+		\uline{in this case the 100 reserved cells are a part of the buffer,
+		but \word{FORGET} can not infer this.  A solution to the restoration
+		of the dictionary state is provided by \word{MARKER}.}
+
+	\uline{%
+		Nevertheless, \word{FORGET} is a useful tool for interactive sessions,
+		because it does not require creation of a marker in advance.  An example
+		session may look like following:}
+
+		\begin{quote}
+			\uline{\word{:} foo {\ldots} foo {\ldots} \word{p} buggy redefinition) \word{;}} \\
+			\uline{finding out the bug} \\
+			\uline{\word{FORGET} foo} \\
+			\uline{\word{:} foo {\ldots} foo {\ldots} \word{p} bug fixed) \word{;}} \\
+			\uline{checking that it works} \\
+			\uline{copying the definition of foo into a file}
+		\end{quote}
+      
+	\uline{%
+		It should be noted that such sessions are practical only in
+		environments that support input history (often persistent) and
+		copy/paste to/from the console.}
+\cbend
 	\end{rationale}
 \end{worddef}
+
+% -------------------------------------------------------------------
+
+\begin{worddef*}[NtoR]{}{N>R}[n-to-r][X:n-to-r]
+
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute \stack{i*n +n}{} \stack[R]{}{j*x +n}
+
+	Remove \param{n}+1 items from the data stack and store them for later
+	retrieval by \word{NRfrom}. The return stack may be used to store the
+	data. Until this data has been retrieved by \word{NRfrom}:
+	\begin{itemize}
+	\item this data will not be overwritten by a subsequent invocation of
+		\word{NtoR} and
+	\item a program may not access data placed on the return stack before
+		the invocation of \word{NtoR}.
+	\end{itemize} 
+
+\see \wref{tools:NRfrom}{},
+	  \rref{tools:NtoR}{}.
+
+	\begin{rationale}
+		An implementation may store the stack items in any manner.  It may
+		store them on the return stack, in any order.  A stack constrained
+		system may prefer to use a buffer to store the items, and place a
+		reference to the buffer on the return stack.
+
+	\see \wref{core:SAVE-INPUT}{},
+	  \wref{core:RESTORE-INPUT}{},
+	  \wref{search:GET-ORDER}{}, \\
+	  \wref{search:SET-ORDER}{}.
+	\end{rationale}
+
+	\begin{implement}
+		\textdf{This implementation depends on the return address being on
+			the return stack.}
+
+		\begin{tabbing}
+		\tab \= \tab \= \tab[11] \= \kill
+		\word{:} \word{NtoR}           \word{bs} xn .. x1 N -{}- ; R: -{}- x1 .. xn n \\
+		\word{bs} \textdf{Transfer N items and count to the return stack.} \+ \\
+			\word{DUP} \>\> \word{bs} xn .. x1 N N -{}- \\
+			\word{BEGIN} \+ \\
+				\word{DUP} \- \\
+			\word{WHILE} \+ \\
+				\word{ROT} \word{Rfrom} \word{SWAP} \word{toR} \word{toR} \>\word{bs} xn .. N N -{}- ; R: .. x1 -{}- \\
+				\word{1-} \> \word{bs} xn .. N 'N -{}- ; R: .. x1 -{}- \- \\
+		\word{REPEAT} \\
+		\word{DROP} \>\> \word{bs} N -{}- ; R: x1 .. xn -{}- \\
+		\word{Rfrom} \word{SWAP} \word{toR} \word{toR} \- \\
+		\word{;}
+		\end{tabbing}
+	\end{implement}
+
+	\begin{testing}
+		\word{:} TNR1 \word{NtoR} \word{SWAP} \word{NRfrom} \word{;} \\
+		\test{1 2 10 20 30 3 TNR1}{2 1 10 20 30 3}
+
+		\word{:} TNR2 \word{NtoR} \word{NtoR} \word{SWAP} \word{NRfrom} \word{NRfrom} \word{;} \\
+		\test{1 2 10 20 30 3 40 50 2 TNR2}{2 1 10 20 30 3 40 50 2}
+	\end{testing}
+\end{worddef*}
+
+
+\begin{worddef*}[NRfrom]{}{NR>}[n-r-from][X:n-to-r]
+
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute \stack{}{i*x +n} \stack[R]{j*x +n}{}
+
+	Retrieve the items previously stored by an invocation of \word{NtoR}.
+	\param{n} is the number of items placed on the data stack. It is an
+	ambiguous condition if \word{NRfrom} is used with data not stored by
+	\word{NtoR}. 
+
+\see \wref{tools:NtoR}{}, \rref{tools:NtoR}{}.
+
+	\begin{implement}
+		\textdf{This implementation depends on the return address being on
+			the return stack.}
+
+		\begin{tabbing}
+		\tab \= \tab \= \tab[11] \= \kill
+		\word{:} \word{NRfrom} \word{bs} -{}- xn .. x1 N ; R: x1 .. xn N -{}- \\
+		\word{bs} \textdf{Pull N items and count off the return stack.} \+ \\
+			\word{Rfrom} \word{Rfrom} \word{SWAP} \word{toR} \word{DUP} \\
+			\word{BEGIN} \+ \\
+				\word{DUP} \- \\
+			\word{WHILE} \+ \\
+				\word{Rfrom} \word{Rfrom} \word{SWAP} \word{toR} -ROT \\
+				\word{1-} \- \\
+			\word{REPEAT} \\
+			\word{DROP} \- \\
+		\word{;}
+		\end{tabbing}
+	\end{implement}
+\end{worddef*}
+
+% -------------------------------------------------------------------
 
 
 \begin{worddef}{2250}{STATE}
@@ -602,14 +745,60 @@ Extensions word sets.
 \see \xref[3.4 The Forth text interpreter]{usage:command},
 	\wref{core::}{:},
 	\wref{core:;}{;},
-	\wref{core:ABORT}{ABORT},
+	\wref{core:ABORT}{ABORT}, \\
 	\wref{core:QUIT}{QUIT},
 	\wref{core:STATE}{STATE},
 	\wref{core:[}{[},
 	\wref{core:]}{]},
-	\wref{core::NONAME}{:NONAME},
+	\wref{core::NONAME}{:NONAME}, \\
 	\wref{tools:;CODE}{;CODE}.
 \end{worddef}
+
+% -------------------------------------------------------------------
+
+\begin{worddef*}{}{SYNONYM}[][X:synonym]
+\item \stack{"<spaces>newname" "<spaces>oldname"}{}
+
+	For both strings skip leading space delimiters.  Parse \param{newname}
+	and \param{oldname} delimited by a space.  Create a definition for
+	\param{newname} with the semantics defined below.
+	\param{Newname} may be the same as \param{oldname}.
+
+	An ambiguous conditions exists if \param{oldname} can not be found or
+	\word{IMMEDIATE} is applied to \param{newname}.
+
+\item[\param{newname} interpretation]
+	\stack{i*x}{j*x} \\
+	Perform the interpretation semantics of \param{oldname}.
+
+\item[\param{newname} compilation]
+	\stack{i*x}{j*x} \\
+	Perform the compilation semantics of \param{oldname}.
+
+\see \wref{core:IMMEDIATE}{}.
+
+	\begin{implement}
+		\dffamily
+		The implementation of \word{SYNONYM} requires detailed knowledge
+		of the host implementation, which is one reason why it should be
+		standardized.  The implementation below is imperfect and specific
+		to VFX Forth, in particular \texttt{HIDE}, \texttt{REVEAL} and
+		\texttt{IMMEDIATE?} are non-standard words.
+
+		\begin{quote}\ttfamily
+			\word{:} \word{SYNONYM} \word{bs} "newname" "oldname" -{-} \\
+			\word{bs} \textdf{Create a new definition which redirects to an existing one.} \\
+			\tab \word{CREATE} \word{IMMEDIATE} \\
+			\tab[2] HIDE \word{'} \word{,} REVEAL \\
+			\tab \word{DOES} \\
+			\tab[2] \word{@}  \word{STATE} \word{@} \word{0=} \word{OVER} IMMEDIATE? \word{OR} \\
+			\tab[2] \word{IF} \word{EXECUTE} \word{ELSE} \word{COMPILE,} \word{THEN} \\
+			\word{;}
+		\end{quote}
+	\end{implement}
+\end{worddef*}
+
+% -------------------------------------------------------------------
 
 \begin{worddef}{}{[DEFINED]}[bracket-defined][X:defined]
 \compile
@@ -640,7 +829,7 @@ Extensions word sets.
 	Skipping leading spaces, parse and discard space-delimited words
 	from the parse area, including nested occurrences of \word{[IF]}
 	{\ldots} \word{[THEN]} and \word{[IF]} {\ldots} \word{[ELSE]}
-	{\ldots} \word{[THEN]}, until the word \word{[THEN]} has been
+	{\ldots} \linebreak \word{[THEN]}, until the word \word{[THEN]} has been
 	parsed and discarded. If the parse area becomes exhausted, it is
 	refilled as with \word[core]{REFILL}. \word{[ELSE]} is an
 	immediate word.

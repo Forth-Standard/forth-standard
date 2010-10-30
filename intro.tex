@@ -115,25 +115,32 @@ been adopted to ease creation of portable programs.
 This Standard adopts certain words and practices that cause
 some previously used words and practices to become obsolescent.
 Although retained here because of their widespread use, their
-use in new implementations or new programs is discouraged, because
+use in new implementations or new programs is discouraged,
+\replace{x:legacy}{because }{as}
 they may be withdrawn from future revisions of the Standard.
 
-This Standard designates the following words as obsolescent:
+This Standard designates the following word\remove{x:legacy}{s} as obsolescent:
 
 \setwordlist{core}
+\cbstart
 \begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
-  \ref{core:numTIB}		& \word{numTIB}
+  \sout{\ref{core:numTIB}}		& \sout{\word{numTIB}}
 & \ref{tools:FORGET}	& \word[tools]{FORGET}
-& \ref{core:SPAN}		& \word{SPAN} \\
-  \ref{core:CONVERT}	& \word{CONVERT}
-& \ref{core:QUERY}		& \word{QUERY}
-& \ref{core:TIB}		& \word{TIB} \\
-  \ref{core:EXPECT}		& \word{EXPECT} \\
+& \sout{\ref{core:SPAN}}		& \sout{\word{SPAN}} \\
+  \sout{\ref{core:CONVERT}}	& \sout{\word{CONVERT}}
+& \sout{\ref{core:QUERY}}		& \sout{\word{QUERY}}
+& \sout{\ref{core:TIB}}			& \sout{\word{TIB}} \\
+  \sout{\ref{core:EXPECT}}		& \sout{\word{EXPECT}} \\
 \end{tabular}
+\cbend
 
 This standard designates the following practice as obsolescent:
 
 \begin{itemize}
 \item Requiring floating-point numbers to be kept on the data stack.
 	(This has always been an environmental dependency.)
+
+\item \place{x:wordset-query}{%
+	Using \word{ENVIRONMENTq} to enquire whether a word set is present.
+}
 \end{itemize}
