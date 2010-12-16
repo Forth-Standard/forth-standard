@@ -655,15 +655,16 @@ Extensions word sets.
 	  \rref{tools:NtoR}{}.
 
 	\begin{rationale}
+	\uline{%
 		An implementation may store the stack items in any manner.  It may
 		store them on the return stack, in any order.  A stack constrained
 		system may prefer to use a buffer to store the items, and place a
-		reference to the buffer on the return stack.
+		reference to the buffer on the return stack.}
 
-	\see \wref{core:SAVE-INPUT}{},
+	\see \uline{\wref{core:SAVE-INPUT}{},
 	  \wref{core:RESTORE-INPUT}{},
 	  \wref{search:GET-ORDER}{}, \\
-	  \wref{search:SET-ORDER}{}.
+	  \wref{search:SET-ORDER}{}.}
 	\end{rationale}
 
 	\begin{implement}

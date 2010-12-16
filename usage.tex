@@ -645,53 +645,6 @@ subsequent queries with the same string shall return \emph{true}
 and the same value.
 
 
-\subsection{Extension queries} % 3.2.7
-\label{usage:extensions}
-~ \hfill \textsf{\small X:extension-query}
-
-As part of the Forth 200\emph{x} standards procedure, additions to the
-Standard are labeled as \emph{extensions}. These extensions have
-been added to the environmental query name space. \word{ENVIRONMENTq}
-returns \emph{true} if the system has implemented the extension as
-documented. Table \ref{table:extensions} contains the valid input
-strings corresponding to the documented extensions. In order to
-distinguish such extensions, they start with the string
-``\textsf{X:}''.
-
-The extension to the environment query table (\ref{usage:env}) is
-itself an extension. Known as the \textsf{X:extension-query} extension.
-
-\begin{table}[ht]
-  \begin{center}
-	\caption{Forth 200\emph{x} Extensions}
-	\label{table:extensions}
-	\begin{tabular}{p{11em}rcp{0.42\textwidth}}
-		\hline\hline
-		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
-		\hline
-		\texttt{X:2value}				& -- & -- & the \textsf{X:2value} extension is present \\
-		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
-		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
-		\texttt{X:ekeys}				& -- & -- & the \textsf{X:ekeys} extension is present \\
-\place{x:escaped-strings}{\texttt{X:escaped-strings}} & -- & -- & \place{x:escaped-strings}{the \textsf{X:escaped-strings} extension is present} \\
-		\texttt{X:extension-query}	& -- & -- & the \textsf{X:extension-query} extension is present\\
-		\texttt{X:fatan2}				& -- & -- & the \textsf{X:fatan2} extension is present \\
-		\texttt{X:ftrunc}				& -- & -- & the \textsf{X:ftrunc} extension is present \\
-		\texttt{X:fvalue}				& -- & -- & the \textsf{X:fvalue} extension is present \\
-\place{x:n-to-r}{\texttt{X:n-to-r}} & -- & -- & \place{x:n-to-r}{the \textsf{X:n-to-r} extension is present} \\
-		\texttt{X:number-prefix}	& -- & -- & the \textsf{X:number-prefix} extension is present \\
-		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
-		\texttt{X:required}			& -- & -- & the \textsf{X:required} extension is present \\
-		\texttt{X:structures}		& -- & -- & the \textsf{X:structures} extension is present \\
-\place{x:synonym}{\texttt{X:synonym}} & -- & -- & \place{x:synonym}{the \textsf{X:synonym} extensions is present} \\
-		\texttt{X:throw-iors}		& -- & -- & the \textsf{X:throw-iors} extension is present \\
-\place{x:xchar}{\texttt{X:xchar}} & -- & -- & \place{x:xchar}{the \textsf{X:xchar} extension is present} \\
-		\hline\hline
-	\end{tabular}
-  \end{center}
-\end{table}
-
-
 \cbstart%
 \subsection{Obsolescent Environmental Queries\strike{-2}{220}}
 \label{usage:obsolete}
@@ -743,6 +696,53 @@ their use in new programs is discouraged.
   \end{center}
 \end{table}
 \cbend
+
+
+\subsection{Extension queries} % 3.2.7
+\label{usage:extensions}
+~ \hfill \textsf{\small X:extension-query}
+
+As part of the Forth 200\emph{x} standards procedure, additions to the
+Standard are labeled as \emph{extensions}. These extensions have
+been added to the environmental query name space. \word{ENVIRONMENTq}
+returns \emph{true} if the system has implemented the extension as
+documented. Table \ref{table:extensions} contains the valid input
+strings corresponding to the documented extensions. In order to
+distinguish such extensions, they start with the string
+``\textsf{X:}''.
+
+The extension to the environment query table (\ref{usage:env}) is
+itself an extension. Known as the \textsf{X:extension-query} extension.
+
+\begin{table}[ht]
+  \begin{center}
+	\caption{Forth 200\emph{x} Extensions}
+	\label{table:extensions}
+	\begin{tabular}{p{11em}rcp{0.42\textwidth}}
+		\hline\hline
+		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
+		\hline
+		\texttt{X:2value}				& -- & -- & the \textsf{X:2value} extension is present \\
+		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
+		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
+		\texttt{X:ekeys}				& -- & -- & the \textsf{X:ekeys} extension is present \\
+\place{x:escaped-strings}{\texttt{X:escaped-strings}} & -- & -- & \place{x:escaped-strings}{the \textsf{X:escaped-strings} extension is present} \\
+		\texttt{X:extension-query}	& -- & -- & the \textsf{X:extension-query} extension is present\\
+		\texttt{X:fatan2}				& -- & -- & the \textsf{X:fatan2} extension is present \\
+		\texttt{X:ftrunc}				& -- & -- & the \textsf{X:ftrunc} extension is present \\
+		\texttt{X:fvalue}				& -- & -- & the \textsf{X:fvalue} extension is present \\
+\place{x:n-to-r}{\texttt{X:n-to-r}} & -- & -- & \place{x:n-to-r}{the \textsf{X:n-to-r} extension is present} \\
+		\texttt{X:number-prefix}	& -- & -- & the \textsf{X:number-prefix} extension is present \\
+		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
+		\texttt{X:required}			& -- & -- & the \textsf{X:required} extension is present \\
+		\texttt{X:structures}		& -- & -- & the \textsf{X:structures} extension is present \\
+\place{x:synonym}{\texttt{X:synonym}} & -- & -- & \place{x:synonym}{the \textsf{X:synonym} extensions is present} \\
+		\texttt{X:throw-iors}		& -- & -- & the \textsf{X:throw-iors} extension is present \\
+\place{x:xchar}{\texttt{X:xchar}} & -- & -- & \place{x:xchar}{the \textsf{X:xchar} extension is present} \\
+		\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
 
 
 \section{The Forth dictionary} % 3.3 ================================
