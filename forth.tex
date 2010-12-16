@@ -766,7 +766,7 @@
 	% definition.  This macro will fake a label for the given
 	% <annex> within a given name <space>.
 	\newcommand{\inline@label}[2]{% {<space>}{<annex>}
-		% We start by faking the current label value
+		% We start by fakeing the current label value
 		\def\@currentlabel{%
 			#2.%
 			\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi%
