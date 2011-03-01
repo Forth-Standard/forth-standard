@@ -12,33 +12,6 @@ None.
 
 \section{Additional usage requirements} % 15.3
 
-\subsection{Environmental queries\strike{2.4}{160}} % 15.3.1
-
-\cbstart\patch{x:wordset-query}%
-\sout{Append table \ref{tools:env} to table \ref{table:env}.}
-
-See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
-
-\begin{table}[ht]
-  \begin{center}
-	\caption{Environmental Query Strings\strike{2.4}{165}}
-	\label{tools:env}
-	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
-		\hline\hline
-		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
-		\hline
-		\sout{\texttt{TOOLS}}		& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{programming-tools word set present} \\
-		\sout{\texttt{TOOLS-EXT}}	& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{programming-tools extensions word set present} \\
-%		\texttt{X:defined}	& --				& --	&
-%			the \textsf{X:defined} extension is present \\
-		\hline\hline
-	\end{tabular}
-  \end{center}
-\end{table}
-\cbend
-
 \subsection{The Forth dictionary} % 15.3.2
 \label{tools:dict}
 
@@ -76,24 +49,20 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \label{tools:ambiguous}
 
 \begin{itemize}
-%\item \remove{x:legacy}{deleting the compilation word-list (\wref{tools:FORGET}{});}
 \item deleting the compilation word-list (\wref{tools:FORGET}{});
 \item fewer than $u+1$ items on control-flow stack
 	(\wref{tools:CS-PICK}{CS-PICK},
 	 \wref{tools:CS-ROLL}{CS-ROLL});
-%\item \remove{x:legacy}{\emph{name} can't be found (\wref{tools:FORGET}{});}
-\item \emph{name} can't be found (\wref{tools:FORGET}{}\place{x:synonym}{, \wref{tools:SYNONYM}{}});
+\item \emph{name} can't be found (\wref{tools:FORGET}{}, \wref{tools:SYNONYM}{});
 \item \emph{name} not defined via \wref{core:CREATE}{CREATE}
 	(\wref{tools:;CODE}{;CODE});
 \item \wref{core:POSTPONE}{POSTPONE} applied to \wref{tools:[IF]}{[IF]};
 \item reaching the end of the input source before matching
 	\wref{tools:[ELSE]}{[ELSE]} or \wref{tools:[THEN]}{[THEN]}
 	(\wref{tools:[IF]}{[IF]});
-%\item \remove{x:legacy}{removing a needed definition (\wref{tools:FORGET}{}).}
 \item removing a needed definition (\wref{tools:FORGET}{}).
-\item \place{x:synonym}{\wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{}.}
-\item \place{x:n-to-r}{\wref{tools:NRfrom}{} is used with data not stored by
-	\wref{tools:NtoR}{}.}
+\item \wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{}.
+\item \wref{tools:NRfrom}{} is used with data not stored by \wref{tools:NtoR}{}.
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -583,58 +552,42 @@ Extensions word sets.
 		Typical use:
 			{\ldots} \word{FORGET} \emph{name} {\ldots}
 
-\cbstart\patch{x:legacy}
-\sout{%
-		\word{FORGET} assumes that all the information needed to
-		restore the dictionary to its previous state is inferable
-		somehow from the forgotten word. While this may be true in
-		simple linear dictionary models, it is difficult to implement
-		in other Forth systems; e.g., those with multiple address
-		spaces. For example, if Forth is embedded in ROM, how does
-		\word{FORGET} know how much RAM to recover when an array
-		is forgotten? A general and preferred solution is provided by
-		\word[core]{MARKER}.}
-
-	\uline{%
 		\word{FORGET} tries to infer information about the previous dictionary
 		state from the forgotten word, which is not always possible.  In
 		consequence, \word{FORGET} is guaranteed to restore the state of name
-		space, but not necessarily the state of dictionary.}
+		space, but not necessarily the state of dictionary.
 
-	\uline{For example,}
+	For example,
 		\begin{quote}
-			\uline{\word{ALIGN} \word{HERE} 100 \word{CELLS} \word{ALLOT} \word{CONSTANT} mybuffer} \\
-			\uline{\word{FORGET} mybuffer}
+			\word{ALIGN} \word{HERE} 100 \word{CELLS} \word{ALLOT} \word{CONSTANT} mybuffer \\
+			\word{FORGET} mybuffer
 		\end{quote}
-		\uline{in this case the 100 reserved cells are a part of the buffer,
-		but \word{FORGET} can not infer this.  A solution to the restoration
-		of the dictionary state is provided by \word{MARKER}.}
+		in this case the 100 reserved cells are a part of the buffer, but
+		\word{FORGET} can not infer this.  A solution to the restoration
+		of the dictionary state is provided by \word{MARKER}.
 
-	\uline{%
 		Nevertheless, \word{FORGET} is a useful tool for interactive sessions,
 		because it does not require creation of a marker in advance.  An example
-		session may look like following:}
+		session may look like following:
 
 		\begin{quote}
-			\uline{\word{:} foo {\ldots} foo {\ldots} \word{p} buggy redefinition) \word{;}} \\
-			\uline{finding out the bug} \\
-			\uline{\word{FORGET} foo} \\
-			\uline{\word{:} foo {\ldots} foo {\ldots} \word{p} bug fixed) \word{;}} \\
-			\uline{checking that it works} \\
-			\uline{copying the definition of foo into a file}
+			\word{:} foo {\ldots} foo {\ldots} \word{p} buggy redefinition) \word{;} \\
+			finding out the bug \\
+			\word{FORGET} foo \\
+			\word{:} foo {\ldots} foo {\ldots} \word{p} bug fixed) \word{;} \\
+			checking that it works \\
+			copying the definition of foo into a file
 		\end{quote}
       
-	\uline{%
 		It should be noted that such sessions are practical only in
 		environments that support input history (often persistent) and
-		copy/paste to/from the console.}
-\cbend
+		copy/paste to/from the console.
 	\end{rationale}
 \end{worddef}
 
 % -------------------------------------------------------------------
 
-\begin{worddef*}[NtoR]{}{N>R}[n-to-r][X:n-to-r]
+\begin{worddef}[NtoR]{}{N>R}[n-to-r][X:n-to-r]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -655,16 +608,15 @@ Extensions word sets.
 	  \rref{tools:NtoR}{}.
 
 	\begin{rationale}
-	\uline{%
 		An implementation may store the stack items in any manner.  It may
 		store them on the return stack, in any order.  A stack constrained
 		system may prefer to use a buffer to store the items, and place a
-		reference to the buffer on the return stack.}
+		reference to the buffer on the return stack.
 
-	\see \uline{\wref{core:SAVE-INPUT}{},
+	\see \wref{core:SAVE-INPUT}{},
 	  \wref{core:RESTORE-INPUT}{},
-	  \wref{search:GET-ORDER}{}, \\
-	  \wref{search:SET-ORDER}{}.}
+	  \wref{search:GET-ORDER}{}, \linebreak
+	  \wref{search:SET-ORDER}{}.
 	\end{rationale}
 
 	\begin{implement}
@@ -695,10 +647,10 @@ Extensions word sets.
 		\word{:} TNR2 \word{NtoR} \word{NtoR} \word{SWAP} \word{NRfrom} \word{NRfrom} \word{;} \\
 		\test{1 2 10 20 30 3 40 50 2 TNR2}{2 1 10 20 30 3 40 50 2}
 	\end{testing}
-\end{worddef*}
+\end{worddef}
 
 
-\begin{worddef*}[NRfrom]{}{NR>}[n-r-from][X:n-to-r]
+\begin{worddef}[NRfrom]{}{NR>}[n-r-from][X:n-to-r]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -731,7 +683,7 @@ Extensions word sets.
 		\word{;}
 		\end{tabbing}
 	\end{implement}
-\end{worddef*}
+\end{worddef}
 
 % -------------------------------------------------------------------
 
@@ -757,7 +709,7 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef*}{}{SYNONYM}[][X:synonym]
+\begin{worddef}{}{SYNONYM}[][X:synonym]
 \item \stack{"<spaces>newname" "<spaces>oldname"}{}
 
 	For both strings skip leading space delimiters.  Parse \param{newname}
@@ -797,7 +749,7 @@ Extensions word sets.
 			\word{;}
 		\end{quote}
 	\end{implement}
-\end{worddef*}
+\end{worddef}
 
 % -------------------------------------------------------------------
 

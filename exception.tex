@@ -38,30 +38,6 @@ A stack used for the nesting of exception frames by \word{CATCH}
 and \word{THROW}. It may be, but need not be, implemented using
 the return stack.
 
-\subsection{Environmental queries\strike{2.4}{155}} % 9.3.4
-\cbstart\patch{x:wordset-query}%
-
-\sout{Append table \ref{exception:env} to table \ref{table:env}.}
-
-See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
-
-\begin{table}[ht]
-  \begin{center}
-	\caption{Environmental Query Strings\strike{2.4}{165}}
-	\label{exception:env}
-	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
-		\hline\hline
-		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
-		\hline
-		\sout{\texttt{EXCEPTION}}		& \sout{\emph{flag}}	& \sout{no}	&
-			\sout{Exception word set present} \\
-		\sout{\texttt{EXCEPTION-EXT}}	& \sout{\emph{flag}}	& \sout{no}	&
-			\sout{Exception extensions word set present} \\
-		\hline\hline
-	\end{tabular}
-  \end{center}
-\end{table}
-\cbend
 
 \subsection{Possible actions on an ambiguous condition} % 9.3.5
 \label{exception:ambiguous}
@@ -184,7 +160,7 @@ See: \xref[3.4.4 Possible actions on an ambiguous condition]{usage:ambiguous}.
 \throwdef{-74}{\word[file]{RESIZE-FILE}}
 \throwdef{-75}{\word[file]{WRITE-FILE}}
 \throwdef{-76}{\word[file]{WRITE-LINE}}
-\throwdef[x:xchar]{-77}{Malformed xchar}
+\throwdef{-77}{Malformed xchar}
 			\end{minipage}
 			\\[-2ex] \hline\hline
 		\end{tabular}

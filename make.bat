@@ -1,5 +1,5 @@
 @echo off
-set latex=pdflatex --save-size=10000
+set latex=pdflatex
 
 if x%1 == xone   goto single
 if x%1 == xdvi   goto dvi

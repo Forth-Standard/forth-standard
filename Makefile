@@ -1,6 +1,6 @@
 # Default target simply complains
 
-$PDFTEX = pdflatex --save-size=10000
+$PDFTEX = pdflatex
 $TEX = latex
 
 usage:

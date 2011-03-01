@@ -103,31 +103,6 @@ When they do:
 \end{itemize}
 
 
-\subsection{Environmental queries\strike{2.4}{160}} % 11.3.3
-\cbstart\patch{x:wordset-query}%
-
-\sout{Append table \ref{file:env} to table \ref{table:env}.}
-
-See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
-
-\begin{table}[ht]
-  \begin{center}
-	\caption{Environmental Query Strings\strike{2.4}{165}}
-	\label{file:env}
-	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
-		\hline\hline
-		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
-		\hline
-		\sout{\texttt{FILE}}		& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{file word set present} \\
-		\sout{\texttt{FILE-EXT}}	& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{file extensions word set present} \\
-		\hline\hline
-	\end{tabular}
-  \end{center}
-\end{table}
-\cbend
-
 \subsection{Input source} % 11.3.4
 \label{file:source}
 
@@ -314,9 +289,9 @@ provide all of the File Access and File Access Extensions word sets.
 \item \stack{fam_1}{fam_2}
 
 	Modify the implementation-defined file access method
-	\param{fam_1} to additionally select a ``binary'', i.e., not
-	line oriented, file access method, giving access method
-	\param{fam_2}.
+	\param{fam_1} to additionally select a \linebreak
+	``binary'', i.e., not line oriented, file access method,
+	giving access method \param{fam_2}.
 
 \see \wref{file:R/O}{R/O},
 	\wref{file:R/W}{R/W},

@@ -56,8 +56,8 @@ Append table \ref{float:types} to table \ref{table:datatypes}.
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
 	\emph{df-addr}	& double-float-aligned address	& 1 cell \\
-\place{ed10b}{\emph{f-addr}} & \uline{float-aligned address} & \uline{1 cell} \\
-\place{ed10b}{\emph{sf-addr}} & \uline{single-float-aligned address} & \uline{1 cell} \\
+	\emph{f-addr}	& float-aligned address				& 1 cell \\
+	\emph{sf-addr}	& single-float-aligned address	& 1 cell \\
 	\hline\hline
 	\end{tabular}
   \end{center}
@@ -128,7 +128,6 @@ Append table \ref{float:env} to table \ref{table:env}.
 
 See: \xref[3.2.6 Environmental queries]{usage:env}.
 
-\patch{x:wordset-query}
 \begin{table}[ht]
   \begin{center}
 	\caption{Environmental Query Strings}
@@ -137,10 +136,6 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
-		\remove{x:wordset-query}{\texttt{FLOATING}}		& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{floating-point word set present} \\
-		\remove{x:wordset-query}{\texttt{FLOATING-EXT}}	& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{floating-point extensions word set present} \\
 		\texttt{FLOATING-STACK} & \emph{n} & yes &
 			the maximum depth of the separate floating-point stack.
 			On systems with the environmental restriction of keeping
@@ -611,7 +606,7 @@ word sets.
 	Round \param{r_1} to an integral value using the ``round toward
 	negative infinity'' rule, giving \param{r_2}.
 
-\see \xref{float:ops}, \wref{floating:FROUND}{}\replace{ed10}{ and}{,}
+\see \xref{float:ops}, \wref{floating:FROUND}{},
 	\wref{floating:FTRUNC}{}.
 \end{worddef}
 
@@ -664,7 +659,7 @@ word sets.
 	rule, giving \param{r_2}.
 
 \see \xref[12.3.2 Floating-point operations]{float:ops},
-	\wref{floating:FLOOR}{}\replace{ed10}{ and}{,} \wref{floating:FTRUNC}{}.
+	\wref{floating:FLOOR}{}, \wref{floating:FTRUNC}{}.
 \end{worddef}
 
 
@@ -807,47 +802,28 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef*}{}{DFFIELD:}[d-f-field-colon][X:structures]
-\item \stack{}{}\strike{2.5}{35} \stack{n_1 "<spaces>name"}{n_2}\strike{-3}{120}
+\begin{worddef}{}{DFFIELD:}[d-f-field-colon][X:structures]
+\item \stack{n_1 "<spaces>name"}{n_2}
 
-	\sout{%
-		The semantics of \word{DFFIELD:} are identical to the
-		execution semantics of the phrase:}
-	\begin{quote}\ttfamily
-	\sout{\word{DFALIGNED} 1 \word{DFLOATS} \word[facility]{+FIELD}}
-	\end{quote}
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. \param{Offset} is the first double-float aligned value
+	greater than or equal to \param{n_1}.  \param{n_2 = offset + 1}
+	double-float.
 
-	\uline{Skip leading space delimiters. Parse \param{name} delimited by
-	a space. \param{Offset} is the first double-float aligned value greater
-	than or equal to}
-	\param{n_1}\strike{-2.6}{11}.
-	\param{n_2 = offset + 1}\strike{-2.6}{60} \uline{double-float.}
+	Create a definition for \param{name} with the execution semantics
+	given below.
 
-	\uline{Create a definition for \param{name} with the execution semantics
-	given below.}
+\execute[name] \stack{a-addr_1}{a-addr_2}
 
-\execute[name] \stack{a-addr_1}{a-addr_2}\strike{-3}{170}
-
-	\uline{Add the \param{offset} calculated during the compile time action
-	to}
-	\param{a-addr_1}\strike{-2.6}{34}
-	\uline{giving the double-float aligned address}
-	\param{a-addr_2}\strike{-2.6}{34}.
+	Add the \param{offset} calculated during the compile time action
+	to \param{a-addr_1} giving the double-float aligned address
+	\param{a-addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}\replace{ed10}{ and}{,}
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
-	\uline{, \rref{facility:FIELD:}{}}.
-
-	\begin{implement} % I.12.6.1.---- DFFIELD
-		\sout{\textdf{Create a new field within a structure definition
-		of size a double-float. The filed is aligned.}}
-
-		\sout{\word{:} DFFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr} \\
-		\tab \sout{\word{DFALIGNED} 1 \word{DFLOATS} \word[facility]{+FIELD}} \\
-		\sout{\word{;}}
-	\end{implement}
-\end{worddef*}
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \linebreak
+	\rref{facility:FIELD:}{}.
+\end{worddef}
 
 % ---------------------------------------------------------
 
@@ -973,7 +949,7 @@ word sets.
 
 	\param{r_3} is the principal radian angle (between -$\pi$ and $\pi$)
 	whose tangent is \param{r_1/r_2}.
-	A system \replace{ed10b}{which}{that} returns false for ``\texttt{-0E 0E 0E \word{Ftilde}}''
+	A system that returns false for ``\texttt{-0E 0E 0E \word{Ftilde}}''
 	shall return a value (approximating) $-\pi$ when \param{r_1} $=$ 0E
 	and \param{r_2} is negative.
 	An ambiguous condition exists if \param{r_1} and \param{r_2} are
@@ -1273,47 +1249,27 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef*}{}{FFIELD:}[f-field-colon][X:structures]
-\item \stack{}{}\strike{2.5}{35} \stack{n_1 "<spaces>name"}{n_2}\strike{-3}{120}
+\begin{worddef}{}{FFIELD:}[f-field-colon][X:structures]
+\item \stack{n_1 "<spaces>name"}{n_2}
 
-	\sout{%
-		The semantics of \word{FFIELD:} are identical to the
-		execution semantics of the phrase:}
-	\begin{quote}\ttfamily
-	\sout{\word{FALIGNED} 1 \word{FLOATS} \word[facility]{+FIELD}}
-	\end{quote}
-
-	\uline{Skip leading space delimiters. Parse \param{name} delimited by
+	Skip leading space delimiters. Parse \param{name} delimited by
 	a space. \param{Offset} is the first float aligned value greater
-	than or equal to}
-	\param{n_1}\strike{-2.6}{11}.
-	\param{n_2 = offset + 1}\strike{-2.6}{60} \uline{float.}
+	than or equal to \param{n_1}.  \param{n_2 = offset + 1} float.
 
-	\uline{Create a definition for \param{name} with the execution semantics
-	given below.}
+	Create a definition for \param{name} with the execution semantics
+	given below.
 
-\execute[name] \stack{a-addr_1}{a-addr_2}\strike{-3}{170}
+\execute[name] \stack{a-addr_1}{a-addr_2}
 
-	\uline{Add the \param{offset} calculated during the compile time action
-	to}
-	\param{a-addr_1}\strike{-2.6}{34}
-	\uline{giving the float aligned address}
-	\param{a-addr_2}\strike{-2.6}{34}.
+	Add the \param{offset} calculated during the compile time action
+	to \param{a-addr_1} giving the float aligned address
+	\param{a-addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}\replace{ed10}{ and}{,}
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
-	\uline{, \rref{facility:FIELD:}{}}.
-
-	\begin{implement} % I.12.6.1.---- FFIELD
-		\sout{\textdf{Create a new field within a structure definition
-		of size a float. The filed is aligned.}}
-
-		\sout{\word{:} FFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr} \\
-		\tab \sout{\word{FALIGNED} 1 \word{FLOATS} \word[facility]{+FIELD}} \\
-		\sout{\word{;}}
-	\end{implement}
-\end{worddef*}
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \linebreak
+	\rref{facility:FIELD:}{}.
+\end{worddef}
 
 % ---------------------------------------------------------
 
@@ -1446,7 +1402,7 @@ word sets.
 	Round \param{r_1} to an integral value using the ``round
 	towards zero'' rule, giving \param{r_2}.
 
-\see \xref{float:ops}, \wref{floating:FROUND}{}\replace{ed10}{ and}{,} \wref{floating:FLOOR}{}.
+\see \xref{float:ops}, \wref{floating:FROUND}{}, \wref{floating:FLOOR}{}.
 
 	\begin{implement}
 		\word{:} \word{FTRUNC}   \word{p} r1 -{}- r2 ) \\
@@ -1479,7 +1435,7 @@ word sets.
 % ---------------------------------------------------------
 
 \begin{worddef}{}{FVALUE}[f-value][X:fvalue]
-\item \stack[F]{r}{\remove{ed10b}{--}} \stack{"<spaces>name"}{} or
+\item \stack[F]{r}{} \stack{"<spaces>name"}{} or
 	\stack{r "<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
@@ -1501,7 +1457,7 @@ word sets.
 
 	Assign the value \param{r} to \param{name}.
 
-\see \xref{usage:parsing}\replace{ed10}{ and}{,} \wref{core:TO}{}
+\see \xref{usage:parsing}, \wref{core:TO}{}
 
 	\begin{implement}
 		\dffamily
@@ -1639,47 +1595,28 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef*}{}{SFFIELD:}[s-f-field-colon][X:structures]
-\item \stack{}{}\strike{2.5}{35} \stack{n_1 "<spaces>name"}{n_2}\strike{-3}{120}
+\begin{worddef}{}{SFFIELD:}[s-f-field-colon][X:structures]
+\item \stack{n_1 "<spaces>name"}{n_2}
 
-	\sout{%
-		The semantics of \word{SFFIELD:} are identical to the
-		execution semantics of the phrase:}
-	\begin{quote}\ttfamily
-	\sout{\word{SFALIGNED} 1 \word{SFLOATS} \word[facility]{+FIELD}}
-	\end{quote}
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. \param{Offset} is the first single-float aligned value
+	greater than or equal to \param{n_1}.  \param{n_2 = offset + 1}
+	single-float.
 
-	\uline{Skip leading space delimiters. Parse \param{name} delimited by
-	a space. \param{Offset} is the first single-float aligned value greater
-	than or equal to}
-	\param{n_1}\strike{-2.6}{11}.
-	\param{n_2 = offset + 1}\strike{-2.6}{60} \uline{single-float.}
+	Create a definition for \param{name} with the execution semantics
+	given below.
 
-	\uline{Create a definition for \param{name} with the execution semantics
-	given below.}
+\execute[name] \stack{a-addr_1}{a-addr_2}
 
-\execute[name] \stack{a-addr_1}{a-addr_2}\strike{-3}{170}
-
-	\uline{Add the \param{offset} calculated during the compile time action
-	to}
-	\param{a-addr_1}\strike{-2.6}{34}
-	\uline{giving the single-float aligned address}
-	\param{a-addr_2}\strike{-2.6}{34}.
+	Add the \param{offset} calculated during the compile time action
+	to \param{a-addr_1} giving the single-float aligned address
+	\param{a-addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}\replace{ed10}{ and}{,}
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
-	\uline{, \rref{facility:FIELD:}{}}.
-
-	\begin{implement} % I.12.6.1.---- SFFIELD
-		\sout{\textdf{Create a new field within a structure definition
-		of size a single-float. The filed is aligned.}}
-
-		\sout{\word{:} SFFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr} \\
-		\tab \sout{\word{SFALIGNED} 1 \word{SFLOATS} \word[facility]{+FIELD}} \\
-		\sout{\word{;}}
-	\end{implement}
-\end{worddef*}
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \linebreak
+	\rref{facility:FIELD:}{}.
+\end{worddef}
 
 % ---------------------------------------------------------
 

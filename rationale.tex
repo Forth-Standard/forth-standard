@@ -953,12 +953,12 @@ groups include entries such as \texttt{MAX-N}. This information is
 fixed by the hardware or by the design of the Forth system; a user
 is guaranteed that asking the question once is sufficient.
 
-The other\place{x:wordset-query}{, now obsolescent,} group of queries
-are for things that may legitimately change over time. For example an
-application might test for the presence of the Double Number word set
-using an environment query.  If it is missing, the system could invoke
-a system-dependent process to load the word set. The system is permitted
-to change \word{ENVIRONMENTq}'s database so that subsequent queries about
+The other, now obsolescent, group of queries are for things that may
+legitimately change over time. For example an application might test
+for the presence of the Double Number word set using an environment
+query.  If it is missing, the system could invoke a system-dependent
+process to load the word set. The system is permitted to change
+\word{ENVIRONMENTq}'s database so that subsequent queries about
 it indicate that it is present.
 
 Note that a query that returns an ``unknown'' response could produce
@@ -966,11 +966,9 @@ a ``known'' result on a subsequent query.
 
 \subsection{Extension queries}
 
-\cbstart\patch{x:wordset-query}%
-\subsection{Obsolescent Environmental Queries\strike{-2}{225}}
+\subsection{Obsolescent Environmental Queries}
 \label{rat:obsolet}
 
-\uline{%
 When reviewing the Standard the question of adapting the word set
 queries had to be addressed.  Despite the recommendation in the
 previous (Forth-94) standard, word set queries have not been
@@ -983,8 +981,6 @@ obsolescent with the intention of removing them altogether in the
 next revision.
 They are retained in this Standard to support existing ANS Forth '94
 programs.  New programs should not use them.
-}
-\cbend
 
 \subsection{The Forth dictionary} % A.3.3
 
@@ -1026,13 +1022,12 @@ were used for keyboard editing functions and ``invisible'' words.
 \subsubsection{Data space} % A.3.3.3
 \label{rat:dataspace}
 
-The words \remove{x:legacy}{\word{numTIB},} \word{toIN}, \word{BASE}, \word[block]{BLK},
-\word[block]{SCR}, \word{SOURCE}, \word{SOURCE-ID}, \word{STATE}%
-\remove{x:legacy}{, and and \word{TIB}} contain information used by the Forth system in its
-operation and may be of use to the application. Any assumption made
-by the application about data available in the Forth system it did
-not store other than the data just listed is an environmental
-dependency.
+The words \word{toIN}, \word{BASE}, \word[block]{BLK}, \word[block]{SCR},
+\word{SOURCE}, \word{SOURCE-ID}, \word{STATE}  contain information
+used by the Forth system in its operation and may be of use to the
+application. Any assumption made by the application about data
+available in the Forth system it did not store other than the data
+just listed is an environmental dependency.
 
 There is no point in specifying (in the Standard) both what is and
 what is not addressable. A Standard Program may NOT address:
@@ -1308,7 +1303,7 @@ The words in this collection fall into several categories:
 	applications or are in less frequent use (e.g., \word{PARSE});
 
 \item Words that are being deprecated in favor of new words introduced
-	to solve specific problems \remove{x:legacy}{(e.g., \word{CONVERT})}.
+	to solve specific problems.
 \end{itemize}
 
 Because of the varied justifications for inclusion of these words,
@@ -2194,7 +2189,6 @@ or may not need information stored in the compilation word list.
 \setwordlist{xchar}
 \label{rat:xchar}
 
-\place{x:xchar}{%
 Forth defines graphic and control characters from the ASCII character
 set.  ASCII was originally designed for the English language.
 However, most western languages fit somewhat into the Forth framework,
@@ -2203,9 +2197,8 @@ language, although different languages may use different encodings;
 Latin-1 and Latin-15 are widely used.  For other languages, different
 character sets have to be used, several of which are variable-width.
 Currently, the most popular representative of the variable-width
-character sets is UTF-8.}
+character sets is UTF-8.
 
-\place{x:xchar}{%
 Many Forth systems today are case insensitive, to accept lower case
 standard words.  It is sufficient to be case insensitive for the ASCII
 subset to make this work --- this saves a large code mapping table for
@@ -2214,23 +2207,19 @@ languages (Latin, Greek, and Cyrillic), but similar issues exist
 between traditional and simplified Chinese (finally being dealt with
 by Unihan), and between different Latin code pages in the Universal
 Character Set (UCS), e.g., full width vs.\ normal half width Latin
-letters.}
+letters.
 
-\place{x:xchar}{%
 Furthermore, UCS allows composition of glyphs and has direct encoding for
 composed glyphs, which look the same, but have different encodings.  This
-is not a problem for a Forth system to solve.}
+is not a problem for a Forth system to solve.
 
-\place{x:xchar}{%
 Some encodings (not UTF-8) might give surprises when you use a case
 insensitive ASCII-compare that's 8-bit safe, but not aware of the
-current encoding.}
+current encoding.
 
-\place{x:xchar}{%
 The xchar wordset does not address problems that come from using
 multiple different encodings and switching or converting between them.
 It is good practice for a system implementing xchar to support UTF--8.
-}
 
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.18.6 ============================

@@ -24,7 +24,7 @@ Append table \ref{mem:types} to table \ref{table:datatypes}.
 	\label{mem:types}
 	\begin{tabular}{llr}
 	\hline\hline
-	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
+	\emph{Symbol}	& \emph{Data type}	& \emph{Size on stack} \\
 	\hline
 	\emph{ior}		& I/O results			& 1 cell \\
 	\hline\hline
@@ -32,31 +32,6 @@ Append table \ref{mem:types} to table \ref{table:datatypes}.
   \end{center}
 \end{table}
 
-
-\subsection{Environmental queries\strike{2.4}{160}} % 14.3.2
-\cbstart\patch{x:wordset-query}%
-
-\sout{Append table \ref{mem:env} to table \ref{table:env}.}
-
-See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
-
-\begin{table}[ht]
-  \begin{center}
-	\caption{Environmental Query Strings\strike{2.4}{165}}
-	\label{mem:env}
-	\begin{tabular}{p{10em}rcp{0.42\textwidth}}
-		\hline\hline
-		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
-		\hline
-		\sout{\texttt{MEMORY-ALLOC}}		& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{memory-allocation word set present} \\
-		\sout{\texttt{MEMORY-ALLOC-EXT}}	& \sout{\emph{flag}}		& \sout{no}	&
-			\sout{memory-allocation extensions word set present} \\
-		\hline\hline
-	\end{tabular}
-  \end{center}
-\end{table}
-\cbend
 
 \subsection{Allocated regions} % 14.3.3
 

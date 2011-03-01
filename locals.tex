@@ -24,7 +24,6 @@ Append table \ref{local:env} to table \ref{table:env}.
 
 See: \xref[3.2.6 Environmental queries]{usage:env}.
 
-\patch{x:wordset-query}
 \begin{table}[h]
   \begin{center}
 	\caption{Environmental Query Strings}
@@ -33,12 +32,8 @@ See: \xref[3.2.6 Environmental queries]{usage:env}.
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
-		\texttt{\#LOCALS}		& \emph{n}	& yes	&
-			maximum number of local variables in a definition \\
-		\remove{x:wordset-query}{\texttt{LOCALS}}	& \sout{\emph{flag}}	& \sout{no}	&
-			\sout{locals word set present} \\
-		\remove{x:wordset-query}{\texttt{LOCALS-EXT}}	& \sout{\emph{flag}}	& \sout{no}	&
-			\sout{locals extensions word set present} \\
+		\texttt{\#LOCALS}		& \emph{n}	& yes
+			& maximum number of local variables in a definition \\
 		\hline\hline
 	\end{tabular}
   \end{center}
@@ -259,11 +254,9 @@ to provide all of the Locals and Locals Extensions word sets.
 	name with \word{TO}. An ambiguous condition exists when local is
 	executed while in interpretation state.
 
-\patch{ed10}\cbstart
-\runtime[\word{TO} \param{local}] \stack{x}{}\strike{-2.5}{121}
-\cbend
+\runtime[\word{TO} \param{local}] \stack{x}{}
 
-	\place{ed10}{Assign the value \param{x} to the local value \param{local}.}
+	Assign the value \param{x} to the local value \param{local}.
 
 \note
 	This word does not have special compilation semantics in the
@@ -283,12 +276,6 @@ to provide all of the Locals and Locals Extensions word sets.
 	is defined in terms of a sequence of compile-time messages and
 	is described in detail in section \xref[13.3.3 Processing
 	locals]{local:locals}.
-
-\patch{ed10}\cbstart
-\runtime[\word{TO} \param{local}] \stack{x}{}\strike{2.5}{121}
-\cbend
-
-	\remove{ed10}{Assign the value \param{x} to the local value \param{local}.}
 
 \see \xref[3.4 The Forth text interpreter]{usage:command} and
 	\wref{core:TO}{TO}.
@@ -331,3 +318,260 @@ to provide all of the Locals and Locals Extensions word sets.
 		semantics is acceptable.
 	\end{rationale}
 \end{worddef}
+
+\endinput
+\newpage
+
+\begin{worddef}[b:]{23}[4]{\brace:}[brace-colon][x:enhanced-locals]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack{i*x "<spaces>ccc:\}"}{}
+
+	Parse \param{ccc} according to the following syntax:
+	\begin{center}
+		\word{b:} \arg{arg}* [\textbf{\textbar} \arg{val}*] [\textbf{--\,--} \arg{out}*] \verb":}"
+	\end{center}
+	where \arg{arg}, \arg{val} and \arg{out} are local names, and
+	\param{i} is the number of \arg{arg} names given.
+
+	The following ambiguous conditions exist when:
+	\begin{itemize}
+	\item a local name ends in ``\verb":"'', ``\verb"["'', ``\verb"^"'';
+	\item a local name is a single non-alphabetic character;
+	\item the text between \word{b:} and \texttt{:\}} extends
+			over more than one line;
+	\item \word{b:} \ldots\ \verb":}" is used more than once in a word.
+	\end{itemize}
+
+	Append the run-time semantics below. 
+
+\runtime
+	\stack{x_1 \ldots\ x_n}{}
+
+	Create locals for \arg{arg}s and \arg{val}s. \arg{out}s are ignored.
+
+	\begin{list}{}{
+		\setlength{\leftmargin}{2.6em}
+		\setlength{\labelwidth}{2.4em}
+	}
+	\item[\arg{arg}] names are initialized from the data stack, with the
+		top of the stack being assigned to the right most \arg{arg} name.
+
+	\item[\arg{val}] names are uninitialized.
+	\end{list}
+
+	\arg{val} names and \arg{arg} names have the execution semantics
+		given below.
+
+\execute[name]
+	\stack{}{x}
+
+	Place the value currently assigned to \param{name} on the stack.
+	An ambiguous condition exists when \param{name} is executed while
+	in interpretation state.
+
+\runtime[\word{TO} \param{name}]
+	\stack{x}{}
+
+	Assign the value \param{x} to the local \param{name}.
+
+\see \xref[2.2 Notation]{notations},
+	\wref{core:VALUE}{},
+	\wref{core:TO}{},
+	\rref{local:b:}{}.
+
+	\begin{rationale}
+		In \xref{rat:local} of ANS Forth '94 the TC identifies the significant
+		difficulties experienced when addressing the issue of locals. Since
+		the Technical Committee was unable to identify any common practice
+		they provided a way to define locals (\xref{local:LOCAL}) and a
+		method of parsing them (\xref{local:LOCALS}). In the hope that a
+		common practice would emerge.
+
+		Common practice has since emerged. Most implementations that provide
+		\word{LOCAL} and \word{LOCALS} also provide some form of the
+		\{ \ldots\ \} notation; however, this notation conflicts with other
+		systems. The \word{b:} \ldots\ \verb":}" notation is a compromise to
+		avoid name conflicts.
+
+		The notation provides for different classes: locals that are initialized
+		from the data stack at run-time; uninitialized locals and outputs.
+		Initialized locals are separated from uninitialized locals by `\verb"|"'.
+		The definition of locals is terminated by `\verb"--"' or `\verb":}"'.
+
+		All text between `\verb"--"' and `\verb":}"' is ignored.  This eases
+		documentation by allowing a complete stack comment in the locals
+		definition.
+
+		The `\texttt{\textbar}' (ASCII \$7C) character is widely used as the
+		separator between local arguments and local values. Some implementations
+		have used `\texttt{\bs}' (ASCII \$5C) or `\texttt{\textbrokenbar}' (\$A6).
+		Systems are free to continue to provide these alternative separators.
+		However, only the recognition of the `\texttt{\textbar}' separator is
+		mandatory. Therefore portable programs must use the `\texttt{\textbar}'
+		separator.
+
+		A number of systems extend the locals notation in various ways. Some
+		of these extensions may emerge as common practice. This standard has
+		reserved the notation used by these extensions to avoid difficulties
+		when porting code to these systems. In particular local names ending
+		in `\texttt{:}' (colon), `\texttt{[}' (open bracket), or
+		`\texttt{\textasciicircum}' (carat) are reserved.
+	\end{rationale}
+
+	\begin{implement}
+12345 \word{CONSTANT} undefined-value
+
+\word{:} match-or-end? \word{p} c-addr1 u1 c-addr2 u2 -{}- f ) \\
+\tab\,2 \word{PICK} \word{0=} \word{toR} \word[string]{COMPARE} \word{0=} \word{Rfrom} \word{OR} \word{;}
+
+\word{:} scan-args \\
+\tab\,\word{bs} 0 c-addr1 u1 -{}- c-addr1 u1 ... c-addrn un n c-addrn+1 un+1\\
+\tab\,\word{BEGIN} \\
+\tab[2]	\word{2DUP} \word{Sq} |"   ~match-or-end? \word{0=} \word{WHILE} \\
+\tab[2]	\word{2DUP} \word{Sq} -{}-" match-or-end? \word{0=} \word{WHILE} \\
+\tab[2]	\word{2DUP} \word{Sq} :\}"  match-or-end? \word{0=} \word{WHILE} \\
+\tab[2]	\word{ROT} \word{1+} \word{PARSE-NAME} \\
+\tab\,\word{AGAIN} \word{THEN} \word{THEN} \word{THEN} \word{;}
+
+\word{:} scan-locals \\
+\tab\,\word{bs} n c-addr1 u1 -{}- c-addr1 u1 ... c-addrn un n c-addrn+1 un+1 \\
+\tab\,\word{2DUP} \word{Sq} |" \word[string]{COMPARE} \word{0=} \word{0=} \word{IF} \\
+\tab[2]	\word{EXIT} \\
+\tab\,\word{THEN} \\
+\tab\,\word{2DROP} \word{PARSE-NAME} \\
+\tab\,\word{BEGIN} \\
+\tab[2]	\word{2DUP} \word{Sq} -{}-" match-or-end? \word{0=} \word{WHILE} \\
+\tab[2]	\word{2DUP} \word{Sq} :\}"  match-or-end? \word{0=} \word{WHILE} \\
+\tab[2]	\word{ROT} \word{1+} \word{PARSE-NAME} \\
+\tab[2]	\word{POSTPONE} undefined-value \\
+\tab\,\word{AGAIN} \word{THEN} \word{THEN} \word{;}
+
+\word{:} scan-end \word{p} c-addr1 u1 -{}- c-addr2 u2 ) \\
+\tab\,\word{BEGIN} \\
+\tab[2]	\word{2DUP} \word{Sq} :\}" match-or-end? \word{0=} \word{WHILE} \\
+\tab[2]	\word{2DROP} \word{PARSE-NAME} \\
+\tab\,\word{REPEAT} \word{;}
+
+\word{:} define-locals \word{p} c-addr1 u1 ... c-addrn un n -{}- ) \\
+\tab\,0 \word{qDO} \\
+\tab[2]	\word{LOCAL} \\
+\tab\,\word{LOOP} \\
+\tab\,0 0 \word{LOCAL} \word{;}
+
+\word{:} \{: \word{p} -{}- ) \\
+\tab\,0 \word{PARSE-NAME} \\
+\tab\,scan-args scan-locals scan-end \\
+\tab\,\word{2DROP} define-locals \\
+\word{;} \word{IMMEDIATE}
+	\end{implement}
+\end{worddef}
+\endinput
+
+
+Reference Implementation
+
+0 [if]
+BUILDLV    c-addr u +n mode
+When executed during compilation, BUILDLV passes a message to the
+system identifying a new local argument whose definition name is
+given by the string of characters identified by c-addr u. The size
+of the data item is given by +n address units, and the mode
+identifies the construction required as follows:
+   0 - finish construction of initialisation and data storage
+       allocation code. C-addr and u are ignored. +n is 0
+       (other values are reserved for future use).
+   1 - identify a local argument, +n = cell
+   2 - identify a local value, +n = cell
+   3+ - reserved for future use
+   -ve - implementation specific values
+
+The result of executing BUILDLV during compilation of a definition
+is to create a set of named local arguments and values, each of
+which is a definition name, that only have execution semantics
+within the scope of that definition's source.
+
+Note that it is often useful to accumulate and store the size of
+locals storage (0=none), so that compilers for EXIT can easily
+determine if locals clean up code is required.
+[then]
+
+VARIABLE #LVS   \ -- addr
+\ Holds size of locals storage required.
+
+: BUILDLV	\ c-addr u +n mode --
+\ Dummy for testing
+   OVER #LVS +!
+   CR 2SWAP TYPE  SPACE  SWAP . .
+;
+
+: TOKEN         \ -- caddr u
+\ Get the next space delimited token from the input stream.
+\ Can be extended to permit multiple line declarations.
+   PARSE-NAME
+;
+
+: LTERM?        \ caddr u -- flag
+\ Return true if the string caddr/u is "--" or ":}"
+   2DUP S" --" COMPARE 0= >R
+   S" :}" COMPARE 0=  R> OR
+;
+
+: LSEP?         \ caddr u -- flag
+\ Return true if the string caddr/u is the separator between
+\ local arguments and local values or buffers.
+   2DUP S" |" COMPARE 0= >R
+   S" \" COMPARE 0=  R> OR
+;
+
+: {:            \ --
+\ Parse the locals declaration up to the closing ":}".
+   0 #LVS !                              \ indicate no locals yet
+   0 >R                                  \ indicate arguments
+   BEGIN
+     TOKEN 2DUP LTERM? 0=
+   WHILE                                 \ -- caddr len
+     2DUP LSEP? IF                       \ if '|'
+       R> DROP  1 >R                     \ change to vars and buffers
+     ELSE
+       R@ 0= IF                          \ argument?
+         CELL 1
+       ELSE                              \ value
+         CELL 2
+       THEN
+       BUILDLV
+     THEN
+   REPEAT
+   BEGIN
+     S" :}" COMPARE
+    WHILE
+     TOKEN
+   REPEAT
+   0 0 0 0 BUILDLV
+   R> DROP
+; IMMEDIATE
+Test Cases
+
+: LT1  {: a b | c -- f :}
+   CR ." Hello1 " CR  a  ;
+T{ 3 4 LT1 -> 3 }T \ Outputs Hello1
+
+: LT2  {: a | b c e :}
+   CR ." Hello2 " CR  ;
+T{ 3 LT2 -> }T \ Outputs Hello2
+
+: LT3  {: a b c -- :}
+   CR ." Hello3 " CR  ;
+T{ 3 4 5 LT3 -> }T \ Outputs Hello3
+
+: LT4  {: a b c :}
+   CR ." Hello4 " CR  ;
+T{ 3 4 5 LT4 -> }T \ Outputs Hello4
+
+: LT5  {: a | b c d -- e f g :}
+   CR ." Hello5 " CR
+   a 2* to b  b 2* to c  c 2* to d
+   b c d  ;
+T{ 3 LT5 -> 6 12 24 }T \ Outputs Hello5

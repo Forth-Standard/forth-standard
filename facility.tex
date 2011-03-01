@@ -41,30 +41,6 @@ Programs that use more than seven bits of a character by
 
 See: \xref[3.1.2 Character types]{usage:char}.
 
-\subsection{Environmental queries\strike{2.4}{160}} % 10.3.2
-\cbstart\patch{x:wordset-query}%
-
-\sout{Append table \ref{facility:env} to table \ref{table:env}.}
-
-See: \xref[3.2.6 Environmental queries]{usage:env}.\strike{2.4}{145}
-
-\begin{table}[h]
-  \begin{center}
-	\caption{Environmental Query Strings\strike{2.4}{165}}
-	\label{facility:env}
-	\begin{tabular}{p{9em}rcp{0.42\textwidth}}
-		\hline\hline
-		\multicolumn{2}{l}{\sout{String \hfill Value data type}} & \sout{Constant?} & \sout{Meaning} \\
-		\hline
-		\sout{\texttt{FACILITY}}		& \sout{\emph{flag}}	& \sout{no}	&
-			\sout{facility word set present} \\
-		\sout{\texttt{FACILITY-EXT}}	& \sout{\emph{flag}}	& \sout{no}	&
-			\sout{facility extensions word set present} \\
-		\hline\hline
-	\end{tabular}
-  \end{center}
-\end{table}
-\cbend
 
 \section{Additional documentation requirements} % 10.4
 
@@ -416,55 +392,36 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef*}{}{CFIELD:}[c-field-colon][X:structures]
-\item \stack{}{}\strike{2.5}{35} \stack{n_1 "<spaces>name"}{n_2}\strike{-3}{120}
+\begin{worddef}{}{CFIELD:}[c-field-colon][X:structures]
+\item \stack{n_1 "<spaces>name"}{n_2}
 
-	\sout{%
-		The semantics of \word{CFIELD:} are identical to the
-		execution semantics of the phrase:}
-	\begin{quote}\ttfamily
-	\sout{1 \word{CHARS} \word{+FIELD}}
-	\end{quote}
+	Skip leading space delimiters. Parse \param{name} delimited by
+	a space. \param{Offset} is the first character aligned value
+	greater than or equal to \param{n_1}.  \param{n_2 = offset + 1}
+	character.
 
-	\uline{Skip leading space delimiters. Parse \param{name} delimited by
-	a space. \param{Offset} is the first character aligned value greater
-	than or equal to}
-	\param{n_1}\strike{-2.6}{11}.
-	\param{n_2 = offset + 1}\strike{-2.6}{60} \uline{character.}
+	Create a definition for \param{name} with the execution semantics
+	given below.
 
-	\uline{Create a definition for \param{name} with the execution semantics
-	given below.}
+\execute[name] \stack{a-addr_1}{a-addr_2}
 
-\execute[name] \stack{a-addr_1}{a-addr_2}\strike{-3}{170}
-
-	\uline{Add the \param{offset} calculated during the compile time action
-	to}
-	\param{a-addr_1}\strike{-2.6}{34}
-	\uline{giving the character aligned address}
-	\param{a-addr_2}\strike{-2.6}{34}.
+	Add the \param{offset} calculated during the compile time action
+	to \param{a-addr_1} giving the character aligned address
+	\param{a-addr_2}.
 
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
-	\uline{, \\ \rref{facility:FIELD:}{}}.
-
-	\begin{implement} % I.10.6.2.---- CFIELD
-		\sout{\textdf{Create a new field within a structure definition
-		of size a character.}}
-
-		\sout{\word{:} CFIELD:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr} \\
-		\tab \sout{1 \word{CHARS} \word{+FIELD}} \\
-		\sout{\word{;}}
-	\end{implement}
-\end{worddef*}
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \\
+	\rref{facility:FIELD:}{}.
+\end{worddef}
 
 % -------------------------------------
 
 \begin{worddef}{1305}{EKEY}[e-key]
-\item \stack{}{\replace{x:ekey}{u}{x}}
+\item \stack{}{x}
 
-	Receive one keyboard event \param{\replace{x:ekey}{u}{x}}. The encoding of keyboard events
+	Receive one keyboard event \param{x}. The encoding of keyboard events
 	is implementation defined.
 
 \see \wref{core:KEY}{KEY},
@@ -496,16 +453,6 @@ to provide all of the Facility and Facility Extensions word sets.
 		translation words provided for that purpose
 		(\word{EKEYtoCHAR} and \word{EKEYtoFKEY}).
 
-	\remove{x:ekey}{%
-		In systems that combine both keyboard and mouse events into a
-		single ``event stream'', the value returned by \word{EKEY}
-		may be inadequate to represent the full range of input
-		possibilities.  In such systems, a single ``event record''
-		may include a time stamp, the (x,y) coordinates of the mouse
-		position, the keyboard state, and the state of the mouse
-		buttons; \word{EKEY} could return the address of an ``event
-		record'' from which this information can be extracted.}
-
 		See: \rref{core:KEY}{}, \wref{facility:EKEYtoCHAR}{} and
 		\wref{facility:EKEYtoFKEY}{}.
 	\end{rationale}
@@ -513,11 +460,11 @@ to provide all of the Facility and Facility Extensions word sets.
 
 
 \begin{worddef}[EKEYtoCHAR]{1306}{EKEY>CHAR}[e-key-to-char]
-\item \stack{\replace{x:ekey}{u}{x}}{\replace{x:ekey}{u}{x} false | char true}
+\item \stack{x}{x false | char true}
 
-	If the keyboard event \param{\replace{x:ekey}{u}{x}} corresponds to a character in the
+	If the keyboard event \param{x} corresponds to a character in the
 	implementation-defined character set, return that character and
-	\emph{true}. Otherwise return \param{\replace{x:ekey}{u}{x}} and \emph{false}.
+	\emph{true}. Otherwise return \param{x} and \emph{false}.
 
 \see \rref{facility:EKEYtoCHAR}{}.
 
@@ -537,11 +484,11 @@ to provide all of the Facility and Facility Extensions word sets.
 
 
 \begin{worddef}[EKEYtoFKEY]{}{EKEY>FKEY}[e-key-to-f-key][X:ekeys]
-\item \stack{\replace{x:ekey}{u_1}{x}}{\replace{x:ekey}{u_2 f}{ u flag}}
+\item \stack{x}{u flag}
 
-	If the keyboard event \param{\replace{x:ekey}{u_1}{x}} corresponds to a keypress in the
+	If the keyboard event \param{x} corresponds to a keypress in the
 	implementation-defined special key set, return that key's id
-	\param{\replace{x:ekey}{u_2}{u}} and \param{true}. Otherwise return \param{\replace{x:ekey}{u_1}{x}} and
+	\param{u} and \param{true}. Otherwise return \param{x} and
 	\param{false}.
 
 \note
@@ -750,7 +697,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	Terminate definition of a structure started by
 	\word{BEGIN-STRUCTURE}.
 
-\see \wref{facility:+FIELD}{+FIELD}\replace{ed10}{ and}{,}
+\see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}.
 
 	\begin{implement} % I.10.6.2.---- END-STRUCTURE
@@ -762,72 +709,46 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef*}{}{FIELD:}[field-colon][X:structures]
-\item \stack{}{}\strike{2.5}{35} \stack{n_1 "<spaces>name"}{n_2}\strike{-3}{120}
+\begin{worddef}{}{FIELD:}[field-colon][X:structures]
+\item \stack{n_1 "<spaces>name"}{n_2}
 
-	\sout{%
-		The semantics of \word{FIELD:} are identical to the
-		execution semantics of the phrase:}
-	\begin{quote}\ttfamily
-	\sout{\word{ALIGNED} 1 \word{CELLS} \word{+FIELD}}
-	\end{quote}
-
-	\uline{Skip leading space delimiters. Parse \param{name} delimited by
+	Skip leading space delimiters. Parse \param{name} delimited by
 	a space. \param{Offset} is the first cell aligned value greater
-	than or equal to}
-	\param{n_1}\strike{-2.6}{11}.
-	\param{n_2 = offset + 1}\strike{-2.6}{60} \uline{cell.}
+	than or equal to \param{n_1}.  \param{n_2 = offset + 1} cell.
 
-	\uline{Create a definition for \param{name} with the execution semantics
-	given below.}
+	Create a definition for \param{name} with the execution semantics
+	given below.
 
-\execute[name] \stack{a-addr_1}{a-addr_2}\strike{-3}{170}
+\execute[name] \stack{a-addr_1}{a-addr_2}
 
-	\uline{Add the \param{offset} calculated during the compile time action
-	to}
-	\param{a-addr_1}\strike{-2.6}{34}
-	\uline{giving the cell aligned address}
-	\param{a-addr_2}\strike{-2.6}{34}.
+	Add the \param{offset} calculated during the compile time action
+	to \param{a-addr_1} giving the cell aligned address \param{a-addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}\replace{ed10}{ and}{,}
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
-	\uline{, \rref{facility:FIELD:}{}}.
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \linebreak
+	\rref{facility:FIELD:}{}.
 
 	\begin{rationale}
-		\uline{Create an aligned single cell field in a data structure.}
+		Create an aligned single cell field in a data structure.
 
-		\uline{The various \emph{x}\texttt{FIELD:} words provide for different
-		alignment and size allocation.}
+		The various \emph{x}\texttt{FIELD:} words provide for different
+		alignment and size allocation.
 
-		\uline{The \emph{x}\texttt{FIELD:} words could be defined as:}
+		The \emph{x}\texttt{FIELD:} words could be defined as:
 
 		\begin{tabbing}
 			\tab \= \tab[7] \= \tab[5] \= \tab[6] \= \tab[5.2] \= \kill
-			\> \word{:} \word{FIELD:}   \>\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;} \> \word{bs} cell aligned
-	\strike{-2.5}{297}\\
-			\> \word{:} \word{CFIELD:}  \>\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} \> \word{bs} character aligned
-	\strike{-2.5}{320}
-		\setwordlist{floating} \\
-			\> \word{:} \word{FFIELD:}  \>\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \> \word{bs} float aligned
-	\strike{-2.5}{300} \\
-			\> \word{:} \word{SFFIELD:} \>\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \> \word{bs} single-float aligned
-	\strike{-2.5}{326} \\
+			\> \word{:} \word{FIELD:}   \>\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;} \> \word{bs} cell aligned			\\
+			\> \word{:} \word{CFIELD:}  \>\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} \> \word{bs} character aligned	\\
+		\setwordlist{floating}
+			\> \word{:} \word{FFIELD:}  \>\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \> \word{bs} float aligned			\\
+			\> \word{:} \word{SFFIELD:} \>\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \> \word{bs} single-float aligned	\\
 			\> \word{:} \word{DFFIELD:} \>\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;} \> \word{bs} double-float aligned
-	\strike{-2.5}{329.5}
 		\setwordlist{facility}
 		\end{tabbing}
 	\end{rationale}
-
-	\begin{implement} % I.10.6.2.---- FIELD:
-		\sout{\textdf{Create a new field within a structure definition
-		of size a cell. The field is aligned.}}
-
-		\sout{\word{:} field:\tab\word{bs} n1 <"name"> -{}- n2 ; Exec: addr -{}- 'addr} \\
-		\tab \sout{\word{ALIGNED} 1 \word{CELLS} \word{+FIELD}} \\
-		\sout{\word{;}}
-	\end{implement}
-\end{worddef*}
+\end{worddef}
 
 % -------------------------------------------------------------------
 

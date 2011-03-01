@@ -22,8 +22,7 @@ item.
 
 \item behavior of \wref{core:EMIT}{EMIT} for non-graphic characters;
 
-\item character editing of \wref{core:ACCEPT}{ACCEPT}
-	\remove{x:legacy}{and \wref{core:EXPECT}{EXPECT}};
+\item character editing of \wref{core:ACCEPT}{ACCEPT};
 
 \item character set (\xref[Character types]{usage:char},
 	\wref{core:EMIT}{EMIT}, \wref{core:KEY}{KEY});
@@ -43,8 +42,7 @@ item.
 \item conversion of digits larger than thirty-five
 	(\xref[Digit conversion]{usage:digits});
 
-\item display after input terminates in \wref{core:ACCEPT}{ACCEPT}
-	\remove{x:legacy}{and \wref{core:EXPECT}{EXPECT}};
+\item display after input terminates in \wref{core:ACCEPT}{ACCEPT};
 
 \item exception abort sequence (as in \wref{core:ABORTq}{ABORT"});
 
@@ -191,7 +189,6 @@ combination of factors:
 	 \wref{core:FM/MOD}{FM/MOD},
 	 \wref{core:SM/REM}{SM/REM},
 	 \wref{core:UM/MOD}{UM/MOD},
-	\remove{x:legacy}{\wref{core:CONVERT}{CONVERT},}
 	 \wref{double:M*/}{M*/});
 
 \item reading from an empty data stack or return stack
@@ -270,7 +267,7 @@ glossary entries of the relevant words:
 	\wref{core:num-start}{<\num} and \wref{core:num-end}{\num>}
 	(\wref{core:num}{\num}, \wref{core:numS}{\num{}S},
 	 \wref{core:HOLD}{HOLD},
-	 \place{x:xchar}{\wref{core:HOLDS}{},}
+	 \wref{core:HOLDS}{},
 	 \wref{core:SIGN}{SIGN}).
 \end{itemize}
 
@@ -294,49 +291,14 @@ as a consequence of specific extensions.
 	or \wref{core:IS}{IS}.
 	\end{itemize}
 
-% ==== X: Required ====
-
-\item[\sout{\textsf{X:required}}] ~\cbstart\patch{ed10b}
-	\begin{itemize}
-\item \sout{a file is required while it is being \word[file]{REQUIRED}
-	(\ref{file:REQUIRED}) or \word[file]{INCLUDED} (\ref{file:INCLUDED}).}
-
-\item \sout{a marker is defined outside and executed inside a file or vice
-	versa, and the file is \word[file]{REQUIRED} (\ref{file:REQUIRED})
-	again.}
-
-\item \sout{the same file is required twice using different names (e.g.,
-	through symbolic links), or different files with the same name are
-	provided to \wref{file:REQUIRED}{REQUIRED} (by doing some renaming
-	between the invocations of \word[file]{REQUIRED}).}
-
-\item \sout{the stack effect of including with \wref{file:REQUIRED}{REQUIRED}
-	the file is not} \stack{i*x}{i*x}.\strike{2.5}{100}
-	\end{itemize}
-\cbend
-
-% ==== X: Structures ====
-
-\item[\sout{\textsf{X:structures}}] ~\cbstart\patch{ed10b}
-	\begin{itemize}
-\item \sout{A \param{name} defined by
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
-	is executed before the corresponding
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}
-	has been executed.}
-	\end{itemize}
-\cbend
-
 % ==== X: Escaped Strings ====
 
-\newpage
-\item[\uline{\textsf{X:escaped-strings}}]~\cbstart\patch{x:escaped-strings}
+\item[\textsf{X:escaped-strings}]~
 	\begin{itemize}
-	\item \uline{\bs{x} is not followed by two hexadecimal characters (\wref{core:Seq}{}).}
-	\item \uline{a \bs{} is placed before any character, other than those defined in
-		\wref{core:Seq}{}.}
+	\item \bs{x} is not followed by two hexadecimal characters (\wref{core:Seq}{}).
+	\item a \bs{} is placed before any character, other than those defined in
+		\wref{core:Seq}{}.
 	\end{itemize}
-\cbend
 \end{description}
 
 
@@ -379,8 +341,7 @@ dependencies:
 	(\xref[Other transient regions]{usage:transient});
 
 \item depending on the presence or absence of non-graphic characters
-	in a received string (\wref{core:ACCEPT}{ACCEPT}%
-	\remove{x:legacy}{, \wref{core:EXPECT}{EXPECT}});
+	in a received string (\wref{core:ACCEPT}{ACCEPT});
 
 \item relying on a particular rounding direction
 	(\xref[Integer division]{usage:div});
