@@ -127,6 +127,23 @@ The typical practice in environments requiring more than one encoding
 is that the base system is ASCII only, and the character set is then
 extended to specify the required encoding.
 
+%\subsection{Exception Handling} % 18.3.5
+%
+%Append table \ref{xchar:throw} to table \ref{table:throw}:
+%
+%\begin{table}[ht]
+%	\begin{center}
+%		\caption{\word[exception]{THROW} code assignments}
+%		\label{xchar:throw}
+%		\begin{tabular}{ll}
+%			\hline\hline
+%			Code & Reserved for \\\hline
+%			-77 & Malformed xchar
+%			\\ \hline\hline
+%		\end{tabular}
+%	\end{center}
+%\end{table}
+
 \subsection{The Forth text interpreter} % 18.3.4
 
 In section \xref{usage:numbers}{}, \arg{cnum} should be redefined to be:
