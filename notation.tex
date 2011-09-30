@@ -258,6 +258,39 @@ Depending on context, either
 \section{Notation} % ================================================
 \label{notations}
 
+% ---------- X:number-prefix ----------
+\cbstart\patch{x:enhanced-locals}
+\uline{The following notation is used to define the syntax of various
+elements within the document:}
+
+\begin{itemize}
+\item \uline{Each component of the element is defined with a rule consisting
+	of the name of the component (italicized in angle-brackets,
+	e.g., \arg{decdigit}), the characters \textsf{:=} and a concatenation
+	of tokens and metacharacters;}
+
+\item \uline{Tokens may be literal characters (in bold face, e.g.,
+	\textbf{E}) or rule names in angle brackets (e.g.,
+	\linebreak \arg{decdigit});}
+
+\item \uline{The metacharacter * is used to specify zero or more occurrences of
+	the preceding token (e.g., \arg{decdigit}*);}
+
+\item \uline{Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);}
+
+\item \uline{Vertical bars separate choices from a list of tokens enclosed
+	with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).}
+\end{itemize}
+
+\uline{See: \xref{usage:numbers},
+	\xref{float:conv}, \linebreak
+	\wref{floating:toFLOAT}{},
+	\wref{floating:FSd}{},
+	\wref{local:b:}.}
+\cbend
+
+% --------------------
+
 \subsection{Numeric notation}
 \label{notation:numeric}
 
@@ -269,27 +302,29 @@ the contents of variables,
 e.g., \word{BASE} \textbf{\{\{2 {\ldots} 36\}\}}.
 
 % ---------- X:number-prefix ----------
-The following notation is used to define the syntax of the external
-representation of numbers:
+\cbstart\patch{x:enhanced-locals}
+\sout{The following notation is used to define the syntax of the external
+representation of numbers:}
 
 \begin{itemize}
-\item Each component of a number is defined with a rule consisting
+\item \sout{Each component of a number is defined with a rule consisting
 	of the name of the component (italicized in angle-brackets,
 	e.g., \arg{decdigit}), the characters \textsf{:=} and a concatenation
-	of tokens and metacharacters;
+	of tokens and metacharacters;}
 
-\item Tokens may be literal characters (in bold face, e.g.,
+\item \sout{Tokens may be literal characters (in bold face, e.g.,
 	\textbf{E}) or rule names in angle brackets (e.g.,
-	\linebreak \arg{decdigit});
+	\linebreak \arg{decdigit});}
 
-\item The metacharacter * is used to specify zero or more occurrences of
-	the preceding token (e.g., \arg{decdigit}*);
+\item \sout{The metacharacter * is used to specify zero or more occurrences of
+	the preceding token (e.g., \arg{decdigit}*);}
 
-\item Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);
+\item \sout{Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);}
 
-\item Vertical bars separate choices from a list of tokens enclosed
-	with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).
+\item \sout{Vertical bars separate choices from a list of tokens enclosed
+	with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).}
 \end{itemize}
+\cbend
 % --------------------
 
 \subsection{Stack notation}
@@ -359,7 +394,7 @@ parameters and the ``-{}-'' separator in the first stack described, e.g.,
 \subsection{Glossary notation}
 
 The glossary entries for each word set are listed in the standard
-ASCII collating sequence. Each glossary entry specifies an ANS
+ASCII collating sequence. Each glossary entry specifies an \remove{F94}{ANS}
 Forth word and consists of two parts:
 an \emph{index line} and the \emph{semantic description} of the
 definition.

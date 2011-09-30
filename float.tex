@@ -372,7 +372,7 @@ word sets.
 		does the text interpreter since the latter defines rules for
 		composing source programs whereas \word{toFLOAT} defines rules
 		for accepting data. \word{toFLOAT} is defined as broadly as is
-		feasible to permit input of data from ANS Forth systems as well
+		feasible to permit input of data from \remove{F94}{ANS} Forth systems as well
 		as other widely used standard programming environments.
 
 		This is a synthesis of common FORTRAN practice. Embedded spaces
@@ -381,7 +381,7 @@ word sets.
 
 		While \word{toFLOAT} is not required to treat a string of blanks
 		as zero, this behavior is strongly encouraged, since a future
-		version of ANS Forth may include such a requirement.
+		version of \replace{F94}{ANS Forth}{the standard} may include such a requirement.
 	\end{rationale}
 \end{worddef}
 
@@ -813,11 +813,15 @@ word sets.
 	Create a definition for \param{name} with the execution semantics
 	given below.
 
-\execute[name] \stack{a-addr_1}{a-addr_2}
+\execute[name]
+\cbstart\patch{ed11}
+	\stack{a-addr_{\sout{1}}}{\sout{a}\uline{df}-addr_{\sout{2}}}
+\cbend
 
-	Add the \param{offset} calculated during the compile time action
-	to \param{a-addr_1} giving the double-float aligned address
-	\param{a-addr_2}.
+	Add the \param{offset} calculated during the compile time action to
+\cbstart\param{a-addr_{\sout{1}}}\cbend\ 
+	giving the double-float aligned address
+\cbstart\param{\sout{a}\uline{df}-addr_{\sout{2}}}.\cbend
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
@@ -1259,11 +1263,15 @@ word sets.
 	Create a definition for \param{name} with the execution semantics
 	given below.
 
-\execute[name] \stack{a-addr_1}{a-addr_2}
+\execute[name]
+\cbstart\patch{ed11}
+	\stack{a-addr_{\sout{1}}}{\sout{a}\uline{f}-addr_{\sout{2}}}
+\cbend
 
-	Add the \param{offset} calculated during the compile time action
-	to \param{a-addr_1} giving the float aligned address
-	\param{a-addr_2}.
+	Add the \param{offset} calculated during the compile time action to
+\cbstart\param{a-addr_{\sout{1}}}\cbend\ 
+	giving the float aligned address
+\cbstart\param{\sout{a}\uline{f}-addr_{\sout{2}}}.\cbend
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
@@ -1606,11 +1614,15 @@ word sets.
 	Create a definition for \param{name} with the execution semantics
 	given below.
 
-\execute[name] \stack{a-addr_1}{a-addr_2}
+\execute[name]
+\cbstart\patch{ed11}
+	\stack{a-addr_{\sout{1}}}{\sout{a}\uline{sf}-addr_{\sout{2}}}
+\cbend
 
-	Add the \param{offset} calculated during the compile time action
-	to \param{a-addr_1} giving the single-float aligned address
-	\param{a-addr_2}.
+	Add the \param{offset} calculated during the compile time action to
+\cbstart\param{a-addr_{\sout{1}}}\cbend\ 
+	giving the single-float aligned address
+\cbstart\param{\sout{a}\uline{sf}-addr_{\sout{2}}}.\cbend
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},

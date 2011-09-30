@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \annex{Compatibility analysis of ANS Forth} % D (informative annex)
 \label{annex:diff}
 \setwordlist{core}
@@ -795,6 +796,7 @@ portion of the ANS Forth Search Order word set.
 
 
 \subsection{Multiprogramming impact} % D.6.11
+\label{diff:multitasking}
 
 Forth 83 marked words with ``multiprogramming impact'' by the letter
 ``M'' in the first lines of their descriptions. ANS Forth has removed
@@ -899,12 +901,14 @@ words to be available with no additional programmer action.
 
 % =========================================================
 
-\section{ANS Forth '94} % D.7
+\cbstart
+\section{ANS Forth '94\strike{4}{90} Forth 94\strike{-3}{50}} % D.7
+\cbend
 \label{diff:forth94}
 
 \subsection{Removed Definitions} % D.7.1
 	This standard removes six words that were marked `obsolescent'
-	in the ANS Forth '94 document.  These are:
+	in the \replace{F94}{ANS Forth '94}{Forth 94} document.  These are:
 
 \begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
 	6.2.0060	& \textbf{\#TIB}

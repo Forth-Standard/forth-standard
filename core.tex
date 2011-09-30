@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{Glossary} % 6
 
 \section{Core words} % 6.1
@@ -134,7 +135,7 @@
 		Typical use: {\ldots} \word{'} \param{name}.
 
 		Many Forth systems use a state-smart tick. Many do not.
-		ANS Forth follows the usage of Forth 83.
+		\replace{F94}{ANS Forth follows}{We follow} the usage of Forth 83.
 
 	\see \xref[A.3.4.3..2 Interpretation semantics]{rat:interpret},
 		\rref{core:FIND}{FIND}.
@@ -2965,7 +2966,7 @@
 		that implies propagation if the move is suitably invoked. In
 		some hardware, this specific behavior cannot be achieved using
 		the best move instruction. Further, \word[string]{CMOVE} and
-		\word[string]{CMOVEtop} move characters; ANS Forth needs a move
+		\word[string]{CMOVEtop} move characters; \replace{F94}{ANS Forth needs}{Forth 94 needed} a move
 		instruction capable of dealing with address units. Thus
 		\word{MOVE} has been defined and added to the Core word set,
 		and \word[string]{CMOVE} and \word[string]{CMOVEtop} have been
@@ -3607,7 +3608,7 @@
 		\tab \texttt{NOP} \word{ALIGN} \\
 		\tab \texttt{NOP} \word{ALIGNED}
 
-		Some non-ANS Forth compliant systems have \word{]} invoke a
+		Some non-\remove{F94}{ANS Forth }compliant systems have \word{]} invoke a
 		compiler loop in addition to setting \word{STATE}. Such a
 		system would inappropriately attempt to compile the second
 		use of \texttt{NOP}.
@@ -4584,26 +4585,26 @@
 \interpret
 	\stack{"<spaces>name"}{xt}
 
-	Skip leading spaces and parse name delimited by a space.
-	\param{xt} is the \param{xt} assigned to \param{name}.
-	An ambiguous condition exists if name was not defined by
-	\word{DEFER}, or if the name has not been assigned an
-	\param{xt}.
+	Skip leading spaces and parse \param{name} delimited by a space.
+	\param{xt} is the \replace{x:is}{\param{xt} assigned to \param{name}}{execution token that \param{name} is set to execute}.
+	An ambiguous condition exists if \param{name} was not defined by
+	\word{DEFER}, or if the \param{name} has not been \replace{x:is}{assigned}{set to execute} an \param{xt}.
 
 \compile
 	\stack{"<spaces>name"}{}
 
-	Skip leading spaces and parse name delimited by a space.
+	Skip leading spaces and parse \param{name} delimited by a space.
 	Append the run-time semantics given below to the current
-	definition. An ambiguous condition exists if \param{name}
+	definition.  An ambiguous condition exists if \param{name}
 	was not defined by \word{DEFER}.
 
 \runtime
 	\stack{}{xt}
 
-	\param{xt} is the execution token assigned to \param{name}
-	when the run-time semantics is performed. An ambiguous condition
-	exists if \param{name} has not been assigned an \param{xt}.
+	\param{xt} is the execution token \replace{x:is}{assigned to \param{name}
+	when the run-time semantics is performed}{that \param{name} is set to execute}.
+	An ambiguous condition exists if \param{name} has not been
+	\replace{x:is}{assigned}{set to execute} an \param{xt}.
 
 	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
 	\word{[']} or \word{'} is applied to \word{ACTION-OF}.
@@ -4672,89 +4673,92 @@
 
 % -------------------------------------------------------------------
 
-%\begin{worddef}{}{BUFFER:}[buffer-colon][x:buffer]
-%\item \stack{u "<spaces>name"}{}
-%
-%	Skip leading space delimiters. Parse \param{name} delimited by a space.
-%	Create a definition for \param{name}, with the execution semantics defined
-%	below. Reserve \param{u} address units at an aligned address.
-%	Contiguity of this region with any other region is undefined.
-%
-%\execute[name]
-%	\stack{}{a-addr}
-%
-%	\param{a-addr} is the address of the space reserved by \word{BUFFER:} when
-%	it defined \param{name}. The program is responsible for initializing the
-%	contents.
-%
-%	\begin{rationale}
-%		\word{BUFFER:} provides a means of defining an uninitialized buffer.
-%		In systems that use a single memory space, this can effectively
-%		be defined as:
-%
-%		\begin{quote}\ttfamily
-%			\word{:} \word{BUFFER:} \word{p} u "<name>" -{}- ; -{}- addr ) \\
-%			\tab\,\word{CREATE} \word{ALLOT} \\
-%			\word{;}
-%		\end{quote} 
-%
-%		However, many systems require a separation of code and data.  Such
-%		systems can implement \word{BUFFER:} so that it allocates memory
-%		from a separate uninitialized memory area.  Embedded systems can
-%		take advantage of the lack of initialization of the memory area
-%		while hosted systems are permitted to \word[memory]{ALLOCATE} a
-%		buffer at startup.
-%		A system may select a piece of memory for performance reasons.
-%		A detailed knowledge of the memory allocation within the system
-%		is required to provide a version of \word{BUFFER:} that can take
-%		advantage of the system.
-%
-%		It should be noted that the memory buffer provided by \word{BUFFER:}
-%		is not initialized by the system and that if the application requires
-%		it to be initialized, it is the responsibility of the application to
-%		initialize it.
-%	\end{rationale}
-%
-%	\begin{implement}
-%		\dffamily
-%		This implementation depends on children of \word{CREATE} returning an
-%		aligned address.  Other memory location techniques require
-%		implementation-specific knowledge of the underlying Forth system.
-%
-%		\ttfamily
-%		\word{:} BUFFER: \word{bs} u "<name>" -- ; -- addr \\
-%		\word{bs} Create a buffer of u address units whose \\
-%		\word{bs} address is returned at run time. \\
-%		\tab \word{CREATE} \word{ALLOT} \\
-%		\word{;}
-%	\end{implement}
-%
-%	\begin{testing}
-%		\word{DECIMAL} \\
-%		\test{127 \word{CHARS} \word{BUFFER:} TBUF1}{} \\
-%		\test{127 \word{CHARS} \word{BUFFER:} TBUF2}{}
-% 
-%		\word{bs} \textdf{Buffer is aligned} \\
-%		\test{TBUF1 \word{ALIGNED}}{TBUF1}
-% 
-%		\word{bs} \textdf{Buffers do not overlap} \\
-%		\test{TBUF2 TBUF1 \word{-} \word{ABS} 127 \word{CHARS} \word{less}}{<FALSE>}
-% 
-%		\word{bs} \textdf{Buffer can be written to} \\
-%		1 \word{CHARS} \word{CONSTANT} /CHAR \\
-%		\word{:} TFULL? \word{p} c-addr n char -{}- flag )\\
-%		\tab\,\word{TRUE} \word{2SWAP} \word{CHARS} \word{OVER} \word{+} \word{SWAP} \word{qDO} \\
-%		\tab[2] \word{OVER} \word{I} \word{C@} \word{=} \word{AND} \\
-%		\tab\,/CHAR \word{+LOOP} \word{NIP} \\
-%		\word{;}
-%
-%		\test{TBUF1 127 \word{CHAR} * \word{FILL}  }{      } \\
-%		\test{TBUF1 127 \word{CHAR} * TFULL?}{<TRUE>}
-%
-%		\test{TBUF1 127 0 \word{FILL}  }{      } \\
-%		\test{TBUF1 127 0 TFULL?}{<TRUE>}
-%	\end{testing}
-%\end{worddef}
+\begin{worddef*}{}{BUFFER:}[buffer-colon][x:buffer]
+\item \stack{u "<spaces>name"}{}
+
+	Skip leading space delimiters. Parse \param{name} delimited by a space.
+	Create a definition for \param{name}, with the execution semantics defined
+	below.  Reserve \param{u} address units at an aligned address.
+	Contiguity of this region with any other region is undefined.
+
+\execute[name]
+	\stack{}{a-addr}
+
+	\param{a-addr} is the address of the space reserved by \word{BUFFER:} when
+	it defined \param{name}.  The program is responsible for initializing the
+	contents.
+
+\see \rref{core:BUFFER:}{}.
+
+	\begin{rationale}
+		\word{BUFFER:} provides a means of defining an uninitialized buffer.
+		In systems that use a single memory space, this can effectively
+		be defined as:
+
+		\begin{quote}\ttfamily
+			\word{:} \word{BUFFER:} \word{p} u "<name>" -{}- ; -{}- addr ) \\
+			\tab\,\word{CREATE} \word{ALLOT} \\
+			\word{;}
+		\end{quote} 
+
+		However, many systems profit from a separation of uninitialized and
+		initialized data areas.  Such systems can implement \word{BUFFER:} so
+		that it allocates memory from a separate uninitialized memory area.
+		Embedded systems can take advantage of the lack of initialization of the
+		memory area while hosted systems are permitted to \word[memory]{ALLOCATE}
+		a buffer.
+		A system may select a region of memory for performance reasons.
+		A detailed knowledge of the memory allocation within the system
+		is required to provide a version of \word{BUFFER:} that can take
+		advantage of the system.
+
+		It should be noted that the memory buffer provided by \word{BUFFER:}
+		is not initialized by the system and that if the application requires
+		it to be initialized, it is the responsibility of the application to
+		initialize it.
+	\end{rationale}
+
+	\begin{implement}
+		\dffamily
+		This implementation depends on children of \word{CREATE} returning an
+		aligned address.  Other memory location techniques require
+		implementation-specific knowledge of the underlying Forth system.
+
+		\ttfamily
+		\word{:} BUFFER: \word{bs} u "<name>" -- ; -- addr \\
+		\word{bs} Create a buffer of u address units whose \\
+		\word{bs} address is returned at run time. \\
+		\tab \word{CREATE} \word{ALLOT} \\
+		\word{;}
+	\end{implement}
+
+	\begin{testing}
+		\ttfamily
+		\word{DECIMAL} \\
+		\test{127 \word{CHARS} \word{BUFFER:} TBUF1}{} \\
+		\test{127 \word{CHARS} \word{BUFFER:} TBUF2}{}
+ 
+		\word{bs} \textdf{Buffer is aligned} \\
+		\test{TBUF1 \word{ALIGNED}}{TBUF1}
+ 
+		\word{bs} \textdf{Buffers do not overlap} \\
+		\test{TBUF2 TBUF1 \word{-} \word{ABS} 127 \word{CHARS} \word{less}}{<FALSE>}
+ 
+		\word{bs} \textdf{Buffer can be written to} \\
+		1 \word{CHARS} \word{CONSTANT} /CHAR \\
+		\word{:} TFULL? \word{p} c-addr n char -{}- flag )\\
+		\tab\,\word{TRUE} \word{2SWAP} \word{CHARS} \word{OVER} \word{+} \word{SWAP} \word{qDO} \\
+		\tab[2] \word{OVER} \word{I} \word{C@} \word{=} \word{AND} \\
+		\tab\,/CHAR \word{+LOOP} \word{NIP} \\
+		\word{;}
+
+		\test{TBUF1 127 \word{CHAR} * \word{FILL}  }{      } \\
+		\test{TBUF1 127 \word{CHAR} * TFULL?}{<TRUE>}
+
+		\test{TBUF1 127 0 \word{FILL}  }{      } \\
+		\test{TBUF1 127 0 TFULL?}{<TRUE>}
+	\end{testing}
+\end{worddef*}
 
 % -------------------------------------------------------------------
 
@@ -4790,8 +4794,11 @@
 		It is easy to convert counted strings to pointer/length but
 		hard to do the opposite. \word{Cq} is the only new word that
 		uses the ``address of counted string'' stack representation.
-		It is provided as an aid to porting existing programs to ANS
-		Forth systems. It is relatively difficult to implement \word{Cq}
+		It is provided as an aid to porting existing 
+		\place{F94}{pre Forth 94}
+		programs
+		\remove{F94}{to ANS Forth}
+		systems. It is relatively difficult to implement \word{Cq}
 		in terms of other standard words, considering its ``compile
 		string into the current definition'' semantics.
 
@@ -4975,15 +4982,16 @@
 \begin{worddef}{}{DEFER}[][X:deferred]
 \item \stack{"<spaces>name"}{}
 
-	Skip leading space delimiters. Parse name delimited by a space.
-	Create a definition for \param{name} with the execution semantics
-	defined below.
+	Skip leading space delimiters.  Parse \param{name} delimited by a
+	space.  Create a definition for \param{name} with the execution
+	semantics defined below.
 
 \execute[name]
 	\stack{i*x}{j*x}
 
-	Execute the \param{xt} assigned to name. An ambiguous condition
-	exists if \param{name} has not been	assigned an \param{xt}.
+	Execute the \param{xt} \replace{x:is}{assigned to \param{name}}{that \param{name} is set to execute}.
+	An ambiguous condition exists if \param{name} has not been
+	\replace{x:is}{assigned}{set to execute} an \param{xt}.
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER!}{DEFER!},
@@ -5011,7 +5019,7 @@
 \begin{worddef}{}{DEFER!}[defer-store][X:deferred]
 \item \stack{xt_2 xt_1}{}
 
-	Set the word \param{xt_1} to execute \param{xt_2}. An ambiguous
+	Set the word \param{xt_1} to execute \param{xt_2}.  An ambiguous
 	condition exists if \param{xt_1} is not for a word defined via
 	\word{DEFER}.
 
@@ -5040,10 +5048,15 @@
 \begin{worddef}{}{DEFER@}[defer-fetch][X:deferred]
 \item \stack{xt_1}{xt_2}
 
-	\param{xt_2} is the \param{xt} assigned to the deferred word
-	corresponding to \param{xt_1}. An ambiguous condition exists if
-	\param{xt_1} is not for a word defined via \word{DEFER}, or if
-	the deferred word has not been assigned an \param{xt}.
+	\param{xt_2} is the \replace{x:is}{\param{xt} assigned to the
+	deferred word corresponding to}{execution token} \param{xt_1}
+	\place{x:is}{ set to execute}.
+	An ambiguous condition exists if \param{xt_1} is not
+	\replace{x:is}{for}{the execution token of} a word defined
+	\replace{x:is}{via}{with} \word{DEFER}, or if
+	\remove{x:is}{the deferred word has not been assigned an \param{xt}.}
+	\param{xt_1}\strike{-2.5}{12}
+	\place{x:is}{has not been set to execute an xt.}
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER}{DEFER},
@@ -5707,7 +5720,7 @@
 		\verb|\f|	& FF		& (form feed,	& ASCII 12) \\
 		\verb|\l|	& LF		& (line feed,	& ASCII 10) \\
 		\verb|\m|	& CR/LF	& pair			& (ASCII 13, 10) \\
-		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent newline, eg, CR/LF, LF, or LF/CR)} \\
+		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent \replace{ed11}{newline, eg,}{, e.g.,}\ CR/LF, \place{ed11}{CR,}\ LF, \remove{ed11}{or}\ LF/CR)} \\
 		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
 		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
 		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
@@ -6013,8 +6026,9 @@
 	\begin{rationale} % A.6.2.2295 TO
 		Historically, some implementations of \word{TO} have not
 		explicitly parsed. Instead, they set a mode flag that is
-		tested by the subsequent execution of \param{name}. ANS Forth
-		explicitly requires that \word{TO} must parse, so that
+		tested by the subsequent execution of \param{name}.
+		\replace{F94}{ANS Forth}{We}
+		explicitly require\remove{F94}{s} that \word{TO} must parse, so that
 		\word{TO}'s effect will be predictable.
 
 		Typical use: \texttt{x} \word{TO} \emph{name}

@@ -44,7 +44,7 @@ for the Forth language. Several things made this necessary:
 
 The result of the effort to satisfy all of these objectives is a
 Standard arranged so that the required word set remains small. Thus
-ANS Forth can be provided for resource-constrained embedded systems.
+\replace{F94}{ANS Forth}{Forth 94} can be provided for resource-constrained embedded systems.
 Words beyond those in the required word set are organized into a
 number of optional word sets and their extensions, enabling
 implementation of tailored systems that are Standard.
@@ -114,10 +114,10 @@ orderly manner.
 Several implications of this scheme of optional word sets are
 significant.
 
-First, ANS Forth systems can continue to be implemented on a greater
+First, \replace{F94}{ANS Forth}{Forth 94} systems can continue to be implemented on a greater
 range of hardware than could be claimed by almost any other single
 language. Since only the Core word set is required, very limited
-hardware will be able to accommodate an ANS Forth implementation.
+hardware will be able to accommodate an \replace{F94}{ANS Forth}{Forth 94} implementation.
 
 Second, a greater degree of portability of applications, and of
 programmers, is anticipated. The optional word sets standardize
@@ -129,7 +129,7 @@ verbally, via magazine or journal articles, etc. --- will leap to a
 new level of facility, and the shareability of code and applications
 should rise dramatically.
 
-Third, ANS Forth systems may be designed to offer the user the power
+Third, \replace{F94}{ANS Forth}{Forth 94} systems may be designed to offer the user the power
 to selectively, even dynamically, include or exclude one or more of
 the optional word sets or portions thereof. Also, lower-priced
 products may be offered for the user who needs the Core word set
@@ -538,7 +538,7 @@ mapped.
 \paragraph{Counted strings} ~ % A.3.1.3.4
 \label{rat:cstring}
 
-The trend in ANS Forth is to move toward the consistent use of the
+The trend in \replace{F94}{ANS Forth}{Forth 94} is to move toward the consistent use of the
 ``\param{c-addr u}'' representation of strings on the stack. The use
 of the alternate ``address of counted string'' stack representation
 is discouraged. The traditional Forth words \word{WORD} and \word{FIND}
@@ -702,21 +702,21 @@ round non-integer quotients towards zero (symmetric division).
 Forth 83 changed the semantics of these operators to round towards
 negative infinity (floored division). Some in the Forth community
 have declined to convert systems and applications from the Forth-79
-to the Forth-83 divide. To resolve this issue, an ANS Forth system
+to the Forth-83 divide.  To resolve this issue, an \replace{F94}{ANS Forth}{Forth 94} system
 is permitted to supply either floored or symmetric operators. In
-addition, ANS Forth systems must provide a floored division primitive
+addition, \replace{F94}{ANS Forth}{Forth 94} systems must provide a floored division primitive
 (\word{FM/MOD}), a symmetric division primitive (\word{SM/REM}), and
 a mixed precision multiplication operator (\word{M*}).
 
 This compromise protects the investment made in current Forth
 applications; Forth-79 and Forth-83 programs are automatically
-compliant with ANS Forth with respect to division. In practice, the
+compliant with \replace{F94}{ANS Forth}{Forth 94} with respect to division. In practice, the
 rounding direction rarely matters to applications. However, if a
 program requires a specific rounding direction, it can use the
 floored division primitive \word{FM/MOD} or the symmetric division
 primitive \word{SM/REM} to construct a division operator of the
 desired flavor. This simple technique can be used to convert Forth-79
-and Forth-83 programs to ANS Forth without any analysis of the
+and Forth-83 programs to \replace{F94}{ANS Forth}{Forth 94} without any analysis of the
 original programs.
 
 \paragraph{Other integer operations} ~ % A.3.2.2.2
@@ -896,7 +896,7 @@ Other loop-exit control-flow words, and even other loops, can be
 defined. The only requirements are that the control-flow stack is
 properly maintained and manipulated.
 
-The simple implementation of the ANS Forth \word{CASE} structure
+The simple implementation of the \replace{F94}{ANS Forth}{Forth 94} \word{CASE} structure
 below is an example of control structure extension. Note the
 maintenance of the data stack to prevent interference with the
 possible control-flow stack usage.
@@ -964,23 +964,23 @@ it indicate that it is present.
 Note that a query that returns an ``unknown'' response could produce
 a ``known'' result on a subsequent query.
 
-\subsection{Extension queries}
-
-\subsection{Obsolescent Environmental Queries}
+\subsubsection{Obsolescent Environmental Queries} % A.3.2.7
 \label{rat:obsolet}
 
-When reviewing the Standard the question of adapting the word set
+When reviewing the \place{ed11}{Forth-94} Standard\place{ed11}{,} the question of adapting the word set
 queries had to be addressed.  Despite the recommendation in the
-previous (Forth-94) standard, word set queries have not been
+\replace{ed11}{previous (Forth-94)}{Forth 94} standard, word set queries have not been
 supported in a meaningful way by many systems.  Consequently, these
 queries are not used by many programmers.  The Technical Committee
 was unwilling to exacerbate the problem by introducing additional
-queries for the revised word sets.  The TC has therefore, declared
+queries for the revised word sets.  The TC has therefore\remove{ed11}{,} declared
 the word set environment queries (see table \ref{table:obsolete}) as
 obsolescent with the intention of removing them altogether in the
 next revision.
-They are retained in this Standard to support existing ANS Forth '94
+They are retained in this Standard to support existing \replace{F94}{ANS Forth}{Forth 94}
 programs.  New programs should not use them.
+
+\subsubsection{Extension queries} % A.3.2.8
 
 \subsection{The Forth dictionary} % A.3.3
 
@@ -1051,7 +1051,7 @@ examples include RISC architectures where 16-bit data can be loaded
 or stored only at even addresses and 32-bit data only at addresses
 that are multiples of four.
 
-An implementor of ANS Forth can handle these alignment restrictions
+An implementor of \replace{F94}{ANS Forth}{Forth 94} can handle these alignment restrictions
 in one of two ways. Forth's memory access words (\word{@}, \word{!},
 \word{+!}, etc.) could be implemented in terms of smaller-width access
 instructions which have no alignment restrictions. For example, on a
@@ -1059,12 +1059,12 @@ instructions which have no alignment restrictions. For example, on a
 68000 byte-fetch instructions and a reassembly of the bytes into a
 16-bit cell. Although this conceals hardware restrictions from the
 programmer, it is inefficient, and may have unintended side effects
-in some hardware environments. An alternate implementation of ANS Forth
+in some hardware environments. An alternate implementation of \replace{F94}{ANS Forth}{Forth 94}
 could define each memory-access word using the native instructions
 that most closely match the word's function. On a 68000 Forth with
 16-bit cells, \word{@} would use the 68000's 16-bit move instruction.
 In this case, responsibility for giving \word{@} a correctly-aligned
-address falls on the programmer. A portable ANS Forth program must
+address falls on the programmer. A portable \replace{F94}{ANS Forth}{Forth 94} program must
 assume that alignment may be required and follow the requirements of
 this section.
 
@@ -1219,16 +1219,16 @@ they are needed. So long as the words are provided in such a way that
 the user can obtain access to them with a clear and straightforward
 procedure, they may be considered to be present.
 
-A Forth cross-compiler has many characteristics in common with an ANS
-Forth System, in that both use similar compiling tools to process a
-program. However, in order to fully specify an ANS Forth cross compiler
+A Forth cross-compiler has many characteristics in common with an \replace{F94}{ANS Forth}{Forth 94}
+System, in that both use similar compiling tools to process a
+program. However, in order to fully specify an \replace{F94}{ANS Forth}{Forth 94} cross compiler
 it would be necessary to address complex issues dealing with compilation
 and execution semantics in both host and target environments as well as
 ROMability issues. The level of effort to do this properly has proved to
 be impractical at this time. As a result, although it may be possible
-for a Forth cross-compiler to correctly prepare an ANS Forth program
+for a Forth cross-compiler to correctly prepare an \replace{F94}{ANS Forth}{Forth 94} program
 for execution in a target environment, it is inappropriate for a
-cross-compiler to be labeled an ANS Forth System.
+cross-compiler to be labeled an \replace{F94}{ANS Forth}{Forth 94} System.
 
 \subsection{ANS Forth programs} % A.5.2
 
@@ -1335,7 +1335,7 @@ common words for accessing program source and data on disk.
 
 In order to guarantee that Standard Programs that need access to mass
 storage have a mechanism appropriate for both native and non-native
-implementations, ANS Forth requires that the Block word set be
+implementations, \replace{F94}{ANS Forth}{Forth 94} requires that the Block word set be
 available if any mass storage facilities are provided. On non-native
 implementations, blocks normally reside in host OS files.
 
@@ -1350,6 +1350,20 @@ implementations, blocks normally reside in host OS files.
 	16 lines of 64 characters. Source blocks are often referred
 	to as ``screens''.
 \end{description}
+
+\subsection{Additional usage requirements} \cbstart\patch{x:block}
+\setcounter{subsubsection}{1}
+\subsubsection{Block buffer regions}
+\label{rat:block:buffers}
+
+\uline{While the standard does not address multi-tasking per se, the
+	items listed in \xref{block:buffers} that may render block-buffer
+	addresses invalid are due to multi-tasking considerations.
+	The standard restricts programs such that items that could fail on
+	multi-tasking systems are not standard usage.  It also permits
+	multi-tasking systems to be declared standard systems.
+	Annex \xref{diff:multitasking} describes the topic in more detail.}
+\cbend
 
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.7.6 =============================
@@ -1621,7 +1635,7 @@ there were so many minor variations in implementation of these words
 that adopting any particular meaning would have broken much existing
 code.  We have used names with a suffix \texttt{-FILE} for most of these
 words.  We encourage implementors to conform their single-word primitives
-to the ANS behaviors, and hope that if this is done on a widespread
+to the \replace{F94}{ANS}{Forth 94} behaviors, and hope that if this is done on a widespread
 basis we can adopt better definition names in a future standard.
 
 Specific rationales for members of this word set follow.
@@ -1649,15 +1663,15 @@ results. The block buffer system must be flushed to avoid this.
 \label{rat:floating}
 
 The Technical Committee has considered many proposals dealing with
-the inclusion and makeup of the Floating-Point Word Sets in ANS
-Forth. Although it has been argued that ANS Forth should not address
+the inclusion and makeup of the Floating-Point Word Sets in \replace{F94}{ANS Forth}{Forth 94}.
+Although it has been argued that \replace{F94}{ANS Forth}{Forth 94} should not address
 floating-point arithmetic and numerous Forth applications do not need
 floating-point, there are a growing number of important Forth
 applications from spread sheets to scientific computations that
 require the use of floating-point arithmetic. Initially the Technical
 Committee adopted proposals that made the \emph{Forth Vendors Group
 Floating-Point Standard}, first published in 1984, the framework for
-inclusion of Floating-Point in ANS Forth. There is substantial common
+inclusion of Floating-Point in \replace{F94}{ANS Forth}{Forth 94}. There is substantial common
 practice and experience with the Forth Vendors Group Floating-Point
 Standard.  Subsequently the Technical Committee adopted proposals that
 placed the basic floating-point arithmetic, stack and support words
@@ -1698,7 +1712,7 @@ by consensus in the Technical Committee:
 \item[Floating-point input:]
 	The current base must be \word{DECIMAL}. Floating-point input
 	is not allowed in an arbitrary base. All floating-point numbers to
-	be interpreted by an ANS Forth system must contain the exponent
+	be interpreted by an \replace{F94}{ANS Forth}{Forth 94} system must contain the exponent
 	indicator ``\texttt{E}'' (see \xref[12.3.7 Text	interpreter input
 	number conversion]{float:conv}). Consensus in the Technical
 	Committee deemed this form of floating-point input to be in more
@@ -1709,7 +1723,7 @@ by consensus in the Technical Committee:
 \item[Floating-point representation:]
 	Although the format and precision of the significand and the format
 	and range of the exponent of a floating-point number are
-	implementation defined in ANS Forth, the Floating-Point Extensions
+	implementation defined in \replace{F94}{ANS Forth}{Forth 94}, the Floating-Point Extensions
 	word set contains the words
 	\word{DF@}, \word{SF@}, \word{DF!}, and \word{SF!}
 	for fetching and storing double- and single-precision IEEE
@@ -1763,7 +1777,7 @@ point.
 \label{rat:local}
 
 The Technical Committee has had a problem with locals. It has been
-argued forcefully that ANS Forth should say nothing about locals
+argued forcefully that \replace{F94}{ANS Forth}{Forth 94} should say nothing about locals
 since:
 
 \begin{itemize}
@@ -1780,7 +1794,7 @@ this lack of accepted practice since locals are at best non-trivial
 to implement in a portable and useful way. It has been further argued
 that users who have elected to become dependent on locals tend to be
 locked into a single vendor and have little motivation to join the
-group that it is hoped will ``broadly accept'' ANS Forth unless the
+group that it is hoped will ``broadly accept'' \replace{F94}{ANS Forth}{Forth 94} unless the
 Standard addresses their problems.
 
 Since the Technical Committee has been unable to reach a strong
@@ -1804,7 +1818,7 @@ problem statement to be to define a locals mechanism that:
 
 This appears to the Technical Committee to be what most of those who
 actively use locals are trying to achieve with them, and it is at
-present the consensus of the Technical Committee that if ANS Forth has
+present the consensus of the Technical Committee that if \replace{F94}{ANS Forth}{Forth 94} has
 anything to say on the subject this is an acceptable thing for it to
 say.
 
@@ -2129,7 +2143,7 @@ order could be ``reloaded'' by repeating \word{ALSO} \texttt{CONTEXT}
 \word{!}. Unfortunately there was no portable way to determine
 how many word lists were in the search order.
 
-ANS Forth has removed the word \texttt{CONTEXT} because in many systems
+\replace{F94}{ANS Forth}{Forth 94} has removed the word \texttt{CONTEXT} because in many systems
 its contents refer to more than one word list, compounding portability
 problems.
 

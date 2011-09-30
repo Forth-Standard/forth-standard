@@ -109,7 +109,7 @@ shall take the following actions at compile time:
 \end{enumerate}
 
 A system implementing the Locals word set shall support the
-declaration of at least eight locals in a definition.
+declaration of at least \replace{x:enhanced-locals}{eight}{sixteen} locals in a definition.
 
 
 \subsubsection{Syntax restrictions} % 13.3.3.2
@@ -141,7 +141,7 @@ syntaxes for local declarations with the following restrictions:
 	(tick), \word[core]{[']}, or \word[core]{FIND}, shall not be
 	used with local names;
 
-\item A program that declares more than eight locals in a single
+\item A program that declares more than \replace{x:enhanced-locals}{eight}{sixteen} locals in a single
 	definition has an environmental dependency;
 
 \item Locals may be accessed or updated within control structures,
@@ -166,9 +166,14 @@ See: \xref[3.4 The Forth text interpreter]{usage:command}.
 \end{itemize}
 
 \subsubsection{Ambiguous conditions} % 13.4.1.2
+\label{locals:ambiguous}
 \begin{itemize}
 \item executing a named \emph{local} while in interpretation state
 	(\wref{local:LOCAL}{(LOCAL)});
+\item \place{x:enhanced-locals}{a local name ends in ``\texttt{:}'', ``\texttt{[}'', ``\texttt{\textasciicircum}'';}
+\item \place{x:enhanced-locals}{a local name is a single non-alphabetic character;}
+\item \place{x:enhanced-locals}{the text between \word{b:} and \texttt{:\}} extends over more than one line;}
+\item \place{x:enhanced-locals}{\word{b:} \ldots{} \texttt{:\}} is used more than once in a word.}
 \end{itemize}
 
 \subsubsection{Other system documentation} % 13.4.1.3
@@ -179,8 +184,9 @@ See: \xref[3.4 The Forth text interpreter]{usage:command}.
 \subsection{Program documentation} % 13.4.2
 
 \subsubsection{Environmental dependencies} % 13.4.2.1
+\label{locals:environment}
 \begin{itemize}
-\item declaring more than eight locals in a single definition
+\item declaring more than \replace{x:enhanced-locals}{eight}{sixteen} locals in a single definition
 	(\xref[13.3.3 Processing locals]{local:locals}).
 \end{itemize}
 
@@ -319,15 +325,14 @@ to provide all of the Locals and Locals Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\endinput
 \newpage
 
-\begin{worddef}[b:]{23}[4]{\brace:}[brace-colon][x:enhanced-locals]
+\begin{worddef*}[b:]{}{\brace:}[brace-colon][x:enhanced-locals]
 \interpret
 	Interpretation semantics for this word are undefined.
 
 \compile
-	\stack{i*x "<spaces>ccc:\}"}{}
+	\stack{i*x "<spaces>ccc \texttt{:\}}"}{}
 
 	Parse \param{ccc} according to the following syntax:
 	\begin{center}
@@ -338,11 +343,11 @@ to provide all of the Locals and Locals Extensions word sets.
 
 	The following ambiguous conditions exist when:
 	\begin{itemize}
-	\item a local name ends in ``\verb":"'', ``\verb"["'', ``\verb"^"'';
+	\item a local name ends in ``\texttt{:}'', ``\texttt{[}'', ``\texttt{\textasciicircum}'';
 	\item a local name is a single non-alphabetic character;
 	\item the text between \word{b:} and \texttt{:\}} extends
 			over more than one line;
-	\item \word{b:} \ldots\ \verb":}" is used more than once in a word.
+	\item \word{b:} \ldots\ \texttt{:\}} is used more than once in a word.
 	\end{itemize}
 
 	Append the run-time semantics below. 
@@ -383,42 +388,40 @@ to provide all of the Locals and Locals Extensions word sets.
 	\rref{local:b:}{}.
 
 	\begin{rationale}
-		In \xref{rat:local} of ANS Forth '94 the TC identifies the significant
-		difficulties experienced when addressing the issue of locals. Since
-		the Technical Committee was unable to identify any common practice
-		they provided a way to define locals (\xref{local:LOCAL}) and a
-		method of parsing them (\xref{local:LOCALS}). In the hope that a
-		common practice would emerge.
+		The Forth 94 Technical Committee where unable to identify any common
+		practice for locals.  They provided a way to define locals and a method
+		of parsing them in the hope that a common practice would emerge.
 
-		Common practice has since emerged. Most implementations that provide
-		\word{LOCAL} and \word{LOCALS} also provide some form of the
-		\{ \ldots\ \} notation; however, this notation conflicts with other
-		systems. The \word{b:} \ldots\ \verb":}" notation is a compromise to
-		avoid name conflicts.
+		Since then, common practice has emerged.  Most implementations that
+		provide \word{LOCAL} and \linebreak \word{LOCALS} also provide some form of the
+		\{ \ldots\ \} notation; however, the phrase \{ \ldots \} conflicts with
+		other systems.  The \word{b:} \ldots\ \texttt{:\}} notation is a compromise
+		to avoid name conflicts.
 
-		The notation provides for different classes: locals that are initialized
-		from the data stack at run-time; uninitialized locals and outputs.
-		Initialized locals are separated from uninitialized locals by `\verb"|"'.
-		The definition of locals is terminated by `\verb"--"' or `\verb":}"'.
+		The notation provides for different kinds of local: those  that are
+		initialized from the data stack at run-time, uninitialized locals, and
+		outputs.  Initialized locals are separated from uninitialized locals by
+		`\texttt{\textbar}'.  The definition of locals is terminated by
+		`\texttt{-{}-}' or `\texttt{:\}}'.
 
-		All text between `\verb"--"' and `\verb":}"' is ignored.  This eases
-		documentation by allowing a complete stack comment in the locals
-		definition.
+		All text between `\texttt{-{}-}' and `\texttt{:\}}' is ignored.  This eases
+		documentation by allowing a complete stack comment in the locals definition.
 
 		The `\texttt{\textbar}' (ASCII \$7C) character is widely used as the
-		separator between local arguments and local values. Some implementations
+		separator between local arguments and local values.  Some implementations
 		have used `\texttt{\bs}' (ASCII \$5C) or `\texttt{\textbrokenbar}' (\$A6).
 		Systems are free to continue to provide these alternative separators.
 		However, only the recognition of the `\texttt{\textbar}' separator is
-		mandatory. Therefore portable programs must use the `\texttt{\textbar}'
+		mandatory.  Therefore portable programs must use the `\texttt{\textbar}'
 		separator.
 
-		A number of systems extend the locals notation in various ways. Some
-		of these extensions may emerge as common practice. This standard has
-		reserved the notation used by these extensions to avoid difficulties
-		when porting code to these systems. In particular local names ending
-		in `\texttt{:}' (colon), `\texttt{[}' (open bracket), or
-		`\texttt{\textasciicircum}' (carat) are reserved.
+		A number of systems extend the locals notation in various ways.  Some of
+		these extensions may emerge as common practice.  This standard has reserved
+		the notation used by these extensions to avoid difficulties when porting
+		code to these systems.  In particular local names ending in
+		`\texttt{:}' (colon),
+		`\texttt{[}' (open bracket), or
+		`\texttt{\textasciicircum}' (caret) are reserved.
 	\end{rationale}
 
 	\begin{implement}
@@ -467,7 +470,7 @@ to provide all of the Locals and Locals Extensions word sets.
 \tab\,\word{2DROP} define-locals \\
 \word{;} \word{IMMEDIATE}
 	\end{implement}
-\end{worddef}
+\end{worddef*}
 \endinput
 
 

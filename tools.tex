@@ -552,36 +552,40 @@ Extensions word sets.
 		Typical use:
 			{\ldots} \word{FORGET} \emph{name} {\ldots}
 
-		\word{FORGET} tries to infer information about the previous dictionary
-		state from the forgotten word, which is not always possible.  In
-		consequence, \word{FORGET} is guaranteed to restore the state of name
-		space, but not necessarily the state of dictionary.
+		\word{FORGET} \place{ed11}{\emph{name}} tries to infer \remove{ed11}{information about} the previous dictionary
+		state from \replace{ed11}{the forgotten word, which}{\emph{name}; This} is not always possible.  \replace{ed11}{In}{As a}
+		consequence, \word{FORGET} \replace{ed11}{is guaranteed to restore the state of name
+		space, but not necessarily the state of dictionary.}{\emph{name} removes \emph{name} and all following words in the name space.}
 
-	For example,
+		\place{ed11}{See \rref{core:MARKER}{}.}
+
+	\cbstart\patch{ed11}
+		\sout{For example,}
 		\begin{quote}
-			\word{ALIGN} \word{HERE} 100 \word{CELLS} \word{ALLOT} \word{CONSTANT} mybuffer \\
-			\word{FORGET} mybuffer
+			\sout{\word{ALIGN} \word{HERE} 100 \word{CELLS} \word{ALLOT} \word{CONSTANT} mybuffer} \\
+			\sout{\word{FORGET} mybuffer}
 		\end{quote}
-		in this case the 100 reserved cells are a part of the buffer, but
+	\sout{in this case the 100 reserved cells are a part of the buffer, but
 		\word{FORGET} can not infer this.  A solution to the restoration
-		of the dictionary state is provided by \word{MARKER}.
+		of the dictionary state is provided by \word{MARKER}.}
 
-		Nevertheless, \word{FORGET} is a useful tool for interactive sessions,
+	\sout{Nevertheless, \word{FORGET} is a useful tool for interactive sessions,
 		because it does not require creation of a marker in advance.  An example
-		session may look like following:
+		session may look like following:}
 
 		\begin{quote}
-			\word{:} foo {\ldots} foo {\ldots} \word{p} buggy redefinition) \word{;} \\
-			finding out the bug \\
-			\word{FORGET} foo \\
-			\word{:} foo {\ldots} foo {\ldots} \word{p} bug fixed) \word{;} \\
-			checking that it works \\
-			copying the definition of foo into a file
+			\sout{\word{:} foo {\ldots} foo {\ldots} \word{p} buggy redefinition) \word{;}} \\
+			\sout{finding out the bug} \\
+			\sout{\word{FORGET} foo} \\
+			\sout{\word{:} foo {\ldots} foo {\ldots} \word{p} bug fixed) \word{;}} \\
+			\sout{checking that it works} \\
+			\sout{copying the definition of foo into a file}
 		\end{quote}
       
-		It should be noted that such sessions are practical only in
+	\sout{It should be noted that such sessions are practical only in
 		environments that support input history (often persistent) and
-		copy/paste to/from the console.
+		copy/paste to/from the console.}
+	\cbend
 	\end{rationale}
 \end{worddef}
 
@@ -609,8 +613,8 @@ Extensions word sets.
 
 	\begin{rationale}
 		An implementation may store the stack items in any manner.  It may
-		store them on the return stack, in any order.  A stack constrained
-		system may prefer to use a buffer to store the items, and place a
+		store them on the return stack, in any order.  A stack\place{ed11}{-}constrained
+		system may prefer to use a buffer to store the items\remove{ed11}{,} and place a
 		reference to the buffer on the return stack.
 
 	\see \wref{core:SAVE-INPUT}{},
@@ -715,7 +719,8 @@ Extensions word sets.
 	For both strings skip leading space delimiters.  Parse \param{newname}
 	and \param{oldname} delimited by a space.  Create a definition for
 	\param{newname} with the semantics defined below.
-	\param{Newname} may be the same as \param{oldname}.
+	\param{Newname} may be the same as \param{oldname}%
+	\place{ed11}{; when looking up \param{oldname}, \param{newname} shall not be found}.
 
 	An ambiguous conditions exists if \param{oldname} can not be found or
 	\word{IMMEDIATE} is applied to \param{newname}.
@@ -882,7 +887,7 @@ Extensions word sets.
 
 		More complicated conditional compilation problems suggest a
 		nestable method that can encompass more than one source line
-		at a time. The words included in the ANS Forth optional
+		at a time. The words included in the \replace{F94}{ANS Forth}{Forth 94} optional
 		Programming tools extensions word set are useful for this
 		purpose. The implementation given below works with any input
 		source (keyboard, \word{EVALUATE}, \word[block]{BLOCK}, or

@@ -111,6 +111,11 @@ interpreter. When the input source is a text file, \word[block]{BLK}
 shall contain zero, \word{SOURCE-ID} shall contain the \emph{fileid}
 of that text file, and the input buffer shall contain one line of
 the text file.
+\place{x:source-id}{During text interpretation from a text file, the
+value returned by \word{FILE-POSITION} for the \param{fileid} returned
+by \word{SOURCE-ID} is not defined.  A standard program may not call
+\word{REPOSITION-FILE} on the \param{fileid} returned by
+\word{SOURCE-ID}.}
 
 Input with \word{INCLUDED}, \word{INCLUDE-FILE}, \word[block]{LOAD}
 and \word[block]{EVALUATE} shall be nestable in any order to at least

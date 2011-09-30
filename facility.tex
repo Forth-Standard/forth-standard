@@ -403,17 +403,21 @@ to provide all of the Facility and Facility Extensions word sets.
 	Create a definition for \param{name} with the execution semantics
 	given below.
 
-\execute[name] \stack{a-addr_1}{a-addr_2}
+\execute[name]
+\cbstart\patch{ed11}
+	\stack{a-addr_{\sout{1}}}{\sout{a}\uline{c}-addr_{\sout{2}}}
+\cbend
 
-	Add the \param{offset} calculated during the compile time action
-	to \param{a-addr_1} giving the character aligned address
-	\param{a-addr_2}.
-
+	Add the \param{offset} calculated during the compile time action to
+\cbstart\param{a-addr_{\sout{1}}}\cbend
+	giving the character aligned address
+\cbstart\param{\sout{a}\uline{c}-addr_{\sout{2}}}.\cbend
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \\
 	\rref{facility:FIELD:}{}.
+\cbend
 \end{worddef}
 
 % -------------------------------------
@@ -730,23 +734,25 @@ to provide all of the Facility and Facility Extensions word sets.
 	\rref{facility:FIELD:}{}.
 
 	\begin{rationale}
-		Create an aligned single cell field in a data structure.
+		Create an aligned single\place{ed11}{-}cell field in a data structure.
 
 		The various \emph{x}\texttt{FIELD:} words provide for different
 		alignment and size allocation.
 
 		The \emph{x}\texttt{FIELD:} words could be defined as:
 
+\cbstart\patch{ed11}
 		\begin{tabbing}
-			\tab \= \tab[7] \= \tab[5] \= \tab[6] \= \tab[5.2] \= \kill
-			\> \word{:} \word{FIELD:}   \>\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;} \> \word{bs} cell aligned			\\
-			\> \word{:} \word{CFIELD:}  \>\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} \> \word{bs} character aligned	\\
+			\tab \= \tab[6] \= \tab[22] \= \tab[5] \= \tab[5.2] \= \kill
+			\> \word{:} \word{FIELD:}   \>\uline{( n1 "name" -{}- n2 ; a-addr1 -{}-  a-addr2 )}\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;}				\> \sout{\word{bs} cell aligned}			\\
+			\> \word{:} \word{CFIELD:}  \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}-  c-addr  )}\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} 				\> \sout{\word{bs} character aligned}	\\
 		\setwordlist{floating}
-			\> \word{:} \word{FFIELD:}  \>\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \> \word{bs} float aligned			\\
-			\> \word{:} \word{SFFIELD:} \>\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \> \word{bs} single-float aligned	\\
-			\> \word{:} \word{DFFIELD:} \>\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;} \> \word{bs} double-float aligned
+			\> \word{:} \word{FFIELD:}  \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}-  f-addr  )}\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \> \sout{\word{bs} float aligned}			\\
+			\> \word{:} \word{SFFIELD:} \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}- sf-addr  )}\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \> \sout{\word{bs} single-float aligned}	\\
+			\> \word{:} \word{DFFIELD:} \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}- df-addr  )}\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;} \> \sout{\word{bs} double-float aligned}
 		\setwordlist{facility}
 		\end{tabbing}
+\cbend
 	\end{rationale}
 \end{worddef}
 

@@ -637,35 +637,39 @@ subsequent queries with the same string shall return \emph{true}
 and the same value.
 
 
-\subsection{Obsolescent Environmental Queries}
+\subsection{Obsolescent Environmental Queries} % 3.2.7
 \label{usage:obsolete}
 \hfill\textsf{x:wordset-query}
 
-This standard designates the practice of using \word{ENVIRONMENTq} to inquire
-whether a given word set is present as obsolescent.  If such a query, as listed
-in table \ref{table:obsolete}, returns \param{true}, the word set is present in
-the form defined by the Forth-94 Standard.
-As these queries will be withdrawn from future revisions of the Standard
-their use in new programs is discouraged.
+This standard designates the practice of using \word{ENVIRONMENTq}
+to inquire whether a given word set is present as obsolescent.  If
+such a query, as listed in table \ref{table:obsolete}, returns
+\param{true}, the word set is present in the form defined by the
+\replace{F94}{Forth-94}{Forth 94} Standard.
+As these queries will be withdrawn from future revisions of the
+Standard their use in new programs is discouraged.
+
+\place{ed11}{See \xref{rat:obsolet}}.
 
 \newcommand{\query}[2]{% <wordset><wordset name>
-	\texttt{#1}		 & \emph{flag} & no & Forth-94 #2 word set present. \\
-	\texttt{#1-EXT} & \emph{flag} & no & Forth-94 #2 extensions word set present. \\
+	\texttt{#1}		 & \emph{flag} & no & \sout{Forth-94}\uline{Forth 94} #2 word set present. \\
+	\texttt{#1-EXT} & \emph{flag} & no & \sout{Forth-94}\uline{Forth 94} #2 extensions word set present. \\
 }
 
 \begin{table}[ht]
   \begin{center}
 	\caption{Obsolescent Environmental Query Strings}
 	\label{table:obsolete}
+\cbstart
 	\begin{tabular}{p{10em}r@{~~}c@{~~}p{0.55\textwidth}}
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
 		\texttt{CORE}		& \emph{flag} & no
-				& true if complete core word set of Forth-94 is present \\
+				& true if complete core word set of \sout{Forth-94}\uline{Forth 94} is present \\
 		& &	& (i.e., not a subset as defined in \ref{label:system}) \\
 		\texttt{CORE-EXT}	& \emph{flag} & no
-				& true if the core extensions word set of Forth-94 is present \\
+				& true if the core extensions word set of \sout{Forth-94}\uline{Forth 94} is present \\
 		\query{BLOCK}{block}
 		\query{DOUBLE}{double number}
 		\query{EXCEPTION}{exception}
@@ -679,11 +683,12 @@ their use in new programs is discouraged.
 		\query{STRING}{string}
 		\hline\hline
 	\end{tabular}
+\cbend
   \end{center}
 \end{table}
 
 
-\subsection{Extension queries} % 3.2.7
+\subsection{Extension queries} % 3.2.8
 \label{usage:extensions}
 ~ \hfill \textsf{\small X:extension-query}
 
@@ -789,7 +794,7 @@ read from or write into these regions unless otherwise specified.
 \subsubsection{Address alignment} % 3.3.3.1
 \label{usage:aaddr}
 
-Most addresses used in ANS Forth are aligned addresses (indicated
+Most addresses used in \replace{F94}{ANS Forth}{Forth 94} are aligned addresses (indicated
 by \emph{a-addr}) or character-aligned (indicated by \emph{c-addr}).
 \word{ALIGNED}, \word{CHAR+}, and arithmetic operations can alter
 the alignment state of an address on the stack. \word{CHAR+} applied
@@ -1056,9 +1061,9 @@ a syntax or program-construct checker.
 
 When converting input numbers, the text interpreter shall recognize
 integer numbers in the form \linebreak \arg{BASEnum}; if the
-\textsf{X:number-prefixes} extension is present, the text
-interpreter shall recognize integer numbers in the form
-\arg{anynum}.
+\textsf{X:number-prefixes}
+extension is present, the text interpreter shall recognize integer
+numbers in the form \arg{anynum}.
 
 \begin{center}
 \begin{tabular}{r@{ \textsf{:=} }l}
@@ -1102,6 +1107,7 @@ The radix used for number conversion is:
 	\end{tabular}
 \end{center}
 
+\place{x:enhanced-locals}{See \xref{notations}.}
 
 \subsection{Finding definition names} % 3.4.2
 \label{usage:find}

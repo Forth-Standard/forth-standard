@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \annex{Change Log} % F (informative annex)}}}
 \label{annex:changelog}
 
@@ -648,12 +649,12 @@
 			\wref{core:WORD}{}.
 		\item \textsf{x:legacy}: Removed reference to \texttt{QUERY} from
 			\rref{core:REFILL}{}.
-		\item \textsf{x:legacy}: Removed \wref{core:numTIB}{},
-			\wref{core:CONVERT}{},
-			\wref{core:EXPECT}{},
-			\wref{core:QUERY}{},
-			\wref{core:SPAN}{},
-			\wref{core:TIB}{}.
+		\item \textsf{x:legacy}: Removed \texttt{\#TIB},
+			\texttt{CONVERT},
+			\texttt{EXPECT},
+			\texttt{QUERY},
+			\texttt{SPAN},
+			\texttt{TIB}.
 		\item \textsf{x:xchar}: Added \wref{core:HOLDS}{}.
 		\item \textsf{x:escaped-strings}: Added \wref{core:Seq}{}.
 		\end{enumerate}
@@ -715,6 +716,120 @@
 		\textsf{x:xchar}: Added test for the extended character word set.
 	\end{itemize}
 
+
+\version{11.1}{Vienna Meeting}{2{}1--23 September 2011}
+	\begin{itemize}
+	\item \xref{process}: \\						% process
+		\textsf{F94}: Changed ``ANS Forth'' for ``Forth 94''.
+
+	\item \xref{members}: \\						% members-2x
+		\textsf{ed11}: Updated contact details for Peter Knaggs.
+
+	\item[1] Introduction: \\						% intro
+		\textsf{F94}: Change ``ANS Forth'' to ``Forth 94''.
+	
+	\item[2] Terms, notation, and references:	% notation
+		\begin{enumerate}
+		\item \textsf{F94}: Change ``ANS Forth'' to ``Forth 94'' (twice).
+		\item \textsf{x:enhanced-locals}: Moved description of BNF notation from
+			\xref{notation:numeric} to \xref{notations}.
+		\end{enumerate}
+
+	\item[3] Usage requirements:					% usage
+		\begin{enumerate}
+		\item \textsf{F94}: Change ``ANS Forth'' to ``Forth 94''
+			(26 times)
+		\item \textsf{ed11}: Added reference to \xref{rat:obsolet} in \xref{usage:obsolete}.
+		\item \textsf{x:enhanced-locals}: Added reference to \xref{notations} in \xref{usage:numbers}.
+		\end{enumerate}
+
+	\item[6] Core Word Set:							% core
+		\begin{enumerate}
+		\item \textsf{ed11}: Revised ``assign'' to ``set to'' in
+			\wref{core:ACTION-OF}{},
+			\wref{core:DEFER}{} and
+			\wref{core:DEFER@}{}.
+		\item \textsf{x:buffer}: Added \wref{core:BUFFER:}{}.
+		\item \textsf{ed11}: Revised description of \texttt{\bs{n}} in \wref{core:Seq}{}.
+		\end{enumerate}
+
+	\item[7] Block Word Set: \\					% block
+		\textsf{x:block}: Add reference to \xref{rat:block:buffers} in \xref{block:buffers}.
+
+	\item[10] Facility Word Set: \\				% facility
+		\textsf{ed11}: Revised alignment of child for \wref{facility:CFIELD:}{}.
+
+	\item[11] File-Access Word Set: \\			% file
+		\textsf{x:source-id}: Added clarification of \word[file]{FILE-POSITION} during interpretation (\xref{file:source}).
+
+	\item[12] Floating-Point Word Set: \\		% float
+		\textsf{ed11}: Revised alignment of child for
+			\wref{floating:DFFIELD:}{},
+			\wref{floating:FFIELD:}{} and
+			\wref{floating:SFFIELD:}{}.
+
+	\item[13] Locals Word Set:						% local
+		\begin{enumerate}
+		\item \textsf{x:enhanced-locals}:
+			Moved from eight to sixteen locals in
+			\xref{local:locals} (three times)
+			and in \xref{locals:environment} (once).
+		\item \textsf{x:enhanced-locals}:
+			Added additional ambiguous conditions to
+			\xref{locals:ambiguous}.
+		\item \textsf{x:enhanced-locals}:
+			Added \wref{local:b:}{}.
+		\end{enumerate}
+
+	\item[15] Programming-Tools Word Set: \\	% tools
+		\textsf{ed11}: Added clarification to \wref{tools:SYNONYM}{}.
+
+	\item[17] String Word Set: \\					% string
+		\textsf{x:substitute}:
+			Added \xref{string:document},
+			\wref{string:REPLACES}{},
+			\wref{string:SUBSTITUTE}{} and
+			\wref{string:UNESCAPE}{}.
+
+	\item[A] Rationale								(Annex \ref{annex:rationale}):
+		\begin{enumerate}
+		\item \textsf{F94}: Replaced ``ANS Forth'' with ``Forth 94''
+			(34 times)
+		\item \textsf{F94}: Removed reference to ``ANS Forth''
+			(5 times)
+		\item \textsf{x:buffer}: Added \rref{core:BUFFER:}{}.
+		\item \textsf{x:block}: Added \xref{rat:block:buffers}.
+		\item \textsf{ed11}: Revised \rref{facility:FIELD:}{}.
+		\item \textsf{x:enhanced-locals}:
+			Added \rref{local:b:}{}.
+		\item \textsf{ed11}: Revised \rref{tools:FORGET}{}.
+		\item \textsf{x:substitute}: Added \rref{string:SUBSTITUTE}{}.
+		\end{enumerate}
+		
+	\item[D] Compatibility analysis 				(Annex \ref{annex:diff}): \\
+		\textsf{F94}: Replaced ``ANS Forth '94'' with ``Forth 94''
+			(twice)
+
+	\item[F] Reference Implementations			(Annex \ref{annex:implement}):
+		\begin{enumerate}
+		\item \textsf{x:buffer}: Added \iref{core:BUFFER:}{}.
+		\item \textsf{x:enhanced-locals}: Added \iref{local:b:}{}.
+		\item \textsf{x:substitute}: Added
+			\iref{string:REPLACES}{},
+			\iref{string:SUBSTITUTE}{} and
+			\iref{string:UNESCAPE}{}.
+		\end{enumerate}
+
+	\item[G] Test Suite								(Annex \ref{annex:test}):
+		\begin{enumerate}
+		\item \textsf{x:buffer}: Added \tref{core:BUFFER:}{}.
+		\item \textsf{x:substitute}: Added
+			\tref{string:SUBSTITUTE}{} and
+			\tref{string:UNESCAPE}{}.
+		\end{enumerate}
+	\end{itemize}
+
+
 \endinput
 
  
@@ -741,15 +856,13 @@
 	\item[16] Search-Order Word Set:				% search
 	\item[17] String Word Set:						% string
 	\item[18] Extended Character Word Set		% xchar
-	\item[A] Rationale:								% (Annex \ref{annex:rationale}):
-	\item[B] Bibliography:							% (Annex \ref{annex:bib}):
-	\item[C] Perspective:							% (Annex \ref{annex:intro}):
-	\item[D] Compatibility analysis:				% (Annex \ref{annex:diff}):
-	\item[E] Portability guide:					% (Annex \ref{annex:port}):
-	\item[F] Reference Implementations:			% (Annex \ref{annex:implement}):
-	\item[G] Test Suite:								% (Annex \ref{annex:test}):
-	\item[H] Change Log:								% (Annex \ref{annex:changelog}):
-	\item[I] Alphabetic list of words:			% (Annex \ref{annex:index}):
+	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
+	\item[B] Bibliography (Annex \ref{annex:bib}):					% bib
+	\item[C] Perspective (Annex \ref{annex:intro}):					% intro
+	\item[D] Compatibility analysis (Annex \ref{annex:diff}):	% diff
+	\item[E] Portability guide (Annex \ref{annex:port}):			% port
+	\item[F] Reference Implementations (Annex \ref{annex:implement}):	% imp
+	\item[G] Test Suite (Annex \ref{annex:test}):					% test
 	\end{itemize}
 
 \endinput

@@ -18,7 +18,7 @@
 %\showreftrue
 \showreffalse
 
-\newcommand{\revision}{10.2}	% Document Revision
+\newcommand{\revision}{11.1}	% Document Revision
 
 % =================================================
 
@@ -418,15 +418,6 @@
 	%
 	\pagebreak[3]
 	%
-	% Start change bar
-	%
-	\if@star%
-		\cbstart%
-		\Writetofile{rationale}{\protect\cbstart}%
-		\Writetofile{testing}{\protect\cbstart}%
-		\Writetofile{implement}{\protect\cbstart}%
-	\fi%
-	%
 	% Define the hyper target before the glossary entry
 	% So that a hyperlink will show the glossary line
 	%
@@ -497,6 +488,12 @@
 			\hbox to 0pt{\textsf{\small ~~\word@label}}
 		\fi
 	\fi
+	%
+	% Start change bar
+	%
+	\if@star%
+		\cbstart\patch{\word@prop}%
+	\fi%
 	%
 	% Proposal
 	%
@@ -569,12 +566,7 @@
 	%
 	% End the change bar, if it was enabled
 	%
-	\if@star%
-		\cbend%
-		\Writetofile{rationale}{\protect\cbend}%
-		\Writetofile{testing}{\protect\cbend}%
-		\Writetofile{implement}{\protect\cbend}%
-	\fi%
+	\if@star\cbend\fi%
 	%
 	% Leave some extra space after the list
 	%
@@ -888,6 +880,7 @@
 		{\word@list}%		4 The current word list
 		{\word@label}%		5 The label for the word
 		{\word@name}%		6 The LaTeX name for the word
+		{\if@star\word@prop\fi}%	7 Proposal
 	}
 
 	% The exported text has to interact with the appendix which
@@ -940,6 +933,7 @@
 	% #4	The current word list
 	% #5	The label for the word
 	% #6	The LaTeX name for the word
+	% #7  The proposal for the word
 
 	% We redefine the standard worddefer environment to take account
 	% of the parameters we have just defined.
@@ -959,7 +953,7 @@
 	\let\format@test\rmfamily
 	\let\format@imp\ttfamily
 
-	\renewenvironment{worddefer}[6]{%
+	\renewenvironment{worddefer}[7]{%
 		%
 		% Output the section heading
 		%
@@ -973,6 +967,7 @@
 		% Mark the header as the target for the hyperlink.
 		%
 		\par
+		%
 		\hyperdef{\defer@space.#4}{#5}{%
 			\textbf{\rmfamily\thechapter.#1%
 				\ifnum#2=0\empty.\rule[.8ex]{2em}{.5pt}\else.#2\fi%
@@ -980,6 +975,11 @@
 				\quad \hyperref{}{}{#4.#5}{\texttt{#6}}
 			}
 		} \\[-1.4\baselineskip]
+		%
+		\ifx#7\empty\else%
+			\@startrue%
+			\cbstart\patch{#7}%
+		\fi%
 		%
 		% Start the body environment
 		%
@@ -1030,6 +1030,11 @@
 		% End the list environment
 		%
 		\end{list}
+		%
+		\if@star%
+			\cbend%
+			\@starfalse%
+		\fi%
 	}
 
 	% Sometime we want "normal" text in the implementation and
@@ -1097,13 +1102,11 @@
 
 \ifshowref
 	\newcommand{\@noword}[2]{% {<wordset>}{<word>}
-		\@latex@error{Can't find definition of "#2" in wordset
-			"#1", referenced in file \includefile}\@ehc%
+		\@latex@error{Can't find "#2" in "#1", in file \includefile}\@ehc%
 	}
 \else
 	\newcommand{\@noword}[2]{% {<wordset>}{<word>}
-		\@latex@warning{Can't find definition of "#2" in wordlist
-			"#1", reference in file \includefile}{}%
+		\@latex@warning{Can't find "#2" in "#1", in file \includefile}{}%
 	}
 \fi
 
@@ -1316,7 +1319,7 @@
 }
 
 \newcommand{\patch}[1]{% {<name>}
-	\marginpar{\tiny\textsf{#1}}
+	\marginpar{\tiny\textsf{#1}{\color{white}c:b}}
 }
 
 \newcommand{\strike}[3][3]{% [<end-space>]{<height>}{<width>}

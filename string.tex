@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{The optional String word set} % 17
 \wordlist{string}
 
@@ -12,8 +13,40 @@ None.
 None.
 
 \section{Additional documentation requirements} % 17.4
+\label{string:document}
 
-None.
+\remove{x:substitute}{None.}
+
+\subsection{System documentation}
+\subsubsection{Implementation-defined options}
+\begin{itemize}
+\item \place{x:substitute}{no additional options.}
+\end{itemize}
+
+\subsubsection{Ambiguous conditions}
+\begin{itemize}
+\item \place{x:substitute}{The substitution cannot be created (\word{REPLACES});}
+\item \place{x:substitute}{The name of a substitution contains the `\texttt{\%}' delimiter character (\word{REPLACES});}
+\item \place{x:substitute}{Result of a substitution is too long to fit into the given buffer (\word{SUBSTITUTE} and \word{UNESCAPE});}
+\item \place{x:substitute}{Source and destination buffers for \word{SUBSTITUTE} are the same.}
+\end{itemize}
+
+\subsubsection{Other system documentation}
+\begin{itemize}
+\item \place{x:substitute}{no additional requirements.}
+\end{itemize}
+
+\subsection{Program documentation}
+
+\subsubsection{Environmental dependencies}
+\begin{itemize}
+\item \place{x:substitute}{no additional dependencies.}
+\end{itemize}
+
+\subsubsection{Other program documentation}
+\begin{itemize}
+\item \place{x:substitute}{no additional requirements.}
+\end{itemize}
 
 \section{Compliance and labeling} % 17.5
 
@@ -310,5 +343,389 @@ to provide all of the String and String Extensions word sets.
 
 
 \subsection{String extension words} % 17.6.2
+\extended
 
-None.
+\remove{x:substitute}{None.}
+
+\begin{worddef*}{}{REPLACES}[][x:substitute]
+\item \stack{c-addr_1 u_1 c-addr_2 u_2}{}
+
+	Set the string \param{c-addr_1 u_1} as the text to substitute for
+	the substitution named by \param{c-addr_2 u_2}.
+	If the substitution does not exist it is created.
+	The program may then reuse the buffer \param{c-addr_1 u_1} without
+	affecting the definition of the substitution.
+
+	Ambiguous conditions occur as follows:
+	\begin{itemize}
+	\item The substitution cannot be created.
+	\item The name of a substitution contains the `\texttt{\%}' delimiter character.
+	\end{itemize}
+
+	\word{REPLACES} may allot data space and create a definition.  This breaks
+	the contiguity of the current region and is not allowed during compilation
+	of a colon definition
+  
+\see \xref{usage:contiguous},
+	\xref{usage:compilation},
+	\wref{string:SUBSTITUTE}{}.
+
+	\begin{implement}
+		\word{DECIMAL}
+
+		\word[tools]{[UNDEFINED]} place \word[tools]{[IF]} \\
+		\tab \word{:} place \tab \word{bs} \ c-addr1 u c-addr2 -{}- \\
+		\tab \word{bs} \textdf{Copy the string described by \emph{c-addr$_1$ u} as a counted} \\
+		\tab \word{bs} \textdf{string at the memory address described by \emph{c-addr$_2$}.} \\
+		\tab[2] \word{2DUP} \word{2toR} \\
+		\tab[2] 1 \word{CHARS} \word{+} \word{SWAP} \word{MOVE} \\
+		\tab[2] \word{2Rfrom} \word{C!} \\
+		\tab \word{;} \\
+		\word[tools]{[THEN]}
+
+		\word{:} "/COUNTED-STRING" \word{Sq} /COUNTED-STRING" \word{;} \\
+		"/COUNTED-STRING" \word{ENVIRONMENTq} \word{0=} \word[tools]{[IF]} 256 \word[tools]{[THEN]} \\
+		\word{CHARS} \word{CONSTANT} string-max
+
+		\word[search]{WORDLIST} \word{CONSTANT} wid-subst \\
+		\word{bs} \textdf{Wordlist ID of the wordlist used to hold substitution names and replacement text.}
+
+		\word[tools]{[DEFINED]} VFXforth \word[tools]{[IF]} \word{bs} \textdf{\textbf{VFX Forth}} \\
+		\tab \word{:} makeSubst	\word{bs} c-addr len -{}- c-addr \\
+		\tab \word{bs} \textdf{Given a name string create a substution and storage space.} \\
+		\tab \word{bs} \textdf{Return the address of the buffer for the substitution text.} \\
+		\tab \word{bs} \textdf{This word requires system specific knowledge of the host Forth.} \\
+		\tab \word{bs} \textdf{Some systems may need to perform case conversion here.} \\
+		\tab[2] \word[search]{GET-CURRENT} \word{toR} wid-subst \word[search]{SET-CURRENT} \\
+		\tab[2] (\$create) \tab[12.6] \word{bs} \textdf{like \word{CREATE} but takes c-addr/len} \\
+		\tab[2] \word{Rfrom} \word[search]{SET-CURRENT} \\
+		\tab[2] \word{HERE}  string-max \word{ALLOT}  0 \word{OVER} \word{C!}	\word{bs} \textdf{create buffer space} \\
+		\tab \word{;} \\
+		\word[tools]{[THEN]}
+
+		\word[tools]{[DEFINED]} (WID-CREATE) \word[tools]{[IF]} \word{bs} \textdf{\textbf{SwiftForth}} \\
+		\tab \word{:} makeSubst \word{bs} c-addr len -{}- c-addr \\
+		\tab[2] wid-subst (WID-CREATE) \tab[4.8] \word{bs} \textdf{like \word{CREATE} but takes c-addr/len/wid} \\
+		\tab[2] LAST \word{@} >CREATE \word{!} \\
+		\tab[2] \word{HERE}  string-max \word{ALLOT}  0 \word{OVER} \word{C!} \word{bs} \textdf{create buffer space} \\
+		\tab \word{;} \\
+		\word[tools]{[THEN]}
+
+		\word{:} findSubst \word{bs} c-addr len -{}- xt flag | 0 \\
+		\word{bs} \textdf{Given a name string, find the substitution.} \\
+		\word{bs} \textdf{Return \emph{xt} and \emph{flag} if found, or just zero if not found.} \\
+		\word{bs} \textdf{Some systems may need to perform case conversion here.} \\
+		\tab wid-subst \word[search]{SEARCH-WORDLIST} \\
+		\word{;}
+
+		\word{:} \word{REPLACES} \word{bs} text tlen name nlen -{}- \\
+		\word{bs} \textdf{Define the string \emph{text/tlen} as the text to substitute for the substitution named \emph{name/nlen}.} \\
+		\word{bs} \textdf{If the substitution does not exist it is created.} \\
+		\tab \word{2DUP} findSubst \word{IF} \\
+		\tab[2] \word{NIP} \word{NIP}  \word{EXECUTE} \tab \word{bs} \textdf{get buffer address} \\
+		\tab \word{ELSE} \\
+		\tab[2] makeSubst \\
+		\tab \word{THEN} \\
+		\tab place \tab[8] \word{bs} \textdf{copy as counted string} \\
+		\word{;}
+	\end{implement}
+\end{worddef*}
+
+\begin{worddef*}{}{SUBSTITUTE}[][x:substitute]
+\item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_2 u_3 n}
+
+	Perform substitution on the string \param{c-addr_1 u_1} placing the
+	result at string \param{c-addr_2 u_2}, returning \param{c-addr_2} and
+	\param{u_3}, the length of the resulting string.
+	An ambiguous condition occurs if the resulting string will not fit into
+	\param{c-addr_2 u_2} or if \param{c-addr_2} is the same as \param{c-addr_1}.
+	The return value \param{n} is positive on success and indicates the number
+	of substitutions made.
+	A negative value for \param{n} indicates that an error occurred, leaving
+	\param{c-addr_2 u_3} undefined.  Substitution occurs from the
+	start of \param{c-addr_1} in one pass and is non-recursive.
+
+	When a substitution name, surrounded by `\texttt{\%}' (ASCII \$25) delimiters
+	is encountered by \word{SUBSTITUTE}, the following occurs:
+
+	\begin{enumerate}
+	\item If the name is null, a single delimiter character is substituted,
+		i.e., \texttt{\%\%} is replaced by \texttt{\%}.
+
+	\item If the name is a valid substitution name, the leading and trailing
+		delimiter characters and the enclosed substitution name are replaced by
+		the substitution text.
+
+	\item If the name is not a valid substitution name, the name with leading
+		and trailing delimiters is passed unchanged to the output.
+	\end{enumerate}
+
+\see \wref{string:REPLACES}{}, \wref{string:UNESCAPE}{}, \rref{string:SUBSTITUTE}{}.
+
+	\begin{rationale}
+%		Text substitution is useful for a number of applications, including:
+%		\begin{enumerate}
+%		\setlength{\itemsep}{-1ex}
+%		\item Directory handling;
+%		\item Configuration management;
+%		\item Localisation.
+%		\end{enumerate}
+
+		Many applications need to be able to perform text substitution, for
+		example:
+
+		\begin{center}
+			 Your balance at \arg{time} on \arg{date} is \arg{currencyvalue}.
+		\end{center}
+
+		Translation of a sentence or message from one language to another may
+		result in changes to the displayed parameter order.  The example, the
+		Afrikaans translation of this sentence requires a different order:
+
+		\begin{center}
+			Jou balans op \arg{date} om \arg{time} is \arg{currencyvalue}.
+		\end{center}
+
+		The words \word{SUBSTITUTE} and \word{REPLACES} provide for this
+		requirements by defining a text substitution facility.  For example,
+		we can provide an initial string in the form:
+
+		\begin{center}
+			\texttt{Your balance at \%time\% on \%date\% is \%currencyvalue\%.}
+		\end{center}
+
+		The \texttt{\%} is used as delimiters for the substitution name.  The
+		text ``\texttt{currencyvalue}'', ``\texttt{date}'' and ``\texttt{time}''
+		are text substitutions, where the replacement text is defined by
+		\word{REPLACES}:
+
+\makeatletter
+\newcommand{\ptime}{%
+	% Hour
+	\@tempcnta = \time
+	\divide\@tempcnta by 60
+	\ifnum\@tempcnta<10 0\fi%
+	\number\@tempcnta%
+	:%
+	% Minutes
+	\multiply\@tempcnta by 60
+	\@tempcntb = \time
+	\advance\@tempcntb by -\@tempcnta
+	\ifnum\@tempcntb < 10 0\fi%
+	\number\@tempcntb
+}
+
+\newcommand{\pdate}{%
+	% Day
+	\ifnum\day<10 0\fi%
+	\number\day%
+	/%
+	% Month
+	\ifcase\month
+	\or Jan\or Feb\or Mar\or Apr\or May\or Jun
+	\or Jul\or Aug\or Sep\or Oct\or Nov\or Dec\fi%
+	/%
+	% Year
+	\number\year
+}
+\makeatother
+
+		\begin{quote}\ttfamily
+			\begin{tabbing}
+				\word{Sq} \pdate" \= \word{Sq} date" \word{REPLACES} \\
+				\word{Sq} \ptime" \> \word{Sq} time" \word{REPLACES}
+			\end{tabbing}
+		\end{quote}
+
+		The substitution name ``date'' is defined to be replaced with the string
+		``\pdate'' and ``time'' to be replaced with ``\ptime''.  Thus
+		\word{SUBSTITUTE} would produce the string:
+
+		\begin{center}
+			\texttt{Your balance at \ptime{} on \pdate{} is \%currencyvalue\%.}
+		\end{center}
+
+		As the substitution name ``currencyvalue'' has not been defined, it is
+		left unchanged in the resulting string.
+
+		The return value \param{n} is positive \{\{(0 \ldots +n\}\} on success
+		and indicates the number of substitutions made.  In the above example,
+		this would be two.  A negative value indicates that an error occurred.
+		As substitution is non-recursive, the return value could be used to
+		provide a recursive substitution.
+
+		Implementation of \word{SUBSTITUTE} may be considered as being equivalent
+		to a wordlist which is searched.  If the substitution name is found, the
+		word is executed, returning a substitution string.
+		Such words can be deferred or multiple wordlists can be used.
+		The implementation techniques required are similar to those used by
+		\word{ENVIRONMENTq}.
+		There is no provision for changing the delimiter character, although a
+		system may provide system-specific extensions.
+	\end{rationale}
+
+	\begin{implement}
+		\textdf{Assuming \iref{string:REPLACES}{} has been defined.}
+
+		\word[tools]{[UNDEFINED]} bounds \word[tools]{[IF]} \\
+		\tab \word{:} bounds \tab \word{bs} addr len -{}- addr+len addr \\
+		\tab[2] \word{OVER} \word{+} \word{SWAP}\\
+		\tab \word{;} \\
+		\word[tools]{[THEN]}
+
+		\word[tools]{[UNDEFINED]} -rot \word[tools]{[IF]} \\
+		\tab \word{:} -rot \tab \word{bs} a b c -{}- c a b \\
+		\tab[2] \word{ROT} \word{ROT} \\
+		\tab \word{;} \\
+		\word[tools]{[THEN]}
+
+		\word{CHAR} \% \word{CONSTANT} delim 
+		\tab[1.2] \word{bs} \textdf{Character used as the substitution name delimiter.} \\
+%
+		string-max \word{BUFFER:} Name	%\word{bs} -{}- addr \\
+		\tab[0] \word{bs} \textdf{Holds substitution name as a counted string.} \\
+%
+		\word{VARIABLE} DestLen % \word{bs} -{}- addr \\
+		\tab[4.2] \word{bs} \textdf{Maximum length of the destination buffer.} \\
+%
+		\word[double]{2VARIABLE} Dest %\word{bs} -{}- addr \\
+		\tab[5.4] \word{bs} \textdf{Holds destination string current length and address.} \\
+%
+		\word{VARIABLE} SubstErr % \word{bs} -{}- addr \\
+		\tab[3.6] \word{bs} \textdf{Holds zero or an error code.}
+
+		\word{:} addDest \word{bs} char -{}- \\
+		\word{bs} \textdf{Add the character to the destination string.} \\
+		\tab Dest \word{@} DestLen \word{@} \word{less} \word{IF} \\
+		\tab[2] Dest \word{2@} \word{+} \word{C!}  1 \word{CHARS} Dest \word{+!} \\
+		\tab \word{ELSE} \\
+		\tab[2] \word{DROP} -1 SubstErr \word{!} \\
+		\tab \word{THEN} \\
+		\word{;}
+
+		\word{:} formName \word{bs} c-addr len -{}- c-addr' len' \\
+		\word{bs} \textdf{Given a source string pointing at a leading delimiter, place the name string in the name buffer.} \\
+		\tab 1 \word{/STRING} \word{2DUP} delim scan \word{toR} \word{DROP}				  \word{bs} \textdf{find length of residue} \\
+		\tab \word{2DUP} \word{Rfrom} \word{-} \word{DUP} \word{toR} Name place \tab[3] \word{bs} \textdf{save name in buffer} \\
+		\tab \word{Rfrom} 1 \word{CHARS} \word{+} \word{/STRING}						\tab[7.2] \word{bs} \textdf{step over name and trailing \texttt{\%}} \\
+		\word{;}
+
+		\word{:} >dest \word{bs} c-addr len -{}- \\
+		\word{bs} \textdf{Add a string to the output string.} \\
+		\tab bounds \word{qDO} \\
+%		\tab \word{OVER} \word{+} \word{SWAP} \word{qDO} \\
+		\tab[2] \word{I} \word{C@} addDest \\
+		\tab 1 \word{CHARS} \word{+LOOP} \\
+		\word{;}
+
+		\word{:} processName \word{bs} -{}- flag \\
+		\word{bs} \textdf{Process the last substitution name. Return true if found, 0 if not found.} \\
+		\tab Name \word{COUNT} findSubst \word{DUP} \word{toR} \word{IF} \\
+		\tab[2] \word{EXECUTE} \word{COUNT} >dest \\
+		\tab \word{ELSE} \\
+		\tab[2] delim addDest  Name \word{COUNT} >dest  delim addDest \\
+		\tab \word{THEN} \\
+		\tab \word{Rfrom} \\
+		\word{;}
+
+		\word{:} \word{SUBSTITUTE} \word{bs} src slen dest dlen -{}- dest dlen' n \\
+		\word{bs} \textdf{Expand the source string using substitutions.} \\
+		\word{bs} \textdf{Note that this version is simplistic, performs no error checking,} \\
+		\word{bs} \textdf{and requires a global buffer and global variables.} \\
+		\tab Destlen \word{!}  0 Dest \word{2!}  0 -rot \word{bs} -{}- 0 src slen \\
+		\tab 0 SubstErr \word{!} \\
+		\tab \word{BEGIN} \\
+		\tab[2] \word{DUP} 0 \word{more} \\
+		\tab \word{WHILE} \\
+		\tab[2] \word{OVER} \word{C@} delim \word{ne} \word{IF}									\tab[6.8] \word{bs} \textdf{character not \texttt{\%}} \\
+		\tab[3]	\word{OVER} \word{C@} addDest  1 \word{/STRING} \\
+		\tab[2] \word{ELSE} \\
+		\tab[3]	\word{OVER} 1 \word{CHARS} \word{+} \word{C@} delim \word{=} \word{IF}	\tab \word{bs} \textdf{\texttt{\%\%} for one output \texttt{\%}} \\
+		\tab[4]		delim addDest  2 \word{/STRING}													\tab[2.4] \word{bs} \textdf{add one \texttt{\%} to output} \\
+		\tab[3]	\word{ELSE} \\
+		\tab[4]		formName processName \word{IF} \\
+		\tab[5]			\word{ROT} \word{1+} -rot														\tab[8.6] \word{bs} \textdf{count substitutions} \\
+		\tab[4]		\word{THEN} \\
+		\tab[3]	\word{THEN} \\
+		\tab[2] \word{THEN} \\
+		\tab \word{REPEAT} \\
+		\tab \word{2DROP} Dest \word{2@}  \word{ROT} SubstErr \word{@} \word{IF} \\
+		\tab[2]	\word{DROP}  SubstErr \word{@} \\
+		\tab \word{THEN} \\
+		\word{;}
+	\end{implement}
+
+	\begin{testing}
+		\ttfamily
+		30 \word{CHARS} \word{BUFFER:} subbuff \word{bs} \textdf{Destination buffer}
+
+		\word{bs} \textdf{Define a few string constants} \\
+		\word{:} "hi"    \word{Sq} hi"    \word{;} \\
+		\word{:} "wld"   \word{Sq} wld"   \word{;} \\
+		\word{:} "hello" \word{Sq} hello" \word{;} \\
+		\word{:} "world" \word{Sq} world" \word{;}
+
+		\word{bs} \textdf{Define a few test strings} \\
+		\word{:} sub1 \word{Sq} Start:\ \%hi\%,\%wld\%!\ :End" ; \tab[1.5]\word{bs} \textdf{Original string} \\
+		\word{:} sub2 \word{Sq} Start:\ hello,world!\ :End" ;    \tab\word{bs} \textdf{First target string} \\
+		\word{:} sub3 \word{Sq} Start:\ world,hello!\ :End" ;    \tab\word{bs} \textdf{Second target string}
+
+		\word{bs} \textdf{Define the \texttt{hi} and \texttt{wld} substitutions} \\
+		\test{"hello" "hi"  \word{REPLACES}}{} \tab[4] \word{bs} \textdf{Replace ``\texttt{\%hi\%}''  with ``\texttt{hello}''} \\
+		\test{"world" "wld" \word{REPLACES}}{} \tab[4] \word{bs} \textdf{Replace ``\texttt{\%wld\%}'' with ``\texttt{world}''}
+
+		\word{bs} \textdf{``\texttt{\%hi\%,\%wld\%}'' changed to ``\texttt{hello,world}''} \\
+		\test{sub1 subbuff 30 \word{SUBSTITUTE} \word{ROT} \word{ROT} sub2 \word{COMPARE}}{2 0}
+
+		\word{bs} \textdf{Change the \texttt{hi} and \texttt{wld} substitutions} \\
+		\test{"world" "hi"  \word{REPLACES}}{} \\
+		\test{"hello" "wld" \word{REPLACES}}{}
+
+		\word{bs} \textdf{Now ``\texttt{\%hi\%,\%wld\%}'' should be changed to ``\texttt{world,hello}''} \\
+		\test{sub1 subbuff 30 \word{SUBSTITUTE} \word{ROT} \word{ROT} sub3 \word{COMPARE}}{2 0}
+
+		\word{bs} \textdf{Where the subsitution name is not defined} \\
+		\word{:} sub4 \word{Sq} aaa\%bbb\%ccc" ; \\
+		\test{sub4 subbuff 30 \word{SUBSTITUTE} \word{ROT} \word{ROT} sub4 \word{COMPARE}}{0 0}
+
+		\word{bs} \textdf{Finally the \texttt{\%} character itself} \\
+		\word{:} sub5 \word{Sq} aaa\%\%bbb" \word{;} \\
+		\word{:} sub6 \word{Sq} aaa\%bbb" \word{;} \\
+		\test{sub5 subbuff 30 \word{SUBSTITUTE} \word{ROT} \word{ROT} sub6 \word{COMPARE}}{0 0} \\
+	\end{testing}
+\end{worddef*}
+
+\begin{worddef*}{}{UNESCAPE}[][x:substitute]
+\item \stack{c-addr_1 u_1 c-addr_2}{c-addr_2 u_2}
+
+	Replace each `\texttt{\%}' character in the input string
+	\param{c-addr_1 u_1} by two `\texttt{\%}' characters.  The output
+	is represented by \param{c-addr_2 u_2}.  The buffer at \param{c-addr_2}
+	must be big enough to hold the unescaped string.  An ambiguous
+	condition occurs if the resulting string will not fit into the
+	destination buffer (\param{c-addr_2}).
+
+\see \wref{string:SUBSTITUTE}{}.
+
+	\begin{implement}
+		\word{:} \word{UNESCAPE} \word{bs} c-addr1 len1 c-addr2 -{}- c-addr2 len2 \\
+		\word{bs} \textdf{Replace each '\texttt{\%}' character in the input string \emph{c-addr$_1$ len$_1$} with two '\texttt{\%}' characters.} \\
+		\word{bs} \textdf{The output is represented by \emph{c-addr$_2$ len$_2$}.} \\
+		\word{bs} \textdf{If you pass a string through \word{UNESCAPE} and then \word{SUBSTITUTE}, you get the original string.} \\
+		\tab \word{DUP} \word{2SWAP}  \word{OVER} \word{+} \word{SWAP} \word{qDO} \\
+		\tab[2] \word{I} \word{C@} \word{[CHAR]} \% \word{=} \word{IF} \\
+		\tab[3] \word{[CHAR]} \% \word{OVER} \word{C!} \word{1+} \\
+		\tab[2] \word{THEN} \\
+		\tab[2] \word{I} \word{C@} \word{OVER} \word{C!} \word{1+} \\
+		\tab \word{LOOP} \\
+		\tab \word{OVER} \word{-} \\
+		\word{;}
+	\end{implement}
+
+	\begin{testing}
+		Using \texttt{subbuff}, \texttt{sub5} and \texttt{sub6} from \tref{string:SUBSTITUTE}{}.
+
+		\test{sub6 subbuff \word{UNESCAPE} sub5 \word{COMPARE}}{0}
+	\end{testing}
+\end{worddef*}
+\endinput
