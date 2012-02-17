@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \annex{Rationale} % A. (informative annex)}}}
 \label{annex:rationale}
 \setwordlist{core}
@@ -967,7 +968,7 @@ a ``known'' result on a subsequent query.
 \subsubsection{Obsolescent Environmental Queries} % A.3.2.7
 \label{rat:obsolet}
 
-When reviewing the \place{ed11}{Forth-94} Standard\place{ed11}{,} the question of adapting the word set
+When reviewing the \place{ed11}{Forth 94} Standard\place{ed11}{,} the question of adapting the word set
 queries had to be addressed.  Despite the recommendation in the
 \replace{ed11}{previous (Forth-94)}{Forth 94} standard, word set queries have not been
 supported in a meaningful way by many systems.  Consequently, these
@@ -1133,30 +1134,33 @@ also increase the size of the pictured numeric output string.
 
 \subsection{The Forth text interpreter} % A.3.4
 
+\cbstart\patch{ed11}
 \setcounter{subsubsection}{1}
 \setcounter{paragraph}{2}
-\paragraph{Numeric notation} ~% A.3.4.1.3
+\paragraph{Numeric notation}\strike{4}{140}~
 \label{rat:notation:numeric}
+% A.3.4.1.3
 
-The numeric representation provided by the \textsf{X:number-prefix}
-extension can be tested with the following test cases:
+\remove{ed11}{The numeric representation provided by the \textsf{X:number-prefix}
+extension can be tested with the following test cases:}
 
 \begin{tt}
-	\word{DECIMAL} \\
-	\test{\#1289      }{1289       } \\
-	\test{\#12346789. }{12346789.  } \\
-	\test{\#-1289     }{-1289      } \\
-	\test{\#-12346789.}{-12346789. } \\
-	\test{\$12eF      }{4847       } \\
-	\test{\$12aBcDeF. }{313249263. } \\
-	\test{\$-12eF     }{-4847      } \\
-	\test{\$-12AbCdEf.}{-313249263.} \\
-	\test{\%10010110  }{150        } \\
-	\test{\%10010110. }{150.       } \\
-	\test{\%-10010110 }{-150       } \\
-	\test{\%-10010110.}{-150.      } \\
-	\test{'z' \       }{122        }
+\word{DECIMAL}\strike{4}{48} \\
+\test{\#1289      }{1289       }\strike{3}{190} \\
+\test{\#12346789. }{12346789.  }\strike{3}{190} \\
+\test{\#-1289     }{-1289      }\strike{3}{190}\\
+\test{\#-12346789.}{-12346789. }\strike{3}{190} \\
+\test{\$12eF      }{4847       }\strike{3}{190} \\
+\test{\$12aBcDeF. }{313249263. }\strike{3}{190} \\
+\test{\$-12eF     }{-4847      }\strike{3}{190} \\
+\test{\$-12AbCdEf.}{-313249263.}\strike{3}{190} \\
+\test{\%10010110  }{150        }\strike{3}{190} \\
+\test{\%10010110. }{150.       }\strike{3}{190} \\
+\test{\%-10010110 }{-150       }\strike{3}{190} \\
+\test{\%-10010110.}{-150.      }\strike{3}{190} \\
+\test{'z' \       }{122        }\strike{3}{190}
 \end{tt}
+\cbend
 
 \setcounter{subsubsection}{2}
 \subsubsection{Semantics} % A.3.4.3

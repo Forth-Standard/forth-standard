@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{Usage requirements}
 \label{usage}
 
@@ -158,15 +159,14 @@ particular type fonts or styles. The graphics here are examples.
 	\caption{Standard graphic characters}
 	\label{table:ASCII}
 	\small
-	\begin{tabular}{cc@{}c|cc@{}c|cc@{}c|cc@{}c|cc@{}c|cc@{}c}
+	\begin{tabular}{c@{~}c@{~}c|c@{~}c@{~}c|c@{~}c@{~}c|c@{~}c@{~}c|c@{~}c@{~}c|c@{~}c@{~}c}
 	\hline\hline
-	Hex & IRV && Hex & IRV && Hex & IRV && Hex & IRV && Hex & IRV && Hex & IRV \\
-	\multicolumn{3}{l|}{ASCII} &
-	\multicolumn{3}{l|}{ASCII} &
-	\multicolumn{3}{l|}{ASCII} &
-	\multicolumn{3}{l|}{ASCII} &
-	\multicolumn{3}{l|}{ASCII} &
-	\multicolumn{3}{l}{ASCII} \\
+	Hex & IRV & ASCII &
+	Hex & IRV & ASCII &
+	Hex & IRV & ASCII &
+	Hex & IRV & ASCII &
+	Hex & IRV & ASCII &
+	Hex & IRV & ASCII \\
 	\hline
 	20&   &		&30& 0 & 0	&40& @ & @	&50& P & P	&60& \verb|`| & \verb|`|
 																&70& p & p	\\
@@ -927,11 +927,11 @@ the regions returned by \word{WORD} and \word{num-end} may overlap in
 memory. Consequently, use of one of these words can corrupt a region
 returned earlier by a different word. The other words that construct
 pictured numeric output strings (\word{num-start}, \word{num}, \word{numS},
-\word{HOLD}, \word{HOLDS}, and \word[xchar]{XHOLD})  may also modify
+\word{HOLD}, \word{HOLDS}, \remove{ed11}{and} \word[xchar]{XHOLD})  may also modify
 the contents of these regions. Words that display numbers may be
 implemented using pictured numeric output words. Consequently, \word{d}
 (dot), \word{.R}, \word[tools]{.S}, \word[tools]{q}, \word[double]{D.},
-\word[double]{D.R}, \word{Ud}, and \word{U.R} could also corrupt the
+\word[double]{D.R}, \word{Ud}, \remove{ed11}{and} \word{U.R} could also corrupt the
 regions.
 
 The size of the scratch area whose address is returned by \word{PAD}

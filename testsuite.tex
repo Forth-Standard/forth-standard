@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \annex{Test Suite} % F. (informative annex)
 \label{annex:test}
 \setwordlist{core}
@@ -489,6 +490,31 @@ significant bit of a cell:
 The test \tref{core:2*}{2*}, \tref{core:2/}{2/},
 \tref{core:LSHIFT}{LSHIFT}, and \tref{core:RSHIFT}{RSHIFT}
 can now be performed.
+
+\cbstart\patch{ed11}
+\subsection{Numeric notation\strike{-1}{130}}% A.3.4.1.3
+\label{test:numeric}
+
+\place{ed11}{The numeric representation provided by the \textsf{X:number-prefix}
+extension can be tested with the following test cases:}
+
+\begin{tt}
+	\word{DECIMAL} \\
+	\test{\#1289      }{1289       } \\
+	\test{\#12346789. }{12346789.  } \\
+	\test{\#-1289     }{-1289      } \\
+	\test{\#-12346789.}{-12346789. } \\
+	\test{\$12eF      }{4847       } \\
+	\test{\$12aBcDeF. }{313249263. } \\
+	\test{\$-12eF     }{-4847      } \\
+	\test{\$-12AbCdEf.}{-313249263.} \\
+	\test{\%10010110  }{150        } \\
+	\test{\%10010110. }{150.       } \\
+	\test{\%-10010110 }{-150       } \\
+	\test{\%-10010110.}{-150.      } \\
+	\test{'z' \       }{122        }
+\end{tt}
+\cbend
 
 \subsection{Comparisons}
 
