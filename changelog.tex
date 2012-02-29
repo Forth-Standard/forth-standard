@@ -1,4 +1,5 @@
 % !TeX root = forth.tex
+% !TeX spellcheck = en_US
 \annex{Change Log} % F (informative annex)}}}
 \label{annex:changelog}
 
@@ -700,7 +701,7 @@
 
 	\item[A] Rationale:								% (Annex \ref{annex:rationale}):
 		\begin{enumerate}
-		\item \textsf{x:wordset-query}: Added \xref{rat:obsolet}.
+		\item \textsf{x:wordset-query}: Added \xref{rat:obsolete}.
 		\item \textsf{x:legacy}: Removed \texttt{\#TIB} and \texttt{TIB} from
 			\xref{rat:dataspace}
 		\item \textsf{x:xchar}: Added \xref{rat:xchar}.
@@ -719,37 +720,29 @@
 
 \version{11.1}{Vienna Meeting}{2{}1--23 September 2011}
 	\begin{itemize}
-	\item \xref{process}: \\						% process
-		\textsf{F94}: Changed ``ANS Forth'' for ``Forth 94''.
+	\item \textsf{F94}: Removed or replaced references to ``ANS Forth''
 
 	\item \xref{members}: \\						% members-2x
 		\textsf{ed11}: Updated contact details for Peter Knaggs.
 
-	\item[1] Introduction: \\						% intro
-		\textsf{F94}: Change ``ANS Forth'' to ``Forth 94''.
-	
-	\item[2] Terms, notation, and references:	% notation
-		\begin{enumerate}
-		\item \textsf{F94}: Change ``ANS Forth'' to ``Forth 94'' (twice).
-		\item \textsf{x:enhanced-locals}: Moved description of BNF notation from
+	\item[2] Terms, notation, and references: \\	% notation
+		\textsf{x:enhanced-locals}: Moved description of BNF notation from
 			\xref{notation:numeric} to \xref{notations}.
-		\end{enumerate}
 
 	\item[3] Usage requirements:					% usage
 		\begin{enumerate}
-		\item \textsf{F94}: Change ``ANS Forth'' to ``Forth 94''
-			(26 times)
 		\item \textsf{ed11}: Finally corrected the header for table \xref{table:ASCII}.
-		\item \textsf{ed11}: Added reference to \xref{rat:obsolet} in \xref{usage:obsolete}.
+		\item \textsf{ed11}: Added reference to \xref{rat:obsolete} in \xref{usage:obsolete}.
 		\item \textsf{x:enhanced-locals}: Added reference to \xref{notations} in \xref{usage:numbers}.
 		\end{enumerate}
 
 	\item[6] Core Word Set:							% core
 		\begin{enumerate}
-		\item \textsf{ed11}: Revised ``assign'' to ``set to'' in
+		\item \textsf{x:is}: Revised ``assign'' to ``set to'' in
 			\wref{core:ACTION-OF}{},
-			\wref{core:DEFER}{} and
-			\wref{core:DEFER@}{}.
+			\wref{core:DEFER}{},
+			\wref{core:DEFER@}{} and
+			\wref{core:IS}{}.
 		\item \textsf{x:buffer}: Added \wref{core:BUFFER:}{}.
 		\item \textsf{ed11}: Revised description of \texttt{\bs{n}} in \wref{core:Seq}{}.
 		\end{enumerate}
@@ -794,10 +787,7 @@
 
 	\item[A] Rationale								(Annex \ref{annex:rationale}):
 		\begin{enumerate}
-		\item \textsf{F94}: Replaced ``ANS Forth'' with ``Forth 94''
-			(34 times)
-		\item \textsf{F94}: Removed reference to ``ANS Forth''
-			(5 times)
+		\item \textsf{F94}: Removed reference to ``X3J14'' (three times)
 		\item \textsf{ed11}: Moved test cased from \xref{rat:notation:numeric} to \xref{test:numeric}.
 		\item \textsf{x:buffer}: Added \rref{core:BUFFER:}{}.
 		\item \textsf{x:block}: Added \xref{rat:block:buffers}.
@@ -808,9 +798,12 @@
 		\item \textsf{x:substitute}: Added \rref{string:SUBSTITUTE}{}.
 		\end{enumerate}
 		
-	\item[D] Compatibility analysis 				(Annex \ref{annex:diff}): \\
-		\textsf{F94}: Replaced ``ANS Forth '94'' with ``Forth 94''
-			(twice)
+	\item[D] Compatibility analysis 				(Annex \ref{annex:diff}):
+		\begin{enumerate}
+		\item \textsf{F94}: Revised \xref{diff:ans} to the past tense.
+		\item \textsf{F94}: Added \xref{diff:iso}.
+		\item \textsf{ed11}: Added \xref{diff:94:obsolete}.
+		\end{enumerate}
 
 	\item[F] Reference Implementations			(Annex \ref{annex:implement}):
 		\begin{enumerate}
