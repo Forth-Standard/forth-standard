@@ -135,7 +135,7 @@
 		Typical use: {\ldots} \word{'} \param{name}.
 
 		Many Forth systems use a state-smart tick. Many do not.
-		\replace{F94}{ANS Forth follows}{We follow} the usage of Forth 83.
+		\replace{F94}{ANS Forth follows}{We follow} the usage of Forth \replace{F94}{83}{94}.
 
 	\see \xref[A.3.4.3..2 Interpretation semantics]{rat:interpret},
 		\rref{core:FIND}{FIND}.
@@ -4794,11 +4794,9 @@
 		It is easy to convert counted strings to pointer/length but
 		hard to do the opposite. \word{Cq} is the only new word that
 		uses the ``address of counted string'' stack representation.
-		It is provided as an aid to porting existing 
-		\place{F94}{pre Forth 94}
-		programs
-		\remove{F94}{to ANS Forth}
-		systems. It is relatively difficult to implement \word{Cq}
+		It is provided as an aid to porting existing programs%
+		\remove{F94}{to ANS Forth systems}.
+		It is relatively difficult to implement \word{Cq}
 		in terms of other standard words, considering its ``compile
 		string into the current definition'' semantics.
 
@@ -5050,7 +5048,7 @@
 
 	\param{xt_2} is the \replace{x:is}{\param{xt} assigned to the
 	deferred word corresponding to}{execution token} \param{xt_1}
-	\place{x:is}{ set to execute}.
+	\place{x:is}{ is set to execute}.
 	An ambiguous condition exists if \param{xt_1} is not
 	\replace{x:is}{for}{the execution token of} a word defined
 	\replace{x:is}{via}{with} \word{DEFER}, or if
@@ -5264,22 +5262,33 @@
 \interpret
 	\stack{xt "<spaces>name"}{}
 
-	Skip leading spaces and parse name delimited by a space. Set
-	\param{name} to execute \param{xt}. An ambiguous condition
-	exists if \param{name} was not defined by \word{DEFER}.
+	Skip leading spaces and parse \param{name} delimited by a space.
+\remove{x:is}{Set \param{name} to execute \param{xt}.}
+\place{x:is}{%
+	Assign the execution token \param{xt} to be the exection
+	token of \param{name}.
+}
+
+	An ambiguous condition exists if \param{name} was not defined
+	by \word{DEFER}.
 
 \compile
 	\stack{"<spaces>name"}{}
 
-	Skip leading spaces and parse name delimited by a space. Append
-	the run-time semantics given below to the current definition.
+	Skip leading spaces and parse \param{name} delimited by a space.
+	Append the run-time semantics given below to the current definition.
 	An ambiguous condition exists if \param{name} was not defined by
 	\word{DEFER}.
 
 \runtime
 	\stack{xt}{}
 
+\remove{x:is}{%
 	Set \param{name} to execute \param{xt}.
+}\place{x:is}{%
+	Assign the executing token \param{xt} as the token executed by
+	\param{name}.
+}
 
 	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
 	\word{[']} or \word{'} is applied to \word{IS}.
