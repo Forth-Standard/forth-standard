@@ -649,7 +649,7 @@ such a query, as listed in table \ref{table:obsolete}, returns
 As these queries will be withdrawn from future revisions of the
 Standard their use in new programs is discouraged.
 
-\place{ed11}{See \xref{rat:obsolet}}.
+\place{ed11}{See \xref{rat:obsolete}}.
 
 \newcommand{\query}[2]{% <wordset><wordset name>
 	\texttt{#1}		 & \emph{flag} & no & \sout{Forth-94}\uline{Forth 94} #2 word set present. \\
@@ -794,7 +794,7 @@ read from or write into these regions unless otherwise specified.
 \subsubsection{Address alignment} % 3.3.3.1
 \label{usage:aaddr}
 
-Most addresses used in \replace{F94}{ANS Forth}{Forth 94} are aligned addresses (indicated
+Most addresses \remove{F94}{used in ANS Forth} are aligned addresses (indicated
 by \emph{a-addr}) or character-aligned (indicated by \emph{c-addr}).
 \word{ALIGNED}, \word{CHAR+}, and arithmetic operations can alter
 the alignment state of an address on the stack. \word{CHAR+} applied
@@ -930,7 +930,7 @@ pictured numeric output strings (\word{num-start}, \word{num}, \word{numS},
 \word{HOLD}, \word{HOLDS}, \remove{ed11}{and} \word[xchar]{XHOLD})  may also modify
 the contents of these regions. Words that display numbers may be
 implemented using pictured numeric output words. Consequently, \word{d}
-(dot), \word{.R}, \word[tools]{.S}, \word[tools]{q}, \word[double]{D.},
+(dot), \word{.R}, \word[tools]{.S}, \word[tools]{q}, \word[double]{Dd},
 \word[double]{D.R}, \word{Ud}, \remove{ed11}{and} \word{U.R} could also corrupt the
 regions.
 
