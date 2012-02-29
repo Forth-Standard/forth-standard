@@ -1,12 +1,15 @@
 % !TeX root = forth.tex
-\annex{Compatibility analysis of ANS Forth} % D (informative annex)
+% !TeX spellcheck = en_US
+\cbstart
+\annex[Compatibility analysis]{Compatibility analysis of ANS Forth\strike{4}{80}} % D (informative annex)
 \label{annex:diff}
+\cbend
 \setwordlist{core}
 
-Prior to ANS Forth, there were several industry standards for Forth.
+Prior to \replace{F94}{ANS Forth}{this standard}, there were several industry standards for Forth.
 The most influential are listed here in chronological order, along
-with the major differences between ANS Forth and the most recent,
-Forth 83.
+with the major differences between \replace{F94}{ANS Forth}{this standard} and the most recent,
+\replace{F94}{Forth 83}{ANS Forth}.
 
 \section{FIG Forth (circa 1978)} % D.1
 
@@ -127,54 +130,88 @@ optimizations that do not fit in well with the ``virtual machine
 model'' implied by existing Forth standards.
 
 
-\section{ANS Forth approach} % D.5
+\cbstart\patch{F94}
+\section[ANS Forth (1994)]{ANS Forth approach\strike{4}{60} (1994)\strike{-2}{40}} % D.5
+\label{diff:ans}
+\cbend
 
 The ANS Forth committee addressed the serious fragmentation of the
 Forth community caused by the differences between Forth 79 and
 Forth 83, and the divergence from either of these two industry
 standards caused by marketplace pressures.
 
-Consequently, the committee has chosen to base its compatibility
+Consequently, the committee \replace{F94}{has chosen}{chose} to base its compatibility
 decisions not upon a strict comparison with the Forth-83 Standard,
 but instead upon consideration of the variety of existing
 implementations, especially those with substantial user bases and/or
 considerable success in the marketplace.
 
-The committee feels that, if ANS Forth prescribes stringent
+The committee \replace{F94}{feels}{felt} that, if ANS Forth prescribes stringent
 requirements upon the virtual machine model, as did the previous
 standards, then many implementors will chose not to comply with
-ANS Forth. The committee hopes that ANS Forth will serve to unify
-rather than to further divide the Forth community, and thus has
-chosen to encompass rather than invalidate popular implementation
+ANS Forth. The committee \replace{F94}{hopes}{hoped} that ANS Forth \replace{F94}{will}{would} serve to unify
+rather than to further divide the Forth community, and thus
+\replace{F94}{has chosen}{chose} to encompass rather than invalidate popular implementation
 techniques.
 
-Many of the changes from Forth 83 are justified by this rationale.
+Many of the changes from Forth 83 \replace{F94}{are}{where} justified by this rationale.
 Most fall into the category that ``an ANS Forth Standard Program may
 not assume x'', where ``x'' is an entitlement resulting from the
 virtual machine model prescribed by the Forth-83 Standard. The
-committee feels that these restrictions are reasonable, especially
+committee \replace{F94}{feels}{felt} that these restrictions are reasonable, especially
 considering that a substantial number of existing Forth implementations
-do not correctly implement the Forth-83 virtual model, thus the Forth-83
+\replace{F94}{do}{that did} not correctly implement the Forth-83 virtual model, thus the Forth-83
 entitlements exist ``in theory'' but not ``in practice''.
 
 Another way of looking at this is that while ANS Forth acknowledges
-the diversity of current Forth practice, it attempts to document the
-similarity therein. In some sense, ANS Forth is thus a ``description
+the diversity of \remove{F94}{current} Forth practice, it \replace{F94}{attempts}{attempted} to document the
+similarity therein. In some sense, ANS Forth \replace{F94}{is}{was} thus a ``description
 of reality'' rather than a ``prescription for a particular virtual
 machine''.
 
+\remove{F94}{%
 Since there is no previous American National Standard for Forth, the
 action requirements prescribed by section 3.4 of X3/SD-9,
 ``Policy and Guidelines'', regarding previous standards do not apply.
+}
 
+\remove{F94}{%
 The following discussion describes differences between ANS Forth and
 Forth 83. In most cases, Forth 83 is representative of Forth 79 and
 FIG Forth for the purposes of this discussion. In many of these cases,
 however, ANS Forth is more representative of the existing state of the
 Forth industry than the previously-published standards.
+}
 
+\place{F94}{The American National Standards Institution (ANSI) published
+the ANS Forth Standard in 1994 with the title ``\emph{ANSI X3.215-1994
+Information Systems --- Programming Language FORTH}''.  This is referenced
+throughout this document as Forth 94.}
+
+\cbstart\patch{F94}
+\section[ISO Forth (1997)]{ISO Forth (1997)\strike{-2}{110}}
+\label{diff:iso}
+
+\uline{%
+ANSI submitted the Forth 94 Standard to the
+ISO (International Organization for Standardization) and
+IEC (International Electrotechnical Commission) joint committee for
+consideration as an international standard.
+The ISO/IEC adopted the Forth 94 document as an international standard
+in 1997, publishing it under the title ``\emph{ISO/IEC 15145:1997
+Information technology.  Programming languages.  FORTH}''.
+}
+\cbend
 
 \section{Differences from Forth 83} % D.6
+
+\place{F94}{%
+The following discussion describes differences between this standard and
+Forth 83. In most cases, Forth 83 is representative of Forth 79 and
+FIG Forth for the purposes of this discussion. In many of these cases,
+however, this standard is more representative of the existing state of the
+Forth industry than the previously-published standards.
+}
 
 \subsection{Stack width} % D.6.1
 
@@ -901,8 +938,8 @@ words to be available with no additional programmer action.
 
 % =========================================================
 
-\cbstart
-\section{ANS Forth '94\strike{4}{90} Forth 94\strike{-3}{50}} % D.7
+\cbstart\patch{F94}
+\section[Differences from Forth 94]{ANS Forth '94\strike{4.5}{90} Differences from Forth 94\strike{-2}{160}} % D.7
 \cbend
 \label{diff:forth94}
 
@@ -920,6 +957,20 @@ words to be available with no additional programmer action.
 \end{tabular}
 
     Reuse of these names is strongly discouraged.
+
+\cbstart\patch{ed11}
+\subsection{Obsolescent features}
+\label{diff:94:obsolete}
+
+\uline{This standard has designated the following practice as obsolescent:}
+
+\begin{itemize}
+\item \uline{Requiring floating-point numbers to be kept on the data stack.
+	(This has always been an environmental dependency.)}
+
+\item \uline{Using \word{ENVIRONMENTq} to enquire whether a word set is present.}
+\end{itemize}
+\cbend
 
 \endinput
 
