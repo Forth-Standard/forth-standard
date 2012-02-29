@@ -1302,20 +1302,21 @@
 	{\normalfont\normalsize\bfseries}
 }
 
-\newcommand{\annex}[1]{%
+\newcommand{\annex}[2][\empty]{%
 	\refstepcounter{chapter}
 	\begin{center}
 		\normalfont\Large
 		{\bfseries Annex \thechapter} \\
 		(informative) \\
-		{\bfseries #1}
+		{\bfseries #2}
 	\end{center}
-	\chaptermark{#1}
-    \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}
+	\ifx\empty#1 \def\tmp@a{#2}\else\def\tmp@a{#1}\fi
+	\chaptermark{\tmp@a}
+	\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}\tmp@a}
 	%
 	% Set up variables for \label
 	\def\@currentlabel{\thechapter}%
-	\edef\@currentlabelname{#1}%
+	\edef\@currentlabelname{\tmp@a}%
 }
 
 \newcommand{\patch}[1]{% {<name>}
