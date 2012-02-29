@@ -48,9 +48,8 @@ directory and type make.
 
 There are a number of make targets available:
 
-dvi:    This will build a "forth.dvi" file.  I use it for testing the
-        document.  It is also used to produce the PostScript version
-        of the document.
+dvi:    This will build a "forth.dvi" file.  This is used to produce
+        the PostScript version of the document.
 
 ps:     This will produce a file "forth.ps", a PostScript version of
         the document.  It uses both latex and dvips to do this.
@@ -69,8 +68,8 @@ The main "driver" file is "forth.tex".  This will include all the
 other files as it needs them.  In order to build the final document
 you need to run it though latex several times.
 
-Define Labels
--------------
+Extract auxiliary file
+----------------------
 The first time it runs, it will generate a lot of auxiliary files,
 these contain information needed for the cross referencing system.
 It will also generate a set of "labels" and you will see a large
@@ -98,8 +97,8 @@ of a small perl script which produces a "forth.wds" file.
 As this file uses labels to locate the page of a word definition, we
 do not need to wait for the page numbers to settle down.
 
-Getting the labels correct
---------------------------
+Correct Labels
+--------------
 As there are no labels on the first run, place holders are used.
 These will not be the same size as the text of the actual label.
 Thus having defined the labels, we have to run the file though latex
@@ -125,7 +124,7 @@ the "forth.tex" file.
 
 Page Size
 ---------
-This is currently defined by line 2:
+This is currently defined by line:
 
         \usepackage{a4wide}
 
@@ -157,7 +156,7 @@ Labels
 All words are given a label so they can be referenced, this label
 normally has the same name as the word.  Unfortunately this is not
 always possible.  As the label is used as the target for a hyperlink
-it can not contain characters which has special meaning in the target
+it can not contain characters which have special meaning in the target
 format (PS/PDF or HTML).  These labels are not normally shown, a flag
 is provided to show these label in the word header block and in the
 index.  To enable this feature you must comment out the
@@ -166,8 +165,7 @@ index.  To enable this feature you must comment out the
 Informative text Location
 -------------------------
 The informative text for a word is given in the word definition.
-The \inline flag, defined on line 7, controls how these sections
-are presented:
+The \inline flag, controls how these sections are presented:
 
 \inlinetrue
         The informative text is given alongside the main defintion.
@@ -344,8 +342,7 @@ teletype font is used for the text in this envirnment.
                 final version.  <text> may not span more than a
                 single paragraph.
 
-\dffamily
-                Switch to the default font for the rest of the
+\dffamily       Switch to the default font for the rest of the
                 environment.
 
 
@@ -388,7 +385,7 @@ a special label in which case this label is used <wordlist>:<label>.
         warning is reported and the <label> is typeset struck
         through with a line.
 
- \xref[<text>]{<label>} - Extended cross reference
+\xref[<text>]{<label>} - Extended cross reference
         This was originally developed as a tool to help in the
         conversion of existing documents into LaTeX form.  It will
         look up <label> and places the section number followed by
@@ -444,10 +441,10 @@ a special label in which case this label is used <wordlist>:<label>.
 Utilities
 =========
 
-I have been developing the document on a Windows/XP system using the
-following public domain utilities:
+I have been developing the document on a Windows 7 system using the
+following utilities:
 
-MiKTeX 2.7      www.miktex.org
-LEd 0.52        www.latexEditor.org
-TextPad 5.1     www.textpad.com
-Perl 5.10       www.ActiveState.com/perl
+MiKTeX 2.9      www.miktex.org
+TeXworks 0.4.3  www.tug.org/texworks
+TextPad 5.4.2   www.textpad.com
+Perl 5.14.2     www.ActiveState.com/perl
