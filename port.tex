@@ -1,5 +1,9 @@
-\annex{ANS Forth portability guide} % E.  (informative annex)
+% !TeX root = forth.tex
+% !TeX spell check = en_US
+\cbstart\patch{F94}
+\annex[Portability guide]{ANS Forth p\strike{4}{80} P\strike{-2}{10}ortability guide} % E.  (informative annex)
 \label{annex:port}
+\cbend
 
 \section{Introduction} % E.1
 
@@ -16,7 +20,7 @@ is its usefulness in ``strange'' environments on ``unusual'' hardware
 with ``peculiar'' features, it is important that a Standard Forth run
 on these machines too.
 
-A primary goal of the ANS Forth Standard is to increase the types of
+A primary goal of the \remove{F94}{ANS} Forth Standard is to increase the types of
 machines that can support a Standard Forth. This is accomplished by
 allowing some key Forth terms to be implementation-defined (e.g., how
 big is a cell?) and by providing Forth operators (words) that conceal
@@ -27,7 +31,7 @@ a programmer to write Forth programs that work on a wide variety of
 machines.
 
 The remainder of this Annex provides guidelines for writing portable
-ANS Forth programs. The first section describes ways to make a program
+\remove{F94}{ANS} Forth programs. The first section describes ways to make a program
 hardware independent. It is difficult for someone familiar with only
 one machine architecture to imagine the problems caused by transporting
 programs between dissimilar machines. Consequently, examples of specific
@@ -42,10 +46,10 @@ programmers make, but can't be relied upon in a portable program.
 
 Data and memory are the stones and mortar of program construction.
 Unfortunately, each computer treats data and memory differently. The
-ANS Forth Systems Standard gives definitions of data and memory that
+\remove{F94}{ANS} Forth Systems Standard gives definitions of data and memory that
 apply to a wide variety of computers. These definitions give us a way
 to talk about the common elements of data and memory while ignoring
-the details of specific hardware. Similarly, ANS Forth programs that
+the details of specific hardware. Similarly, \remove{F94}{ANS Forth} programs that
 use data and memory in ways that conform to these definitions can
 also ignore hardware details. The following sections discuss the
 definitions and describe how to write programs that are independent
@@ -53,8 +57,8 @@ of the data/memory peculiarities of different computers.
 
 \subsection{Definitions} % E.2.2
 
-Three terms defined by ANS Forth are address unit, cell, and character.
-The address space of an ANS Forth system is divided into an array of
+Three terms defined by \remove{F94}{ANS} Forth are address unit, cell, and character.
+The address space of \replace{F94}{an ANS}{a} Forth system is divided into an array of
 address units; an address unit is the smallest collection of bits that
 can be addressed. In other words, an address unit is the number of
 bits spanned by the addresses \emph{addr} and \emph{addr}+1. The most
@@ -68,11 +72,11 @@ several Forth-in-hardware computers are cell addressed.
 The cell is the fundamental data type of a Forth system. A cell can
 be a single-cell integer or a memory address. Forth's parameter and
 return stacks are stacks of cells. Forth 83 specifies that a cell is
-16-bits. In ANS Forth the size of a cell is an implementation-defined
-number of address units. Thus, an ANS Forth implemented on a 16-bit
+16-bits. In \replace{F94}{ANS Forth}{this standard} the size of a cell is an implementation-defined
+number of address units. Thus, an \remove{F94}{ANS Forth} implemented on a 16-bit
 microprocessor could use a 16-bit cell and an implementation on a
 32-bit machine could use a 32-bit cell. Also 18-bit machines, 36-bit
-machines, etc., could support ANS Forth systems with 18 or 36-bit
+machines, etc., could support \remove{F94}{ANS} Forth systems with 18 or 36-bit
 cells respectively. In all of these systems, \word{DUP} does the same
 thing: it duplicates the top of the data stack. \word{!} (store)
 behaves consistently too: given two cells on the data stack it
@@ -92,7 +96,7 @@ where a 16-bit character makes the most sense.
 
 \subsection{Addressing memory} % E.2.3
 
-ANS Forth eliminates many portability problems by using the above
+\replace{F94}{ANS Forth}{We} eliminates many portability problems by using the above
 definitions. One of the most common portability problems is addressing
 successive cells in memory. Given the memory address of a cell, how
 do you find the address of the next cell? In Forth 83 this is easy:
@@ -112,7 +116,7 @@ defining word to create an array of cells using Forth 83 would be:
 \end{quote}
 Use of \word{2*} to scale the array index assumes byte addressing and
 16-bit cells again. As in the example above, different versions of
-the code would be needed for different machines. ANS Forth provides
+the code would be needed for different machines. \replace{F94}{ANS Forth provides}{We provide}
 a portable scaling operator named \word{CELLS}. Given a number \param{n},
 \word{CELLS} returns the number of address units needed to hold \param{n}
 cells. A portable definition of array is:
@@ -121,10 +125,10 @@ cells. A portable definition of array is:
 	\hspace*{2em}\word{DOES} \word{SWAP} \word{CELLS} \word{+} \word{;}
 \end{quote}
 There are also portability problems with addressing arrays of
-characters. In Forth 83 (and in the most common ANS Forth
+characters. In Forth 83 (and in the most common \remove{F94}{ANS Forth}
 implementations), the size of a character will equal the size of an
 address unit. Consequently addresses of successive characters in
-memory can be found using 1+ and scaling indices into a character
+memory can be found using \word{1+} and scaling indices into a character
 array is a no-op (i.e., \texttt{1 *}). However, there are cases where
 a character is larger than an address unit. Examples include (1)
 systems with small address units (e.g., bit- and nibble-addressed
@@ -133,7 +137,7 @@ characters on a byte-addressed machine). \word{CHAR+} and \word{CHARS}
 operators, analogous to \word{CELL+} and \word{CELLS} are available
 to allow maximum portability.
 
-ANS Forth generalizes the definition of some Forth words that operate
+\remove{F94}{ANS} Forth generalizes the definition of some Forth words that operate
 on chunks of memory to use address units. One example is \word{ALLOT}.
 By prefixing \word{ALLOT} with the appropriate scaling operator
 (\word{CELLS}, \word{CHARS}, etc.), space for any desired data structure
@@ -152,17 +156,17 @@ source destination 8 \word{CELLS} \word{MOVE} \word{p} move 8 cells)
 
 Not all addresses are created equal. Many processors have restrictions
 on the addresses that can be used by memory access instructions. This
-Standard does not require an implementor of an ANS Forth to make
+Standard does not require an implementor \remove{F94}{of an ANS Forth} to make
 alignment transparent; on the contrary, it requires (in Section
-\xref[3.3.3.1 Address alignment]{usage:aaddr}) that an ANS Forth
+\xref[3.3.3.1 Address alignment]{usage:aaddr}) that \replace{F94}{an ANS}{a} Forth
 program assume that character and cell alignment may be required.
 
- One of the most common problems caused by alignment restrictions
- is in creating tables containing both characters and cells. When
- \word{,} (comma) or \word{C,} is used to initialize a table, data
- is stored at the data-space pointer. Consequently, it must be
- suitably aligned. For example, a non-portable table definition
- would be:
+One of the most common problems caused by alignment restrictions
+is in creating tables containing both characters and cells. When
+\word{,} (comma) or \word{C,} is used to initialize a table, data
+is stored at the data-space pointer. Consequently, it must be
+suitably aligned. For example, a non-portable table definition
+would be:
 \begin{quote}\ttfamily
 	\word{CREATE} ATABLE 1 \word{C,} X \word{,} 2 \word{C,} Y \word{,}
 \end{quote}
@@ -247,7 +251,7 @@ The remainder of this section is a (non-exhaustive) list of things to
 watch for when portability between machines with binary representations
 other than two's complement is desired.
 
-To convert a single-cell number to a double-cell number, ANS Forth
+To convert a single-cell number to a double-cell number, \remove{F94}{ANS} Forth
 provides the operator \word{StoD}. To convert a double-cell number to
 single-cell, Forth programmers have traditionally used \word{DROP}.
 However, this trick doesn't work on sign-magnitude machines. For
@@ -259,9 +263,9 @@ by pushing a zero on the stack.
 \section{Forth system implementation} % E.4
 
 During Forth's history, an amazing variety of implementation techniques
-have been developed. The ANS Forth Standard encourages this diversity
+have been developed. The \remove{F94}{ANS} Forth Standard encourages this diversity
 and consequently restricts the assumptions a user can make about the
-underlying implementation of an ANS Forth system. Users of a particular
+underlying implementation of \replace{F94}{an ANS}{a} Forth system. Users of a particular
 Forth implementation frequently become accustomed to aspects of the
 implementation and assume they are common to all Forths. This section
 points out many of these incorrect assumptions.
@@ -276,8 +280,8 @@ components are called the name, link, code, and parameter fields%
 They are mentioned here for historical continuity.
 }. No method for accessing these fields has been found that works
 across all of the Forth implementations currently in use. Therefore,
-ANS Forth severely restricts how the fields may be used. Specifically,
-a portable ANS Forth program may not use the name, link, or code field
+\remove{F94}{ANS} Forth severely restricts how the fields may be used. Specifically,
+a portable \remove{F94}{ANS} Forth program may not use the name, link, or code field
 in any way. Use of the parameter field (renamed to data field for
 clarity) is limited to the operations described below.
 
@@ -293,7 +297,7 @@ defining word operates on a data field. Since only \word{CREATE}d words
 have data fields, \word{DOES} can only be paired with \word{CREATE} or
 words that call \word{CREATE}.
 
-In ANS Forth, \word{FIND}, \word{[']} and \word{'} (tick) return an
+In \remove{F94}{ANS} Forth, \word{FIND}, \word{[']} and \word{'} (tick) return an
 unspecified entity called an ``execution token''. There are only a
 few things that may be done with an execution token. The token may be
 passed to \word{EXECUTE} to execute the word ticked or compiled into
@@ -306,7 +310,7 @@ One thing that definitely cannot be done with an execution token is
 use \word{!} or \word{,} to store it into the object code of a Forth
 definition. This technique is sometimes used in implementations where
 the object code is a list of addresses (threaded code) and an execution
-token is also an address. However, ANS Forth permits native code
+token is also an address. However, \remove{F94}{ANS} Forth permits native code
 implementations where this will not work.
 
 
@@ -376,11 +380,11 @@ could be extended to additional partitions of the data space.
 
 \section{Summary} % E.6
 
-The ANS Forth Standard cannot and should not force anyone to write
+The \remove{F94}{ANS} Forth Standard cannot and should not force anyone to write
 a portable program. In situations where performance is paramount,
 the programmer is encouraged to use every trick in the book. On the
 other hand, if portability to a wide variety of systems is needed,
-ANS Forth provides the tools to accomplish this. There is probably
+\remove{F94}{ANS} Forth provides the tools to accomplish this. There is probably
 no such thing as a completely portable program. A programmer, using
 this guide, should intelligently weigh the tradeoffs of providing
 portability to specific machines. For example, machines that use
