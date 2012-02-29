@@ -297,7 +297,9 @@ See:
 
 \section{Compliance and labeling} % 12.5
 
-\subsection{ANS Forth systems} % 12.5.1
+\cbstart\patch{F94}
+\subsection[Forth systems]{ANS\strike{3.5}{25} Forth systems} % 12.5.1
+\cbend
 
 The phrase ``Providing the Floating-Point word set'' shall be
 appended to the label of any Standard System that provides all of
@@ -312,7 +314,9 @@ The phrase ``Providing the Floating-Point Extensions word set'' shall
 be appended to the label of any Standard System that provides all of
 the Floating-Point and Floating-Point Extensions word sets.
 
-\subsection{ANS Forth programs} % 12.5.2
+\cbstart\patch{F94}
+\subsection[Forth programs]{ANS\strike{3.5}{25} Forth programs} % 12.5.2
+\cbend
 
 The phrase ``Requiring the Floating-Point word set'' shall be
 appended to the label of Standard Programs that require the system
@@ -381,7 +385,7 @@ word sets.
 
 		While \word{toFLOAT} is not required to treat a string of blanks
 		as zero, this behavior is strongly encouraged, since a future
-		version of \replace{F94}{ANS Forth}{the standard} may include such a requirement.
+		version of \replace{F94}{ANS Forth}{this standard} may include such a requirement.
 	\end{rationale}
 \end{worddef}
 
@@ -1167,7 +1171,7 @@ word sets.
 \end{worddef}
 
 
-\begin{worddef}[FEd]{1513}{FE.}[f-e-dot]
+\begin{worddef}[FEd]{1513}{FE.{}}[f-e-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
 
@@ -1325,7 +1329,7 @@ word sets.
 \end{worddef}
 
 
-\begin{worddef}[FSd]{1613}{FS.}[f-s-dot]
+\begin{worddef}[FSd]{1613}{FS.{}}[f-s-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
 

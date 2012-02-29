@@ -62,7 +62,9 @@ See: \xref[3.4.1.3 Text interpreter input number conversion]{usage:numbers}.
 
 \section{Compliance and labeling} % 8.5
 
-\subsection{ANS Forth systems} % 8.5.1
+\cbstart\patch{F94}
+\subsection[Forth systems]{ANS\strike{3.5}{25} Forth systems} % 8.5.1
+\cbend
 
 The phrase ``Providing the Double-Number word set'' shall be
 appended to the label of any Standard System that provides all
@@ -78,7 +80,9 @@ shall be appended to the label of any Standard System that
 provides all of the Double-Number and Double-Number Extensions
 word sets.
 
-\subsection{ANS Forth programs} % 8.5.2
+\cbstart\patch{F94}
+\subsection[Forth programs]{ANS\strike{3.5}{25} Forth programs} % 8.5.2
+\cbend
 
 The phrase ``Requiring the Double-Number word set'' shall be
 appended to the label of Standard Programs that require the
@@ -288,7 +292,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1060}{D.}[d-dot]
+\begin{worddef}[Dd]{1060}{D.{}}[d-dot]
 \item \stack{d}{}
 
 	Display \param{d} in free field format.
@@ -328,11 +332,11 @@ Extensions word sets.
 		\word{:} DoubleOutput \\
 		\tab \word{CR} \word{.q} You should see lines duplicated:" \word{CR} \\
 		\tab  5 \word{SPACES} "dbl1" \word{TYPE} \word{CR} \\
-		\tab  5 \word{SPACES}  dbl1  \word{D.} \word{CR} \\
+		\tab  5 \word{SPACES}  dbl1  \word{Dd} \word{CR} \\
 		\tab  8 \word{SPACES} "dbl1" \word{DUP} \word{toR} \word{TYPE} \word{CR} \\
 		\tab  5 \word{SPACES}  dbl1  \word{Rfrom} 3 \word{+} \word{D.R} \word{CR} \\
 		\tab  5 \word{SPACES} "dbl2" \word{TYPE} \word{CR} \\
-		\tab  5 \word{SPACES}  dbl2  \word{D.} \word{CR} \\
+		\tab  5 \word{SPACES}  dbl2  \word{Dd} \word{CR} \\
 		\tab 10 \word{SPACES} "dbl2" \word{DUP} \word{toR} \word{TYPE} \word{CR} \\
 		\tab  5 \word{SPACES}  dbl2  \word{Rfrom} 5 \word{+} \word{D.R} \word{CR} \\
 		\word{;}
