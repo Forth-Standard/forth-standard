@@ -52,7 +52,11 @@ $^{\mbox{\small
 \vfill
 \begin{figure}[ht]
   \begin{center}
-	\includegraphics[bb=0 0 500 252,width=0.6\textwidth]{logo.png}
+	\ifrelease
+		\includegraphics[bb=0 0 500 252, width=0.6\textwidth]{forth\snapshot.png}
+	\else
+		\includegraphics[bb=0 0 500 252,width=0.6\textwidth]{logo.png}
+	\fi
   \end{center}
 \end{figure}
 \vfill
@@ -87,12 +91,10 @@ $^{\mbox{\small
 %commercial or for-profit reproduction is strictly prohibited.
 
 
-%\ifdraft
 \textbf{Notice: \emph{Status of this Document}} \\
 This is a draft proposed Standard to replace ANSI X3.215-1994. As
 such, this is not a completed standard. The Standardisation Committee
 may modify this document during the course of its work.
-%\fi
 
 
 %
