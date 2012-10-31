@@ -62,8 +62,8 @@ See: \xref[3.4.1.3 Text interpreter input number conversion]{usage:numbers}.
 
 \section{Compliance and labeling} % 8.5
 
-\cbstart\patch{F94}
-\subsection[Forth systems]{ANS\strike{3.5}{25} Forth systems} % 8.5.1
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 8.5.1
 \cbend
 
 The phrase ``Providing the Double-Number word set'' shall be
@@ -80,8 +80,8 @@ shall be appended to the label of any Standard System that
 provides all of the Double-Number and Double-Number Extensions
 word sets.
 
-\cbstart\patch{F94}
-\subsection[Forth programs]{ANS\strike{3.5}{25} Forth programs} % 8.5.2
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 8.5.2
 \cbend
 
 The phrase ``Requiring the Double-Number word set'' shall be
@@ -678,7 +678,7 @@ Extensions word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef}{}{2VALUE}[two-value][X:2value]
+\begin{worddef}{0435}{2VALUE}[two-value][X:2value]
 \item \stack{x_1 x_2 "<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
