@@ -271,15 +271,9 @@ glossary entries of the relevant words:
 	 \wref{core:SIGN}{SIGN}).
 \end{itemize}
 
-The following specific ambiguous conditions are have been introduced
-as a consequence of specific extensions.
-
-\begin{description}
-
 % ==== X:Deferred ====
 
-\item[\textsf{X:deferred}] ~
-	\begin{itemize}
+\begin{itemize}
 \item access to a deferred word, a word defined by \wref{core:DEFER}{DEFER},
 	which has yet to be assigned to an \param{xt}.
 
@@ -289,17 +283,15 @@ as a consequence of specific extensions.
 \item \wref{core:POSTPONE}{POSTPONE}, \wref{core:[COMPILE]}{[COMPILE]},
 	\wref{core:[']}{[']} or \wref{core:'}{'} applied to \wref{core:ACTION-OF}{ACTION-OF}
 	or \wref{core:IS}{IS}.
-	\end{itemize}
+\end{itemize}
 
 % ==== X: Escaped Strings ====
 
-\item[\textsf{X:escaped-strings}]~
-	\begin{itemize}
+\begin{itemize}
 	\item \bs{x} is not followed by two hexadecimal characters (\wref{core:Seq}{}).
 	\item a \bs{} is placed before any character, other than those defined in
 		\wref{core:Seq}{}.
-	\end{itemize}
-\end{description}
+\end{itemize}
 
 
 \subsection{Other system documentation} % 4.1.3
