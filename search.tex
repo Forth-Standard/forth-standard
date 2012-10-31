@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{The optional Search-Order word set} % 16
 \wordlist{search}
 
@@ -143,8 +144,8 @@ non-contiguous if \word{WORDLIST} is executed between allocations.
 
 \section{Compliance and labeling} % 16.5
 
-\cbstart\patch{F94}
-\subsection[Forth systems]{ANS\strike{3.5}{25} Forth systems} % 16.5.1
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 16.5.1
 \cbend
 
 The phrase ``Providing the Search-Order word set'' shall be
@@ -160,8 +161,8 @@ The phrase ``Providing the Search-Order Extensions word set'' shall
 be appended to the label of any Standard System that provides all of
 the Search-Order and Search-Order Extensions word sets.
 
-\cbstart\patch{F94}
-\subsection[Forth programs]{ANS\strike{3.5}{25} Forth programs} % 16.5.2
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 16.5.2
 \cbend
 
 The phrase ``Requiring the Search-Order word set'' shall be appended
@@ -193,6 +194,18 @@ sets.
 	compilation word list.
 
 \see \xref[16.3.3 Finding Definition Names]{search:find}.
+
+	\begin{implement}
+\cbstart\patch{ed12}
+		\uline{\word{:} discard \word{p} x1 {\ldots} xn u -{}- ) \bs{} \textdf{Drop u+1 stack items}} \\
+		\tab \uline{0 \word{qDO} \word{DROP} \word{LOOP}} \\
+		\uline{\word{;}}
+
+		\uline{\word{:} \word{DEFINITIONS} \word{p} -{}- )} \\
+		\tab \uline{\word{GET-ORDER} \word{SWAP}  \word{SET-CURRENT} discard} \\
+		\uline{\word{;}}
+\cbend
+	\end{implement}
 
 	\begin{testing}\ttfamily
 		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS}}{} \\
@@ -252,6 +265,27 @@ sets.
 	\wref{core:[']}{[']},
 	\xref[D.6.7 Immediacy]{diff:immediate}.
 
+	\begin{implement}
+\cbstart\patch{ed12}
+		\uline{\textdf{Assuming {\tt\#order} and {\tt context} are defined as per \iref{search:GET-ORDER}{}.}}
+
+		\begin{tabbing}
+		\tab \= \tab \= \tab \= \tab \= 2swap 2drop leave \tab \= \kill
+		\uline{\word{:} \word{FIND} \word{p} c-addr -{}- c-addr 0 | xt 1 | xt -1 )} \+ \\
+			\uline{0} 														\>\>\>\>	\uline{\word{p} c-addr 0 )} \\
+			\uline{\#order \word{@} 0 \word{qDO}} \+ \\
+				\uline{\word{OVER} \word{COUNT}}							\>\>\>	\uline{\word{p} c-addr 0 c-addr' u )} \\
+				\uline{\word{I} \word{CELLS} context \word{+} \word{@}}		\>\>\>	\uline{\word{p} c-addr 0 c-addr' u wid )} \\
+				\uline{\word{SEARCH-WORDLIST}}							\>\>\>	\uline{\word{p} c-addr 0; 0 | w 1 | q -1 )} \\
+				\uline{\word{qDUP} \word{IF}}								\>\>\>	\uline{\word{p} c-addr 0; w 1 | w -1 )} \+ \\
+				\>	\uline{\word{2SWAP} \word{2DROP} \word{LEAVE}}		\>		\uline{\word{p} w 1 | w -1 )}  \\
+				\uline{\word{THEN}}										\>\>	\uline{\word{p} c-addr 0 )} \- \\
+			\uline{\word{LOOP}}											\>\>\>	\uline{\word{p} c-addr 0 | w 1 | w -1 )} \- \\
+		\uline{\word{;}}
+		\end{tabbing}
+\cbend
+	\end{implement}
+
 	\begin{testing}\ttfamily
 		\word{:} c"dup" \word{Cq} DUP" \word{;} \\
 		\word{:} c".("~ \word{Cq} .("~ \word{;} \\
@@ -293,6 +327,23 @@ sets.
 	identifying these word lists. \param{wid_1} identifies the word
 	list that is searched first, and \param{wid_n} the word list that
 	is searched last. The search order is unaffected.
+
+	\begin{implement}
+\cbstart\patch{ed12}
+		\uline{\textdf{Here is a very simple search order implementation:}}
+
+		\uline{\word{VARIABLE} \#order}
+
+		\uline{\word{CREATE} context  ~ 16 \word{p} wordlists ) \word{CELLS} \word{ALLOT}}
+
+		\uline{\word{:} \word{GET-ORDER} \word{p} -{}- wid1 {\ldots} widn n )} \\
+		\tab \uline{\#order \word{@} 0 \word{qDO}} \\
+		\tab[2] \uline{\#order \word{@} \word{I} \word{-} \word{1-} \word{CELLS} context \word{+} \word{@}} \\
+		\tab \uline{\word{LOOP}} \\
+		\tab \uline{\#order \word{@}} \\
+		\uline{\word{;}}
+\cbend
+	\end{implement}
 \end{worddef}
 
 
@@ -308,20 +359,22 @@ sets.
 \see \rref{search:SEARCH-WORDLIST}{}.
 
 	\begin{rationale} % A.16.6.1.219  SEARCH-WORDLIST
+\cbstart\patch{ed12}\sout{%
 		The string argument to \word{SEARCH-WORDLIST} is represented
-		by \param{c-addr u}, rather than by just \param{c-addr} as
+		by \emph{c-addr u}, rather than by just \emph{c-addr} as
 		with \word{FIND}. The committee wishes to establish
-		\param{c-addr u} as the preferred representation of a string
+		\emph{c-addr u} as the preferred representation of a string
 		on the stack, and has adopted that representation for all new
 		functions that accept string arguments. While this decision
 		may cause the implementation of \word{SEARCH-WORDLIST} to be
 		somewhat more difficult in existing systems, the committee
-		feels that the additional difficulty is minor.
+		feels that the additional difficulty is minor.}
 
 		When \word{SEARCH-WORDLIST} fails to find the word, it does
-		not return the string, as does \word{FIND}. This is in
+		not return the string, \sout{as does} \uline{unlike} \word{FIND}. This is in
 		accordance with the general principle that Forth words consume
 		their arguments.
+\cbend
 	\end{rationale}
 
 	\begin{testing}\ttfamily
@@ -366,6 +419,20 @@ sets.
 	order shall include the words \word{FORTH-WORDLIST} and
 	\word{SET-ORDER}. A system shall allow \param{n} to be at least
 	eight.
+
+	\begin{implement}
+\cbstart\patch{ed12}
+		\uline{\textdf{This is the complement of \iref{search:GET-ORDER}{}.}}
+
+		\uline{\word{:} \word{SET-ORDER} \word{p} wid1 {\ldots} widn n -{}0 )} \\
+		\tab \uline{\word{DUP} -1 \word{=} \word{IF}} \\
+		\tab[2] \uline{\word{DROP} \arg{\textdf{push system default word lists and n}}} \\
+		\tab \uline{\word{THEN}} \\
+		\tab \uline{\word{DUP} \#order \word{!}} \\
+		\tab \uline{0 \word{qDO} ~ \word{I} \word{CELLS} context \word{+} \word{!} ~ \word{LOOP}} \\
+		\uline{\word{;}}
+\cbend
+	\end{implement}
 
 	\begin{testing}\ttfamily
 		\test{\word{GET-ORDER} \word{OVER}     }{\word{GET-ORDER} wid1 \word{@}} \\% \word{bs} \textdf{Forth wordlist at top} \\
@@ -412,146 +479,162 @@ sets.
 	\param{wid_1}. An ambiguous condition exists if there are too
 	many word lists in the search order.
 
-\see \rref{search:ALSO}{}.
+\see \remove{ed12}{\rref{search:ALSO}{}.}
 
 	\begin{rationale} % A.16.6.2.0715 ALSO
+\cbstart\patch{ed12}
+\sout{%
 		Here is an implementation of \word{ALSO}/\word{ONLY} in terms
-		of the primitive search-order word set.
+		of the primitive search-order word set.}
+
 		\setwordlist{core}
 		\begin{quote}\ttfamily
-		\word[search]{WORDLIST} \word{CONSTANT} ROOT ~
-		ROOT \word[search]{SET-CURRENT}
+		\sout{\word[search]{WORDLIST} \word{CONSTANT} ROOT ~
+		ROOT \word[search]{SET-CURRENT}}
 
-		\word{:} DO-VOCABULARY~~\word{p} -{}- )
-			\word{bs} Implementation factor \\
-		\tab\word{DOES}~~\word{@} \word{toR}
-				~~~~~~~~~\word{p} ) \word{p} R: widnew ) \\
-		\tab~\word[search]{GET-ORDER} \word{SWAP} \word{DROP}
-				\word{p} wid1 {\ldots} widn-1 n ) \\
-		\tab~\word{Rfrom} \word{SWAP} \word[search]{SET-ORDER} \\
-		\word{;}
+		\sout{\word{:} DO-VOCABULARY~~\word{p} -{}- )
+			\word{bs} Implementation factor} \\
+		\sout{\tab\word{DOES}~~\word{@} \word{toR}
+				~~~~~~~~~\word{p} ) \word{p} R: widnew )} \\
+		\sout{\tab~\word[search]{GET-ORDER} \word{SWAP} \word{DROP}
+				\word{p} wid1 {\ldots} widn-1 n )} \\
+		\sout{\tab~\word{Rfrom} \word{SWAP} \word[search]{SET-ORDER}} \\
+		\sout{\word{;}}
 
-		\word{:} DISCARD~~\word{p} x1 {\ldots} xu u -{}- )
-			\word{bs} Implementation factor \\
-		\tab 0 \word{qDO} \word{DROP} \word{LOOP}
-			~~~~~~~~~~~~\word{bs} DROP u+1 stack items \\
-		\word{;}
+		\sout{\word{:} DISCARD~~\word{p} x1 {\ldots} xu u -{}- )
+			\word{bs} Implementation factor} \\
+		\sout{\tab 0 \word{qDO} \word{DROP} \word{LOOP}
+			~~~~~~~~~~~~\word{bs} DROP u+1 stack items} \\
+		\sout{\word{;}}
 
-		\word{CREATE} \word[search]{FORTH}
-		\word[search]{FORTH-WORDLIST} \word{,} DO-VOCABULARY
+		\sout{\word{CREATE} \word[search]{FORTH}
+		\word[search]{FORTH-WORDLIST} \word{,} DO-VOCABULARY}
 
-		\word{:} VOCABULARY ~\word{p} name -{}- )
+		\sout{\word{:} VOCABULARY ~\word{p} name -{}- )
 			\word[search]{WORDLIST} \word{CREATE} \word{,} DO-VOCABULARY
-		\word{;}
+		\word{;}}
 
-		\word{:} \word[search]{ALSO} ~~~~~~~\word{p} -{}- )
+		\sout{\word{:} \word[search]{ALSO} ~~~~~~~\word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{OVER}
 			\word{SWAP} 1+ \word[search]{SET-ORDER}
-		\word{;}
+		\word{;}}
 
-		\word{:} \word[search]{PREVIOUS} ~~~\word{p} -{}- )
+		\sout{\word{:} \word[search]{PREVIOUS} ~~~\word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{SWAP}
 			\word{DROP} 1- \word[search]{SET-ORDER}
-		\word{;}
+		\word{;}}
 
-		\word{:} \word[search]{DEFINITIONS} \word{p} -{}- )
+		\sout{\word{:} \word[search]{DEFINITIONS} \word{p} -{}- )
 			\word[search]{GET-ORDER} ~ \word{OVER}
 			\word[search]{SET-CURRENT} DISCARD
-		\word{;}
+		\word{;}}
 
-		\word{:} \word[search]{ONLY} ~~~~~~~\word{p} -{}- )
+		\sout{\word{:} \word[search]{ONLY} ~~~~~~~\word{p} -{}- )
 			ROOT ROOT ~ 2 \word[search]{SET-ORDER}
-		\word{;}
+		\word{;}}
 
-		\word{bs} Forth-83 version; just removes ONLY
+		\sout{\word{bs} Forth-83 version; just removes ONLY}
 
-		\word{:} SEAL \word{p} -{}- )
+		\sout{\word{:} SEAL \word{p} -{}- )
 			\word[search]{GET-ORDER} \word{1-}
 			\word[search]{SET-ORDER} \word{DROP}
-		\word{;}
+		\word{;}}
 
-		\word{bs} F83 and F-PC version; leaves only CONTEXT
+		\sout{\word{bs} F83 and F-PC version; leaves only CONTEXT}
 
-		\word{:} SEAL \word{p} -{}- )
+		\sout{\word{:} SEAL \word{p} -{}- )
 			\word[search]{GET-ORDER} \word{OVER}
 			1 \word[search]{SET-ORDER} DISCARD
-		\word{;}
+		\word{;}}
 		\end{quote}
 		\setwordlist{search}
 
+\sout{%
 		The preceding definition of \word{ONLY} in terms of a
 		``\texttt{ROOT}'' word list follows F83 usage, and assumes
 		that the default search order just includes \texttt{ROOT} and
 		\word{FORTH}. A more portable definition of \word{FORTH} and
-		\word{ONLY}, without the assumptions, is:
+		\word{ONLY}, without the assumptions, is:}
+
 		\begin{quote}\ttfamily
-		<omit the {\ldots}
+		\sout{<omit the {\ldots}
 			\word{WORDLIST} \word[core]{CONSTANT} ROOT
-		{\ldots} line>
+		{\ldots} line>}
 
-		\word[core]{CREATE} \word{FORTH} \word{GET-ORDER}
-			\word[core]{OVER} \word[core]{,} DISCARD DO-VOCABULARY
+		\sout{\word[core]{CREATE} \word{FORTH} \word{GET-ORDER}
+			\word[core]{OVER} \word[core]{,} DISCARD DO-VOCABULARY}
 
-		\word[core]{:} \word{ONLY} \word[core]{p} -{}- )
+		\sout{\word[core]{:} \word{ONLY} \word[core]{p} -{}- )
 			-1 \word{SET-ORDER}
-		\word[core]{;}
+		\word[core]{;}}
 		\end{quote}
 
+\sout{%
 		Here is a simple implementation of \word{GET-ORDER} and
 		\word{SET-ORDER}, including a corresponding definition of
 		\word{FIND}. The implementations of \word{WORDLIST},
 		\word{SEARCH-WORDLIST}, \word{GET-CURRENT} and
 		\word{SET-CURRENT} depend on system details and are not given
-		here.
+		here.}
 
 		\setwordlist{core}
 		\begin{quote}\ttfamily
-		16 \word{CONSTANT} \#VOCS
+		\sout{16 \word{CONSTANT} \#VOCS}
 
-		\word{VARIABLE} \#ORDER
+		\sout{\word{VARIABLE} \#ORDER}
 
-		\word{CREATE} CONTEXT ~ \#VOCS \word{CELLS} \word{ALLOT}
+		\sout{\word{CREATE} CONTEXT ~ \#VOCS \word{CELLS} \word{ALLOT}}
 
-		\word{:} \word[search]{GET-ORDER}~~\word{p} -{}- wid1 {\ldots} widn n ) \\
-		\tab \#ORDER \word{@} 0 \word{qDO} \\
-		\tab~ \#ORDER \word{@} ~ \word{I} \word{-}
-			  \word{1-} \word{CELLS} CONTEXT \word{+} \word{@} \\
-		\tab \word{LOOP} \\
-		\tab \#ORDER \word{@} \\
-		\word{;}
+		\sout{\word{:} \word[search]{GET-ORDER}~~\word{p} -{}- wid1 {\ldots} widn n )} \\
+		\tab \sout{\#ORDER \word{@} 0 \word{qDO}} \\
+		\tab~ \sout{\#ORDER \word{@} ~ \word{I} \word{-}
+			  \word{1-} \word{CELLS} CONTEXT \word{+} \word{@}} \\
+		\tab \sout{\word{LOOP}} \\
+		\tab \sout{\#ORDER \word{@}} \\
+		\sout{\word{;}}
 
-		\word{:} \word[search]{SET-ORDER}~~\word{p} wid1 {\ldots} widn n -{}- ) \\
-		\tab \word{DUP} -1 \word{=} \word{IF} \\
-		\tab~ \word{DROP} <push system default word lists and n> \\
-		\tab \word{THEN} \\
-		\tab \word{DUP} \#ORDER \word{!} \\
-		\tab 0 \word{qDO} ~
+		\sout{\word{:} \word[search]{SET-ORDER}~~\word{p} wid1 {\ldots} widn n -{}- )} \\
+		\tab \sout{\word{DUP} -1 \word{=} \word{IF}} \\
+		\tab~ \sout{\word{DROP} <push system default word lists and n>} \\
+		\tab \sout{\word{THEN}} \\
+		\tab \sout{\word{DUP} \#ORDER \word{!}} \\
+		\tab \sout{0 \word{qDO} ~
 			\word{I} \word{CELLS} CONTEXT \word{+} \word{!}
-		\word{LOOP} \\
-		\word{;}
+		\word{LOOP}} \\
+		\sout{\word{;}}
 
 		\begin{tabbing}
 		\tab \= \tab \= \tab \= \hspace{10.5em} \= \kill
-		\+ \word{:} \word[search]{FIND}~ \word{p} c-addr -{}- c-addr 0 | w 1 | w -1 ) \\
-				0												\>\>\> \word{p} c-addr 0 ) \\
-			\+	\#ORDER \word{@} 0 \word{qDO} \\
-				\word{OVER} \word{COUNT}						\>\> \word{p} c-addr 0 c-addr' u ) \\
-				\word{I} \word{CELLS} CONTEXT \word{+} \word{@}	\>\> \word{p} c-addr 0 c-addr' u wid) \\
-				\word[search]{SEARCH-WORDLIST}					\>\> \word{p} c-addr 0; 0 | w 1 | w -1 ) \\
-				\word{qDUP} \word{IF}							\>\> \word{p} c-addr 0; w 1 | w -1 ) \\
-				\> \word{2SWAP} \word{2DROP} \word{LEAVE}		\>	 \word{p} w 1 | w -1 ) \\
-			\-	\word{THEN}										\>\> \word{p} c-addr 0 ) \\
-		\-	\word{LOOP}											\>\>\> \word{p} c-addr 0 | w 1 | w -1 ) \\
-		\word{;}
+		\+ \sout{\word{:} \word[search]{FIND}~ \word{p} c-addr -{}- c-addr 0 | w 1 | w -1 )} \\
+				\sout{0}												\>\>\> \sout{\word{p} c-addr 0 )} \\
+			\+	\sout{\#ORDER \word{@} 0 \word{qDO}} \\
+				\sout{\word{OVER} \word{COUNT}}						\>\> \sout{\word{p} c-addr 0 c-addr' u )} \\
+				\sout{\word{I} \word{CELLS} CONTEXT \word{+} \word{@}}	\>\> \sout{\word{p} c-addr 0 c-addr' u wid)} \\
+				\sout{\word[search]{SEARCH-WORDLIST}}					\>\> \sout{\word{p} c-addr 0; 0 | w 1 | w -1 )} \\
+				\sout{\word{qDUP} \word{IF}}							\>\> \sout{\word{p} c-addr 0; w 1 | w -1 )} \\
+				\> \sout{\word{2SWAP} \word{2DROP} \word{LEAVE}}		\>	 \sout{\word{p} w 1 | w -1 )} \\
+			\-	\sout{\word{THEN}}										\>\> \sout{\word{p} c-addr 0 )} \\
+		\-	\sout{\word{LOOP}}											\>\>\> \sout{\word{p} c-addr 0 | w 1 | w -1 )} \\
+		\sout{\word{;}}
 		\end{tabbing}
 		\end{quote}
 		\setwordlist{search}
 
+\sout{%
 		In an implementation where the dictionary search mechanism
 		uses a hash table or lookup cache to reduce the search time,
 		\word{SET-ORDER} might need to reconstruct the hash table or
-		flush the cache.
+		flush the cache.}
+\cbend
 	\end{rationale}
+
+	\begin{implement}
+\cbstart\patch{ed12}
+		\uline{\word{:} \word{ALSO} \word{p} -{}- )} \\
+		\tab \uline{\word{GET-ORDER} \word{OVER} \word{SWAP} \word{1+} \word{SET-ORDER}} \\
+		\uline{\word{;}}
+\cbend
+	\end{implement}
 
 	\begin{testing}
 		\test{\word{ALSO} \word{GET-ORDER} \word{ONLY}}{get-orderlist \word{OVER} \word{SWAP} \word{1+}}
@@ -566,6 +649,20 @@ sets.
 	\param{wid_2}, \param{wid_1} (where \param{wid_1} is searched
 	first) into \param{wid_n}, {\ldots} \param{wid_2},
 	\param{wid_{\word{FORTH-WORDLIST}}}.
+
+	\begin{implement}
+\cbstart\patch{ed12}
+	\uline{\word{:} (wordlist) \word{p} wid "<name>" -- ; )} \\
+	\tab \uline{\word{CREATE} \word{,}} \\
+	\tab \uline{\word{DOES}} \\
+	\tab[2] \uline{\word{@}  \word{toR}} \\
+	\tab[2] \uline{\word{GET-ORDER} \word{NIP}} \\
+	\tab[2] \uline{\word{Rfrom} \word{SWAP} \word{SET-ORDER}} \\
+	\uline{\word{;}}
+
+	\uline{\word{FORTH-WORDLIST} (wordlist) \word{FORTH}}
+\cbend
+	\end{implement}
 \end{worddef}
 
 
@@ -575,6 +672,10 @@ sets.
 	Set the search order to the implementation-defined minimum search
 	order. The minimum search order shall include the words
 	\word{FORTH-WORDLIST} and \word{SET-ORDER}.
+
+	\begin{implement}
+		\place{ed12}{\word{:} \word{ONLY} \word{p} -{}- ) -1 \word{SET-ORDER} \word{;}}
+	\end{implement}
 
 	\begin{testing}\ttfamily
 		\test{\word{ONLY} \word{FORTH} \word{GET-ORDER}}{get-orderlist}
@@ -619,4 +720,10 @@ sets.
 	first) into \param{wid_n}, {\ldots} \param{wid_2}. An ambiguous
 	condition exists if the search order was empty before
 	\word{PREVIOUS} was executed.
+
+	\begin{implement}
+		\place{ed12}{\word{:} \word{PREVIOUS} \word{p} -{}- )
+			 \word{GET-ORDER} \word{NIP} \word{1-} \word{SET-ORDER}
+		\word{;}}
+	\end{implement}
 \end{worddef}
