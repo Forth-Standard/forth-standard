@@ -38,6 +38,19 @@ application words.  It can also be used to define tests of words in
 a standard-conforming implementation.
 % An example is the test of the ANS Forth CORE word set.
 
+\place{ed12}{%
+Numerous people have contributed to the test cases given in section
+\ref{test:core} onwards.  The majority of the test cases have been
+taken from John Hayes' test suite\footnotemark, Gerry Jackson's test
+suite\footnotemark
+and David Williams with significant contributions from the committee.
+}
+
+\setcounter{footnote}{1}
+\footnotetext{\cbstart\uline{\url{http://www.taygeta.com/forth.html}}}
+\setcounter{footnote}{2}
+\footnotetext{\uline{\url{http://soton.mpeforth.com/flag/anstests/index.html}}\cbend}
+
 \section{Test Harness}
 \label{test:harness}
 
@@ -491,12 +504,12 @@ The test \tref{core:2*}{2*}, \tref{core:2/}{2/},
 \tref{core:LSHIFT}{LSHIFT}, and \tref{core:RSHIFT}{RSHIFT}
 can now be performed.
 
-\cbstart\patch{ed11}
-\subsection{Numeric notation\strike{-1}{130}}% A.3.4.1.3
+\subsection{Numeric notation}% A.3.4.1.3
 \label{test:numeric}
 
-\place{ed11}{The numeric representation provided by the \textsf{X:number-prefix}
-extension can be tested with the following test cases:}
+The numeric representation
+\remove{ed12}{provided by the \textsf{X:number-prefix} extension}
+can be tested with the following test cases:
 
 \begin{tt}
 	\word{DECIMAL} \\
@@ -514,7 +527,6 @@ extension can be tested with the following test cases:}
 	\test{\%-10010110.}{-150.      } \\
 	\test{'z' \       }{122        }
 \end{tt}
-\cbend
 
 \subsection{Comparisons}
 
@@ -939,24 +951,24 @@ that the word \texttt{\$\$UndefedWord\$\$} is undefined.
 These tests create files in the current directory, if all goes well
 these will be deleted.  If something fails they may not be deleted.
 If this is a problem ensure you set a suitable directory before
-running this test.  Currently, there is no ANS standard way of doing
+running this test.  Currently, there is no \remove{F12}{ANS} standard way of doing
 this.  the file names used in these test are:
 ``\texttt{fatest1.txt}'', ``\texttt{fatest2.txt}'' and
 ``\texttt{fatest3.txt}''.
 
 The test \tref{file:CREATE-FILE}{} also tests \word{CLOSE-FILE},
 \tref{file:WRITE-LINE}{} \linebreak also tests \word{W/O} and \word{OPEN-FILE},
-\tref{file:READ-LINE}{} includes a test for \word{R/O},
-\tref{file:REPOSITION-FILE} includes tests for \word{R/W},
-\word{WRITE-FILE}, \word{READ-FILE}, \word{FILE-POSITION}, and
-\word{Sq}.
+\tref{file:READ-LINE}{} includes a test for \word{R/O}, \linebreak
+\tref{file:REPOSITION-FILE}{} includes tests for \word{R/W},
+\word{WRITE-FILE}, \word{READ-FILE}, \linebreak
+\word{FILE-POSITION}, and \word{Sq}.
 The \tref{file:FILE-SIZE}{} test includes a test for \word{BIN}.
-The test \tref{file:RESIZE-FILE}{} should then be run followd by
+The test \linebreak \tref{file:RESIZE-FILE}{} should then be run followed by
 the \tref{file:DELETE-FILE}{} test.
 
 The \tref{file:p}{} test should be next, followed by
 \tref{file:SOURCE-ID}{} the test which test the extended versions of
-\word{p} and \word{SOURCE-ID} respectivly.
+\word{p} and \word{SOURCE-ID} respectively.
 
 Finally \tref{file:RENAME-FILE}{} tests the extended words
 \word{RENAME-FILE}, \word{FILE-STATUS}, and \word{FLUSH-FILE}.
@@ -1046,9 +1058,11 @@ is saved and the \texttt{get-orderlist} defined to access it.
 Having obtained a copy of the current wordlist, the testing of the
 wordlist can begin with test \tref{search:FORTH-WORDLIST}{} followed
 by \tref{search:SET-ORDER}{} which also test \word{GET-ORDER}, then
+\linebreak
 \tref{search:ALSO}{} and \tref{search:ONLY}{} before moving on to
 \tref{search:SET-CURRENT}{} which also test \word{GET-CURRENT} and
 \word{WORDLIST}.  This should be followed by the test
+\linebreak
 \tref{search:DEFINITIONS}{} which also tests \word{PREVIOUS} and the
 \tref{search:SEARCH-WORDLIST}{} and \tref{search:FIND}{} tests.
 Finally the \tref{search:ORDER}{} test can be performed.
