@@ -191,8 +191,8 @@ in-memory string handling should work transparently with xchars.
 
 \section{Compliance and labeling} % 18.5
 
-\cbstart\patch{F94}
-\subsection[Forth systems]{ANS\strike{3.5}{25} Forth systems} % 18.5.1
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 18.5.1
 \cbend
 
 The phrase ``Providing the Extended Character word set'' shall be
@@ -209,8 +209,8 @@ shall be appended to the label of any Standard System that provides
 all of the Extended Character and Extended Character Extensions
 word sets.
 
-\cbstart\patch{F94}
-\subsection[Forth programs]{ANS\strike{3.5}{25} Forth programs} % 18.5.2
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 18.5.2
 \cbend
 
 The phrase ``Requiring the Extended Character word set'' shall be
@@ -231,7 +231,7 @@ Extended Character Extensions word sets.
 
 \subsection{Extended Character words} % 18.6.1
 
-\begin{worddef}{}{X-SIZE}[][x:xchar]
+\begin{worddef}{2486}[50]{X-SIZE}[][x:xchar]
 \item \stack{xc-addr u_1}{u_2}
 
 	\param{u_2} is the number of pchars used to encode the first xchar
@@ -256,7 +256,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XC!+}[x-c-store-plus][x:xchar]
+\begin{worddef}{2487}[10]{XC!+}[x-c-store-plus][x:xchar]
 \item \stack{xchar xc-addr_1}{xc-addr_2}
 
 	Stores the \param{xchar} at \param{xc-addr_1}.  \param{xc-addr_2}
@@ -275,7 +275,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[XC!+q]{}{XC!+?}[x-c-store-plus-query][x:xchar]
+\begin{worddef}[XC!+q]{2487}[15]{XC!+?}[x-c-store-plus-query][x:xchar]
 \item \stack{xchar xc-addr_1 u_1}{xc-addr_2 u_2 flag}
 
 	Stores the \param{xchar} into the string buffer specified by
@@ -300,7 +300,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XC,}[x-c-comma][x:xchar]
+\begin{worddef}{2487}[20]{XC,}[x-c-comma][x:xchar]
 \item \stack{xchar}{}
 
 	Append the encoding of \param{xchar} to the dictionary.
@@ -313,7 +313,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XC-SIZE}[x-c-size][x:xchar]
+\begin{worddef}{2487}[25]{XC-SIZE}[x-c-size][x:xchar]
 \item \stack{xchar}{u}
 
 	\param{u} is the number of pchars used to encode \param{xchar} in memory.
@@ -344,7 +344,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XC@+}[x-c-fetch-plus][x:xchar]
+\begin{worddef}{2487}[35]{XC@+}[x-c-fetch-plus][x:xchar]
 \item \stack{xc-addr_1}{xc-addr_2 xchar}
 
 	Fetches the \param{xchar} at \param{xc-addr_1}.  \param{xc-addr_2}
@@ -376,13 +376,13 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XCHAR+}[x-char-plus][x:xchar]
+\begin{worddef}{2487}[40]{XCHAR+}[x-char-plus][x:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 
 	Adds the size of the xchar stored at \param{xc-addr_1} to this address,
 	giving \param{xc-addr_2}.
 
-\see \wref{core:CHAR+}{}.
+\see \remove{ed12}{\wref{core:CHAR+}{}.}
 
 	\begin{implement}
 	\word{:} \word{XCHAR+} \word{p} xc-addr -{}- xc-addr' )  \word{XC@+} \word{DROP} \word{;}
@@ -390,7 +390,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XEMIT}[x-emit][x:xchar]
+\begin{worddef}{2488}[10]{XEMIT}[x-emit][x:xchar]
 \item \stack{xchar}{}
 
 	Prints an \param{xchar} on the terminal.
@@ -410,7 +410,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XKEY}[x-key][x:xchar]
+\begin{worddef}{2488}[30]{XKEY}[x-key][x:xchar]
 \item \stack{}{xchar}
 
 	Reads an \param{xchar} from the terminal.  This will discard all input
@@ -430,7 +430,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[XKEYq]{}{XKEY?}[x-key-query][x:xchar]
+\begin{worddef}[XKEYq]{2488}[35]{XKEY?}[x-key-query][x:xchar]
 \item \stack{}{flag}
 
 	\param{Flag} is true when it's possible to do \word{XKEY} without
@@ -445,7 +445,7 @@ Extended Character Extensions word sets.
 \subsection{Extended Character extension words} % 18.6.2
 \extended
 
-\begin{worddef}{}{+X/STRING}[plus-x-string][x:xchar]
+\begin{worddef}{0145}{+X/STRING}[plus-x-string][x:xchar]
 \item \stack{xc-addr_1 u_1}{xc-addr_2 u_2}
 
 	Step forward by one xchar in the buffer defined by \param{xc-addr_1 u_1}.
@@ -459,7 +459,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{-TRAILING-GARBAGE}[minus-trailing-garbage][x:xchar]
+\begin{worddef}{0175}{-TRAILING-GARBAGE}[minus-trailing-garbage][x:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
 	Examine the last xchar in the string \param{xc-addr u_1} --- if the
@@ -500,7 +500,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[EKEYtoXCHAR]{}{EKEY>XCHAR}[e-key-to-x-char][x:xchar]
+\begin{worddef}[EKEYtoXCHAR]{1306}[60]{EKEY>XCHAR}[e-key-to-x-char][x:xchar]
 \item \stack{x}{xchar true | x false}
 
 	If the keyboard event \param{x} corresponds to an xchar, return the
@@ -528,7 +528,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{X-WIDTH}[][x:xchar]
+\begin{worddef}{2486}[70]{X-WIDTH}[][x:xchar]
 \item \stack{xc-addr u}{n}
 
 	\param{n} is the number of monospace ASCII characters that take the same
@@ -545,7 +545,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XC-WIDTH}[x-c-width][x:xchar]
+\begin{worddef}{2487}[30]{XC-WIDTH}[x-c-width][x:xchar]
 \item \stack{xchar}{n}
 
 	\param{n} is the number of monospace ASCII characters that take the same
@@ -710,7 +710,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XCHAR-}[x-char-minus][x:xchar]
+\begin{worddef}{2487}[45]{XCHAR-}[x-char-minus][x:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 
 	Goes backward from \param{xc-addr_1} until it finds an xchar so that the
@@ -725,7 +725,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{XHOLD}[x-hold][x:xchar]
+\begin{worddef}{2488}[20]{XHOLD}[x-hold][x:xchar]
 \item \stack{xchar}{}
 
 	Adds \param{xchar} to the picture numeric output string.  An ambiguous
@@ -743,7 +743,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[XSTRING-]{}{X\bs{}STRING-}[x-string-minus][x:xchar]
+\begin{worddef}[XSTRING-]{2495}{X\bs{}STRING-}[x-string-minus][x:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
 	Search for the penultimate xchar in the string \param{xc-addr u_1}.
