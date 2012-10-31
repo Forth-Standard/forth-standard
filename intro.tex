@@ -45,6 +45,7 @@ This Standard does not specify:
 \end{itemize}
 
 \section{Document organization}
+\label{intro:wordsets}
 
 \subsection{Word sets}
 This Standard groups Forth words and capabilities into \emph{word sets}
@@ -56,7 +57,7 @@ implementation of the word set.
 The ``Core'' word set, defined in sections 1 through 6, contains the
 required words and capabilities of a Standard System. The other word
 sets, defined in sections \ref{wordlist:block} through
-\ref{wordlist:string}, are optional, making it possible to provide
+\replace{ed12}{\ref{wordlist:string}}{\ref{wordlist:xchar}}, are optional, making it possible to provide
 Standard Systems with tailored levels of functionality.
 
 \subsubsection{Text sections}
@@ -86,20 +87,25 @@ section to its rationale section.
 
 Annex \ref{annex:bib} is a short bibliography on Forth.
 
-Annex \ref{annex:intro} provides an introduction to Forth.
+% Annex \ref{annex:intro} provides an introduction to Forth.
 
-Annex \ref{annex:diff} discusses the compatibility of \replace{F94}{ANS Forth}{this standard}
-with earlier Forths, emphasizing the differences from Forth 83.
+Annex \ref{annex:diff} discusses the compatibility of this standard
+with earlier Forths%
+\remove{ed12}{, emphasizing the differences from Forth 83}.
 
 Annex \ref{annex:port} presents some techniques for writing portable
-programs\remove{F94}{ in ANS Forth}.
+programs.
 
+\ifrelease\else
 Annex \ref{annex:test} presents a test suite to test the operation
 of a system complies with the definitions documented in this
 standard.
+\fi
 
-Annex \ref{annex:index} includes the words from all word sets in a
-single list, and serves as an index of \remove{F94}{ANS Forth} words.
+Annex \ref{annex:index}
+\replace{ed12}{includes the words from all word sets in a single list, }{
+is a list of all the words in all of the word sets in this standard}
+and serves as an index of words.
 
 \section{Future directions}
 
