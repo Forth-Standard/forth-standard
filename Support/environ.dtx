@@ -1,0 +1,713 @@
+% \iffalse 
+%<*internal>
+\iffalse
+%</internal>
+%<*readme>
+___________________
+The ENVIRON package
+v0.2
+
+Provides two things: a new way of defining
+environments that read their contents before
+processing; and, a \long version of amsmath's
+\collect@body macro called \Collect@Body.
+
+Here's an example:
+
+  \NewEnviron{test}[3][]{"#1,#2,\BODY,#3"}
+  \begin{test}[zero]{one}{last}
+    three\par four
+  \end{test}
+
+Produces the equivalent of: 
+
+  "zero,one,three\par four,last"
+
+______________
+Will Robertson
+wspr 81 [at] gmail [dot] com
+
+Copyright 2007-2008
+Distributed under the LaTeX Project Public License
+%</readme>
+%<*internal>
+\fi
+\begingroup
+%</internal>
+%<*batchfile>
+\input docstrip.tex
+\keepsilent
+\preamble
+
+  __________________________________
+  Copyright (C) 2007  Will Robertson
+
+  License information appended.
+
+
+\endpreamble
+\postamble
+
+Copyright (C) 2007 by Will Robertson <wspr81@gmail.com>
+
+Distributable under the LaTeX Project Public License,
+version 1.3c or higher (your choice). The latest version of
+this license is at: http://www.latex-project.org/lppl.txt
+
+This work is "maintained" (as per LPPL maintenance status) 
+by Will Robertson.
+
+This work consists of the file  environ.dtx
+          and the derived files environ.pdf,
+                                environ.sty, and
+                                environ.ins.
+
+\endpostamble
+\askforoverwritefalse
+\generate{\file{\jobname.sty}{\from{\jobname.dtx}{package}}}
+%</batchfile>
+%<batchfile>\endbatchfile
+%<*internal>
+\generate{\file{\jobname.ins}{\from{\jobname.dtx}{batchfile}}}
+\nopreamble\nopostamble
+\generate{\file{README.txt}{\from{\jobname.dtx}{readme}}}
+\generate{\file{dtx-style.sty}{\from{\jobname.dtx}{dtx-style}}}
+\endgroup
+\immediate\write18{makeindex -s gind.ist -o \jobname.ind  \jobname.idx}
+\immediate\write18{makeindex -s gglo.ist -o \jobname.gls  \jobname.glo}
+%</internal>
+%
+%<*driver>
+\documentclass{ltxdoc}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+%\OnlyDescription
+\usepackage{dtx-style}
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+%
+%
+% \fi
+%
+% \GetFileInfo{\jobname.sty}
+% \CheckSum{0}
+% \makeatletter
+%
+% \title{A couple of things involving environments}
+% \author{Will Robertson}
+% \date{\filedate \qquad \fileversion}
+%
+% \maketitle
+%
+% \begin{abstract}
+% \noindent This package provides two things, one for document authors and one for macro authors. For the document authors, a new method of defining environments that might be more convenient on occassion. And for the package writers, \pkg{amsmath}'s \cmd\collect@body\ command, and a long version of the same, \cmd\Collect@Body.
+% \end{abstract}
+%
+% \section{Introduction}
+%
+% This packages provides new commands for defining environments. Here's a trivial example:
+% \begin{example}{}
+% \NewEnviron{test}{%
+%   \fbox{\parbox{1.5cm}{\BODY}}
+%   \color{red}
+%   \fbox{\parbox{1.5cm}{\BODY}}}
+% 
+% \begin{test}
+%   par\par
+%   graf
+% \end{test}
+% \end{example}
+%
+% \cmd\RenewEnviron\ can be used with the same syntax to redefine a pre\"existing environment.
+%
+% \section{For the document author}
+%
+% \LaTeX's standard method of defining environments looks like this (ignoring arguments for now):
+% \codeline \cmd\newenvironment\marg{name}\marg{pre code}\marg{post code} .
+%
+% The advantage to using environments is that their contents is not treated as a macro argument, so there are less restrictions on what can exist inside, and the processing can be more efficient for long pieces of document text.
+%
+% The disadvantage of environments is that sometimes you really do want to collect up its body and apply some sort of command to the whole thing. This package provides a way to define such environments, and v0.2 of this package brings a new syntax: 
+% \codeline \cmd\NewEnviron\marg{name}\marg{macro code}\oarg{final code} .\\
+% You saw an example in the introduction; the body of the environment is contained within the macro |\BODY|, and \oarg{final code} is the code executed at |\end|\marg{name} (more on this later).
+%
+% \subsection{Environment arguments}
+%
+% If you want to use arguments to the environment, these are specified in the usual way:
+% \codeline \cmd\NewEnviron\marg{name}\oarg{N.\,args}\oarg{opt.\,arg.}\marg{macro code}\oarg{final code} ,\\
+% where \marg{macro code} has arguments |#1|, |#2|, \dots, as per traditional \LaTeX\ environment mandatory and optional arguments. Here's an example with two arguments; one optional argument (|#1|, which is |\today| if omitted) and one mandatory argument (|#2|):
+% \begin{example}{}
+% \NewEnviron{test}[2][\today]{%
+%   \fbox{\parbox{3cm}{%
+%     \textbf{#2}\\
+%     \BODY\\
+%     (#1)}}}
+% 
+% \begin{test}{Title}
+%   par\par graf
+% \end{test}
+%
+% \begin{test}[Yesterday]{Title}
+%   par\par graf
+% \end{test}
+% \end{example}
+%
+% \subsection{\oarg{final code}} 
+% This is the code executed at |\end|\marg{name} of the environment. 
+% For the purposes of this package it is only designed (but is very useful indeed) for cleanup code such as space gobbling in the input text.
+%
+% \DescribeMacro{\environfinalcode}
+% This macro sets a default value for the \oarg{final code} (unless manually specified) in each subsequent environment created with \cmd\NewEnviron. The default is to define each new environment postfixed by \cmd\ignorespacesafterend, like this:
+% \codeline |\environfinalcode{\ignorespacesafterend}| .\\
+% Here's a silly example:
+% \begin{example}{}
+% \environfinalcode{((finish))}
+% \NewEnviron{test}{\fbox{\parbox{3cm}{\BODY}}}
+% \begin{test}
+%   par\par
+%   graf
+% \end{test}
+% \end{example}
+%
+% Careful, \cmd\environfinalcode\ cannot contain square brackets without first protecting them with braces (\eg, 
+% \codeline |\environfinalcode{[end]}| \\
+% will not work but 
+% \codeline |\environfinalcode{{[end]}}| \\
+% will). This is because the optional argument to \cmd\NewEnviron\ itself uses square brackets as argument delimiters.
+%
+% \section{Test}
+%
+% Here's an example to ensure everything that you'd think should work, in fact, does:
+% \begin{example}{}
+% \NewEnviron{test}{%
+%   \fbox{\parbox{\linewidth-
+%     0.1cm*\currentgrouplevel}{\BODY}}
+%   \setlength\fboxrule{2\fboxrule}
+%   \fbox{\parbox{\linewidth-
+%     0.1cm*\currentgrouplevel}{``\BODY''}}}
+% 
+% \begin{test}
+%   outer\par
+%   \def\tmp#1{*#1*}%
+%   \tmp{aa}\par
+%   \begin{test}
+%     inner\par
+%     \def\tmp#1{(#1)}\tmp{bb}
+%   \end{test}
+% \end{test}
+% \end{example}
+%
+%
+% \section{Backwards compatibility}
+% 
+% In v0.1 of this package, the \cmd\NewEnvironment\ macro was
+% used instead (described below). There were a number of limitations with the different
+% approach that it used, the main ones being:
+% \begin{itemize}
+%  \item Option processing occured with \emph{every} instance of |#1| 
+%        (which represented the environment body),
+%  \item Environment options were only available \emph{after} the first instance of |#1|.
+% \end{itemize}
+% Please, please, don't use \cmd\NewEnvironment.
+%
+% The code for this syntax is still loaded by this package for
+% backwards compatibility, but in the next major release it will
+% be moved to a conditional package option. Eventually, I'll 
+% probably delete it from the package altogether.
+%
+% \subsection{Previous code documentation}
+%
+% Just in case you need the documentation for the old syntax, here it is:
+% \codeline \cmd\NewEnvironment\marg{name}\marg{macro code} ,\\
+% where \marg{macro code} has argument |#1| as everything inside the environment.
+%
+% Now, this kind of environment definition makes collecting arguments a little cumbersome. Arguments are defined with a separate macro that `gobbles up' the arguments inside the environment before the body is passed to \marg{macro code}.
+% \codeline \cmd\EnvironArgs\marg{name}\oarg{N.\ args}\oarg{opt. arg.}\marg{arg. macro code} \\
+% This follows the same syntax of defining a macro with several arguments and a possible optional argument at the beginning. Here's an example:
+% \begin{example}{}
+% \NewEnvironment{test}{(#1)\tmp}
+% \EnvironArgs{test}[2][before]{\def\tmp{\par---#1/#2---}}
+% \begin{test}{after}
+%   par
+%
+%   graf
+% \end{test}
+% \end{example}
+% 
+% I've tried to ensure that whitespace is ignored at the appropriate places; without this additional code, there would be a space before `par' and after `graf' in the examples above.
+%
+% Environments created with \cmd\NewEnvironment\ are ended by the command \cmd\ignorespacesafterend, which means that if they're used in a paragraph then the |\end{...}| command will gobble space after it. (If the environment is a paragraph on its own, there will be no difference.)
+%
+% \newpage
+% \section{For the macro author} 
+%
+% The \pkg{amsmath} package contains a macro that facilitates the functionality in the previous section, which package writers may wish to use directly. The canonical command is \cmd\collect@body, which I've also defined in \cmd\long\ form to be useable for multi-paragraph environments (\cmd\Collect@Body). Here's how it's used:
+%
+% \begin{example}{}
+% \long\def\wrap#1{[#1]}
+% \newenvironment{test}{\Collect@Body\wrap}{}
+% \begin{test}
+%   hello
+%
+%   there
+% \end{test}
+% \end{example}
+%
+% And here's a crude example with environment arguments:
+%
+% \begin{example}{}
+% \long\def\wrap#1{[\arg#1]}
+% \def\arg#1{---#1---\par}
+% \newenvironment{test}{\Collect@Body\wrap}{}
+% \begin{test}{arg}
+%   hello
+%
+%   there
+% \end{test}
+% \end{example}
+%
+% \StopEventually{}
+%
+% \clearpage
+% \part{\pkg{\jobname} implementation}
+%\iffalse
+%<*package>
+%\fi
+%
+% This is the package.
+%    \begin{macrocode}
+\ProvidesPackage{environ}[2008/06/18 v0.2 A new way to define environments]
+%    \end{macrocode}
+%
+% \PrintChanges
+%
+% \section{Begin}
+%
+% \begin{macro}{\environbodyname}
+% \darg{control sequence}
+% Changes the control sequence used to represent the environment body in its definition. Not to be used as a user command; but maybe one day it will be. Don't change this after defining any |\NewEnviron| environments!
+%    \begin{macrocode}
+\def\environbodyname#1{\def\env@BODY{#1}}
+\environbodyname\BODY
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\environfinalcode}
+% \darg{code}
+% This is the \marg{code} that's executed by default at \cs{end}\marg{env.\,name}:
+%    \begin{macrocode}
+\def\environfinalcode#1{%
+  \def\env@finalcode{#1}}
+\environfinalcode{\ignorespacesafterend}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\longdef@c}
+% \LaTeX3-inspired shorthands.
+%    \begin{macrocode}
+\def\longdef@c#1{%
+  \expandafter\long\expandafter\def\csname#1\endcsname}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\trim@spaces}
+% \darg{tokens} Removes leading and trailing spaces from the (arbitrary) input.
+% Thanks to Morten H\o gholm.
+%    \begin{macrocode}
+\catcode`\Q=3
+\long\def\trim@spaces#1{\romannumeral-`\q\trim@trim@\noexpand#1Q Q}
+\long\def\trim@trim@#1 Q{\trim@trim@@#1Q}
+\long\def\trim@trim@@#1Q#2{#1}
+\catcode`\Q=11
+%    \end{macrocode}
+% \changes{v0.2}{2008/06/16}{Added.}
+% \end{macro}
+%
+% \section{\cs{collect@body}-related code}
+%
+% \begin{macro}{\collect@body}
+% Now, \pkg{amsmath} defines \cmd\collect@body\ for us. But that package may not be loaded, and we don't want to have to load the whole thing just for this one macro.
+%    \begin{macrocode}
+\unless\ifdefined\collect@body
+  \newtoks\@emptytoks
+  \newtoks\@envbody
+  \def\collect@body#1{%
+    \@envbody{\expandafter#1\expandafter{\the\@envbody}}%
+    \edef\process@envbody{\the\@envbody\noexpand\end{\@currenvir}}%
+    \@envbody\@emptytoks \def\begin@stack{b}%
+    \begingroup
+    \expandafter\let\csname\@currenvir\endcsname\collect@@body
+    \edef\process@envbody{%
+      \expandafter\noexpand\csname\@currenvir\endcsname}%
+    \process@envbody
+  }
+  \def\push@begins#1\begin#2{%
+    \ifx\end#2\else 
+      b\expandafter\push@begins
+    \fi}
+  \def\addto@envbody#1{%
+    \global\@envbody\expandafter{\the\@envbody#1}}
+  \def\collect@@body#1\end#2{%
+    \edef\begin@stack{%
+      \push@begins#1\begin\end \expandafter\@gobble\begin@stack}%
+    \ifx\@empty\begin@stack
+      \endgroup
+      \@checkend{#2}%
+      \addto@envbody{#1}%
+    \else
+      \addto@envbody{#1\end{#2}}%
+    \fi
+    \process@envbody}
+\fi
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Collect@Body}
+% And now we define our own `long' version.
+%    \begin{macrocode}
+\long\def\Collect@Body#1{%
+  \@envbody{\expandafter#1\expandafter{\the\@envbody}}%
+  \edef\process@envbody{\the\@envbody\noexpand\end{\@currenvir}}%
+  \@envbody\@emptytoks \def\begin@stack{b}%
+  \begingroup
+  \expandafter\let\csname\@currenvir\endcsname\Collect@@Body
+  \edef\process@envbody{%
+    \expandafter\noexpand\csname\@currenvir\endcsname}%
+  \process@envbody
+}
+\long\def\Push@Begins#1\begin#2{%
+  \ifx\end#2\else 
+    b\expandafter\Push@Begins
+  \fi}
+\long\def\Addto@Envbody#1{%
+  \global\@envbody\expandafter{\the\@envbody#1}}
+\long\def\Collect@@Body#1\end#2{%
+  \edef\begin@stack{%
+    \Push@Begins#1\begin\end\expandafter\@gobble\begin@stack}%
+  \ifx\@empty\begin@stack
+    \endgroup
+    \@checkend{#2}%
+    \Addto@Envbody{#1}%
+  \else
+    \Addto@Envbody{#1\end{#2}}%
+  \fi
+  \process@envbody}
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{User-level syntax}
+% \begin{macro}{\NewEnviron}
+% This is the new one.
+%    \begin{macrocode}
+\def\NewEnviron{%
+  \let\env@newcommand\newcommand
+  \let\env@newenvironment\newenvironment
+  \env@NewEnviron}
+\def\RenewEnviron{%
+  \let\env@newcommand\renewcommand
+  \let\env@newenvironment\renewenvironment
+  \env@NewEnviron}
+%    \end{macrocode}
+% \paragraph{Input argument parsing}
+% The first optional argument:
+%    \begin{macrocode}
+\def\env@NewEnviron#1{%
+  \@ifnextchar[
+    {\env@new@i{#1}}
+    {\env@new@iii{#1}{}}}
+%    \end{macrocode}
+% And the second:
+%    \begin{macrocode}
+\def\env@new@i#1[#2]{%
+  \@ifnextchar[
+    {\env@new@ii{#1}[#2]}
+    {\env@new@iii{#1}{[#2]}}}
+%    \end{macrocode}
+% And the second: (cont.)
+%    \begin{macrocode}
+\def\env@new@ii#1[#2][#3]{%
+  \env@new@iii{#1}{[#2][#3]}}
+%    \end{macrocode}
+% The final optional argument:
+%    \begin{macrocode}
+\long\def\env@new@iii#1#2#3{%
+  \@temptokena={\env@new{#1}{#2}{#3}}%
+  \@ifnextchar[{%
+    \the\@temptokena
+  }{%
+    \expandafter\the\expandafter
+      \@temptokena\expandafter[\env@finalcode]%
+  }}
+%    \end{macrocode}
+% \paragraph{Environment creation code}
+% \begin{macro}{\env@new}
+% \darg{name of the environment}
+% \darg{possible optional args (either `\meta{empty}' or `\texttt{[N]}' or `\texttt{[N][default]}')}
+% \darg{environment code}
+% \doarg{final code}
+%    \begin{macrocode}
+\long\def\env@new#1#2#3[#4]{%
+%    \end{macrocode}
+% Define the new environment to Collect its body and execute |env@#1@parse| on it.
+%    \begin{macrocode}
+  \env@newenvironment{#1}{%
+    \expandafter\Collect@Body\csname env@#1@parse\endcsname
+  }{#4}
+%    \end{macrocode}
+% |env@#1@parse| executes the body twice: the first time to save the body while ignoring the arguments; and the second time to process the environment definition itself while ignoring the environment body:
+%    \begin{macrocode}
+  \longdef@c{env@#1@parse}##1{%
+    \csname env@#1@save@env\endcsname##1\env@nil
+    \csname env@#1@process\endcsname##1\env@nil}%
+%    \end{macrocode}
+% These must be defined on a per-environment basis in order to get the argument gobbling right: (because there are a variable number of arguments)
+%    \begin{macrocode}
+  \expandafter\env@newcommand
+    \csname env@#1@save@env\endcsname#2{\env@save}%
+  \expandafter\env@newcommand
+    \csname env@#1@process\endcsname#2{#3\env@ignore}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\env@save}
+% If \cmd{\env@BODY} were variable, this macro would have to be saved for every environment definition individually; at the moment we just use a global definition.
+% Use \cmd\trim@spaces\ to remove surrounding space:
+%    \begin{macrocode}
+\long\def\env@save#1\env@nil{%
+  \expandafter\edef\env@BODY{%
+    \unexpanded\expandafter
+      \expandafter\expandafter{\trim@spaces{#1}}}}
+%    \end{macrocode}
+% \end{macro}
+% This is the same as a \cmd\@gobblenil\ but long and less likely to exist in the environment body:
+%    \begin{macrocode}
+\long\def\env@ignore#1\env@nil{}
+%    \end{macrocode}
+% \changes{v0.2}{2008/06/16}{Added.}
+% \end{macro}
+%
+% \section{Backwards compatibility}
+% \begin{macro}{\NewEnvironment}
+% \darg{Environment name}
+% \darg{Macro definition applied to env.\ body}
+% Here's our new environment definition macro. First of all wrap it up appropriately for new- or renew- 
+%    \begin{macrocode}
+\newcommand\NewEnvironment{%
+  \let\env@newenvironment\newenvironment
+  \let\env@newcommand\newcommand
+  \Make@Environment}
+\newcommand\RenewEnvironment{%
+  \let\env@newenvironment\renewenvironment
+  \let\env@newcommand\renewcommand
+  \Make@Environment}
+%    \end{macrocode}
+% And here we go:
+%    \begin{macrocode}
+\newcommand\Make@Environment[2]{%
+%    \end{macrocode}
+% Initial `argument' parser, does nothing but remove leading space:
+%    \begin{macrocode}
+  \expandafter\let\csname env@args@#1\endcsname\ignorespaces
+%    \end{macrocode}
+% We use \cmd\Collect@Body\ to grab the argument (always \cmd\long)
+%    \begin{macrocode}
+  \env@newenvironment{#1}{%
+    \expandafter\Collect@Body\csname env@@#1\endcsname}{\ignorespacesafterend}%
+%    \end{macrocode}
+% Now precede the env.\ body by the argument parsing command, which may or may not be defined in \cmd\EnvironArgs\ (and \cmd\unskip\ removes trailing space)
+%    \begin{macrocode}  
+  \longdef@c{env@@#1}##1{%
+    \csname env@@@#1\endcsname{%
+      \csname env@args@#1\endcsname##1\unskip}}%
+%    \end{macrocode}
+% And then pass it all off to the environment macro (|#2|), 
+%    \begin{macrocode}  
+  \longdef@c{env@@@#1}##1{#2}}
+%    \end{macrocode}
+% \changes{v0.2}{2008/06/11}{Changed \cs{@currenv} to \texttt{\#1} to allow nesting.}
+% \changes{v0.2}{2008/06/16}{Deprecated.}
+% \end{macro}
+%
+% \begin{macro}{\EnvironArgs}
+% \darg{Environment name}
+% \doarg{Number of arguments}
+% \doarg{Optional argument}
+% \darg{Argument macro code}
+% Tedious argument parsing:
+%    \begin{macrocode}
+\newcommand\EnvironArgs[1]{%
+  \@ifnextchar[
+    {\Env@Args{#1}}
+    {\Env@Args{#1}[0]}}
+%    \end{macrocode}
+% Tedious argument parsing:
+%    \begin{macrocode}
+\long\def\Env@Args#1[#2]{%
+  \@ifnextchar[
+    {\Env@@@Args{#1}[#2]}
+    {\Env@@Args{#1}[#2]}}
+%    \end{macrocode}
+% This is when there is no optional argument. In this case and the next, we simply define a command that is inserted when the argument body is processed (see \cmd\NewEnvironment). \cmd\ignorespaces\ removes leading space after the arguments. 
+%    \begin{macrocode}
+\long\def\Env@@Args#1[#2]#3{%
+  \expandafter\renewcommand\csname env@args@#1\endcsname[#2]{%
+    #3\ignorespaces}}
+%    \end{macrocode}
+% Same as above when there is an optional argument:
+%    \begin{macrocode}
+\long\def\Env@@@Args#1[#2][#3]#4{%
+  \expandafter\renewcommand\csname env@args@#1\endcsname[#2][#3]{%
+    #4\ignorespaces}}
+%    \end{macrocode}
+% \end{macro}
+%
+%\iffalse
+%</package>
+%\fi
+%
+%
+%\iffalse
+%<*dtx-style>
+%    \begin{macrocode}
+\ProvidesPackage{dtx-style}
+
+\errorcontextlines=999
+
+\def\@dotsep{1000}
+\setcounter{tocdepth}{2}
+\setlength\columnseprule{0.1pt}
+\renewcommand\tableofcontents{\relax
+  \begin{multicols}{2}[\section*{\contentsname}]\small
+    \@starttoc{toc}\relax
+  \end{multicols}}
+
+\setcounter{IndexColumns}{2}
+\renewenvironment{theglossary}
+  {\small\list{}{}
+     \item\relax
+     \glossary@prologue\GlossaryParms 
+     \let\item\@idxitem \ignorespaces 
+     \def\pfill{\hspace*{\fill}}}
+  {\endlist}
+
+\usepackage{booktabs,calc,color,enumitem,fancyvrb,graphicx,ifthen,refstyle,subfig,varioref}
+\expandafter\usepackage\expandafter{\jobname}
+
+\usepackage{url}
+
+\usepackage[sc,osf]{mathpazo}
+
+\linespread{1.1}      % A bit more space between lines
+\frenchspacing         % Remove ugly extra space after punctuation
+  
+\definecolor{niceblue}{rgb}{0.2,0.4,0.8}
+\newenvironment{example}[1]
+  {\VerbatimEnvironment
+   \def\Options{#1}%
+   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
+  {\end{VerbatimOut}\relax
+   \typesetexample}
+
+\fvset{formatcom=\color{niceblue}}
+\DefineShortVerb{\|}
+
+\def\theCodelineNo{\textcolor{niceblue}{\sffamily\tiny\arabic{CodelineNo}}}
+
+\let\examplesize\normalsize
+\let\auxwidth\relax
+
+\newlength\examplewidth\newlength\verbatimwidth
+\newlength\exoutdent   \newlength\exverbgap
+\setlength\exverbgap{1em}
+\setlength\exoutdent{-0.15\textwidth}
+\newsavebox\verbatimbox
+\edef\examplefilename{\jobname.example}
+
+\newcommand\typesetexample{\relax
+   \smallskip
+   \noindent
+   \begin{minipage}{\linewidth}
+   \color{niceblue}
+   \hrulefill\par
+   \edef\@tempa{[gobble=0,fontsize=\noexpand\small,\Options]}%
+   \begin{lrbox}{\verbatimbox}\relax
+     \expandafter\BVerbatimInput\@tempa{\examplefilename}%
+   \end{lrbox}
+   \begin{list}{}{\setlength\itemindent{0pt}
+                  \setlength\leftmargin\exoutdent
+                  \setlength\rightmargin{0pt}}\item
+   \ifx\auxwidth\relax
+     \setlength\verbatimwidth{\wd\verbatimbox}%
+   \else
+     \setlength\verbatimwidth{\auxwidth}%
+   \fi
+   \begin{minipage}[c]{\textwidth-\exoutdent-\verbatimwidth-\exverbgap}
+     \catcode`\%=14\centering\linespread{1.6}\input\examplefilename\relax
+   \end{minipage}\hfill
+   \begin{minipage}[c]{\verbatimwidth}
+     \usebox\verbatimbox
+   \end{minipage}
+   \end{list}
+   \par\noindent\hrulefill
+   \end{minipage}\par
+   \smallskip\noindent}
+
+\newcommand*\setverbwidth[1]{\def\auxwidth{#1}}
+
+\newcommand*\name[1]{{#1}}
+\newcommand*\pkg[1]{\textsf{#1}}
+\newcommand*\feat[1]{\texttt{#1}}
+\newcommand*\opt[1]{\texttt{#1}}
+
+\newcommand*\ltx[1]{%
+  \ifx3#1\relax
+    \textsc{ltx3}%
+  \else
+    \LaTeXe
+  \fi}
+
+\newcommand\note{\unskip\footnote}
+
+\let\latin\textit
+\def\eg{\latin{e.g.}}
+\def\Eg{\latin{E.g.}}
+\def\ie{\latin{i.e.}}
+\def\etc{\@ifnextchar.{\latin{etc}}{\latin{etc.}\@}}
+
+\def\STIX{\textsc{stix}}
+\def\MacOSX{Mac~OS~X}
+\def\ascii{\textsc{ascii}}
+\def\OMEGA{Omega}
+\def\CTAN{\textsc{ctan}}
+
+\newcounter{argument}
+\g@addto@macro\endmacro{\setcounter{argument}{0}}
+\newcommand*\darg[1]{%
+  \stepcounter{argument}%
+  {\ttfamily\char`\{\char`\#\theargument\char`\}:~}#1\par\noindent\ignorespaces}
+\newcommand*\doarg[1]{%
+  \stepcounter{argument}%
+  {\ttfamily[\char`\#\theargument]:~}#1\par\noindent\ignorespaces}
+
+\def\codeline{\par\hspace{0.5\parindent}}
+
+\newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
+
+\setlength\parindent{2em}
+
+%    \end{macrocode}
+%</dtx-style>
+%\fi
+%
+% \typeout{*************************************************************}
+% \typeout{*}
+% \typeout{* To finish the installation you have to move the following}
+% \typeout{* file into a directory searched by XeTeX:}
+% \typeout{*}
+% \typeout{* \space\space\space environ.sty}
+% \typeout{*}
+% \typeout{*************************************************************}
+%
+\endinput
