@@ -38,6 +38,7 @@ history:  Change Log - I have been developing this package alongside
 randtext: Randomise text - used to typeset email address in a manner
           that automatic harvester program find impossible to process.
 
+environ:  Editors Comments Box.
 
 Building the Document
 =====================
@@ -185,11 +186,11 @@ whole thing easier to handle.
 
 Change Markup
 -------------
-The change markup is provided via the "history" package.  This is
-currently under development.  All changes require a label, the label
-is normally the name of the proposal associated with the change.  All
-markup is identified with a change bar in the margin.  The <text> is
-limited to a single paragraph and must not span a paragraph break.
+The change markup is provided via the "history" package.  All
+changes require a label, the label is normally the name of the
+proposal associated with the change.  All markup is identified
+with a change bar in the margin.  The <text> is limited to a
+single paragraph and must not span a paragraph break.
 
 \place{label}{text}
         Place new <text> in the document.  The text will appear
@@ -359,6 +360,9 @@ Special Characters
 \tilde          Outputs the "~" (tilde) character.
 
 \num            Outputs the "#" (number) character.
+
+\brace          Outputs the "{" (open brace) character.
+
 
 Cross Referencing
 -----------------
