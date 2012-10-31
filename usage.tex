@@ -292,7 +292,7 @@ double-cell integer shall be above the cell containing the least
 significant part.
 
 The implementation-defined range of double-cell signed integers
-shall include \{-2147483647 {\ldots} \newline +2147483647\}.
+shall include \{-2147483647 {\ldots} \linebreak +2147483647\}.
 
 The implementation-defined range of double-cell non-negative
 integers shall include \{0 {\ldots} 2147483647\}.
@@ -639,37 +639,36 @@ and the same value.
 
 \subsection{Obsolescent Environmental Queries} % 3.2.7
 \label{usage:obsolete}
-\hfill\textsf{x:wordset-query}
+\proposal{X:wordset-query}
 
 This standard designates the practice of using \word{ENVIRONMENTq}
 to inquire whether a given word set is present as obsolescent.  If
 such a query, as listed in table \ref{table:obsolete}, returns
-\param{true}, the word set is present in the form defined by the
-\replace{F94}{Forth-94}{Forth 94} Standard.
+\param{true}, the word set is present in the form defined by
+\remove{ed12}{the} Forth 94 \remove{ed12}{Standard}.
 As these queries will be withdrawn from future revisions of the
 Standard their use in new programs is discouraged.
 
-\place{ed11}{See \xref{rat:obsolete}}.
+See \xref{rat:obsolete}.
 
 \newcommand{\query}[2]{% <wordset><wordset name>
-	\texttt{#1}		 & \emph{flag} & no & \sout{Forth-94}\uline{Forth 94} #2 word set present. \\
-	\texttt{#1-EXT} & \emph{flag} & no & \sout{Forth-94}\uline{Forth 94} #2 extensions word set present. \\
+	\texttt{#1}		& \emph{flag} & no & Forth 94 #2 word set present. \\
+	\texttt{#1-EXT}	& \emph{flag} & no & Forth 94 #2 extensions word set present. \\
 }
 
 \begin{table}[ht]
   \begin{center}
 	\caption{Obsolescent Environmental Query Strings}
 	\label{table:obsolete}
-\cbstart
 	\begin{tabular}{p{10em}r@{~~}c@{~~}p{0.55\textwidth}}
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
 		\texttt{CORE}		& \emph{flag} & no
-				& true if complete core word set of \sout{Forth-94}\uline{Forth 94} is present \\
+				& true if complete core word set of Forth 94 is present \\
 		& &	& (i.e., not a subset as defined in \ref{label:system}) \\
 		\texttt{CORE-EXT}	& \emph{flag} & no
-				& true if the core extensions word set of \sout{Forth-94}\uline{Forth 94} is present \\
+				& true if the core extensions word set of Forth 94 is present \\
 		\query{BLOCK}{block}
 		\query{DOUBLE}{double number}
 		\query{EXCEPTION}{exception}
@@ -683,14 +682,13 @@ Standard their use in new programs is discouraged.
 		\query{STRING}{string}
 		\hline\hline
 	\end{tabular}
-\cbend
   \end{center}
 \end{table}
 
-
+\ifrelease\else
 \subsection{Extension queries} % 3.2.8
 \label{usage:extensions}
-~ \hfill \textsf{\small X:extension-query}
+\proposal{X:extension-query}
 
 As part of the Forth 200\emph{x} standards procedure, additions to the
 Standard are labeled as \emph{extensions}. These extensions have
@@ -712,28 +710,28 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
-		\texttt{X:2value}				& -- & -- & the \textsf{X:2value} extension is present \\
-		\texttt{X:deferred}			& -- & -- & the \textsf{X:deferred} extension is present \\
+		\texttt{X:2value}			& -- & -- & the \textsf{X:2value} extension is present \\
+		\texttt{X:deferred}		& -- & -- & the \textsf{X:deferred} extension is present \\
 		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
-		\texttt{X:ekeys}				& -- & -- & the \textsf{X:ekeys} extension is present \\
-		\texttt{X:escaped-strings} & -- & -- & the \textsf{X:escaped-strings} extension is present \\
+		\texttt{X:ekeys}			& -- & -- & the \textsf{X:ekeys} extension is present \\
+		\texttt{X:escaped-strings}	& -- & -- & the \textsf{X:escaped-strings} extension is present \\
 		\texttt{X:extension-query}	& -- & -- & the \textsf{X:extension-query} extension is present\\
-		\texttt{X:fatan2}				& -- & -- & the \textsf{X:fatan2} extension is present \\
-		\texttt{X:ftrunc}				& -- & -- & the \textsf{X:ftrunc} extension is present \\
-		\texttt{X:fvalue}				& -- & -- & the \textsf{X:fvalue} extension is present \\
-		\texttt{X:n-to-r}				& -- & -- & the \textsf{X:n-to-r} extension is present \\
+		\texttt{X:fatan2}			& -- & -- & the \textsf{X:fatan2} extension is present \\
+		\texttt{X:ftrunc}			& -- & -- & the \textsf{X:ftrunc} extension is present \\
+		\texttt{X:fvalue}			& -- & -- & the \textsf{X:fvalue} extension is present \\
+		\texttt{X:n-to-r}			& -- & -- & the \textsf{X:n-to-r} extension is present \\
 		\texttt{X:number-prefix}	& -- & -- & the \textsf{X:number-prefix} extension is present \\
 		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
-		\texttt{X:required}			& -- & -- & the \textsf{X:required} extension is present \\
+		\texttt{X:required}		& -- & -- & the \textsf{X:required} extension is present \\
 		\texttt{X:structures}		& -- & -- & the \textsf{X:structures} extension is present \\
-		\texttt{X:synonym}			& -- & -- & the \textsf{X:synonym} extensions is present \\
+		\texttt{X:synonym}		& -- & -- & the \textsf{X:synonym} extensions is present \\
 		\texttt{X:throw-iors}		& -- & -- & the \textsf{X:throw-iors} extension is present \\
-		\texttt{X:xchar}				& -- & -- & the \textsf{X:xchar} extension is present \\
+		\texttt{X:xchar}			& -- & -- & the \textsf{X:xchar} extension is present \\
 		\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
-
+\fi
 
 \section{The Forth dictionary} % 3.3 ================================
 \label{usage:dict}
@@ -794,8 +792,10 @@ read from or write into these regions unless otherwise specified.
 \subsubsection{Address alignment} % 3.3.3.1
 \label{usage:aaddr}
 
-Most addresses \remove{F94}{used in ANS Forth} are aligned addresses (indicated
-by \emph{a-addr}) or character-aligned (indicated by \emph{c-addr}).
+\replace{ed12}{Most addresses are aligned addresses (indicated
+by \emph{a-addr}) or character-aligned (indicated by \emph{c-addr})}{
+Most addresses are cell aligned (indicated by \emph{a-addr}) or character
+aligned (\emph{c-addr})}.
 \word{ALIGNED}, \word{CHAR+}, and arithmetic operations can alter
 the alignment state of an address on the stack. \word{CHAR+} applied
 to an aligned address returns a character-aligned address that can
@@ -849,7 +849,7 @@ deallocated memory contains definitions.
 \label{usage:var}
 
 The region allocated for a variable may be non-contiguous with
-regions subsequently allocated with \word{,} (comma) or
+regions subsequently allocated with \linebreak \word{,} (comma) or
 \word{ALLOT}. For example, in:
 \begin{quote}
 	\word{VARIABLE} X 1 \word{CELLS} \word{ALLOT}
@@ -927,11 +927,11 @@ the regions returned by \word{WORD} and \word{num-end} may overlap in
 memory. Consequently, use of one of these words can corrupt a region
 returned earlier by a different word. The other words that construct
 pictured numeric output strings (\word{num-start}, \word{num}, \word{numS},
-\word{HOLD}, \word{HOLDS}, \remove{ed11}{and} \word[xchar]{XHOLD})  may also modify
+\word{HOLD}, \word{HOLDS}, \word[xchar]{XHOLD})  may also modify
 the contents of these regions. Words that display numbers may be
 implemented using pictured numeric output words. Consequently, \word{d}
 (dot), \word{.R}, \word[tools]{.S}, \word[tools]{q}, \word[double]{Dd},
-\word[double]{D.R}, \word{Ud}, \remove{ed11}{and} \word{U.R} could also corrupt the
+\word[double]{D.R}, \word{Ud}, \word{U.R} could also corrupt the
 regions.
 
 The size of the scratch area whose address is returned by \word{PAD}
@@ -1059,10 +1059,10 @@ a syntax or program-construct checker.
 \subsubsection{Text interpreter input number conversion} % 3.4.1.3
 \label{usage:numbers}
 
-When converting input numbers, the text interpreter shall recognize
-integer numbers in the form \linebreak \arg{BASEnum}; if the
-\textsf{X:number-prefixes}
-extension is present, the text interpreter shall recognize integer
+When converting input numbers,
+\remove{ed12}{the text interpreter shall recognize integer numbers in the
+form \arg{BASEnum}; if the \textsf{X:number-prefixes} extension is present,}
+the text interpreter shall recognize integer
 numbers in the form \arg{anynum}.
 
 \begin{center}
@@ -1107,7 +1107,7 @@ The radix used for number conversion is:
 	\end{tabular}
 \end{center}
 
-\place{x:enhanced-locals}{See \xref{notations}.}
+See \xref{notations}.
 
 \subsection{Finding definition names} % 3.4.2
 \label{usage:find}
