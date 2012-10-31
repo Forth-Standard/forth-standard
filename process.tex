@@ -132,15 +132,16 @@ the following sections, where appropriate.
 
 \item[Reference implementation:] ~\\
 	This makes it easier for system implementors to adopt your proposal.
-	Where possible they should be provided in \replace{F94}{ANS Forth}{Forth 94}.  Where this is
-	not possible, system specific knowledge is required or non standard
-	words are used, this should be documented.
+	Where possible they should be provided in 
+\replace{ed12}{ANS Forth}{ standard Forth, as defined by this document}.
+	Where this is not possible, system specific knowledge is required or
+	non standard words are used, this should be documented.
 
 \item[Testing:] ~\\
 	This should test the feature/words you propose, in particular, it
 	should test boundary conditions.  Where possible test cases should
-	be written to conform with John Hayes tester.f test harness, see
-	Appendix \ref{annex:test}.
+	be written to conform with John Hayes tester.f test harness%
+	\ifrelease.\else, see Appendix \ref{annex:test}.\fi
 
 \item[Experience:] ~\\
 	Indicate where the proposal has already been implemented and/or
