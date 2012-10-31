@@ -63,7 +63,7 @@ See: \xref[3.1.2 Character types]{usage:char}.
 
 \item A \param{name} defined by
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
-	is executed before the corresponding
+	is executed before the corresponding \linebreak
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE}
 	has been executed.
 \end{itemize}
@@ -91,8 +91,8 @@ See: \xref[3.1.2 Character types]{usage:char}.
 
 \section{Compliance and labeling} % 10.5
 
-\cbstart\patch{F94}
-\subsection[Forth systems]{ANS\strike{3.5}{25} Forth systems} % 10.5.1
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 10.5.1
 \cbend
 
 The phrase ``Providing the Facility word set'' shall be appended to
@@ -107,8 +107,8 @@ The phrase ``Providing the Facility Extensions word set'' shall be
 appended to the label of any Standard System that provides all of
 the Facility and Facility Extensions word sets.
 
-\cbstart\patch{F94}
-\subsection[Forth programs]{ANS\strike{3.5}{25} Forth programs} % 10.5.2
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 10.5.2
 \cbend
 
 The phrase ``Requiring the Facility word set'' shall be appended to
@@ -138,13 +138,14 @@ to provide all of the Facility and Facility Extensions word sets.
 	if the operation cannot be performed on the user output device
 	with the specified parameters.
 
-\see \rref{facility:AT-XY}{}.
+\see \remove{ed12}{\rref{facility:AT-XY}{}.}
 
 	\begin{rationale} % A.10.6.1.0742 AT-XY
+\remove{ed12}{%
 		Most implementors supply a method of positioning a cursor on
 		a CRT screen, but there is great variance in names and stack
 		arguments. This version is supported by at least one major
-		vendor.
+		vendor.}
 	\end{rationale}
 \end{worddef}
 
@@ -166,7 +167,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \see \rref{facility:KEYq}{}.
 
 	\begin{rationale} % A.10.6.1.1755 KEY?
-		The Technical Committee has gone around several times on the
+		The \remove{ed12}{Technical} Committee has gone around several times on the
 		stack effects. Whatever is decided will violate somebody's
 		practice and penalize some machine. This way doesn't interfere
 		with type-ahead on some systems, while requiring the
@@ -203,7 +204,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------
 
-\begin{worddef}{}{+FIELD}[plus-field][X:structures]
+\begin{worddef}{0135}{+FIELD}[plus-field][X:structures]
 \item \stack{n_1 n_2 "<spaces>name"}{n_3}
 
 	Skip leading space delimiters.  Parse \param{name} delimited
@@ -220,12 +221,12 @@ to provide all of the Facility and Facility Extensions word sets.
 	Add \param{n_1} to \param{addr_1} giving \param{addr_2}.
 
 \see \wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
-	\wref{facility:CFIELD:}{CFIELD:}, \\
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \\
+	\wref{facility:CFIELD:}{CFIELD:},
 	\wref{facility:FIELD:}{FIELD:},
-	\wref{floating:FFIELD:}{FFIELD:},
+	\wref{floating:FFIELD:}{FFIELD:}, \\
 	\wref{floating:SFFIELD:}{SFFIELD:},
-	\wref{floating:DFFIELD:}{DFFIELD:}, \\
+	\wref{floating:DFFIELD:}{DFFIELD:},
 	\rref{facility:+FIELD}{}.
 
 	\begin{rationale} % A.10.6.2.---- +FIELD
@@ -249,7 +250,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{BEGIN-STRUCTURE}[][X:structures]
+\begin{worddef}{0763}{BEGIN-STRUCTURE}[][X:structures]
 \item \stack{"<spaces>name"}{struct-sys 0}
 
 	Skip leading space delimiters. Parse \param{name} delimited
@@ -267,7 +268,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{END-STRUCTURE} being executed.
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}%
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \\
 	\rref{facility:BEGIN-STRUCTURE}{}.
 
 
@@ -387,7 +388,7 @@ to provide all of the Facility and Facility Extensions word sets.
 		form \word{BEGIN-STRUCTURE} \arg{name}.  At run time
 		\arg{name} returns the size of the structure.}
 
-		\word{:} BEGIN-STRUCTURE\tab\word{bs} -{}- addr 0 ; -{}- size \\
+		\word{:} \word{BEGIN-STRUCTURE}\tab\word{bs} -{}- addr 0 ; -{}- size \\
 		\tab \word{CREATE} \\
 		\tab[2] \word{HERE} 0  0 \word{,} \tab[2] \word{bs}  mark stack, lay dummy \\
 		\tab \word{DOES} \word{@} \tab[6]\word{bs} -{}- rec-len \\
@@ -396,7 +397,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{CFIELD:}[c-field-colon][X:structures]
+\begin{worddef}{0893}{CFIELD:}[c-field-colon][X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -408,18 +409,18 @@ to provide all of the Facility and Facility Extensions word sets.
 	given below.
 
 \execute[name]
-\cbstart\patch{ed11}
-	\stack{a-addr_{\sout{1}}}{\sout{a}\uline{c}-addr_{\sout{2}}}
+\cbstart\patch{ed12}
+	\stack{\sout{a-}addr_{\uline{1}}}{\sout{a}-addr_{\uline{2}}}
 \cbend
 
 	Add the \param{offset} calculated during the compile time action to
-\cbstart\param{a-addr_{\sout{1}}}\cbend
+\cbstart\param{\sout{a-}addr_{\uline{1}}}\cbend\ 
 	giving the character aligned address
-\cbstart\param{\sout{a}\uline{c}-addr_{\sout{2}}}.\cbend
+\cbstart\param{\sout{c-}addr_{\uline{2}}}.\cbend
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \\
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
 	\rref{facility:FIELD:}{}.
 \cbend
 \end{worddef}
@@ -491,7 +492,7 @@ to provide all of the Facility and Facility Extensions word sets.
 % -------------------------------------------------------------------
 
 
-\begin{worddef}[EKEYtoFKEY]{}{EKEY>FKEY}[e-key-to-f-key][X:ekeys]
+\begin{worddef}[EKEYtoFKEY]{1306}[40]{EKEY>FKEY}[e-key-to-f-key][X:ekeys]
 \item \stack{x}{u flag}
 
 	If the keyboard event \param{x} corresponds to a keypress in the
@@ -505,32 +506,33 @@ to provide all of the Facility and Facility Extensions word sets.
 	less conveniently or with less functionality) if these key numbers
 	cannot be produced.
 
-\see \wref{facility:EKEY}{EKEY},
+\see
+	\wref{facility:EKEY}{EKEY},
+	\wref{facility:K-ALT-MASK}{K-ALT-MASK},
+	\wref{facility:K-CTRL-MASK}{K-CTRL-MASK}, \linebreak
 	\wref{facility:K-DELETE}{K-DELETE},
 	\wref{facility:K-DOWN}{K-DOWN},
-	\wref{facility:K-END}{K-END}, \\
-	\wref{facility:K-HOME}{K-HOME},
-	\wref{facility:K-INSERT}{K-INSERT},
-	\wref{facility:K-LEFT}{K-LEFT},
-	\wref{facility:K-NEXT}{K-NEXT}, \\
-	\wref{facility:K-PRIOR}{K-PRIOR},
-	\wref{facility:K-RIGHT}{K-RIGHT},
-	\wref{facility:K-UP}{K-UP},
-	\wref{facility:K-ALT-MASK}{K-ALT-MASK}, \\
-	\wref{facility:K-CTRL-MASK}{K-CTRL-MASK},
-	\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
+	\wref{facility:K-END}{K-END}, \linebreak
 	\wref{facility:K-F1}{K-F1},
-	\wref{facility:K-F2}{K-F2}, \\
-	\wref{facility:K-F3}{K-F3},
+	\wref{facility:K-F10}{K-F10},
+	\wref{facility:K-F11}{K-F11}, \linebreak
+	\wref{facility:K-F12}{K-F12},
+	\wref{facility:K-F2}{K-F2},
+	\wref{facility:K-F3}{K-F3}, \linebreak
 	\wref{facility:K-F4}{K-F4},
 	\wref{facility:K-F5}{K-F5},
-	\wref{facility:K-F6}{K-F6},
-	\wref{facility:K-F7}{K-F7}, \\
+	\wref{facility:K-F6}{K-F6}, \linebreak
+	\wref{facility:K-F7}{K-F7},
 	\wref{facility:K-F8}{K-F8},
-	\wref{facility:K-F9}{K-F9},
-	\wref{facility:K-F10}{K-F10},
-	\wref{facility:K-F11}{K-F11},
-	\wref{facility:K-F12}{K-F12}, \\
+	\wref{facility:K-F9}{K-F9}, \linebreak
+	\wref{facility:K-HOME}{K-HOME},
+	\wref{facility:K-INSERT}{K-INSERT},
+	\wref{facility:K-LEFT}{K-LEFT}, \linebreak
+	\wref{facility:K-NEXT}{K-NEXT},
+	\wref{facility:K-PRIOR}{K-PRIOR},
+	\wref{facility:K-RIGHT}{K-RIGHT}, \linebreak
+	\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
+	\wref{facility:K-UP}{K-UP}, \linebreak
 	\rref{facility:EKEYtoFKEY}{}.
 
 
@@ -613,6 +615,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\item[Shift keys] ~\\
 		Note that, as defined, the shift key masks
 		(\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
+		 \linebreak
 		 \wref{facility:K-CTRL-MASK}{K-CTRL-MASK} and
 		 \wref{facility:K-ALT-MASK}{K-ALT-MASK})
 		are only useful for recognizing shifted cursor and function
@@ -699,7 +702,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------
 
-\begin{worddef}{}{END-STRUCTURE}[][X:structures]
+\begin{worddef}{1336}{END-STRUCTURE}[][X:structures]
 \item \stack{struct-sys +n}{}
 
 	Terminate definition of a structure started by
@@ -711,13 +714,13 @@ to provide all of the Facility and Facility Extensions word sets.
 	\begin{implement} % I.10.6.2.---- END-STRUCTURE
 		\textdf{Terminate definition of a structure.}
 
-		\word{:} END-STRUCTURE\tab\word{bs} addr n -{}- \\
+		\word{:} \word{END-STRUCTURE}\tab\word{bs} addr n -{}- \\
 		\tab \word{SWAP} \word{!} \word{;} \tab[4.2]\word{bs} set len
 	\end{implement}
 \end{worddef}
 
 
-\begin{worddef}{}{FIELD:}[field-colon][X:structures]
+\begin{worddef}{1518}{FIELD:}[field-colon][X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -727,33 +730,36 @@ to provide all of the Facility and Facility Extensions word sets.
 	Create a definition for \param{name} with the execution semantics
 	given below.
 
-\execute[name] \stack{a-addr_1}{a-addr_2}
+\execute[name]
+\cbstart\patch{ed12}\stack{\sout{a-}addr_1}{\sout{a-}addr_2}\cbend
 
 	Add the \param{offset} calculated during the compile time action
-	to \param{a-addr_1} giving the cell aligned address \param{a-addr_2}.
+	to
+\cbstart\param{\sout{a-}addr_1} giving the cell aligned address
+\param{\sout{a-}addr_2}.\cbend
 
 \see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \linebreak
+	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
+	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
 	\rref{facility:FIELD:}{}.
 
 	\begin{rationale}
-		Create an aligned single\place{ed11}{-}cell field in a data structure.
+		Create an aligned single-cell field in a data structure.
 
 		The various \emph{x}\texttt{FIELD:} words provide for different
 		alignment and size allocation.
 
 		The \emph{x}\texttt{FIELD:} words could be defined as:
 
-\cbstart\patch{ed11}
+\cbstart\patch{ed12}
 		\begin{tabbing}
 			\tab \= \tab[6] \= \tab[22] \= \tab[5] \= \tab[5.2] \= \kill
-			\> \word{:} \word{FIELD:}   \>\uline{( n1 "name" -{}- n2 ; a-addr1 -{}-  a-addr2 )}\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;}				\> \sout{\word{bs} cell aligned}			\\
-			\> \word{:} \word{CFIELD:}  \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}-  c-addr  )}\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} 				\> \sout{\word{bs} character aligned}	\\
+			\> \word{:} \word{FIELD:}   \>( n1 "name" -{}- n2 ; \sout{a-}addr1 -{}-  \sout{a-}addr2 )\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;} \\
+			\> \word{:} \word{CFIELD:}  \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1}  -{}-  \sout{c-}addr\uline{2}   )\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} \\
 		\setwordlist{floating}
-			\> \word{:} \word{FFIELD:}  \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}-  f-addr  )}\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \> \sout{\word{bs} float aligned}			\\
-			\> \word{:} \word{SFFIELD:} \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}- sf-addr  )}\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \> \sout{\word{bs} single-float aligned}	\\
-			\> \word{:} \word{DFFIELD:} \>\uline{( n1 "name" -{}- n2 ; a-addr  -{}- df-addr  )}\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;} \> \sout{\word{bs} double-float aligned}
+			\> \word{:} \word{FFIELD:}  \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1} -{}-  \sout{f-}addr\uline{2} )\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \\
+			\> \word{:} \word{SFFIELD:} \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1} -{}- \sout{sf-}addr\uline{2} )\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \\
+			\> \word{:} \word{DFFIELD:} \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1} -{}- \sout{df-}addr\uline{2} )\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;}
 		\setwordlist{facility}
 		\end{tabbing}
 \cbend
@@ -762,7 +768,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{}{K-ALT-MASK}[][X:ekeys]
+\begin{worddef}{1740}[01]{K-ALT-MASK}[][X:ekeys]
 \item \stack{}{u}
 
 	Mask for the \textsc{Alt} key, that can be \word{OR}ed with the
@@ -775,7 +781,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-CTRL-MASK}[][X:ekeys]
+\begin{worddef}{1740}[02]{K-CTRL-MASK}[][X:ekeys]
 \item \stack{}{u}
 
 	Mask for the \textsc{Ctrl} key, that can be \word{OR}ed with the
@@ -788,7 +794,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-DELETE}[][X:ekeys]
+\begin{worddef}{1740}[03]{K-DELETE}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -800,7 +806,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-DOWN}[][X:ekeys]
+\begin{worddef}{1740}[04]{K-DOWN}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -812,7 +818,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-END}[][X:ekeys]
+\begin{worddef}{1740}[05]{K-END}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -824,7 +830,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F1}[k-f-1][X:ekeys]
+\begin{worddef}{1740}[06]{K-F1}[k-f-1][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -836,7 +842,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F10}[k-f-10][X:ekeys]
+\begin{worddef}{1740}[07]{K-F10}[k-f-10][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -848,7 +854,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F11}[k-f-11][X:ekeys]
+\begin{worddef}{1740}[08]{K-F11}[k-f-11][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -860,7 +866,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F12}[k-f-12][X:ekeys]
+\begin{worddef}{1740}[09]{K-F12}[k-f-12][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -872,7 +878,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F2}[k-f-2][X:ekeys]
+\begin{worddef}{1740}[10]{K-F2}[k-f-2][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -884,7 +890,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F3}[k-f-3][X:ekeys]
+\begin{worddef}{1740}[11]{K-F3}[k-f-3][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -896,7 +902,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F4}[k-f-4][X:ekeys]
+\begin{worddef}{1740}[12]{K-F4}[k-f-4][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -908,7 +914,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F5}[k-f-5][X:ekeys]
+\begin{worddef}{1740}[13]{K-F5}[k-f-5][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -920,7 +926,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F6}[k-f-6][X:ekeys]
+\begin{worddef}{1740}[14]{K-F6}[k-f-6][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -932,7 +938,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F7}[k-f-7][X:ekeys]
+\begin{worddef}{1740}[15]{K-F7}[k-f-7][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -944,7 +950,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F8}[k-f-8][X:ekeys]
+\begin{worddef}{1740}[16]{K-F8}[k-f-8][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -956,7 +962,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-F9}[k-f-9][X:ekeys]
+\begin{worddef}{1740}[17]{K-F9}[k-f-9][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -968,7 +974,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-HOME}[][X:ekeys]
+\begin{worddef}{1740}[18]{K-HOME}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -980,7 +986,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-INSERT}[][X:ekeys]
+\begin{worddef}{1740}[19]{K-INSERT}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -992,7 +998,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-LEFT}[][X:ekeys]
+\begin{worddef}{1740}[20]{K-LEFT}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -1004,7 +1010,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-NEXT}[][X:ekeys]
+\begin{worddef}{1740}[21]{K-NEXT}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -1016,7 +1022,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-PRIOR}[][X:ekeys]
+\begin{worddef}{1740}[22]{K-PRIOR}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -1028,7 +1034,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-RIGHT}[][X:ekeys]
+\begin{worddef}{1740}[23]{K-RIGHT}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -1040,7 +1046,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-SHIFT-MASK}[][X:ekeys]
+\begin{worddef}{1740}[24]{K-SHIFT-MASK}[][X:ekeys]
 \item \stack{}{u}
 
 	Mask for the \textsc{Shift} key, that can be \word{OR}ed with the
@@ -1053,7 +1059,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{K-UP}[][X:ekeys]
+\begin{worddef}{1740}[25]{K-UP}[][X:ekeys]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
