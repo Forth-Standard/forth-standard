@@ -88,8 +88,8 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 
 \section{Compliance and labeling} % 15.5
 
-\cbstart\patch{F94}
-\subsection[Forth systems]{ANS\strike{3.5}{25} Forth systems} % 15.5.1
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 15.5.1
 \cbend
 
 The phrase ``Providing the Programming-Tools word set'' shall be
@@ -106,8 +106,8 @@ shall be appended to the label of any Standard System that provides
 all of the Programming-Tools and Programming-Tools Extensions word
 sets.
 
-\cbstart\patch{F94}
-\subsection[Forth programs]{ANS\strike{3.5}{25} Forth programs} % 15.5.2
+\cbstart\patch{F12}
+\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 15.5.2
 \cbend
 
 The phrase ``Requiring the Programming-Tools word set'' shall be
@@ -375,7 +375,7 @@ Extensions word sets.
 \see \rref{tools:CS-PICK}{}.
 
 	\begin{rationale} % A.15.6.2.1015 CS-PICK
-		The intent is to reiterate a \param{dest} on the control-flow
+		The intent is to \replace{ed12}{reiterate}{copy} a \param{dest} on the control-flow
 		stack so that it can be resolved more than once. For example:
 		\setwordlist{core}
 		\begin{quote}\ttfamily
@@ -556,46 +556,18 @@ Extensions word sets.
 		Typical use:
 			{\ldots} \word{FORGET} \emph{name} {\ldots}
 
-		\word{FORGET} \place{ed11}{\emph{name}} tries to infer \remove{ed11}{information about} the previous dictionary
-		state from \replace{ed11}{the forgotten word, which}{\emph{name}; this} is not always possible.  \replace{ed11}{In}{As a}
-		consequence, \word{FORGET} \replace{ed11}{is guaranteed to restore the state of name
-		space, but not necessarily the state of dictionary.}{\emph{name} removes \emph{name} and all following words in the name space.}
+		\word{FORGET} \emph{name} tries to infer the previous dictionary
+		state from \emph{name}; this is not always possible.  As a
+		consequence, \word{FORGET} \emph{name} removes \emph{name} and
+		all following words in the name space.
 
-		\place{ed11}{See \rref{core:MARKER}{}.}
-
-	\cbstart\patch{ed11}
-		\sout{For example,}
-		\begin{quote}
-			\sout{\word{ALIGN} \word{HERE} 100 \word{CELLS} \word{ALLOT} \word{CONSTANT} mybuffer} \\
-			\sout{\word{FORGET} mybuffer}
-		\end{quote}
-	\sout{in this case the 100 reserved cells are a part of the buffer, but
-		\word{FORGET} can not infer this.  A solution to the restoration
-		of the dictionary state is provided by \word{MARKER}.}
-
-	\sout{Nevertheless, \word{FORGET} is a useful tool for interactive sessions,
-		because it does not require creation of a marker in advance.  An example
-		session may look like following:}
-
-		\begin{quote}
-			\sout{\word{:} foo {\ldots} foo {\ldots} \word{p} buggy redefinition) \word{;}} \\
-			\sout{finding out the bug} \\
-			\sout{\word{FORGET} foo} \\
-			\sout{\word{:} foo {\ldots} foo {\ldots} \word{p} bug fixed) \word{;}} \\
-			\sout{checking that it works} \\
-			\sout{copying the definition of foo into a file}
-		\end{quote}
-      
-	\sout{It should be noted that such sessions are practical only in
-		environments that support input history (often persistent) and
-		copy/paste to/from the console.}
-	\cbend
+		See \rref{core:MARKER}{}.
 	\end{rationale}
 \end{worddef}
 
 % -------------------------------------------------------------------
 
-\begin{worddef}[NtoR]{}{N>R}[n-to-r][X:n-to-r]
+\begin{worddef}[NtoR]{1908}{N>R}[n-to-r][X:n-to-r]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -617,8 +589,8 @@ Extensions word sets.
 
 	\begin{rationale}
 		An implementation may store the stack items in any manner.  It may
-		store them on the return stack, in any order.  A stack\place{ed11}{-}constrained
-		system may prefer to use a buffer to store the items\remove{ed11}{,} and place a
+		store them on the return stack, in any order.  A stack-constrained
+		system may prefer to use a buffer to store the items and place a
 		reference to the buffer on the return stack.
 
 	\see \wref{core:SAVE-INPUT}{},
@@ -658,7 +630,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[NRfrom]{}{NR>}[n-r-from][X:n-to-r]
+\begin{worddef}[NRfrom]{1940}{NR>}[n-r-from][X:n-to-r]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -717,14 +689,14 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{}{SYNONYM}[][X:synonym]
+\begin{worddef}{2264}{SYNONYM}[][X:synonym]
 \item \stack{"<spaces>newname" "<spaces>oldname"}{}
 
 	For both strings skip leading space delimiters.  Parse \param{newname}
 	and \param{oldname} delimited by a space.  Create a definition for
 	\param{newname} with the semantics defined below.
-	\param{Newname} may be the same as \param{oldname}%
-	\place{ed11}{; when looking up \param{oldname}, \param{newname} shall not be found}.
+	\param{Newname} may be the same as \param{oldname};
+	when looking up \param{oldname}, \param{newname} shall not be found.
 
 	An ambiguous conditions exists if \param{oldname} can not be found or
 	\word{IMMEDIATE} is applied to \param{newname}.
@@ -762,7 +734,7 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{}{[DEFINED]}[bracket-defined][X:defined]
+\begin{worddef}{2530}[30]{[DEFINED]}[bracket-defined][X:defined]
 \compile
 	Perform the execution semantics given below.
 
@@ -806,6 +778,33 @@ Extensions word sets.
 			\word[tools]{[ELSE]} {\ldots}
 			\word[tools]{[THEN]} {\ldots}
 	\end{rationale}
+
+	\begin{implement}
+\cbstart\patch{ed12}
+		\begin{tabbing}
+		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
+		  \+
+		  \uline{\word{:} \word{[ELSE]} \word{p} -{}- )} \\
+			\+ \uline{1 \word{BEGIN}}																		\>\>\>\>\>\>\uline{\word{bs}~level} \\
+				\+ \uline{\word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}}\>\>\>\>\>	\uline{\word{bs}~level adr len} \\
+					\uline{\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}}			\>\>\>\>	\uline{\word{bs}~level adr len} \\
+					\> \uline{\word{2DROP} \word{1+}}														\>\>\>		\uline{\word{bs}~level'} \\
+					\+ \uline{\word{ELSE}}																	\>\>\>\>	\uline{\word{bs}~level adr len} \\
+						\uline{\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}}	\>\>\>		\uline{\word{bs}~level adr len} \\
+						\> \uline{\word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}}		\>\>		\uline{\word{bs}~level'} \\
+						\uline{\word{ELSE}}																	\>\>\>		\uline{\word{bs}~level adr len} \\
+						\> \uline{\word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}}				\>\>		\uline{\word{bs}~level} \\
+						\>\> \uline{\word{1-}}																\>			\uline{\word{bs}~level'} \\
+						\>\uline{\word{THEN}} \\
+						\- \uline{\word{THEN}} \\
+					\- \uline{\word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}}		\>\>\>\>	\uline{\word{bs}~level'} \\
+				\- \uline{\word{REPEAT} \word{2DROP}}														\>\>\>\>\>	\uline{\word{bs}~level} \\
+			\uline{\word{REFILL} \word{0=} \word{UNTIL}}													\>\>\>\>\>\>\uline{\word{bs}~level} \\
+			\- \uline{\word{DROP}} \\
+		\uline{\word{;} \word{IMMEDIATE}}
+		\end{tabbing}
+\cbend
+	\end{implement}
 \end{worddef}
 
 
@@ -840,6 +839,14 @@ Extensions word sets.
 			\word[tools]{[ELSE]} {\ldots}
 			\word[tools]{[THEN]} {\ldots}
 	\end{rationale}
+
+	\begin{implement}
+\cbstart\patch{ed12}
+		\uline{\word{:} \word[tools]{[IF]} \word{p} flag -{}- )} \\
+		\tab \uline{\word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN}} \\
+		\uline{\word{;} \word{IMMEDIATE}}
+\cbend
+	\end{implement}
 \end{worddef}
 
 
@@ -891,43 +898,50 @@ Extensions word sets.
 
 		More complicated conditional compilation problems suggest a
 		nestable method that can encompass more than one source line
-		at a time. The words included in the \remove{F94}{ANS Forth} optional
-		Programming tools extensions word set are useful for this
-		purpose. The implementation given below works with any input
+		at a time. The words included in the optional Programming tools
+		extensions word set are useful for this purpose.
+\cbstart\patch{ed12}
+\sout{%
+The implementation given below works with any input
 		source (keyboard, \word{EVALUATE}, \word[block]{BLOCK}, or
-		text file).
+		text file).}
 
 		\begin{quote}\ttfamily
 		\begin{tabbing}
 		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
 		  \+
-		  \word{:} \word{[ELSE]} \word{p} -{}- ) \\
-			\+ 1 \word{BEGIN}																		\>\>\>\>\>\>\word{bs}~level \\
-				\+ \word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}	\>\>\>\>\>	\word{bs}~level adr len \\
-					\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}			\>\>\>\>	\word{bs}~level adr len \\
-					\> \word{2DROP} \word{1+}														\>\>\>		\word{bs}~level' \\
-					\+ \word{ELSE}																	\>\>\>\>	\word{bs}~level adr len \\
-						\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}	\>\>\>		\word{bs}~level adr len \\
-						\> \word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}		\>\>		\word{bs}~level' \\
-						\word{ELSE}																	\>\>\>		\word{bs}~level adr len \\
-						\> \word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}				\>\>		\word{bs}~level \\
-						\>\> \word{1-}																\>			\word{bs}~level' \\
-						\>\word{THEN} \\
-						\- \word{THEN} \\
-					\- \word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}		\>\>\>\>	\word{bs}~level' \\
-				\- \word{REPEAT} \word{2DROP}														\>\>\>\>\>	\word{bs}~level \\
-			\word{REFILL} \word{0=} \word{UNTIL}													\>\>\>\>\>\>\word{bs}~level \\
-			\- \word{DROP} \\
-		\word{;} \word{IMMEDIATE} \\[1.5\parskip]
+		  \sout{\word{:} \word{[ELSE]} \word{p} -{}- )} \\
+			\+ \sout{1 \word{BEGIN}}																		\>\>\>\>\>\>\sout{\word{bs}~level} \\
+				\+ \sout{\word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}	}\>\>\>\>\>	\sout{\word{bs}~level adr len} \\
+					\sout{\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}}			\>\>\>\>	\sout{\word{bs}~level adr len} \\
+					\> \sout{\word{2DROP} \word{1+}}														\>\>\>		\sout{\word{bs}~level'} \\
+					\+ \sout{\word{ELSE}}																	\>\>\>\>	\sout{\word{bs}~level adr len} \\
+						\sout{\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}}	\>\>\>		\sout{\word{bs}~level adr len} \\
+						\> \sout{\word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}}		\>\>		\sout{\word{bs}~level'} \\
+						\sout{\word{ELSE}}																	\>\>\>		\sout{\word{bs}~level adr len} \\
+						\> \sout{\word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}}				\>\>		\sout{\word{bs}~level} \\
+						\>\> \sout{\word{1-}}																\>			\sout{\word{bs}~level'} \\
+						\>\sout{\word{THEN}} \\
+						\- \sout{\word{THEN}} \\
+					\- \sout{\word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}}		\>\>\>\>	\sout{\word{bs}~level'} \\
+				\- \sout{\word{REPEAT} \word{2DROP}}														\>\>\>\>\>	\sout{\word{bs}~level} \\
+			\sout{\word{REFILL} \word{0=} \word{UNTIL}}													\>\>\>\>\>\>\sout{\word{bs}~level} \\
+			\- \sout{\word{DROP}} \\
+		\sout{\word{;} \word{IMMEDIATE}} \\[1.5\parskip]
 
-		\word{:} \word[tools]{[IF]} \word{p} flag -{}- ) \\
-		\> \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN} \\
-		\word{;} \word{IMMEDIATE} \\[1.5\parskip]
+		\sout{\word{:} \word[tools]{[IF]} \word{p} flag -{}- )} \\
+		\> \sout{\word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN}} \\
+		\sout{\word{;} \word{IMMEDIATE}} \\[1.5\parskip]
 
-		\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE} \\
+		\sout{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}} \\
 		\end{tabbing}
-		\end{quote}
+	\end{quote}
+\cbend
 	\end{rationale}
+
+	\begin{implement}
+\place{ed12}{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}}
+	\end{implement}
 
 	\begin{testing}
 		\test{<TRUE>  \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{111} \\
@@ -960,7 +974,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{}{[UNDEFINED]}[bracket-undefined][X:defined]
+\begin{worddef}{2534}{[UNDEFINED]}[bracket-undefined][X:defined]
 \compile
 	Perform the execution semantics given below.
 
