@@ -18,7 +18,17 @@
 %\showreftrue
 \showreffalse
 
-\newcommand{\revision}{11.1}	% Document Revision
+\newif\ifrelease			% Draft/Release version
+%\releasetrue
+\releasefalse
+
+\ifrelease
+	\inlinefalse
+	\showreffalse
+\fi
+
+\newcommand{\revision}{12.1}	% Document Revision
+\newcommand{\snapshot}{2012}	% Year of Snapshot
 
 % =================================================
 
@@ -80,8 +90,13 @@
 
 \lhead[\leftmark]{Forth 200\emph{x} / \docversion}
 \rhead[Forth 200\emph{x} / \docversion]{\leftmark}
-\lfoot[\rm\thepage]{\sf\small\includefile}
-\rfoot[\sf\small\includefile]{\rm\thepage}
+\ifrelease
+	\lfoot[\rm\thepage]{}
+	\rfoot[]{\rm\thepage}
+\else
+	\lfoot[\rm\thepage]{\sf\small\includefile}
+	\rfoot[\sf\small\includefile]{\rm\thepage}
+\fi
 \cfoot{}
 \renewcommand{\footrulewidth}{0.4pt}
 \newcommand{\collate}{%
@@ -319,8 +334,13 @@
 % \word@sub		the two digit sub-division number
 % \word@name	the name of the word being defined
 
-\newcommand{\word@def@b}[2][\empty]{% ...[<sub-number>]{<name>}...
-	\ifx#1\empty\let\word@sub=\empty\else\def\word@sub{#1}\fi
+% For some reason I have yet to work out, this treats numbers with
+% duplicate digits (such as 11, 22, 33, and so on) an empty.  Thus
+% the use of a magic number (100) to signify an empty sub-number,
+% as the maximum sub-number should only be 99, this should be sufficient.
+
+\newcommand{\word@def@b}[2][100]{% ...[<sub-number>]{<name>}...
+	\ifnum#1<100\def\word@sub{#1}\else\let\word@sub=\empty\fi
 	\ifx\word@label\empty\def\word@label{#2}\fi
 	\def\word@name{#2}
 	\word@def@c
@@ -361,7 +381,7 @@
 \newcommand{\word@def@begin}{%
 	\typeout{%
 		\ifx\empty\word@num----\else\word@num\fi
-		\ifx\empty\word@sub\else.\word@sub\fi
+		\ifx\empty\word@sub\space\space\space\else.\word@sub\fi
 		\space\includefile:\word@label}
 	\ifx\empty\word@prop
 		% No proposal - word must be from ANS Forth '94
@@ -425,10 +445,17 @@
 	%
 	% Word number and name
 	%
+\@tempswbfalse
+\ifrelease\else
+	\ifx\empty\word@prop\else
+		\cbstart\marginpar{\tiny{\color{white}c:b}}
+		\@tempswbtrue
+	\fi
+\fi
 	\makebox[0.5\textwidth][l]{%
-		\makebox[7.0em][l]{% <== Magic Number, width of section number
+		\makebox[6.0em][l]{% <== Magic Number, width of section number
 			% Switch to a bold font
-			\bfseries
+			\bfseries\sffamily
 			%
 			% Current section or subsection
 			%
@@ -445,24 +472,35 @@
 			\ifx\empty\word@num
 				% No word number given
 				.\rule[.8ex]{2em}{.5pt}
-			\else
-				.\word@num
-			\fi
+			\else%
+\if@tempswb%
+				\uline{.\word@num}%
+\else%
+				.\word@num%
+\fi%
+			\fi%
 			%
 			% Sub division
 			%
 			\ifx\word@sub\empty
-				% No sub division
+				~% No sub division
 			\else
+\if@tempswb
+				\uline{.\word@sub}
+\else
 				.\word@sub
+\fi
 			\fi
 		}
 		%
 		% Word Name
 		%
-		\mdseries	% Back to a medium weight (normal) font
-		\texttt{\word@name}
+		%\mdseries	% Back to a medium weight (normal) font
+		\texttt{\textbf{\word@name}}
 	}
+\if@tempswb
+		\cbend
+\fi
 	%
 	% English pronunciation (if given)
 	%
@@ -480,14 +518,14 @@
 	%
 	% Cross Reference
 	%
-	\ifshowref
+	\ifshowref%
 		\ifx\word@label\word@name
 			% Word label is the word name
 		\else
 			% Label is different to name
 			\hbox to 0pt{\textsf{\small ~~\word@label}}
 		\fi
-	\fi
+	\fi%
 	%
 	% Start change bar
 	%
@@ -497,12 +535,14 @@
 	%
 	% Proposal
 	%
-	\\[-0.8ex]
+	\\*[-0.6ex]
 	\ifx\word@prop\empty
 		% No proposal - word must be from ANS Forth '94
 	\else
-		\mbox{} \hfill	% flush right (under the wordset name)
-		\textsf{\small \word@prop}%
+		\ifrelease\else
+			\mbox{} \hfill	% flush right (under the wordset name)
+			\textsf{\small \word@prop}%
+		\fi
 	\fi
 	%
 	% Define the label for this word
@@ -518,7 +558,10 @@
 	%
 	% End the header
 	%
-	\\[-6ex]
+	\if@star\else
+		\ifx\word@prop\empty\else\cbend\fi % Draft
+	\fi
+	\\*[-1.5\baselineskip]
 	%
 	% This is a very bad place for a page break
 	%
@@ -570,7 +613,7 @@
 	%
 	% Leave some extra space after the list
 	%
-	\vspace*{3ex}
+	\vspace{3ex}
 	%
 	% This would be a fairly good place for a page break
 	%
@@ -593,7 +636,7 @@
 \newcommand{\interpret}{\item[Interpretation]}
 \newcommand{\note}[1][\empty]{\item[Note\ifx#1\empty\else\ #1\fi]}
 \newcommand{\runtime}[1][]{\item[#1 Run-time]}
-\newcommand{\see}{\item[See]}
+\newcommand{\see}{\pagebreak[0]\item[See]}
 
 
 % ==== Stack Descriptions ====
@@ -798,6 +841,7 @@
 	% And the same again for the reference implementation.
 	\newenvironment{implement}{%
 		\inline@section{imp}{Implementation}
+		\inline@label{imp}{\ref{annex:implement}}
 		\ttfamily
 	}{%
 		\rmfamily
@@ -967,6 +1011,7 @@
 		% Mark the header as the target for the hyperlink.
 		%
 		\par
+		\pagebreak[3]
 		%
 		\hyperdef{\defer@space.#4}{#5}{%
 			\textbf{\rmfamily\thechapter.#1%
@@ -980,6 +1025,7 @@
 			\@startrue%
 			\cbstart\patch{#7}%
 		\fi%
+		\pagebreak[1]
 		%
 		% Start the body environment
 		%
@@ -1035,6 +1081,8 @@
 			\cbend%
 			\@starfalse%
 		\fi%
+		%
+		\pagebreak[3]
 	}
 
 	% Sometime we want "normal" text in the implementation and
@@ -1044,6 +1092,9 @@
 	\newcommand{\dffamily}{\rmfamily}
 \fi
 
+\newcommand{\proposal}[1]{%
+	\ifrelease\else\strut\hfill\textsf{\small #1}\fi
+}
 
 % ========== Special Characters ==========
 
@@ -1284,28 +1335,28 @@
 
 \renewcommand{\chapter}{\@startsection
 	{chapter}{0}{0pt}{1pt}{\baselineskip}
-	{\normalfont\LARGE\bfseries}
+	{\normalfont\LARGE\sffamily\bfseries}
 }
 \renewcommand{\chaptermark}[1]{
-	\markboth{\textbf{\thechapter. #1}}{}
+	\markboth{\textsf{\thechapter. #1}}{}
 }
 \renewcommand{\section}{\@startsection
 	{section}{1}{0pt}{1pt}{1pt}
-	{\normalfont\Large\bfseries}
+	{\normalfont\Large\sffamily\bfseries}
 }
 \renewcommand{\subsection}{\@startsection
 	{subsection}{2}{0pt}{1pt}{1pt}
-	{\normalfont\large\bfseries}
+	{\normalfont\large\sffamily\bfseries}
 }
 \renewcommand{\subsubsection}{\@startsection
 	{subsubsection}{3}{0pt}{1pt}{1pt}
-	{\normalfont\normalsize\bfseries}
+	{\normalfont\normalsize\sffamily\bfseries}
 }
 
 \newcommand{\annex}[2][\empty]{%
 	\refstepcounter{chapter}
 	\begin{center}
-		\normalfont\Large
+		\normalfont\Large\sffamily
 		{\bfseries Annex \thechapter} \\
 		(informative) \\
 		{\bfseries #2}
@@ -1319,8 +1370,27 @@
 	\edef\@currentlabelname{\tmp@a}%
 }
 
+\usepackage{environ}[2008/06/18]
+
+\NewEnviron{editor}{%
+	{\color{blue}\fbox{%
+	\begin{minipage}{\linewidth}
+		\slshape\textbf{Editor:} \par \BODY
+	\end{minipage}}}
+}
+
+
+% \@history@label defined/used by history package
 \newcommand{\patch}[1]{% {<name>}
-	\marginpar{\tiny\textsf{#1}{\color{white}c:b}}
+	\edef\temp@b{\thepage.#1}
+	\ifx\temp@b\@history@label
+		% Label already used on this page
+		\marginpar{\tiny{\color{white}c:b}}
+	\else
+		% New label for this page
+		\marginpar{\tiny\textsf{#1}{\color{white}c:b}}
+		\edef\@history@label{\temp@b}
+	\fi
 }
 
 \newcommand{\strike}[3][3]{% [<end-space>]{<height>}{<width>}
@@ -1351,9 +1421,6 @@
 % ==========                                   ==========
 % =======================================================
 
-% Reserve a counter for the second title page
-\newcounter{savepage}
-
 \begin{document}
 
 % \nochangebars\rule{\linewidth}{1pt}\hspace*{-\linewidth}\rule[3pt]{\linewidth}{1pt}
@@ -1363,7 +1430,16 @@
 \thispagestyle{empty}
 \def\includefile{}
 
+% Change style of page numbering without changing the page number.
+% What used to be \frontmatter is now this crap:
+
+\makeatletter
+\cleardoublepage
+\@tempcnta = \c@page
 \frontmatter
+\c@page = \@tempcnta
+\makeatother
+
 \setcounter{tocdepth}{2}
 {\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
 %%{\parskip 0pt \listoftables}	\addcontentsline{toc}{chapter}{\listtablename}
@@ -1377,7 +1453,19 @@
 \include{members-2x}
 %\include{members-x3}
 
+% Because some people are unable to handle the concept of sheet
+% numbers being different to page numbers we have to bastardise
+% the page numbering by preserving the page number between
+% the font and main matter, converting page number into sheet
+% numbering.
+% What used to be \mainmatter is now this crap:
+
+\makeatletter
+\cleardoublepage
+\@tempcnta = \c@page
 \mainmatter
+\c@page = \@tempcnta
+\makeatother
 
 % Part I: Introduction
 
@@ -1393,18 +1481,18 @@
 \cfoot{\collate}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
-\include{core}			% 6
+\include{core}		% 6
 \include{block}		% 7
-\include{double}		% 8
+\include{double}	% 8
 \include{exception}	% 9
 \include{facility}	% 10
-\include{file}			% 11
+\include{file}		% 11
 \include{float}		% 12
-\include{locals}		% 13
-\include{memory}		% 14
+\include{locals}	% 13
+\include{memory}	% 14
 \include{tools}		% 15
-\include{search}		% 16
-\include{string}		% 17
+\include{search}	% 16
+\include{string}	% 17
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
 \include{xchar}		% 18
@@ -1418,52 +1506,21 @@
 \cfoot{}
 
 
-% ========== New Title Page ==========
-
-% We do not bother to produce a new title page only when we
-% are inlineing the rationale.
-
-\iffalse%ifinline
-	% Save the current page number
-	\setcounter{savepage}{\value{page}}
-
-	% The back page to the first part
-	% This should be on the next even page.
-
-	\pagestyle{empty}
-	\ifodd\value{page}\else~\newpage\fi
-	~\vfill
-	%	Copyright \copyright{} \number\year \\
-	Forth 200\emph{x} Standards Committee \\[2ex]
-	\url{http://www.forth200x.org/}
-
-	% Title page of second part
-	\include{titlepage}
-
-	% Throw a new blank page
-	~\newpage
-	\pagestyle{fancy}
-
-	% Restore the page number
-	\setcounter{page}{\value{savepage}}
-\fi
-
-% ====================================
-
-
 % Part III: Rational
 
 \appendix
-\include{rationale}
+\include{rationale}		% A
 
 % Part IV: Informative background
 
-\include{bib}
-\include{history}
-\include{diff}
-\include{port}
-\include{implement}
-\include{testsuite}
+\include{bib}			% B
+%	\include{history}	% C
+\include{diff}			% D
+\include{port}			% E
+\ifrelease\else
+	\include{implement}	% F
+	\include{testsuite}	% G
+\fi
 
 % Close the glossary file
 \immediate\closeout\wordfile
@@ -1471,26 +1528,9 @@
 % Part V: Index
 
 %\closehistory
-\include{changelog}
-\include{alpha}
-
-\end{document}
-
-% Back Page
-\pagestyle{empty}
-
-% At least one blank page between the last page of text
-% and the back page
-~\newpage
-
-% The back page should be reverse of the last page
-\ifodd\count0
-	~\newpage
+\ifrelease\else
+	\include{changelog}	% H
 \fi
-~
-\vfill
-% Copyright \copyright{} \number\year \\
-Forth 200\emph{x} Standards Committee \\[2ex]
-\url{http://www.forth200x.org/}
+\include{alpha}			% I
 
 \end{document}
