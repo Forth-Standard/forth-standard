@@ -29,6 +29,7 @@ set and glossary section in which the word is defined.
 \fi
 
 \newcommand{\alpha@entry}[9]{%
+	\def\Prop{#7}
 	%
 	% Enable the change bar for * words
 	%
@@ -36,13 +37,11 @@ set and glossary section in which the word is defined.
 	%
 	% Word Number - Hyper linked to its definition
 	%
-	% Section number first
-	%
 	\def\Tmp{#2}%
 	\makebox[5em][r]{\hyperref{}{#5}{#8}{%
 		#1.\ifx\Tmp\empty\rule[.8ex]{2em}{.5pt}\else#2\fi}}%
 	%
-	% Then the word number
+	% The word sub-number
 	%
 	\def\Tmp{#3}% {12}%
 	\makebox[2em][l]{%
@@ -50,10 +49,12 @@ set and glossary section in which the word is defined.
 	%
 	% Standard Extension Proposal
 	%
-	\def\Tmp{#7}%
-	\ifx\Tmp\empty\else
-		\marginpar{\textsf{\tiny #7}}
-	\fi%
+%	\ifdraft
+		\def\Tmp{#7}%
+		\ifx\Tmp\empty\else
+			\marginpar{\textsf{\tiny #7}}
+		\fi%
+%	\fi%
 	%
 	% Word Label - If we are showing reference
 	%
