@@ -1,15 +1,15 @@
 % !TeX root = forth.tex
 % !TeX spellcheck = en_US
-\cbstart
+\cbstart\patch{compatibility}
 \annex[Compatibility analysis]{Compatibility analysis of ANS Forth\strike{4}{80}} % D (informative annex)
-\label{annex:diff}
 \cbend
+\label{annex:diff}
 \setwordlist{core}
 
-Prior to \replace{F94}{ANS Forth}{this standard}, there were several industry standards for Forth.
+\replace{compatibility}{Prior to}{Before} this standard, there were several industry standards for Forth.
 The most influential are listed here in chronological order, along
-with the major differences between \replace{F94}{ANS Forth}{this standard} and the most recent,
-\replace{F94}{Forth 83}{ANS Forth}.
+with the major differences between this standard and the most recent,
+\replace{compatibility}{ANS Forth}{Forth 94}.
 
 \section{FIG Forth (circa 1978)} % D.1
 
@@ -17,12 +17,12 @@ FIG Forth was a ``model'' implementation of the Forth language
 developed by the Forth Interest Group (FIG). In FIG Forth, a
 relatively small number of words were implemented in processor-dependent
 machine language and the rest of the words were implemented in Forth.
-The FIG model was placed in the public domain, and was ported to a
-wide variety of computer systems. Because the bulk of the FIG Forth
+The FIG model was placed in the public domain, and was ported to a wide
+variety of computer systems. Because the bulk of the FIG Forth
 implementation was the same across all machines, programs written in
 FIG Forth enjoyed a substantial degree of portability, even for
-``system-level'' programs that directly manipulate the internals of
-the Forth system implementation.
+``system-level'' programs that directly manipulate the internals
+of the Forth system implementation.
 
 FIG Forth implementations were influential in increasing the number
 of people interested in using Forth. Many people associate the
@@ -79,103 +79,115 @@ of successful Forth vendors did not convert their implementations to
 be Forth 83 compliant. For example, the most successful commercial
 Forth for Apple Macintosh computers is based on Forth 79.
 
-\section{Recent developments} % D.4
+\cbstart\patch{compatibility}
+\section[Recent developments]{\sout{Recent developments}} % D.4
+\label{diff:development}
 
+\sout{%
 Since the Forth-83 Standard was published, the computer industry has
 undergone rapid and profound changes. The speed, memory capacity, and
 disk capacity of affordable personal computers have increased by
 factors of more than 100. 8-bit processors have given way to 16-bit
-processors, and now 32-bit processors are commonplace.
+processors, and now 32-bit processors are commonplace.}
 
+\sout{%
 The operating systems and programming-language environments of small
-systems are much more powerful than they were in the early 80's.
+systems are much more powerful than they were in the early 80's.}
 
+\sout{%
 The personal-computer marketplace has changed from a predominantly
-``hobbyist'' market to a mature business and commercial market.
+``hobbyist'' market to a mature business and commercial market.}
 
+\sout{%
 Improved technology for designing custom microprocessors has resulted
 in the design of numerous ``Forth chips'', computers optimized for
-the execution of the Forth language.
+the execution of the Forth language.}
 
+\sout{%
 The market for ROM-based embedded control computers has grown
-substantially.
+substantially.}
 
+\sout{%
 In order to take full advantage of this evolving technology, and to
 better compete with other programming languages, many recent Forth
 implementations have ignored some of the ``rules'' of previous Forth
-standards. In particular:
+standards. In particular:}
 
 \begin{itemize}
-\item 32-bit Forth implementations are now common.
-\item Some Forth systems adopt the address-alignment restrictions of
-	the hardware on which they run.
-\item Some Forth systems use native-code generation, microcode
+\item \sout{32-bit Forth implementations are now common.}
+\item \sout{Some Forth systems adopt the address-alignment restrictions of
+	the hardware on which they run.}
+\item \sout{Some Forth systems use native-code generation, microcode
 	generation, and optimization techniques, rather than the
-	traditional ``threaded code''.
-\item Some Forth systems exploit segmented addressing architectures,
-	placing portions of the Forth ``dictionary'' in different segments.
-\item More and more Forth systems now run in the environment of another
+	traditional ``threaded code''.}
+\item \sout{Some Forth systems exploit segmented addressing architectures,
+	placing portions of the Forth ``dictionary'' in different segments.}
+\item \sout{More and more Forth systems now run in the environment of another
 	``standard'' operating system, using OS text files for source code,
-	rather than the traditional Forth ``blocks''.
-\item Some Forth systems allow external operating system software,
+	rather than the traditional Forth ``blocks''.}
+\item \sout{Some Forth systems allow external operating system software,
 	windowing software, terminal con\-cen\-tratores, or communications
 	channels to handle or preprocess user input, resulting in deviations
 	from the input editing, character set availability, and screen
-	management behavior prescribed by Forth 83.
+	management behavior prescribed by Forth 83.}
 \end{itemize}
 
+\sout{%
 Competitive pressure from other programming languages (predominantly
 ``C'') and from other Forth ven\-dors have led Forth vendors to
 optimizations that do not fit in well with the ``virtual machine
-model'' implied by existing Forth standards.
+model'' implied by existing Forth standards.}
 
 
-\cbstart\patch{F94}
-\section[ANS Forth (1994)]{ANS Forth approach\strike{4}{60} (1994)\strike{-2}{40}} % D.5
+\section[ANS Forth approach]{\sout{ANS Forth approach}} % D.5
 \label{diff:ans}
-\cbend
 
+\sout{%
 The ANS Forth committee addressed the serious fragmentation of the
 Forth community caused by the differences between Forth 79 and
 Forth 83, and the divergence from either of these two industry
-standards caused by marketplace pressures.
+standards caused by marketplace pressures.}
 
-Consequently, the committee \replace{F94}{has chosen}{chose} to base its compatibility
+\sout{%
+Consequently, the committee has chosen to base its compatibility
 decisions not upon a strict comparison with the Forth-83 Standard,
 but instead upon consideration of the variety of existing
 implementations, especially those with substantial user bases and/or
-considerable success in the marketplace.
+considerable success in the marketplace.}
 
-The committee \replace{F94}{feels}{felt} that, if ANS Forth prescribes stringent
+\sout{%
+The committee feels that, if ANS Forth prescribes stringent
 requirements upon the virtual machine model, as did the previous
 standards, then many implementors will chose not to comply with
-ANS Forth. The committee \replace{F94}{hopes}{hoped} that ANS Forth \replace{F94}{will}{would} serve to unify
+ANS Forth. The committee hopes that ANS Forth will serve to unify
 rather than to further divide the Forth community, and thus
-\replace{F94}{has chosen}{chose} to encompass rather than invalidate popular implementation
-techniques.
+has chosen to encompass rather than invalidate popular implementation
+techniques.}
 
-Many of the changes from Forth 83 \replace{F94}{are}{where} justified by this rationale.
+\sout{%
+Many of the changes from Forth 83 are justified by this rationale.
 Most fall into the category that ``an ANS Forth Standard Program may
 not assume x'', where ``x'' is an entitlement resulting from the
 virtual machine model prescribed by the Forth-83 Standard. The
-committee \replace{F94}{feels}{felt} that these restrictions are reasonable, especially
+committee feels that these restrictions are reasonable, especially
 considering that a substantial number of existing Forth implementations
-\replace{F94}{do}{that did} not correctly implement the Forth-83 virtual model, thus the Forth-83
-entitlements exist ``in theory'' but not ``in practice''.
+do not correctly implement the Forth-83 virtual model, thus the Forth-83
+entitlements exist ``in theory'' but not ``in practice''.}
 
+\sout{%
 Another way of looking at this is that while ANS Forth acknowledges
-the diversity of \remove{F94}{current} Forth practice, it \replace{F94}{attempts}{attempted} to document the
-similarity therein. In some sense, ANS Forth \replace{F94}{is}{was} thus a ``description
+the diversity of current Forth practice, it attempts to document the
+similarity therein. In some sense, ANS Forth is thus a ``description
 of reality'' rather than a ``prescription for a particular virtual
-machine''.
+machine''.}
 
-\remove{F94}{%
+\sout{%
 Since there is no previous American National Standard for Forth, the
 action requirements prescribed by section 3.4 of X3/SD-9,
 ``Policy and Guidelines'', regarding previous standards do not apply.
 }
 
-\remove{F94}{%
+\sout{%
 The following discussion describes differences between ANS Forth and
 Forth 83. In most cases, Forth 83 is representative of Forth 79 and
 FIG Forth for the purposes of this discussion. In many of these cases,
@@ -183,13 +195,62 @@ however, ANS Forth is more representative of the existing state of the
 Forth industry than the previously-published standards.
 }
 
-\place{F94}{The American National Standards Institution (ANSI) published
-the ANS Forth Standard in 1994 with the title ``\emph{ANSI X3.215-1994
+\section[ANS Forth (1994)]{\uline{ANS Forth (1994)}} % D.5
+
+\uline{%
+In the mid to late 1980s the computer industry underwent a rapid and
+profound change.  The personal-com\-put\-er market matured into a business
+and commercial market, while the market for ROM-based embedded control
+computers grew substantially.  Improvements in custom processor design
+allowed for the de\-vel\-op\-ment of numerous ``Forth chips,'' customized
+for the execution of the Forth language.}
+
+\uline{%
+In order to take full advantage of evolving technology, many Forth
+implementations ignored some of the restrictions imposed by the
+implied ``virtual machine'' of previous standards.
+The ANS Forth committee was formed in 1987 to address the fragmentation
+within the Forth community caused not only by the difference between
+Forth 79 and Forth 83 but the exploitation of technical developments.}
+
+\uline{%
+The committee undertook a comprehensive review of a variety of existing
+implementations, especially those with substantial user bases and/or
+considerable success in the market place.  This allowed them to identify
+and document features common to these systems, many of which had not been
+included in any previous standard.}
+
+\uline{%
+The committee chose to move away from prescribing stringent requirements
+as previous standards had, with the specification of a virtual machine.
+It preferred to describe the operation of the virtual machine, without
+reference to its implementation, thus allowing an implementor to take
+full advantage of any technical developments while providing the
+developer with a complete list of entitlements.}
+
+\uline{%
+This required the identification of implicit assumptions made by the
+previous standards, making them explicit and abstracting them into
+more general concepts where possible.  A good example of this is the
+size of an item on the stack.  In previous standards this was assumed
+to be 16-bits wide.  This was no longer a valid assumption.  ANS Forth
+introduced the concept of the \emph{cell}, allowing the an implementation
+to use a stack size most suited to the environment.}
+
+\uline{%
+This was the most comprehensive review of Forth systems to date, taking
+eighty seven days covering twenty three meetings over eight years.
+The inclusive nature of the standard allowed the various factions within
+the community to unify in support of ANS Forth, with many systems
+providing a comparability layer.}
+
+\uline{%
+The American National Standards Institution (ANSI) published the ANS
+Forth Standard in 1994 with the title ``\emph{ANSI X3.215-1994
 Information Systems --- Programming Language FORTH}''.  This is referenced
 throughout this document as Forth 94.}
 
-\cbstart\patch{F94}
-\section[ISO Forth (1997)]{ISO Forth (1997)\strike{-2}{110}}
+\section[ISO Forth (1997)]{\uline{ISO Forth (1997)}}
 \label{diff:iso}
 
 \uline{%
@@ -201,93 +262,126 @@ The ISO/IEC adopted the Forth 94 document as an international standard
 in 1997, publishing it under the title ``\emph{ISO/IEC 15145:1997
 Information technology.  Programming languages.  FORTH}''.
 }
-\cbend
 
-\section{Differences from Forth 83} % D.6
 
-\place{F94}{%
-The following discussion describes differences between this standard and
-Forth 83. In most cases, Forth 83 is representative of Forth 79 and
-FIG Forth for the purposes of this discussion. In many of these cases,
-however, this standard is more representative of the existing state of the
-Forth industry than the previously-published standards.
-}
+\section[Approach of this Standard]{\uline{Approach of this Standard}} % D.6
+\label{diff:approach}
 
-\subsection{Stack width} % D.6.1
+\uline{%
+During a workshop on the Forth standard at the EuroForth conference in
+2004 it was agreed that the Forth 94 required updating.}
 
+\uline{%
+A committee was formed and agreed that the process should be as open
+as possible, adopting the Usenet RfD/CfV (Request for Discussion/Call
+for Votes) process to produce semi-formal proposals for changes to the
+standard.  In addition to general discussion on the \texttt{comp.lang.forth}
+usenet news group, a moderated mailing list (with public archive) was
+created for those who do not follow the news group.
+Standards meetings to discuss CfVs were held in public in
+conjunction with the EuroForth conference.}
+
+\uline{%
+The work of the Forth 94 Committee was the basis of this standard,
+informally called Forth 200\emph{x}.  The aim of the Forth 200\emph{x}
+committe is to produce a rolling document, with the standard constantly
+being updated based on discussion of proposals and the corresponding
+votes.  A snapshot document is occasionally produced, with this document
+being the first.}
+
+\uline{%
+The Forth 200\emph{x} committee defined a procedure for proposals.  In
+addition to the formal text of the proposal, they had to include:
+the rationale behind the change;
+a reference implementation, or a description of the reason a reference
+implementation cannot be presented;
+unit testing for the proposed change, especially for border conditions.
+See \xref[Process]{process} (page \pageref{process}) for a full description.}
+
+
+\section[Differences from Forth 83]{\sout{Differences from Forth 83}} % D.6
+
+\subsection[Stack width]{\sout{Stack width}} % D.6.1
+
+\sout{%
 Forth 83 specifies that stack items occupy 16 bits. This includes
 addresses, flags, and numbers. ANS Forth specifies that stack items
 are at least 16 bits; the actual size must be documented by the
-implementation.
+implementation.}
 
 \begin{description}
-\item[Words affected:]
-	all arithmetic, logical and addressing operators
+\item[\sout{Words affected:}]
+	\sout{all arithmetic, logical and addressing operators}
 
-\item[Reason:]
-	32-bit machines are becoming commonplace. A 16-bit Forth
-	system on a 32-bit machine is not competitive.
+\item[\sout{Reason:}]
+	\sout{32-bit machines are becoming commonplace. A 16-bit Forth
+	system on a 32-bit machine is not competitive.}
 
-\item[Impact:]
-	Programs that assume 16-bit stack width will continue to run on
+\item[\sout{Impact:}]
+	\sout{Programs that assume 16-bit stack width will continue to run on
 	16-bit machines; ANS Forth does not require a different stack
 	width, but simply allows it. Many programs will be unaffected
-	(but see ``address unit'').
+	(but see ``address unit'').}
 
-\item[Transition/Conversion:]
-	Programs which use bit masks with the high bits set may have to
+\item[\sout{Transition/Conversion:}]
+	\sout{Programs which use bit masks with the high bits set may have to
 	be changed, substituting either an implementation-defined bit-mask
 	constant, or a procedure to calculate a bit mask in a
 	stack-width-independent way. Here are some procedures for
-	constructing width-in\-de\-pend\-ent bit masks:
+	constructing width-in\-de\-pend\-ent bit masks:}
 
 	\begin{tt}
-		1 \word{CONSTANT} LO-BIT \\
-		\word{TRUE} 1 \word{RSHIFT}
+		\sout{1 \word{CONSTANT} LO-BIT} \\
+		\sout{\word{TRUE} 1 \word{RSHIFT}
 			\quad \word{INVERT}
-			\quad \word{CONSTANT} HI-BIT \\
-		\word{:} LO-BITS \word{p} n -{}- mask )
+			\quad \word{CONSTANT} HI-BIT} \\
+		\sout{\word{:} LO-BITS \word{p} n -{}- mask )
 			0 \word{SWAP}	0 \word{qDO}
 				1 \word{LSHIFT}		LO-BIT \word{OR}
 			\word{LOOP}
-		\word{;} \\
-		\word{:} HI-BITS \word{p} n -{}- mask )
+		\word{;}} \\
+		\sout{\word{:} HI-BITS \word{p} n -{}- mask )
 			0 \word{SWAP}	0 \word{qDO}
 				1 \word{RSHIFT}	HI-BIT \word{OR}
 			\word{LOOP}
-		\word{;}
+		\word{;}}
 	\end{tt}
 \end{description}
 
+\sout{%
 Programs that depend upon the ``modulo 65536'' behavior implicit in
 16-bit arithmetic operations will need to be rewritten to explicitly
 perform the modulus operation in the appropriate places. The committee
 believes that such assumptions occur infrequently. Examples: some
 checksum or CRC calculations, some random number generators and most
-fixed-point fractional math.
+fixed-point fractional math.}
 
-\subsection{Number representation} % D.6.2
+\subsection[Number representation]{\sout{Number representation}} % D.6.2
 
+\sout{%
 Forth 83 specifies two's-complement number representation and
 arithmetic. ANS Forth also allows one's-complement and
-signed-magnitude.
+signed-magnitude.}
 
 \begin{description}
-\item[Words affected:]
+\item[\sout{Words affected:}]
+\sout{%
 	all arithmetic and logical operators,
 	\word{LOOP},
-	\word{+LOOP}.
+	\word{+LOOP}.}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	Some computers use one's-complement or signed-magnitude. The
 	committee did not wish to force Forth implementations for those
 	machines to emulate two's-complement arithmetic, and thus incur
 	severe performance penalties. The experience of some committee
 	members with such machines indicates that the usage restrictions
 	necessary to support their number representations are not overly
-	burdensome.
+	burdensome.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	An ANS Forth Standard Program may declare an ``environmental
 	dependency on two's-com\-ple\-ment arithmetic''. This means that the
 	otherwise-Standard Program is only guaranteed to work on
@@ -296,9 +390,10 @@ signed-magnitude.
 	computers use two's-complement. The committee knows of no Forth-83
 	com\-pli\-ant implementations for non-two's-complement machines at
 	present, so existing Forth-83 programs will still work on the same
-	class of machines on which they currently work.
+	class of machines on which they currently work.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	Existing programs wishing to take advantage of the possibility of
 	ANS Forth Standard Systems on non-two's-complement machines may
 	do so by eliminating the use of a\-rith\-me\-tic operators to perform
@@ -306,28 +401,31 @@ signed-magnitude.
 	operations as described in the section about stack width, by
 	restricting the usage range of unsigned numbers to the range of
 	positive numbers, and by using the provided operators for
-	conversion from single numbers to double numbers.
+	conversion from single numbers to double numbers.}
 \end{description}
 
-\subsection{Address units} % D.6.3
+\subsection[Address units]{\sout{Address units}} % D.6.3
 
+\sout{%
 Forth 83 specifies that each unique address refers to an 8-bit byte
 in memory. ANS Forth specifies that the size of the item referred to
 by each unique address is implementation-defined, but, by default,
 is the size of one character. Forth 83 describes many memory
 operations in terms of a number of bytes. ANS Forth describes those
 operations in terms of a number of either characters or address
-units.
+units.}
 
 \begin{description}
-\item[Words affected:]
-	those with ``address unit'' arguments
+\item[\sout{Words affected:}]
+	\sout{those with ``address unit'' arguments}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	Some machines, including the most popular Forth chip, address
-	16-bit memory locations instead of 8-bit bytes.
+	16-bit memory locations instead of 8-bit bytes.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	Programs may choose to declare an environmental dependency on
 	byte addressing, and will continue to work on the class of
 	machines for which they now work. In order for a Forth
@@ -337,169 +435,191 @@ units.
 	knows of no such Forth-83 implementations for such machines,
 	thus an environmental dependency on byte addressing does not
 	restrict a Standard Program beyond its current de facto
-	restrictions.
+	restrictions.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	The new \word{CHARS} and \word{CHAR+} address arithmetic operators
 	should be used for programs that require portability to
 	non-byte-addressed machines. The places where such conversion is
 	necessary may be identified by searching for occurrences of words
 	that accept a number of address units as an argument (e.g.,
-	\word{MOVE}, \word{ALLOT}).
+	\word{MOVE}, \word{ALLOT}).}
 \end{description}
 
-\subsection{Address increment for a cell is no longer two} % D.6.4
+\subsection[Address increment for a cell is no longer two]{\sout{Address increment for a cell is no longer two}} % D.6.4
 
+\sout{%
 As a consequence of Forth-83's simultaneous specification of 16-bit
 stack width and byte addressing, the number two could reliably be used
 in address calculations involving memory arrays containing items from
 the stack. Since ANS Forth requires neither 16-bit stack width nor
 byte addressing, the number two is no longer necessarily appropriate
-for such calculations.
+for such calculations.}
 
 \begin{description}
-\item[Words affected:]
+\item[\sout{Words affected:}]
+\sout{%
 	\word{@}	\word{!}	\word{+!}	\texttt{2+}
-	\word{2*}	\texttt{2-}	\word{+LOOP}
+	\word{2*}	\texttt{2-}	\word{+LOOP}}
 
-\item[Reason:]
-	See reasons for ``Address Units'' and ``Stack Width''
+\item[\sout{Reason:}]
+\sout{%
+	See reasons for ``Address Units'' and ``Stack Width''}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	In this respect, existing programs will continue to work on
 	machines where a stack cell occupies two address units when
 	stored in memory. This includes most machines for which
 	Forth 83 compliant implementations currently exist. In principle,
 	it would also include 16-bit-word-addressed machines with 32-bit
 	stack width, but the committee knows of no examples of such
-	machines.
+	machines.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	The new \word{CELLS} and \word{CELL+} address arithmetic operators
 	should be used for portable programs. The places where such
 	conversion is necessary may be identified by searching for the
 	character ``2'' and determining whether or not it is used as part
 	of an address calculation. The following substitutions are
-	appropriate within address calculations:
+	appropriate within address calculations:}
 
 	\begin{center}
 	  \begin{tabular}{cl}
 	  \hline\hline
-	  Old & New \\
+	  \sout{Old} & \sout{New} \\
 	  \hline
-		\texttt{2+} or \texttt{2} \word{+}	& \word{CELL+} \\
-		\word{2*}   or \texttt{2} \word{*}	& \word{CELLS} \\
-		\texttt{2-} or \texttt{2} \word{-}	& 1 \word{CELLS} \word{-} \\
-		\word{2/}   or \texttt{2} \word{/}	& 1 \word{CELLS} \word{/} \\
-		\texttt{2}							& 1 \word{CELLS} \\
+		\sout{\texttt{2+} or \texttt{2} \word{+}}	& \sout{\word{CELL+}} \\
+		\sout{\word{2*}   or \texttt{2} \word{*}}	& \sout{\word{CELLS}} \\
+		\sout{\texttt{2-} or \texttt{2} \word{-}}	& \sout{1 \word{CELLS} \word{-}} \\
+		\sout{\word{2/}   or \texttt{2} \word{/}}	& \sout{1 \word{CELLS} \word{/}} \\
+		\sout{\texttt{2}}							& \sout{1 \word{CELLS}} \\
 	  \hline\hline
 	  \end{tabular}
 	\end{center}
 \end{description}
 
+\sout{%
 The number ``2'' by itself is sometimes used for address calculations
 as an argument to \word{+LOOP}, when the loop index is an address. When
 converting the word \word{2/} which operates on negative dividends, one
-should be cognizant of the rounding method used.
+should be cognizant of the rounding method used.}
 
-\subsection{Address alignment} % D.6.5
+\subsection[Address alignment]{\sout{Address alignment}} % D.6.5
 
+\sout{%
 Forth 83 imposes no restriction upon the alignment of addresses to
 any boundary. ANS Forth specifies that a Standard System may require
 alignment of addresses for use with various ``\word{@}'' and
-``\word{!}'' operators.
+``\word{!}'' operators.}
 
 \begin{description}
-\item[Words Affected:]
+\item[\sout{Words Affected:}]
+\sout{%
 	\word{!}	\word{+!}		\word{2!}	\word{2@}
-	\word{@}	\word[tools]{q}	\word{,}
+	\word{@}	\word[tools]{q}	\word{,}}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	Many computers have hardware restrictions that favor the use of
 	aligned addresses. On some machines, the native memory-access
 	instructions will cause an exception trap if used with an
 	unaligned address. Even on machines where unaligned accesses do
-	not cause exception traps, aligned accesses are usually faster.
+	not cause exception traps, aligned accesses are usually faster.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	All of the ANS Forth words that return addresses suitable for
 	use with aligned ``\word{@}'' and ``\word{!}'' words must return
 	aligned addresses. In most cases, there will be no problem.
 	Problems can arise from the use of user-defined data structures
-	containing a mixture of character data and cell-sized data.
+	containing a mixture of character data and cell-sized data.}
 
+\sout{%
 	Many existing Forth systems, especially those currently in use on
 	computers with strong alignment requirements, already require
 	alignment. Much existing Forth code that is currently in use on
 	such machines has already been converted for use in an aligned
-	environment.
+	environment.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	There are two possible approaches to conversion of programs for
-	use on a system requiring address alignment.
+	use on a system requiring address alignment.}
 
+\sout{%
 	The easiest approach is to redefine the system's aligned
 	``\word{@}'' and ``\word{!}'' operators so that they do not
 	require alignment. For example, on a 16-bit little-endian
 	byte-addressed machine, unaligned ``\word{@}'' and ``\word{!}''
-	could be defined:
+	could be defined:}
 	\begin{quote}\ttfamily
-		\word{:} \word{@} \word{p} addr -{}- x )
+		\sout{\word{:} \word{@} \word{p} addr -{}- x )
 			\word{DUP} \word{C@} \word{SWAP}
 			\word{CHAR+} \word{C@} 8
 			\word{LSHIFT} \word{OR}
-		\word{;} \\
-		\word{:} \word{!} \word{p} x addr -{}- )
+		\word{;}} \\
+		\sout{\word{:} \word{!} \word{p} x addr -{}- )
 			\word{OVER} 8 \word{RSHIFT}
 			\word{OVER} \word{CHAR+}
 			\word{C!} \word{C!}
-		\word{;}
+		\word{;}}
 	\end{quote}
+\sout{%
 	These definitions, and similar ones for ``\word{+!}'',
 	``\word{2@}'', ``\word{2!}'', ``\word{,}'', and
 	``\word[tools]{q}'' as needed, can be compiled before an
-	unaligned application, which will then work as expected.
+	unaligned application, which will then work as expected.}
 
+\sout{%
 	This approach may conserve memory if the application uses
 	substantial numbers of data structures containing unaligned
-	fields.
+	fields.}
 
+\sout{%
 	Another approach is to modify the application's source code to
 	eliminate unaligned data fields. The ANS Forth words \word{ALIGN}
 	and \word{ALIGNED} may be used to force alignment of data fields.
 	The places where such alignment is needed may be determined by
 	inspecting the parts of the application where data structures
 	(other than simple variables) are defined, or by ``smart compiler''
-	techniques (see the ``Smart Compiler'' discussion below).
+	techniques (see the ``Smart Compiler'' discussion below).}
 
+\sout{%
 	This approach will probably result in faster application execution
 	speed, at the possible expense of increased memory utilization for
-	data structures.
+	data structures.}
 
+\sout{%
 	Finally, it is possible to combine the preceding techniques by
 	identifying exactly those data fields that are unaligned, and
 	using ``unaligned'' versions of the memory access operators for
 	only those fields. This ``hybrid'' approach affects a compromise
-	between execution speed and memory utilization.
+	between execution speed and memory utilization.}
 \end{description}
 
 
-\subsection{Division/modulus rounding direction} % D.6.6
+\subsection[Division/modulus rounding direction]{\sout{Division/modulus rounding direction}} % D.6.6
 
+\sout{%
 Forth 79 specifies that division rounds toward 0 and the remainder
 carries the sign of the dividend. Forth 83 specifies that division
 rounds toward negative infinity and the remainder carries the sign
 of the divisor. ANS Forth allows either behavior for the division
 operators listed below, at the discretion of the implementor, and
 provides a pair of division primitives to allow the user to
-synthesize either explicit behavior.
+synthesize either explicit behavior.}
 
 \begin{description}
-\item[Words Affected:]
+\item[\sout{Words Affected:}]
+\sout{%
 	\word{/}		\word{MOD}		\word{/MOD}
-	\word{*/MOD}	\word{*/}
+	\word{*/MOD}	\word{*/}}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	The difference between the division behaviors in Forth 79 and
 	Forth 83 was a point of much contention, and many Forth
 	implementations did not switch to the Forth 83 behavior. Both
@@ -517,16 +637,18 @@ synthesize either explicit behavior.
 	the behavior that is supported by the native CPU instruction set,
 	thus maximizing execution speed, or could choose the behavior
 	that is most appropriate for the intended application domain of
-	the system.
+	the system.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	The issue only affects programs that use a negative dividend with
 	a positive divisor, or a positive dividend with a negative divisor.
 	The vast majority of uses of division occur with both a positive
 	dividend and a positive divisor; in that case, the results are the
-	same for both allowed division behaviors.
+	same for both allowed division behaviors.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	For programs that require a specific rounding behavior with division
 	operands of mixed sign, the division operators used by the program
 	may be redefined in terms of one of the new ANS Forth division
@@ -534,45 +656,49 @@ synthesize either explicit behavior.
 	zero) or \word{FM/MOD} (floored division, i.e., round toward
 	negative infinity). Then the program may be recompiled without
 	change. For example, the Forth 83 style division operators may be
-	defined by:
+	defined by:}
 	\begin{quote}\ttfamily
-		\word{:} \word{/MOD}~ \word{p} n1 n2 -{}- n3 n4 ) ~~
-			\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{;} \\
-		\word{:} \word{MOD}~~ \word{p} n1 n2 -{}- n3 ) ~~~~~
-			\word{/MOD} \word{DROP}  \word{;} \\
-		\word{:} \word{/}~~~~ \word{p} n1 n2 -{}- n3 ) ~~~~~
-			\word{/MOD} \word{SWAP} \word{DROP}  \word{;} \\
-		\word{:} \word{*/MOD} \word{p} n1 n2 n3 -{}- n4 n5 )
-			\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{;} \\
-		\word{:} \word{*/}~~~ \word{p} n1 n2 n3 -{}- n4 n5 )
-			\word{*/MOD} \word{SWAP} \word{DROP}  \word{;} \\
+		\sout{\word{:} \word{/MOD}~ \word{p} n1 n2 -{}- n3 n4 ) ~~
+			\word{toR} \word{StoD} \word{Rfrom} \word{FM/MOD} \word{;}} \\
+		\sout{\word{:} \word{MOD}~~ \word{p} n1 n2 -{}- n3 ) ~~~~~
+			\word{/MOD} \word{DROP}  \word{;}} \\
+		\sout{\word{:} \word{/}~~~~ \word{p} n1 n2 -{}- n3 ) ~~~~~
+			\word{/MOD} \word{SWAP} \word{DROP}  \word{;}} \\
+		\sout{\word{:} \word{*/MOD} \word{p} n1 n2 n3 -{}- n4 n5 )
+			\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{;}} \\
+		\sout{\word{:} \word{*/}~~~ \word{p} n1 n2 n3 -{}- n4 n5 )
+			\word{*/MOD} \word{SWAP} \word{DROP}  \word{;}} \\
 	\end{quote}
 \end{description}
 
 
-\subsection{Immediacy} % D.6.7
+\subsection[Immediacy]{\sout{Immediacy}} % D.6.7
 \label{diff:immediate}
 
+\sout{%
 Forth 83 specified that a number of ``compiling words'' are
 ``immediate'', meaning that they are executed instead of compiled
 during compilation. ANS Forth is less specific about most of these
 words, stating that their behavior is only defined during compilation,
 and specifying their results rather than their specific compile-time
-actions.
+actions.}
 
+\sout{%
 To force the compilation of a word that would normally be executed,
 Forth 83 provided the words \linebreak \texttt{COMPILE}, used with non-immediate
 words, and \word{[COMPILE]}, used with immediate words. ANS Forth
 provides the single word \word{POSTPONE}, which is used with both
 immediate and non-immediate words, automatically selecting the
-appropriate behavior.
+appropriate behavior.}
 
 \begin{description}
-\item[Words Affected:]
+\item[\sout{Words Affected:}]
+\sout{%
 	\texttt{COMPILE}	\word{[COMPILE]}
-	\word{[']}			\word{'}
+	\word{[']}			\word{'}}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	The designation of particular words as either immediate or not
 	depends upon the implementation technique chosen for the Forth
 	system. With traditional ``threaded code'' implementations, the
@@ -584,21 +710,24 @@ appropriate behavior.
 	of words than the set of immediate words of a threaded code
 	implementation. ANS Forth, acknowledging the validity of these
 	other implementation techniques, specifies the immediacy attribute
-	in as few cases as possible.
+	in as few cases as possible.}
 
+\sout{%
 	When the membership of the set of immediate words is unclear, the
 	decision about whether to use \texttt{COMPILE} or \word{[COMPILE]}
 	becomes unclear. Consequently, ANS Forth provides a ``general
 	purpose'' replacement word \word{POSTPONE} that serves the purpose
 	of the vast majority of uses of both \texttt{COMPILE} and
 	\word{[COMPILE]}, without requiring that the user know whether or
-	not the ``postponed'' word is immediate.
+	not the ``postponed'' word is immediate.}
 
+\sout{%
 	Similarly, the use of \word{'} and \word{[']} with compiling words
 	is unclear if the precise compilation behavior of those words is
 	not specified, so ANS Forth does not permit a Standard Program to
-	use \word{'} or \word{[']} with compiling words.
+	use \word{'} or \word{[']} with compiling words.}
 
+\sout{%
 	The traditional (non-immediate) definition of the word \texttt{COMPILE}
 	has an additional problem. Its traditional definition assumes a
 	threaded code implementation technique, and its behavior can only
@@ -609,9 +738,10 @@ appropriate behavior.
 	its behavior, and thus breaking existing code, ANS Forth does not
 	include the word \texttt{COMPILE}. This allows existing implementations
 	to continue to supply the word \texttt{COMPILE} with its traditional
-	behavior, if that is appropriate for the implementation.
+	behavior, if that is appropriate for the implementation.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	\word{[COMPILE]} remains in ANS Forth, since its proper use does
 	not depend on knowledge of whether or not a word is immediate (Use
 	of \word{[COMPILE]} with a non-immediate word is and has always
@@ -620,95 +750,109 @@ appropriate behavior.
 	but it is always safe to use \word{[COMPILE]}. \word{[COMPILE]}
 	is no longer in the (required) core word set, having been moved
 	to the Core Extensions word set, but the committee anticipates
-	that most vendors will supply it anyway.
+	that most vendors will supply it anyway.}
 
+\sout{%
 	In nearly all cases, it is correct to replace both \word{[COMPILE]}
 	and \texttt{COMPILE} with \word{POSTPONE}. Uses of \word{[COMPILE]}
 	and \texttt{COMPILE} that are not suitable for ``mindless'' replacement
 	by \word{POSTPONE} are quite infrequent, and fall into the following
-	two categories:
+	two categories:}
 
 	\begin{itemize}
-	\item Use of \word{[COMPILE]} with non-immediate words. This is
+	\item \sout{%
+Use of \word{[COMPILE]} with non-immediate words. This is
 		sometimes done with the words \word{'} (tick, which was
 		immediate in Forth 79 but not in Forth 83) and \word{LEAVE}
 		(which was immediate in Forth 83 but not in Forth 79), in
 		order to force the compilation of those words without regard
-		to whether you are using a Forth 79 or Forth 83 system.
+		to whether you are using a Forth 79 or Forth 83 system.}
 
-	\item Use of the phrase \texttt{COMPILE} \word{[COMPILE]}
-		\arg{immediate word} to ``doubly postpone'' an immediate word.
+	\item \sout{%
+Use of the phrase \texttt{COMPILE} \word{[COMPILE]}
+		\arg{immediate word} to ``doubly postpone'' an immediate word.}
 	\end{itemize}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	Many ANS Forth implementations will continue to implement both
 	\word{[COMPILE]} and \texttt{COMPILE} in forms compatible with
-	existing usage. In those environments, no conversion is necessary.
+	existing usage. In those environments, no conversion is necessary.}
 
+\sout{%
 	For complete portability, uses of \texttt{COMPILE} and \word{[COMPILE]}
 	should be changed to \word{POSTPONE}, except in the rare cases
 	indicated above. Uses of \word{[COMPILE]} with non-immediate words
 	may be left as-is, and the program may declare a requirement for
 	the word \word{[COMPILE]} from the Core Extensions word set, or
 	the \word{[COMPILE]} before the non-immediate word may be simply
-	deleted if the target word is known to be non-immediate.
+	deleted if the target word is known to be non-immediate.}
 
+\sout{%
 	Uses of the phrase \texttt{COMPILE} \word{[COMPILE]}
 	\arg{immediate-word} may be handled by introducing an
 	``intermediate word'' (\texttt{XX} in the example below) and then
-	postponing that word. For example:
+	postponing that word. For example:}
 	\begin{quote}\ttfamily
-		\word{:} ABC COMPILE \word{[COMPILE]} \word{IF} \word{;}
+		\sout{\word{:} ABC COMPILE \word{[COMPILE]} \word{IF} \word{;}}
 	\end{quote}
-	changes to:
+\sout{changes to:}
 	\begin{quote}\ttfamily
-		\word{:} XX \word{POSTPONE} \word{IF} \word{;} \\
-		\word{:} ABC \word{POSTPONE} XX \word{;}
+		\sout{\word{:} XX \word{POSTPONE} \word{IF} \word{;}} \\
+		\sout{\word{:} ABC \word{POSTPONE} XX \word{;}}
 	\end{quote}
+\sout{%
 	A non-standard case can occur with programs that ``switch out of
 	compilation state'' to explicitly compile a thread in the
-	dictionary following a \texttt{COMPILE}. For example:
+	dictionary following a \texttt{COMPILE}. For example:}
 	\begin{quote}\ttfamily
-		\word{:} XYZ COMPILE \word{[} \word{'} ABC \word{,} \word{]} \word{;}
+		\sout{\word{:} XYZ COMPILE \word{[} \word{'} ABC \word{,} \word{]} \word{;}}
 	\end{quote}
+\sout{%
 	This depends heavily on knowledge of exactly how \texttt{COMPILE}
 	and the threaded-code implementation works. Cases like this cannot
 	be handled mechanically; they must be translated by understanding
 	exactly what the code is doing, and rewriting that section according
-	to ANS Forth restrictions.
+	to ANS Forth restrictions.}
 
+\sout{%
 	Use the phrase \word{POSTPONE} \word{[COMPILE]} to replace
-	\word{[COMPILE]} \word{[COMPILE]}.
+	\word{[COMPILE]} \word{[COMPILE]}.}
 \end{description}
 
 
-\subsection{Input character set} % D.6.8
+\subsection[Input character set]{\sout{Input character set}} % D.6.8
 
+\sout{%
 Forth 83 specifies that the full 7-bit ASCII character set is
 available through \word{KEY}. ANS Forth restricts it to the graphic
 characters of the ASCII set, with codes from hex 20 to hex 7E
-inclusive.
+inclusive.}
 
 \begin{description}
-\item[Words Affected:]
-	\word{KEY}
+\item[\sout{Words Affected:}]
+\sout{\word{KEY}}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	Many system environments ``consume'' certain control characters
 	for such purposes as input editing, job control, or flow control.
-	A Forth implementation cannot always control this system behavior.
+	A Forth implementation cannot always control this system behavior.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	Standard Programs which require the ability to receive particular
 	control characters through \word{KEY} must declare an environmental
-	dependency on the input character set.
+	dependency on the input character set.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	For maximum portability, programs should restrict their required
 	input character set to only the graphic characters. Control
 	characters may be handled if available, but complete program
-	functionality should be accessible using only graphic characters.
+	functionality should be accessible using only graphic characters.}
 
+\sout{%
 	As stated above, an environmental dependency on the input character
 	set may be declared. Even so, it is recommended that the program
 	should avoid the requirement for particularly-troublesome control
@@ -716,34 +860,38 @@ inclusive.
 	control, sometimes by communication hardware whose presence may be
 	difficult to detect), ASCII NUL (difficult to type on many keyboards),
 	and the distinction between carriage return and line feed (some
-	systems translate carriage returns into line feeds, or vice versa).
+	systems translate carriage returns into line feeds, or vice versa).}
 \end{description}
 
 
-\subsection{Shifting with \word{UM/MOD}} % D.6.9
+\subsection[Shifting with UM/MOD]{\sout{Shifting with \word{UM/MOD}}} % D.6.9
 
+\sout{%
 Given Forth-83's two's-complement nature, and its requirement for
 floored (round toward minus infinity) division, shifting is equivalent
 to division. Also, two's-complement representation implies that
 unsigned division by a power of two is equivalent to logical
 right-shifting, so \word{UM/MOD} could be used to perform a logical
-right-shift.
+right-shift.}
 
 \begin{description}
-\item[Words Affected:]
-	\word{UM/MOD}
+\item[\sout{Words Affected:}]
+\sout{\word{UM/MOD}}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	The problem with \word{UM/MOD} is a result of allowing
 	non-two's-complement number representations, as already
-	described.
+	described.}
 
+\sout{%
 	ANS Forth provides the words \word{LSHIFT} and \word{RSHIFT}
 	to perform logical shifts. This is usually more efficient, and
 	certainly more descriptive, than the use of \word{UM/MOD} for
-	logical shifting.
+	logical shifting.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	Programs running on ANS Forth systems with two's-complement
 	arithmetic (the majority of machines), will not experience any
 	incompatibility with \word{UM/MOD}. Existing Forth-83 Standard
@@ -752,36 +900,41 @@ right-shift.
 	non-two's-complement ANS Forth system. This should not affect
 	a significant number of existing programs (perhaps none at all),
 	since the committee knows of no existing Forth-83 implementations
-	on non-two's-complement machines.
+	on non-two's-complement machines.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	A program that requires \word{UM/MOD} to behave as a shift
 	operation may declare an environmental dependency on
-	two's-complement arithmetic.
+	two's-complement arithmetic.}
 
+\sout{%
 	A program that cannot declare an environmental dependency on
 	two's-complement arithmetic may require editing to replace
 	incompatible uses of \word{UM/MOD} with other operators defined
-	within the application.
+	within the application.}
 \end{description}
 
-\subsection{Vocabularies / wordlists} % D.6.10
+\subsection[Vocabularies / wordlists]{\sout{Vocabularies / wordlists}} % D.6.10
 
+\sout{%
 ANS Forth does not define the words \texttt{VOCABULARY},
 \texttt{CONTEXT}, and \texttt{CURRENT}, which were present in
 Forth 83. Instead, ANS Forth defines a primitive word set for
 search order specification and control, including words which have
-not existed in any previous standard.
+not existed in any previous standard.}
 
+\sout{%
 Forth-83's ``\word[search]{ALSO}/\word[search]{ONLY}'' experimental
 search order word set is specified for the most part as the extension
-portion of the ANS Forth Search Order word set.
+portion of the ANS Forth Search Order word set.}
 
 \begin{description}
-\item[Words Affected:]
-	\texttt{VOCABULARY}	\texttt{ CONTEXT}	\texttt{CURRENT}
+\item[\sout{Words Affected:}]
+\sout{\texttt{VOCABULARY}	\texttt{ CONTEXT}	\texttt{CURRENT}}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	Vocabularies are an area of much divergence among existing systems.
 	Considering major ven\-dors' systems and previous standards, there
 	are at least 5 different and mutually incompatible behaviors of
@@ -793,8 +946,9 @@ portion of the ANS Forth Search Order word set.
 	specification, the \word[search]{ALSO}/\word[search]{ONLY} scheme.
 	\word[search]{ALSO}/\word[search]{ONLY} was implemented in numerous
 	systems, and has achieved some measure of popularity in the Forth
-	community.
+	community.}
 
+\sout{%
 	However, several vendors refuse to implement it, citing technical
 	limitations. In an effort to address those limitations and thus
 	hopefully make \word[search]{ALSO}/\word[search]{ONLY} more
@@ -803,8 +957,9 @@ portion of the ANS Forth Search Order word set.
 	to \word[search]{ALSO}/\word[search]{ONLY}, but also provides
 	sufficient power to implement \word[search]{ALSO}/\word[search]{ONLY}
 	and all of the other search-order word sets that are currently
-	popular.
+	popular.}
 
+\sout{%
 	The Forth 83 \word[search]{ALSO}/\word[search]{ONLY} word set is
 	provided as an optional extension to the search-order word set.
 	This allows implementors that are so inclined to provide this
@@ -818,9 +973,10 @@ portion of the ANS Forth Search Order word set.
 	possible without mandating its inclusion in all systems, and also
 	providing a primitive search-order word set that vendors may be
 	more likely to implement, and which can be used to synthesize
-	\word[search]{ALSO}/\word[search]{ONLY}.
+	\word[search]{ALSO}/\word[search]{ONLY}.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	Since Forth 83 did not mandate precise semantics for \texttt{VOCABULARY},
 	existing Forth-83 Standard programs cannot use it except in a
 	trivial way. Programs can declare a dependency on the existence
@@ -828,23 +984,25 @@ portion of the ANS Forth Search Order word set.
 	are required using that word set's primitives. Forth 83 programs
 	that need \word[search]{ALSO}/\word[search]{ONLY} can declare a
 	dependency on the Search Order Extensions word set, or can implement
-	the extensions in terms of the Search Order word set itself.
+	the extensions in terms of the Search Order word set itself.}
 \end{description}
 
 
-\subsection{Multiprogramming impact} % D.6.11
+\subsection[Multiprogramming impact]{\sout{Multiprogramming impact}} % D.6.11
 \label{diff:multitasking}
 
+\sout{%
 Forth 83 marked words with ``multiprogramming impact'' by the letter
 ``M'' in the first lines of their descriptions. ANS Forth has removed
 the ``M'' designation from the word descriptions, moving the dis\-cus\-sion
-of multiprogramming impact to this non-normative annex.
+of multiprogramming impact to this non-normative annex.}
 
 \begin{description}
-\item[Words affected:]
-	none
+\item[\sout{Words affected:}]
+\sout{none}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{%
 	The meaning of ``multiprogramming impact'' is precise only in the
 	context of a specific model for multiprogramming. Although many
 	Forth systems do provide multiprogramming capabilities using a
@@ -852,8 +1010,9 @@ of multiprogramming impact to this non-normative annex.
 	that model is not universal. Even assuming the classical model,
 	the ``M'' designations did not contain enough information to
 	enable writing of applications that interacted in a multiprogrammed
-	system.
+	system.}
 
+\sout{%
 	Practically speaking, the ``M'' designations in Forth 83 served
 	to document usage rules for block buffer addresses in multiprogrammed
 	systems. These addresses often become meaningless after a task
@@ -866,86 +1025,97 @@ of multiprogramming impact to this non-normative annex.
 	other applications running on those systems as well as the
 	applications actually in error. Thus, ``M'' appeared on all words
 	that by design gave up the CPU, with the understanding that other
-	words NEVER gave it up.
+	words NEVER gave it up.}
 
+\sout{%
 	These usage rules have been explicitly documented in the Block
 	word set where they are relevant. The ``M'' designations have
-	been removed entirely.
+	been removed entirely.}
 
-\item[Impact:]
-	In practice, none.
+\item[\sout{Impact:}]
+\sout{In practice, none.}
 
+\sout{%
 	In the sense that any application that depends on multiprogramming
 	must consist of at least two tasks that share some resource(s) and
 	communicate between themselves, Forth 83 did not contain enough
 	information to enable writing of a standard program that DEPENDED
-	on multiprogramming. This is also true of ANS Forth.
+	on multiprogramming. This is also true of ANS Forth.}
 
+\sout{%
 	Non-multiprogrammed applications in Forth 83 were required to
 	respect usage rules for \word[block]{BLOCK} so that they could be
 	run properly on multiprogrammed systems. The same is true of
-	ANS Forth.
+	ANS Forth.}
 
+\sout{%
 	The only difference is the documentation method used to define
 	the \word[block]{BLOCK} usage rules. The Technical Committee
 	believes that the current method is clearer than the concept of
-	``multi\-pro\-gram\-ming impact''.
+	``multi\-pro\-gram\-ming impact''.}
 
-\item[Transition/Conversion:]
-	none needed.
+\item[\sout{Transition/Conversion:}]
+	\sout{none needed.}
 \end{description}
 
 
-\subsection{Words not provided in executable form} % D.6.12
+\subsection[Words not provided in executable form]{\sout{Words not provided in executable form}} % D.6.12
 
+\sout{%
 ANS Forth allows an implementation to supply some words in source
 code or ``load as needed'' form, rather than requiring all supplied
-words to be available with no additional programmer action.
+words to be available with no additional programmer action.}
 
 \begin{description}
-\item[Words affected:]
-	all
+\item[\sout{Words affected:}]
+\sout{all}
 
-\item[Reason:]
+\item[\sout{Reason:}]
+\sout{
 	Forth systems are often used in environments where memory space
 	is at a premium. Every word included in the system in executable
 	form consumes memory space. The committee believes that allowing
 	standard words to be provided in source form will increase the
 	probability that implementors will provide complete ANS Forth
 	implementations even in systems designed for use in constrained
-	environments.
+	environments.}
 
-\item[Impact:]
+\item[\sout{Impact:}]
+\sout{%
 	In order to use a Standard Program with a given ANS Forth
 	implementation, it may be necessary to precede the program with
 	an implementation-dependent ``preface'' to make ``source form''
 	words executable. This is similar to the methods that other
 	computer languages require for selecting the library routines
-	needed by a particular application.
+	needed by a particular application.}
 
+\sout{%
 	In languages like C, the goal of eliminating unnecessary routines
 	from the memory image of an application is usually accomplished
 	by providing libraries of routines, using a ``linker'' program
 	to incorporate only the necessary routines into an executable
 	application. The method of invoking and controlling the linker
-	is outside the scope of the language definition.
+	is outside the scope of the language definition.}
 
-\item[Transition/Conversion:]
+\item[\sout{Transition/Conversion:}]
+\sout{%
 	Before compiling a program, the programmer may need to perform
 	some action to make the words required by that program available
-	for execution.
+	for execution.}
 \end{description}
 
 % =========================================================
-
-\cbstart\patch{F94}
-\section[Differences from Forth 94]{ANS Forth '94\strike{4.5}{90} Differences from Forth 94\strike{-2}{160}} % D.7
 \cbend
+
+\newpage
+\cbstart\patch{ed12}
+\section{Differences from Forth 94} % D.6
 \label{diff:forth94}
 
-\subsection{Removed Definitions} % D.7.1
+\subsection[Removed Obsolete Words]{Removed \sout{Definitions} \uline{Obsolete Words}} % D.7.1
+
 	This standard removes six words that were marked `obsolescent'
-	in the \replace{F94}{ANS Forth '94}{Forth 94} document.  These are:
+	in the \replace{ed12}{ANS Forth}{Forth 94} document.  These are:
 
 \begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
 	6.2.0060	& \textbf{\#TIB}
@@ -956,65 +1126,625 @@ words to be available with no additional programmer action.
 &	6.2.2290	& \textbf{TIB} \\
 \end{tabular}
 
-    Reuse of these names is strongly discouraged.
+\remove{ed12}{Reuse of these names is strongly discouraged.}
 
-\cbstart\patch{ed11}
 \subsection{Obsolescent features}
 \label{diff:94:obsolete}
 
-\uline{This standard has designated the following practice as obsolescent:}
+	This standard has designated the following practice as obsolescent:
 
 \begin{itemize}
-\item \uline{Requiring floating-point numbers to be kept on the data stack.
-	(This has always been an environmental dependency.)}
+\item Requiring floating-point numbers to be kept on the data stack.
+	(This has always been an environmental dependency.)
 
-\item \uline{Using \word{ENVIRONMENTq} to enquire whether a word set is present.}
+\item Using \word{ENVIRONMENTq} to enquire whether a word set is present.
 \end{itemize}
+
+% \uline{Forth 94 declared seven words as `obsolescent', all but \word[tools]{FORGET} have
+% been removed from this standard.}
+%  
+% \begin{description}
+% \item[\uline{Words affected:}]
+% \uline{\texttt{\#TIB},
+%  	\texttt{CONVERT},
+%  	\texttt{EXPECT},
+%  	\texttt{QUERY},
+%  	\texttt{SPAN},
+%  	\texttt{TIB},
+%  	\word{WORD}.}
+%  
+% \item[\uline{Reason:}]
+% \uline{Obsolescent words have been removed.}
+%  
+% \item[\uline{Impact:}]
+% \uline{\word{WORD} is no longer required to leave a space at the
+%  	end of the returned string.}
+%  
+% \item[\uline{Transition/Conversion:}]
+% \uline{The function of \texttt{TIB} and \texttt{\#TIB} has been
+%  	superseded by \word{SOURCE}.}
+% 
+% \uline{The function of \texttt{CONVERT} has been superseded by
+% 	\word{toNUMBER}.}
+% 
+% \uline{The function of \texttt{EXPECT} and \texttt{SPAN} have
+% 	been superseded by \word{ACCEPT}.}
+% 
+% \uline{The function of \texttt{QUERY} may be performed with
+% 	\word{ACCEPT} and \word{EVALUATE}.}
+% \end{description}
+% 
+% 
+% \subsection{Combined Floating-point/Data Stack Obsolescent} % D.7.2
+% 
+% The requirement for floating-point numbers to be kept on the data stack
+% has been marked as obsolescent.  This was previously an environmental
+% dependency/restriction.
+% 
+% \begin{description}
+% \item[Words Affected:]
+% 	All floating-point words.
+% 
+% \item[Reason:]
+% 	The developing of software that may be used with either a combined
+% 	stack or a separate stack is extremely difficult and costly.  While
+% 	some of the systems surveyed provide a combined floating-point/data
+% 	stack, they all provide a separate floating-point stack.
+% 
+% \item[Impact:]
+% %	Any code that has an environmental dependency on the uses of a
+% %	combined floating-point/data stack will become obsolescent and should
+% %	be ported to use a separate floating-point stack.
+% %
+% %	A system that has an environmental restriction on using a combined
+% %	floating-point/data stack will become obsolescent.  Such systems
+% %	should consider providing a separate floating-point stack, simulating
+% %	a floating-point stack if required.
+% 
+% 	Forth 94 programs with an environmental dependency on a separate
+% 	floating-point stack become standard programs.
+% 
+% 	Forth 94 programs with an environmental dependency on a combined
+% 	stack retain the environmental dependency.
+% 
+% 	Forth 94 programs (without environmental dependency, i.e., those
+% 	working on either kind of system) remain standard programs.
+% 
+% 	Forth 94 systems that implement a separate floating-point stack
+% 	remain standard systems.
+% 
+% 	Forth 94 systems that implement a combined stack become systems
+% 	with an environmental restriction of not providing a separate
+% 	floating-point stack, but a combined stack.
+% \end{description}
+% 
+% The combined floating-point/data stack environmental restriction/dependency
+% is obsolescent and will be removed from a future standard.
+% 
+% 
+% \subsection{Using \word{ENVIRONMENT?} to inquire whether a word set is present.} % D.7.3
+% 
+% With the advent of a new standard, it was necessary to review the meaning
+% of word set queries.  Compatibility with Forth 94 demands that a word set
+% query produce the same result as for Forth 94; i.e., querying for
+% \texttt{CORE-EXT} returns true only if all the Forth 94 CORE EXT words
+% are present.  The question was how to distinguish between word sets
+% described by this and subsequent standards.
+% 
+% The committee considered adding a year indicator to the word set name
+% (``\texttt{CORE-EXT-\snapshot}'') or a providing a general query
+% (``\texttt{Forth-\snapshot}'') which could be combined with the
+% word set query.  As the committee could find very few examples of the
+% word set queries being used, it chose not to update the word set query
+% mechanism, but rather to mark it as obsolescent.
+% 
+% \begin{description}
+% \item[Words Affected:]
+% 	\word{ENVIRONMENT?}
+% 
+% \item[Reason:]
+% 	The use of the word set query to inquire whether a word set is present
+% 	in the system has been marked obsolescent.  If present the query
+% 	indicates the word set, as documented in Forth 94, is available.
+% 
+% \item[Impact:]
+% 	Forth 94 did not guarantee the presence of these queries.  Many
+% 	systems that provided all the words in a particular word set did not
+% 	provide the corresponding query.
+% 
+% \item[Transition/Conversion:]
+% 	There is no equivalent for detecting the presence of a whole word set.
+% 	The \wref{tools:[DEFINED]}{} and \wref{tools:[UNDEFINED]}{} words
+% 	can be used to detect the availability (or otherwise) of individual words.
+% \end{description}
+% 
+% 
+% \subsection{Additional \word{TO} targets} % D.7.4
+% 
+% The definition of \wref{core:TO}{TO} has been extended to any word
+% defined with a user defining word that includes a ``\word{TO}
+% \param{name} run-time'' semantics in its definition.
+% 
+% \begin{description}
+% \item[Words affected:]
+% 	\word{VALUE},
+% 	\word[local]{LOCAL},
+% 	\word{TO}.
+% 
+% \item[Reason:]
+% 	The Forth 94 definition of \word{TO} required each new class of
+% 	target to redefine \word{TO}.  As \word{TO} is an optional word
+% 	this would require $2^n$ new definitions for each new target,
+% 	where $n$ is the number of targets.
+% 
+% 	Using this approach this standard would require 16 different
+% 	definitions of \word{TO} to support the four different classes
+% 	of target (\word[local]{LOCAL}, \word{VALUE},
+% 	\word[floating]{FVALUE}, \word[double]{2VALUE}),
+% 	depending on which optional word sets are present.
+% 
+% 	By redefining \word{TO} in a more general manner, only the one
+% 	definition is necessary.  However, it does require any word that
+% 	defines a new class of target, to include a
+% 	``\word{TO} \param{name} run-time'' semantics definition.
+% 
+% \item[Impact:]
+% 	The Forth 94 definition of \word{TO} required it to parse the input
+% 	for a target.  It was required to differentiate between a target
+% 	defined with \word{VALUE} or \word[local]{LOCAL}.  The revised definition
+% 	requires a system to implement \word{TO} in such a way that
+% 	additional types of target can be identified.
+% 
+% \item[Transition/Conversion:]
+% 	None.
+% \end{description}
+% 
+% 
+% \subsection{Additional Input/Output Return values} % D.7.5
+% 
+% All words that return an \param{ior} have a value assigned in
+% the \word[exception]{THROW} code table (\xref[9.2 Throw Codes]{table:throw}).
+% 
+% \begin{description}
+% \item[Words affected:]
+% 	All words that return an \param{ior} code:\\
+% 	\setwordlist{file}
+% 	\word[memory]{ALLOCATE},
+% 	\word{CLOSE-FILE},
+% 	\word{CREATE-FILE},
+% 	\word{DELETE-FILE},
+% 	\word{FILE-POSITION},
+% 	\word{FILE-SIZE},
+% 	\word{FILE-STATUS},
+% 	\word{FLUSH-FILE},
+% 	\word[memory]{FREE},
+% 	\word{OPEN-FILE},
+% 	\word{READ-FILE},
+% 	\word{READ-LINE}, \linebreak
+% 	\word{RENAME-FILE},
+% 	\word{REPOSITION-FILE},
+% 	\word{RESIZE-FILE},
+% 	\word[memory]{RESIZE},
+% 	\word{WRITE-FILE},
+% 	\word{WRITE-LINE}.
+% 
+% \item[Reason:]
+% 	Forth 94 left the error code (\param{ior}) returned by these words
+% 	implementation-defined.  This meant that an application had no
+% 	entitlement to use the \param{ior} value as a \word[exception]{THROW} code.
+% 	This would lead to very clumsy code of the form:
+% 	\begin{quote}
+% 		\word[memory]{ALLOCATE} ~ \word{IF} \emph{n} \word[exception]{THROW} \word{THEN}
+% 	\end{quote} 
+% 
+% 	However, it was common to see incorrect code, such as:
+% 	\begin{quote}
+% 		\word[memory]{ALLOCATE} ~ \word[exception]{THROW}
+% 	\end{quote}
+% 	which could have lead to silent aborts, when the \param{ior} was
+% 	-1, or even an incorrect error message.
+% 
+% 	By returning a specific \param{ior} value, throwing the value
+% 	in this manner is now acceptable.  This provides a method of
+% 	requesting the error be processed further up the call hierarchy.
+% 
+% \item[Impact:]
+% 	It may be necessary to convert operating system error codes
+% 	into throw codes or suitable application error codes.
+% \end{description}
+% 
+% Systems that provide a more detailed \param{ior} error code should
+% continue to do so.  The new \param{ior} codes are within the range
+% reserved for standard codes, this should not effect any existing
+% \param{ior} codes.
+% 
+% 
+% \section{Additions to the standard}
+% \label{diff:2012}
+% 
+% \setwordlist{facility}
+% \subsection[EKEY return value]{\word{EKEY} return value.} % D.7.6
+% 
+% Forth 94 did not provide any means of accessing the non-graphic keys,
+% this was intentional as access to such keys represents an environmental
+% dependency.  However, it did provide the word \word{EKEY}, the return
+% value of which was left implementation-dependent to allow access to
+% such additional keys.
+% 
+% It became clear that a portable way of accessing the non-graphic keys was
+% required.
+% 
+% \begin{description}
+% \item[Words Affected:]
+% 	\word{EKEY}
+% 
+% \item[Reason:]
+% 	To provide a standard method of accessing the implementation defined
+% 	value returned by \word{EKEY}.  While it does not affect the value
+% 	returned by \word{EKEY} directly, another word (\word{EKEYtoFKEY})
+% 	is required to convert the implement-dependent value into a value
+% 	that can be interrogated in a standard manner.
+% 
+% 	The words given in table \ref{table:fkeys} produce implementation-defined
+% 	constant values that may be compared against the value returned by
+% 	\word{EKEYtoFKEY} to identify the key press.  These values can be
+% 	combined (with an \word{OR}) to the mask values retuned by the
+% 	words in table \ref{table:fmasks} to identify the corresponding
+% 	key combination.
+% 
+% \begin{table}[!ht]
+% 	\centering
+% 	\begin{minipage}[t]{21em}
+% 		\caption{Key Constants}
+% 		\label{table:fkeys}
+% 		\begin{tabular}{ll@{\qquad}ll}\hline\hline
+% 			Word & Key
+% 			& \multicolumn{1}{c}{Word}
+% 			& \multicolumn{1}{c}{Key}
+% 			\\\hline
+% 			\multicolumn{2}{}{} \\[-2ex]
+% \word{K-F1}		& F1	& \word{K-LEFT}		& cursor left \\
+% \word{K-F2}		& F2	& \word{K-RIGHT}	& cursor right \\
+% \word{K-F3}		& F3	& \word{K-UP}		& cursor up \\
+% \word{K-F4}		& F4	& \word{K-DOWN}		& cursor down \\
+% \word{K-F5}		& F5	& \word{K-HOME}		& home \emph{or} Pos1 \\
+% \word{K-F6}		& F6	& \word{K-END}		& End \\
+% \word{K-F7}		& F7	& \word{K-PRIOR}	& PgUp \emph{or} Prior \\
+% \word{K-F8}		& F8	& \word{K-NEXT}		& PgDn \emph{or} Next \\
+% \word{K-F9}		& F9	& \word{K-INSERT}	& Insert \\
+% \word{K-F10}	& F10 	& \word{K-DELETE}	& Delete \\
+% \word{K-F11}	& F11	\\
+% \word{K-F12}	& F12	\\\hline\hline
+% 		\end{tabular}
+% 	\end{minipage}
+% \qquad
+% 	\begin{minipage}[t]{17em}
+% 		\caption{Shift Masks}
+% 		\label{table:fmasks}
+% 		\begin{tabular}{ll}\hline\hline
+% 		\multicolumn{1}{c}{Word} & Shift Key \\ \hline
+% \word{K-SHIFT-MASK} & Shift \\
+% \word{K-CTRL-MASK} 	& Control \\
+% \word{K-ALT-MASK} 	& Alternate \emph{or} Meta \\ \hline\hline
+% 		\end{tabular}
+% 	\end{minipage}
+% \end{table}
+% 
+% \pagebreak[1]
+% 	Typical Use:
+% 	\begin{tt}
+% 		\begin{tabbing}
+% \tab \= k-left ~ k-shift-mask or k-ctrl-mask or ~ \= of ... endof\kill
+% \ldots{} \word{EKEY} \word{EKEYtoFKEY} \word{IF} \\
+% \> \word{CASE} \+ \\
+% 	\word{K-UP}	\> \word{OF} \ldots{} \word{ENDOF} \\
+% 	\word{K-F1}	\> \word{OF} \ldots{} \word{ENDOF} \\
+% 	\word{K-LEFT} ~ \word{K-SHIFT-MASK} \word{OR}
+% 		\word{K-CTRL-MASK} \word{OR} \> \word{OF} \ldots{} \word{ENDOF} \\
+%  	\ldots{} \\
+%  \word{ENDCASE} \- \\
+% \word{ELSE} \\
+% \> \ldots{} \\
+% \word{THEN} \\
+% 		\end{tabbing}
+% 	\end{tt}
+% 
+% \item[Transition/Conversion:]
+% 	A keyboard may lack some of the keys, or the system the capability
+% 	to report them.  A portable program should be written such that it
+% 	will also work (although less conveniently or with less functionality)
+% 	if these key numbers cannot be produced.
+% 
+% 	The shift key masks are only useful for recognizing shifted cursor
+% 	and function keys, as these are the only keys defined in table
+% 	\ref{table:fkeys}. E.g., we cannot recognize \textsf{ALT-T}, as no
+% 	return value for \textsf{T} has been defined.
+% \end{description}
+% 
+% Introducing \word{EKEYtoFKEY} leaves implementors free to use the value
+% returned by \word{EKEY} in an {im\-ple\-ment\-ation-de\-pend\-ent} manner.
+% Many systems return a code which is suitable for comparison, a simple
+% implementation of \word{EKEYtoFKEY} on such a system would be:
+% 
+% \begin{quote}\ttfamily
+% \word{:}\ \word{EKEYtoFKEY} \word{p} u1 -{}- u2 flag ) \\
+% \tab \word{DUP} \word{EKEYtoCHAR} \word{NIP} \word{0=} \word{;}
+% \end{quote}
+% 
+% =========================================================
 \cbend
 
-\endinput
+\vfill
+\begin{editor}
+This is a list of proposals accepted into the Forth 200\emph{x} document
+since we began work in 2005.
 
-% \glossary[*]{<number>}{<sub>}{<name>}{<wordset>}{<ext>}{<proposal>}{<label>}{<english>}
+\begin{description}
+\item[Wording only] ~\\
+These proposals changed wording to clarify the text, but did not actually
+change the meaning of the document:
 
-\makeatletter
-\newcommand{\wordindex}[9][]{%
-	%
-	% Define the hyper link target
-	%
-	\hyperdef{#5}{#8}{}
-	%
-	% Define the word label
-	%
-	\def\@currentlabel{%
-			\thesubsection%
-			\ifx#2\empty.0\else.#2\fi%
-			\ifx#3\empty\else.#3\fi%
-	}
-	\edef\@currentlabelname{#4}
-	\def\@currentHref{#5.#8}
-	\label{#5:#8}
-	%
-	% Write the word glossary entry
-	%
-	\immediate\write\wordfile{\string\indexentry%
-		\ifx#1\empty\else *\fi%	* = Changebar
-		{\thesubsection}%		1: <section>
-		{#2}%					2: <number>
-		{#3}%					3: <sub number>
-		{#4}%					4: <name>
-		{#5}%					5: <wordlist>
-		{#6}%					6: <ext>
-		{#7}%					7: <proposal>
-		{#8}%					8: <label>
-		{#9}%					9: <english>
-	}
-}
-\makeatother
+\begin{tabular}{*6l}
+X:namelen	&% Definition Name Length
+X:to 		& % Separation of TO from VALUE and (LOCAL) \\
+			% Wording change / documentation structure change 
+x:ekey		% Ekey Event Record only 1-3 accepted; also delete last paragraph of Rationale
+\end{tabular}
+~
 
-\wordindex[*]{0060}{}{\num{}TIB}	{core}	{EXT}{X:legacy}{numTAB}	{number-t-i-b}
-\wordindex[*]{0970}{}{CONVERT}	{core}	{EXT}{X:legacy}{CONVERT}{}
-\wordindex[*]{1390}{}{EXPECT}		{core}	{EXT}{X:legacy}{EXPECT}	{}
-%\wordindex[*]{1580}{}{FORGET}	{tools}	{EXT}{X:legacy}{FORGET}	{}
-\wordindex[*]{2040}{}{QUERY}		{core}	{EXT}{X:legacy}{QUERY}	{}
-\wordindex[*]{2240}{}{SPAN}		{core}	{EXT}{X:legacy}{SPAN}	{}
-\wordindex[*]{2290}{}{TIB}			{core}	{EXT}{X:legacy}{TIB}		{t-i-b}
+\item[New Words] ~\\
+These proposals added new words to the document.  These changes are
+catered for in by section \xref{diff:new12}:
+
+\begin{tabular}{*6l}
+X:ftrunc			&%	Floating point truncation
+x:buffer			&%	BUFFER:
+x:substitute		&%	Text Substitution
+X:xchar			&%	XCHAR wordset
+X:synonym		&%	Synonym
+X:escaped-strings	\\% Escaped Strings
+X:n-to-r 			&% N>R and NR>
+x:structures		&%	Structures wording
+X:2value			&%	2VALUE
+X:fvalue			&%	FVALUE
+X:structures		&%	Structures
+X:required		\\%	One-time file loading
+X:ekeys			&%	EKEY return values
+X:defined		&%	[DEFINED] and [UNDEFINED]
+X:parse-name	&%	PARSE-NAME
+X:deferred		\\%	Deferred words
+\end{tabular}
+~
+
+\item[Normative Changes] ~\\
+These proposals have normative changes that require documentation:
+
+\begin{itemize}
+\item x:enhanced-locals --- Minimum number of locals now sixteen
+\item x:block --- Multi-tasking Block Buffers
+\item x:source-id -- FILE-POSITION during interpretation
+\item X:fasinh --- Removed restriction from FASINH
+\item X:fatan2 --- Ambiguity in FATAN2
+\item x:fp-stack --- Separate FP Stack
+\item X:key-ekey --- Chars now unsigned / Added primitive characters
+\item X:number-prefix	
+\item X:throw-iors --- Lots of new throw codes
+\item x:legacy
+\item x:wordset-query
+\end{itemize}
+
+Descriptions of these changes and their effect on existing programs
+need to be included.
+\end{description}
+\end{editor}
+
+\vfill
+\newpage
+
+\cbstart\patch{ed12}
+\section[Additional words]{\uline{Additional words}}
+\label{diff:new12}
+
+\uline{The following words have been added to the standard:}
+
+\setcounter{subsection}{5}
+\subsection[Core word sets]{\uline{Core word sets}}
+\uline{The following words have been added to \xref{wordlist:core-ext}:}
+
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{core:ACTION-OF}{}} \\
+\uline{\wref{core:BUFFER:}{}} \\
+\uline{\wref{core:DEFER}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{core:DEFER!}{}} \\
+\uline{\wref{core:DEFER@}{}} \\
+\uline{\wref{core:HOLDS}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{core:IS}{}} \\
+\uline{\wref{core:PARSE-NAME}{}} \\
+\uline{\wref{core:Seq}{}}
+\end{minipage}
+
+
+\subsection[{Block word sets}]{\uline{Block word sets}}
+\uline{No words have been added to \xref{wordlist:block}.}
+
+\subsection[{Double-Number word sets}]{\uline{Double-Number word sets}}
+\uline{The following words have been added to \xref{wordlist:double-ext}:}
+
+\uline{\wref{double:2VALUE}{}}
+
+\subsection[{Exception word sets}]{\uline{Exception word sets}}
+\uline{No words have been added to \xref{wordlist:exception}.}
+
+\subsection[{Facility word sets}]{\uline{Facility word sets}}
+\uline{The following words have been added to \xref{wordlist:facility-ext}:}
+
+\begin{minipage}[t]{0.35\linewidth}
+\uline{\wref{facility:+FIELD}{}} \\
+\uline{\wref{facility:BEGIN-STRUCTURE}{}} \\
+\uline{\wref{facility:CFIELD:}{}} \\
+\uline{\wref{facility:EKEYtoFKEY}{}} \\
+\uline{\wref{facility:END-STRUCTURE}{}} \\
+\uline{\wref{facility:FIELD:}{}} \\
+\uline{\wref{facility:K-ALT-MASK}{}} \\
+\uline{\wref{facility:K-CTRL-MASK}{}} \\
+\uline{\wref{facility:K-DELETE}{}} \\
+\uline{\wref{facility:K-DOWN}{}} \\
+\uline{\wref{facility:K-END}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.25\linewidth}
+\uline{\wref{facility:K-F1}{}} \\
+\uline{\wref{facility:K-F10}{}} \\
+\uline{\wref{facility:K-F11}{}} \\
+\uline{\wref{facility:K-F12}{}} \\
+\uline{\wref{facility:K-F2}{}} \\
+\uline{\wref{facility:K-F3}{}} \\
+\uline{\wref{facility:K-F4}{}} \\
+\uline{\wref{facility:K-F5}{}} \\
+\uline{\wref{facility:K-F6}{}} \\
+\uline{\wref{facility:K-F7}{}} \\
+\uline{\wref{facility:K-F8}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.35\linewidth}
+\uline{\wref{facility:K-F9}{}} \\
+\uline{\wref{facility:K-HOME}{}} \\
+\uline{\wref{facility:K-INSERT}{}} \\
+\uline{\wref{facility:K-LEFT}{}} \\
+\uline{\wref{facility:K-NEXT}{}} \\
+\uline{\wref{facility:K-PRIOR}{}} \\
+\uline{\wref{facility:K-RIGHT}{}} \\
+\uline{\wref{facility:K-SHIFT-MASK}{}} \\
+\uline{\wref{facility:K-UP}{}}
+\end{minipage}
+
+\subsection[{File-Access word sets}]{\uline{File-Access word sets}}
+\uline{The following words have been added to \xref{wordlist:file-ext}:}
+
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{file:INCLUDE}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{file:REQUIRE}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{file:REQUIRED}{}}
+\end{minipage}
+
+\subsection[{Floating-Point word sets}]{\uline{Floating-Point word sets}}
+\uline{The following words have been added to \xref{wordlist:floating-ext}:}
+
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{floating:DFFIELD:}{}} \\
+\uline{\wref{floating:FtoS}{F>S}} \\
+\uline{\wref{floating:FFIELD:}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{floating:FTRUNC}{}} \\
+\uline{\wref{floating:FVALUE}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{floating:StoF}{S>F}} \\
+\uline{\wref{floating:SFFIELD:}{}}
+\end{minipage}
+
+\subsection[{Locals word sets}]{\uline{Locals word sets}}
+\uline{The following words have been added to \xref{wordlist:local-ext}:}
+
+\uline{\wref{local:b:}{}}
+
+\subsection[{Memory-Allocation word sets}]{\uline{Memory-Allocation word sets}}
+\uline{No words have been added to \xref{wordlist:memory}.}
+
+\subsection[{Programming-Tools word sets}]{\uline{Programming-Tools word sets}}
+\uline{The following words have been added to the \xref{wordlist:tools-ext}:}
+
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{tools:NtoR}{}} \\
+\uline{\wref{tools:NRfrom}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{tools:SYNONYM}{}} \\
+\uline{\wref{tools:[DEFINED]}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{tools:[UNDEFINED]}{}}
+\end{minipage}
+
+\subsection[{Search-Order word sets}]{\uline{Search-Order word sets}}
+\uline{No words have been added to \xref{wordlist:search}.}
+
+\subsection[{String word sets}]{\uline{String word sets}}
+\uline{The following words have been added to the \xref{wordlist:string-ext}:}
+
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{string:REPLACES}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{string:SUBSTITUTE}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{string:UNESCAPE}{}}
+\end{minipage}
+
+\subsection[{Extended Character word sets}]{\uline{Extended Character word sets}}
+\uline{The Extended Character word set was introduced by Forth-\snapshot.}
+
+\uline{The following words make up \xref{wordlist:xchar}:}
+
+\begin{minipage}[t]{0.25\linewidth}
+\uline{\wref{xchar:X-SIZE}{}} \\
+\uline{\wref{xchar:XC!+}{}} \\
+\uline{\wref{xchar:XC!+q}{}} \\
+\uline{\wref{xchar:XC,}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.25\linewidth}
+\uline{\wref{xchar:XC-SIZE}{}} \\
+\uline{\wref{xchar:XC@+}{}} \\
+\uline{\wref{xchar:XCHAR+}{}} \\
+\uline{\wref{xchar:XEMIT}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.4\linewidth}
+\uline{\wref{xchar:XKEY}{}} \\
+\uline{\wref{xchar:XKEYq}{}} \\
+\uline{\wref{xchar:+X/STRING}{}} \\
+\uline{\wref{xchar:-TRAILING-GARBAGE}{}}
+\end{minipage}
+
+\uline{The following words make up \xref{wordlist:xchar-ext}:}
+
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{xchar:CHAR}{}} \\
+\uline{\wref{xchar:EKEYtoXCHAR}{}} \\
+\uline{\wref{xchar:PARSE}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{xchar:X-WIDTH}{}} \\
+\uline{\wref{xchar:XC-WIDTH}{}} \\
+\uline{\wref{xchar:XCHAR-}{}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\linewidth}
+\uline{\wref{xchar:XHOLD}{}} \\
+\uline{\wref{xchar:XSTRING-}{}} \\
+\uline{\wref{xchar:[CHAR]}{}}
+\end{minipage}
+
+\cbend
