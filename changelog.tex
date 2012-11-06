@@ -25,11 +25,15 @@
 	\par\vspace{-1ex}
 }
 
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+
 % =========================================================
 
 \version{05}{Original Text.}{\empty}
-	Original document based on the dpANS99a basis document distributed
-	as part of the review undertaken by the X3/X3J14 TC in 1999.
+	Original document based on the \replace{ed12}{dpANS99a}{dpANS6}
+	basis document distributed as \replace{ed12}{part of the review
+	undertaken by the X3/X3J14 TC in 1999}{the final public draft
+	during the development of Forth 94 (ANS X3.215-1994).}
 
 \version{06.1}{Santander Meeting}{21--23 October, 2005}
 	\begin{enumerate}
@@ -826,6 +830,223 @@
 	\end{itemize}
 
 
+\version{12.1}{Oxford Meeting}{12--14 September 2012}
+	\begin{itemize}
+	\item \textsf{ed12}: Page number replaced by sheet numbering.
+		% for the hard of understanding.
+
+	\item \textsf{F12}: Updated ``ANS Forth'' and ``Forth'' to ``Forth-\snapshot''.
+		With particular regard to section 5 (Compliance and labeling).
+
+	\item \textsf{ed12}: References to the ``Technical Committee'' have been
+		replaced with a reference to the ``Committee'' with the exception of
+		the forward to ANS Forth.
+
+	\item \xref{foreword}: 							% foreword 
+		\begin{enumerate}
+		\item \textsf{ed12}: Changed origin of basis to dpANS6.
+		\item \textsf{ed12}: Added Oxford meeting
+		\end{enumerate}
+
+	\item \xref{process}:							% process
+		\\ \textsf{F12}: Identified the current standard for reference implementations
+
+%	\item \xref{members}:							% members-2x
+
+	\item[1] Introduction:							% intro
+		\begin{enumerate}
+		\item \textsf{ed12}: Changed number of wordlists (to include \xref{wordlist:xchar}) in \xref{intro:wordsets}.
+		\item \textsf{ed12}: Dropped reference to Forth 83 from description of \xref{annex:diff}.
+		\item \textsf{ed12}: Revised description of \xref{annex:index}
+		\end{enumerate}
+
+	\item[2] Terms, notation, and references:	% notation
+		\begin{enumerate}
+		\item \textsf{ed12}: ``Tn'' to ``An'' in definition of \textbf{data type} in \xref{notation:terms}.
+		\item \textsf{ed12}: ``various'' to ``some'' in \xref{notations}.
+		\item \textsf{ed12}: ``an'' to ``a'' in \xref{notation:glossary}.
+		\item \textsf{ed12}: Added ISO Forth to \xref{notation:references}.
+		\item \textsf{ed12}: Removed footnote from ISO 646-1983 in \xref{notation:references}.
+		\end{enumerate}
+
+	\item[3] Usage requirements:					% usage
+		\begin{enumerate}
+		\item \textsf{ed12}: ``the Forth 94 Standard'' to ``Forth 94'' in \xref{usage:obsolete}.
+		\item \textsf{ed12}: \xref[3.2.8 Extension queries]{usage:extensions} removed from snapshot,
+			retained in the rolling document.
+		\item \textsf{ed12}: First sentence of \xref{usage:aaddr} revised.
+		\item \textsf{ed12}: Removed reference to \textsf{x:number-prefixes} proposal from \xref{usage:numbers}.
+		\end{enumerate}
+
+%	\item[4] Documentation requirements:		% doc
+
+	\item[5] Compliance and labeling:			% label
+		\\ \textsf{F12}: Revised ``ANS Forth'' to ``Forth-\snapshot''
+
+	\item[6] Core Word Set:							% core
+		\begin{enumerate}
+		\item \textsf{ed12}: ``via'' to ``by'' in \wref{core:DEFER!}{}, \wref{core:DEFER@}{}.
+		\item \textsf{ed12}: ``slash'' to ``backslash'' in glossary entry for \wref{core:Seq}{}.
+		\end{enumerate}
+
+%	\item[7] Block Word Set:						% block
+%	\item[8] Double-Number Word Set:				% double
+	\item[9] Exception Word Set:					% exception
+		\\ \textsf{ed12}: Added throw codes for \word[string]{REPLACES} and \word[string]{SUBSTITUTE}
+			to \xref{table:throw}.
+
+	\item[10] Facility Word Set:					% facility
+		\\ \textsf{ed12}: Removed alignment requirements from run-time action of
+			words defined with:
+			\wref{facility:CFIELD:}{},
+			\wref{facility:FIELD:}{}.
+
+	\item[11] File-Access Word Set:				% file
+		\\ \textsf{ed12}: Tightened up text in \xref{file:source}.
+
+	\item[12] Floating-Point Word Set:			% float
+		\\ \textsf{ed12}: Removed alignment requirements from run-time action of
+			words defined with:
+			\wref{floating:DFFIELD:}{},
+			\wref{floating:FFIELD:}{},
+			\wref{floating:SFFIELD:}{}.
+
+	\item[13] Locals Word Set:						% local
+		\begin{enumerate}
+		\item \textsf{ed12}: Removed reference to \xref{rat:local} from \xref{locals:intro}.
+		\item \textsf{ed12}: Conflated \arg{val} and \arg{arg} names in \wref{local:b:}{}.
+		\item \textsf{ed12}: ``assign'' to ``set to'' in \wref{local:b:}{}.
+		\end{enumerate}
+
+%	\item[14] Memory-Allocation Word Set:		% memory
+%	\item[15] Programming-Tools Word Set:		% tools
+%	\item[16] Search-Order Word Set:				% search
+	\item[17] String Word Set:						% string
+		\\ \textsf{substitute}: Clarification of \wref{string:SUBSTITUTE}{}.
+
+	\item[18] Extended Character Word Set		% xchar
+		\\ \textsf{ed12}: Removed reference to \wref{core:CHAR+}{}. from \wref{xchar:XCHAR+}{}.
+
+	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
+		\begin{enumerate}
+		\item \textsf{ed12}: Revised \xref{rat:scope}, \xref{rat:aaddr}.
+		\item \textsf{ed12}: Removed \xref{rat:wordsets}.
+		\item \textsf{ed12}: Renumbered \xref{rat:obsolete}.
+% Core
+		\item \textsf{ed12}: Removed \rref{core:2*}{}, \rref{core:2/}{}, \rref{core:2@}{},
+			\rref{core:EVALUATE}{}.
+		\item \textsf{ed12}: Removed first and third paragraphs from \rref{core:ACCEPT}{}.
+		\item \textsf{ed12}: Removed first paragraph of \rref{core:2toR}{}.
+		\item \textsf{ed12}: Removed last paragraph of \rref{core:ENVIRONMENTq}{},
+			\rref{core:Sq}{},\rref{core:STATE}{}
+		\item \textsf{ed12}: ``needed'' to ``needs'' in \rref{core:MOVE}{}.
+		\item \textsf{ed12} Revised rationale for \rref{core:VARIABLE}{},
+			\rref{core::NONAME}{}, \rref{core:qDO}{}, \rref{core:Cq}{},
+			\rref{core:COMPILE,}{}, \rref{core:TO}{}.
+		\item \textsf{x:parse} Revised rationale for \rref{core:PARSE}{}.
+% Block
+		\item \textsf{ed12}: Revised introduction to \xref{rat:block}.
+% Double
+% Exception
+		\item \textsf{ed12}: Moved reference implementation from
+			\xref{rat:exception} to \linebreak \iref{core:QUIT}{}, \iref{exception:CATCH}{},
+			\iref{exception:THROW}{} and \iref{exception:ABORT}{}.
+% Facility
+		\item \textsf{ed12}: Removed rational for \rref{facility:AT-XY}.
+		\item \textsf{ed12}: Removed alignment requirements in rational for
+			\rref{facility:FIELD:}{}.
+% File
+		\item \textsf{ed12}: Removed introduction to \xref{rat:file}.
+		\item \textsf{ed12}: Removed last sentence from \rref{file:BIN}{}.
+		\item \textsf{ed12}: Removed ``unexpected exceptions'' from
+			\rref{file:READ-FILE}{} and \rref{file:READ-LINE}{}.
+		\item \textsf{ed12}; Removed last paragraph of \rref{file:Sq}{}.
+% Float
+		\item \textsf{ed12}: Revised introduction to \xref{rat:floating}.
+		\item \textsf{F12}: Revised \rref{floating:toFLOAT}{} to refer to Forth-\snapshot.
+		\item \textsf{ed12}: Fixed typo in \rref{floating:Fd}{}.
+		\item \textsf{ed12}: Removed comment on stack ordering from \rref{floating:FATAN2}.
+		\item \textsf{ed12}: Replaced example hyperbolic function in \rref{floating:FEXPM1}.
+% Locals
+		\item \textsf{ed12}: Removed introduction to \xref{rat:local}.
+		\item \textsf{ed12}: Removed \rref{local:LOCALS}{}.
+		\item \textsf{ed12}: ``where'' to ``were'' in \rref{local:b:}{}.
+% Memory
+% Tools
+		\item \textsf{ed12}: ``reiterate'' to ``copy'' in \rref{tools:CS-PICK}{}.
+		\item \textsf{ed12}: Moved implementation from \rref{tools:[THEN]}{} to
+			\iref{tools:[IF]}{}, \iref{tools:[ELSE]}{} and \iref{tools:[THEN]}{}.
+% Search
+		\item \textsf{ed12}: Revised introduction to \xref{rat:search}.
+		\item \textsf{ed12}: Revised \rref{search:SEARCH-WORDLIST}{}.
+		\item \textsf{ed12}: Moved implementation from \rref{search:ALSO}{} to
+			\iref{search:DEFINITIONS}{},
+			\iref{search:FIND}{},
+			\iref{search:GET-ORDER}{},
+			\iref{search:SET-ORDER}{},
+			\iref{search:ALSO}{},
+			\iref{search:FORTH}{},
+			\iref{search:ONLY}{},
+			\iref{search:PREVIOUS}{}.
+
+% String
+		\item \textsf{ed12}: Revised \rref{string:/STRING}{}, \rref{string:CMOVE}{},
+			\rref{string:CMOVEtop}{}, \rref{string:SUBSTITUTE}{}.			
+		\item \textsf{ed12}: Removed \rref{string:COMPARE}{}, \rref{string:SEARCH}{}.
+% Xchar
+		\end{enumerate}
+
+%	\item[B] Bibliography (Annex \ref{annex:bib}):					% bib
+	\item[C] Perspective %(Annex \ref{annex:intro}):					% intro
+		\\ \textsf{ed12}: Removed Annex.
+
+	\item[C] Compatibility analysis (Annex \ref{annex:diff}):	% diff
+		\\ \textsf{compatibility}: Revised whole Annex.
+	
+	\item[D] Portability guide (Annex \ref{annex:port}):			% port
+		\\ \textsf{ed12}: Revised whole Annex
+
+	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
+		\begin{enumerate}
+% Core
+% Block
+% Double
+% Exception
+		\item \textsf{ed12}: Added \iref{exception:CATCH}{}, \iref{exception:THROW}{}, \iref{exception:ABORT}{}.
+% Facility
+% File
+% Float
+% Locals
+		\item \textsf{ed12}: Added \iref{local:LOCALS}{}.
+% Memory
+% Tools
+		\item \textsf{ed12}: Added \iref{tools:[ELSE]}{}, \iref{tools:[IF]}{} and \iref{tools:[THEN]}{}.
+% Search
+		\item \textsf{ed12}: Added
+			\iref{search:DEFINITIONS}{},
+			\iref{search:FIND}{},
+			\iref{search:GET-ORDER}{},
+			\iref{search:SET-ORDER}{},
+			\iref{search:ALSO}{},
+			\iref{search:FORTH}{},
+			\iref{search:ONLY}{},
+			\iref{search:PREVIOUS}{}.
+		\end{enumerate}
+% String
+	\item[F] Test Suite (Annex \ref{annex:test}):					% test
+		\begin{enumerate}
+		\item \textsf{ed12}: Added credits to \xref{test:intro}.
+		\item \textsf{ed12}: Removed reference to \textsf{x:number-prefix}
+			from \xref{test:numeric}.
+		\end{enumerate}
+
+	\item[G] Change Log (Annex \ref{annex:changelog}): \\
+		\textsf{ed12}: Changed origin of basis to dpANS6 in
+			version 05 (Original Text).
+
+% Xchar
+	\end{itemize}
+
 \endinput
 
  
@@ -853,12 +1074,51 @@
 	\item[17] String Word Set:						% string
 	\item[18] Extended Character Word Set		% xchar
 	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
+% Core
+% Block
+% Double
+% Exception
+% Facility
+% File
+% Float
+% Locals
+% Memory
+% Tools
+% Search
+% String
+% Xchar
 	\item[B] Bibliography (Annex \ref{annex:bib}):					% bib
 	\item[C] Perspective (Annex \ref{annex:intro}):					% intro
 	\item[D] Compatibility analysis (Annex \ref{annex:diff}):	% diff
 	\item[E] Portability guide (Annex \ref{annex:port}):			% port
 	\item[F] Reference Implementations (Annex \ref{annex:implement}):	% imp
+% Core
+% Block
+% Double
+% Exception
+% Facility
+% File
+% Float
+% Locals
+% Memory
+% Tools
+% Search
+% String
+% Xchar
 	\item[G] Test Suite (Annex \ref{annex:test}):					% test
+% Core
+% Block
+% Double
+% Exception
+% Facility
+% File
+% Float
+% Locals
+% Memory
+% Tools
+% Search
+% String
+% Xchar
 	\end{itemize}
 
 \endinput
@@ -868,3 +1128,4 @@
 	\item Develop new Globalisation word set
 	\item Develop extended Memory Access word set
 	\end{itemize}
+
