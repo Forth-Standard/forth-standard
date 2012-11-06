@@ -12,6 +12,10 @@ foreach $line (<STDIN>) {
 	@params = (split(/[\{\}]/,$line));
 	($sec,$num,$sub,$name) = @params[1,3,5,7];
 
+	if ( $#params > 18 ) {
+		$name = join("",@params[7,9]);
+	}
+	
 	$name =~ s/\\char \"([0-9A-F]{2})/pack('C', hex($1))/seg;
 	$sec = "6.$sec" if ( (split(/\./, $sec))[0] == 6);
 	$num = 0 unless $num;
@@ -60,22 +64,48 @@ sub wordcomp {
 	local ($a_name,$a_num) = split(" ", $a);
 	local ($b_name,$b_num) = split(" ", $b);
 
-	# Word names
+	print "\n" if $SORT;
+
+	# Word name
 	$ans = $a_name cmp $b_name;
 	if ($SORT) {
-		print "\n";
-		print $a_name, " " x ($length - length($a_name));
-		print "  ", substr("<=>", $ans+1, 1), "  ";
-		print $b_name, " " x ($length - length($b_name));
+		print "  ", $a_name, " ", substr("<=>", $ans+1, 1), " ", $b_name;
+	}
+	return $ans if $ans != 0;
+
+	# Word Number (num)
+	local($a) = substr($a_num, 12, 4);
+	local($b) = substr($b_num, 12, 4);
+
+	$ans = $a <=> $b;
+	if ($SORT) {
+		print "  ", $a, " ", substr("<=>", $ans+1, 1), " ", $b;
 	}
 
-	if ( $ans == 0 ) {
-		# Word section (number)
-		$ans = $a_num <=> $b_num;
-		if ($SORT) {
-			print "  ", $a_num, " ", substr("<=>", $ans+1, 1), " ", $b_num;
-		}
+	return $ans if $ans != 0;
+
+	# Sub Number (sub)
+	$a = substr($a_num, 16, 4);
+	$b = substr($b_num, 16, 4);
+
+	$ans = $a <=> $b;
+	if ($SORT) {
+		print "  ", $a, " ", substr("<=>", $ans+1, 1), " ", $b;
 	}
+
+	return $ans if $ans != 0;	
+
+	# So same word number, sub-word number and word name.
+	# We only the the wordlist number to go. (sec)
+
+	$a = substr($a_num, 0, 4);
+	$b = substr($b_num, 0, 4);
+
+	$ans = $a <=> $b;
+	if ($SORT) {
+		print "  ", $a, " ", substr("<=>", $ans+1, 1), " ", $b;
+	}
+
 	return $ans;
 }
 
