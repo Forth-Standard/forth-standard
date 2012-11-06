@@ -25,8 +25,8 @@
 	the least significant digit of \param{ud_1}.) Convert \param{n}
 	to external form and add the resulting character to the beginning
 	of the pictured numeric output string. An ambiguous condition
-	exists if \word{num} executes outside of a \word{num-end}
-	\word{num-start} delimited number conversion.
+	exists if \word{num} executes outside of a 
+	\word{num-start} \word{num-end} delimited number conversion.
 
 \see \wref{core:num-end}{\num>},
 	\wref{core:numS}{\num{}S},
@@ -135,7 +135,7 @@
 		Typical use: {\ldots} \word{'} \param{name}.
 
 		Many Forth systems use a state-smart tick. Many do not.
-		\replace{F94}{ANS Forth follows}{We follow} the usage of Forth \replace{F94}{83}{94}.
+		\replace{ed12}{We follow}{Forth-\snapshot\ follows} the usage of Forth 94.
 
 	\see \xref[A.3.4.3..2 Interpretation semantics]{rat:interpret},
 		\rref{core:FIND}{FIND}.
@@ -279,7 +279,7 @@
 		\test{     -7 2       3 \word{*/MOD}}{     -7 2       3 T*/MOD} \\
 		\test{     -7 2      -3 \word{*/MOD}}{     -7 2      -3 T*/MOD} \\
 		\test{MAX-INT 2 MAX-INT \word{*/MOD}}{MAX-INT 2 MAX-INT T*/MOD} \\
-		\test{MIN-INT 2 MIN-INT \word{*/MOD}}{MIN-INT 2 MIN-INT T*/MOD} \\
+		\test{MIN-INT 2 MIN-INT \word{*/MOD}}{MIN-INT 2 MIN-INT T*/MOD}
 	\end{testing}
 \end{worddef}
 
@@ -700,16 +700,17 @@
 	the most-significant bit, filling the vacated least-significant
 	bit with zero.
 
-\see \rref{core:2*}{}.
+\see \remove{ed12}{\rref{core:2*}{}.}
 
 	\begin{rationale} % A.6.1.0320 2*
+\remove{ed12}{%
 		Historically, \word{2*} has been implemented on
 		two's-complement machines as a logical left-shift instruction.
 		Multiplication by two is an efficient side-effect on these
 		machines. However, shifting implies a knowledge of the
 		significance and position of bits in a cell. While the name
 		implies multiplication, most implementors have used a hardware
-		left shift to implement \word{2*}.
+		left shift to implement \word{2*}.}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.0320 2*
@@ -729,13 +730,14 @@
 	the least-significant bit, leaving the most-significant bit
 	unchanged.
 
-\see \rref{core:2/}{}.
+\see \remove{ed12}{\rref{core:2/}{}.}
 
 	\begin{rationale} % A.6.1.0330 2/
+\remove{ed12}{%
 		This word has the same common usage and misnaming implications
 		as \word{2*}. It is often implemented on two's-complement
 		machines with a hardware right shift that propagates the sign
-		bit.
+		bit.}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.0330 2/
@@ -758,11 +760,13 @@
 	\word{DUP} \word{CELL+} \word{@} \word{SWAP} \word{@}.
 
 \see \xref[3.3.3.1  Address alignment]{usage:aaddr},
-	\wref{core:2!}{2!},
-	\rref{core:2@}{}.
+	\wref{core:2!}{2!}%,
+	\remove{ed12}{, \rref{core:2@}{}}.
 
 	\begin{rationale} % A.6.1.0350 2@
+\remove{ed12}{%
 		With \word{2@} the storage order is specified by the Standard.
+}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.0350 2@
@@ -1256,10 +1260,11 @@
 \see \rref{core:ACCEPT}{}.
 
 	\begin{rationale} % A.6.1.0695 ACCEPT
+\remove{ed12}{%
 		Previous standards specified that collection of the input
-		string terminates when either a ``return'' is received or when
-		\param{+n_1} characters have been received. Terminating when
-		\param{+n_1} characters have been received is difficult,
+		string terminates when either a ``return'' is received or when}
+		\param{+n_1} \sout{characters have been received. Terminating when}
+		\param{+n_1} \remove{ed12}{characters have been received is difficult,
 		expensive, or impossible to implement in some system environments.
 		Consequently, a number of existing implementations do not
 		comply with this requirement. Since line-editing and collection
@@ -1268,14 +1273,14 @@
 		such requirement. A Standard Program may only assume that it
 		can receive an input string with \word{ACCEPT}
 		The detailed sequence of user actions necessary to prepare and
-		transmit that line are beyond the scope of this Standard.
+		transmit that line are beyond the scope of this Standard.}
 
 		Specification of a non-zero, positive integer count (\param{+n_1})
 		for \word{ACCEPT} allows some implementors to continue their
 		practice of using a zero or negative value as a flag to trigger
 		special behavior. Insofar as such behavior is outside the
 		Standard, Standard Programs cannot depend upon it, but the
-		Technical Committee doesn't wish to preclude it unnecessarily.
+		\remove{ed12}{Technical} Committee doesn't wish to preclude it unnecessarily.
 		Since actual values are almost always small integers, no
 		functionality is impaired by this restriction.
 
@@ -1283,6 +1288,7 @@
 		for editing or control functions and not be stored in the input
 		string.
 
+\remove{ed12}{%
 		Commonly, when the user is preparing an input string to be
 		transmitted to a program, the system allows the user to edit
 		that string and correct mistakes before transmitting the final
@@ -1292,7 +1298,7 @@
 		functions may not be available on all systems. In the usual
 		case, the end of the editing process and final transmission of
 		the string is signified by the user pressing a ``Return'' or
-		``Enter'' key.
+		``Enter'' key.}
 
 		Because external system hardware and software may perform the
 		\word{ACCEPT} function, when a line terminator is received the
@@ -2082,6 +2088,7 @@
 		returned flag in interpretation state (e.g. the optional
 		\wref{tools:[IF]}{[IF]}).
 
+\remove{ed12}{%
 		The combination of
 		\wref{core:ENVIRONMENTq}{ENVIRONMENT?},
 		\wref{file:Sq}{S"},
@@ -2090,6 +2097,7 @@
 		\wref{tools:[THEN]}{[THEN]}
 		constitutes an effective suite of words for conditional
 		compilation that works in interpretation state.
+}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.1345 ENVIRONMENT?
@@ -2111,9 +2119,10 @@
 	specification. Other stack effects are due to the words
 	\word{EVALUATE}d.
 
-\see \rref{core:EVALUATE}{}.
+\see \remove{ed12}{\rref{core:EVALUATE}{}.}
 
 	\begin{rationale} % A.6.1.1360 EVALUATE
+\remove{ed12}{%
 		The Technical Committee is aware that this function is
 		commonly spelled \texttt{EVAL}. However, there exist
 		implementations that could suffer by defining the word as is
@@ -2122,7 +2131,7 @@
 		\texttt{INTERPRET}, but that too would have undesirable
 		effects on existing code. The longer spelling was not deemed
 		significant since this is not a word that should be used
-		frequently in source code.
+		frequently in source code.}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.1360 EVALUATE
@@ -2326,7 +2335,7 @@
 		and symmetric (see \word{SM/REM}). \word{FM/MOD} is the floored
 		version.
 
-		The Technical Committee considered providing two complete sets
+		The \remove{ed12}{Technical} Committee considered providing two complete sets
 		of explicitly named division operators, and declined to do so
 		on the grounds that this would unduly enlarge and complicate
 		the Standard. Instead, implementors may define the normal
@@ -2668,6 +2677,7 @@
 \end{worddef}
 
 
+
 \begin{worddef}{1760}{LEAVE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2966,7 +2976,7 @@
 		that implies propagation if the move is suitably invoked. In
 		some hardware, this specific behavior cannot be achieved using
 		the best move instruction. Further, \word[string]{CMOVE} and
-		\word[string]{CMOVEtop} move characters; \replace{F94}{ANS Forth needs}{Forth 94 needed} a move
+		\word[string]{CMOVEtop} move characters; Forth \replace{ed12}{needed}{ needs} a move
 		instruction capable of dealing with address units. Thus
 		\word{MOVE} has been defined and added to the Core word set,
 		and \word[string]{CMOVE} and \word[string]{CMOVEtop} have been
@@ -3129,6 +3139,33 @@
 	\end{itemize}
 
 \see \xref[3.4 The Forth text interpreter]{usage:command}.
+
+	\begin{implement}
+\cbstart\patch{ed12}
+		\uline{\word{:} \word{QUIT}} \\
+		\tab \uline{\word{p} \textdf{empty the return stack and set the input source to the user input device} )} \\
+		\tab \uline{\word{POSTPONE} \word{[}} \\
+		\tab[2] \uline{\word{REFILL}} \\
+		\tab \uline{\word{WHILE}} \\
+		\tab[2] \uline{\word{[']} INTERPRET \word[exception]{CATCH}} \\
+		\tab[2] \uline{\word{CASE}} \\
+		\tab[2] \uline{~0 \word{OF} \word{STATE} \word{@} \word{0=} \word{IF}
+			\word{.q} OK" \word{THEN} \word{CR} \word{ENDOF}} \\
+		\tab[2] \uline{-1 \word{OF} \word{p} \textdf{Aborted} ) \word{ENDOF}} \\
+		\tab[2] \uline{-2 \word{OF} \word{p} \textdf{display message from \word{ABORTq}} ) \word{ENDOF}} \\
+		\tab[2] \uline{\word{p} \textdf{default} ) \word{DUP} \word{.q} Exception \# " \word{d}} \\
+		\tab[2] \uline{\word{ENDCASE}} \\
+		\tab \uline{\word{REPEAT} \word[tools]{BYE}} \\
+		\uline{\word{;}}
+
+		\dffamily
+\uline{%
+		This assumes the existence of a system-implementation word
+		{\tt INTERPRET} that embodies the text interpreter semantics described in}
+		\xref[3.4 The Forth text interpreter]{usage:command}.
+\uline{Further discussion of the interpret loop can be found in \rref{core:COMPILE,}{}.}
+\cbend
+	\end{implement}
 \end{worddef}
 
 
@@ -3357,6 +3394,7 @@
 				\word{Sq} \emph{ccc}\texttt{"}
 			{\ldots} \word{;}
 
+\remove{ed12}{%
 		This word is found in many systems under the name \texttt{"}
 		(quote). However, current practice is almost evenly divided on
 		the use of \texttt{"}, with many systems using the execution
@@ -3364,7 +3402,7 @@
 		counted string. We attempt here to satisfy both camps by
 		providing two words, \word{Sq} and the Core Extension word
 		\word{Cq} so that users may have whichever behavior they expect
-		with a simple renaming operation.
+		with a simple renaming operation.}
 	\end{rationale}
 
 	\begin{testing} % A.6.1.2165 S"
@@ -3608,16 +3646,17 @@
 		\tab \texttt{NOP} \word{ALIGN} \\
 		\tab \texttt{NOP} \word{ALIGNED}
 
-		Some non-\remove{F94}{ANS Forth }compliant systems have \word{]} invoke a
+		Some non-compliant systems have \word{]} invoke a
 		compiler loop in addition to setting \word{STATE}. Such a
 		system would inappropriately attempt to compile the second
 		use of \texttt{NOP}.
 
+\remove{ed12}{%
 		Also note that nothing in the Standard prevents a program from
 		finding the execution tokens of \word{]} or \word{[} and using
 		these to affect \word{STATE}. These facts suggest that
 		implementations of \word{]} will do nothing but set \word{STATE}
-		and a single interpreter/compiler loop will monitor \word{STATE}.
+		and a single interpreter/compiler loop will monitor \word{STATE}.}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.2250 STATE
@@ -3638,6 +3677,7 @@
 		\test{1 2 \word{SWAP}}{2 1}
 	\end{testing}
 \end{worddef}
+
 
 
 \begin{worddef}{2270}{THEN}
@@ -3892,7 +3932,7 @@
 
 	\begin{rationale} % A.6.1.2410 VARIABLE
 		Typical use:
-			{\ldots} \word{VARIABLE} \texttt{XYZ} {\ldots}
+			\remove{ed12}{\ldots} \word{VARIABLE} \texttt{XYZ} \remove{ed12}{\ldots}
 	\end{rationale}
 
 	\begin{testing} % T.6.1.2410 VARIABLE
@@ -4241,8 +4281,9 @@
 	\rref{core:2toR}{}.
 
 	\begin{rationale} % A.6.2.0340 2>R
+\remove{ed12}{%
 		Historically, \word{2toR} has been used to implement \word{DO}.
-		Hence the order of parameters on the return stack.
+		Hence the order of parameters on the return stack.}
 
 		The primary advantage of \word{2toR} is that it puts the top
 		stack entry on the top of the return stack. For instance, a
@@ -4336,114 +4377,133 @@
 \see \rref{core::NONAME}{}.
 
 	\begin{rationale} % A.6.2.0455 :NONAME
+\cbstart\patch{ed12}
+		\uline{Typical use:}
+
+		\tab \uline{\word{DEFER} \texttt{print}} \\[2ex]
+		\tab \uline{\word{:NONAME} \word{p} n -{}- ) \word{d} \word{;} \word{IS} \texttt{print}}
+
+	\note \uline{\word{RECURSE} and \word{DOES} shall work within
+		a \word{:NONAME} definition.}
+
+\sout{%
 		\word{:NONAME} allows a user to create an execution token
 		with the semantics of a colon definition without an associated
 		name. Previously, only \word{:} (colon) could create an
 		execution token with these semantics. Thus, Forth code could
-		only be compiled using the syntax of \word{:}, that is:
+		only be compiled using the syntax of \word{:}, that is:}
 
-		\tab \word{:} \texttt{NAME} {\ldots} \word{;}
+\sout{\tab \word{:} \texttt{NAME} {\ldots} \word{;}}
 
+\sout{%
 		\word{:NONAME} removes this constraint and places the Forth
-		compiler in the hands of the programmer.
+		compiler in the hands of the programmer.}
 
+\sout{%
 		\word{:NONAME} can be used to create application-specific
 		programming languages. One technique is to mix Forth code
 		fragments with application-specific constructs. The
 		application-specific constructs use \word{:NONAME} to compile
 		the Forth code and store the corresponding execution tokens
-		in data structures.
+		in data structures.}
 
+\sout{%
 		The functionality of \word{:NONAME} can be built on any Forth
 		system. For years, expert Forth programmers have exploited
 		intimate knowledge of their systems to generate unnamed code
 		fragments. Now, this function has been named and can be used
-		in a portable program.
+		in a portable program.}
 
+\sout{%
 		For example, \word{:NONAME} can be used to build a table of
 		code fragments where indexing into the table allows executing
-		a particular fragment. The declaration syntax of the table is:
+		a particular fragment. The declaration syntax of the table is:}
 
 		\begin{quote}\ttfamily
-			\word{:NONAME} {\ldots} code for command 0 {\ldots} \word{;}
-			0 CMD \word{!}
+			\sout{\word{:NONAME} {\ldots} code for command 0 {\ldots} \word{;}
+			0 CMD \word{!}}
 
-			\word{:NONAME} {\ldots} code for command 1 {\ldots} \word{;}
-			1 CMD \word{!}
+			\sout{\word{:NONAME} {\ldots} code for command 1 {\ldots} \word{;}
+			1 CMD \word{!}}
 
-			\tab {\ldots}
+			\tab \sout{\ldots}
 
-			\word{:NONAME} {\ldots} code for command 99 {\ldots} \word{;}
-			99 CMD \word{!}
+			\sout{\word{:NONAME} {\ldots} code for command 99 {\ldots} \word{;}
+			99 CMD \word{!}}
 
-			{\ldots} 5 CMD \word{@} \word{EXECUTE} {\ldots}
+			\sout{{\ldots} 5 CMD \word{@} \word{EXECUTE} {\ldots}}
 		\end{quote}
 
-		The definitions of the table building words are:
+\sout{		The definitions of the table building words are:}
 
 		\begin{quote}\ttfamily
-			\word{CREATE} CMD-TABLE
-				\word{bs} table for command execution tokens \\
-			\tab 100 \word{CELLS} \word{ALLOT}
+			\sout{\word{CREATE} CMD-TABLE
+				\word{bs} table for command execution tokens} \\
+			\tab \sout{100 \word{CELLS} \word{ALLOT}}
 
-			\word{:} CMD \word{p} n -{}- a-addr )
-				\word{bs} nth element address in table \\
-			\tab \word{CELLS} CMD-TABLE \word{+}
-			\word{;}
+			\sout{\word{:} CMD \word{p} n -{}- a-addr )
+				\word{bs} nth element address in table} \\
+			\tab \sout{\word{CELLS} CMD-TABLE \word{+}
+			\word{;}}
 		\end{quote}
 
+\sout{%
 		As a further example, a defining word can be created to allow
 		performance monitoring. In the example below, the number of
 		times a word is executed is counted. \word{:} must first be
-		renamed to allow the definition of the new \word{;}.
+		renamed to allow the definition of the new \word{;}.}
 
 		\begin{quote}\ttfamily
 		  \begin{tabbing}
 			\tab \= \tab \= \hspace*{12em} \= \kill
-			\word{:} DOCOLON \word{p} -{}- ) \\
-			\+ \word{bs} Modify CREATEd word to execute like a colon def \\
-				\+ \word{DOES} \word{p} i*x a-addr -{}- j*x ) \\
-					1 \word{OVER} \word{+!}								\> \word{bs} count executions \\
-			\-	\-	\word{CELL+} \word{@} \word{EXECUTE}				\> \word{bs} execute :NONAME definition \\
-			\word{;} \\[1.5\parskip]
+			\sout{\word{:} DOCOLON \word{p} -{}- )} \\
+			\+ \sout{\word{bs} Modify CREATEd word to execute like a colon def} \\
+				\+ \sout{\word{DOES} \word{p} i*x a-addr -{}- j*x )} \\
+					\sout{1 \word{OVER} \word{+!}}								\> \sout{\word{bs} count executions} \\
+			\-	\-	\sout{\word{CELL+} \word{@} \word{EXECUTE}}				\> \sout{\word{bs} execute :NONAME definition} \\
+			\sout{\word{;}} \\[1.5\parskip]
 
-			\word{:} OLD: \word{:} \word{;}								\>\>\> \word{bs} just an alias \\[1.5\parskip]
+			\sout{\word{:} OLD: \word{:} \word{;}}								\>\>\> \sout{\word{bs} just an alias} \\[1.5\parskip]
 
-			OLD: \word{:} \word{p} "name" -{}- a-addr xt colon-sys ) \\
-			\+ \word{bs} begins an execution-counting colon definition \\
-				\word{CREATE} \word{HERE} 0 \word{,}					\>\> \word{bs} storage for execution counter \\
-				0 \word{,}												\>\> \word{bs} storage for execution token \\
-				DOCOLON													\>\> \word{bs} set run time for CREATEd word \\
-			\-	\word{:NONAME}											\>\> \word{bs} begin unnamed colon definition \\
-			\word{;}
+			\sout{OLD: \word{:} \word{p} "name" -{}- a-addr xt colon-sys )} \\
+			\+ \sout{\word{bs} begins an execution-counting colon definition} \\
+				\sout{\word{CREATE} \word{HERE} 0 \word{,}}					\>\> \sout{\word{bs} storage for execution counter} \\
+				\sout{0 \word{,}}												\>\> \sout{\word{bs} storage for execution token} \\
+				\sout{DOCOLON}													\>\> \sout{\word{bs} set run time for CREATEd word} \\
+			\-	\sout{\word{:NONAME}}											\>\> \sout{\word{bs} begin unnamed colon definition} \\
+			\sout{\word{;}}
 		  \end{tabbing}
 		\end{quote}
 
+\sout{%
 		(Note the placement of \word{DOES}: \word{DOES} must modify
 		the \word{CREATE}d word and not the \word{:NONAME} definition,
-		so \word{DOES} must execute before \word{:NONAME}.)
+		so \word{DOES} must execute before \word{:NONAME}.)}
 
 		\begin{quote}\ttfamily
 		  \begin{tabbing}
 			\tab \= \tab \= \hspace*{12em} \= \kill
-			OLD: \word{;} \word{p} a-addr xt colon-sys -{}- ) \\
-			\+ \word{bs} ends an execution-counting colon definition \\
-				\word{POSTPONE} \word{;}										\>\> \word{bs} complete compilation of colon def \\
-			\-	\word{SWAP} \word{CELL+} \word{!}								\>\> \word{bs} save execution token \\
-			\word{;} \word{IMMEDIATE}
+			\sout{OLD: \word{;} \word{p} a-addr xt colon-sys -{}- )} \\
+			\+ \sout{\word{bs} ends an execution-counting colon definition} \\
+				\sout{\word{POSTPONE} \word{;}}										\>\> \sout{\word{bs} complete compilation of colon def} \\
+			\-	\sout{\word{SWAP} \word{CELL+} \word{!}}								\>\> \sout{\word{bs} save execution token} \\
+			\sout{\word{;} \word{IMMEDIATE}}
 		  \end{tabbing}
 		\end{quote}
 
+\sout{%
 		The new \word{:} and \word{;} are used just like the standard
-		ones to define words:
+		ones to define words:}
 
-		\tab {\ldots} \word{:} \texttt{xxx} {\ldots} \word{;}
-			{\ldots} \texttt{xxx} {\ldots}
+		\tab \sout{{\ldots} \word{:} \texttt{xxx} {\ldots} \word{;}}
+			\sout{{\ldots} \texttt{xxx} {\ldots}}
 
+\sout{%
 		Now however, these words may be ``ticked'' to retrieve the
-		count (and execution token):
+		count (and execution token):}
 
-		\tab {\ldots} \word{'} \texttt{xxx} \word{toBODY} \word[tools]{q} {\ldots}
+		\tab \sout{{\ldots} \word{'} \texttt{xxx} \word{toBODY} \word[tools]{q} {\ldots}}
+\cbend
 	\end{rationale}
 
 	\begin{testing}
@@ -4503,19 +4563,24 @@
 	\begin{rationale} % A.6.2.0620 ?DO
 		Typical use:
 
-		\tab \word{:} \texttt{FACTORIAL} \word{p} +n1 -{}- +n2 )~
+\cbstart\patch{ed12}
+		\tab \uline{\word{qDO} {\ldots} \word{LOOP}}
+
+		\tab \sout{\word{:} \texttt{FACTORIAL} \word{p} +n1 -{}- +n2 )~
 			1 \word{SWAP} \word{1+} \word{qDO}~
 				\word{I} \word{*}~
 			\word{LOOP}
-		\word{;}
+		\word{;}}
 
+\sout{%
 		This word was added in response to many requests for a
 		resolution of the difficulty introduced by Forth-83's DO,
 		which on a 16-bit system will loop 65,535 times if given
 		equal arguments. As this Standard also encourages 32-bit
 		systems, this behavior can be intolerable. The Technical
 		Committee considered applying these semantics to DO, but
-		declined on the grounds that it might break existing code.
+		declined on the grounds that it might break existing code.}
+\cbend
 	\end{rationale}
 
 	\begin{testing}\ttfamily
@@ -4581,14 +4646,15 @@
 \end{worddef}
 
 
-\begin{worddef}{}{ACTION-OF}[][X:deferred]
+\begin{worddef}{0698}{ACTION-OF}[][X:deferred]
 \interpret
 	\stack{"<spaces>name"}{xt}
 
 	Skip leading spaces and parse \param{name} delimited by a space.
-	\param{xt} is the \replace{x:is}{\param{xt} assigned to \param{name}}{execution token that \param{name} is set to execute}.
+	\param{xt} is the execution token that \param{name} is set to execute.
 	An ambiguous condition exists if \param{name} was not defined by
-	\word{DEFER}, or if the \param{name} has not been \replace{x:is}{assigned}{set to execute} an \param{xt}.
+	\word{DEFER}, or if the \param{name} has not been set to execute an
+	\param{xt}.
 
 \compile
 	\stack{"<spaces>name"}{}
@@ -4601,10 +4667,9 @@
 \runtime
 	\stack{}{xt}
 
-	\param{xt} is the execution token \replace{x:is}{assigned to \param{name}
-	when the run-time semantics is performed}{that \param{name} is set to execute}.
+	\param{xt} is the execution token that \param{name} is set to execute.
 	An ambiguous condition exists if \param{name} has not been
-	\replace{x:is}{assigned}{set to execute} an \param{xt}.
+	set to execute an \param{xt}.
 
 	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
 	\word{[']} or \word{'} is applied to \word{ACTION-OF}.
@@ -4673,7 +4738,8 @@
 
 % -------------------------------------------------------------------
 
-\begin{worddef*}{}{BUFFER:}[buffer-colon][x:buffer]
+
+\begin{worddef}{0825}{BUFFER:}[buffer-colon][x:buffer]
 \item \stack{u "<spaces>name"}{}
 
 	Skip leading space delimiters. Parse \param{name} delimited by a space.
@@ -4720,14 +4786,14 @@
 
 	\begin{implement}
 		\dffamily
-		This implementation depends on children of \word{CREATE} returning an
-		aligned address.  Other memory location techniques require
-		implementation-specific knowledge of the underlying Forth system.
+		This implementation depends on children of \word{CREATE}
+		returning an aligned address.  Other memory location techniques
+		require implementation-specific knowledge of the underlying Forth
+		system.
 
 		\ttfamily
-		\word{:} BUFFER: \word{bs} u "<name>" -- ; -- addr \\
-		\word{bs} Create a buffer of u address units whose \\
-		\word{bs} address is returned at run time. \\
+		\word{:} \word{BUFFER:} \word{bs} u "<name>" -- ; -- addr \\
+		\word{bs} \textdf{Create a buffer of u address units whose address is returned at run time.} \\
 		\tab \word{CREATE} \word{ALLOT} \\
 		\word{;}
 	\end{implement}
@@ -4758,7 +4824,7 @@
 		\test{TBUF1 127 0 \word{FILL}  }{      } \\
 		\test{TBUF1 127 0 TFULL?}{<TRUE>}
 	\end{testing}
-\end{worddef*}
+\end{worddef}
 
 % -------------------------------------------------------------------
 
@@ -4791,22 +4857,25 @@
 				\word{Cq} \emph{ccc}\texttt{"}
 			{\ldots} \word{;}
 
+\cbstart\patch{ed12}
+\sout{%
 		It is easy to convert counted strings to pointer/length but
 		hard to do the opposite. \word{Cq} is the only new word that
 		uses the ``address of counted string'' stack representation.
-		It is provided as an aid to porting existing programs%
-		\remove{F94}{to ANS Forth systems}.
+		It is provided as an aid to porting existing programs.
 		It is relatively difficult to implement \word{Cq}
 		in terms of other standard words, considering its ``compile
-		string into the current definition'' semantics.
+		string into the current definition'' semantics.}
 
+\sout{%
 		Users of \word{Cq} are encouraged to migrate their application
 		code toward the consistent use of the preferred
-		``\param{c-addr u}'' stack representation with the alternate
+		``}\param{\sout{c-addr u}}\sout{'' stack representation with the alternate
 		word \word{Sq}. This may be accomplished by converting
 		application words with counted string input arguments to use
-		the preferred ``\param{c-addr u}'' representation, thus
-		eliminating the need for \word{Cq}.
+		the preferred ``}\param{\sout{c-addr u}}\sout{'' representation, thus
+		eliminating the need for \word{Cq}.}
+\cbend
 
 		See: \xref[A.3.1.3.4 Counted strings]{rat:cstring}.
 	\end{rationale}
@@ -4906,6 +4975,34 @@
 \see \rref{core:COMPILE,}{}.
 
 	\begin{rationale} % A.6.2.0945 COMPILE,
+\cbstart\patch{ed12}
+\uline{%
+	The intention is that \word{COMPILE,} can be used as follows to write
+	the classic interpreter/com\-piler loop:}
+
+	\begin{quote}\ttfamily
+	\uline{\ldots} 									\tab[22]		\uline{\word{p} c-addr )} \\
+	\uline{\word{FIND} \word{qDUP} \word{IF}}		\tab[17.2]	\uline{\word{p} xt +-1 )} \\
+	\tab \uline{\word{STATE} \word{@} \word{IF}}		\tab[17.4]	\uline{\word{p} xt +-1 )} \\
+		\tab[2] \uline{\word{0more} \word{IF} \ 
+			\word{EXECUTE} \ 
+		\word{ELSE} \ 
+			\word{COMPILE,} \ 
+		\word{THEN}}								\tab[0.2]		\uline{\word{p} ??? )} \\
+	\tab \uline{\word{ELSE}}							\tab[21]		\uline{\word{p} xt +-1 )} \\
+		\tab[2] \uline{\word{DROP} \word{EXECUTE}} 	\tab[14.6]	\uline{\word{p} ??? )} \\
+	\tab \uline{\word{THEN}} \\
+		\uline{\word{ELSE}} 							\tab[22]		\uline{\word{p} c-addr )} \\
+	\tab \uline{\word{p} \textrm{whatever you do for an undefined word} )} \\
+	\uline{\word{THEN}} \\
+	\uline{\ldots}
+	\end{quote}
+
+\uline{%
+	Thus the interpretation semantics are left undefined, as \word{COMPILE,}
+	will not be executed during interpretation.}
+
+\sout{%
 		\word{COMPILE,} is the compilation equivalent of
 		\word{EXECUTE}. In many cases, it is possible to compile a
 		word by using \word{POSTPONE} without resorting to the use of
@@ -4914,13 +5011,15 @@
 		whereas \word{COMPILE,} allows the word to be located at any
 		time. It is sometime possible to use \word{EVALUATE} to compile
 		a word whose name is not known until run time. This has two
-		possible problems:
+		possible problems:}
 		\begin{itemize}
-		\item \word{EVALUATE} is slower than \word{COMPILE,} because a
-			dictionary search is required.
-		\item The current search order affects the outcome of
-			\word{EVALUATE}.
+		\item \sout{\word{EVALUATE} is slower than \word{COMPILE,} because a
+			dictionary search is required.}
+		\item \sout{The current search order affects the outcome of
+			\word{EVALUATE}.}
 		\end{itemize}
+\cbend
+
 		In traditional threaded-code implementations, compilation is
 		performed by \word{,} (comma). This usage is not portable; it
 		doesn't work for subroutine-threaded, native code, or
@@ -4977,7 +5076,7 @@
 %\end{worddef}
 
 
-\begin{worddef}{}{DEFER}[][X:deferred]
+\begin{worddef}{1173}{DEFER}[][X:deferred]
 \item \stack{"<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
@@ -4987,9 +5086,9 @@
 \execute[name]
 	\stack{i*x}{j*x}
 
-	Execute the \param{xt} \replace{x:is}{assigned to \param{name}}{that \param{name} is set to execute}.
+	Execute the \param{xt} that \param{name} is set to execute.
 	An ambiguous condition exists if \param{name} has not been
-	\replace{x:is}{assigned}{set to execute} an \param{xt}.
+	set to execute an \param{xt}.
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER!}{DEFER!},
@@ -5014,11 +5113,12 @@
 \end{worddef}
 
 
-\begin{worddef}{}{DEFER!}[defer-store][X:deferred]
+\begin{worddef}{1175}{DEFER!}[defer-store][X:deferred]
 \item \stack{xt_2 xt_1}{}
 
 	Set the word \param{xt_1} to execute \param{xt_2}.  An ambiguous
-	condition exists if \param{xt_1} is not for a word defined via
+	condition exists if \param{xt_1} is not for a word defined
+	\replace{ed12}{via}{ by}
 	\word{DEFER}.
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
@@ -5043,18 +5143,14 @@
 \end{worddef}
 
 
-\begin{worddef}{}{DEFER@}[defer-fetch][X:deferred]
+\begin{worddef}{1177}{DEFER@}[defer-fetch][X:deferred]
 \item \stack{xt_1}{xt_2}
 
-	\param{xt_2} is the \replace{x:is}{\param{xt} assigned to the
-	deferred word corresponding to}{execution token} \param{xt_1}
-	\place{x:is}{ is set to execute}.
+	\param{xt_2} is the execution token \param{xt_1} is set to execute.
 	An ambiguous condition exists if \param{xt_1} is not
-	\replace{x:is}{for}{the execution token of} a word defined
-	\replace{x:is}{via}{with} \word{DEFER}, or if
-	\remove{x:is}{the deferred word has not been assigned an \param{xt}.}
-	\param{xt_1}\strike{-2.5}{12}
-	\place{x:is}{has not been set to execute an xt.}
+	the execution token of a word defined
+	\replace{ed12}{with}{ by} \word{DEFER},
+	or if \param{xt_1} has not been set to execute an xt. 
 
 \see \wref{core:ACTION-OF}{ACTION-OF},
 	\wref{core:DEFER}{DEFER},
@@ -5236,7 +5332,7 @@
 
 % ===================================================================
 
-\begin{worddef}{}{HOLDS}[][x:xchar]
+\begin{worddef}{1675}{HOLDS}[][x:xchar]
 \item \stack{c-addr u}{}
 
 	Adds the string represented by \param{c-addr u} to the pictured numeric
@@ -5258,16 +5354,12 @@
 
 % ===================================================================
 
-\begin{worddef}{}{IS}[][X:deferred]
+\begin{worddef}{1725}{IS}[][X:deferred]
 \interpret
 	\stack{xt "<spaces>name"}{}
 
 	Skip leading spaces and parse \param{name} delimited by a space.
-\remove{x:is}{Set \param{name} to execute \param{xt}.}
-\place{x:is}{%
-	Assign the execution token \param{xt} to be the exection
-	token of \param{name}.
-}
+	Set \param{name} to execute \param{xt}.
 
 	An ambiguous condition exists if \param{name} was not defined
 	by \word{DEFER}.
@@ -5283,12 +5375,7 @@
 \runtime
 	\stack{xt}{}
 
-\remove{x:is}{%
 	Set \param{name} to execute \param{xt}.
-}\place{x:is}{%
-	Assign the executing token \param{xt} as the token executed by
-	\param{name}.
-}
 
 	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
 	\word{[']} or \word{'} is applied to \word{IS}.
@@ -5519,34 +5606,53 @@
 				cases than \word{WORD}'s temporal dependency.
 			\end{enumerate}
 
+\cbstart\patch{ed12}
+\sout{%
 			The behavior of \word{WORD} with respect to skipping
-			leading delimiters is useful for parsing blank-delimited
+			leading delimiters is useful for parsing blank- delimited
 			names. Many system implementations include an additional
 			word for this purpose, similar to \word{PARSE} with respect
-			to the ``\param{c-addr u}'' return value, but without an
+			to the ``\emph{c-addr u}'' return value, but without an
 			explicit delimiter argument (the delimiter set is implicitly
 			``white space''), and which does skip leading delimiters. A
-			common description for this word is:
+			common description for this word is:}
 
 			\begin{quote}
-				\texttt{PARSE-WORD} \qquad
-					\stack{"<spaces>name"}{c-addr u} \\
+				\sout{\texttt{PARSE-WORD}} \qquad
+					\stack{\sout{"<spaces>name"}}{\sout{c-addr u}} \\
 
+\sout{%
 				Skip leading spaces and parse \param{name} delimited by
 				a space. \param{c-addr} is the address within the input
 				buffer and \param{u} is the length of the selected string.
 				If the parse area is empty, the resulting string has a
-				zero length.
+				zero length.}
 			\end{quote}
 
+\sout{%
 			If both \word{PARSE} and \texttt{PARSE-WORD} are present,
-			the need for \word{WORD} is largely eliminated.
+			the need for \word{WORD} is largely eliminated.}
+
+\uline{%
+			The behavior of \word{WORD} with respect to skipping leading
+			delimiters is useful for parsing blank delimited names.
+			\word{PARSE-NAME} provides this service in a similar manner to
+			\word{PARSE} with respect to the ``}\param{\uline{c-addr u}}\uline{'' return value,
+			but without an explicit delimiter argument (the delimiter set is
+			implicitly ``white space'').}
+
+\uline{%
+			The need for \word{WORD} has largely been eliminated by
+			\word{PARSE} and \word{PARSE-NAME}. \word{WORD} is
+			\linebreak
+			retained for backward compatibility.}
+\cbend
 		\end{enumerate}
 	\end{rationale}
 \end{worddef}
 
 
-\begin{worddef}{}{PARSE-NAME}[][X:parse-name]
+\begin{worddef}{2020}{PARSE-NAME}[][X:parse-name]
 \item \stack{"<spaces>name<space>"}{c-addr u}
 
 	Skip leading space delimiters. Parse \param{name} delimited by a
@@ -5706,7 +5812,10 @@
 
 % -------------------------------------------------------------------
 
-\begin{worddef}[Seq]{}{S\bs"}[s-slash-quote][X:escaped-strings]
+\cbstart\patch{ed12}
+\begin{worddef}[Seq]{2266}{S\bs"}[s-backslash-quote][X:escaped-strings]
+\item \vspace{-8pt}\hspace{170pt}\strike{10}{15} ~
+\cbend
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -5729,7 +5838,7 @@
 		\verb|\f|	& FF		& (form feed,	& ASCII 12) \\
 		\verb|\l|	& LF		& (line feed,	& ASCII 10) \\
 		\verb|\m|	& CR/LF	& pair			& (ASCII 13, 10) \\
-		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent \replace{ed11}{newline, eg,}{, e.g.,}\ CR/LF, \place{ed11}{CR,}\ LF, \remove{ed11}{or}\ LF/CR)} \\
+		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent , e.g., CR/LF, CR, LF, LF/CR)} \\
 		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
 		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
 		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
@@ -6029,18 +6138,29 @@
 	\word{TO}.
 
 \see \wref{core:VALUE}{VALUE},
+\place{ed12}{\wref{double:2VALUE}{2VALUE},
+	\wref{floating:FVALUE}{FVALUE},}
 	 \wref{local:LOCAL}{(LOCAL)},
 	 \rref{core:TO}{}.
 
 	\begin{rationale} % A.6.2.2295 TO
+	\remove{ed12}{%
 		Historically, some implementations of \word{TO} have not
 		explicitly parsed. Instead, they set a mode flag that is
 		tested by the subsequent execution of \param{name}.
-		\replace{F94}{ANS Forth}{We}
-		explicitly require\remove{F94}{s} that \word{TO} must parse, so that
+		We explicitly require that \word{TO} must parse, so that
 		\word{TO}'s effect will be predictable.
+	}
 
 		Typical use: \texttt{x} \word{TO} \emph{name}
+
+	\place{ed12}{%
+		Some implementations of \word{TO} do not parse; instead they set
+		a mode flag that is tested by the\linebreak subsequent execution of
+		\param{name}.  Standard programs must use \word{TO} as if it
+		parses.  Therefore \word{TO} and \param{name} must be
+		contiguous, on the same line, in the source text.
+	}
 	\end{rationale}
 
 	\begin{testing} % T.6.2.---- TO
