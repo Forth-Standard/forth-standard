@@ -1,64 +1,77 @@
 % !TeX root = forth.tex
 % !TeX spell check = en_US
-\cbstart\patch{F94}
-\annex[Portability guide]{ANS Forth p\strike{4}{80} P\strike{-2}{10}ortability guide} % E.  (informative annex)
+\annex{Portability guide} % E.  (informative annex)
 \label{annex:port}
-\cbend
 
 \section{Introduction} % E.1
+\cbstart\patch{ed12}
 
+\sout{%
 The most popular architectures used to implement Forth have had
 byte-addressed memory, 16-bit op\-er\-a\-tions, and two's-complement
 number representation. The Forth-83 Standard dictates that these
 particular features must be present in a Forth-83 Standard system
-and that Forth-83 programs may exploit these features freely.
+and that Forth-83 programs may exploit these features freely.}
 
+\sout{%
 However, there are many beasts in the architectural jungle that are
 bit addressed or cell addressed, or prefer 32-bit operations, or
 represent numbers in one's complement. Since one of Forth's strengths
 is its usefulness in ``strange'' environments on ``unusual'' hardware
 with ``peculiar'' features, it is important that a Standard Forth run
-on these machines too.
+on these machines too.}
 
-A primary goal of the \remove{F94}{ANS} Forth Standard is to increase the types of
-machines that can support a Standard Forth. This is accomplished by
-allowing some key Forth terms to be implementation-defined (e.g., how
-big is a cell?) and by providing Forth operators (words) that conceal
-the implementation. This frees the implementor to produce the Forth
-system that most effectively utilizes the native hardware. The machine
-independent operators, together with some programmer discipline, enable
-a programmer to write Forth programs that work on a wide variety of
-machines.
+A primary goal of the \sout{ANS Forth} \uline{this} Standard is to
+\sout{increase the types of machines that can support a Standard Forth.}
+\uline{enable a programmer to write Forth programs that work on
+a wide variety of machines.}
+This is accomplished by allowing some key Forth terms to be
+implementation defined (e.g.,\sout{how big is a} cell \uline{size}\sout{?})
+and by providing Forth operators (words) that conceal the
+implementation. This \sout{frees} \uline{allows} the implementor to
+produce the Forth system that most effectively \sout{utilizes} \uline{uses} the native
+hardware. The machine independent operators, together with some
+programmer discipline, \sout{enable a programmer to write Forth programs
+that work on a wide variety of machines.} \uline{support program portability.}
 
-The remainder of this Annex provides guidelines for writing portable
-\remove{F94}{ANS} Forth programs. The first section describes ways to make a program
-hardware independent. It is difficult for someone familiar with only
-one machine architecture to imagine the problems caused by transporting
-programs between dissimilar machines. Consequently, examples of specific
-architectures with their respective problems are given. The second
-section describes assumptions about Forth implementations that many
-programmers make, but can't be relied upon in a portable program.
+\uline{It can be difficult for someone familiar with only one machine
+architecture to imagine the problems caused by transporting programs
+between dissimilar machines.}
+\sout{The remainder of this} \uline{This} Annex provides guidelines for writing portable
+\sout{ANS} Forth programs.
+The first section describes ways to make a program hardware independent.
+\sout{It is difficult for someone familiar with only one machine architecture to
+imagine the problems caused by transporting programs between dissimilar
+machines. Consequently, examples of specific architectures with their respective
+problems are given.}
+The second section describes assumptions about Forth implementations
+that many programmers make, but can't be relied upon in a portable program.
+
+\begin{editor}
+Are we happy taking the credit for the work done by the Forth 94 TC here?
+\end{editor}
 
 \section{Hardware peculiarities} % E.2
 \label{port:hardware}
 
 \subsection{Data/memory abstraction} % E.2.1
 
-Data and memory are the stones and mortar of program construction.
-Unfortunately, each computer treats data and memory differently. The
-\remove{F94}{ANS} Forth Systems Standard gives definitions of data and memory that
+\sout{Data and memory are the stones and mortar of program construction.
+Unfortunately, each computer treats data and memory differently.}
+\sout{The ANS Forth Systems} \uline{This} Standard gives definitions \sout{of} \uline{for} data and memory that
 apply to a wide variety of computers. These definitions give us a way
 to talk about the common elements of data and memory while ignoring
-the details of specific hardware. Similarly, \remove{F94}{ANS Forth} programs that
+the details of specific hardware. Similarly, \sout{ANS} Forth programs that
 use data and memory in ways that conform to these definitions can
 also ignore hardware details. The following sections discuss the
 definitions and describe how to write programs that are independent
-of the data/memory peculiarities of different computers.
+of the data \sout{/} \uline{and} memory peculiarities of different computers.
 
 \subsection{Definitions} % E.2.2
 
-Three terms defined by \remove{F94}{ANS} Forth are address unit, cell, and character.
-The address space of \replace{F94}{an ANS}{a} Forth system is divided into an array of
+\sout{%
+Three terms defined by ANS Forth are address unit, cell, and character.
+The address space of an ANS Forth system is divided into an array of
 address units; an address unit is the smallest collection of bits that
 can be addressed. In other words, an address unit is the number of
 bits spanned by the addresses \emph{addr} and \emph{addr}+1. The most
@@ -67,21 +80,45 @@ machines include the Intel 8086 and Motorola 68000 families. However,
 other address unit sizes exist. There are machines that are bit
 addressed and machines that are 4-bit nibble addressed. There are
 also machines with address units larger than 8-bits. For example,
-several Forth-in-hardware computers are cell addressed.
+several Forth-in-hardware computers are cell addressed.}
 
+\sout{%
 The cell is the fundamental data type of a Forth system. A cell can
 be a single-cell integer or a memory address. Forth's parameter and
 return stacks are stacks of cells. Forth 83 specifies that a cell is
-16-bits. In \replace{F94}{ANS Forth}{this standard} the size of a cell is an implementation-defined
-number of address units. Thus, an \remove{F94}{ANS Forth} implemented on a 16-bit
+16-bits. In ANS Forth the size of a cell is an implementation-defined
+number of address units. Thus, an ANS Forth implemented on a 16-bit
 microprocessor could use a 16-bit cell and an implementation on a
 32-bit machine could use a 32-bit cell. Also 18-bit machines, 36-bit
-machines, etc., could support \remove{F94}{ANS} Forth systems with 18 or 36-bit
+machines, etc., could support ANS Forth systems with 18 or 36-bit
 cells respectively. In all of these systems, \word{DUP} does the same
 thing: it duplicates the top of the data stack. \word{!} (store)
 behaves consistently too: given two cells on the data stack it
 stores the second cell in the memory location designated by the
-top cell.
+top cell.}
+
+\uline{%
+Three terms defined by this Standard are address unit, cell, and
+character.}
+
+\uline{%
+The address space of a Forth system is divided into an array of
+address units; an address unit is the smallest collection of bits that
+can be addressed. In other words, an address unit is the number of
+bits spanned by the addresses \emph{addr} and \emph{addr}+1.
+The most prevalent machines use 8-bit address units, but other
+address unit sizes exist.}
+
+\uline{%
+In this Standard, the size of a cell is an implementation-defined
+number of address units. Forth implemented on a 16-bit microprocessor
+could use a 16-bit cell and an implementation on a 32-bit machine
+could use a 32-bit cell. Less common cell sizes (e.g., 18-bit or
+36-bit machines, etc.) could implement Forth systems with their native
+cell sizes. In all of these systems, Forth words such as \word{DUP} and
+\word{!} (store) do the same things (duplicate the top cell on the stack
+and store the second cell into the address given by the first cell,
+respectively).}
 
 Similarly, the definition of a character has been generalized to be
 an implementation-defined number of address units (but at least eight
@@ -96,94 +133,128 @@ where a 16-bit character makes the most sense.
 
 \subsection{Addressing memory} % E.2.3
 
-\replace{F94}{ANS Forth}{We} eliminates many portability problems by using the above
-definitions. One of the most common portability problems is addressing
+\sout{ANS Forth eliminates many portability problems by using the above
+definitions.}
+One of the most common portability problems is \uline{the} addressing \uline{of} 
 successive cells in memory. Given the memory address of a cell, how
-do you find the address of the next cell? In Forth 83 this is easy:
+do you find the address of the next cell? 
+\sout{In Forth 83 this is easy:
 \texttt{2 +}. This code assumes that memory is addressed in 8-bit
-units (bytes) and a cell is 16-bits wide. On a byte-addressed machine
+units (bytes) and a cell is 16-bits wide.}
+On a byte-addressed machine
 with 32-bit cells the code to find the next cell would be \texttt{4 +}.
 The code would be \word{1+} on a cell-addressed processor and
-\texttt{16 +} on a bit-addressed processor with 16-bit cells. ANS Forth
-provides a next-cell operator named \word{CELL+} that can be used in
-all of these cases. Given an address, \word{CELL+} adjusts the address
-by the size of a cell (measured in address units). A related problem
-is that of addressing an array of cells in an arbitrary order. A
-defining word to create an array of cells using Forth 83 would be:
+\texttt{16 +} on a bit-addressed processor with 16-bit cells.
+\sout{ANS Forth} \uline{This Standard} provides a
+next-cell operator named \word{CELL+} that can be used in all of these cases.
+Given an address, \word{CELL+} adjusts the address by the size of a cell
+(measured in address units).
+
+\sout{A related problem is that of addressing an array of cells in an
+arbitrary order. A defining word to create an array of cells using Forth 83 would be:}
+
 \begin{quote}\ttfamily
-	\word{:} ARRAY ~ \word{CREATE} ~ \word{2*} \word{ALLOT} ~
-		\word{DOES} \word{SWAP} \word{2*} \word{+} \word{;}
+	\sout{\word{:} ARRAY \word{p} u -{}- ) ~ \word{CREATE} ~ \word{2*} \word{ALLOT} ~
+		\word{DOES} \word{SWAP} \word{2*} \word{+} \word{;}}
 \end{quote}
-Use of \word{2*} to scale the array index assumes byte addressing and
+
+\sout{Use of \word{2*} to scale the array index assumes byte addressing and
 16-bit cells again. As in the example above, different versions of
-the code would be needed for different machines. \replace{F94}{ANS Forth provides}{We provide}
-a portable scaling operator named \word{CELLS}. Given a number \param{n},
-\word{CELLS} returns the number of address units needed to hold \param{n}
-cells. A portable definition of array is:
+the code would be needed for different machines. ANS Forth provides
+a portable scaling operator named \word{CELLS}. Given a number \emph{n},
+\word{CELLS} returns the number of address units needed to hold \emph{n}
+cells. A portable definition of array is:}
+
+\uline{A related problem is that of addressing an array of cells in an
+arbitrary order. This Standard provides a portable scaling operator named \word{CELLS}.
+Given a number \emph{n}, \word{CELLS} returns the number of address
+units needed to hold \param{n} cells.   Using \word{CELLS}, we can make
+a portable definition of an \texttt{ARRAY} defining word:}
+
 \begin{quote}\ttfamily
-	\word{:} ARRAY ~ \word{CREATE} ~ \word{CELLS} \word{ALLOT} \\
-	\hspace*{2em}\word{DOES} \word{SWAP} \word{CELLS} \word{+} \word{;}
+	\word{:} ARRAY \uline{\word{p} u -{}- )} \word{CREATE} ~ \word{CELLS} \word{ALLOT} \\
+	\hspace*{2em}\word{DOES} \uline{\word{p} u -{}- addr )} \word{SWAP} \word{CELLS} \word{+} \word{;}
 \end{quote}
+
 There are also portability problems with addressing arrays of
-characters. In Forth 83 (and in the most common \remove{F94}{ANS Forth}
+characters. 
+\sout{In Forth 83 (and in the most common ANS Forth
 implementations), the size of a character will equal the size of an
-address unit. Consequently addresses of successive characters in
-memory can be found using \word{1+} and scaling indices into a character
-array is a no-op (i.e., \texttt{1 *}). However, there are cases where
-a character is larger than an address unit. Examples include (1)
+address unit. Consequently addresses}
+\uline{In a byte-addressed machine, the size of a character equals the
+size of an address unit.  Addresses}
+of successive characters
+in memory can be found using \word{1+} and scaling indices into a character
+array is a no-op (i.e., \texttt{1 *}). However,
+\sout{there are cases where a character is larger than an address unit. Examples include (1)
 systems with small address units (e.g., bit- and nibble-addressed
 systems), and (2) systems with large character sets (e.g., 16-bit
-characters on a byte-addressed machine). \word{CHAR+} and \word{CHARS}
+characters on a byte-addressed machine).}
+\uline{there could be implementations where a character is larger than
+an address unit.  The}
+\word{CHAR+} and \word{CHARS}
 operators, analogous to \word{CELL+} and \word{CELLS} are available
 to allow maximum portability.
 
-\remove{F94}{ANS} Forth generalizes the definition of some Forth words that operate
-on chunks of memory to use address units. One example is \word{ALLOT}.
-By prefixing \word{ALLOT} with the appropriate scaling operator
-(\word{CELLS}, \word{CHARS}, etc.), space for any desired data structure
-can be allocated (see definition of array above). For example:
+\sout{ANS Forth} \uline{This Standard} generalizes the definition of some Forth words that operate
+on \sout{chunks} \uline{regions} of memory to use address units. One example is
+\word{ALLOT}.  By prefixing \word{ALLOT} with the appropriate scaling operator
+(\word{CELLS}, \word{CHARS}, etc.), space for any desired data structure can
+be allocated (see definition of array above). For example:
 \begin{quote}\ttfamily
 	\word{CREATE} ABUFFER 5 \word{CHARS} \word{ALLOT}
-	\word{p} allot 5 character buffer)
+	\word{p} \textrm{allot 5 character buffer})
 \end{quote}
-The memory-block-move word also uses address units:
+
+\sout{The memory-block-move word also uses address units:}
 \begin{quote}\ttfamily
-source destination 8 \word{CELLS} \word{MOVE} \word{p} move 8 cells)
+\sout{source destination 8 \word{CELLS} \word{MOVE} \word{p} move 8 cells)}
 \end{quote}
 
 
 \subsection{Alignment problems} % E.2.4
 
-Not all addresses are created equal. Many processors have restrictions
-on the addresses that can be used by memory access instructions. This
-Standard does not require an implementor \remove{F94}{of an ANS Forth} to make
-alignment transparent; on the contrary, it requires (in Section
-\xref[3.3.3.1 Address alignment]{usage:aaddr}) that \replace{F94}{an ANS}{a} Forth
-program assume that character and cell alignment may be required.
-
-One of the most common problems caused by alignment restrictions
+\sout{Not all addresses are created equal. Many} \uline{Some} processors have restrictions on the addresses that can be used by
+memory access instructions. This Standard does not require an
+implementor of \sout{an ANS} \uline{a} Forth to make alignment transparent; on the
+contrary, it requires (in Section \xref[3.3.3.1 Address alignment]{usage:aaddr}) that
+\sout{an ANS Forth} \uline{a Standard Forth} program assume that character and cell alignment may be
+required.
+\sout{One of the most common problems} \uline{One pitfall} caused by alignment restrictions
 is in creating tables containing both characters and cells. When
 \word{,} (comma) or \word{C,} is used to initialize a table, data
-is stored at the data-space pointer. Consequently, it must be
+\sout{is} \uline{are} stored at the data-space pointer. Consequently, it must be
 suitably aligned. For example, a non-portable table definition
 would be:
+
 \begin{quote}\ttfamily
 	\word{CREATE} ATABLE 1 \word{C,} X \word{,} 2 \word{C,} Y \word{,}
 \end{quote}
-On a machine that restricts 16-bit fetches to even addresses,
+
+\sout{On a machine that restricts 16-bit fetches to even addresses,
 \word{CREATE} would leave the data space pointer at an even address,
 the 1 \word{C,} would make the data space pointer odd, and \word{,}
 (comma) would violate the address restriction by storing \texttt{X}
-at an odd address. A portable way to create the table is:
+at an odd address. A portable way to create the table is:}
+
+\uline{%
+On a machine that restricts memory fetches to aligned addresses,
+\word{CREATE} would leave the data space pointer at an aligned address.
+However, the first \word{C,} would leave the data space pointer at an
+unaligned address,  and the subsequent \word{,} (comma) would violate
+the alignment restriction by storing \texttt{X} at an unaligned address.
+A portable way to create the table is:}
+
 \begin{quote}\ttfamily
 	\word{CREATE} ATABLE 1 \word{C,}
 		\word{ALIGN} X \word{,} 2 \word{C,} \word{ALIGN} Y \word{,}
 \end{quote}
+
 \word{ALIGN} adjusts the data space pointer to the first aligned
 address greater than or equal to its current address. An aligned
 address is suitable for storing or fetching characters, cells, cell
 pairs, or double-cell numbers.
-
+%
 After initializing the table, we would also like to read values from
 the table. For example, assume we want to fetch the first cell,
 \texttt{X}, from the table. \texttt{ATABLE} \word{CHAR+} gives the
@@ -200,26 +271,31 @@ aligned address greater than or equal to its current value.
 
 \section{Number representation} % E.3
 
+\sout{%
 Different computers represent numbers in different ways. An awareness
 of these differences can help a programmer avoid writing a program
-that depends on a particular representation.
+that depends on a particular representation.}
 
 \subsection{Big endian vs. little endian} % E.3.1
 
 The constituent bits of a number in memory are kept in different
 orders on different machines. Some machines place the most-significant
 part of a number at an address in memory with less-significant parts
-following it at higher addresses. Other machines do the opposite ---
-the least-significant part is stored at the lowest address. For
-example, the following code for a 16-bit 8086 ``little endian'' Forth
-would produce the answer 34 (hex):
+following it at higher addresses\uline{; this is known as big-endian
+ording}. Other machines do the opposite\uline{;} \sout{---} the
+least-significant part is stored at the lowest address \uline{(little-endian
+ordering)}.
+
+For example, the following code for a 16-bit \sout{8086 ``} little endian \sout{''} Forth
+would produce the answer \sout{34 (hex)} \uline{1}:
 \begin{quote}\ttfamily
 	\word{VARIABLE} FOO
-	\quad \word{HEX} 1234 FOO \word{!}
+	\quad \sout{\word{HEX} 1234} \uline{1} FOO \word{!}
 	\quad FOO \word{C@}
 \end{quote}
-The same code on a 16-bit 68000 ``big endian'' Forth would produce the
-answer 12 (hex). A portable program cannot exploit the representation
+
+The same code on a 16-bit \sout{68000 ``} big endian \sout{''} Forth would produce the
+answer \sout{12 (hex)} \uline{0}. A portable program cannot exploit the representation
 of a number in memory.
 
 A related issue is the representation of cell pairs and double-cell
@@ -236,7 +312,7 @@ complement, sign magnitude, etc.) and decimal representations (BCD,
 etc.). Each of these formats creates advantages and disadvantages in
 the design of a computer's arithmetic logic unit (ALU). The most
 commonly used representation, two's complement, is popular because of
-the simplicity of its addition and subtraction algorithms.
+the simplicity of its addition and subtraction \sout{algorithms} \uline{operations}.
 
 Programmers who have grown up on two's complement machines tend to
 become intimate with their representation of numbers and take some
@@ -251,8 +327,9 @@ The remainder of this section is a (non-exhaustive) list of things to
 watch for when portability between machines with binary representations
 other than two's complement is desired.
 
-To convert a single-cell number to a double-cell number, \remove{F94}{ANS} Forth
-provides the operator \word{StoD}. To convert a double-cell number to
+To convert a single-cell number to a double-cell number,
+\sout{ANS Forth provides} \uline{Forth 94 provided} the operator
+\word{StoD}. To convert a double-cell number to
 single-cell, Forth programmers have traditionally used \word{DROP}.
 However, this trick doesn't work on sign-magnitude machines. For
 portability a \word[double]{DtoS} operator is available. Converting an
@@ -260,12 +337,17 @@ unsigned single-cell number to a double-cell number can be done portably
 by pushing a zero on the stack.
 
 
+\begin{editor}
+This would be a good place to add a discussion
+of characters and the extended character word set.
+\end{editor}
+
 \section{Forth system implementation} % E.4
 
 During Forth's history, an amazing variety of implementation techniques
-have been developed. The \remove{F94}{ANS} Forth Standard encourages this diversity
+have been developed. The ANS Forth Standard encourages this diversity
 and consequently restricts the assumptions a user can make about the
-underlying implementation of \replace{F94}{an ANS}{a} Forth system. Users of a particular
+underlying implementation of an ANS Forth system. Users of a particular
 Forth implementation frequently become accustomed to aspects of the
 implementation and assume they are common to all Forths. This section
 points out many of these incorrect assumptions.
@@ -275,13 +357,13 @@ points out many of these incorrect assumptions.
 Traditionally, Forth definitions have consisted of the name of the
 Forth word, a dictionary search link, data describing how to execute
 the definition, and parameters describing the definition itself. These
-components are called the name, link, code, and parameter fields%
-\footnote{These terms are not defined in the Standard.
-They are mentioned here for historical continuity.
-}. No method for accessing these fields has been found that works
+components \sout{are called} \uline{have historically been referred to as} the name, link, code, and parameter fields%
+\footnote{\sout{These terms are not defined in the Standard.
+They are mentioned here for historical continuity.}}.
+No method for accessing these fields has been found that works
 across all of the Forth implementations currently in use. Therefore,
-\remove{F94}{ANS} Forth severely restricts how the fields may be used. Specifically,
-a portable \remove{F94}{ANS} Forth program may not use the name, link, or code field
+\sout{ANS Forth severely restricts how the fields may be used. Specifically,}
+a portable \sout{ANS} Forth program may not use the name, link, or code field
 in any way. Use of the parameter field (renamed to data field for
 clarity) is limited to the operations described below.
 
@@ -291,35 +373,41 @@ in the Standard (\word{VARIABLE}, \word{CONSTANT}, \word{:}, etc.)
 might not be implemented with \word{CREATE}. Consequently, a Standard
 Program must assume that words defined by \word{VARIABLE},
 \word{CONSTANT}, \word{:}, etc., may have no data fields. There is no
-way for a Standard Program to modify the value of a constant or to
-change the meaning of a colon definition. The \word{DOES} part of a
-defining word operates on a data field. Since only \word{CREATE}d words
-have data fields, \word{DOES} can only be paired with \word{CREATE} or
-words that call \word{CREATE}.
+\uline{portable} way for a Standard Program to modify the value of a constant or to
+\sout{change the meaning of} \uline{``patch''} a colon definition \uline{at run time}.
+The \word{DOES} part of a defining word operates on a data field%
+\sout{. Since only \word{CREATE}d words have data fields, \word{DOES} can
+only be paired with \word{CREATE} or words that call \word{CREATE}.}%
+\uline{, so \word{DOES} may only be used on words ultimately defined by \word{CREATE}.}
 
-In \remove{F94}{ANS} Forth, \word{FIND}, \word{[']} and \word{'} (tick) return an
-unspecified entity called an ``execution token''. There are only a
+In \sout{ANS} \uline{Standard} Forth, \word{FIND}, \word{[']} and \word{'} (tick) return an
+unspecified entity called an \sout{``}execution token\sout{''}. There are only a
 few things that may be done with an execution token. The token may be
 passed to \word{EXECUTE} to execute the word ticked or compiled into
 the current definition with \word{COMPILE,}. The token can also be
-stored in a variable and used later. Finally, if the word ticked was
-defined via \word{CREATE}, \word{toBODY} converts the execution token
-into the word's data-field address.
+stored in a variable \uline{or other data structure} and used later.
+Finally, if the word ticked was defined via \word{CREATE}, \word{toBODY}
+converts the execution token into the word's data-field address.
 
+\sout{%
 One thing that definitely cannot be done with an execution token is
 use \word{!} or \word{,} to store it into the object code of a Forth
 definition. This technique is sometimes used in implementations where
 the object code is a list of addresses (threaded code) and an execution
-token is also an address. However, \remove{F94}{ANS} Forth permits native code
-implementations where this will not work.
+token is also an address. However, ANS Forth permits native code
+implementations where this will not work.}
+
+\uline{%
+An execution token cannot be assumed to be an address and may not
+be used as one.}
 
 
 \subsection{Stacks} % E.4.2
 
 In some Forth implementations, it is possible to find the address of
 a stack in memory and manipulate the stack as an array of cells. This
-technique is not portable, however. On some systems, especially
-Forth-in-hardware systems, the stacks might be in a part of memory
+technique is not portable\sout{, however}. On some systems, especially
+Forth-in-hardware systems, the stacks might be in \sout{a part of} memory
 that can't be addressed by the program or might not be in memory at
 all. Forth's parameter and return stacks must be treated as stacks.
 
@@ -327,65 +415,72 @@ A Standard Program may use the return stack directly only for
 temporarily storing values. Every value examined or removed from the
 return stack using \word{R@}, \word{Rfrom}, or \word{2Rfrom} must have been
 put on the stack explicitly using \word{toR} or \word{2toR}. Even this
-must be done carefully since the system may use the return stack to
+must be done carefully \sout{since} \uline{because} the system may use the return stack to
 hold return addresses and loop-control parameters. Section
 \xref[3.2.3.3 Return stack]{usage:returnstack} of the Standard has a
 list of restrictions.
 
 
-\section{ROMed application disciplines and conventions} % E.5
+\section[ROMed application disciplines and conventions]{\sout{ROMed application disciplines and conventions}} % E.5
 
+\sout{%
 When a Standard System provides a data space which is uniformly
-readable and writeable we may term this environment ``RAM-only''.
+readable and writeable we may term this environment ``RAM-only''.}
 
+\sout{%
 Programs designed for ROMed application must divide data space into
 at least two parts: a writeable and readable uninitialized part,
 called ``RAM'', and a read-only initialized part, called ``ROM''.
 A third possibility, a writeable and readable initialized part,
 normally called ``initialized RAM'', is not addressed by this
 discipline. A Standard Program must explicitly initialize the RAM
-data space as needed.
+data space as needed.}
 
+\sout{%
 The separation of data space into RAM and ROM is meaningful only
 during the generation of the ROMed program. If the ROMed program is
 itself a standard development system, it has the same taxonomy as an
-ordinary RAM-only system.
+ordinary RAM-only system.}
 
+\sout{%
 The words affected by conversion from a RAM-only to a mixed RAM and
-ROM environment are:
+ROM environment are:}
 \begin{quote}
-	\word{,} (comma) ~ \word{ALIGN} ~ \word{ALIGNED} ~ \word{ALLOT} ~
-	\word{C,} ~ \word{CREATE} ~ \word{HERE} ~ \word{UNUSED}
+	\sout{\word{,} (comma) ~ \word{ALIGN} ~ \word{ALIGNED} ~ \word{ALLOT} ~
+	\word{C,} ~ \word{CREATE} ~ \word{HERE} ~ \word{UNUSED}}
 
-	(\word{VARIABLE} always accesses the RAM data space.)
+	\sout{(\word{VARIABLE} always accesses the RAM data space.)}
 \end{quote}
+\sout{%
 With the exception of \word{,} (comma) and \word{C,} these words are
 meaningful in both RAM and ROM data space. To select the data space,
 these words could be preceded by selectors \texttt{RAM} and
-\texttt{ROM}. For example:
+\texttt{ROM}. For example:}
 \begin{quote}\ttfamily
-	ROM ~ \word{CREATE} ONES ~ 32 \word{ALLOT} ~ ONES 32 1 \word{FILL} ~ RAM
+	\sout{ROM ~ \word{CREATE} ONES ~ 32 \word{ALLOT} ~ ONES 32 1 \word{FILL} ~ RAM}
 \end{quote}
+\sout{%
 would create a table of ones in the ROM data space. The storage of
 data into RAM data space when generating a program for ROM would be
-an ambiguous condition.
+an ambiguous condition.}
 
+\sout{%
 A straightforward implementation of these selectors would maintain
 separate address counters for each space. A counter value would be
 returned by \word{HERE} and altered by \word{,} (comma), \word{C,},
 \word{ALIGN}, and \word{ALLOT}, with \texttt{RAM} and \texttt{ROM}
 simply selecting the appropriate address counter. This technique
-could be extended to additional partitions of the data space.
+could be extended to additional partitions of the data space.}
 
 
 \section{Summary} % E.6
 
-The \remove{F94}{ANS} Forth Standard cannot and should not force anyone to write
+The \sout{ANS} Forth Standard \sout{cannot and should} \uline{does} not force anyone to write
 a portable program. In situations where performance is paramount,
-the programmer is encouraged to use every trick in the book. On the
-other hand, if portability to a wide variety of systems is needed,
-\remove{F94}{ANS} Forth provides the tools to accomplish this. There is probably
-no such thing as a completely portable program. A programmer, using
+the programmer is encouraged to use every trick \sout{in the book} \uline{available}. On the
+other hand, if portability to a wide variety of systems is needed%
+\sout{, ANS Forth} \uline{(or anticipated), this Standard} provides the tools to accomplish this. There
+\sout{is probably} \uline{might be} no such thing as a completely portable program. A programmer, using
 this guide, should intelligently weigh the tradeoffs of providing
 portability to specific machines. For example, machines that use
 sign-magnitude numbers are rare and probably don't deserve much
@@ -393,3 +488,4 @@ thought. But, systems with different cell sizes will certainly be
 encountered and should be provided for. In general, making a program
 portable clarifies both the programmer's thinking process and the
 final program.
+\cbend
