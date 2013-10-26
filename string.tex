@@ -48,9 +48,7 @@ None.
 
 \section{Compliance and labeling} % 17.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 17.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 17.5.1
 
 The phrase ``Providing the String word set'' shall be appended to
 the label of any Standard System that provides all of the String
@@ -64,9 +62,7 @@ The phrase ``Providing the String Extensions word set'' shall be
 appended to the label of any Standard System that provides all of
 the String and String Extensions word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 17.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 17.5.2
 
 The phrase ``Requiring the String word set'' shall be appended to
 the label of Standard Programs that require the system to provide
@@ -122,14 +118,13 @@ to provide all of the String and String Extensions word sets.
 
 	\begin{rationale} % A.17.6.1.0245 /STRING
 		\word{/STRING} is used to remove or add characters relative
-		to the \replace{ed12}{``left'' end of}{ current position in} the character string. Positive values
+		to the current position in the character string. Positive values
 		of \param{n} will exclude characters from the string while
 		negative values of \param{n} will include characters to the
-		left of the string. \remove{ed12}{\word{/STRING} is a natural factor of
-		\word[core]{WORD} and commonly available.}
+		left of the string.
 
-		\place{ed12}{\word{Sq} ABC" 2 \word{/STRING} \word{2DUP} \word{TYPE} \word{bs} outputs ``C''} \\
-		\place{ed12}{-1 \word{/STRING} \word{TYPE} \word{bs} outputs ``BC''}
+		\word{Sq} ABC" 2 \word{/STRING} \word{2DUP} \word{TYPE} \word{bs} outputs ``C'' \\
+		-1 \word{/STRING} \word{TYPE} \word{bs} outputs ``BC''
 	\end{rationale}
 
 	\begin{testing}
@@ -173,15 +168,14 @@ to provide all of the String and String Extensions word sets.
 		\param{c-addr_2} is less than the quantity \param{c-addr_1 u}
 		\word[core]{CHARS} \word[core]{+}), memory propagation occurs.
 
-		\remove{ed12}{Typical use: }Assume a character string at address
+		Assume a character string at address
 		100: ``ABCD''. Then after
 		\begin{quote}\ttfamily
 			100 \word[core]{DUP} ~ \word[core]{CHAR+} ~ 3 \word{CMOVE}
 		\end{quote}
 		the string at address 100 is ``AAAA''.
 
-		\replace{ed12}{Rationale for \word{CMOVE} and \word{CMOVEtop} follows
-		\word[core]{MOVE}.}{See \rref{core:MOVE}{}.}
+		See \rref{core:MOVE}{}.
 	\end{rationale}
 \end{worddef}
 
@@ -203,7 +197,7 @@ to provide all of the String and String Extensions word sets.
 		quantity \param{c-addr_1 u} \word[core]{CHARS}
 		\word[core]{+}), memory propagation	occurs.
 
-		\remove{ed12}{Typical use: }Assume a character string at address
+		Assume a character string at address
 		100: ``ABCD''. Then after
 		\begin{quote}\ttfamily
 			100 \word[core]{DUP} \word[core]{CHAR+} \word[core]{SWAP}
@@ -211,7 +205,7 @@ to provide all of the String and String Extensions word sets.
 		\end{quote}
 		the string at address 100 is ``DDDD''.
 
-		\place{ed12}{See \rref{core:MOVE}{}.}
+		See \rref{core:MOVE}{}.
 	\end{rationale}
 \end{worddef}
 
@@ -232,16 +226,6 @@ to provide all of the String and String Extensions word sets.
 	in the string specified by \param{c-addr_1 u_1} has a lesser
 	numeric value than the corresponding character in the string
 	specified by \param{c-addr_2 u_2} and one (1) otherwise.
-
-\see \remove{ed12}{\rref{string:COMPARE}{}.}
-
-	\begin{rationale} % A.17.6.1.0935 COMPARE
-\remove{ed12}{%
-		Existing Forth systems perform string comparison operations
-		using words that differ in spelling, input and output
-		arguments, and case sensitivity. One in widespread use
-		was chosen.}
-	\end{rationale}
 
 	\begin{testing}\ttfamily
 		\test{s1        s1 \word{COMPARE}}{ 0 } \\
@@ -282,16 +266,6 @@ to provide all of the String and String Extensions word sets.
 	characters remaining. If \param{flag} is false there was no
 	match and \param{c-addr_3} is \param{c-addr_1} and \param{u_3}
 	is \param{u_1}.
-
-\see \remove{ed12}{\rref{string:SEARCH}{}.}
-
-	\begin{rationale} % A.17.6.1.2191 SEARCH
-\remove{ed12}{%
-		Existing Forth systems perform string searching operations
-		using words that differ in spelling, input and output
-		arguments, and case sensitivity. One in widespread use was
-		chosen.}
-	\end{rationale}
 
 	\begin{testing}
 		\test{\word{:} s2 \word{Sq} abc"   \word{;}}{} \\
@@ -442,59 +416,47 @@ to provide all of the String and String Extensions word sets.
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_2 u_3 n}
 
 	Perform substitution on the string \param{c-addr_1 u_1} placing the
-	result at string
-\cbstart\patch{x:subtitute}
-\param{c-addr_2 u_{\sout{2} \uline{3}}}, %
-\sout{returning }\param{\sout{c-addr}_{\sout{2}}}\sout{ and }\param{\sout{u}_{\sout{3}}}\sout{,}
-\cbend
+	result at string \param{c-addr_2 u_3}, \place{ed13}{where \param{u3} is}
 	the length of the resulting string.
-	An ambiguous condition occurs if the resulting string will not fit into
+	An \replace{ed13}{ambiguous condition}{ error} occurs if the resulting string will not fit into
 	\param{c-addr_2 u_2} or if \param{c-addr_2} is the same as \param{c-addr_1}.
-	The return value \param{n} is positive on success and indicates the number
+	The return value \param{n} is positive \place{ed13}{or 0} on success and indicates the number
 	of substitutions made.
 	A negative value for \param{n} indicates that an error occurred, leaving
 	\param{c-addr_2 u_3} undefined.
-\place{x:subtitute}{Negative values of \param{n} are implementation defined except for
-	values in table~\xref{table:throw}.}
+	Negative values of \param{n} are implementation defined except for
+	values in table~\xref{table:throw}.
 
-	Substitution occurs
-\place{x:subtitute}{left-to-right}
-	from the start of \param{c-addr_1} in one pass and is non-recursive.
+	Substitution occurs \replace{ed13}{left-to-right}{ left to right} from the start of \param{c-addr_1}
+	in one pass and is non-recursive.
 
-	When \replace{x:subtitute}{a}{ text of a potential} substitution name, surrounded by `\texttt{\%}' (ASCII \$25) delimiters
+	When text of a potential substitution name, surrounded by `\texttt{\%}' (ASCII \$25) delimiters
 	is encountered by \word{SUBSTITUTE}, the following occurs:
 
 	\begin{enumerate}
-	\item If the name is null, a single delimiter character is \replace{x:subtitute}{substituted}{ passed to the output},
-		i.e., \texttt{\%\%} is replaced by \texttt{\%}. \place{x:subtitute}{The current number of substitutions is not changed.}
+	\item If the name is null, a single delimiter character is passed
+		to the output, i.e., \texttt{\%\%} is replaced by \texttt{\%}.
+		The current number of substitutions is not changed.
 
-	\item If the \replace{x:subtitute}{name}{ text} is a valid substitution name \place{x:subtitute}{acceptable to \wref{string:REPLACES}{}},
-		the leading and trailing delimiter characters and the enclosed substitution name are replaced by
-		the substitution text.  \place{x:subtitute}{The current number of substitutions is incremented.}
+	\item If the text is a valid substitution name acceptable to
+		\wref{string:REPLACES}{}, the leading and trailing delimiter
+		characters and the enclosed substitution name are replaced by
+		the substitution text.  The current number of substitutions
+		is incremented.
 
-	\item If the \replace{x:subtitute}{name}{ text} is not a valid substitution name, the name with leading
-		and trailing delimiters is passed unchanged to the output.
-		\place{x:subtitute}{The current number of substitutions is not changed.}
+	\item If the text is not a valid substitution name, the name with
+		leading	and trailing delimiters is passed unchanged to the
+		output.  The current number of substitutions is not changed.
 
-	\item \place{x:subtitute}{Parsing of the input string resumes after the trailing delimiter.}
+	\item Parsing of the input string resumes after the trailing delimiter.
 	\end{enumerate}
 
-\place{x:subtitute}{%
 	If after processing any pairs of delimiters, the residue of the input string contains
 	a single delimiter, the residue is passed unchanged to the output.
-}
 
 \see \wref{string:REPLACES}{}, \wref{string:UNESCAPE}{}, \rref{string:SUBSTITUTE}{}.
 
 	\begin{rationale}
-%		Text substitution is useful for a number of applications, including:
-%		\begin{enumerate}
-%		\setlength{\itemsep}{-1ex}
-%		\item Directory handling;
-%		\item Configuration management;
-%		\item Localisation.
-%		\end{enumerate}
-
 		Many applications need to be able to perform text substitution, for
 		example:
 
@@ -554,16 +516,14 @@ to provide all of the String and String Extensions word sets.
 }
 \makeatother
 
-\cbstart\patch{x:subtitute}
 		\begin{quote}\ttfamily
 			\begin{tabbing}
-				\uline{\word{:} date \word{Sq} \pdate" \word{;}} \\
-				\uline{\word{:} time \word{Sq} \ptime" \word{;}} \\
-				\sout{\word{Sq} \pdate"} \uline{date}\ \= \word{Sq} date" \word{REPLACES} \\
-				\sout{\word{Sq} \ptime"} \uline{time}\ \> \word{Sq} time" \word{REPLACES}
+				\word{:} date \word{Sq} \pdate" \word{;} \\
+				\word{:} time \word{Sq} \ptime" \word{;} \\
+				date\ \= \word{Sq} date" \word{REPLACES} \\
+				time\ \> \word{Sq} time" \word{REPLACES}
 			\end{tabbing}
 		\end{quote}
-\cbend
 
 		The substitution name ``date'' is defined to be replaced with the string
 		``\pdate'' and ``time'' to be replaced with ``\ptime''.  Thus
@@ -576,9 +536,7 @@ to provide all of the String and String Extensions word sets.
 		As the substitution name ``currencyvalue'' has not been defined, it is
 		left unchanged in the resulting string.
 
-		The return value \param{n} is positive
-\replace{ed12}{ \{\{(0 \ldots +n\}\}}{\{0 {\ldots} +n\}}
-		on success
+		The return value \param{n} is \replace{ed13}{positive}{ in the range} \{0 {\ldots} +n\} on success
 		and indicates the number of substitutions made.  In the above example,
 		this would be two.  A negative value indicates that an error occurred.
 		As substitution is non-recursive, the return value could be used to

@@ -38,18 +38,11 @@ application words.  It can also be used to define tests of words in
 a standard-conforming implementation.
 % An example is the test of the ANS Forth CORE word set.
 
-\place{ed12}{%
 Numerous people have contributed to the test cases given in section
 \ref{test:core} onwards.  The majority of the test cases have been
-taken from John Hayes' test suite\footnotemark, Gerry Jackson's test
-suite\footnotemark
+taken from John Hayes' test suite\footnote{url{http://www.taygeta.com/forth.html}},
+Gerry Jackson's test suite\footnote{\url{http://soton.mpeforth.com/flag/anstests/index.html}}
 and David Williams with significant contributions from the committee.
-}
-
-\setcounter{footnote}{1}
-\footnotetext{\cbstart\uline{\url{http://www.taygeta.com/forth.html}}}
-\setcounter{footnote}{2}
-\footnotetext{\uline{\url{http://soton.mpeforth.com/flag/anstests/index.html}}\cbend}
 
 \section{Test Harness}
 \label{test:harness}
@@ -507,9 +500,7 @@ can now be performed.
 \subsection{Numeric notation}% A.3.4.1.3
 \label{test:numeric}
 
-The numeric representation
-\remove{ed12}{provided by the \textsf{X:number-prefix} extension}
-can be tested with the following test cases:
+The numeric representation can be tested with the following test cases:
 
 \begin{tt}
 	\word{DECIMAL} \\
@@ -815,13 +806,13 @@ but rather refers to the previous definition of the word.
 
 \ifinline
 	\newcommand{\readtest}[1]{% {<file>}
-		\fbox{\parbox{\linewidth}{\slshape
-		In the \emph{review} (r) version of the document the
-		test cases for a word are given in with the main
-		defintion of the word.  The test cases for the words
-		in the \textbf{#1} wordset will appear here in the
-		final document.
-		}}
+		\begin{editor}
+			In the \emph{review} (r) version of the document the
+			test cases for a word are given in with the main
+			defintion of the word.  The test cases for the words
+			in the \textbf{#1} wordset will appear here in the
+			final document.
+		\end{editor}
 	}
 
 	\newcommand{\testsection}[2]{% {<file>}{<Wordlist>}
@@ -831,18 +822,19 @@ but rather refers to the previous definition of the word.
 
 	\newcommand{\defersection}{}
 \else
+	\namespace{test}
+	\defersection{}
+
 	\newcommand{\readtest}[2]{%
 		\input{t-#1.sub}
 	}
 
-	\namespace{test}
 	\newcommand{\testsection}[2]{%
 		\defersection{#2}
 		\setwordlist{#1}
 		\input{t-#1.sub}
 		\stepsection
 	}
-	\defersection{}
 \fi
 
 
@@ -951,7 +943,7 @@ that the word \texttt{\$\$UndefedWord\$\$} is undefined.
 These tests create files in the current directory, if all goes well
 these will be deleted.  If something fails they may not be deleted.
 If this is a problem ensure you set a suitable directory before
-running this test.  Currently, there is no \remove{F12}{ANS} standard way of doing
+running this test.  Currently, there is no ANS standard way of doing
 this.  the file names used in these test are:
 ``\texttt{fatest1.txt}'', ``\texttt{fatest2.txt}'' and
 ``\texttt{fatest3.txt}''.
@@ -983,6 +975,7 @@ Finally \tref{file:RENAME-FILE}{} tests the extended words
 % ===================================================================
 
 \section{The optional Memory-Allocation word set} % T.14
+\label{test:memory}
 \setwordlist{memory}
 \defersection{}
 
@@ -993,17 +986,28 @@ and to check the memory:
 \begin{tt}\frenchspacing\obeyspaces
 \word{VARIABLE} addr
 
-\word{:} writemem \word{p} ad n -{}- ) \\
-\tab 0 \word{DO} \word{I} \word{1+} \word{OVER} \word{C!} \word{1+} \word{LOOP} \word{DROP} \\
+\word{:} write-cell-mem \word{p} addr n -{}- ) \\
+\tab \word{1+} 1 \word{DO} \word{I} \word{OVER} \word{!} \word{CELL+} \word{LOOP} \word{DROP} \\
 \word{;}
 
-\word{:} checkmem \word{p} ad n -{}- ) \\
-\tab 0 \word{DO} \\
-\tab[2] \word{DUP} \word{C@} \word{SWAP} \word{toR} \\
-\tab[2] \test{}{\word{Rfrom} \word{I} \word{1+} \word{SWAP} \word{toR}} \\
-\tab[2] \word{Rfrom} \word{1+} \\
-\tab \word{LOOP} \\
-\tab \word{DROP} \\
+\word{:} check-cell-mem \word{p} addr n -{}- ) \\
+\tab \word{1+} 1 \word{DO} \\
+\tab[2] \word{I} \word{SWAP} \word{toR} \word{toR} \\
+\tab[2] \test{\word{Rfrom} \word{p} \word{I} )}{\word{R@} \word{p} addr ) \word{@}} \\
+\tab[2] \word{Rfrom} \word{CELL+} \\
+\tab \word{LOOP} \word{DROP} \\
+\word{;}
+
+\word{:} write-char-mem \word{p} addr n -{}- ) \\
+\tab \word{1+} 1 \word{DO} \word{I} \word{OVER} \word{C!} \word{CHAR+} \word{LOOP} \word{DROP} \\
+\word{;}
+
+\word{:} check-char-mem \word{p} addr n -{}- ) \\
+\tab \word{1+} 1 \word{DO} \\
+\tab[2] \word{I} \word{SWAP} \word{toR} \word{toR} \\
+\tab[2] \test{\word{Rfrom} \word{p} \word{I} )}{\word{R@} \word{p} addr ) \word{C@}} \\
+\tab[2] \word{Rfrom} \word{CHAR+} \\
+\tab \word{LOOP} \word{DROP} \\
 \word{;}
 \end{tt}
 \nonfrenchspacing\catcode`\ =10

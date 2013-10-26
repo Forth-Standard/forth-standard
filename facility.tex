@@ -33,7 +33,7 @@ Append table \ref{facility:types} to table \ref{table:datatypes}.
 The implementation-dependent data generated upon beginning to compile
 a \word{BEGIN-STRUCTURE} {\ldots} \word{END-STRUCTURE} structure and
 consumed at its close is represented by the symbol \param{struct-sys}
-throughout this Standard.
+throughout this standard.
 
 \subsubsection{Character types} % 10.3.1.2
 Programs that use more than seven bits of a character by
@@ -91,9 +91,7 @@ See: \xref[3.1.2 Character types]{usage:char}.
 
 \section{Compliance and labeling} % 10.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 10.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 10.5.1
 
 The phrase ``Providing the Facility word set'' shall be appended to
 the label of any Standard System that provides all of the Facility
@@ -107,9 +105,7 @@ The phrase ``Providing the Facility Extensions word set'' shall be
 appended to the label of any Standard System that provides all of
 the Facility and Facility Extensions word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 10.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 10.5.2
 
 The phrase ``Requiring the Facility word set'' shall be appended to
 the label of Standard Programs that require the system to provide
@@ -137,16 +133,6 @@ to provide all of the Facility and Facility Extensions word sets.
 	of which is column zero, row zero. An ambiguous condition exists
 	if the operation cannot be performed on the user output device
 	with the specified parameters.
-
-\see \remove{ed12}{\rref{facility:AT-XY}{}.}
-
-	\begin{rationale} % A.10.6.1.0742 AT-XY
-\remove{ed12}{%
-		Most implementors supply a method of positioning a cursor on
-		a CRT screen, but there is great variance in names and stack
-		arguments. This version is supported by at least one major
-		vendor.}
-	\end{rationale}
 \end{worddef}
 
 
@@ -167,7 +153,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \see \rref{facility:KEYq}{}.
 
 	\begin{rationale} % A.10.6.1.1755 KEY?
-		The \remove{ed12}{Technical} Committee has gone around several times on the
+		The committee has gone around several times on the
 		stack effects. Whatever is decided will violate somebody's
 		practice and penalize some machine. This way doesn't interfere
 		with type-ahead on some systems, while requiring the
@@ -187,7 +173,6 @@ to provide all of the Facility and Facility Extensions word sets.
 		character is received.
 	\end{rationale}
 \end{worddef}
-
 
 \begin{worddef}{2005}{PAGE}
 \item \stack{}{}
@@ -409,20 +394,15 @@ to provide all of the Facility and Facility Extensions word sets.
 	given below.
 
 \execute[name]
-\cbstart\patch{ed12}
-	\stack{\sout{a-}addr_{\uline{1}}}{\sout{a}-addr_{\uline{2}}}
-\cbend
+	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action to
-\cbstart\param{\sout{a-}addr_{\uline{1}}}\cbend\ 
-	giving the character aligned address
-\cbstart\param{\sout{c-}addr_{\uline{2}}}.\cbend
+	\param{addr_1} giving the \remove{ed13}{character aligned} address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
 	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
 	\rref{facility:FIELD:}{}.
-\cbend
 \end{worddef}
 
 % -------------------------------------
@@ -537,17 +517,20 @@ to provide all of the Facility and Facility Extensions word sets.
 
 
 	\begin{rationale} % A.10.6.2.---- EKEY>FKEY
+\cbstart\patch{ed13}
+\sout{%
 		This words has been provided to allow for systems which may not
 		be able to interpret the value returned from \word{EKEY}
 		directly. A simple implementation for a system which is capable
-		of interpreting the value returned from \word{EKEY} would be:
+		of interpreting the value returned from \word{EKEY} would be:}
 
 		\begin{quote}
 			\ttfamily
-			\word{:} \word{EKEYtoFKEY} \word{p} u1 -{}- u2 flag ) \\
-			\tab \word{DUP} \word{EKEYtoCHAR} \word{NIP} \word{0=} \word{;}
+\sout{\word{:} \word{EKEYtoFKEY} \word{p} u1 -{}- u2 flag )} \\
+			\tab \sout{\word{DUP} \word{EKEYtoCHAR} \word{NIP} \word{0=} \word{;}}
 		\end{quote}
 
+\sout{%
 		The value returned from \word{EKEYtoFKEY} can be interpreted
 		via a set of pre-defined constants and masks. This provides
 		the application programmer with the ability to process the
@@ -555,15 +538,24 @@ to provide all of the Facility and Facility Extensions word sets.
 		keyboards provide these keys. Indeed, some devices will not
 		have a keyboard. A standard program should be written in such
 		a way that they will continue to work without these additional
-		keys. Albeit with a limited or reduced functionality.
+		keys. Albeit with a limited or reduced functionality.}
 
+\sout{%
 		The \texttt{K-}{\ldots} words produce the same values that the
 		sequence \word{EKEY} \word{EKEYtoFKEY} may produce when the
 		user presses the corresponding keys. Note that some systems
 		may lack some of the keys, or the system the capability to
 		report them. Programs should be written such that they continue
 		to work (although less conveniently or with less functionality)
-		if these key combinations cannot be produced.
+		if these key combinations cannot be produced.}
+
+	\uline{%
+		\word{EKEY} produces an abstract cell type for a keyboard event (e.g., a
+		keyboard scan code).  \word{EKEYtoFKEY} checks if such an event
+		corresponds to a special (non-graphic) key press, and if so, returns
+		a code for the special key press.  The encoding of special keys (returned
+		by \word{EKEYtoFKEY}) may be different from the encoding of these
+		keys as keyboard events (input to \word{EKEYtoFKEY}).}
 
 		Typical Use:
 
@@ -582,38 +574,82 @@ to provide all of the Facility and Facility Extensions word sets.
 			\word{THEN}
 		\end{quote}
 
-	\item[\word{EKEY} return values] ~\\
-		The intention behind \word{EKEY} was that it would return the
+\uline{%
+		The codes for the special keys are system-dependent, but this
+		standard provides words for getting the key codes for a number
+		of keys:}
+
+
+	\begin{center}
+		\begin{tabular}{ll}
+		\hline
+		\uline{Word} & \uline{Key} \\ \hline\hline
+		\uline{\word{K-LEFT}}	& \uline{cursor left} \\
+		\uline{\word{K-RIGHT}}	& \uline{cursor right} \\
+		\uline{\word{K-UP}}		& \uline{cursor up} \\
+		\uline{\word{K-DOWN}}	& \uline{cursor down} \\
+		\uline{\word{K-HOME}}	& \uline{home or Pos1} \\
+		\uline{\word{K-END}}	& \uline{End} \\
+		\uline{\word{K-PRIOR}}	& \uline{PgUp or Prior} \\
+		\uline{\word{K-NEXT}	}& \uline{PgDn or Next} \\
+		\uline{\word{K-INSERT}}	& \uline{Insert} \\
+		\uline{\word{K-DELETE}}& \uline{Delete} \\
+		\uline{\word{K-F1}}		& \uline{F1} \\
+		\uline{\word{K-F2}}		& \uline{F2} \\
+		\uline{\word{K-F3}}		& \uline{F3} \\
+		\uline{\word{K-F4}}		& \uline{F4} \\
+		\uline{\word{K-F5}}		& \uline{F5} \\
+		\uline{\word{K-F6}}		& \uline{F6} \\
+		\uline{\word{K-F7}}		& \uline{F7} \\
+		\uline{\word{K-F8}}		& \uline{F8} \\
+		\uline{\word{K-F9}}		& \uline{F9} \\
+		\uline{\word{K-F10}}	& \uline{F10} \\
+		\uline{\word{K-F11}}	& \uline{F11} \\
+		\uline{\word{K-F12}}	& \uline{F12} \\ \hline
+		\end{tabular}
+	\end{center}
+
+\uline{% 
+		In addition, you can get codes for shifted variants of these keys by
+		\word{OR}ing with \word{K-SHIFT-MASK}, \word{K-CTRL-MASK}
+		and/or \word{K-ALT-MASK}, e.g. \word{K-CTRL-MASK}
+		\word{K-ALT-MASK} \word{OR} \word{K-DELETE} \word{OR}.
+		The masks for the shift keys are:
+}
+
+	\begin{center}
+		\begin{tabular}{ll}
+		\hline
+		\uline{Word} & \uline{Key} \\ \hline\hline
+		\uline{\word{K-SHIFT-MASK}}	& \uline{Shift} \\
+		\uline{\word{K-CTRL-MASK}}		& \uline{Ctrl} \\
+		\uline{\word{K-ALT-MASK}}		& \uline{Alt} \\ \hline
+		\end{tabular}
+	\end{center}
+
+\uline{%
+		Note that not all of these keys are available on all systems, and not
+		all combinations of keys and shift keys are available.  Therefore
+		programs should be written such that they continue to work (although
+		less conveniently or with less functionality) if these key combinations
+		cannot be produced.}
+
+	\item[\sout{\word{EKEY} return values}] ~\\
+\sout{		The intention behind \word{EKEY} was that it would return the
 		implementation defined keyboard scan code. The implementation
 		defined nature of the value means that a standard program may
 		not use the value in any way, other than passing it on to
-		\word{EKEYtoCHAR} to convert it into an ASCII character.
+		\word{EKEYtoCHAR} to convert it into an ASCII character.}
 
+\sout{%
 		\word{EKEYtoFKEY} has been designed to be used in a similar
 		manner. It provides an implementation defined value which
 		corresponds to non-ASCII keys, or a combination thereof. A
 		standard program may check which key combination has been used
-		via a set of pre-defined constants.
+		via a set of pre-defined constants.}
 
-%		There was a discussion about what the standard says about
-%		EKEY return values. In particular, the non-specification
-%		of a lifetime for the return value has been interpreted as
-%		meaning that it has unlimited lifetime and thus an
-%		implementation where the return value is an address of an
-%		overwritable buffer is non-standard; whereas others believes
-%		that the implementation-defined nature of the result would make
-%		such an EKEY implementation standard. However, no such
-%		implementation of EKEY is known, and a clarification of
-%		that aspect is desirable. However, with the introduction of
-%		EKEY>FKEY the proposal could even be implemented on a
-%		system with such an EKEY implementation, so the place
-%		for the clarification is probably not in this proposal
-%		(unless we take EKEY>FKEY out again).
-
-%		Programming advice
-
-	\item[Shift keys] ~\\
-		Note that, as defined, the shift key masks
+	\item[\sout{Shift keys}] ~\\
+\sout{Note that, as defined, the shift key masks
 		(\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
 		 \linebreak
 		 \wref{facility:K-CTRL-MASK}{K-CTRL-MASK} and
@@ -623,7 +659,8 @@ to provide all of the Facility and Facility Extensions word sets.
 		\word{EKEYtoFKEY}.
 		E.g., a standard program cannot recognize \textsc{Alt-T},
 		because no \word{EKEY} return value for \texttt{T} has been
-		defined.
+		defined.}
+\cbend
 	\end{rationale}
 
 	\begin{implement} % I.10.6.2.--- EKEY>FKEY
@@ -731,12 +768,10 @@ to provide all of the Facility and Facility Extensions word sets.
 	given below.
 
 \execute[name]
-\cbstart\patch{ed12}\stack{\sout{a-}addr_1}{\sout{a-}addr_2}\cbend
+	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action
-	to
-\cbstart\param{\sout{a-}addr_1} giving the cell aligned address
-\param{\sout{a-}addr_2}.\cbend
+	to \param{addr_1} giving the \remove{ed13}{cell aligned} address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
@@ -751,18 +786,16 @@ to provide all of the Facility and Facility Extensions word sets.
 
 		The \emph{x}\texttt{FIELD:} words could be defined as:
 
-\cbstart\patch{ed12}
 		\begin{tabbing}
 			\tab \= \tab[6] \= \tab[22] \= \tab[5] \= \tab[5.2] \= \kill
-			\> \word{:} \word{FIELD:}   \>( n1 "name" -{}- n2 ; \sout{a-}addr1 -{}-  \sout{a-}addr2 )\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;} \\
-			\> \word{:} \word{CFIELD:}  \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1}  -{}-  \sout{c-}addr\uline{2}   )\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} \\
+			\> \word{:} \word{FIELD:}   \>( n1 "name" -{}- n2 ; addr1 -{}- addr2 )\> \word{ALIGNED}   \' 1 \word{CELLS}   \> \word{+FIELD} \word{;} \\
+			\> \word{:} \word{CFIELD:}  \>( n1 "name" -{}- n2 ; addr1 -{}- addr2 )\>                  \' 1 \word{CHARS}   \> \word{+FIELD} \word{;} \\
 		\setwordlist{floating}
-			\> \word{:} \word{FFIELD:}  \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1} -{}-  \sout{f-}addr\uline{2} )\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \\
-			\> \word{:} \word{SFFIELD:} \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1} -{}- \sout{sf-}addr\uline{2} )\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \\
-			\> \word{:} \word{DFFIELD:} \>( n1 "name" -{}- n2 ; \sout{a-}addr\uline{1} -{}- \sout{df-}addr\uline{2} )\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;}
+			\> \word{:} \word{FFIELD:}  \>( n1 "name" -{}- n2 ; addr1 -{}- addr2 )\> \word{FALIGNED}  \' 1 \word{FLOATS}  \> \word[facility]{+FIELD} \word{;} \\
+			\> \word{:} \word{SFFIELD:} \>( n1 "name" -{}- n2 ; addr1 -{}- addr2 )\> \word{SFALIGNED} \' 1 \word{SFLOATS} \> \word[facility]{+FIELD} \word{;} \\
+			\> \word{:} \word{DFFIELD:} \>( n1 "name" -{}- n2 ; addr1 -{}- addr2 )\> \word{DFALIGNED} \' 1 \word{DFLOATS} \> \word[facility]{+FIELD} \word{;}
 		\setwordlist{facility}
 		\end{tabbing}
-\cbend
 	\end{rationale}
 \end{worddef}
 
@@ -1083,7 +1116,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	The actual length and variability of the time period depends
 	upon the {im\-ple\-ment\-ation-de\-fin\-ed} resolution of the system clock
 	and upon other system and computer characteristics beyond the
-	scope of this Standard.
+	scope of this standard.
 
 \see \rref{facility:MS}{}.
 

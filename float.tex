@@ -267,10 +267,10 @@ See:
 	(\wref{floating:Fd}{F.},
 	 \wref{floating:FEd}{FE.},
 	 \wref{floating:FSd}{FS.}).
-\item \place{x:stoftos}{\param{n} can't be precisely represented as
-	\emph{float} in \wref{floating:StoF}{S>F};}
-\item \place{x:stoftos}{integer part of \emph{float} can't be represented
-	by \param{n} in \wref{floating:FtoS}{F>S}.}
+\item \param{n} can't be precisely represented as
+	\emph{float} in \wref{floating:StoF}{S>F};
+\item integer part of \emph{float} can't be represented
+	by \param{n} in \wref{floating:FtoS}{F>S}.
 \end{itemize}
 
 \subsubsection{Other system documentation} % 12.4.1.3
@@ -304,9 +304,7 @@ See:
 
 \section{Compliance and labeling} % 12.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 12.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 12.5.1
 
 The phrase ``Providing the Floating-Point word set'' shall be
 appended to the label of any Standard System that provides all of
@@ -321,9 +319,7 @@ The phrase ``Providing the Floating-Point Extensions word set'' shall
 be appended to the label of any Standard System that provides all of
 the Floating-Point and Floating-Point Extensions word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 12.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 12.5.2
 
 The phrase ``Requiring the Floating-Point word set'' shall be
 appended to the label of Standard Programs that require the system
@@ -383,8 +379,8 @@ word sets.
 		does the text interpreter since the latter defines rules for
 		composing source programs whereas \word{toFLOAT} defines rules
 		for accepting data. \word{toFLOAT} is defined as broadly as is
-		feasible to permit input of data from Forth\place{F12}{-\snapshot} systems as well
-		as other widely used standard programming environments.
+		feasible to permit input of data from Forth-\snapshot{} systems
+		as well as other widely used standard programming environments.
 
 		This is a synthesis of common FORTRAN practice. Embedded spaces
 		are explicitly forbidden in much scientific usage, as are other
@@ -484,8 +480,11 @@ word sets.
 	\param{d} is the double-cell signed-integer equivalent of the
 	integer portion of \param{r}. The fractional portion of \param{r}
 	is discarded. An ambiguous condition exists if the integer portion
-	of \param{r} cannot be precisely represented as a double-cell
+	of \param{r} cannot be \remove{ed13}{precisely} represented as a double-cell
 	signed integer.
+
+\note \place{ed13}{Rounding the floating-point value prior to calling \word{FtoD} is
+	advised, because \word{FtoD} rounds towards zero.}
 \end{worddef}
 
 
@@ -825,14 +824,10 @@ word sets.
 	given below.
 
 \execute[name]
-\cbstart\patch{ed12}
-	\stack{\sout{a-}addr_{\uline{1}}}{\sout{df-}addr_{\uline{2}}}
-\cbend
+	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action to
-\cbstart\param{\sout{a-}addr_{\uline{1}}}\cbend\ 
-	giving the double-float aligned address
-\cbstart\param{\sout{df-}addr_{\uline{2}}}.\cbend
+	\param{addr_1} giving the \remove{ed13}{double-float aligned} address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
@@ -883,36 +878,36 @@ word sets.
 	exceeds the size of the pictured numeric output string buffer.
 
 \see \wref{floating:toFLOAT}{>FLOAT},
-	\rref{floating:Fd}{}.
+	\rref{floating:Fd}{}
 
 	\begin{rationale} % A.12.6.1.1427 F.
-		For example, \texttt{1E3} \replace{ed12}{\textbf{\texttt{F}}}{ \word{Fd}} displays \texttt{1000.} .
+		For example, \texttt{1E3} \word{Fd} displays \texttt{1000.}
 	\end{rationale}
 \end{worddef}
 
 
 % ========== x:stoftos ==========
 
-\begin{worddef*}[FtoS]{1471}{F>S}[F to S][x:stoftos]
+\begin{worddef}[FtoS]{1471}{F>S}[F to S][x:stoftos]
 \item \stack{}{n} \stack[F]{r}{} or \stack{r}{n}
 
-	\uline{\param{n} is the single-cell signed-integer equivalent of the
+	\param{n} is the single-cell signed-integer equivalent of the
 	integer portion of \param{r}.  The fractional portion of
 	\param{r} is discarded.  An ambiguous condition exists if
-	the integer portion of \param{r} cannot be precisely
-	represented as a single-cell signed integer.}
+	the integer portion of \param{r} cannot be \remove{ed13}{precisely}
+	represented as a single-cell signed integer.
 
-\note \uline{Rounding the floating-point value prior to calling \word{FtoS} is
-	advised.}
+\note Rounding the floating-point value prior to calling \word{FtoS} is
+	advised\place{ed13}{, because \word{FtoS} rounds towards zero}.
 
-\see \uline{\wref{floating:StoF}{}.}
+\see \wref{floating:StoF}{}.
 
 	\begin{implement}
-		\uline{\word{:} \word{FtoS} \word{p} r -{}- n )} \\
-		\tab \uline{\word{FtoD} \word[double]{DtoS}} \\
-		\uline{\word{;}}
+		\word{:} \word{FtoS} \word{p} r -{}- n ) \\
+		\tab \word{FtoD} \word[double]{DtoS} \\
+		\word{;}
 	\end{implement}
-\end{worddef*}
+\end{worddef}
 
 % ==============================
 
@@ -1014,11 +1009,6 @@ word sets.
 		equivalent to \word{FTAN}, but is useful over only a limited
 		and discontinuous range of angles, whereas \word{FSINCOS} and
 		\word{FATAN2} are useful for all angles.
-\remove{ed12}{This ordering has
-		been found convenient for nearly two decades, and has the
-		added benefit of being easy to remember. A corollary to this
-		observation is that vectors in general should appear on the
-		stack in this order.}
 
 		The argument order for \word{FATAN2} is the same, converting a
 		vector in the conventional representation to a scalar angle.
@@ -1243,14 +1233,14 @@ word sets.
 		This function allows accurate computation when its arguments
 		are close to zero, and provides a useful base for the standard
 		exponential functions. Hyperbolic functions such as
-\textsf{\replace{ed12}{cosh}{sinh}($x$)} can be efficiently and accurately
+		\textsf{sinh($x$)} can be efficiently and accurately
 		implemented by using \word{FEXPM1}; accuracy is lost in this
 		function for small values of $x$ if the word \word{FEXP} is
 		used.
 
 		An important application of this word is in finance; say a loan
 		is repaid at 15\% per year; what is the daily rate? On a computer
-		with single\place{ed12}{-}precision (six decimal digit) accuracy:
+		with single-precision (six decimal digit) accuracy:
 
 		\begin{enumerate}
 		\item[1.] Using \word{FLN} and \word{FEXP}:
@@ -1260,7 +1250,7 @@ word sets.
 			form the exponent using \word{FEXP} = 1.00038, and \\
 			subtract one (1) and convert to percentage = 0.038\%.
 		\end{enumerate}
-		Thus we only have two\place{ed12}{-}digit accuracy.
+		Thus we only have two-digit accuracy.
 		\begin{enumerate}
 		\item[2.] Using \word{FLNP1} and \word{FEXPM1}:
 
@@ -1272,11 +1262,11 @@ word sets.
 			\word{FEXPM1} = 3.82983E-4, and \\
 			convert to percentage = 0.0382983\%.
 		\end{enumerate}
-		This is full six\place{ed12}{-}digit accuracy.
-
-		\replace{ed12}{The presence of this}{ This} \remove{ed12}{word} allows the hyperbolic functions to
-		be computed with usable accuracy. For example, the hyperbolic
-		sine can be defined as:
+		This \replace{ed13}{is full six-digit accuracy.}{ calculation method allows}
+ \remove{ed13}{This allows}
+		the hyperbolic functions to
+		be computed with \replace{ed13}{usable accuracy}{ six-digit accuracy}. For example, \replace{ed13}{the hyperbolic
+		sine}{ \textsf{sinh}} can be defined as:
 
 		\begin{quote}\ttfamily
 			\word[core]{:} \word{FSINH}~ \word[core]{p} r1 -{}- r2 ) \\
@@ -1301,14 +1291,10 @@ word sets.
 	given below.
 
 \execute[name]
-\cbstart\patch{ed12}
-	\stack{\sout{a-}addr_{\uline{1}}}{\sout{f-}addr_{\uline{2}}}
-\cbend
+	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action to
-\cbstart\param{\sout{a-}addr_{\uline{1}}}\cbend\ 
-	giving the float aligned address
-\cbstart\param{\sout{f-}addr_{\uline{2}}}.\cbend
+	\param{addr_1} giving the \remove{ed13}{float aligned} address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
@@ -1578,21 +1564,21 @@ word sets.
 
 % ========== x:stoftos ==========
 
-\begin{worddef*}[StoF]{2175}{S>F}[S to F][x:stoftos]
+\begin{worddef}[StoF]{2175}{S>F}[S to F][x:stoftos]
 \item \stack{n}{} \stack[F]{}{r} or \stack{n}{r}
 
-	\uline{\param{r} is the floating-point equivalent of the single-cell
+	\param{r} is the floating-point equivalent of the single-cell
 	value \param{n}.  An ambiguous condition exists if \param{n}
-	can not be precisely represented as a floating-point value.}
+	can not be precisely represented as a floating-point value.
 
-\see \uline{\wref{floating:FtoS}{F>S}.}
+\see \wref{floating:FtoS}{F>S}.
 
 	\begin{implement}
-		\uline{\word{:} \word{StoF} \word{p} n -{}- r )} \\
-		\tab \uline{\word{StoD} \word{DtoF}} \\
-		\uline{\word{;}}
+		\word{:} \word{StoF} \word{p} n -{}- r ) \\
+		\tab \word{StoD} \word{DtoF} \\
+		\word{;}
 	\end{implement}
-\end{worddef*}
+\end{worddef}
 
 % ==============================
 
@@ -1673,14 +1659,10 @@ word sets.
 	given below.
 
 \execute[name]
-\cbstart\patch{ed12}
-	\stack{\sout{a-}addr_{\uline{1}}}{\sout{sf-}addr_{\uline{2}}}
-\cbend
+	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action to
-\cbstart\param{\sout{a-}addr_{\uline{1}}}\cbend\ 
-	giving the single-float aligned address
-\cbstart\param{\sout{sf-}addr_{\uline{2}}}.\cbend
+	\param{addr_1} giving the \remove{ed13}{single-float aligned} address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\

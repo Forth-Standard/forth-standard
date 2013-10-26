@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{The optional Programming-Tools word set} % 15
 \wordlist{tools}
 
@@ -11,6 +12,33 @@ development of applications.
 None.
 
 \section{Additional usage requirements} % 15.3
+
+\cbstart\patch{x:traverse-wordlist}
+\subsection[Data types]{\uline{Data types}} % 15.3.1
+\label{tools:datatype}
+
+\uline{
+A name token is a single-cell value that identifies a named word.
+}
+
+\uline{Append table \ref{tools:types} to table \ref{table:datatypes}.}
+
+\begin{table}[h]
+  \begin{center}
+	\caption{Data types}
+	\label{tools:types}
+	\begin{tabular}{llr}
+	\hline\hline
+	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
+	\hline
+	\emph{\uline{nt}}	& \uline{name token} & \uline{1 cell} \\
+	\hline\hline
+	\end{tabular}
+  \end{center}
+\end{table}
+
+See: \xref[A.15.3.x Name token]{rat:tools:nt}{}.
+\cbend
 
 \subsection{The Forth dictionary} % 15.3.2
 \label{tools:dict}
@@ -63,6 +91,9 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \item removing a needed definition (\wref{tools:FORGET}{}).
 \item \wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{}.
 \item \wref{tools:NRfrom}{} is used with data not stored by \wref{tools:NtoR}{}.
+\item \place{x:traverse-wordlist}{adding to or deleting from the wordlist during the
+	execution of \word{TRAVERSE-WORDLIST}.}
+
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -88,9 +119,7 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 
 \section{Compliance and labeling} % 15.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 15.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 15.5.1
 
 The phrase ``Providing the Programming-Tools word set'' shall be
 appended to the label of any Standard System that provides all of
@@ -106,9 +135,7 @@ shall be appended to the label of any Standard System that provides
 all of the Programming-Tools and Programming-Tools Extensions word
 sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 15.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 15.5.2
 
 The phrase ``Requiring the Programming-Tools word set'' shall be
 appended to the label of Standard Programs that require the system
@@ -178,6 +205,7 @@ Extensions word sets.
 \end{worddef}
 
 
+%\enlargethispage{2ex}
 \begin{worddef}{2194}{SEE}
 \item \stack{"<spaces>name"}{}
 
@@ -355,6 +383,7 @@ Extensions word sets.
 \end{worddef}
 
 
+%\enlargethispage{4ex}
 \begin{worddef}{1015}{CS-PICK}[c-s-pick]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -375,12 +404,13 @@ Extensions word sets.
 \see \rref{tools:CS-PICK}{}.
 
 	\begin{rationale} % A.15.6.2.1015 CS-PICK
-		The intent is to \replace{ed12}{reiterate}{copy} a \param{dest} on the control-flow
+		The intent is to copy a \param{dest} on the control-flow
 		stack so that it can be resolved more than once. For example:
 		\setwordlist{core}
 		\begin{quote}\ttfamily
-			\word{bs} Conditionally transfer control to beginning of loop \\
-			\word{bs} This is similar in spirit to C's "continue" statement.
+			\word{bs} Conditionally transfer control to beginning of \\
+			\word{bs} loop.  This is similar in spirit to C's "continue" \\
+			\word{bs} statement.
 
 			\word{:} ?REPEAT ~~\word{p} dest -{}- dest ) \word{bs} Compilation \\
 			\tab\tab\tab~\word{p} flag -{}- ) \tab~\word{bs} Execution \\
@@ -629,6 +659,77 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
+\begin{worddef*}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile][x:traverse-wordlist]
+\item \stack{nt}{x xt}
+
+\uline{%
+	\param{x xt} represents the compilation semantics of the word
+	\param{nt}.  The returned \param{xt} has the stack effect
+%	\stack{i*x x}{j*x}. 
+	( \param{i*x x} -{}- \param{j*x} )
+ \word{EXECUTE}ing \param{xt} consumes
+	\param{x} and performs the compilation semantics of the word
+	represented by \param{nt}.
+}
+
+\see \uline{%
+	\rref{tools:NAMEtoCOMPILE}{},
+	\wref{tools:TRAVERSE-WORDLIST}{}.}
+
+	\begin{rationale}
+\uline{%
+		In a traditional \param{xt}+immediate-flag system, the
+		\param{x xt} returned by \word{NAMEtoCOMPILE} is
+		typically \param{xt1 xt2}, where \param{xt1} is the
+		\param{xt} of the word under consideration, and
+		\param{xt2} is the \param{xt} of \word{EXECUTE}
+		(for immediate words) or \word{COMPILE,} (for words
+		with default compilation semantics).
+}
+
+\uline{%
+		If you want to \word{POSTPONE} \param{nt}, you can
+		do so with
+}
+
+		\begin{quote}\ttfamily
+\uline{
+			\word{NAMEtoCOMPILE} \word{SWAP} \word{POSTPONE}
+			\word{LITERAL} \word{COMPILE,}
+}
+		\end{quote}
+  	\end{rationale} 
+\end{worddef*}
+
+\begin{worddef*}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret][x:traverse-wordlist]
+\item \stack{nt}{xt|0}
+
+\uline{%
+	\param{xt} represents the interpretation semantics of the word
+	\param{nt}.  If \param{nt} has no interpretation semantics,
+	\word{NAMEtoINTERPRET} returns 0.}
+
+\note \uline{%
+	This standard does not define the interpretation semantics of
+	some words, but systems are allowed to do so.}
+ 
+\see \uline{\xref{tools:TRAVERSE-WORDLIST}{}.}
+\end{worddef*}
+
+\begin{worddef*}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string][x:traverse-wordlist]
+\item \stack{nt}{c-addr u}
+
+\uline{%
+	\word{NAMEtoSTRING} returns the name of the word \param{nt}
+	in the character string \param{c-addr u}.  The case of the characters
+	in the string is implementation-dependent.  The buffer containing
+	\param{c-addr u} may be transient and valid until the next invocation
+	of \word{NAMEtoSTRING}. A program shall not write into the buffer
+	containing the resulting string.
+}
+
+\uline{See \wref{tools:TRAVERSE-WORDLIST}{}.}
+\end{worddef*}
 
 \begin{worddef}[NRfrom]{1940}{NR>}[n-r-from][X:n-to-r]
 
@@ -666,7 +767,6 @@ Extensions word sets.
 \end{worddef}
 
 % -------------------------------------------------------------------
-
 
 \begin{worddef}{2250}{STATE}
 \item \stack{}{a-addr}
@@ -734,6 +834,99 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
+\begin{worddef*}{2297}{TRAVERSE-WORDLIST}[][X:traverse-wordlist]
+\item \stack{i*x xt wid}{j*x}
+
+\uline{%
+	Remove \param{wid} and \param{xt} from the stack.  Execute
+	\param{xt} once for every word in the wordlist \param{wid},
+	passing the name token \param{nt} of the word to \param{xt},
+	until the wordlist is exhausted or until \param{xt} returns false.
+}
+
+\uline{%
+	The invoked \param{xt} has the stack effect}
+	\stack{k*x nt}{l*x flag}.
+
+\uline{%
+	If \param{flag} is true, \word{TRAVERSE-WORDLIST} will continue
+	with the next name, otherwise it will return.  \word{TRAVERSE-WORDLIST}
+	does not put any items other than \param{nt} on the stack when
+	calling \param{xt}, so that \param{xt} can access and modify the
+	rest of the stack.
+}
+
+\uline{%
+	\word{TRAVERSE-WORDLIST} may visit words in any order, with one
+	exception: words with the same name are called in the order
+	newest-to-oldest (possibly with other words in between).
+}
+
+\uline{%
+	An ambiguous condition exists if words are added to or deleted from
+	the wordlist \param{wid} during the execution of
+	\word{TRAVERSE-WORDLIST}.
+}
+
+\see \uline{\rref{tools:TRAVERSE-WORDLIST}{},
+	\wref{tools:NAMEtoSTRING}{}, \\
+	\wref{tools:NAMEtoINTERPRET}{},
+	\wref{tools:NAMEtoCOMPILE}{}.}
+
+	\begin{rationale}
+		\uline{Typical use:}
+
+		\begin{quote}\ttfamily
+		\uline{%
+ 			\word{:} WORDS-COUNT \word{p} x nt -- x' f )
+				\word{DROP} \word{1+} \word{TRUE}
+			\word{;}
+		} \\
+		\uline{%
+			0 \word{'} WORDS-COUNT
+			\word[search]{FORTH-WORDLIST}
+			\word{TRAVERSE-WORDLIST} \word{d}
+		}
+		\end{quote}
+
+		\uline{prints a count of the number of words in the \word[search]{FORTH-WORDLIST}.}
+
+		\begin{quote}\ttfamily
+			\uline{%
+			\word{:} ALL-WORDS
+				\word{NAMEtoSTRING} \word{CR} \word{TYPE} \word{TRUE}
+			\word{;}
+} \\
+\uline{%
+			\word{'} ALL-WORDS 
+			\word[search]{GET-CURRENT}
+			\word{TRAVERSE-WORDLIST}
+}
+		\end{quote}
+ 
+		\uline{prints the names of words in the current compilation wordlist.}
+
+		\begin{quote}\ttfamily
+\uline{%
+			\word{:} CONTAINS-STRING} \\
+\tab \uline{%
+				\word{NAMEtoSTRING} \word{2OVER}
+				\word[string]{SEARCH} \word{IF}
+					\word{CR} \word{TYPE}
+				\word{THEN} \word{FALSE} \word{;}} \\
+\uline{%
+		\word{Sq} COM" \word{'} CONTAINS-STRING
+		\word[search]{GET-CURRENT} \word{TRAVERSE-WORDLIST}
+}
+		\end{quote}
+ 
+		\uline{prints the name of a word containing the string
+		``COM'', if it exists, and then terminates.}
+	\end{rationale}
+\end{worddef*}
+
+% -------------------------------------------------------------------
+
 \begin{worddef}{2530}[30]{[DEFINED]}[bracket-defined][X:defined]
 \compile
 	Perform the execution semantics given below.
@@ -780,30 +973,28 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{implement}
-\cbstart\patch{ed12}
 		\begin{tabbing}
 		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
 		  \+
-		  \uline{\word{:} \word{[ELSE]} \word{p} -{}- )} \\
-			\+ \uline{1 \word{BEGIN}}																		\>\>\>\>\>\>\uline{\word{bs}~level} \\
-				\+ \uline{\word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}}\>\>\>\>\>	\uline{\word{bs}~level adr len} \\
-					\uline{\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}}			\>\>\>\>	\uline{\word{bs}~level adr len} \\
-					\> \uline{\word{2DROP} \word{1+}}														\>\>\>		\uline{\word{bs}~level'} \\
-					\+ \uline{\word{ELSE}}																	\>\>\>\>	\uline{\word{bs}~level adr len} \\
-						\uline{\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}}	\>\>\>		\uline{\word{bs}~level adr len} \\
-						\> \uline{\word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}}		\>\>		\uline{\word{bs}~level'} \\
-						\uline{\word{ELSE}}																	\>\>\>		\uline{\word{bs}~level adr len} \\
-						\> \uline{\word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}}				\>\>		\uline{\word{bs}~level} \\
-						\>\> \uline{\word{1-}}																\>			\uline{\word{bs}~level'} \\
-						\>\uline{\word{THEN}} \\
-						\- \uline{\word{THEN}} \\
-					\- \uline{\word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}}		\>\>\>\>	\uline{\word{bs}~level'} \\
-				\- \uline{\word{REPEAT} \word{2DROP}}														\>\>\>\>\>	\uline{\word{bs}~level} \\
-			\uline{\word{REFILL} \word{0=} \word{UNTIL}}													\>\>\>\>\>\>\uline{\word{bs}~level} \\
-			\- \uline{\word{DROP}} \\
-		\uline{\word{;} \word{IMMEDIATE}}
+		  \word{:} \word{[ELSE]} \word{p} -{}- ) \\
+			\+ 1 \word{BEGIN}																		\>\>\>\>\>\>\word{bs}~level \\
+				\+ \word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}	\>\>\>\>\>	\word{bs}~level adr len \\
+					\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}			\>\>\>\>	\word{bs}~level adr len \\
+					\> \word{2DROP} \word{1+}														\>\>\>		\word{bs}~level' \\
+					\+ \word{ELSE}																	\>\>\>\>	\word{bs}~level adr len \\
+						\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}	\>\>\>		\word{bs}~level adr len \\
+						\> \word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}		\>\>		\word{bs}~level' \\
+						\word{ELSE}																	\>\>\>		\word{bs}~level adr len \\
+						\> \word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}				\>\>		\word{bs}~level \\
+						\>\> \word{1-}																\>			\word{bs}~level' \\
+						\>\word{THEN} \\
+						\- \word{THEN} \\
+					\- \word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}		\>\>\>\>	\word{bs}~level' \\
+				\- \word{REPEAT} \word{2DROP}														\>\>\>\>\>	\word{bs}~level \\
+			\word{REFILL} \word{0=} \word{UNTIL}													\>\>\>\>\>\>\word{bs}~level \\
+			\- \word{DROP} \\
+		\word{;} \word{IMMEDIATE}
 		\end{tabbing}
-\cbend
 	\end{implement}
 \end{worddef}
 
@@ -841,11 +1032,9 @@ Extensions word sets.
 	\end{rationale}
 
 	\begin{implement}
-\cbstart\patch{ed12}
-		\uline{\word{:} \word[tools]{[IF]} \word{p} flag -{}- )} \\
-		\tab \uline{\word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN}} \\
-		\uline{\word{;} \word{IMMEDIATE}}
-\cbend
+		\word{:} \word[tools]{[IF]} \word{p} flag -{}- ) \\
+		\tab \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN} \\
+		\word{;} \word{IMMEDIATE}
 	\end{implement}
 \end{worddef}
 
@@ -900,52 +1089,21 @@ Extensions word sets.
 		nestable method that can encompass more than one source line
 		at a time. The words included in the optional Programming tools
 		extensions word set are useful for this purpose.
-\cbstart\patch{ed12}
-\sout{%
-The implementation given below works with any input
-		source (keyboard, \word{EVALUATE}, \word[block]{BLOCK}, or
-		text file).}
-
-		\begin{quote}\ttfamily
-		\begin{tabbing}
-		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
-		  \+
-		  \sout{\word{:} \word{[ELSE]} \word{p} -{}- )} \\
-			\+ \sout{1 \word{BEGIN}}																		\>\>\>\>\>\>\sout{\word{bs}~level} \\
-				\+ \sout{\word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}	}\>\>\>\>\>	\sout{\word{bs}~level adr len} \\
-					\sout{\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}}			\>\>\>\>	\sout{\word{bs}~level adr len} \\
-					\> \sout{\word{2DROP} \word{1+}}														\>\>\>		\sout{\word{bs}~level'} \\
-					\+ \sout{\word{ELSE}}																	\>\>\>\>	\sout{\word{bs}~level adr len} \\
-						\sout{\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}}	\>\>\>		\sout{\word{bs}~level adr len} \\
-						\> \sout{\word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}}		\>\>		\sout{\word{bs}~level'} \\
-						\sout{\word{ELSE}}																	\>\>\>		\sout{\word{bs}~level adr len} \\
-						\> \sout{\word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}}				\>\>		\sout{\word{bs}~level} \\
-						\>\> \sout{\word{1-}}																\>			\sout{\word{bs}~level'} \\
-						\>\sout{\word{THEN}} \\
-						\- \sout{\word{THEN}} \\
-					\- \sout{\word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}}		\>\>\>\>	\sout{\word{bs}~level'} \\
-				\- \sout{\word{REPEAT} \word{2DROP}}														\>\>\>\>\>	\sout{\word{bs}~level} \\
-			\sout{\word{REFILL} \word{0=} \word{UNTIL}}													\>\>\>\>\>\>\sout{\word{bs}~level} \\
-			\- \sout{\word{DROP}} \\
-		\sout{\word{;} \word{IMMEDIATE}} \\[1.5\parskip]
-
-		\sout{\word{:} \word[tools]{[IF]} \word{p} flag -{}- )} \\
-		\> \sout{\word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN}} \\
-		\sout{\word{;} \word{IMMEDIATE}} \\[1.5\parskip]
-
-		\sout{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}} \\
-		\end{tabbing}
-	\end{quote}
-\cbend
 	\end{rationale}
 
 	\begin{implement}
-\place{ed12}{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}}
+		\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}
 	\end{implement}
 
 	\begin{testing}
 		\test{<TRUE>  \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{111} \\
 		\test{<FALSE> \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{222}
+
+		\word{bs} \textdf{Check words are immediate} \\
+		\word{:} tfind \word{BL} \word{WORD} \word{FIND} \word{;} \\
+		\test{tfind \word{[IF]}     \word{NIP}}{1} \\
+		\test{tfind \word{[ELSE]} \word{NIP}}{1} \\
+		\test{tfind \word{[THEN]} \word{NIP}}{1}
 
 		\test{\word{:} pt2 \word{[}  0 \word{]} \word{[IF]} 1111 \word{[ELSE]} 2222 \word{[THEN]} \word{;} pt2}{2222} \\
 		\test{\word{:} pt3 \word{[} -1 \word{]} \word{[IF]} 3333 \word{[ELSE]} 4444 \word{[THEN]} \word{;} pt3}{3333}
@@ -964,7 +1122,7 @@ The implementation given below works with any input
 		\tab[6] \word{[THEN]}}{3 4}
 
 		\word{bs} \textdf{Nested} \\
-		\word{:} <T> <TRUE>~ \word{;} \\
+		\word{:} <T> <TRUE>  \word{;} \\
 		\word{:} <F> <FALSE> \word{:} \\
 		\test{<T> \word{[IF]} 1 <T> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{1 2} \\
 		\test{<F> \word{[IF]} 1 <T> \word{[IF]} 2 \word{[ELSE]} 3 \word{[THEN]} \word{[ELSE]} 4 \word{[THEN]}}{4} \\

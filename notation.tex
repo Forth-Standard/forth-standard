@@ -1,16 +1,16 @@
 \chapter{Terms, notation, and references}
 
-The phrase ``See:'' is used throughout this Standard to direct the
-reader to other sections of the Standard that have a direct bearing
+The phrase ``See:'' is used throughout this standard to direct the
+reader to other sections of the standard that have a direct bearing
 on the current section.
 
-In this Standard, ``shall'' states a requirement on a system or
+In this standard, ``shall'' states a requirement on a system or
 program; conversely, ``shall not'' is a prohibition; ``need not''
 means ``is not required to''; ``should'' describes a recommendation
-of the Standard; and ``may'', depending on context, means ``is allowed
+of the standard; and ``may'', depending on context, means ``is allowed
 to'' or ``might happen''.
 
-Throughout the Standard, typefaces are used in the following manner:
+Throughout the standard, typefaces are used in the following manner:
 \begin{itemize}
 \item This proportional serif typeface is used for text, with
 	\textit{italic} used for symbols and the first appearance of new
@@ -25,10 +25,10 @@ Throughout the Standard, typefaces are used in the following manner:
 \label{notation:terms}
 
 Terms defined in this section are used generally throughout this
-Standard. Additional terms specific to individual word sets are
+standard. Additional terms specific to individual word sets are
 defined in those word sets. Other terms are defined at their first
 appearance, indicated by italic type. Terms not defined in this
-Standard are to be construed according to the \emph{Dictionary for
+standard are to be construed according to the \emph{Dictionary for
 Information Systems,} ANSI X3.172-1990.
 
 \begin{description}
@@ -45,13 +45,13 @@ Depending on context, either
 	pair, or double-cell integer can be accessed.
 
 \item[ambiguous condition:]
-	A circumstance for which this Standard does not prescribe a
+	A circumstance for which this standard does not prescribe a
 	specific behavior for Forth systems and programs.
 
 	Ambiguous conditions include such things as the absence of a needed
 	delimiter while parsing, attempted access to a nonexistent file, or
 	attempted use of a nonexistent word. An ambiguous condition also
-	exists when a Standard word is passed values that are improper or
+	exists when a standard word is passed values that are improper or
 	out of range.
 
 \item[cell:]
@@ -119,7 +119,7 @@ Depending on context, either
 	\textbf{return stack}.
 
 \item[data type:]
-	\replace{ed12}{Tn}{An} identifier for the set of values that a data object may have.
+	An identifier for the set of values that a data object may have.
 
 \item[defining word:]
 	A Forth word that creates a new definition when executed.
@@ -157,11 +157,11 @@ Depending on context, either
 \item[implementation defined:]
 	Denotes system behaviors or features that must be provided and
 	documented by a system but whose further details are not prescribed
-	by this Standard.
+	by this standard.
 
 \item[implementation dependent:]
 	Denotes system behaviors or features that must be provided by a
-	system but whose further details are not prescribed by this Standard.
+	system but whose further details are not prescribed by this standard.
 
 \item[input buffer:]
 	A region of memory containing the sequence of characters from the
@@ -195,7 +195,7 @@ Depending on context, either
 	stored.
 
 \item[number:]
-	In this Standard, ``number'' used without other qualification means
+	In this standard, ``number'' used without other qualification means
 	``integer''. Similarly, ``double number'' means ``double-cell
 	integer''.
 
@@ -225,7 +225,7 @@ Depending on context, either
 	execution, temporary storage, and other purposes.
 
 \item[standard word:]
-	A named Forth procedure, formally specified in this Standard.
+	A named Forth procedure, formally specified in this standard.
 
 \item[user input device:]
 	The input device currently selected as the source of received
@@ -250,7 +250,7 @@ Depending on context, either
 	during a dictionary search.
 
 \item[word set:]
-	A set of Forth definitions grouped together in this Standard
+	A set of Forth definitions grouped together in this standard
 	under a name indicating some shared aspect, typically their
 	common functional area.
 \end{description}
@@ -259,7 +259,7 @@ Depending on context, either
 \label{notations}
 
 % ---------- X:number-prefix ----------
-The following notation is used to define the syntax of \replace{ed12}{various}{ some}
+The following notation is used to define the syntax of some
 elements within the document:
 
 \begin{itemize}
@@ -375,9 +375,8 @@ parameters and the ``-{}-'' separator in the first stack described, e.g.,
 \label{notation:glossary}
 
 The glossary entries for each word set are listed in the standard
-ASCII collating sequence. Each glossary entry specifies
-\replace{ed12}{an}{ a}
-Forth word and consists of two parts:
+ASCII collating sequence. Each glossary entry specifies a Forth
+word and consists of two parts:
 an \emph{index line} and the \emph{semantic description} of the
 definition.
 
@@ -387,7 +386,7 @@ The index line is a single-line entry containing, from left to right:
 
 \begin{itemize}
 \item Section number, the last four digits of which assign a
-	unique sequential number to all words included in this Standard;
+	unique sequential number to all words included in this standard;
 
 \item \textbf{DEFINITION-NAME} in upper-case, mono-spaced,
 	bold-face letters;
@@ -399,7 +398,7 @@ The index line is a single-line entry containing, from left to right:
 
 \item \textsf{Extension designator} in sans-serif font under the
 	Word-set designator for words which have been added to the
-	Standard via the named extension.
+	standard via the named extension.
 \end{itemize}
 
 \begin{table}[ht]
@@ -438,11 +437,11 @@ See \xref[Semantics]{usage:semantics}.
 \label{notation:references}
 
 The following national and international standards are referenced
-in this Standard:
+in this standard:
 
 \begin{itemize}
-\item \place{ed12}{ISO/IEC 15145:1997 \emph{Information technology.
-	Programming languages. FORTH}.}
+\item ISO/IEC 15145:1997 \emph{Information technology.
+	Programming languages. FORTH}.
 
 \item ANSI X3.215-1994 \emph{Programming Languages -- Forth}.
 
@@ -455,9 +454,7 @@ in this Standard:
 
 \item ISO 646-1983 \emph{ISO 7-bit coded characterset for
 	information interchange, International Reference Version} (IRV)
-	(\xref[Graphic characters]{usage:ASCII})\footnote{%
-	\cbstart\sout{Available from the American National Standards Institute, 11 West 42nd Street,
-	New York, NY 10036.}\cbend};
+	(\xref[Graphic characters]{usage:ASCII});
 
 \item ANSI/IEEE 754-1985 \emph{Floating-point Standard},
 	(\xref[(12.2.1) Definition of terms]{float:terms}).

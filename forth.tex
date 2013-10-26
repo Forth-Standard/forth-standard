@@ -1,34 +1,30 @@
-\documentclass[10pt]{book}
+\documentclass[10pt,letterpaper]{book}
 %\setlength\overfullrule{5pt}	% Draft
-\usepackage{a4wide}
+%\usepackage{a4wide}
 %\includeonly{titlepage,foreword,foreword-ans,process,members-2x}
 %\includeonly{intro,notation,usage,doc,label}
-%\includeonly{core,block,double,exception,facility,file,float}
+%\includeonly{core}%,block,double,exception,facility,file,float}
 %\includeonly{locals,memory,tools,search,string,xchar}
 %\includeonly{rationale,bib,history,diff,port,implement,testsuite}
 %\includeonly{locals}
 
+% ========== Page Size ==========
+% (taken from a4wide.sty, but now applied to US Letter Paper)
+
+    \oddsidemargin	0.15 in 	% Left margin on odd-numbered pages.
+    \evensidemargin	0.35 in 	% Left margin on even-numbered pages.
+    \marginparwidth	1 in		% Width of marginal notes.
+    \oddsidemargin	0.25 in 	% Note that \oddsidemargin = \evensidemargin
+    \evensidemargin	0.25 in
+    \marginparwidth	0.75 in
+    \textwidth		5.875 in	% Width of text line.
+
 % ========== Document Organisation Flags ==========
 
 \newif\ifinline			% Inline Rationale glossary matter
-%\inlinetrue
-\inlinefalse
-
 \newif\ifshowref		% Display Cross Reference labels
-%\showreftrue
-\showreffalse
-
-\newif\ifrelease			% Draft/Release version
-%\releasetrue
-\releasefalse
-
-\ifrelease
-	\inlinefalse
-	\showreffalse
-\fi
-
-\newcommand{\revision}{12.1}	% Document Revision
-\newcommand{\snapshot}{2012}	% Year of Snapshot
+\newif\ifrelease		% Draft/Release version
+\input{config}
 
 % =================================================
 
@@ -88,8 +84,13 @@
 
 \makeatother
 
-\lhead[\leftmark]{Forth 200\emph{x} / \docversion}
-\rhead[Forth 200\emph{x} / \docversion]{\leftmark}
+\ifrelease
+	\lhead[\leftmark]{Forth \snapshot{} RC\release}
+	\rhead[Forth \snapshot{} RC\release]{\leftmark}
+\else
+	\lhead[\leftmark]{Forth 200\emph{x} / \docversion}
+	\rhead[Forth 200\emph{x} / \docversion]{\leftmark}
+\fi
 \ifrelease
 	\lfoot[\rm\thepage]{}
 	\rfoot[]{\rm\thepage}
@@ -445,13 +446,13 @@
 	%
 	% Word number and name
 	%
-\@tempswbfalse
-\ifrelease\else
-	\ifx\empty\word@prop\else
-		\cbstart\marginpar{\tiny{\color{white}c:b}}
-		\@tempswbtrue
-	\fi
-\fi
+%\@tempswbfalse
+%\ifrelease\else
+%	\ifx\empty\word@prop\else
+%		\cbstart\marginpar{\tiny{\color{white}c:b}}
+%		\@tempswbtrue
+%	\fi
+%\fi
 	\makebox[0.5\textwidth][l]{%
 		\makebox[6.0em][l]{% <== Magic Number, width of section number
 			% Switch to a bold font
@@ -473,11 +474,11 @@
 				% No word number given
 				.\rule[.8ex]{2em}{.5pt}
 			\else%
-\if@tempswb%
-				\uline{.\word@num}%
-\else%
+%\if@tempswb%
+%				\uline{.\word@num}%
+%\else%
 				.\word@num%
-\fi%
+%\fi%
 			\fi%
 			%
 			% Sub division
@@ -485,11 +486,11 @@
 			\ifx\word@sub\empty
 				~% No sub division
 			\else
-\if@tempswb
-				\uline{.\word@sub}
-\else
+%\if@tempswb
+%				\uline{.\word@sub}
+%\else
 				.\word@sub
-\fi
+%\fi
 			\fi
 		}
 		%
@@ -498,9 +499,9 @@
 		%\mdseries	% Back to a medium weight (normal) font
 		\texttt{\textbf{\word@name}}
 	}
-\if@tempswb
-		\cbend
-\fi
+%\if@tempswb
+%		\cbend
+%\fi
 	%
 	% English pronunciation (if given)
 	%
@@ -624,19 +625,20 @@
 
 % Define the sections found within a glossary entry.
 
-\newcommand{\compile}{\item[Compilation]}
+\newcommand{\compile}{\samepage\item[Compilation]}
 \newcommand{\execute}[1][\empty]{%
+	\pagebreak[3]
 	\ifx#1\empty
 		\item[Execution]
 	\else
 		\item[\emph{#1} Execution]
 	\fi
 }
-\newcommand{\init}{\item[Initiation]}
-\newcommand{\interpret}{\item[Interpretation]}
+\newcommand{\init}{\samepage\item[Initiation]}
+\newcommand{\interpret}{\samepage\item[Interpretation]}
 \newcommand{\note}[1][\empty]{\item[Note\ifx#1\empty\else\ #1\fi]}
-\newcommand{\runtime}[1][]{\item[#1 Run-time]}
-\newcommand{\see}{\pagebreak[0]\item[See]}
+\newcommand{\runtime}[1][]{\pagebreak[3]\item[#1 Run-time]}
+\newcommand{\see}{\samepage\item[See]}
 
 
 % ==== Stack Descriptions ====
@@ -787,9 +789,8 @@
 	% based on the current name <space>.
 	\newcommand{\inline@section}[2]{% {<space>}{<title>}
 		% In the review version of the document we change the font
-		% for of the informative text to help distinguish it from
-		% the normative text.  In the final version it will appear
-		% in a separate appendix.
+		% for the informative text to help distinguish it from the normative
+		% text.  In the final version it will appear in a separate appendix.
 		\sffamily
 		%
 		% Output the section <title> and define an associated
@@ -968,7 +969,7 @@
 	}
 
 	% Now we have set up the environment we can finally override the
-	% default worddefer environment.  This takes six parameters which
+	% default worddefer environment.  This takes seven parameters which
 	% where defined by \deferwordparams to be:
 	%
 	% #1	Section (or sub-section) number
@@ -977,7 +978,7 @@
 	% #4	The current word list
 	% #5	The label for the word
 	% #6	The LaTeX name for the word
-	% #7  The proposal for the word
+	% #7	The proposal for the word
 
 	% We redefine the standard worddefer environment to take account
 	% of the parameters we have just defined.
@@ -1010,7 +1011,6 @@
 		% Output the word header.
 		% Mark the header as the target for the hyperlink.
 		%
-		\par
 		\pagebreak[3]
 		%
 		\hyperdef{\defer@space.#4}{#5}{%
@@ -1093,7 +1093,7 @@
 \fi
 
 \newcommand{\proposal}[1]{%
-	\ifrelease\else\strut\hfill\textsf{\small #1}\fi
+	\ifrelease\else\vspace*{-3ex}\hfill\textsf{\small #1}\\[-4ex]\fi
 }
 
 % ========== Special Characters ==========
@@ -1400,6 +1400,10 @@
 	\rule{-#1pt}{0pt}%
 }
 
+% Ignore html specific content
+
+\newcommand{\html}[1]{}
+
 % ========================================
 
 % Modify itemize and enumerate environments
@@ -1447,8 +1451,8 @@
 %%{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
 
 %\newpage
-\include{foreword}
 \include{foreword-ans}
+\include{foreword}
 \include{process}
 \include{members-2x}
 %\include{members-x3}

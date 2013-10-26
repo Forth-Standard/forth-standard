@@ -13,15 +13,16 @@ None.
 \label{exception:throw}
 
 The \word{THROW} values \{-255{\ldots}-1\} shall be used only as
-assigned by this Standard. The values \{-4095{\ldots}-256\}
+assigned by this standard. The values \{-4095{\ldots}-256\}
 shall be used only as assigned by a system.
 
+\remove{x:throw-iors}{%
 If the File-Access or Memory-Allocation word sets are implemented,
 it is recommended that the non-zero values of \emph{ior} lie within
 the range of system \word{THROW} values, as defined above. In an
 operating-system environment, this can sometimes be accomplished
 by ``biasing'' the range of operating-system exception codes to fall
-within the \word{THROW} range.
+within the \word{THROW} range.}
 
 Programs shall not define values for use with \word{THROW} in the
 range \{-4095{\ldots}-1\}.
@@ -162,8 +163,8 @@ See: \xref[3.4.4 Possible actions on an ambiguous condition]{usage:ambiguous}.
 \throwdef{-75}{\word[file]{WRITE-FILE}}
 \throwdef{-76}{\word[file]{WRITE-LINE}}
 \throwdef{-77}{Malformed xchar}
-\throwdef[substitute]{-78}{\word[string]{SUBSTITUTE}}
-\throwdef[substitute]{-79}{\word[string]{REPLACES}}
+\throwdef{-78}{\word[string]{SUBSTITUTE}}
+\throwdef{-79}{\word[string]{REPLACES}}
 			\end{minipage}
 			\\[-2ex] \hline\hline
 		\end{tabular}
@@ -214,9 +215,7 @@ state for continued execution past the \word{CATCH}.
 
 \section{Compliance and labeling} % 9.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 9.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 9.5.1
 
 The phrase ``Providing the Exception word set'' shall be appended to
 the label of any Standard System that provides all of the Exception
@@ -230,9 +229,7 @@ The phrase ``Providing the Exception Extensions word set'' shall be
 appended to the label of any Standard System that provides all of
 the Exception and Exception Extensions word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 9.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 9.5.2
 
 The phrase ``Requiring the Exception word set'' shall be appended
 to the label of Standard Programs that require the system to provide
@@ -272,58 +269,54 @@ to provide all of the Exception and Exception Extensions word sets.
 
 	\begin{implement} % I.9.1.0875 CATCH
 	\dffamily
-\cbstart\patch{ed12}
-\uline{%
 		This sample implementation of \word{CATCH} uses the non-standard
 		words described below.  They or their equivalents are available in many
 		systems.  Other implementation strategies, including directly saving the
-		value of \word[core]{DEPTH}, are possible if such words are not available.}
+		value of \word[core]{DEPTH}, are possible if such words are not available.
 
-		\begin{quote}
-		\uline{\texttt{SP@}} \stack{}{\uline{addr}}
-			\uline{returns the address corresponding to the top of data stack.}
+		\begin{description}
+		\item[\texttt{SP@}] \stack{}{addr} \\
+			returns the address corresponding to the top of data stack.
 
-		\uline{\texttt{SP!}} \stack{\uline{addr}}{}
-			\uline{sets the stack pointer to \emph{addr}, thus restoring the stack
+		\item[\texttt{SP!}] \stack{addr}{} \\
+			sets the stack pointer to \emph{addr}, thus restoring the stack
 			depth to the same depth that existed just before \emph{addr} was
-			acquired by executing \texttt{SP@}.}
+			acquired by executing \texttt{SP@}.
 
-		\uline{\texttt{RP@}} \stack{}{\uline{addr}}
-			\uline{returns the address corresponding to the top of return stack.}
+		\item[\texttt{RP@}] \stack{}{addr} \\
+			returns the address corresponding to the top of return stack.
 
-		\uline{\texttt{RP!}} \stack{\uline{addr}}{}
-			\uline{sets the return stack pointer to \emph{addr}, thus restoring the
+		\item[\texttt{RP!}] \stack{addr}{} \\
+			sets the return stack pointer to \emph{addr}, thus restoring the
 			return stack depth to the same depth that existed just before
-			\emph{addr} was acquired by executing \texttt{RP@}.}
-		\end{quote}
+			\emph{addr} was acquired by executing \texttt{RP@}.
+		\end{description}
 
 		\ttfamily
 		\begin{tabbing}
 		\tab \= \tab \= \hspace{7em} \= ( saved-sp ) \= \kill
-		\uline{\word{VARIABLE} HANDLER ~ 0 HANDLER \word{!}} ~ \uline{\word{bs} \textdf{last exception handler}} \\[\parskip]
+		\word{VARIABLE} HANDLER ~ 0 HANDLER \word{!} ~ \word{bs} \textdf{last exception handler} \\[\parskip]
 
-		\+ \uline{\word{:} \word{CATCH} ~ \word{p} xt -{}- exception\# | 0 )} \uline{\word{bs} \textdf{return addr on stack}} \\
-			\uline{SP@ \word{toR}}					\>\> \uline{\word{p} xt )}\> \uline{\word{bs} \textdf{save data stack pointer}} \\
-			\uline{HANDLER \word{@} \word{toR}}	\>\> \uline{\word{p} xt )}\> \uline{\word{bs} \textdf{and previous handler}} \\
-			\uline{RP@ HANDLER \word{!}}			\>\> \uline{\word{p} xt )}\> \uline{\word{bs} \textdf{set current handler}} \\
-			\uline{\word{EXECUTE}}					\>\> \uline{\word{p} )}	\> \uline{\word{bs} \textdf{execute returns if no} THROW} \\
-			\uline{\word{Rfrom} HANDLER \word{!}}	\>\> \uline{\word{p} )}	\> \uline{\word{bs} \textdf{restore previous handler}} \\
-			\uline{\word{Rfrom} \word{DROP}}		\>\> \uline{\word{p} )}	\> \uline{\word{bs} \textdf{discard saved stack ptr}} \\
-		\-	\uline{0}								\>\> \uline{\word{p} 0 )}	\> \uline{\word{bs} \textdf{normal completion}} \\
-		\uline{\word{;}}
+		\+ \word{:} \word{CATCH} ~ \word{p} xt -{}- exception\# | 0  \word{bs} \textdf{return addr on stack} \\
+			SP@ \word{toR}					\>\> \word{p} xt )\> \word{bs} \textdf{save data stack pointer} \\
+			HANDLER \word{@} \word{toR}		\>\> \word{p} xt )\> \word{bs} \textdf{and previous handler} \\
+			RP@ HANDLER \word{!}			\>\> \word{p} xt )\> \word{bs} \textdf{set current handler} \\
+			\word{EXECUTE}					\>\> \word{p} )	  \> \word{bs} \textdf{execute returns if no} THROW \\
+			\word{Rfrom} HANDLER \word{!}	\>\> \word{p} )   \> \word{bs} \textdf{restore previous handler} \\
+			\word{Rfrom} \word{DROP}		\>\> \word{p} )   \> \word{bs} \textdf{discard saved stack ptr} \\
+		\-	0								\>\> \word{p} 0 ) \> \word{bs} \textdf{normal completion} \\
+		\word{;}
 		\end{tabbing}
 
-\uline{%
+		\dffamily
 		In a multi-tasking system, the \texttt{HANDLER} variable should be in
-		the per-task variable area (i.e., a user variable).}
+		the per-task variable area (i.e., a user variable).
 
-\uline{%
 		This sample implementation does not explicitly handle the case in
 		which \word{CATCH} has never been called (i.e., the \word{ABORT}
 		behavior). One solution would be to execute a \word{CATCH} within
 		\word{QUIT}, so that there is always an ``exception handler of last
-		resort'' present, as shown in \iref{core:QUIT}{}.}
-\cbend
+		resort'' present, as shown in \iref{core:QUIT}{}.
 	\end{implement}
 
 	\begin{testing}
@@ -339,7 +332,7 @@ to provide all of the Exception and Exception Extensions word sets.
 	frame from the exception stack, along with everything on the
 	return stack above that frame. Then restore the input source
 	specification in use before the corresponding \word{CATCH}
-	and adjust the depths of all stacks defined by this Standard
+	and adjust the depths of all stacks defined by this standard
 	so that they are the same as the depths saved in the exception
 	frame (\param{i} is the same number as the \param{i} in the input
 	arguments to the corresponding \word{CATCH}), put \param{n} on
@@ -412,24 +405,22 @@ to provide all of the Exception and Exception Extensions word sets.
 	\end{rationale}
 
 	\begin{implement}
-\cbstart\patch{ed12}
-		\uline{\textdf{This is the counter part to \iref{exception:CATCH}{}.}}
+		\textdf{This is the counter part to \iref{exception:CATCH}{}.}
 
 		\begin{tabbing}
 		\tab \= \tab \= \hspace{7em} \= ( saved-sp ) \= \kill
-		\+ \uline{\word{:} \word{THROW}} \uline{\word{p} ??? exception\# -{}- ??? exception\# )} \\
-			\+ \uline{\word{qDUP} \word{IF}}			\>		\> \uline{\word{p} exc\# )}	\> \uline{\word{bs} 0 THROW \textdf{is no-op}} \\
-				\uline{HANDLER \word{@} RP!}				\> \uline{\word{p} exc\# )}	\> \uline{\word{bs} \textdf{restore prev return stack}} \\
-				\uline{\word{Rfrom} HANDLER \word{!}}		\> \uline{\word{p} exc\# )}	\> \uline{\word{bs} \textdf{restore prev handler}} \\
-				\uline{\word{Rfrom} \word{SWAP} \word{toR}}	\> \uline{\word{p} saved-sp )}\> \uline{\word{bs} exc\# \textdf{on return stack}} \\
-				\uline{SP! \word{DROP} \word{Rfrom}}		\> \uline{\word{p} exc\# )}	\> \uline{\word{bs} \textdf{restore stack}} \\
-				\uline{\word{bs} \textdf{Return to the caller of CATCH because return}} \\
-				\uline{\word{bs} \textdf{stack is restored to the state that existed}} \\
-			\-	\uline{\word{bs} \textdf{when CATCH began execution}} \\
-		\- \uline{\word{THEN}} \\
-		\uline{\word{;}}
+		\+ \word{:} \word{THROW} \word{p} ??? exception\# -{}- ??? exception\# ) \\
+			\+ \word{qDUP} \word{IF}			\>	\> \word{p} exc\# )		\> \word{bs} 0 THROW \textdf{is no-op} \\
+				HANDLER \word{@} RP!				\> \word{p} exc\# )		\> \word{bs} \textdf{restore prev return stack} \\
+				\word{Rfrom} HANDLER \word{!}		\> \word{p} exc\# )		\> \word{bs} \textdf{restore prev handler} \\
+				\word{Rfrom} \word{SWAP} \word{toR}	\> \word{p} saved-sp )	\> \word{bs} exc\# \textdf{on return stack} \\
+				SP! \word{DROP} \word{Rfrom}		\> \word{p} exc\# )		\> \word{bs} \textdf{restore stack} \\
+				\word{bs} \textdf{Return to the caller of CATCH because return} \\
+				\word{bs} \textdf{stack is restored to the state that existed} \\
+			\-	\word{bs} \textdf{when CATCH began execution} \\
+		\- \word{THEN} \\
+		\word{;}
 		\end{tabbing}
-\cbend
 	\end{implement}
 
 	\begin{testing} \ttfamily
@@ -473,7 +464,7 @@ to provide all of the Exception and Exception Extensions word sets.
 \see \wref{core:ABORT}{ABORT}.
 
 	\begin{implement} % I.9.1.0875 CATCH
-		\place{ed12}{\word{:} \word{ABORT} ~ -1 \word{THROW} ~ \word{;}}
+		\word{:} \word{ABORT} ~ -1 \word{THROW} ~ \word{;}
 	\end{implement}
 
 	\begin{testing}

@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{The optional Memory-Allocation word set} % 14
 \wordlist{memory}
 
@@ -8,30 +9,32 @@ None.
 
 \section{Additional usage requirements} % 14.3
 
-\subsection{I/O Results data type} % 14.3.1
+\cbstart\patch{x:throw-iors}
+\subsection[I/O Results data type]{\sout{I/O Results data type}} % 14.3.1
 \label{mem:ior}
 
+\sout{%
 I/O results are single-cell numbers indicating the result of I/O
 operations. A value of zero indicates that the I/O operation
 completed successfully; other values and their meanings are
-implementation-defined.
+implementation-defined.}
 
-Append table \ref{mem:types} to table \ref{table:datatypes}.
+\sout{Append table \ref{mem:types} to table \ref{table:datatypes}.}
 
 \begin{table}[h]
   \begin{center}
-	\caption{Data types}
+	\caption{\sout{Data types}}
 	\label{mem:types}
 	\begin{tabular}{llr}
 	\hline\hline
-	\emph{Symbol}	& \emph{Data type}	& \emph{Size on stack} \\
+	\sout{\emph{Symbol}}	& \sout{\emph{Data type}}	& \sout{\emph{Size on stack}} \\
 	\hline
-	\emph{ior}		& I/O results			& 1 cell \\
+	\sout{\emph{ior}}		& \sout{I/O results}			& \sout{1 cell} \\
 	\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
-
+\cbend
 
 \subsection{Allocated regions} % 14.3.3
 
@@ -42,38 +45,41 @@ See: \xref[3.3.3 Data space]{usage:dataspace}.
 
 
 \section{Additional documentation requirements} % 14.4
+\label{mem:docs}
 
-\subsection{System documentation} % 14.4.1
+\cbstart\patch{x:throw-iors}
+\uline{None.}
 
-\subsubsection{Implementation-defined options} % 14.4.1.1
+\subsection[System documentation]{\sout{System documentation}} % 14.4.1
+
+\subsubsection[Implementation-defined options]{\sout{Implementation-defined options}} % 14.4.1.1
 \begin{itemize}
-\item values and meaning of ior
+\item \sout{values and meaning of ior}
 	(\xref[14.3.1 I/O Results data type]{mem:ior},
-	 \wref{memory:ALLOCATE}{ALLOCATE},
+	 \sout{\wref{memory:ALLOCATE}{ALLOCATE},
 	 \wref{memory:FREE}{FREE},
-	 \wref{memory:RESIZE}{RESIZE}.
+	 \wref{memory:RESIZE}{RESIZE}.}
 \end{itemize}
 
-\subsubsection{Ambiguous conditions} % 14.4.1.2
+\subsubsection[]{\sout{Ambiguous conditions}} % 14.4.1.2
 \begin{itemize}
-\item no additional requirements.
+\item \sout{no additional requirements.}
 \end{itemize}
 
-\subsubsection{Other system documentation} % 14.4.1.3
+\subsubsection[]{\sout{Other system documentation}} % 14.4.1.3
 \begin{itemize}
-\item no additional requirements.
+\item \sout{no additional requirements.}
 \end{itemize}
 
-\subsection{Program documentation} % 14.4.2
+\subsection[]{\sout{Program documentation}} % 14.4.2
 \begin{itemize}
-\item no additional requirements.
+\item \sout{no additional requirements.}
 \end{itemize}
+\cbend
 
 \section{Compliance and labeling} % 14.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 14.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 14.5.1
 
 The phrase ``Providing the Memory-Allocation word set'' shall be
 appended to the label of any Standard System that provides all of
@@ -89,9 +95,7 @@ shall be appended to the label of any Standard System that provides
 all of the Memory-Allocation and Memory-Allocation Extensions word
 sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 14.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 14.5.2
 
 The phrase ``Requiring the Memory-Allocation word set'' shall be
 appended to the label of Standard Programs that require the system
@@ -133,18 +137,21 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 
 	\begin{testing}
 		\ttfamily
-		\word{VARIABLE} datsp
+		\word{VARIABLE} datsp \\
+		\word{HERE} datsp \word{!}
 
-		\word{HERE} datsp \word{!} \\
-		\test{100 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
+		\test{50 \word{CELLS} \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
 		\test{addr \word{@} \word{ALIGNED}}{addr \word{@}}				\tab \word{bs} \textdf{Test address is aligned} \\
-		\test{\word{HERE}}{datsp \word{@}}									\tab[5] \word{bs} \textdf{Check data space pointer is unchanged}\\
+		\test{\word{HERE}}{datsp \word{@}}								\tab[5.9] \word{bs} \textdf{Check data space pointer is unaffected}\\
+		addr \word{@} 50 write-cell-mem \\
+		addr \word{@} 50 check-cell-mem \tab[3.5] \word{bs} \textdf{Check we can access the heap} \\
 		\test{addr \word{@} \word{FREE}}{0}
 
 		\test{99 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
 		\test{addr \word{@} \word{ALIGNED}}{addr \word{@}} \tab \word{bs} \textdf{Test address is aligned} \\
-
 		\test{addr \word{@} \word{FREE}}{0} \\
+		\test{\word{HERE}}{datsp \word{@}}								\tab[5.9] \word{bs} \textdf{Data space pointer unaffected by \word{FREE}}\\
+
 		\test{-1 \word{ALLOCATE} \word{SWAP} \word{DROP} \word{0=}}{<FALSE>} \tab \word{bs} \textdf{Memory allocate failed}
 	\end{testing}
 \end{worddef}
@@ -165,6 +172,10 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 \see \wref{core:HERE}{HERE},
 	\wref{memory:ALLOCATE}{ALLOCATE},
 	\wref{memory:RESIZE}{RESIZE}.
+
+	\begin{testing}
+		\textdf{See \tref{memory:ALLOCATE}.}
+	\end{testing}
 \end{worddef}
 
 
@@ -174,7 +185,7 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	Change the allocation of the contiguous data space starting at
 	the address \param{a-addr_1}, previously allocated by
 	\word{ALLOCATE} or \word{RESIZE}, to \param{u} address units.
-	\param{u} may 	be either larger or smaller than the current
+	\param{u} may be either larger or smaller than the current
 	size of the region. The data-space pointer is unaffected by
 	this operation.
 
@@ -199,17 +210,22 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	\wref{memory:FREE}{FREE}.
 
 	\begin{testing}\ttfamily
-		\test{50 \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
-		addr \word{@} 50 writemem addr \word{@} 50 checkmem
+		\test{50 \word{CHARS} \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
+		addr \word{@} 50 write-char-mem addr \word{@} 50 check-char-mem
 
-		\test{addr \word{@} 28 \word{RESIZE} \word{SWAP} addr \word{!}}{0} \\
-		addr \word{@} 28 checkmem
+		\word{bs} \textdf{Resize smaller does not change content.} \\
+		\test{addr \word{@} 28 \word{CHARS} \word{RESIZE} \word{SWAP} addr \word{!}}{0} \\
+		addr \word{@} 28 check-char-mem
 
-		\test{addr \word{@} 200 \word{RESIZE} \word{SWAP} addr \word{!}}{0} \\
-		addr \word{@} 28 checkmem
+		\word{bs} \textdf{Resize larger does not change original content.} \\
+		\test{addr \word{@} 100 \word{CHARS} \word{RESIZE} \word{SWAP} addr \word{!}}{0} \\
+		addr \word{@} 28 check-char-mem
 
-		\test{addr \word{@} -1 \word{RESIZE} \word{0=}}{addr \word{@} <FALSE>} \\
-		\test{addr \word{@} \word{FREE}}{0}
+		\word{bs} \textdf{Resize error does not change \param{addr}} \\
+		\test{addr \word{@} -1 \word{RESIZE} \word{0=}}{addr \word{@} <FALSE>}
+
+		\test{addr \word{@} \word{FREE}}{0} \\
+		\test{\word{HERE}}{datsp \word{@}} \tab \word{bs} \textdf{Data space pointer is unaffected}
 	\end{testing}
 \end{worddef}
 

@@ -7,10 +7,6 @@
 \section{Introduction} % 13.1
 \label{locals:intro}
 
-\cbstart\patch{ed12}
-See: \xref[Annex A.13 The Locals Word Set]{rat:local}.\strike{4}{175}
-\cbend
-
 \section{Additional terms and notation} % 13.2
 
 None.
@@ -204,9 +200,7 @@ See: \xref[3.4 The Forth text interpreter]{usage:command}.
 
 \section{Compliance and labeling} % 13.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 13.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 13.5.1
 
 The phrase ``Providing the Locals word set'' shall be appended to
 the label of any Standard System that provides all of the Locals
@@ -220,9 +214,7 @@ The phrase ``Providing the Locals Extensions word set'' shall be
 appended to the label of any Standard System that provides all of
 the Locals and Locals Extensions word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 13.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 13.5.2
 
 The phrase ``Requiring the Locals word set'' shall be appended to
 the label of Standard Programs that require the system to provide
@@ -242,6 +234,8 @@ to provide all of the Locals and Locals Extensions word sets.
 
 \subsection{Locals words} % 13.6.1
 
+
+%\enlargethispage{4ex}
 \begin{worddef}[LOCAL]{0086}{(LOCAL)}[paren-local-paren]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -325,27 +319,16 @@ to provide all of the Locals and Locals Extensions word sets.
 	each local will return its value. The value of a local may be
 	changed using \wref{core:TO}{TO}.
 
-\see \remove{ed12}{\rref{local:LOCALS}{}.}
-
 	\begin{implement}
-\cbstart\patch{ed12}
-	\uline{\word{:} \word{LOCALS} \word{p} "name{\ldots}name |" -{}- )} \\
-	\tab \uline{\word{BEGIN}} \\
-	\tab~ \uline{\word{BL} \word{WORD} ~ \word{COUNT} \word{OVER} \word{C@}} \\
-	\tab~ \uline{\word{[CHAR]} | \word{-} \word{OVER} 1 \word{-} \word{OR} ~ \word{WHILE}} \\
-	\tab~ \uline{\word[local]{LOCAL}} \\
-	\tab \uline{\word{REPEAT} \word{2DROP} ~ 0 0 \word{LOCAL}} \\
-	\uline{\word{;} \word{IMMEDIATE}}
-\cbend
+	\word{:} \word{LOCALS} \word{p} "name{\ldots}name |" -{}- ) \\
+	\tab \word{BEGIN} \\
+	\tab~ \word{BL} \word{WORD} ~ \word{COUNT} \word{OVER} \word{C@} \\
+	\tab~ \word{[CHAR]} | \word{-} \word{OVER} 1 \word{-} \word{OR} ~ \word{WHILE} \\
+	\tab~ \word[local]{LOCAL} \\
+	\tab \word{REPEAT} \word{2DROP} ~ 0 0 \word{LOCAL} \\
+	\word{;} \word{IMMEDIATE}
 	\end{implement}
 
-	\begin{rationale} % A.13.6.2.1795 LOCALS|
-\remove{ed12}{%
-		A possible implementation of this word and an example of usage
-		is given in \ref{rat:local}, above. It is intended as an
-		example only; any implementation yielding the described
-		semantics is acceptable.}
-	\end{rationale}
 \end{worddef}
 
 % -------------------------------------------------------------------
@@ -390,7 +373,7 @@ to provide all of the Locals and Locals Extensions word sets.
 	\item[\arg{val}] names are uninitialized.
 	\end{list}
 
-	\arg{val} \remove{ed12}{names} and \arg{arg} names have the execution semantics
+	\arg{val} and \arg{arg} names have the execution semantics
 		given below.
 
 \execute[name]
@@ -403,8 +386,7 @@ to provide all of the Locals and Locals Extensions word sets.
 \runtime[\word{TO} \param{name}]
 	\stack{x}{}
 
-	\replace{ed12}{Assign the value \param{x} to the local \param{name}.}{%
-	Set \param{name} to the value \param{x}.}
+	Set \param{name} to the value \param{x}.
 
 \see \xref[2.2 Notation]{notations},
 	\wref{core:VALUE}{},
@@ -412,12 +394,12 @@ to provide all of the Locals and Locals Extensions word sets.
 	\rref{local:b:}{}.
 
 	\begin{rationale}
-		The Forth 94 Technical Committee \replace{ed12}{where}{were} unable to identify any common
-		practice for locals.  They provided a way to define locals and a method
+		The Forth 94 Technical Committee \replace{ed13}{were}{was} unable to identify any common
+		practice for locals.  \replace{ed13}{They}{It} provided a way to define locals and a method
 		of parsing them in the hope that a common practice would emerge.
 
 		Since then, common practice has emerged.  Most implementations that
-		provide \word{LOCAL} and \linebreak \word{LOCALS} also provide some form of the
+		provide \word{LOCAL} and \linebreak[1] \word{LOCALS} also provide some form of the
 		\{ \ldots\ \} notation; however, the phrase \{ \ldots \} conflicts with
 		other systems.  The \word{b:} \ldots\ \texttt{:\}} notation is a compromise
 		to avoid name conflicts.

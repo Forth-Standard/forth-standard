@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{The optional Double-Number word set} % 8
 \wordlist{double}
 
@@ -62,9 +63,7 @@ See: \xref[3.4.1.3 Text interpreter input number conversion]{usage:numbers}.
 
 \section{Compliance and labeling} % 8.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 8.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 8.5.1
 
 The phrase ``Providing the Double-Number word set'' shall be
 appended to the label of any Standard System that provides all
@@ -80,9 +79,7 @@ shall be appended to the label of any Standard System that
 provides all of the Double-Number and Double-Number Extensions
 word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 8.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 8.5.2
 
 The phrase ``Requiring the Double-Number word set'' shall be
 appended to the label of Standard Programs that require the
@@ -135,6 +132,9 @@ Extensions word sets.
 		\test{\word{:} cd2 \word{2CONSTANT} \word{;}}{} \\
 		\test{-1 -2 cd2 2c2}{} \\
 		\test{2c2}{-1 -2}
+
+		\test{4 5 \word{2CONSTANT} 2c3 \word{IMMEDIATE} 2c3}{4 5} \\
+		\test{\word{:} cd6 2c3 \word{2LITERAL} \word{;} cd6}{4 5}
 	\end{testing}
 \end{worddef}
 
@@ -167,6 +167,10 @@ Extensions word sets.
 	\begin{testing}
 		\test{\word{:} cd1 \word{[} MAX-2INT \word{]} \word{2LITERAL} \word{;}}{}\\
 		\test{cd1}{MAX-2INT}
+
+		\test{\word{2VARIABLE} 2v4 \word{IMMEDIATE} 5 6 2v4 \word{2!}}{} \\
+		\test{\word{:} cd7 2v4 \word{[} \word{2@} \word{]} \word{2LITERAL} \word{;} cd7}{5 6} \\
+		\test{\word{:} cd8 \word{[} 6 7 \word{]} 2v4 \word{[} \word{2!} \word{]} \word{;} 2v4 \word{2@}}{6 7}
 	\end{testing}
 \end{worddef}
 
@@ -210,6 +214,9 @@ Extensions word sets.
 		\test{\word{:} cd3 2v2 \word{2!} \word{;}}{} \\
 		\test{-2 -1 cd3}{} \\
 		\test{2v2 \word{2@}}{-2 -1}
+
+		\test{\word{2VARIABLE} 2v3 \word{IMMEDIATE} 5 6 2v3 \word{2!}}{} \\
+		\test{2v3 \word{2@}}{5 6}
 	\end{testing}
 \end{worddef}
 
@@ -387,8 +394,6 @@ Extensions word sets.
 	toward the most-significant bit, filling the vacated
 	least-significant bit with zero.
 
-\see \rref{core:2*}{}.
-
 	\begin{testing}
 		\test{             0. \word{D2*}}{0. \word{D2*}} \\
 		\test{MIN-INT       0 \word{D2*}}{0 1} \\
@@ -404,8 +409,6 @@ Extensions word sets.
 	\param{xd_2} is the result of shifting \param{xd_1} one bit
 	toward the least-significant bit, leaving the most-significant
 	bit unchanged.
-
-\see \rref{core:2/}{}.
 
 	\begin{testing}
 		\test{      0. \word{D2/}}{0.       } \\

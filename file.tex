@@ -40,6 +40,7 @@ under the following assumptions:
 
 Append table \ref{file:types} to table \ref{table:datatypes}.
 
+\patch{x:throw-iors}
 \begin{table}[h]
   \begin{center}
 	\caption{Data types}
@@ -48,7 +49,9 @@ Append table \ref{file:types} to table \ref{table:datatypes}.
 	\hline\hline
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
-	\emph{ior}		& I/O results			& 1 cell \\
+\cbstart
+	\sout{\emph{ior}}		& \sout{I/O results}			& \sout{1 cell} \\
+\cbend
 	\emph{fam}		& file access method	& 1 cell \\
 	\emph{fileid}	& file identifier		& 1 cell \\
 	\hline\hline
@@ -63,18 +66,22 @@ that are passed to file operators to designate specific files.
 Opening a file assigns a file identifier, which remains valid
 until closed.
 
-\subsubsection{I/O results} % 11.3.1.2
+\cbstart\patch{x:throw-iors}
+\subsubsection[I/O results]{\sout{I/O results}} % 11.3.1.2
 \label{file:ior}
 
+\sout{%
 I/O results are single-cell numbers indicating the result of I/O
 operations. A value of zero indicates that the I/O operation
 completed successfully; other values and their meanings are
 implementation-defined. Reaching the end of a file shall be
-reported as zero.
+reported as zero.}
 
+\sout{%
 An I/O exception in the execution of a File-Access word that can
 return an I/O result shall not cause a \word[exception]{THROW};
-exception indications are returned in the \emph{ior}.
+exception indications are returned in the \emph{ior}.}
+\cbend
 
 \subsubsection{File access methods} % 11.3.1.3
 
@@ -112,10 +119,9 @@ shall contain zero, \word{SOURCE-ID} shall contain the \emph{fileid}
 of that text file, and the input buffer shall contain one line of
 the text file.  During text interpretation from a text file, the
 value returned by \word{FILE-POSITION} for the \param{fileid} returned
-by \word{SOURCE-ID} is \replace{ed12}{not defined}{undefined}.  A standard program
-\replace{ed12}{may}{shall} not call
-\word{REPOSITION-FILE} on the \param{fileid} returned by
-\word{SOURCE-ID}.
+by \word{SOURCE-ID} is undefined.  A standard program
+shall not call \word{REPOSITION-FILE} on the \param{fileid} returned
+by \word{SOURCE-ID}.
 
 Input with \word{INCLUDED}, \word{INCLUDE-FILE}, \word[block]{LOAD}
 and \word[block]{EVALUATE} shall be nestable in any order to at least
@@ -172,7 +178,7 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 \item input file state after an exception
 	(\wref{file:INCLUDE-FILE}{INCLUDE-FILE},
 	 \wref{file:INCLUDED}{INCLUDED});
-\item \emph{ior} values and meaning (\xref[11.3.1.2 I/O results]{file:ior});
+\item \remove{x:throw-iors}{\emph{ior} values and meaning} (\xref[11.3.1.2 I/O results]{file:ior});
 \item maximum depth of file input nesting
 	(\xref[11.3.4 Input source]{file:source});
 \item maximum size of input line (\xref[11.3.6 Parsing]{file:parsing});
@@ -237,9 +243,7 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 
 \section{Compliance and labeling} % 11.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 11.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 11.5.1
 
 The phrase ``Providing the File Access word set'' shall be appended
 to the label of any Standard System that provides all of the File
@@ -253,9 +257,7 @@ The phrase ``Providing the File Access Extensions word set'' shall
 be appended to the label of any Standard System that provides all of
 the File Access and File Access Extensions word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 11.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 11.5.2
 
 The phrase ``Requiring the File Access word set'' shall be appended
 to the label of Standard Programs that require the system to provide
@@ -314,13 +316,9 @@ provide all of the File Access and File Access Extensions word sets.
 
 		The arguments to \word{READ-FILE} and \word{WRITE-FILE} are
 		arrays of character storage elements, each element consisting
-		of at least 8 bits. The \remove{ed12}{Technical} Committee intends that, in
+		of at least 8 bits. The committee intends that, in
 		\word{BIN} mode, the contents of these storage elements can be
 		written to a file and later read back without alteration.
-\remove{ed12}{The
-		Technical Committee has declined to address issues regarding
-		the impact of ``wide'' characters on the File and Block word
-		sets.}
 	\end{rationale}
 \end{worddef}
 
@@ -623,7 +621,7 @@ provide all of the File Access and File Access Extensions word sets.
 		\end{quote}\setwordlist{file}
 
 		In this example, \word[exception]{THROW} is used to handle
-		\remove{ed12}{(unexpected)} exception conditions, which are reported as
+		exception conditions, which are reported as
 		non-zero values of the \param{ior} return value from
 		\word{READ-FILE}. End-of-file is reported as a zero value of
 		the ``length'' return value.
@@ -696,12 +694,6 @@ provide all of the File Access and File Access Extensions word sets.
 			\word{REPEAT} \word{DROP}	\>\> \word{p} ) \\
 		  \end{tabbing}
 		\end{quote}\setwordlist{file}
-
-\remove{ed12}{%
-		In this example, \word[exception]{THROW} is used to handle
-		(unexpected) I/O exception condition, which are reported as
-		non-zero values of the ``\emph{ior}'' return value from
-		\word{READ-LINE}.}
 
 		\word{READ-LINE} needs a separate end-of-file flag because
 		empty (zero-length) lines are a routine occurrence, so a
@@ -858,13 +850,11 @@ provide all of the File Access and File Access Extensions word sets.
 		When the possibility of overwriting a string can arise, it is
 		prudent to copy the string to a ``safe'' buffer allocated by
 		the application.
-
-\remove{ed12}{%
-		Programs wishing to parse in the fashion of \word{Sq} are
-		advised to use \word[core]{PARSE} or \word[core]{WORD}
-		\word[core]{COUNT} instead of \word{Sq}, preventing the
-		overwriting of the interpreted string buffer.}
 	\end{rationale}
+
+	\begin{testing}
+		\test{\word{Sq} A String"\word{2DROP}}{} \tab \word{bs} \textdf{There is no space between the " and \word{2DROP}}
+	\end{testing}
 \end{worddef}
 
 

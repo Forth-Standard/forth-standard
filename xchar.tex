@@ -1,3 +1,4 @@
+% !TeX root = forth.tex
 \chapter{The optional Extended Characters wordset} % 18
 \wordlist{xchar}
 
@@ -154,14 +155,40 @@ In section \xref{usage:numbers}{}, \arg{cnum} should be redefined to be:
 	\end{tabular}
 \end{center}
 
+\cbstart\patch{x:xchar}
+\subsection[Input and Output]{\uline{Input and Output}} % 18.3.5
+\label{xchar:io}
+
+\uline{IO words such as
+\word{KEY}, 
+\word{EMIT},
+\word{TYPE},
+\word[file]{READ-FILE},
+\word[file]{READ-LINE},
+\word[file]{WRITE-FILE}, and
+\word[file]{WRITE-LINE}
+operate on \emph{pchars}.  Therefore, it is possible that these words
+read or write incomplete xchars, which are completed in the next
+consecutive operation(s).  The IO system shall combine these \emph{pchars}
+into a complete xchar on output, or split an xchar into \emph{pchars} on
+input, and shall not throw a ``malformed xchar'' exception when the
+combination of these \emph{pchars} indeed forms a valid xchar.
+\word[xchar]{-TRAILING-GARBAGE} can be used to process an incomplete xchar
+at the end of such an IO operation.}
+ 
+\uline{\word{ACCEPT} as input editor may be aware of xchars to provide comfort like 
+backspace or cursor movement.}
+\cbend
+
 \section{Additional documentation requirements} % 18.4
 
 \subsection{System documentation} % 18.4.1
 
 \subsubsection{Implementation-defined options} % 18.4.1.1
+\label{xchar:impopt}
 
-Terminal string IO like \word{TYPE} and \word{ACCEPT} also are extended to
-work with xchars in the string.  Since Unicode input and display poses a
+\remove{x:xchar}{Terminal string IO like \word{TYPE} and \word{ACCEPT} also are extended to
+work with xchars in the string.}  Since Unicode input and display poses a
 number of challenges like input method editors for different languages,
 left-to-right and right-to-left writing, and most fonts contain only a subset
 of Unicode glyphs, systems should document their capabilities.  File IO and
@@ -191,9 +218,7 @@ in-memory string handling should work transparently with xchars.
 
 \section{Compliance and labeling} % 18.5
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systems]{Forth-\snapshot\strike{-1}{25} systems} % 18.5.1
-\cbend
+\subsection{Forth-\snapshot{} systems} % 18.5.1
 
 The phrase ``Providing the Extended Character word set'' shall be
 appended to the label of any Standard System that provides all of
@@ -209,9 +234,7 @@ shall be appended to the label of any Standard System that provides
 all of the Extended Character and Extended Character Extensions
 word sets.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programs]{Forth-\snapshot\strike{-1}{25} programs} % 18.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % 18.5.2
 
 The phrase ``Requiring the Extended Character word set'' shall be
 appended to the label of Standard Programs that require the system
@@ -382,7 +405,7 @@ Extended Character Extensions word sets.
 	Adds the size of the xchar stored at \param{xc-addr_1} to this address,
 	giving \param{xc-addr_2}.
 
-\see \remove{ed12}{\wref{core:CHAR+}{}.}
+	\see \wref{core:CHAR+}{CHAR+}.
 
 	\begin{implement}
 	\word{:} \word{XCHAR+} \word{p} xc-addr -{}- xc-addr' )  \word{XC@+} \word{DROP} \word{;}

@@ -16,39 +16,38 @@ free to implement any operation in a manner that suits their system,
 but it must exhibit the same behavior as the reference implementation
 given here.
 
-
 \ifinline
 	\newcommand{\impsection}[2]{%
 		\section{The optional #2 word set}
-		\fbox{\parbox{\linewidth}{\slshape
-		In the \emph{review} (r) version of the document the
-		reference implementation for a word is given in the main
-		definition of the word.  The implementation of words in
-		the \textbf{#1} word set will appear here in the final
-		document.
-		}}
+		\begin{editor}
+			In the \emph{review} (r) version of the document the
+			reference implementation for a word is given in the main
+			definition of the word.  The implementation of words in
+			the \textbf{#1} word set will appear here in the final
+			document.
+		\end{editor}
 	}
 \else
 	\namespace{imp}
+	\defersection{}
 	\newcommand{\impsection}[2]{%
 		\defersection{#2}
 		\setwordlist{#1}
 		\input{i-#1.sub}
 		\stepsection
 	}
-	\defersection{}
 \fi
 
 \setcounter{section}{5}
 \section{The Core word set}				% I.6
 \ifinline
-	\fbox{\parbox{\linewidth}{\slshape
-	In the \emph{review} (r) version of the document the
-	reference implementation for a word is given in the main
-	definition of the word.  The implementation of words
-	in the \textbf{core} word set will appear here in the
-	final document.
-	}}
+	\begin{editor}
+		In the \emph{review} (r) version of the document the
+		reference implementation for a word is given in the main
+		definition of the word.  The implementation of words
+		in the \textbf{core} word set will appear here in the
+		final document.
+	\end{editor}
 \else
 	\input{i-core.sub}
 \fi
@@ -71,13 +70,13 @@ This reference implementation assumes the UTF-8 character encoding
 is being used.
 
 \ifinline
-	\fbox{\parbox{\linewidth}{\slshape
-	In the \emph{review} (r) version of the document the
-	reference implementation for a word is given in the main
-	definition of the word.  The implementation of words
-	in the \textbf{core} word set will appear here in the
-	final document.
-	}}
+	\begin{editor}
+		In the \emph{review} (r) version of the document the
+		reference implementation for a word is given in the main
+		definition of the word.  The implementation of words
+		in the \textbf{core} word set will appear here in the
+		final document.
+	\end{editor}
 \else
 	\defersection{}
 	\input{i-xchar.sub}

@@ -7,12 +7,12 @@ A system shall provide all of the words defined in
 words defined in the optional word sets and extensions word
 sets. No standard word provided by a system shall alter the
 system state in a way that changes the effect of execution of
-any other standard word except as provided in this Standard.
+any other standard word except as provided in this standard.
 A system may contain non-standard extensions, provided that
-they are consistent with the requirements of this Standard.
+they are consistent with the requirements of this standard.
 
 The implementation of a system may use words and techniques
-outside the scope of this Standard.
+outside the scope of this standard.
 
 A system need not provide all words in executable form. The
 implementation may provide definitions, including definitions
@@ -21,7 +21,7 @@ the mechanism for adding the definitions to the dictionary
 is implementation defined.
 
 A program that requires a system to provide words or techniques
-not defined in this Standard has an environmental dependency.
+not defined in this standard has an environmental dependency.
 
 \section{Data types} % 3.1
 \label{usage:data}
@@ -36,11 +36,11 @@ condition exists if an incorrectly typed data object is
 encountered.
 
 Table \ref{table:datatypes} summarizes the data types used
-throughout this Standard. Multiple instances of the same
+throughout this standard. Multiple instances of the same
 type in the description of a definition are suffixed with
 a sequence digit subscript to distinguish them.
 
-\begin{table}[ht]
+\begin{table}[!ht]
   \begin{center}
 	\caption{Data types}
 	\label{table:datatypes}
@@ -62,6 +62,9 @@ a sequence digit subscript to distinguish them.
 	\param{addr}		& address							& 1 cell \\
 	\param{a-addr}		& aligned address					& 1 cell \\
 	\param{c-addr}		& character-aligned address			& 1 cell \\
+\cbstart
+	\uline{\param{ior}}	& \uline{error result}	{\color{white} c:b} 	& \uline{1 cell} \\
+\cbend
 	\param{d}			& double-cell signed number			& 2 cells \\
 	\param{+d}			& double-cell non-negative number	& 2 cells \\
 	\param{ud}			& double-cell unsigned number		& 2 cells \\
@@ -97,6 +100,7 @@ a sequence digit subscript to distinguish them.
 \end{table}
 
 \subsection{Data-type relationships} % 3.1.1
+\label{usage:type}
 
 Some of the data types are subtypes of other data types. A data
 type \param{i} is a subtype of type \param{j} if and only if the
@@ -116,6 +120,7 @@ if \param{i} $\Rightarrow$ \param{j} and \param{j} $\Rightarrow$
 	$\Rightarrow$ \param{u}; \\
 \param{flag} $\Rightarrow$ \param{x}; \\
 \param{xt} $\Rightarrow$ \param{x}; \\
+\place{x:throw-ior}{\param{ior} $\Rightarrow$ \param{n} $\Rightarrow$ \param{x}} \\
 \param{+d} $\Rightarrow$ \param{d} $\Rightarrow$ \param{xd}; \\
 \param{+d} $\Rightarrow$ \param{ud} $\Rightarrow$ \param{xd}.
 \end{quote}
@@ -197,7 +202,7 @@ particular type fonts or styles. The graphics here are examples.
 \label{usage:control}
 
 All non-graphic characters included in the implementation-defined
-character set are defined in this Standard as control characters.
+character set are defined in this standard as control characters.
 In particular, the characters \{0 {\ldots} 31\}, which could be
 included in the im\-ple\-ment\-ation-de\-fined character set, are control
 characters.
@@ -246,7 +251,7 @@ implementation-defined range of unsigned integers shall include
 
 An address identifies a location in data space with a size of one
 address unit, which a program may fetch from or store into except
-for the restrictions established in this Standard. The size of an
+for the restrictions established in this standard. The size of an
 address unit is specified in bits. Each distinct address value
 identifies exactly one such storage element.
 See \xref[3.3.3 Data space]{usage:dataspace}.
@@ -275,6 +280,28 @@ The maximum length of a counted string shall be at least 255.
 
 Different definitions may have the same execution token if the
 definitions are equivalent.
+
+\cbstart\patch{x:throw-ior}
+\subsubsection[Error results]{\uline{Error results}}
+\label{usage:ior}
+
+\uline{%
+A value of zero indicates that the operation completed successfully;
+other values are in the range \{-4095 {\ldots} -1\} and represent a
+valid \word[exception]{THROW} code.}
+
+\uline{%
+The meanings of values in the range \{-255 {\ldots} -1\} are defined
+by table} \xref[9.1 THROW code assignments]{table:throw}.
+\uline{%
+Values in the range \{-4095 {\ldots} -256\} and their meanings are
+implementation defined.}
+
+\uline{%
+A word that returns an \param{ior} will not \word[exception]{THROW} an exception,
+but indicates the exception through the \param{ior}.  This allows a program
+to take appropriate actions, which may include throwing the exception.}
+\cbend
 
 \subsection{Cell-pair types} % 3.1.4
 \label{usage:2cell}
@@ -323,26 +350,26 @@ consumed.
 
 The implementation-dependent data generated upon beginning to compile
 a definition and consumed at its close is represented by the symbol
-\emph{colon-sys} throughout this Standard.
+\emph{colon-sys} throughout this standard.
 
 The implementation-dependent data generated upon beginning to
 compile a do-loop structure such as \word{DO} {\ldots} \word{LOOP}
 and consumed at its close is represented by the symbol \emph{do-sys}
-throughout this Standard.
+throughout this standard.
 
 The implementation-dependent data generated upon beginning to
 compile a \word{CASE} {\ldots} \word{ENDCASE} structure and consumed
 at its close is represented by the symbol \emph{case-sys} throughout
-this Standard.
+this standard.
 
 The implementation-dependent data generated upon beginning to
 compile an \word{OF} {\ldots} \word{ENDOF} structure and consumed
 at its close is represented by the symbol \emph{of-sys} throughout
-this Standard.
+this standard.
 
 The implementation-dependent data generated and consumed by executing
 the other standard control-flow words is represented by the symbols
-\emph{orig} and \emph{dest} throughout this Standard.
+\emph{orig} and \emph{dest} throughout this standard.
 
 \subsubsection{System-execution types} % 3.1.5.2
 
@@ -353,11 +380,11 @@ items are consumed.
 
 The implementation-dependent data generated upon beginning to
 execute a definition and consumed upon exiting it is represented
-by the symbol \emph{nest-sys} throughout this Standard.
+by the symbol \emph{nest-sys} throughout this standard.
 
 The implementation-dependent loop-control parameters used to
 control the execution of do-loops are represented by the symbol
-\emph{loop-sys} throughout this Standard. Loop-control parameters
+\emph{loop-sys} throughout this standard. Loop-control parameters
 shall be available inside the do-loop for words that use or change
 these parameters, words such as \word{I}, \word{J}, \word{LEAVE}
 and \word{UNLOOP}.
@@ -370,7 +397,7 @@ and \word{UNLOOP}.
 \subsubsection{Internal number representation} % 3.2.1.1
 \label{usage:number}
 
-This Standard allows one's complement, two's complement, or
+This standard allows one's complement, two's complement, or
 sign-magnitude number representations and arithmetic. Arithmetic
 zero is represented as the value of a single cell with all bits
 clear.
@@ -485,6 +512,7 @@ dependency on the desired rounding direction.
 		\end{tabular}
 	\end{center}
   \end{minipage}
+  \html{<br class="clear" />}
 \end{center}
 \end{table}
 
@@ -644,10 +672,9 @@ and the same value.
 This standard designates the practice of using \word{ENVIRONMENTq}
 to inquire whether a given word set is present as obsolescent.  If
 such a query, as listed in table \ref{table:obsolete}, returns
-\param{true}, the word set is present in the form defined by
-\remove{ed12}{the} Forth 94 \remove{ed12}{Standard}.
+\param{true}, the word set is present in the form defined by Forth 94.
 As these queries will be withdrawn from future revisions of the
-Standard their use in new programs is discouraged.
+standard their use in new programs is discouraged.
 
 See \xref{rat:obsolete}.
 
@@ -691,7 +718,7 @@ See \xref{rat:obsolete}.
 \proposal{X:extension-query}
 
 As part of the Forth 200\emph{x} standards procedure, additions to the
-Standard are labeled as \emph{extensions}. These extensions have
+standard are labeled as \emph{extensions}. These extensions have
 been added to the environmental query name space. \word{ENVIRONMENTq}
 returns \emph{true} if the system has implemented the extension as
 documented. Table \ref{table:extensions} contains the valid input
@@ -706,7 +733,7 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
   \begin{center}
 	\caption{Forth 200\emph{x} Extensions}
 	\label{table:extensions}
-	\begin{tabular}{p{11em}rcp{0.42\textwidth}}
+	\begin{tabular}{p{12em}rcp{0.42\textwidth}}
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
@@ -726,6 +753,11 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\texttt{X:structures}		& -- & -- & the \textsf{X:structures} extension is present \\
 		\texttt{X:synonym}		& -- & -- & the \textsf{X:synonym} extensions is present \\
 		\texttt{X:throw-iors}		& -- & -- & the \textsf{X:throw-iors} extension is present \\
+\cbstart
+		\uline{\texttt{x:traverse-wordlist}} & \uline{--} & \uline{--} & \uline{the \textsf{x:traverse-wordlist} extensions is present}
+		{\color{white} c:b}
+\\
+\cbend 
 		\texttt{X:xchar}			& -- & -- & the \textsf{X:xchar} extension is present \\
 		\hline\hline
 	\end{tabular}
@@ -737,7 +769,7 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 \label{usage:dict}
 
 Forth words are organized into a structure called the dictionary.
-While the form of this structure is not specified by the Standard,
+While the form of this structure is not specified by the standard,
 it can be described as consisting of three logical parts:
 a name space, a code space, and a data space. The logical separation
 of these parts does not require their physical separation.
@@ -792,10 +824,8 @@ read from or write into these regions unless otherwise specified.
 \subsubsection{Address alignment} % 3.3.3.1
 \label{usage:aaddr}
 
-\replace{ed12}{Most addresses are aligned addresses (indicated
-by \emph{a-addr}) or character-aligned (indicated by \emph{c-addr})}{
 Most addresses are cell aligned (indicated by \emph{a-addr}) or character
-aligned (\emph{c-addr})}.
+aligned (\emph{c-addr}).
 \word{ALIGNED}, \word{CHAR+}, and arithmetic operations can alter
 the alignment state of an address on the stack. \word{CHAR+} applied
 to an aligned address returns a character-aligned address that can
@@ -852,7 +882,7 @@ The region allocated for a variable may be non-contiguous with
 regions subsequently allocated with \linebreak \word{,} (comma) or
 \word{ALLOT}. For example, in:
 \begin{quote}
-	\word{VARIABLE} X 1 \word{CELLS} \word{ALLOT}
+	\word{VARIABLE} X ~ 1 \word{CELLS} \word{ALLOT}
 \end{quote}
 the region \texttt{X} and the region \word{ALLOT}ted could be
 non-contiguous.
@@ -893,7 +923,7 @@ addresses are valid only until the text interpreter does I/O to
 refill the input buffer or the input source is changed.
 
 A program may modify the size of the parse area by changing the
-contents of \word{toIN} within the limits imposed by this Standard.
+contents of \word{toIN} within the limits imposed by this standard.
 For example, if the contents of \word{toIN} are saved before a
 parsing operation and restored afterwards, the text that was parsed
 will be available again for subsequent parsing operations. The
@@ -937,7 +967,7 @@ regions.
 The size of the scratch area whose address is returned by \word{PAD}
 shall be at least 84 characters. The contents of the region
 addressed by \word{PAD} are intended to be under the complete
-control of the user: no words defined in this Standard place
+control of the user: no words defined in this standard place
 anything in the region, although changing data-space allocations as
 described in \xref[Contiguous regions]{usage:contiguous} may change
 the address returned by \word{PAD}. Non-standard words provided by
@@ -1053,17 +1083,14 @@ compatible form control-flow structures. Examples of typical use are
 given for each control-flow word in \ref{annex:rationale} (Annex A).
 
 Forth syntax is extensible; for example, new control-flow words can
-be defined in terms of existing ones. This Standard does not require
+be defined in terms of existing ones. This standard does not require
 a syntax or program-construct checker.
 
 \subsubsection{Text interpreter input number conversion} % 3.4.1.3
 \label{usage:numbers}
 
-When converting input numbers,
-\remove{ed12}{the text interpreter shall recognize integer numbers in the
-form \arg{BASEnum}; if the \textsf{X:number-prefixes} extension is present,}
-the text interpreter shall recognize integer
-numbers in the form \arg{anynum}.
+When converting input numbers, the text interpreter shall recognize
+integer numbers in the form \arg{anynum}.
 
 \begin{center}
 \begin{tabular}{r@{ \textsf{:=} }l}
@@ -1126,7 +1153,7 @@ characters in character set extensions such as accented
 international characters is implementation defined.
 
 A system shall be capable of finding the definition names defined
-by this Standard when they are spelled with upper-case letters.
+by this standard when they are spelled with upper-case letters.
 
 
 \subsection{Semantics} % 3.4.3
@@ -1154,7 +1181,7 @@ Execution may occur implicitly, when the definition into which it
 has been compiled is executed, or explicitly, when its execution
 token is passed to \word{EXECUTE}. The execution semantics of a
 syntactically correct definition under conditions other than those
-specified in this Standard are implementation dependent.
+specified in this standard are implementation dependent.
 
 Glossary entries for defining words include the execution semantics
 for the new definition in a ``\emph{name} \textsf{Execution:}''
@@ -1170,7 +1197,7 @@ Forth definition are its execution semantics.
 A system shall be capable of executing, in interpretation state,
 all of the definitions from the Core word set and any definitions
 included from the optional word sets or word set extensions whose
-interpretation semantics are defined by this Standard.
+interpretation semantics are defined by this standard.
 
 A system shall be capable of executing, in interpretation state,
 any new definitions created in accordance with

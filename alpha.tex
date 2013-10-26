@@ -49,12 +49,12 @@ set and glossary section in which the word is defined.
 	%
 	% Standard Extension Proposal
 	%
-%	\ifdraft
+	\ifrelease\else
 		\def\Tmp{#7}%
 		\ifx\Tmp\empty\else
 			\marginpar{\textsf{\tiny #7}}
 		\fi%
-%	\fi%
+	\fi%
 	%
 	% Word Label - If we are showing reference
 	%

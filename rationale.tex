@@ -1,21 +1,24 @@
 % !TeX root = forth.tex
+% !TeX spelling = en_US
+
 \annex{Rationale} % A. (informative annex)}}}
 \label{annex:rationale}
 \setwordlist{core}
 
-\ifanswerfiles
+\ifinline\else
 	\namespace{rat}
+	\defersection{}
 \fi
 
 \newcommand{\readrationale}[1]{%
 	\ifinline
-		\fbox{\parbox{\linewidth}{\slshape
-		In the \emph{review} (r) version of the document the
-		rationale text for each of the words is given in with
-		the main definition of the word.  The rationale for
-		words in the \textbf{#1} wordset will appear here in
-		the final document.
-		}}
+		\begin{editor}
+			In the \emph{review} (r) version of the document the
+			rationale text for each of the words is given in with
+			the main definition of the word.  The rationale for
+			words in the \textbf{#1} wordset will appear here in
+			the final document.
+		\end{editor}
 	\else
 		\defersection{}
 		\input{r-#1.sub}
@@ -30,44 +33,20 @@
 \subsection{Scope} % A.1.2
 \label{rat:scope}
 
-\cbstart\patch{ed12}
-\sout{%
-This Standard is more extensive than previous industry standards
-for the Forth language. Several things made this necessary:}
- 
-\begin{itemize}
-\item \sout{the desire to resolve conflicts between previous standards;}
-\item \sout{the need to eliminate semantic ambiguities and other
- 	inadequacies;}
-\item \sout{the requirement to standardize common practice, where possible
- 	resolving divergences in a way that minimizes the cost of
- 	compliance;}
-\item \sout{the desire to standardize common system techniques, including
- 	those germane to hardware.}
-\end{itemize}
-
-\sout{%
-The result of the effort to satisfy all of these objectives is a
-Standard arranged so that the required word set remains small. Thus
-Forth-\snapshot can be provided for resource-constrained embedded systems.
-Words beyond those in the required word set are organized into a
-number of optional word sets and their extensions, enabling
-implementation of tailored systems that are Standard.}
-\cbend
-
-When judging relative merits, the members of the \remove{ed12}{Technical}
-Committee were guided by the following goals (listed in alphabetic order):
+When judging relative merits
+\place{ed13}{of proposed changes to the standard}, the members of the
+committee were guided by the following goals (listed in alphabetic order):
 
 \begin{tabular}{lp{0.75\textwidth}}
 Consistency	&
-	The Standard provides a functionally complete set of words with
+	The standard provides a functionally complete set of words with
 	minimal functional overlap.
 	\\[\parskip]
 Cost of compliance &
 	This goal includes such issues as common practice, how much
 	existing code would be broken by the proposed change, and the
 	amount of effort required to bring existing applications and
-	systems into conformity with the Standard.
+	systems into conformity with the standard.
 	\\[\parskip]
 Efficiency &
 	Execution speed, memory compactness.
@@ -87,105 +66,9 @@ Utility	&
 	frequency of use to be deemed suitable for inclusion.
 \end{tabular}
 
-
-\subsection{Document organization} % A.1.3
-
-\subsubsection[Word sets]{\sout{Word sets}} % A.1.3.1
-\label{rat:wordsets}
-
-\cbstart\patch{ed12}
-\sout{%
-From the beginning, the Committee faced not only
-conflicting ideas as to what ``real'' Forth is, but also conflicting
-needs of the various groups within the Forth community. At one
-extreme were those who pressed for a ``bare'' Forth. At the other
-extreme were those who wanted a ``fat'' Forth. Many were somewhere
-in between. All were convinced of the rightness of their own position
-and of the wrongness of at least one of the two extremes. The
-committee's composition reflected this full range of interests.}
-
-\sout{% 
-The approach we have taken is to define a Core word set establishing
-a greatest lower bound for required system functionality and to
-provide a portfolio of optional word sets for special purposes. This
-simple approach parallels the fundamental nature of Forth as an
-extensible language, and thereby achieves a kind of
-meta-extensibility.}
- 
-\sout{% 
-With this key, high-level compromise, regardless of the actual
-makeup of the individual word sets, a firm and workable framework
-is established for the long term. One may or may not agree that
-there should be a Locals word set, or that the word \word{COMPILE,}
-belongs in the Core Extensions word set. But at least there is a
-mechanism whereby such things can be included in a logical and
-orderly manner.}
- 
-\sout{% 
-Several implications of this scheme of optional word sets are
-significant.}
-
-\sout{% 
-First, Forth-\snapshot systems can continue to be implemented on a greater
-range of hardware than could be claimed by almost any other single
-language.  Because only the Core word set is required, very limited
-hardware will be able to accommodate a Forth-\snapshot implementation.}
-
-\sout{% 
-Second, a greater degree of portability of applications, and of
-programmers, is anticipated. The optional word sets standardize
-various functions (e.g., floating point) that were widely implemented
-before, but not with uniform definition names and methodologies, nor
-the same levels of completeness. With such words now standardized in
-the optional word sets, communications between programmers ---
-verbally, via magazine or journal articles, etc. --- will leap to a
-new level of facility, and the shareability of code and applications
-should rise dramatically.}
-
-\sout{% 
-Third, Forth-\snapshot systems may be designed to offer the user the power
-to selectively, even dynamically, include or exclude one or more of
-the optional word sets or portions thereof. Also, lower-priced
-products may be offered for the user who needs the Core word set
-and not much more. Thus, virtually unlimited flexibility will be
-available to the user.}
-
-\sout{% 
-But these advantages have a price. The burden is on the user to
-decide what capabilities are desired, and to select product
-offerings accordingly, especially when portability of applications
-is important. We do not expect most implementors to attempt to
-provide all word sets, but rather to select those most valuable to
-their intended markets.}
-
-\sout{% 
-The basic requirement is that if the implementor claims to have a
-particular optional word set the entire required portion of that
-word set must be available. If the implementor wishes to offer only
-part of an optional word set, it is acceptable to say, for example,
-``This system offers portions of the [named] word set'', particularly
-if the selected or excluded words are itemized clearly.}
-
-\sout{% 
-Each optional word set will probably appeal to a particular
-constituency. For example, scientists performing complex mathematical
-analysis may place a higher value on the Floating-Point word set than
-programmers developing simple embedded controllers. As in the case of
-the core extensions, we expect implementors to offer those word sets
-they expect will be valued by their users.}
-
-\sout{% 
-Optional word sets may be offered in source form or otherwise
-factored so that the user may selectively load them.}
-
-\sout{% 
-The extensions to the optional word sets include words which are
-deemed less essential to performing the primary activity supported
-by the word set, though clearly relevant to it. As in the case of
-the Core Extensions, implementors may selectively add itemized
-subsets of a word set extension providing the labeling doesn't
-mislead the user into thinking incorrectly that all words are
-present.}
+\cbstart\patch{ed13}
+\subsection[Document organization]{\sout{Document organization}} % A.1.3
+\label{doc:org}
 \cbend
 
 \section{Terms and notation} % A.2
@@ -216,7 +99,7 @@ Only a data field defined via \word{CREATE} can be manipulated portably.
 
 \item[word set] ~
 
-This Standard recognizes that some functions, while useful in certain
+This standard recognizes that some functions, while useful in certain
 application areas, are not sufficiently general to justify requiring
 them in all Forth systems. Further, it is helpful to group Forth
 words according to related functions. These issues are dealt with
@@ -224,7 +107,7 @@ using the concept of word sets.
 
 The ``Core'' word set contains the essential body of words in a Forth
 system. It is the only ``required'' word set. Other word sets defined
-in this Standard are optional additions to make it possible to
+in this standard are optional additions to make it possible to
 provide Standard Systems with tailored levels of functionality.
 \end{description}
 
@@ -242,7 +125,7 @@ cases where \emph{orig} and \emph{dest} are used, explicit pairing
 rules are documented on the assumption that all systems will
 implement that model so that its results are equivalent to employment
 of some stack, and that in fact many implementations do use the data
-stack for this purpose. However, nothing in this Standard requires
+stack for this purpose. However, nothing in this standard requires
 that implementations actually employ the data stack (or any other)
 for this purpose so long as the implied behavior of the model is
 maintained.
@@ -259,16 +142,15 @@ Forth systems. As a result, a variety of implementation approaches
 have developed, each optimized for a particular platform or target
 market.
 
-The \remove{ed12}{Technical} Committee has endeavored to accommodate this
-diversity by constraining implementors as little as possible,
-consistent with a goal of defining a standard interface between an
-underlying Forth System and an application program being developed
-on it.
+The committee has endeavored to accommodate this diversity by
+constraining implementors as little as possible, consistent with a
+goal of defining a standard interface between an underlying Forth
+System and an application program being developed on it.
 
 Similarly, we will not undertake in this section to tell you how to
 implement a Forth System, but rather will provide some guidance as
 to what the minimum requirements are for systems that can properly
-claim compliance with this Standard.
+claim compliance with this standard.
 
 \subsection{Data types} % A.3.1
 \label{rat:types}
@@ -582,6 +464,15 @@ anything else. However it may not be unique, e.g., the phrases
 \end{quote}
 might return the same value.
 
+\cbstart\patch{x:throw-iors}
+\paragraph{\uline{Error results}} ~ % A.3.1.3.6
+\label{rat:ior}
+
+\uline{%
+The term \param{ior} was originally defined to describe the result of
+an input/output operation.  This was extended to include other
+operations.}
+\cbend
 
 \subsubsection{Cell-pair types} % A.3.1.4
 
@@ -721,7 +612,7 @@ round non-integer quotients towards zero (symmetric division).
 Forth 83 changed the semantics of these operators to round towards
 negative infinity (floored division). Some in the Forth community
 have declined to convert systems and applications from the Forth-79
-to the Forth-83 divide.  To resolve this issue, a Forth\place{ed12}{-\snapshot} system
+to the Forth-83 divide.  To resolve this issue, a Forth-\snapshot{} system
 is permitted to supply either floored or symmetric operators. In
 addition, a standard system must provide a floored division primitive
 (\word{FM/MOD}), a symmetric division primitive (\word{SM/REM}), and
@@ -907,7 +798,7 @@ Other loop-exit control-flow words, and even other loops, can be
 defined. The only requirements are that the control-flow stack is
 properly maintained and manipulated.
 
-The simple implementation of the \remove{ed12}{Forth 94} \word{CASE} structure
+The simple implementation of the \word{CASE} structure
 below is an example of control structure extension. Note the
 maintenance of the data stack to prevent interference with the
 possible control-flow stack usage.
@@ -980,25 +871,22 @@ a ``known'' result on a subsequent query.
 
 When reviewing the Forth 94 Standard, the question of adapting the
 word set queries had to be addressed.  Despite the recommendation
-in \remove{F12}{the} Forth 94 \remove{ed12}{standard}, word set queries have not been
+in Forth 94, word set queries have not been
 supported in a meaningful way by many systems.  Consequently, these
-queries are not used by many programmers.  The \remove{ed12}{Technical} Committee
-was unwilling to exacerbate the problem by introducing additional
-queries for the revised word sets.  The \replace{ed12}{TC}{ Committee} has therefore declared
-the word set environment queries (see table \ref{table:obsolete}) as
-obsolescent with the intention of removing them altogether in the
-next revision.
-They are retained in this Standard to support existing Forth 94
+queries are not used by many programmers.  The committee was unwilling
+to exacerbate the problem by introducing additional queries for the
+revised word sets.  The committee has therefore declared the word set
+environment queries (see table \ref{table:obsolete}) as obsolescent
+with the intention of removing them altogether in the next revision.
+They are retained in this standard to support existing Forth 94
 programs.  New programs should not use them.
 
-\cbstart\patch{ed12}
-\subsubsection{Extension queries\strike{-1}{115}} % A.3.2.8
-\cbend
+\subsubsection{Extension queries} % A.3.2.8
 
 \subsection{The Forth dictionary} % A.3.3
 
 A Standard Program may redefine a standard word with a non-standard
-definition. The program is still Standard (since it can be built on
+definition. The program is still standard (since it can be built on
 any Standard System), but the effect is to make the combined entity
 (Standard System plus Standard Program) a non-standard system.
 
@@ -1023,7 +911,7 @@ use of those characters for flow control or editing. In addition,
 when interpreting from a text file, the parsing function specifically
 treats non-graphic characters like spaces; thus words received by the
 text interpreter will not contain embedded non-graphic characters. To
-allow implementations in such environments to call themselves Standard,
+allow implementations in such environments to call themselves standard,
 this minor restriction on Standard Programs is necessary.
 
 A Standard System is allowed to permit the creation of definition
@@ -1058,35 +946,14 @@ restrictions.
 \paragraph{Address alignment} ~ % A.3.3.3.1
 \label{rat:aaddr}
 
-\replace{ed12}{Many}{Some} processors have restrictions on the addresses that can be used
-by memory access instructions. For example, \replace{ed12}{on a Motorola 68000,
-16-bit or 32-bit data can be accessed only at even addresses. Other
-examples include RISC}{ some} architectures \replace{ed12}{where}{ require} 16-bit data
-\replace{ed12}{can}{to} be loaded
-or stored only at even addresses and 32-bit data only at addresses
-that are multiples of four.
+Some processors have restrictions on the addresses that can be used
+by memory access instructions. For example, some architectures require
+16-bit data to be loaded or stored only at even addresses and 32-bit
+data only at addresses that are multiples of four.
 
-\remove{ed12}{%
 An implementor can handle these alignment restrictions in one of two
 ways. Forth's memory access words (\word{@}, \word{!}, \word{+!},
-etc.) could be implemented in terms of smaller-width access instructions
-which have no alignment restrictions. For example, on a 68000 Forth with
-16-bit cells, \word{@} could be implemented with two 68000 byte-fetch
-instructions and a reassembly of the bytes into a 16-bit cell.  Although
-this conceals hardware restrictions from the programmer, it is inefficient,
-and may have unintended side effects in some hardware environments.
-An alternate implementation could define each memory-access word using
-the native instructions that most closely match the word's function. On a
-68000 Forth with 16-bit cells, \word{@} would use the 68000's 16-bit
-move instruction.  In this case, responsibility for giving \word{@} a
-correctly-aligned address falls on the programmer.  A portable program
-must assume that alignment may be required and follow the requirements
-of this section.}
-
-\place{ed12}{%
-An implementor can handle these alignment restrictions in one of two
-ways. Forth's memory access words (\word{@}, \word{!}, \word{+!},
-etc.) could be implemented in terms of smaller-width access instructions
+etc.) could be implemented in terms of smaller-width access instructions\place{ed13}{,}
 which have no alignment restrictions.  For example, on a system with
 16-bit cells, \word{@} could be implemented with two byte-fetch
 instructions and a reassembly of the bytes into a 16-bit cell.  Although
@@ -1098,13 +965,14 @@ The 16-bit cell system could implement \word{@} using the processor's
 16-bit fetch instruction, in this case, the responsibility for giving
 \word{@} a correctly-aligned address falls on the programmer.  A
 portable program must assume that alignment may be required and
-follow the requirements of this section.}
+follow the requirements of this section.
 
 
 
 \paragraph{Contiguous regions} ~ % A.3.3.3.2
+\label{rat:regions}
 
-The data space of a Forth system comes in discontinuous regions\replace{ed12}{!}{.} The
+The data space of a Forth system comes in \replace{ed13}{discontinuous}{ discontiguous} regions. The
 location of some regions is provided by the system, some by the
 program. Data space is contiguous within regions, allowing address
 arithmetic to generate valid addresses only within a single region.
@@ -1184,13 +1052,13 @@ systems. For example, it may be appropriate for words such as
 the target, for colon definitions to execute only on the target, and
 for \word{CONSTANT} and \word{VARIABLE} to have execution behaviors on
 both systems. Details of cross compiler behavior are beyond the scope
-of this Standard.
+of this standard.
 
 \setcounter{paragraph}{1}
 \paragraph{Interpretation semantics} ~ % A.3.4.3.2
 \label{rat:interpret}
 
-For a variety of reasons, this Standard does not define interpretation
+For a variety of reasons, this standard does not define interpretation
 semantics for every word. Examples of these words are \word{toR},
 \word{.q}, \word{DO}, and \word{IF}. Nothing in this Standard precludes
 an implementation from providing interpretation semantics for these
@@ -1201,10 +1069,9 @@ Program may not use them in interpretation state.
 \subsubsection{Compilation} % A.3.4.5
 
 Compiler recursion at the definition level consumes excessive
-resources, especially to support locals. The \remove{ed12}{Technical} Committee
-does not believe that the benefits justify the costs. Nesting
-definitions is also not common practice and won't work on many
-systems.
+resources, especially to support locals. The committee does not
+believe that the benefits justify the costs. Nesting definitions
+is also not common practice and won't work on many systems.
 
 \section{Documentation requirements} % A.4 ==========================
 
@@ -1214,12 +1081,10 @@ systems.
 
 \section{Compliance and labeling} % A.5 =============================
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot systms]{Forth-\snapshot\strike{-1}{25} Forth systems} % A.5.1
-\cbend
+\subsection{Forth-\snapshot{} systms} % A.5.1
 
 Section \ref{label:label} defines the criteria that a system must
-meet in order to justify the label ``Forth\place{F12}{-\snapshot} System''. Briefly,
+meet in order to justify the label ``Forth-\snapshot{} System''. Briefly,
 the minimum requirement is that the system must ``implement'' the
 Core word set. There are several ways in which this requirement may
 be met. The most obvious is that all Core words may be in a pre-compiled
@@ -1232,20 +1097,17 @@ procedure, they may be considered to be present.
 
 A Forth cross compiler has many characteristics in common with a standard
 system, in that both use similar compiling tools to process a program.
-However, in order to fully specify a \place{F12}{Forth-\snapshot} standard
+However, in order to fully specify a Forth-\snapshot{} standard
 cross compiler it would be necessary to address complex issues dealing with
 compilation
 and execution semantics in both host and target environments as well as
 ROMability issues. The level of effort to do this properly has proved to
 be impractical at this time. As a result, although it may be possible
-for a Forth cross compiler to correctly prepare a \place{F12}{Forth-\snapshot}
+for a Forth cross compiler to correctly prepare a Forth-\snapshot{}
 standard program for execution in a target environment, it is inappropriate
-for a cross compiler to be labeled a \place{F12}{Forth-\snapshot} standard
-system.
+for a cross compiler to be labeled a Forth-\snapshot{} standard system.
 
-\cbstart\patch{F12}
-\subsection[Forth-\snapshot programgs]{Forth-\snapshot\strike{-1}{25} programs} % A.5.2
-\cbend
+\subsection{Forth-\snapshot{} programs} % A.5.2
 
 \setcounter{subsubsection}{1}
 \subsubsection{Program labeling} % A.5.2.2
@@ -1263,7 +1125,7 @@ Because all programs require space for data and instructions, and
 time to execute those instructions, they depend on the presence of
 an environment providing those resources. It is impossible to predict
 how little of some of these resources (e.g. stack space) might be
-necessary to perform some task, so this Standard does not do so.
+necessary to perform some task, so this standard does not do so.
 
 On the other hand, as a program requires increasing levels of
 resources, there will probably be sucessively fewer systems on
@@ -1274,8 +1136,8 @@ only $10^3$.
 Since there is also no way of knowing what minimum level of resources
 will be implemented in a system useful for at least some tasks, any
 program performing real work labeled simply
-a ``Standard Forth\place{F12}{-\snapshot} Program''
-is unlikely to be labeled correctly.
+a ``Standard Forth-\snapshot{} Program'' is unlikely to be labeled
+correctly.
 
 
 \section{Glossary} % A.6 ============================================
@@ -1323,9 +1185,9 @@ The words in this collection fall into several categories:
 \end{itemize}
 
 Because of the varied justifications for inclusion of these words,
-the \remove{ed12}{Technical} Committee does not encourage implementors to offer the
-complete collection, but to select those words deemed most valuable to
-their clientele.
+the committee does not encourage implementors to offer the complete
+collection, but to select those words deemed most valuable to their
+clientele.
 
 \readrationale{core-ext}
 
@@ -1334,44 +1196,17 @@ their clientele.
 \setwordlist{block}
 \label{rat:block}
 
-\cbstart\patch{ed12}
-\sout{%
-Early Forth systems ran stand-alone, with no host OS. Blocks of 1024
-bytes were designed as a convenient unit of disk, and most native
-Forth systems still use them. It is relatively easy to write a native
-disk driver that maps head/track/sector addresses to block numbers.
-Such disk drivers are extremely fast in comparison with conventional
-file-oriented operating systems, and security is high because there is
-no reliance on a disk map.}
-
-\sout{%
-Today many Forth implementations run under host operating systems,
-because the compatibility they offer the user outweighs the performance
-overhead. Many people who use such systems prefer using host OS files
-only; however, people who use both native and non-native Forths need a
-compatible way of accessing disk. The Block Word set includes the most
-common words for accessing program source and data on disk.}
-
-\sout{%
-In order to guarantee that Standard Programs that need access to mass
-storage have a mechanism appropriate for both native and non-native
-implementations, This standard requires that the Block word set be
-available if any mass storage facilities are provided. On non-native
-implementations, blocks normally reside in host OS files.}
-
-\uline{%
 Early Forth systems ran without a host OS; these are known as native
 systems.  Such systems provide mass storage in blocks of 1024 bytes.
 The Block Word set includes the most common words for accessing
-program source and data on disk.}
+program source and data on disk.
 
-\uline{%
+\remove{ed13}{%
 In order to guarantee Standard Programs that need access to mass
 storage have a mechanism appropriate for both native and non-native
 implementations, this standard requires that the Block word set be
 available if any mass-storage facilities are provided.  On non-native
 implementations, blocks normally reside in host OS files.}
-\cbend
 
 \setcounter{subsection}{1}
 \subsection{Additional terms} % A.7.2 ===============================
@@ -1390,13 +1225,15 @@ implementations, blocks normally reside in host OS files.}
 \subsubsection{Block buffer regions}
 \label{rat:block:buffers}
 
-	While the standard does not address multi\remove{ed12}{-}tasking per se, the
+	While the standard does not address multitasking per se, the
 	items listed in \xref{block:buffers} that may render block-buffer
-	addresses invalid are due to multi\remove{ed12}{-}tasking considerations.
+	addresses invalid are due to multitasking considerations.
 	The standard restricts programs such that items that could fail on
-	multi\remove{ed12}{-}tasking systems are not standard usage.  It also permits
-	multi\remove{ed12}{-}tasking systems to be declared standard systems.
-	Annex \xref{diff:multitasking} describes the topic in more detail.
+	multitasking systems are not standard usage.  It also permits
+	multitasking systems to be declared standard systems.
+\remove{ed13}{%
+	Annex \textbf{C.7.9 Multitasking} describes the topic in more detail.
+}
 
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.7.6 =============================
@@ -1468,138 +1305,6 @@ the standard words \word{ABORT} and \word{ABORTq}, allowing an
 application to define, through the use of \word{CATCH}, the behavior
 in the event of a system \word{ABORT}.
 
-\cbstart\patch{ed12}
-\sout{%
-This sample implementation of \word{CATCH} and \word{THROW} uses the
-non-standard words described below.  They or their equivalents are
-available in many systems.  Other implementation strategies, including
-directly saving the value of \word[core]{DEPTH}, are possible if such
-words are not available.}
-
-\begin{quote}
-\sout{\texttt{SP@}} \stack{}{\sout{addr}}
-	\sout{returns the address corresponding to the top of data stack.}
-
-\sout{\texttt{SP!}} \stack{\sout{addr}}{}
-	\sout{sets the stack pointer to \emph{addr}, thus restoring the stack
-	depth to the same depth that existed just before \emph{addr} was
-	acquired by executing \texttt{SP@}.}
-
-\sout{\texttt{RP@}} \stack{}{\sout{addr}}
-	\sout{returns the address corresponding to the top of return stack.}
-
-\sout{\texttt{RP!}} \stack{\sout{addr}}{}
-	\sout{sets the return stack pointer to \emph{addr}, thus restoring the
-	return stack depth to the same depth that existed just before
-	\emph{addr} was acquired by executing \texttt{RP@}.}
-
-	\ttfamily
-	\begin{tabbing}
-	\tab \= \tab \= \hspace{7em} \= ( saved-sp ) \= \kill
-	\sout{\word{VARIABLE} HANDLER ~ 0 HANDLER \word{!}} ~ \sout{\word{bs} last exception handler} \\[\parskip]
-
-	\+ \sout{\word{:} \word{CATCH} ~ \word{p} xt -{}- exception\# | 0 )} \sout{\word{bs} return addr on stack} \\
-		\sout{SP@ \word{toR}}				\>\> \sout{\word{p} xt )}	\> \sout{\word{bs} save data stack pointer} \\
-		\sout{HANDLER \word{@} \word{toR}}	\>\> \sout{\word{p} xt )}	\> \sout{\word{bs} and previous handler} \\
-		\sout{RP@ HANDLER \word{!}}			\>\> \sout{\word{p} xt )}	\> \sout{\word{bs} set current handler} \\
-		\sout{\word{EXECUTE}}				\>\> \sout{\word{p} )}		\> \sout{\word{bs} execute returns if no THROW} \\
-		\sout{\word{Rfrom} HANDLER \word{!}}\>\> \sout{\word{p} )}		\> \sout{\word{bs} restore previous handler} \\
-		\sout{\word{Rfrom} \word{DROP}}		\>\> \sout{\word{p} )}		\> \sout{\word{bs} discard saved stack ptr} \\
-	\-	\sout{0}							\>\> \sout{\word{p} 0 )}	\> \sout{\word{bs} normal completion} \\
-	\sout{\word{;}} \\[\parskip]
-
-	\+ \sout{\word{:} \word{THROW}} \sout{\word{p} ??? exception\# -{}- ??? exception\# )} \\
-		\+ \sout{\word{qDUP} \word{IF}}			\>		\> \sout{\word{p} exc\# )}	\> \sout{\word{bs} 0 THROW is no-op} \\
-			\sout{HANDLER \word{@} RP!}					\> \sout{\word{p} exc\# )}	\> \sout{\word{bs} restore prev return stack} \\
-			\sout{\word{Rfrom} HANDLER \word{!}}		\> \sout{\word{p} exc\# )}	\> \sout{\word{bs} restore prev handler} \\
-			\sout{\word{Rfrom} \word{SWAP} \word{toR}} 	\> \sout{\word{p} saved-sp )} \> \sout{\word{bs} exc\# on return stack} \\
-			\sout{SP! \word{DROP} \word{Rfrom}}			\> \sout{\word{p} exc\# )} 	\> \sout{\word{bs} restore stack} \\
-			\sout{\word{bs} Return to the caller of CATCH because return} \\
-			\sout{\word{bs} stack is restored to the state that existed} \\
-		\-	\sout{\word{bs} when CATCH began execution} \\
-	\- \sout{\word{THEN}} \\
-	\sout{\word{;}}
-	\end{tabbing}
-\end{quote}
-
-\sout{%
-In a multi-tasking system, the \texttt{HANDLER} variable should be in
-the per-task variable area (i.e., a user variable).}
-
-\sout{%
-This sample implementation does not explicitly handle the case in
-which \word{CATCH} has never been called (i.e., the \word{ABORT}
-behavior). One solution is to add the following code after the
-\word{IF} in \word{THROW}:}
-
-\begin{quote}\ttfamily
-	\sout{HANDLER \word{@} \word{0=} \word{IF}
-		\word{p} empty the stack ) \word{QUIT}
-	\word{THEN}}
-\end{quote}
-
-\sout{%
-Another solution is to execute \word{CATCH} within \word{QUIT}, so
-that there is always an ``exception handler of last resort'' present.
-For example:}
-
-\begin{quote}\ttfamily
-	\sout{\word{:} \word{QUIT}} \\
-	\tab \sout{\word{p} empty the return stack and )} \\
-	\tab \sout{\word{p} set the input source to the user input device )} \\
-	\tab \sout{\word{POSTPONE} \word{[}} \\
-	\tab \sout{\word{BEGIN}} \\
-	\tab~~ \sout{\word{REFILL}} \\
-	\tab \sout{\word{WHILE}} \\
-	\tab~~ \sout{\word{[']} INTERPRET ~ \word{CATCH}} \\
-	\tab~~ \sout{\word{CASE}} \\
-	\tab\tab \sout{~0 \word{OF} \word{STATE} \word{@} \word{0=} \word{IF}
-		\word{.q} OK" \word{THEN} \word{CR} ~\word{ENDOF}} \\
-	\tab\tab \sout{-1 \word{OF} \word{p} Aborted) \word{ENDOF}} \\
-	\tab\tab \sout{-2 \word{OF} \word{p} display message from \word{ABORTq} ) \word{ENDOF}} \\
-	\tab\tab \sout{\word{p} default ) \word{DUP} \word{.q} Exception \# " ~ \word{d}} \\
-	\tab~~ \sout{\word{ENDCASE}} \\
-	\tab \sout{\word{REPEAT} \word[tools]{BYE}} \\
-	\sout{\word{;}}
-\end{quote}
-
-\sout{%
-This example assumes the existance of a system-implementation word
-\texttt{INTERPRET} that embodies the text interpreter semantics
-described in} \xref[3.4 The Forth text interpreter]{usage:command}
-\sout{.
-Note that this implementation of \word{QUIT} automatically handles
-the emptying of the stack and return stack, due to
-\word{THROW}'s inherent restoration of the data and return
-stacks. Given this definition of \word{QUIT}, it's easy to define:}
-
-\tab \sout{\word{:} \word{ABORT}
-	\texttt{-1} \word{THROW}
-\word{;}}
-
-\sout{%
-In systems with other stacks in addition to the data and return stacks,
-the implementation of \word{CATCH} and \word{THROW} must save and
-restore those stack pointers as well. Such an ``extended version'' can
-be built on top of this basic implementation. For example, with another
-stack pointer accessed with \texttt{FP@} and \texttt{FP!} only
-\word{CATCH} needs to be redefined:}
-
-\begin{quote}\ttfamily
-	\sout{\word{:} \word{CATCH}
-		\word{p} \texttt{xt -{}- exception\# | 0 )}} \\
-	\tab \sout{FP@ \word{toR} \word{CATCH} \word{Rfrom}
-		\word{OVER} \word{IF} FP! \word{ELSE} \word{DROP} \word{THEN}
-	\word{;}}
-\end{quote}
-
-\sout{%
-No change to \word{THROW} is necessary in this case. Note that, as
-with all redefinitions, the redefined version of \word{CATCH} will
-only be available to definitions compiled after the redefinition of
-\word{CATCH}.}
-\cbend
-
 \word{CATCH} and \word{THROW} provide a convenient way for an
 implementation to ``clean up'' the state of open files if an
 exception occurs during the text interpretation of a file with
@@ -1608,7 +1313,7 @@ exception occurs during the text interpretation of a file with
 that performs the text interpretation, and if \word{CATCH} returns
 an exception code, the file may be closed and the exception
 re\word{THROW}n so that the files being included at an outer nesting
-level may be closed also. Note that the Standard allows, but does not
+level may be closed also. Note that the standard allows, but does not
 require, \word[file]{INCLUDE-FILE} to close its open files if an
 exception occurs. However, it does require \word[file]{INCLUDE-FILE}
 to unnest the input source specification if an exception is
@@ -1656,43 +1361,6 @@ not possible for a Standard Program to define words such as
 \setwordlist{file}
 \label{rat:file}
 
-\cbstart\patch{ed12}
-\sout{%
-Many Forth systems support access to a host file system, and many of
-these support interpretation of Forth from source text files.  The
-Forth-83 Standard did not address host OS files.  Nevertheless, a
-degree of similarity exists among modern implementations.}
-
-\sout{%
-For example, files must be opened and closed, created and deleted.
-Forth file-system implementations differ mostly in the treatment and
-disposition of the exception codes, and in the format of the
-file-identification strings.  The underlying mechanism for creating
-file-control blocks might or might not be visible.  We have chosen to
-keep it invisible.}
-
-\sout{%
-Files must also be read and written. Text files, if supported, must
-be read and written one line at a time. Interpretation of text files
-implies that they are somehow integrated into the text interpreter
-input mechanism.  These and other requirements have shaped the
-file-access extensions word set.}
-
-\sout{%
-Most of the existing implementations studied use simple English words
-for common host file functions: \texttt{OPEN}, \texttt{CLOSE},
-\texttt{READ}, etc.  Although we would have preferred to do likewise,
-there were so many minor variations in implementation of these words
-that adopting any particular meaning would have broken much existing
-code.  We have used names with a suffix \texttt{-FILE} for most of these
-words.  We encourage implementors to conform their single-word primitives
-to the standard behaviors, and hope that if this is done on a widespread
-basis we can adopt better definition names in a future standard.}
-
-\sout{%
-Specific rationales for members of this word set follow.}
-\cbend
-
 \setcounter{subsection}{2}
 \subsection{Additional usage requirements} % A.11.3 =======
 
@@ -1715,74 +1383,21 @@ results. The block buffer system must be flushed to avoid this.
 \setwordlist{floating}
 \label{rat:floating}
 
-\cbstart\patch{ed12}
-\sout{%
-The Technical Committee has considered many proposals dealing with
-the inclusion and makeup of the Floating-Point Word Sets in Forth 94.
-Although it has been argued that the standard should not address
-floating-point arithmetic and numerous Forth applications do not need
-floating-point, there are a growing number of important Forth
-applications from spread sheets to scientific computations that
-require the use of floating-point arithmetic. Initially the Technical
-Committee adopted proposals that made the \emph{Forth Vendors}
-\emph{Group Floating-Point Standard}, first published in 1984, the framework for
-inclusion of Floating-Point in Forth 94. There is substantial common
-practice and experience with the Forth Vendors Group Floating-Point
-Standard.  Subsequently the Technical Committee adopted proposals that
-placed the basic floating-point arithmetic, stack and support words
-in the Floating-Point word set and the floating-point transcendental
-functions in the Floating-Point Extensions word set. The Technical
-Committee also adopted proposals that:}
-
-\begin{itemize}
-\item \sout{changed names for clarity and consistency; e.g.,
-	\texttt{REALS} to \word{FLOATS}, and
-	\texttt{REAL+} to \word{FLOAT+}.}
-\item \sout{removed words; e.g., \texttt{FPICK}.}
-\item \sout{added words for completeness and increased functionality; e.g.,
-	\word{FSINCOS},
-	\word{Ftilde},
-	\word{DF@},
-	\word{DF!},
-	\word{SF@} and
-	\word{SF!}}
-\end{itemize}
-
-\sout{%
-Several issues concerning the Floating-Point word set were resolved
-by consensus in the Technical Committee:}
-
-\begin{description}
-\item [\sout{Floating-point stack:}]\sout{%
-	By default the floating-point stack is separate from the data
-	and return stacks; however, an implementation may keep
-	floating-point numbers on the data stack. A program can determine
-	whether floating-point numbers are kept on the data stack by
-	passing the string \linebreak \texttt{FLOATING-STACK} to \word{ENVIRONMENTq}
-	It is the experience of several members of the Technical Committee
-	that with proper coding practices it is possible to write
-	floating-point code that will run identically on systems with a
-	separate floating-point stack and with floating-point numbers kept
-	on the data stack.}
-\end{description}
-
-\textbf{\sout{Floating-point input:}}\\\cbend
-	The current base \place{ed12}{for floating-point input} must be \word{DECIMAL}.
-	Floating-point input
-	is not allowed in an arbitrary base. All floating-point numbers to
+	The current base for floating-point input must be \word{DECIMAL}.
+	Floating-point input is not allowed in an arbitrary base. All
+	floating-point numbers to
 	be interpreted by a standard system must contain the exponent
 	indicator ``\texttt{E}'' (see \xref[12.3.7 Text	interpreter input
-	number conversion]{float:conv}). Consensus in the \remove{ed12}{Technical}
-	Committee deemed this form of floating-point input to be in more
-	common use than the alternative that would have a floating-point
-	input mode that would allow numbers with embedded decimal points
-	to be treated as floating-point numbers.
+	number conversion]{float:conv}). Consensus in the committee deemed
+	this form of floating-point input to be in more common use than
+	the alternative that would have a floating-point input mode that
+	would allow numbers with embedded decimal points to be treated
+	as floating-point numbers.
 
-\textbf{\remove{ed12}{Floating-point representation:}} \\
 	Although the format and precision of the significand and the format
 	and range of the exponent of a floating-point number are
-	implementation defined in \replace{F12}{this standard}{Forth-\snapshot}, the Floating-Point Extensions
-	word set contains the words
+	implementation defined in Forth-\snapshot, the Floating-Point
+	Extensions word set contains the words
 	\word{DF@}, \word{SF@}, \word{DF!}, and \word{SF!}
 	for fetching and storing double- and single-precision IEEE
 	floating-point-format numbers to memory. The IEEE floating-point
@@ -1813,9 +1428,9 @@ execution time. For example:
 \setcounter{subsubsection}{6}
 \subsubsection{Text interpreter input number conversion} % A.12.3.7
 
-The \remove{ed12}{Technical} Committee has more than once received the suggestion
-that the text interpreter in Standard Forth systems should treat
-numbers that have an embedded decimal point, but no exponent, as
+The committee has more than once received the suggestion that the
+text interpreter in standard Forth systems should treat numbers
+that have an embedded decimal point, but no exponent, as
 floating-point numbers rather than double cell numbers. This
 suggestion, although it has merit, has always been voted down because
 it would break too much existing code; many existing implementations
@@ -1833,262 +1448,6 @@ point.
 \setwordlist{local}
 \label{rat:local}
 
-\cbstart\patch{ed12}
-\sout{%
-The Technical Committee has had a problem with locals. It has been
-argued forcefully that Forth 94 should say nothing about locals
-since:}
-
-\begin{itemize}
-\item \sout{there is no clear accepted practice in this area;}
-\item \sout{not all Forth programmers use them or even know what they are;
-	and}
-\item \sout{few implementations use the same syntax, let alone the same
-	broad usage rules and general approaches.}
-\end{itemize}
-
-\sout{%
-It has also been argued, it would seem equally forcefully, that the
-lack of any standard approach to locals is precisely the reason for
-this lack of accepted practice since locals are at best non-trivial
-to implement in a portable and useful way. It has been further argued
-that users who have elected to become dependent on locals tend to be
-locked into a single vendor and have little motivation to join the
-group that it is hoped will ``broadly accept'' Forth 94 unless the
-Standard addresses their problems.}
-
-\sout{%
-Since the Technical Committee has been unable to reach a strong
-consensus on either leaving locals out or on adopting any particular
-vendor's syntax, it has sought some way to deal with an issue that it
-has been unable to simply dismiss. Realizing that no single mechanism
-or syntax can simultaneously meet the desires expressed in all the
-locals proposals that have been received, it has simplified the
-problem statement to be to define a locals mechanism that:}
-
-\begin{itemize}
-\item \sout{is independent of any particular syntax;}
-\item \sout{is user extensible;}
-\item \sout{enables use of arbitrary identifiers,
-	local in scope to a single definition;}
-\item \sout{supports the fundamental cell size data types of Forth;
-	and}
-\item \sout{works consistently, especially with respect to
-	re-entrancy and recursion.}
-\end{itemize}
-
-\sout{%
-This appears to the Technical Committee to be what most of those who
-actively use locals are trying to achieve with them, and it is at
-present the consensus of the Technical Committee that if Forth 94 has
-anything to say on the subject this is an acceptable thing for it to
-say.}
-
-\sout{%
-This approach, defining \word{LOCAL}, is proposed as one that can be
-used with a small amount of user coding to implement some, but not all,
-of the locals schemes in use. The following coding examples illustrate
-how it can be used to implement two syntaxes.}
-
-\begin{itemize}
-\item \sout{The syntax defined by this Standard and used in the systems of
-	Creative Solutions, Inc.:}
-
-	\begin{quote}\ttfamily
-	\sout{\word{:} \word{LOCALS} \word{p} "name{\ldots}name |" -{}- )} \\
-	\tab \sout{\word{BEGIN}} \\
-	\tab~ \sout{\word{BL} \word{WORD} ~ \word{COUNT} \word{OVER} \word{C@}} \\
-	\tab~ \sout{\word{[CHAR]} | \word{-} \word{OVER} 1 \word{-} \word{OR} ~ \word{WHILE}} \\
-	\tab~ \sout{\word[local]{LOCAL}} \\
-	\tab \sout{\word{REPEAT} \word{2DROP} ~ 0 0 \word{LOCAL}} \\
-	\sout{\word{;} \word{IMMEDIATE}}
-
-	\sout{\word{:} EXAMPLE \word{p} n -{}- n**2 n**3 )} \\
-	\tab \sout{\word{LOCALS} N |
-		~ N \word{DUP} N \word{*} ~\word{DUP} N \word{*}
-	\word{;}}
-	\end{quote}
-
-\item \sout{A proposed syntax: ( \texttt{LOCAL} \emph{name} ) with
-	additional usage rules:}
-
-	\begin{quote}\ttfamily
-	\sout{\word{:} LOCAL \word{p} "name" -{}- )
-		\word{BL} \word{WORD} \word{COUNT} \word{LOCAL}
-	\word{;} ~\word{IMMEDIATE}}
-
-	\sout{\word{:} END-LOCALS \word{p} -{}- ) ~ 0 0 \word{LOCAL}
-	\word{;} ~\word{IMMEDIATE}}
-
-	\sout{\word{:} EXAMPLE \word{p} n -{}- n n**2 n**3 )} \\
-	\tab \sout{LOCAL N ~END-LOCALS ~
-		N \word{DUP} N \word{*} ~ \word{DUP} N \word{*}
-	\word{;}}
-	\end{quote}
-\end{itemize}
-
-\sout{%
-Other syntaxes can be implemented, although some will admittedly
-require considerably greater effort or in some cases program
-conversion. Yet other approaches to locals are completely incompatible
-due to gross differences in usage rules and in some cases even scope
-identifiers. For example, the complete local scheme in use at Johns
-Hopkins had elaborate semantics that cannot be duplicated in terms of
-this model.}
-
-\sout{%
-To reinforce the intent of section \ref{wordlist:local}, here are
-two examples of actual use of locals. The first illustrates correct
-usage:}
-
-\begin{enumerate}
-\item[\sout{a)}] \begin{quote}\ttfamily
-	\sout{\word{:} \{	\word{p} "name {\ldots} \}" -{}- )} \\
-	\tab \sout{\word{BEGIN} ~\word{BL} \word{WORD} \word{COUNT}} \\
-	\tab~~ \sout{\word{OVER} \word{C@} \word{[CHAR]} \} \word{-} ~
-		\word{OVER} 1 \word{-} ~
-		\word{OR} \word{WHILE}} \\
-	\tab~~ \sout{\word{LOCAL}} \\
-	\tab \sout{\word{REPEAT} \word{2DROP} 0 0 \word{LOCAL}} \\
-	\sout{\word{;} \word{IMMEDIATE}}
-	\end{quote}
-
-\item[\sout{b)}] \begin{quote}\ttfamily
-	\sout{\word{:} JOE \word{p} a b c -{}- n )} \\
-	\tab \sout{\word{toR} \word{2*} \word{Rfrom} \word{2DUP} \word{+} 0} \\
-	\tab \sout{\{ ANS 2B+C C 2B A \}} \\
-	\tab \sout{2 0 \word{DO}
-		~1 ANS \word{+} \word{I} \word{+} \word{TO} ANS
-		~ANS \word{d} \word{CR}
-	~\word{LOOP}} \\
-	\tab \sout{ANS \word{d} 2B+C \word{d} C \word{d} 2B \word{d} A \word{d} \word{CR} ANS} \\
-	\sout{\word{;}}
-	\end{quote}
-
-\item[\sout{c)}] \begin{quote}\ttfamily
-	\sout{100 300 10 JOE \word{d}}
-	\end{quote}
-\end{enumerate}
-
-\sout{%
-The word \texttt{\{} at a) defines a local declaration syntax that
-surrounds the list of locals with braces. It doesn't do anything fancy,
-such as reordering locals or providing initial values for some of them,
-so locals are initialized from the stack in the default order. The
-definition of \texttt{JOE} at b) illustrates a use of this syntax. Note
-that work is performed at execution time in that definition before
-locals are declared. It's OK to use the return stack as long as whatever
-is placed there is removed before the declarations begin.}
-
-\sout{%
-Note that before declaring locals, \texttt{B} is doubled, a
-subexpression (\texttt{2B+C}) is computed, and an initial value (zero)
-for \texttt{ANS} is provided. After locals have been declared,
-\texttt{JOE} proceeds to use them. Note that locals may be accessed and
-updated within do-loops. The effect of interpreting line c) is to
-display the following values:}
-
-\begin{quote}
-	\sout{\texttt{1} (\texttt{ANS} the first time through the loop),}\\
-	\sout{\texttt{3} (\texttt{ANS} the second time),} \\
-	\sout{\texttt{3} (\texttt{ANS}),
-		\texttt{610} (\texttt{2B+C}),
-		\texttt{10}  (\texttt{C}),
-		\texttt{600} (\texttt{2B}),
-		\texttt{100} (\texttt{A}), and} \\
-	\sout{\texttt{3} (\texttt{ANS} left on the stack by \texttt{JOE}).}
-\end{quote}
-
-\sout{%
-The \emph{names} of the locals vanish after \texttt{JOE} has been
-compiled.  The \emph{storage and meaning} of locals appear when
-\texttt{JOE}'s locals are declared and vanish as \texttt{JOE} returns
-to its caller at \word{;} (semicolon).}
-
-\sout{%
-A second set of examples illustrates various things that break the
-rules.  We assume that the definitions of \texttt{LOCAL} and
-\texttt{END-LOCALS} above are present, along with \texttt{\{} from
-the preceding example.}
-
-\begin{enumerate}
-\item[\sout{d)}] \begin{quote}\ttfamily
-	\sout{\word{:} ZERO ~ 0 \word{POSTPONE} \word{LITERAL} \word{POSTPONE} LOCAL
-	\word{;} \word{IMMEDIATE}}
-	\end{quote}
-
-\item[\sout{e)}] \begin{quote}\ttfamily
-	\sout{\word{:} MOE ~\word{p} a b )} \\
-	\tab \sout{ZERO TEMP ~LOCAL B ~\word{1+} LOCAL A+ ~ZERO ANSWER \word{;}}
-	\end{quote}
-
-\item[\sout{f)}] \begin{quote}\ttfamily
-	\sout{\word{:} BOB~ \word{p} a b c d ) ~\{ D C \} ~\{ B A \} \word{;}}
-	\end{quote}
-\end{enumerate}
-
-\sout{%
-Here are two definitions with various violations of rule
-\ref{locals:rules}a. In e) the declaration of \texttt{TEMP} is legal
-and creates a local whose initial value is zero. It's OK because the
-executable code that \texttt{ZERO} generates precedes the first use of
-\word[local]{LOCAL} in the definition. However, the \word{1+}
-preceding the declaration of \texttt{A+} is illegal. Likewise the use
-of \texttt{ZERO} to define \texttt{ANSWER} is illegal because it
-generates executable code between uses of \word{LOCAL}.
-Finally, \texttt{MOE} terminates illegally (no \texttt{END-LOCALS}).
-\texttt{BOB} in f) violates the rule against declaring two sets of
-locals.}
-
-\begin{enumerate}
-\item[\sout{g)}] \begin{quote}\ttfamily
-	\sout{\word{:} ANN \word{p} a b -{}- b )
-		\word{DUP} \word{toR} \word{DUP} \word{IF}
-		\{ B A \} \word{THEN} \word{Rfrom} \word{;}}
-	\end{quote}
-
-\item[\sout{h)}] \begin{quote}\ttfamily
-	\sout{\word{:} JANE \word{p} a b -{}- n )
-		\{ B A \} A B \word{+} \word{toR} A B \word{-} ~\word{Rfrom} \word{/} \word{;}}
-	\end{quote}
-\end{enumerate}
-
-\sout{%
-\texttt{ANN} in g) violates two rules. The \word{IF} {\ldots} \word{THEN}
-around the declaration of its locals violates \ref{locals:rules}b, and
-the copy of \texttt{B} left on the return stack before declaring locals
-violates \ref{locals:rules}c. \texttt{JANE} in h) violates
-\ref{locals:rules}d by accessing locals after placing the sum of
-\texttt{A} and \texttt{B} on the return stack without first removing
-that sum.}
-
-\begin{enumerate}
-\item[\sout{i)}] \begin{quote}\ttfamily
-	\sout{\word{:} CHRIS \word{p} a b)} \\
-	\tab \sout{\{ B A \} \word{[']} A \word{EXECUTE}
-		~5 \word{[']} B \word{toBODY} \word{!}} \\
-	\tab[0.45] \sout{\word{[} \word{'} A \word{]} \word{LITERAL} LEE
-	\word{;}}
-	\end{quote}
-\end{enumerate}
-
-\sout{%
-\texttt{CHRIS} in i) illustrates three violations of
-\ref{locals:rules}e. The attempt to \word{EXECUTE} the local called
-\texttt{A} is inconsistent with some implementations. The store into
-\texttt{B} via \word{toBODY} is likely to cause tragic results with
-many implementations; moreover, if locals are in registers they can't
-be addressed as memory no matter what is written.}
-
-\sout{%
-The third violation, in which an execution token for a definition's
-local is passed as an argument to the word \texttt{LEE}, would, if
-allowed, have the unpleasant implication that \texttt{LEE} could
-\word{EXECUTE} the token and obtain a value for \texttt{A} from the
-particular execution of \texttt{CHRIS} that called \texttt{LEE} this
-time.}
-\cbend
-
 \setcounter{subsection}{2}
 \subsection{Additional usage requirements} % A.13.3 =======
 
@@ -2102,10 +1461,6 @@ users in such a case. Of course, if the data stack is somehow employed
 in such a way that there are no usage rules, then the locals are
 invisible to the programmer, are logically not on the stack, and the
 implementation conforms.
-
-\remove{ed12}{%
-The minimum required number of locals can (and should) be adjusted to
-minimize the cost of compliance for existing users of locals.}
 
 Access to previously declared local variables is prohibited by Section
 \ref{locals:rules}d until any data placed onto the return stack by the
@@ -2156,7 +1511,7 @@ Although there are environmental dependencies intrinsic to programs
 using an assembler, virtually all Forth systems provide such a
 capability. Insofar as many Forth programs are intended for real-time
 applications and are intrinsically non-portable for this reason, the
-\remove{ed12}{Technical} Committee believes that providing a standard window into
+committee believes that providing a standard window into
 assemblers is a useful contribution to Forth programmers.
 
 Similarly, the programming aids \word{DUMP}, etc., are valuable tools
@@ -2169,6 +1524,17 @@ One of the original aims of Forth was to erase the boundary between
 who had occasion to use a computer. Nothing in the above labeling or
 remarks should be construed to mean that this goal has been abandoned.
 
+\cbstart\patch{x:traverse-wordlist}
+\setcounter{subsection}{3}
+\subsubsection[Name tokens]{\uline{Name tokens}}
+\label{rat:tools:nt}
+
+\uline{%
+Name tokens are an abstract data type identifying named words.
+You can use words such as \word{NAMEtoSTRING} to get information
+out of name tokens.}
+\cbend
+
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.15.6 ============================
 
@@ -2179,67 +1545,16 @@ remarks should be construed to mean that this goal has been abandoned.
 \setwordlist{search}
 \label{rat:search}
 
-\cbstart\patch{ed12}
-\sout{%
-Search-order specification and control mechanisms vary widely. The
-FIG-Forth, Forth-79, polyFORTH, and Forth-83 vocabulary and search
-order mechanisms are all mutually incompatible. The complete list of
-incompatible mechanisms, in use or proposed, is much longer. The
-(\word{ALSO}/\word{ONLY}) scheme described in a Forth-83 Experimental
-Proposal has substantial community support. However, many consider it
-to be fundamentally flawed, and oppose it vigorously.}
-
-\sout{Recognizing this variation, this Standard specifies a new ``primitive''
-set of tools from which various schemes may be constructed. This
-primitive} \uline{The} search-order word set is intended to be a portable
-``construction set'' from which search-order words may be built%
-\sout{, rather than a user interface}. \word{ALSO}/\word{ONLY} or the various
-``vocabulary'' schemes supported by the major Forth vendors can be
-defined in terms of the primitive search-order word set.
+The search-order word set is intended to be a portable ``construction
+set'' from which search-order words may be built.  \word{ALSO}/\word{ONLY}
+or the various ``vocabulary'' schemes supported by the major Forth
+vendors can bedefined in terms of the primitive search-order word set.
 
 The encoding for word list identifiers \emph{wid} might be a
 small-integer index into an array of word-list definition records, the
 data-space address of such a record, a user-area offset, the execution
-token of a \sout{Forth-83 style} sealed vocabulary, the link-field address of
-the first definition in a word list, or anything else. It is entirely
-up to the system implementor.
-
-\sout{%
-In some systems the interpretation of numeric literals is controlled
-by including ``pseudo word lists'' that recognize numbers at the end
-of the search order. This technique is accommodated by the ``default
-search order'' behavior of \word{SET-ORDER} when given an argument of
--1. In a system using the traditional implementation of
-\word{ALSO}/\word{ONLY}, the minimum search order would be equivalent
-to the word \word{ONLY}.}
-
-\sout{%
-There has never been a portable way to restore a saved search order.
-F83 (not Forth 83) introduced the word \word{PREVIOUS}, which almost
-made it possible to ``unload'' the search order by repeatedly executing
-the phrase \texttt{CONTEXT} \word{@} \word{PREVIOUS}. The search
-order could be ``reloaded'' by repeating \word{ALSO} \texttt{CONTEXT}
-\word{!}. Unfortunately there was no portable way to determine
-how many word lists were in the search order.}
-
-\sout{%
-Forth 94 removed the word \texttt{CONTEXT} because in many systems
-its contents refer to more than one word list, compounding portability
-problems.}
-
-\sout{%
-Note that \word{:} (colon) no longer affects the search order. The
-previous behavior, where the compilation word list replaces the first
-word list of the search order, can be emulated with the following
-redefinition of \word{:} (colon).}
-
-\begin{quote}\ttfamily
-	\sout{\word{:} \word{:} \word{GET-ORDER} \word{SWAP} \word{DROP}
-		~ \word{GET-CURRENT} ~
-		\word{SWAP} \word{SET-ORDER} \word{:}
-	\word{;}}
-\end{quote}
-\cbend
+token of a sealed vocabulary, the link-field address of the first definition
+in a word list, or anything else. It is entirely up to the system implementor.
 
 \setcounter{subsection}{1}
 \subsection{Additional terms and notation} % A.16.2 =================
