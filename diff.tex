@@ -179,7 +179,7 @@ unit testing for the proposed change, especially for border conditions.
 See \xref[Process]{process} (page \pageref{process}) for a full description.
 
 
-\section{Differences from Forth 94} % D.6
+\section{Differences from Forth 94} % D.7
 \label{diff:forth94}
 
 \cbstart\patch{x:obsolete}
@@ -237,7 +237,7 @@ been removed from this standard.}
 \end{description}
 
 \patch{x:fp-stack}
-\subsection[Obsolescent features]{\sout{Obsolescent features}}
+\subsection[Obsolescent features]{\sout{Obsolescent features}} % D.7.2
 \label{diff:94:obsolete}
 
 	\sout{This standard has designated the following practice as obsolescent:}
@@ -326,7 +326,7 @@ mechanism, but rather to mark it as obsolescent.}
 	\uline{Forth 94 did not guarantee the presence of these queries.  Many
 	systems that provided all the words in a particular word set did not
 	provide the corresponding query.  Portable programs are not affected
-	as they could not reply on this function.}
+	as they could not rely on this function.}
 
 \item[Transition/Conversion:] ~\\
 	\uline{There is no direct equivalent to determine the presence of a whole
@@ -349,7 +349,7 @@ mechanism, but rather to mark it as obsolescent.}
 
 
 \patch{x:throw-iors}
-\subsection[Input/Output return values]{\uline{Input/Output return values}}
+\subsection[Input/Output return values]{\uline{Input/Output return values}} % D.7.5
 \label{diff:12:ior}
 
 \begin{description}
@@ -376,7 +376,7 @@ mechanism, but rather to mark it as obsolescent.}
 
 \item[\uline{Reason:}] ~\\
 	\uline{Forth 94 left the error code (\param{ior}) implementation-defined,
-	although it did recommend an \param{ior} be a \word[exception]{THROW}
+	although it did recommend an \param{ior} to be a \word[exception]{THROW}
 	code.  Forth 2012 now requires an \param{ior} to be a
 	\word[exception]{THROW} code.}
 
@@ -393,7 +393,7 @@ mechanism, but rather to mark it as obsolescent.}
 
 
 \patch{x:local}
-\subsection[Minimum number of locals]{\uline{Minimum number of locals}}
+\subsection[Minimum number of locals]{\uline{Minimum number of locals}} % D.7.6
 \label{diff:12:locals}
 
 \begin{description}
@@ -409,7 +409,7 @@ mechanism, but rather to mark it as obsolescent.}
 \end{description}
 
 \patch{x:prefix}
-\subsection[Number prefixes]{\uline{Number prefixes}}
+\subsection[Number prefixes]{\uline{Number prefixes}} % D.7.7
  \label{diff:12:prefix}
 
 \uline{Decimal, hexadecimal, binary number literals can now be written
@@ -423,7 +423,7 @@ recognize these forms.}
  
 
 \patch{x:source-id}
-\subsection[SOURCE-ID Clarification]{\uline{\word{SOURCE-ID} Clarification}}
+\subsection[SOURCE-ID Clarification]{\uline{\word{SOURCE-ID} Clarification}} % D.7.7
 \label{diff:12:sourceid}
 
 \uline{%
@@ -433,7 +433,7 @@ undefined.}
 
 
 \patch{x:FASINH}
-\subsection[FASINH]{\uline{\word[floating]{FASINH}}}
+\subsection[FASINH]{\uline{\word[floating]{FASINH}}} % D.7.9
  \label{diff:12:fasinh}
 
 \uline{An ambiguous condition on \param{r1} being less than 0 was removed.}
@@ -442,7 +442,7 @@ undefined.}
 unlikely to be affected.}
 
 \patch{x:FATAN2}
-\subsection[FATAN2]{\uline{\word[floating]{FATAN2}}}
+\subsection[FATAN2]{\uline{\word[floating]{FATAN2}}} % D.7.10
 \label{diff:12:fatan2}
 
 \begin{description}
@@ -464,7 +464,7 @@ unlikely to be affected.}
 
 % =========================================================
 
-\section{Additional words}
+\section{Additional words} % D.8
 \label{diff:new12}
 
 The following words have been added to the standard:

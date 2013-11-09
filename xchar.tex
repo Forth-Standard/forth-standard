@@ -168,16 +168,16 @@ In section \xref{usage:numbers}{}, \arg{cnum} should be redefined to be:
 \word[file]{WRITE-FILE}, and
 \word[file]{WRITE-LINE}
 operate on \emph{pchars}.  Therefore, it is possible that these words
-read or write incomplete xchars, which are completed in the next
+read or write incomplete \emph{xchars}, which are completed in the next
 consecutive operation(s).  The IO system shall combine these \emph{pchars}
-into a complete xchar on output, or split an xchar into \emph{pchars} on
-input, and shall not throw a ``malformed xchar'' exception when the
-combination of these \emph{pchars} indeed forms a valid xchar.
-\word[xchar]{-TRAILING-GARBAGE} can be used to process an incomplete xchar
-at the end of such an IO operation.}
+into a complete \emph{xchars} on output, or split an \emph{xchars} into
+\emph{pchars} on input, and shall not throw a ``malformed \emph{xchars}''
+exception when the combination of these \emph{pchars} form a valid
+\emph{xchars}.  \word[xchar]{-TRAILING-GARBAGE} can be used to process
+an incomplete \emph{xchars} at the end of such an IO operation.}
  
-\uline{\word{ACCEPT} as input editor may be aware of xchars to provide comfort like 
-backspace or cursor movement.}
+\uline{\word{ACCEPT} as input editor may be aware of \emph{xchars} to
+provide comfort like backspace or cursor movement.}
 \cbend
 
 \section{Additional documentation requirements} % 18.4
@@ -192,14 +192,14 @@ work with xchars in the string.}  Since Unicode input and display poses a
 number of challenges like input method editors for different languages,
 left-to-right and right-to-left writing, and most fonts contain only a subset
 of Unicode glyphs, systems should document their capabilities.  File IO and
-in-memory string handling should work transparently with xchars.
+in-memory string handling should work transparently with \emph{xchars}.
 
 \subsubsection{Ambiguous conditions} % 18.4.1.2
 
 \begin{itemize}
 \item the data in memory does not encode a valid xchar
 	(\wref{xchar:X-SIZE}{});
-\item the xchar value is outside the range of allowed code points of
+\item the \emph{xchars} value is outside the range of allowed code points of
 	the current character set used.
 \item words improperly used outside
 	\wref{core:num-start}{<\num} and \wref{core:num-end}{\num>}
