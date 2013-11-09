@@ -68,8 +68,8 @@ rem *.sub	Auto generated support files
 rem *.undo	LEd backup files
 rem *.cb*	Change Bars
 
-for %%x in (log out toc) do if exist forth.%%x del forth.%%x
-for %%x in (wrd wds aux sub undo) do del *.%%x
+for %%x in (log out toc wrd wds) do if exist forth.%%x del forth.%%x
+for %%x in (aux sub undo) do del *.%%x
 del *.cb*
 
 rem Keep the following:
