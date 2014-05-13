@@ -1,51 +1,52 @@
 % !TeX root = forth.tex
 % !TeX spell = en_US
 
-%\chapter*{Foreword}
-\textbf{\textsf{\LARGE \sout{Foreword}}}\cbstart\patch{x:foreword}
-\label{foreword}
+\vspace*{-6ex}\chapter*{Foreword}
 \addcontentsline{toc}{section}{Foreword}
+\label{foreword}
 \markboth{Foreword}{Foreword}
 
-\sout{%
-On completion of ANS Forth (ANS X3.215-1994 \emph{Information Systems
---- Programming Languages FORTH}) in 1994, the document was presented
-to and adopted as an international standard, by the ISO in 1997, being
-published as ISO/IEC 15145:1997 \emph{Information technology,
-Programming languages, FORTH}.}
+Forth is a language for direct communication between human beings and
+machines. Forth was invented by Charles Moore to increase programmer
+productivity without sacrificing machine efficiency.
+Using natural-language diction and machine-oriented syntax,
+Forth provides an economical, productive environment for interactive
+compilation and execution of programs. Forth also provides low-level
+access to computer-controlled hardware, and the ability to extend the
+language itself. This extensibility allows the language to be quickly
+expanded and adapted to special needs and different hardware systems.
+Forth provides for highly interactive program development and testing.
 
-\sout{The current project to update ANS Forth was launched at the 2004
-EuroForth conference.  The intention being to allow the Forth community
-to contribute to a rolling standard.  With changes to the document
-being proposed and discussed in the electronic community, via the
-\texttt{comp.lang.forth} usenet news group, the
-\texttt{forth200x@yahoogroups.com} email list,
-%\texttt{forth200x} email list (on \texttt{yahoogroups.com}),
-and the \texttt{www.forth200x.org} web site.  An open meeting to
-discuss proposals is held annually, immediately prior to the EuroForth
-conference.}
+In the interests of transportability of application software written in
+Forth, standardization efforts began in the mid-1970s by an international
+group of users and implementors who adopted the name ``Forth Standards Team''.
+This effort resulted in the Forth-77 Standard. As the language continued
+to evolve, an interim Forth-78 Standard was published by the Forth Standards
+Team. Following Forth Standards Team meetings in 1979, the Forth-79 Standard
+was published in 1980. Major changes were made by the Forth Standards Team
+in the Forth-83 Standard, which was published in 1983.
 
-\uline{% 
+The ANS Forth committee was formed in 1987 to address the fragmentation
+within the Forth community caused not only by the difference between
+Forth 79 and Forth 83 but the exploitation of technical de\-vel\-op\-ments.
+Undertaking a comprehensive review of existing implementations they
+moved away from prescribing stringent requirements, preferring to
+describe the operation of the virtual machine, without reference to
+an implementation.  The ANS Forth Standard was published in
+1994\footnote{ANSI X3.215--1994 Information Systems --- Programming Language FORTH}
+and was adopted as an international standard in
+1997\footnote{ISO/IEC 15145:1997 Information technology.  Programming languages.  FORTH}.
+
 The Forth 200\emph{x} Standardisation Committee was formed in 2004
-to allow the Forth community to contribute to an updated standard. Changes
-are proposed and discussed in the electronic media:
+to allow the Forth community to contribute to an updated standard.
+Changes are proposed and discussed in the electronic media:
 the usenet news group \texttt{comp.lang.forth};
 the \texttt{forth200x@yahoogroups.com} email list;
 the \texttt{www.forth200x.org} web site.
 Annual public meeting are held to review and vote on the proposed
-changes.}
+changes.
 
-\sout{%
-This document is based on the final draft of the standard published
-by the Technical Committee on Forth Programming Systems as part of
-development of ANS Forth (ANS X3.215-1994).
-%
-It has been modified in accordance with
-the directions of the Forth 200\emph{x} Standards Committee which first
-met on}
-\uline{%
-This document is the result of the public review meetings first held on}
-\cbend
+This document is the result of the public review meetings first held on
 October 21--22, 2005 (Santander) and subsequently on
 September 14--15, 2006 (Cambridge),
 September 13--14, 2007 (Dagstuhl),
@@ -55,5 +56,5 @@ September 2--4, 2009 (Exeter),
 March 24--26, 2010 (Rostock),
 September 22--24, 2010 (Hamburg),
 September 21--23, 2011 (Vienna),
-September 12--14, 2012 (Oxford)%
-\place{ed13}{, September 25--27, 2013 (Ham\-burg)}.
+September 12--14, 2012 (Oxford),
+September 25--27, 2013 (Ham\-burg).
