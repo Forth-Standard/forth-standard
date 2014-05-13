@@ -117,6 +117,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{0070}{'}[tick]
 \item \stack{"<spaces>name"}{xt}
 
@@ -247,6 +248,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{0110}{*/MOD}[star-slash-mod]
 \item \stack{n_1 n_2 n_3}{n_4 n_5}
 
@@ -427,6 +429,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{0150}{,}[comma]
 \item \stack{x}{}
 
@@ -553,6 +556,7 @@
 \end{worddef}
 
 
+\enlargethispage{4ex}
 \begin{worddef}{0230}{/}[slash]
 \item \stack{n_1 n_2}{n_3}
 
@@ -1130,6 +1134,7 @@
 \end{worddef}
 
 
+\enlargethispage{6ex}
 \begin{worddef}[toR]{0580}{>R}[to-r]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1269,7 +1274,7 @@
 		special behavior. Insofar as such behavior is outside the
 		standard, Standard Programs cannot depend upon it, but the
 		committee doesn't wish to preclude it unnecessarily.
-		\replace{ed13}{Since}{ Because} actual values are almost always small integers, no
+		Because actual values are almost always small integers, no
 		functionality is impaired by this restriction.
 
 		It is recommended that all non-graphic characters be reserved
@@ -1465,6 +1470,7 @@
 \end{worddef}
 
 
+\enlargethispage{6ex}
 \begin{worddef}{0770}{BL}[b-l]
 \item \stack{}{char}
 
@@ -1725,6 +1731,7 @@
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{1000}{CREATE}
 \item \stack{"<spaces>name"}{}
 
@@ -1766,6 +1773,7 @@
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{1170}{DECIMAL}
 \item \stack{}{}
 
@@ -1777,6 +1785,7 @@
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{1200}{DEPTH}
 \item \stack{}{+n}
 
@@ -1790,7 +1799,8 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-0.5ex}
+\enlargethispage{10ex}
 \begin{worddef}{1240}{DO}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1803,6 +1813,7 @@
 	semantics are incomplete until resolved by a consumer of
 	\param{do-sys} such as \word{LOOP}.
 
+%\pagebreak
 \runtime
 	\stack{n_1|u_1 n_2|u_2}{}
 	\stack[R]{}{loop-sys}
@@ -1951,6 +1962,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{1310}{ELSE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2073,6 +2085,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{1360}{EVALUATE}
 \item \stack{i*x c-addr u}{j*x}
 
@@ -2173,6 +2186,7 @@
 \end{worddef}
 
 
+\enlargethispage{10ex}
 \begin{worddef}{1550}{FIND}
 \item \stack{c-addr}{c-addr 0 | xt 1 | xt -1}
 
@@ -2356,6 +2370,7 @@
 \end{worddef}
 
 
+\enlargethispage{4ex}
 \begin{worddef}{1650}{HERE}
 \item \stack{}{addr}
 
@@ -2649,7 +2664,7 @@
 \end{worddef}
 
 
-
+\pagebreak
 \begin{worddef}{1760}{LEAVE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2691,6 +2706,7 @@
 \end{worddef}
 
 
+\enlargethispage{4ex}
 \begin{worddef}{1780}{LITERAL}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2977,6 +2993,7 @@
 \end{worddef}
 
 
+\enlargethispage{8ex}
 \begin{worddef}{1910}{NEGATE}
 \item \stack{n_1}{n_2}
 
@@ -3139,6 +3156,7 @@
 \end{worddef}
 
 
+\enlargethispage{8ex}
 \begin{worddef}[Rfrom]{2060}{R>}[r-from]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3334,6 +3352,7 @@
 \end{worddef}
 
 
+\enlargethispage{4ex}
 \begin{worddef}[Sq]{2165}{S"}[s-quote]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3782,6 +3801,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{2380}{UNLOOP}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3899,6 +3919,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{2430}{WHILE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4163,6 +4184,7 @@
 %\end{worddef}
 
 
+\enlargethispage{6ex}
 \begin{worddef}[.p]{0200}{.(}[dot-paren]
 \compile
 	Perform the execution semantics given below.
@@ -4272,6 +4294,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{0415}{2R@}[two-r-fetch]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4394,7 +4417,7 @@
 	\begin{rationale} % A.6.2.0620 ?DO
 		Typical use:
 
-		\tab \place{ed13}{\word{:} \texttt{X} {\ldots}} \word{qDO} {\ldots} \word{LOOP} \place{ed13}{{\ldots} \word{;}}
+		\tab \word{:} \texttt{X} {\ldots} \word{qDO} {\ldots} \word{LOOP} {\ldots} \word{;}
 	\end{rationale}
 
 	\begin{testing}\ttfamily
@@ -4552,7 +4575,7 @@
 
 % -------------------------------------------------------------------
 
-
+\enlargethispage{6ex}
 \begin{worddef}{0825}{BUFFER:}[buffer-colon][x:buffer]
 \item \stack{u "<spaces>name"}{}
 
@@ -4755,6 +4778,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{0945}{COMPILE,}[compile-comma]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4769,18 +4793,13 @@
 \see \rref{core:COMPILE,}{}.
 
 	\begin{rationale} % A.6.2.0945 COMPILE,
-\cbstart\patch{ed13}
-		\uline{\word{COMPILE,} is the compilation equivalent of
-		\word{EXECUTE}.}
+		\word{COMPILE,} is the compilation equivalent of \word{EXECUTE}.
 
-\uline{%
 		In traditional threaded-code implementations, compilation is
 		performed by \word{,} (comma). This usage is not portable; it
 		doesn't work for subroutine-threaded, native code, or
 		relocatable implementations. Use of \word{COMPILE,} is portable.
-}
 
-\uline{%
 		In most systems it is possible to implement \word{COMPILE,} so
 		it will generate code that is optimized to the same extent as
 		code that is generated by the normal compilation process.
@@ -4792,7 +4811,6 @@
 		the compilation token from the execution token. In these
 		implementations, \word{COMPILE,} might not generate code that
 		is as efficient as normally compiled code.
-}
 
 		The intention is that \word{COMPILE,} can be used as follows to write
 		the classic interpreter/com\-piler loop:
@@ -4817,28 +4835,6 @@
 
 		Thus the interpretation semantics are left undefined, as \word{COMPILE,}
 		will not be executed during interpretation.
-
-\sout{%
-		In traditional threaded-code implementations, compilation is
-		performed by \word{,} (comma). This usage is not portable; it
-		doesn't work for subroutine-threaded, native code, or
-		relocatable implementations. Use of \word{COMPILE,} is portable.
-}
-
-\sout{%
-		In most systems it is possible to implement \word{COMPILE,} so
-		it will generate code that is optimized to the same extent as
-		code that is generated by the normal compilation process.
-		However, in some implementations there are two different
-		``tokens'' corresponding to a particular definition name:
-		the normal ``execution token'' that is used while interpreting
-		or with \word{EXECUTE}, and another ``compilation token'' that
-		is used while compiling. It is not always possible to obtain
-		the compilation token from the execution token. In these
-		implementations, \word{COMPILE,} might not generate code that
-		is as efficient as normally compiled code.
-}
-\cbend
 	\end{rationale}
 
 	\begin{testing}\ttfamily
@@ -4977,6 +4973,7 @@
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{1342}{ENDCASE}[end-case]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -5155,6 +5152,7 @@
 
 % ===================================================================
 
+\enlargethispage{2ex}
 \begin{worddef}{1725}{IS}[][X:deferred]
 \interpret
 	\stack{xt "<spaces>name"}{}
@@ -5239,6 +5237,7 @@
 		system to remember ``landmark information'' in advance that
 		specifically marks the spots where the dictionary may at some
 		future time have to be rearranged.
+\pagebreak
 	\end{rationale}
 \end{worddef}
 
@@ -5400,12 +5399,6 @@
 
 			\item The temporary buffer is typically overwritten by the
 				next use of \word{WORD}.
-\remove{ed13}{This introduces a temporal
-				dependency; the value returned by \word{WORD} is only
-				valid for a limited duration. \word{PARSE} has a
-				temporal dependency, too, related to the lifetime of
-				the input buffer, but that is less severe in most
-				cases than \word{WORD}'s temporal dependency.}
 			\end{enumerate}
 
 			The need for \word{WORD} has largely been eliminated by
@@ -5593,19 +5586,19 @@
 	the character after the backslash is case sensitive:
 
 	\begin{tabular}{llll}
-		\verb|\a|	& BEL		& (alert,		& ASCII 7) \\
-		\verb|\b|	& BS		& (backspace,	& ASCII 8) \\
-		\verb|\e|	& ESC		& (escape,		& ASCII 27) \\
-		\verb|\f|	& FF		& (form feed,	& ASCII 12) \\
-		\verb|\l|	& LF		& (line feed,	& ASCII 10) \\
-		\verb|\m|	& CR/LF	& pair			& (ASCII 13, 10) \\
-		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent , e.g., CR/LF, CR, LF, LF/CR)} \\
-		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
-		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
-		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
-		\verb|\v|	& VT		& (vertical tab,		& ASCII 11) \\
-		\verb|\z|	& NUL		& (no character,		& ASCII 0) \\
-		\verb|\"|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
+		\verb|\a|		& BEL		& (alert,					& ASCII 7) \\
+		\verb|\b|	& BS		& (backspace,			& ASCII 8) \\
+		\verb|\e|		& ESC		& (escape,				& ASCII 27) \\
+		\verb|\f|		& FF		& (form feed,			& ASCII 12) \\
+		\verb|\l|		& LF		& (line feed,				& ASCII 10) \\
+		\verb|\m|	& CR/LF		& pair					& (ASCII 13, 10) \\
+		\verb|\n|	& newline	& \multicolumn{2}{l}{(implementation dependent , e.g., CR/LF, CR, LF, LF/CR)} \\
+		\verb|\q|	& \multicolumn{2}{l}{double-quote}	& (ASCII 34) \\
+		\verb|\r|		& CR		& (carriage return,		& ASCII 13) \\
+		\verb|\t|		& HT		& (horizontal tab,			& ASCII 9) \\
+		\verb|\v|		& VT		& (vertical tab,			& ASCII 11) \\
+		\verb|\z|		& NUL		& (no character,			& ASCII 0) \\
+		\verb|\"|		& \multicolumn{2}{l}{double-quote}	& (ASCII 34) \\
 		\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
 		&&\multicolumn{2}{p{27em}}{
 			The resulting character is the conversion of these two hexadecimal
@@ -5750,6 +5743,7 @@
 		These are examples only; a Standard Program may not assume any
 		particular meaning for the individual stack items returned by
 		\word{SAVE-INPUT}.
+\pagebreak
 	\end{rationale}
 
 	\begin{testing}\ttfamily
@@ -5911,7 +5905,7 @@
 		a mode flag that is tested by the subsequent execution of
 		\param{name}.  Standard programs must use \word{TO} as if it
 		parses.  Therefore \word{TO} and \param{name} must be
-		contiguous \replace{ed13}{,}{ and} on the same line\remove{ed13}{,} in the source text.
+		contiguous and on the same line in the source text.
 	\end{rationale}
 
 	\begin{testing} % T.6.2.2295 TO
@@ -5920,6 +5914,7 @@
 \end{worddef}
 
 
+\enlargethispage{6ex}
 \begin{worddef}{2298}{TRUE}
 \item \stack{}{true}
 

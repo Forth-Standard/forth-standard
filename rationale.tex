@@ -33,9 +33,9 @@
 \subsection{Scope} % A.1.2
 \label{rat:scope}
 
-When judging relative merits
-\place{ed13}{of proposed changes to the standard}, the members of the
-committee were guided by the following goals (listed in alphabetic order):
+When judging relative merits of proposed changes to the standard, the
+members of the committee were guided by the following goals (listed
+in alphabetic order):
 
 \begin{tabular}{lp{0.75\textwidth}}
 Consistency	&
@@ -66,10 +66,6 @@ Utility	&
 	frequency of use to be deemed suitable for inclusion.
 \end{tabular}
 
-\cbstart\patch{ed13}
-\subsection[Document organization]{\sout{Document organization}} % A.1.3
-\label{doc:org}
-\cbend
 
 \section{Terms and notation} % A.2
 
@@ -464,15 +460,12 @@ anything else. However it may not be unique, e.g., the phrases
 \end{quote}
 might return the same value.
 
-\cbstart\patch{x:throw-iors}
-\paragraph{\uline{Error results}} ~ % A.3.1.3.6
+\paragraph{Error results} ~ % A.3.1.3.6
 \label{rat:ior}
 
-\uline{%
 The term \param{ior} was originally defined to describe the result of
 an input/output operation.  This was extended to include other
-operations.}
-\cbend
+operations.
 
 \subsubsection{Cell-pair types} % A.3.1.4
 
@@ -836,6 +829,7 @@ possible control-flow stack usage.
 \end{quote}
 
 
+\pagebreak
 \paragraph{Return stack} ~ % A.3.2.3.3
 
 The restrictions in section \xref[3.2.3.3 Return stack]{usage:returnstack}
@@ -953,7 +947,7 @@ data only at addresses that are multiples of four.
 
 An implementor can handle these alignment restrictions in one of two
 ways. Forth's memory access words (\word{@}, \word{!}, \word{+!},
-etc.) could be implemented in terms of smaller-width access instructions\place{ed13}{,}
+etc.) could be implemented in terms of smaller-width access instructions,
 which have no alignment restrictions.  For example, on a system with
 16-bit cells, \word{@} could be implemented with two byte-fetch
 instructions and a reassembly of the bytes into a 16-bit cell.  Although
@@ -968,11 +962,11 @@ portable program must assume that alignment may be required and
 follow the requirements of this section.
 
 
-
+\pagebreak
 \paragraph{Contiguous regions} ~ % A.3.3.3.2
 \label{rat:regions}
 
-The data space of a Forth system comes in \replace{ed13}{discontinuous}{ discontiguous} regions. The
+The data space of a Forth system comes in discontiguous regions. The
 location of some regions is provided by the system, some by the
 program. Data space is contiguous within regions, allowing address
 arithmetic to generate valid addresses only within a single region.
@@ -1201,13 +1195,6 @@ systems.  Such systems provide mass storage in blocks of 1024 bytes.
 The Block Word set includes the most common words for accessing
 program source and data on disk.
 
-\remove{ed13}{%
-In order to guarantee Standard Programs that need access to mass
-storage have a mechanism appropriate for both native and non-native
-implementations, this standard requires that the Block word set be
-available if any mass-storage facilities are provided.  On non-native
-implementations, blocks normally reside in host OS files.}
-
 \setcounter{subsection}{1}
 \subsection{Additional terms} % A.7.2 ===============================
 
@@ -1231,9 +1218,6 @@ implementations, blocks normally reside in host OS files.}
 	The standard restricts programs such that items that could fail on
 	multitasking systems are not standard usage.  It also permits
 	multitasking systems to be declared standard systems.
-\remove{ed13}{%
-	Annex \textbf{C.7.9 Multitasking} describes the topic in more detail.
-}
 
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.7.6 =============================
@@ -1341,6 +1325,7 @@ known to \word{THROW}, for example). Under these circumstances it is
 not possible for a Standard Program to define words such as
 \word[block]{LOAD} in a completely portable way.
 
+\pagebreak
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.9.6 =============================
 
@@ -1373,6 +1358,7 @@ original file has blocks still in block buffers, these will be
 incorrectly associated with the newly opened file with disastrous
 results. The block buffer system must be flushed to avoid this.
 
+\pagebreak
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.11.6 ============================
 
@@ -1524,16 +1510,14 @@ One of the original aims of Forth was to erase the boundary between
 who had occasion to use a computer. Nothing in the above labeling or
 remarks should be construed to mean that this goal has been abandoned.
 
-\cbstart\patch{x:traverse-wordlist}
 \setcounter{subsection}{3}
-\subsubsection[Name tokens]{\uline{Name tokens}}
+\subsubsection{Name tokens}
 \label{rat:tools:nt}
 
-\uline{%
 Name tokens are an abstract data type identifying named words.
 You can use words such as \word{NAMEtoSTRING} to get information
-out of name tokens.}
-\cbend
+out of name tokens.
+
 
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.15.6 ============================

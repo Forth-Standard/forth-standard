@@ -155,11 +155,10 @@ In section \xref{usage:numbers}{}, \arg{cnum} should be redefined to be:
 	\end{tabular}
 \end{center}
 
-\cbstart\patch{x:xchar}
-\subsection[Input and Output]{\uline{Input and Output}} % 18.3.5
+\subsection{Input and Output} % 18.3.5
 \label{xchar:io}
 
-\uline{IO words such as
+IO words such as
 \word{KEY}, 
 \word{EMIT},
 \word{TYPE},
@@ -174,11 +173,10 @@ into a complete \emph{xchars} on output, or split an \emph{xchars} into
 \emph{pchars} on input, and shall not throw a ``malformed \emph{xchars}''
 exception when the combination of these \emph{pchars} form a valid
 \emph{xchars}.  \word[xchar]{-TRAILING-GARBAGE} can be used to process
-an incomplete \emph{xchars} at the end of such an IO operation.}
+an incomplete \emph{xchars} at the end of such an IO operation.
  
-\uline{\word{ACCEPT} as input editor may be aware of \emph{xchars} to
-provide comfort like backspace or cursor movement.}
-\cbend
+\word{ACCEPT} as input editor may be aware of \emph{xchars} to
+provide comfort like backspace or cursor movement.
 
 \section{Additional documentation requirements} % 18.4
 
@@ -187,12 +185,11 @@ provide comfort like backspace or cursor movement.}
 \subsubsection{Implementation-defined options} % 18.4.1.1
 \label{xchar:impopt}
 
-\remove{x:xchar}{Terminal string IO like \word{TYPE} and \word{ACCEPT} also are extended to
-work with xchars in the string.}  Since Unicode input and display poses a
-number of challenges like input method editors for different languages,
-left-to-right and right-to-left writing, and most fonts contain only a subset
-of Unicode glyphs, systems should document their capabilities.  File IO and
-in-memory string handling should work transparently with \emph{xchars}.
+Since Unicode input and display poses a number of challenges like input
+method editors for different languages, left-to-right and right-to-left
+writing, and most fonts contain only a subset of Unicode glyphs,
+systems should document their capabilities.  File IO and in-memory
+string handling should work transparently with \emph{xchars}.
 
 \subsubsection{Ambiguous conditions} % 18.4.1.2
 
@@ -234,6 +231,7 @@ shall be appended to the label of any Standard System that provides
 all of the Extended Character and Extended Character Extensions
 word sets.
 
+\enlargethispage{10ex}
 \subsection{Forth-\snapshot{} programs} % 18.5.2
 
 The phrase ``Requiring the Extended Character word set'' shall be
@@ -413,6 +411,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{2488}[10]{XEMIT}[x-emit][x:xchar]
 \item \stack{xchar}{}
 
@@ -433,6 +432,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{2488}[30]{XKEY}[x-key][x:xchar]
 \item \stack{}{xchar}
 
@@ -453,6 +453,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}[XKEYq]{2488}[35]{XKEY?}[x-key-query][x:xchar]
 \item \stack{}{flag}
 
@@ -482,6 +483,8 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
+\enlargethispage{8ex}
 \begin{worddef}{0175}{-TRAILING-GARBAGE}[minus-trailing-garbage][x:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
@@ -523,6 +526,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.75ex}
 \begin{worddef}[EKEYtoXCHAR]{1306}[60]{EKEY>XCHAR}[e-key-to-x-char][x:xchar]
 \item \stack{x}{xchar true | x false}
 
@@ -536,6 +540,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.75ex}
 \begin{worddef}{2008}{PARSE}[][x:xchar]
 \item \stack{xchar "ccc<xchar>"}{c-addr u}
 
@@ -551,6 +556,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.75ex}
 \begin{worddef}{2486}[70]{X-WIDTH}[][x:xchar]
 \item \stack{xc-addr u}{n}
 
@@ -568,6 +574,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.75ex}
 \begin{worddef}{2487}[30]{XC-WIDTH}[x-c-width][x:xchar]
 \item \stack{xchar}{n}
 
@@ -733,6 +740,8 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-0.75ex}
+\enlargethispage{8ex}
 \begin{worddef}{2487}[45]{XCHAR-}[x-char-minus][x:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 

@@ -100,13 +100,12 @@ implementations, especially those with substantial user bases and/or
 considerable success in the market place.  This allowed them to identify
 and document features common to these systems, many of which had not been
 included in any previous standard.
-\place{ed13}{%
 This was the most comprehensive review of Forth systems to date, taking
 eighty seven days covering twenty three meetings over eight years.
 The inclusive nature of the standard allowed the various factions within
 the community to unify in support of ANS Forth, with many systems
 providing a compatibility layer.
-}
+
 
 The committee chose to move away from prescribing stringent requirements
 as previous standards had, with the specification of a virtual machine.
@@ -119,17 +118,9 @@ This required the identification of implicit assumptions made by the
 previous standards, making them explicit and abstracting them into
 more general concepts where possible.  A good example of this is the
 size of an item on the stack.  In previous standards this was assumed
-to be 16\remove{ed13}{-}bits wide.  This was no longer a valid assumption.  ANS Forth
-introduced the concept of the \emph{cell}, allowing \replace{ed13}{the} an implementation
+to be 16 bits wide.  This was no longer a valid assumption.  ANS Forth
+introduced the concept of the \emph{cell}, allowing an implementation
 to use a stack size most suited to the environment.
-
-\remove{ed13}{%
-This was the most comprehensive review of Forth systems to date, taking
-eighty seven days covering twenty three meetings over eight years.
-The inclusive nature of the standard allowed the various factions within
-the community to unify in support of ANS Forth, with many systems
-providing a comparability layer.
-}
 
 The American National Standards Institution (ANSI) published the ANS
 Forth Standard in 1994 with the title ``\emph{ANSI X3.215-1994
@@ -152,7 +143,7 @@ Information technology.  Programming languages.  FORTH}''.
 \label{diff:approach}
 
 During a workshop on the Forth standard at the EuroForth conference in
-2004 it was agreed that \remove{ed13}{the} Forth 94 required updating.
+2004 it was agreed that Forth 94 required updating.
 
 A committee was formed and agreed that the process should be as open
 as possible, adopting the Usenet RfD/CfV (Request for Discussion/Call
@@ -182,179 +173,154 @@ See \xref[Process]{process} (page \pageref{process}) for a full description.
 \section{Differences from Forth 94} % D.7
 \label{diff:forth94}
 
-\cbstart\patch{x:obsolete}
 \subsection{Removed Obsolete Words} % D.7.1
 \label{diff:ans:obsolete}
-	\sout{This standard removes six words that were marked `obsolescent'
-	in the Forth 94 document.  These are:}
 
-\begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
-	\sout{6.2.0060}	& \sout{\textbf{\#TIB}}
-&	\sout{6.2.1390}	& \sout{\textbf{EXPECT}}
-&	\sout{6.2.2240}	& \sout{\textbf{SPAN}} \\
-	\sout{6.2.0970}	& \sout{\textbf{CONVERT}}
-&	\sout{6.2.2040}	& \sout{\textbf{QUERY}}
-&	\sout{6.2.2290}	& \sout{\textbf{TIB}} \\
-\end{tabular}
-
-\uline{%
-Forth 94 declared seven words as `obsolescent', all but \word[tools]{FORGET} have
-been removed from this standard.}
+Forth 94 declared seven words as `obsolescent', all but
+\word[tools]{FORGET} have been removed from this standard.
 
 \begin{description}
-\item[\uline{Words affected:}] ~\\
-	\uline{\texttt{\#TIB},
+\item[Words affected:] ~\\
+	\texttt{\#TIB},
   	\texttt{CONVERT},
   	\texttt{EXPECT},
   	\texttt{QUERY},
   	\texttt{SPAN},
   	\texttt{TIB},
-  	\word{WORD}.}
+  	\word{WORD}.
   
-\item[\uline{Reason:}] ~\\
-	\uline{Obsolescent words have been removed.}
+\item[Reason:] ~\\
+	Obsolescent words have been removed.
   
-\item[\uline{Impact:}] ~\\
-	\uline{\word{WORD} is no longer required to leave a space at the
-	  	end of the returned string.}
+\item[Impact:] ~\\
+	\word{WORD} is no longer required to leave a space at the end of
+	the returned string.
 
-	\uline{It is recommended that, should the obsolete words be included,
-	they have the behaviour described in Forth 94.  The names should not
-	be reused for other purposes.}
+	It is recommended that, should the obsolete words be included,
+	they have the behaviour described in Forth 94.  The names should
+	not be reused for other purposes.
 
-\item[\uline{Transition/Conversion:}] ~\\
-	\uline{The functions of \texttt{TIB} and \texttt{\#TIB} have been
-  	superseded by \word{SOURCE}.}
+\item[Transition/Conversion:] ~\\
+	The functions of \texttt{TIB} and \texttt{\#TIB} have been
+	superseded by \word{SOURCE}.
  
-	\uline{The function of \texttt{CONVERT} has been superseded by
-	\word{toNUMBER}.}
+	The function of \texttt{CONVERT} has been superseded by
+	\word{toNUMBER}.
 
-	\uline{The functions of \texttt{EXPECT} and \texttt{SPAN} have
-	been superseded by \word{ACCEPT}.}
+	The functions of \texttt{EXPECT} and \texttt{SPAN} have been
+	superseded by \word{ACCEPT}.
 
-	\uline{The function of \texttt{QUERY} may be performed with
-	\word{ACCEPT} and \word{EVALUATE}.}
+	The function of \texttt{QUERY} may be performed with \word{ACCEPT}
+	and \word{EVALUATE}.
 \end{description}
 
-\patch{x:fp-stack}
-\subsection[Obsolescent features]{\sout{Obsolescent features}} % D.7.2
-\label{diff:94:obsolete}
 
-	\sout{This standard has designated the following practice as obsolescent:}
-
-\begin{itemize}
-\item \sout{Requiring floating-point numbers to be kept on the data stack.
-	(This has always been an environmental dependency.)}
-
-\item \sout{Using \word{ENVIRONMENTq} to enquire whether a word set is present.}
-\end{itemize}
-
-\subsection[Combined Floating-point/Data Stack Obsolescent]{\uline{Combined Floating-point/Data Stack Obsolescent}} % D.7.2
+\subsection{Combined Floating-point/Data Stack Obsolescent} % D.7.2
 \label{diff:fpstack}
 
-\uline{The requirement for floating-point numbers to be kept on the data stack
+The requirement for floating-point numbers to be kept on the data stack
 has been marked as obsolescent.  This was previously an environmental
-dependency/restriction.}
+dependency/restriction.
 
 \begin{description}
-\item[\uline{Words Affected:}] ~\\
-	\uline{All floating-point words.}
+\item[Words Affected:] ~\\
+	All floating-point words.
 
-\item[\uline{Reason:}] ~\\
-	\uline{The developing of software that may be used with either a combined
+\item[Reason:] ~\\
+	The developing of software that may be used with either a combined
 	stack or a separate stack is extremely difficult and costly.  While
 	some of the systems surveyed provide a combined floating-point/data
-	stack, they all provide a separate floating-point stack.}
+	stack, they all provide a separate floating-point stack.
 
-\item[\uline{Impact:}] ~\\
-	\uline{Forth 94 programs with an environmental dependency on a separate
-	floating-point stack become standard programs.}
+\item[Impact:] ~\\
+	Forth 94 programs with an environmental dependency on a separate
+	floating-point stack become standard programs.
 
-	\uline{Forth 94 programs with an environmental dependency on a combined
-	stack retain the environmental dependency.}
+	Forth 94 programs with an environmental dependency on a combined
+	stack retain the environmental dependency.
 
-	\uline{Forth 94 programs (without environmental dependency, i.e., those
-	working on either kind of system) remain standard programs.}
+	Forth 94 programs (without environmental dependency, i.e., those
+	working on either kind of system) remain standard programs.
 
-	\uline{Forth 94 systems that implement a separate floating-point stack
-	are now standard systems and no longer have an environmental restriction
-	on providing a floating-point stack.}
+	Forth 94 systems that implement a separate floating-point stack
+	are now standard systems and no longer have an environmental
+	restriction on providing a floating-point stack.
 
-	\uline{Forth 94 systems that implement a combined stack become systems
+	Forth 94 systems that implement a combined stack become systems
 	with an environmental restriction of not providing a separate
-	floating-point stack, but a combined stack.}
+	floating-point stack, but a combined stack.
 
-\item[\uline{Transition/Conversion:}] ~\\
-	\uline{Any code that has an environmental dependency on the use of a
-	combined floating-point/data stack should be ported to use a separate
-	floating-point stack.}
+\item[Transition/Conversion:] ~\\
+	Any code that has an environmental dependency on the use of a
+	combined floating-point/data stack should be ported to use a
+	separate floating-point stack.
 
-	\uline{A system that has an environmental restriction on using a
-	combined floating-point/data stack should consider providing a separate
-	floating-point stack.}
+	A system that has an environmental restriction on using a combined
+	floating-point/data stack should consider providing a separate
+	floating-point stack.
 \end{description}
 
 
-\patch{x:environment}
-\subsection[Using \word{ENVIRONMENT?} to inquire whether a word set is present.]{\uline{Using \word{ENVIRONMENT?} to inquire whether a word set is present.}} % D.7.3
+\subsection[Using ENVIRONMENT? to inquire whether a word set is present]{Using \word{ENVIRONMENT?} to inquire whether a word set is present} % D.7.3
 \label{diff:environment}
 
-\uline{With the advent of a new standard, it was necessary to review the meaning
-of word set queries.  Compatibility with Forth 94 demands that a word set
-query produce the same result as for Forth 94; i.e., querying for
-\texttt{CORE-EXT} returns true only if all the Forth 94 CORE EXT words
-are present.  The question was how to distinguish between word sets
-described by this and subsequent standards.}
+With the advent of a new standard, it was necessary to review the
+meaning of word set queries.  Compatibility with Forth 94 demands
+that a word set query produce the same result as for Forth 94; i.e.,
+querying for \texttt{CORE-EXT} returns true only if all the Forth 94
+CORE EXT words are present.  The question was how to distinguish
+between word sets described by this and subsequent standards.
 
-\uline{The committee considered adding a year indicator to the word set name
+The committee considered adding a year indicator to the word set name
 (``\texttt{CORE-EXT-\snapshot}'') or a providing a general query
 (``\texttt{Forth-\snapshot}'') which could be combined with the
 word-set query.  As the committee could find very few examples of the
 word-set queries being used, it chose not to update the word set-query
-mechanism, but rather to mark it as obsolescent.}
+mechanism, but rather to mark it as obsolescent.
 
+\pagebreak
 \begin{description}
-\item[\uline{Words Affected:}] ~\\
-	\uline{\word{ENVIRONMENT?}}
+\item[Words Affected:] ~\\
+	\word{ENVIRONMENT?}
 
-\item[\uline{Reason:}] ~\\
-	\uline{The use of the word-set query to inquire whether a word set is
-	present in the system has been marked obsolescent.  If present the
-	query indicates the word set, as documented in Forth 94, is available.}
+\item[Reason:] ~\\
+	The use of the word-set query to inquire whether a word set is
+	present in the system has been marked obsolescent.  If present
+	the query indicates the word set, as documented in Forth 94, is
+	available.
 
-\item[\uline{Impact:}] ~\\
-	\uline{Forth 94 did not guarantee the presence of these queries.  Many
-	systems that provided all the words in a particular word set did not
-	provide the corresponding query.  Portable programs are not affected
-	as they could not rely on this function.}
+\item[Impact:] ~\\
+	Forth 94 did not guarantee the presence of these queries.  Many
+	systems that provided all the words in a particular word set did
+	not provide the corresponding query.  Portable programs are not
+	affected as they could not rely on this function.
 
 \item[Transition/Conversion:] ~\\
-	\uline{There is no direct equivalent to determine the presence of a whole
+	There is no direct equivalent to determine the presence of a whole
 	word set.  The \wref{tools:[DEFINED]}{} and \wref{tools:[UNDEFINED]}{}
-	words can be used to detect the availability (or otherwise) of individual
-	words.}
+	words can be used to detect the availability (or otherwise) of
+	individual words.
 \end{description}
 
-\patch{x:to}
-\subsection[Additional \word{TO} targets]{\uline{Additional \word{TO} targets}} % D.7.4
+
+\subsection[Additional TO targets]{Additional \word{TO} targets} % D.7.4
 \label{diff:12:to}
 
-\uline{\wref{core:TO}{TO} has been extended to act on targets defined with
-\wref{floating:FVALUE}{} and \wref{double:2VALUE}{}.}
+\wref{core:TO}{TO} has been extended to act on targets defined with
+\wref{floating:FVALUE}{} and \wref{double:2VALUE}{}.
 
 \begin{description}
-\item[\uline{Words affected:}] ~\\
-	\uline{\word{TO}}
+\item[Words affected:] ~\\
+	\word{TO}
 \end{description}
 
 
-\patch{x:throw-iors}
-\subsection[Input/Output return values]{\uline{Input/Output return values}} % D.7.5
+\subsection{Input/Output return values} % D.7.5
 \label{diff:12:ior}
 
 \begin{description}
-\item[\uline{Words affected:}] ~\\
-	\uline{All words that return an \param{ior}.}
+\item[Words affected:] ~\\
+	All words that return an \param{ior}.
 % 	\word[memory]{ALLOCATE},
 % 	\word{CLOSE-FILE},
 % 	\word{CREATE-FILE},
@@ -374,93 +340,89 @@ mechanism, but rather to mark it as obsolescent.}
 % 	\word{WRITE-FILE},
 % 	\word{WRITE-LINE}.
 
-\item[\uline{Reason:}] ~\\
-	\uline{Forth 94 left the error code (\param{ior}) implementation-defined,
+\item[Reason:] ~\\
+	Forth 94 left the error code (\param{ior}) implementation-defined,
 	although it did recommend an \param{ior} to be a \word[exception]{THROW}
 	code.  Forth 2012 now requires an \param{ior} to be a
-	\word[exception]{THROW} code.}
+	\word[exception]{THROW} code.
 
-\item[\uline{Transition/Conversion:}] ~\\
-	\uline{Forth 94 programs are not affected.  Programs that are dependent
-	on \param{iors} being throwable are no longer required to document the
-	dependency.}
+\item[Transition/Conversion:] ~\\
+	Forth 94 programs are not affected.  Programs that are dependent
+	on \param{iors} being throwable are no longer required to document
+	the dependency.
 
-	\uline{Forth 94 systems that abided by the recommendation are not
-	affected.  Systems that did not heed this advice are required to do so.
-	A number of \word[exception]{THROW} codes were added to table
-	\ref{table:throw} to ease this transition.}
+	Forth 94 systems that abided by the recommendation are not affected.
+	Systems that did not heed this advice are required to do so. A
+	number of \word[exception]{THROW} codes were added to table
+	\ref{table:throw} to ease this transition.
 \end{description}
 
 
-\patch{x:local}
-\subsection[Minimum number of locals]{\uline{Minimum number of locals}} % D.7.6
+\subsection{Minimum number of locals} % D.7.6
 \label{diff:12:locals}
 
 \begin{description}
-\item[\uline{Words affected:}] ~\\
-	\uline{\word[local]{LOCAL}, \word[local]{LOCALS}}
+\item[Words affected:] ~\\
+	\word[local]{LOCAL}, \word[local]{LOCALS}
 
-\item[\uline{Reason:}] ~\\
-	\uline{Some programs require more than eight locals.}
+\item[Reason:] ~\\
+	Some programs require more than eight locals.
  
-\item[\uline{Transition/Conversion:}] ~\\
-	\uline{Existing programs are unaffected.  Systems implementing the locals
-	wordset have to be changed to support at least 16 (previously 8) locals.}
+\item[Transition/Conversion:] ~\\
+	Existing programs are unaffected.  Systems implementing the locals
+	wordset have to be changed to support at least 16 (previously 8)
+	locals.
 \end{description}
 
-\patch{x:prefix}
-\subsection[Number prefixes]{\uline{Number prefixes}} % D.7.7
+
+\subsection{Number prefixes} % D.7.7
  \label{diff:12:prefix}
 
-\uline{Decimal, hexadecimal, binary number literals can now be written
+Decimal, hexadecimal, binary number literals can now be written
 irrespective of BASE by using the prefix \#, \$, \%.  Also, character
-literals can be written as 'c'.}
+literals can be written as 'c'.
  
-\uline{Standard programs are unaffected.  Systems have to be changed to
-recognize these forms.}
+Standard programs are unaffected.  Systems have to be changed to
+recognize these forms.
 
-\uline{See} \xref[3.4.1.3]{usage:numbers}
+See \xref[3.4.1.3]{usage:numbers}.
  
 
-\patch{x:source-id}
-\subsection[SOURCE-ID Clarification]{\uline{\word{SOURCE-ID} Clarification}} % D.7.7
+\subsection[SOURCE-ID Clarification]{\word{SOURCE-ID} Clarification} % D.7.7
 \label{diff:12:sourceid}
 
-\uline{%
 When interpreting text from a file, the relationship between the position in the
 file returned by \word{SOURCE-ID}, and the current interpretation position is
-undefined.}
+undefined.
 
 
-\patch{x:FASINH}
-\subsection[FASINH]{\uline{\word[floating]{FASINH}}} % D.7.9
+\subsection[FASINH]{\word[floating]{FASINH}} % D.7.9
  \label{diff:12:fasinh}
 
-\uline{An ambiguous condition on \param{r1} being less than 0 was removed.}
+An ambiguous condition on \param{r1} being less than 0 was removed.
 
-\uline{Existing programs are not affected.  Existing systems are
-unlikely to be affected.}
+Existing programs are not affected.  Existing systems are
+unlikely to be affected.
 
-\patch{x:FATAN2}
-\subsection[FATAN2]{\uline{\word[floating]{FATAN2}}} % D.7.10
+
+\subsection[FATAN2]{\word[floating]{FATAN2}} % D.7.10
 \label{diff:12:fatan2}
 
 \begin{description}
-\item[\uline{Words affected:}] ~\\
-	\uline{\word[floating]{FATAN2}}
+\item[Words affected:] ~\\
+	\word[floating]{FATAN2}
 
-\item[\uline{Reason:}] ~\\
-	\uline{The result is now specified more tightly: it is the principal angle
-	(between -pi and pi).}
+\item[Reason:] ~\\
+	The result is now specified more tightly: it is the principal angle
+	(between -pi and pi).
 
-\item[\uline{Impact:}] ~\\
-	\uline{Forth 94 compliant programs are not affected.}
+\item[Impact:] ~\\
+	Forth 94 compliant programs are not affected.
 
-\item[\uline{Transition/Conversion:}] ~\\
-	\uline{Systems may have to change \word[floating]{FATAN2} to return
-	the principal angle.}
+\item[Transition/Conversion:] ~\\
+	Systems may have to change \word[floating]{FATAN2} to return
+	the principal angle.
 \end{description}
-\cbend
 
 % =========================================================
 
@@ -596,22 +558,20 @@ No words have been added to \xref{wordlist:memory}.
 \label{diff:12:tools}
 The following words have been added to the \xref{wordlist:tools-ext}:
 
-\cbstart\patch{x:traverse-wordlist}
 \begin{minipage}[t]{0.45\linewidth}
 	\wref{tools:NtoR}{} \\
-	\uline{\wref{tools:NAMEtoCOMPILE}{}} \\
-	\uline{\wref{tools:NAMEtoINTERPRET}{}}\\
-	\uline{\wref{tools:NAMEtoSTRING}{}} \\
+	\wref{tools:NAMEtoCOMPILE}{} \\
+	\wref{tools:NAMEtoINTERPRET}{} \\
+	\wref{tools:NAMEtoSTRING}{} \\
 	\wref{tools:NRfrom}{}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\linewidth}
 	\wref{tools:SYNONYM}{} \\
-	\uline{\wref{tools:TRAVERSE-WORDLIST}{}}\\
+	\wref{tools:TRAVERSE-WORDLIST}{} \\
 	\wref{tools:[DEFINED]}{} \\
 	\wref{tools:[UNDEFINED]}{}
 \end{minipage}
-\cbend
 \html{<br class="clear" />}
 
 \subsection{Search-Order word sets}

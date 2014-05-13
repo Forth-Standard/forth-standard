@@ -6,15 +6,15 @@
 \section{Introduction} % E.1
 \label{port:intro}
 
-A primary goal of \replace{ed13}{the this Standard is to}{ Forth 94 was to} enable a programmer to write Forth programs that work on
-a wide variety of machines\place{ed13}{ , Forth-\snapshot{} continues this practise}.
-This \place{ed13}{goal} is accomplished by allowing some key Forth terms to be
-implementation defined (e.g., cell size)
-and by providing Forth operators (words) that conceal the
-implementation. This allows the implementor to
-produce the Forth system that most effectively uses the native
-hardware. The machine independent operators, together with some
-programmer discipline, support program portability.
+A primary goal of Forth 94 was to enable a programmer to write Forth
+programs that work on a wide variety of machines, Forth-\snapshot{}
+continues this practise.  This goal is accomplished by allowing some
+key Forth terms to be implementation defined (e.g., cell size) and
+by providing Forth operators (words) that conceal the implementation.
+This allows the implementor to produce the Forth system that most
+effectively uses the native hardware. The machine independent
+operators, together with some programmer discipline, support program
+portability.
 
 It can be difficult for someone familiar with only one machine
 architecture to imagine the problems caused by transporting programs
@@ -57,8 +57,8 @@ number of address units. Forth implemented on a 16-bit microprocessor
 could use a 16-bit cell and an implementation on a 32-bit machine
 could use a 32-bit cell. Less common cell sizes (e.g., 18-bit or
 36-bit machines, etc.) could implement Forth systems with their native
-cell sizes. In all of these systems, Forth words such as \word{DUP} and
-\word{!} \remove{ed13}{(store)} do the same things (duplicate the top cell on the stack
+cell sizes. In all of these systems, Forth words such as \word{DUP}
+and \word{!} do the same things (duplicate the top cell on the stack
 and store the second cell into the address given by the first cell,
 respectively).
 
@@ -190,7 +190,7 @@ would produce the answer 1:
 	\quad FOO \word{C@}
 \end{quote}
 
-The same code on a 16-bit big\place{ed13}{-}endian Forth would produce the
+The same code on a 16-bit big-endian Forth would produce the
 answer 0. A portable program cannot exploit the representation
 of a number in memory.
 
@@ -232,10 +232,12 @@ unsigned single-cell number to a double-cell number can be done portably
 by pushing a zero on the stack.
 
 
+\ifrelease\else
 \begin{editor}
 This would be a good place to add a discussion
 of characters and the extended character word set.
 \end{editor}
+\fi
 
 \section{Forth system implementation} % E.4
 

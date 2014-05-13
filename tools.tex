@@ -13,15 +13,12 @@ None.
 
 \section{Additional usage requirements} % 15.3
 
-\cbstart\patch{x:traverse-wordlist}
-\subsection[Data types]{\uline{Data types}} % 15.3.1
+\subsection{Data types} % 15.3.1
 \label{tools:datatype}
 
-\uline{
 A name token is a single-cell value that identifies a named word.
-}
 
-\uline{Append table \ref{tools:types} to table \ref{table:datatypes}.}
+Append table \ref{tools:types} to table \ref{table:datatypes}.
 
 \begin{table}[h]
   \begin{center}
@@ -31,14 +28,13 @@ A name token is a single-cell value that identifies a named word.
 	\hline\hline
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
-	\emph{\uline{nt}}	& \uline{name token} & \uline{1 cell} \\
+	\emph{nt}	& name token & 1 cell \\
 	\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
 
 See: \xref[A.15.3.x Name token]{rat:tools:nt}{}.
-\cbend
 
 \subsection{The Forth dictionary} % 15.3.2
 \label{tools:dict}
@@ -91,8 +87,8 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \item removing a needed definition (\wref{tools:FORGET}{}).
 \item \wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{}.
 \item \wref{tools:NRfrom}{} is used with data not stored by \wref{tools:NtoR}{}.
-\item \place{x:traverse-wordlist}{adding to or deleting from the wordlist during the
-	execution of \wref{tools:TRAVERSE-WORDLIST}.}
+\item adding to or deleting from the wordlist during the execution of
+	\wref{tools:TRAVERSE-WORDLIST}.
 
 \end{itemize}
 
@@ -190,6 +186,7 @@ Extensions word sets.
 \end{worddef}
 
 
+\enlargethispage{4ex}
 \begin{worddef}{1280}{DUMP}
 \item \stack{addr u}{}
 
@@ -348,6 +345,7 @@ Extensions word sets.
 \end{worddef}
 
 
+\enlargethispage{8ex}
 \begin{worddef}{0930}{CODE}
 \item \stack{"<spaces>name"}{}
 
@@ -659,25 +657,20 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\begin{worddef*}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile][x:traverse-wordlist]
+\begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile][x:traverse-wordlist]
 \item \stack{nt}{x xt}
 
-\uline{%
 	\param{x xt} represents the compilation semantics of the word
 	\param{nt}.  The returned \param{xt} has the stack effect
-%	\stack{i*x x}{j*x}. 
-	( \param{i*x x} -{}- \param{j*x} ).
- \word{EXECUTE}ing \param{xt} consumes
+	\stack{i*x x}{j*x}.  \word{EXECUTE}ing \param{xt} consumes
 	\param{x} and performs the compilation semantics of the word
 	represented by \param{nt}.
-}
 
-\see \uline{%
+\see
 	\rref{tools:NAMEtoCOMPILE}{},
-	\wref{tools:TRAVERSE-WORDLIST}{}.}
+	\wref{tools:TRAVERSE-WORDLIST}{}.
 
 	\begin{rationale}
-\uline{%
 		In a traditional \param{xt}+immediate-flag system, the
 		\param{x xt} returned by \word{NAMEtoCOMPILE} is
 		typically \param{xt1 xt2}, where \param{xt1} is the
@@ -685,51 +678,43 @@ Extensions word sets.
 		\param{xt2} is the \param{xt} of \word{EXECUTE}
 		(for immediate words) or \word{COMPILE,} (for words
 		with default compilation semantics).
-}
 
-\uline{%
 		If you want to \word{POSTPONE} \param{nt}, you can
 		do so with
-}
 
 		\begin{quote}\ttfamily
-\uline{
 			\word{NAMEtoCOMPILE} \word{SWAP} \word{POSTPONE}
 			\word{LITERAL} \word{COMPILE,}
-}
 		\end{quote}
   	\end{rationale} 
-\end{worddef*}
+\end{worddef}
 
-\begin{worddef*}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret][x:traverse-wordlist]
+\begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret][x:traverse-wordlist]
 \item \stack{nt}{xt|0}
 
-\uline{%
 	\param{xt} represents the interpretation semantics of the word
 	\param{nt}.  If \param{nt} has no interpretation semantics,
-	\word{NAMEtoINTERPRET} returns 0.}
+	\word{NAMEtoINTERPRET} returns 0.
 
-\note \uline{%
+\note
 	This standard does not define the interpretation semantics of
-	some words, but systems are allowed to do so.}
+	some words, but systems are allowed to do so.
  
-\see \uline{\xref{tools:TRAVERSE-WORDLIST}{}.}
-\end{worddef*}
+\see \xref{tools:TRAVERSE-WORDLIST}{}.
+\end{worddef}
 
-\begin{worddef*}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string][x:traverse-wordlist]
+\begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string][x:traverse-wordlist]
 \item \stack{nt}{c-addr u}
 
-\uline{%
 	\word{NAMEtoSTRING} returns the name of the word \param{nt}
 	in the character string \param{c-addr u}.  The case of the characters
 	in the string is implementation-dependent.  The buffer containing
 	\param{c-addr u} may be transient and valid until the next invocation
 	of \word{NAMEtoSTRING}. A program shall not write into the buffer
 	containing the resulting string.
-}
 
-\uline{See \wref{tools:TRAVERSE-WORDLIST}{}.}
-\end{worddef*}
+\see \wref{tools:TRAVERSE-WORDLIST}{}.
+\end{worddef}
 
 \begin{worddef}[NRfrom]{1940}{NR>}[n-r-from][X:n-to-r]
 
@@ -834,96 +819,77 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef*}{2297}{TRAVERSE-WORDLIST}[][X:traverse-wordlist]
+\begin{worddef}{2297}{TRAVERSE-WORDLIST}[][X:traverse-wordlist]
 \item \stack{i*x xt wid}{j*x}
 
-\uline{%
 	Remove \param{wid} and \param{xt} from the stack.  Execute
 	\param{xt} once for every word in the wordlist \param{wid},
 	passing the name token \param{nt} of the word to \param{xt},
 	until the wordlist is exhausted or until \param{xt} returns false.
-}
 
-\uline{%
-	The invoked \param{xt} has the stack effect}
+	The invoked \param{xt} has the stack effect
 	\stack{k*x nt}{l*x flag}.
 
-\uline{%
 	If \param{flag} is true, \word{TRAVERSE-WORDLIST} will continue
 	with the next name, otherwise it will return.  \word{TRAVERSE-WORDLIST}
 	does not put any items other than \param{nt} on the stack when
 	calling \param{xt}, so that \param{xt} can access and modify the
 	rest of the stack.
-}
 
-\uline{%
 	\word{TRAVERSE-WORDLIST} may visit words in any order, with one
 	exception: words with the same name are called in the order
 	newest-to-oldest (possibly with other words in between).
-}
 
-\uline{%
 	An ambiguous condition exists if words are added to or deleted from
 	the wordlist \param{wid} during the execution of
 	\word{TRAVERSE-WORDLIST}.
-}
 
-\see \uline{\rref{tools:TRAVERSE-WORDLIST}{},
+\see \rref{tools:TRAVERSE-WORDLIST}{},
 	\wref{tools:NAMEtoSTRING}{}, \\
 	\wref{tools:NAMEtoINTERPRET}{},
-	\wref{tools:NAMEtoCOMPILE}{}.}
+	\wref{tools:NAMEtoCOMPILE}{}.
 
 	\begin{rationale}
-		\uline{Typical use:}
+		Typical use:
 
 		\begin{quote}\ttfamily
-		\uline{%
  			\word{:} WORDS-COUNT \word{p} x nt -- x' f )
 				\word{DROP} \word{1+} \word{TRUE}
 			\word{;}
-		} \\
-		\uline{%
+		\\
 			0 \word{'} WORDS-COUNT
 			\word[search]{FORTH-WORDLIST}
 			\word{TRAVERSE-WORDLIST} \word{d}
-		}
 		\end{quote}
 
-		\uline{prints a count of the number of words in the \word[search]{FORTH-WORDLIST}.}
+		prints a count of the number of words in the \word[search]{FORTH-WORDLIST}.
 
 		\begin{quote}\ttfamily
-			\uline{%
 			\word{:} ALL-WORDS
 				\word{NAMEtoSTRING} \word{CR} \word{TYPE} \word{TRUE}
 			\word{;}
-} \\
-\uline{%
+		\\
 			\word{'} ALL-WORDS 
 			\word[search]{GET-CURRENT}
 			\word{TRAVERSE-WORDLIST}
-}
 		\end{quote}
  
-		\uline{prints the names of words in the current compilation wordlist.}
+		prints the names of words in the current compilation wordlist.
 
 		\begin{quote}\ttfamily
-\uline{%
-			\word{:} CONTAINS-STRING} \\
-\tab \uline{%
-				\word{NAMEtoSTRING} \word{2OVER}
+			\word{:} CONTAINS-STRING \\
+\tab 			\word{NAMEtoSTRING} \word{2OVER}
 				\word[string]{SEARCH} \word{IF}
 					\word{CR} \word{TYPE}
-				\word{THEN} \word{FALSE} \word{;}} \\
-\uline{%
+				\word{THEN} \word{FALSE} \word{;} \\
 		\word{Sq} COM" \word{'} CONTAINS-STRING
 		\word[search]{GET-CURRENT} \word{TRAVERSE-WORDLIST}
-}
 		\end{quote}
  
-		\uline{prints the name of a word containing the string
-		``COM'', if it exists, and then terminates.}
+		prints the name of a word containing the string
+		``COM'', if it exists, and then terminates.
 	\end{rationale}
-\end{worddef*}
+\end{worddef}
 
 % -------------------------------------------------------------------
 
@@ -999,6 +965,7 @@ Extensions word sets.
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{2532}{[IF]}[bracket-if]
 \compile
 	Perform the execution semantics given below.

@@ -9,34 +9,8 @@ None.
 
 \section{Additional usage requirements} % 14.3
 
-\cbstart\patch{x:throw-iors}
-\subsection[I/O Results data type]{\sout{I/O Results data type}} % 14.3.1
-\label{mem:ior}
-
-\sout{%
-I/O results are single-cell numbers indicating the result of I/O
-operations. A value of zero indicates that the I/O operation
-completed successfully; other values and their meanings are
-implementation-defined.}
-
-\sout{Append table \ref{mem:types} to table \ref{table:datatypes}.}
-
-\begin{table}[h]
-  \begin{center}
-	\caption{\sout{Data types}}
-	\label{mem:types}
-	\begin{tabular}{llr}
-	\hline\hline
-	\sout{\emph{Symbol}}	& \sout{\emph{Data type}}	& \sout{\emph{Size on stack}} \\
-	\hline
-	\sout{\emph{ior}}		& \sout{I/O results}			& \sout{1 cell} \\
-	\hline\hline
-	\end{tabular}
-  \end{center}
-\end{table}
-\cbend
-
-\subsection{Allocated regions} % 14.3.3
+\setcounter{subsection}{2}
+\subsection{Allocated regions (14.3.3)} % 14.3.3
 
 A program may address memory in data space regions made available
 by \word{ALLOCATE} or \word{RESIZE} and not yet released by \word{FREE}.
@@ -47,35 +21,7 @@ See: \xref[3.3.3 Data space]{usage:dataspace}.
 \section{Additional documentation requirements} % 14.4
 \label{mem:docs}
 
-\cbstart\patch{x:throw-iors}
-\uline{None.}
-
-\subsection[System documentation]{\sout{System documentation}} % 14.4.1
-
-\subsubsection[Implementation-defined options]{\sout{Implementation-defined options}} % 14.4.1.1
-\begin{itemize}
-\item \sout{values and meaning of ior}
-	(\xref[14.3.1 I/O Results data type]{mem:ior},
-	 \sout{\wref{memory:ALLOCATE}{ALLOCATE},
-	 \wref{memory:FREE}{FREE},
-	 \wref{memory:RESIZE}{RESIZE}.}
-\end{itemize}
-
-\subsubsection[]{\sout{Ambiguous conditions}} % 14.4.1.2
-\begin{itemize}
-\item \sout{no additional requirements.}
-\end{itemize}
-
-\subsubsection[]{\sout{Other system documentation}} % 14.4.1.3
-\begin{itemize}
-\item \sout{no additional requirements.}
-\end{itemize}
-
-\subsection[]{\sout{Program documentation}} % 14.4.2
-\begin{itemize}
-\item \sout{no additional requirements.}
-\end{itemize}
-\cbend
+None.
 
 \section{Compliance and labeling} % 14.5
 
@@ -111,11 +57,13 @@ shall be appended to the label of Standard Programs that require
 the system to provide all of the Memory-Allocation and
 Memory-Al\-lo\-ca\-tion Extensions word sets.
 
-
+\enlargethispage{10ex}
+\vspace*{-1ex}
 \section{Glossary} % 14.6
 
 \subsection{Memory-Allocation words} % 14.6.1
 
+\vspace*{-1ex}
 \begin{worddef}{0707}{ALLOCATE}
 \item \stack{u}{a-addr ior}
 
@@ -157,6 +105,7 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-2ex}
 \begin{worddef}{1605}{FREE}
 \item \stack{a-addr}{ior}
 
@@ -178,7 +127,8 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
+\enlargethispage{10ex}
 \begin{worddef}{2145}{RESIZE}
 \item \stack{a-addr_1 u}{a-addr_2 ior}
 
@@ -229,7 +179,7 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \subsection{Memory-Allocation extension words} % 14.6.2
 
 None

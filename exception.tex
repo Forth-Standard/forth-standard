@@ -16,14 +16,6 @@ The \word{THROW} values \{-255{\ldots}-1\} shall be used only as
 assigned by this standard. The values \{-4095{\ldots}-256\}
 shall be used only as assigned by a system.
 
-\remove{x:throw-iors}{%
-If the File-Access or Memory-Allocation word sets are implemented,
-it is recommended that the non-zero values of \emph{ior} lie within
-the range of system \word{THROW} values, as defined above. In an
-operating-system environment, this can sometimes be accomplished
-by ``biasing'' the range of operating-system exception codes to fall
-within the \word{THROW} range.}
-
 Programs shall not define values for use with \word{THROW} in the
 range \{-4095{\ldots}-1\}.
 
@@ -244,6 +236,7 @@ The phrase ``Requiring the Exception Extensions word set'' shall be
 appended to the label of Standard Programs that require the system
 to provide all of the Exception and Exception Extensions word sets.
 
+\pagebreak
 \section{Glossary} % 9.6
 
 \subsection{Exception words} % 9.6.1
@@ -450,6 +443,7 @@ to provide all of the Exception and Exception Extensions word sets.
 \end{worddef}
 
 
+\pagebreak
 \subsection{Exception extension words} % 9.6.2
 \extended
 

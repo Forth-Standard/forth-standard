@@ -649,15 +649,15 @@
 % First we define the functions which are going to be called by our
 % special characters
 
-\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}  % _
-\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}   % ^
-\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}           % *
-\newcommand{\stack@bar}{~\textbar~}                            % |
-\newcommand{\stack@opa}{\ensuremath{\langle}}                  % <
-\newcommand{\stack@cla}{\ensuremath{\rangle}}                  % >
+\newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% _
+\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% ^
+\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}		% *
+\newcommand{\stack@bar}{~\textbar~}								% |
+\newcommand{\stack@opa}{\ensuremath{\langle}}					% <
+\newcommand{\stack@cla}{\ensuremath{\rangle}}					% >
 
 \newif\if@stack@quote\@stack@quotetrue
-\newcommand{\stack@qot}{%                                      % "
+\newcommand{\stack@qot}{%											% "
 	\if@stack@quote``\@stack@quotefalse\else''\@stack@quotetrue\fi}
 
 % Now we have to activate the special characters we are going to
@@ -1451,8 +1451,8 @@
 %%{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
 
 %\newpage
-\include{foreword-ans}
 \include{foreword}
+%\include{foreword-ans}
 \include{process}
 \include{members-2x}
 %\include{members-x3}

@@ -415,19 +415,19 @@ to provide all of the String and String Extensions word sets.
 \begin{worddef}{2255}{SUBSTITUTE}[][x:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_2 u_3 n}
 
-	Perform substitution on the string \param{c-addr_1 u_1} placing the
-	result at string \param{c-addr_2 u_3}, \place{ed13}{where \param{u3} is}
+	Perform substitution on the string \param{c-addr_1 u_1} placing
+	the result at string \param{c-addr_2 u_3}, where \param{u3} is
 	the length of the resulting string.
-	An \replace{ed13}{ambiguous condition}{ error} occurs if the resulting string will not fit into
+	An error occurs if the resulting string will not fit into
 	\param{c-addr_2 u_2} or if \param{c-addr_2} is the same as \param{c-addr_1}.
-	The return value \param{n} is positive \place{ed13}{or 0} on success and indicates the number
-	of substitutions made.
+	The return value \param{n} is positive or 0 on success and indicates the
+	number of substitutions made.
 	A negative value for \param{n} indicates that an error occurred, leaving
 	\param{c-addr_2 u_3} undefined.
 	Negative values of \param{n} are implementation defined except for
 	values in table~\xref{table:throw}.
 
-	Substitution occurs \replace{ed13}{left-to-right}{ left to right} from the start of \param{c-addr_1}
+	Substitution occurs left to right from the start of \param{c-addr_1}
 	in one pass and is non-recursive.
 
 	When text of a potential substitution name, surrounded by `\texttt{\%}' (ASCII \$25) delimiters
@@ -536,7 +536,7 @@ to provide all of the String and String Extensions word sets.
 		As the substitution name ``currencyvalue'' has not been defined, it is
 		left unchanged in the resulting string.
 
-		The return value \param{n} is \replace{ed13}{positive}{ in the range} \{0 {\ldots} +n\} on success
+		The return value \param{n} is in the range \{0 {\ldots} +n\} on success
 		and indicates the number of substitutions made.  In the above example,
 		this would be two.  A negative value indicates that an error occurred.
 		As substitution is non-recursive, the return value could be used to

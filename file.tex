@@ -1,3 +1,6 @@
+% !TeX root = forth.tex
+% !TeX spellcheck = en_US
+
 \chapter{The optional File-Access word set} % 11
 \wordlist{file}
 
@@ -40,7 +43,6 @@ under the following assumptions:
 
 Append table \ref{file:types} to table \ref{table:datatypes}.
 
-\patch{x:throw-iors}
 \begin{table}[h]
   \begin{center}
 	\caption{Data types}
@@ -49,9 +51,6 @@ Append table \ref{file:types} to table \ref{table:datatypes}.
 	\hline\hline
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
-\cbstart
-	\sout{\emph{ior}}		& \sout{I/O results}			& \sout{1 cell} \\
-\cbend
 	\emph{fam}		& file access method	& 1 cell \\
 	\emph{fileid}	& file identifier		& 1 cell \\
 	\hline\hline
@@ -66,24 +65,8 @@ that are passed to file operators to designate specific files.
 Opening a file assigns a file identifier, which remains valid
 until closed.
 
-\cbstart\patch{x:throw-iors}
-\subsubsection[I/O results]{\sout{I/O results}} % 11.3.1.2
-\label{file:ior}
-
-\sout{%
-I/O results are single-cell numbers indicating the result of I/O
-operations. A value of zero indicates that the I/O operation
-completed successfully; other values and their meanings are
-implementation-defined. Reaching the end of a file shall be
-reported as zero.}
-
-\sout{%
-An I/O exception in the execution of a File-Access word that can
-return an I/O result shall not cause a \word[exception]{THROW};
-exception indications are returned in the \emph{ior}.}
-\cbend
-
-\subsubsection{File access methods} % 11.3.1.3
+\setcounter{subsubsection}{2}
+\subsubsection{File access methods (11.3.1.3)} % 11.3.1.3
 
 File access methods are implementation-defined single-cell
 values.
@@ -178,7 +161,6 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 \item input file state after an exception
 	(\wref{file:INCLUDE-FILE}{INCLUDE-FILE},
 	 \wref{file:INCLUDED}{INCLUDED});
-\item \remove{x:throw-iors}{\emph{ior} values and meaning} (\xref[11.3.1.2 I/O results]{file:ior});
 \item maximum depth of file input nesting
 	(\xref[11.3.4 Input source]{file:source});
 \item maximum size of input line (\xref[11.3.6 Parsing]{file:parsing});
@@ -296,6 +278,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
+\enlargethispage{2ex}
 \begin{worddef}{0765}{BIN}
 \item \stack{fam_1}{fam_2}
 
@@ -431,6 +414,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{1717}{INCLUDE-FILE}
 \item \stack{i*x fileid}{j*x}
 
@@ -884,6 +868,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
+\enlargethispage{6ex}
 \begin{worddef}{2425}{W/O}[w-o]
 \item \stack{}{fam}
 

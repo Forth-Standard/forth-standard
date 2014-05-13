@@ -62,9 +62,7 @@ a sequence digit subscript to distinguish them.
 	\param{addr}		& address							& 1 cell \\
 	\param{a-addr}		& aligned address					& 1 cell \\
 	\param{c-addr}		& character-aligned address			& 1 cell \\
-\cbstart
-	\uline{\param{ior}}	& \uline{error result}	{\color{white} c:b} 	& \uline{1 cell} \\
-\cbend
+	\param{ior}			& error result						& 1 cell \\
 	\param{d}			& double-cell signed number			& 2 cells \\
 	\param{+d}			& double-cell non-negative number	& 2 cells \\
 	\param{ud}			& double-cell unsigned number		& 2 cells \\
@@ -120,7 +118,7 @@ if \param{i} $\Rightarrow$ \param{j} and \param{j} $\Rightarrow$
 	$\Rightarrow$ \param{u}; \\
 \param{flag} $\Rightarrow$ \param{x}; \\
 \param{xt} $\Rightarrow$ \param{x}; \\
-\place{x:throw-ior}{\param{ior} $\Rightarrow$ \param{n} $\Rightarrow$ \param{x}} \\
+\param{ior} $\Rightarrow$ \param{n} $\Rightarrow$ \param{x}; \\
 \param{+d} $\Rightarrow$ \param{d} $\Rightarrow$ \param{xd}; \\
 \param{+d} $\Rightarrow$ \param{ud} $\Rightarrow$ \param{xd}.
 \end{quote}
@@ -281,26 +279,22 @@ The maximum length of a counted string shall be at least 255.
 Different definitions may have the same execution token if the
 definitions are equivalent.
 
-\cbstart\patch{x:throw-ior}
-\subsubsection[Error results]{\uline{Error results}}
+\subsubsection{Error results} % 3.1.3.6
 \label{usage:ior}
 
-\uline{%
 A value of zero indicates that the operation completed successfully;
 other values are in the range \{-4095 {\ldots} -1\} and represent a
-valid \word[exception]{THROW} code.}
+valid \word[exception]{THROW} code.
 
-\uline{%
 The meanings of values in the range \{-255 {\ldots} -1\} are defined
-by table} \xref[9.1 THROW code assignments]{table:throw}.
-\uline{%
-Values in the range \{-4095 {\ldots} -256\} and their meanings are
-implementation defined.}
+by table \xref[9.1 THROW code assignments]{table:throw}.  Values in
+the range \{-4095 {\ldots} -256\} and their meanings are implementation
+defined.
 
-\uline{%
-A word that returns an \param{ior} will not \word[exception]{THROW} an exception,
-but indicates the exception through the \param{ior}.  This allows a program
-to take appropriate actions, which may include throwing the exception.}
+A word that returns an \param{ior} will not \word[exception]{THROW}
+an exception, but indicates the exception through the \param{ior}.
+This allows a program to take appropriate actions, which may include
+throwing the exception.
 \cbend
 
 \subsection{Cell-pair types} % 3.1.4
@@ -737,28 +731,24 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\hline\hline
 		\multicolumn{2}{l}{String \hfill Value data type} & Constant? & Meaning \\
 		\hline
-		\texttt{X:2value}			& -- & -- & the \textsf{X:2value} extension is present \\
-		\texttt{X:deferred}		& -- & -- & the \textsf{X:deferred} extension is present \\
-		\texttt{X:defined}			& -- & -- & the \textsf{X:defined} extension is present \\
-		\texttt{X:ekeys}			& -- & -- & the \textsf{X:ekeys} extension is present \\
-		\texttt{X:escaped-strings}	& -- & -- & the \textsf{X:escaped-strings} extension is present \\
-		\texttt{X:extension-query}	& -- & -- & the \textsf{X:extension-query} extension is present\\
-		\texttt{X:fatan2}			& -- & -- & the \textsf{X:fatan2} extension is present \\
-		\texttt{X:ftrunc}			& -- & -- & the \textsf{X:ftrunc} extension is present \\
-		\texttt{X:fvalue}			& -- & -- & the \textsf{X:fvalue} extension is present \\
-		\texttt{X:n-to-r}			& -- & -- & the \textsf{X:n-to-r} extension is present \\
-		\texttt{X:number-prefix}	& -- & -- & the \textsf{X:number-prefix} extension is present \\
-		\texttt{X:parse-name}		& -- & -- & the \textsf{X:parse-name} extension is present \\
-		\texttt{X:required}		& -- & -- & the \textsf{X:required} extension is present \\
-		\texttt{X:structures}		& -- & -- & the \textsf{X:structures} extension is present \\
-		\texttt{X:synonym}		& -- & -- & the \textsf{X:synonym} extensions is present \\
-		\texttt{X:throw-iors}		& -- & -- & the \textsf{X:throw-iors} extension is present \\
-\cbstart
-		\uline{\texttt{x:traverse-wordlist}} & \uline{--} & \uline{--} & \uline{the \textsf{x:traverse-wordlist} extensions is present}
-		{\color{white} c:b}
-\\
-\cbend 
-		\texttt{X:xchar}			& -- & -- & the \textsf{X:xchar} extension is present \\
+		\texttt{X:2value}				& -- & -- & the \textsf{X:2value} extension is present \\
+		\texttt{X:deferred}				& -- & -- & the \textsf{X:deferred} extension is present \\
+		\texttt{X:defined}				& -- & -- & the \textsf{X:defined} extension is present \\
+		\texttt{X:ekeys}				& -- & -- & the \textsf{X:ekeys} extension is present \\
+		\texttt{X:escaped-strings}		& -- & -- & the \textsf{X:escaped-strings} extension is present \\
+		\texttt{X:extension-query}		& -- & -- & the \textsf{X:extension-query} extension is present\\
+		\texttt{X:fatan2}				& -- & -- & the \textsf{X:fatan2} extension is present \\
+		\texttt{X:ftrunc}				& -- & -- & the \textsf{X:ftrunc} extension is present \\
+		\texttt{X:fvalue}				& -- & -- & the \textsf{X:fvalue} extension is present \\
+		\texttt{X:n-to-r}				& -- & -- & the \textsf{X:n-to-r} extension is present \\
+		\texttt{X:number-prefix}		& -- & -- & the \textsf{X:number-prefix} extension is present \\
+		\texttt{X:parse-name}			& -- & -- & the \textsf{X:parse-name} extension is present \\
+		\texttt{X:required}				& -- & -- & the \textsf{X:required} extension is present \\
+		\texttt{X:structures}			& -- & -- & the \textsf{X:structures} extension is present \\
+		\texttt{X:synonym}				& -- & -- & the \textsf{X:synonym} extensions is present \\
+		\texttt{X:throw-iors}			& -- & -- & the \textsf{X:throw-iors} extension is present \\
+		\texttt{x:traverse-wordlist}	& -- & -- & the \textsf{x:traverse-wordlist} extensions is present \\
+		\texttt{X:xchar}				& -- & -- & the \textsf{X:xchar} extension is present \\
 		\hline\hline
 	\end{tabular}
   \end{center}

@@ -24,7 +24,7 @@ goto process
 :process
 title 1/5: Extract support files
 %latex% \scrollmode\input forth.tex
-perl sort.pl < forth.wrd > forth.wds
+rem perl sort.pl < forth.wrd > forth.wds
 
 if x%1 == xhtml goto html
 
@@ -68,7 +68,7 @@ rem *.sub	Auto generated support files
 rem *.undo	LEd backup files
 rem *.cb*	Change Bars
 
-for %%x in (log out toc wrd wds) do if exist forth.%%x del forth.%%x
+for %%x in (log out toc wrd) do if exist forth.%%x del forth.%%x
 for %%x in (aux sub undo) do del *.%%x
 del *.cb*
 

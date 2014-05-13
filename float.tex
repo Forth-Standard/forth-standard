@@ -340,7 +340,7 @@ word sets.
 
 \subsection{Floating-Point words} % 12.6.1
 
-
+\enlargethispage{2ex}
 \begin{worddef}[toFLOAT]{0558}{>FLOAT}[to-float]
 \item \stack{c-addr u}{true | false}
 	\stack[F]{}{r |~} or
@@ -480,11 +480,11 @@ word sets.
 	\param{d} is the double-cell signed-integer equivalent of the
 	integer portion of \param{r}. The fractional portion of \param{r}
 	is discarded. An ambiguous condition exists if the integer portion
-	of \param{r} cannot be \remove{ed13}{precisely} represented as a double-cell
+	of \param{r} cannot be represented as a double-cell
 	signed integer.
 
-\note \place{ed13}{Rounding the floating-point value prior to calling \word{FtoD} is
-	advised, because \word{FtoD} rounds towards zero.}
+\note Rounding the floating-point value prior to calling \word{FtoD}
+	is advised, because \word{FtoD} rounds towards zero.
 \end{worddef}
 
 
@@ -673,6 +673,7 @@ word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{1620}{FSWAP}[f-swap]
 \item \stack[F]{r_1 r_2}{r_2 r_1} or
 	\stack{r_1 r_2}{r_2 r_1}
@@ -681,6 +682,7 @@ word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{1630}{FVARIABLE}[f-variable]
 \item \stack{"<spaces>name"}{}
 
@@ -708,7 +710,8 @@ word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-0.5ex}
+\enlargethispage{6ex}
 \begin{worddef}{2143}{REPRESENT}
 \item \stack{c-addr u}{n flag_1 flag_2} \stack[F]{r}{} or
 	\stack{r c-addr u}{n flag_1 flag_2}
@@ -812,6 +815,7 @@ word sets.
 
 % ---------------------------------------------------------
 
+\pagebreak
 \begin{worddef}{1207}[40]{DFFIELD:}[d-f-field-colon][X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
@@ -827,7 +831,7 @@ word sets.
 	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action to
-	\param{addr_1} giving the \remove{ed13}{double-float aligned} address \param{addr_2}.
+	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
@@ -864,6 +868,7 @@ word sets.
 \end{worddef}
 
 
+\enlargethispage{8ex}
 \begin{worddef}[Fd]{1427}{F.{}}[f-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
@@ -894,11 +899,11 @@ word sets.
 	\param{n} is the single-cell signed-integer equivalent of the
 	integer portion of \param{r}.  The fractional portion of
 	\param{r} is discarded.  An ambiguous condition exists if
-	the integer portion of \param{r} cannot be \remove{ed13}{precisely}
-	represented as a single-cell signed integer.
+	the integer portion of \param{r} cannot be represented as a
+	single-cell signed integer.
 
 \note Rounding the floating-point value prior to calling \word{FtoS} is
-	advised\place{ed13}{, because \word{FtoS} rounds towards zero}.
+	advised, because \word{FtoS} rounds towards zero.
 
 \see \wref{floating:StoF}{}.
 
@@ -1194,6 +1199,7 @@ word sets.
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}[FEd]{1513}{FE.{}}[f-e-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
@@ -1262,11 +1268,9 @@ word sets.
 			\word{FEXPM1} = 3.82983E-4, and \\
 			convert to percentage = 0.0382983\%.
 		\end{enumerate}
-		This \replace{ed13}{is full six-digit accuracy.}{ calculation method allows}
- \remove{ed13}{This allows}
-		the hyperbolic functions to
-		be computed with \replace{ed13}{usable accuracy}{ six-digit accuracy}. For example, \replace{ed13}{the hyperbolic
-		sine}{ \textsf{sinh}} can be defined as:
+		This calculation method allows the hyperbolic functions to be
+		computed with six-digit accuracy. For example, \textsf{sinh}
+		can be defined as:
 
 		\begin{quote}\ttfamily
 			\word[core]{:} \word{FSINH}~ \word[core]{p} r1 -{}- r2 ) \\
@@ -1294,7 +1298,7 @@ word sets.
 	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action to
-	\param{addr_1} giving the \remove{ed13}{float aligned} address \param{addr_2}.
+	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
@@ -1400,6 +1404,7 @@ word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{1618}{FSQRT}[f-square-root]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1409,6 +1414,7 @@ word sets.
 \end{worddef}
 
 
+\vspace*{-0.5ex}
 \begin{worddef}{1625}{FTAN}[f-tan]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1427,6 +1433,7 @@ word sets.
 
 % ---------------------------------------------------------
 
+\vspace*{-0.5ex}
 \begin{worddef}{1627}{FTRUNC}[f-trunc][x:ftrunc]
 \item \stack[F]{r_1}{r_2} or \stack{r_1}{r_2}
 
@@ -1465,6 +1472,8 @@ word sets.
 
 % ---------------------------------------------------------
 
+\vspace*{-0.5ex}
+\enlargethispage{10ex}
 \begin{worddef}{1628}{FVALUE}[f-value][X:fvalue]
 \item \stack[F]{r}{} \stack{"<spaces>name"}{} or
 	\stack{r "<spaces>name"}{}
@@ -1662,7 +1671,7 @@ word sets.
 	\stack{addr_1}{addr_2}
 
 	Add the \param{offset} calculated during the compile time action to
-	\param{addr_1} giving the \remove{ed13}{single-float aligned} address \param{addr_2}.
+	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
