@@ -1,10 +1,11 @@
 % !TeX root = forth.tex
-\chapter{The optional Extended Characters wordset} % 18
+\chapter[The optional Extended-Character word set]{The optional Extended-Character \replace{ed14}{wordset}{ word set}} % 18
 \wordlist{xchar}
 
 \section{Introduction} % 18.1
+\label{xchar:intro}
 
-This wordset deals with variable width character encodings.  It also
+This \replace{ed14}{wordset}{ word set} deals with variable width character encodings.  It also
 works with fixed width encodings.
 
 Since the standard specifies ASCII encoding for characters, only
@@ -14,8 +15,8 @@ The characters beyond the ASCII encoding are called ``extended
 characters'' (xchars).
 
 All words dealing with strings shall handle xchars when the xchar
-wordset is present.  This includes dictionary definitions, so the
-dictionary entries should not use bit 8 for other purposes.  White
+\replace{ed14}{wordset}{ word set} is present.  This includes dictionary definitions\remove{ed14}{, so the
+dictionary entries should not use bit 8 for other purposes}.  White
 space parsing does not have to treat code points greater than \$20
 as white space.
 
@@ -217,42 +218,42 @@ string handling should work transparently with \emph{xchars}.
 
 \subsection{Forth-\snapshot{} systems} % 18.5.1
 
-The phrase ``Providing the Extended Character word set'' shall be
+The phrase ``Providing the Extended-Character word set'' shall be
 appended to the label of any Standard System that provides all of
-the Extended Character word set.
+the Extended-Character word set.
 
-The phrase ``Providing \emph{name(s)} from the Extended Character
+The phrase ``Providing \emph{name(s)} from the Extended-Character
 Extensions word set'' shall be appended to the label of any Standard
-System that provides portions of the Extended Character Extensions
+System that provides portions of the Extended-Character Extensions
 word set.
 
-The phrase ``Providing the Extended Character Extensions word set''
+The phrase ``Providing the Extended-Character Extensions word set''
 shall be appended to the label of any Standard System that provides
-all of the Extended Character and Extended Character Extensions
+all of the Extended-Character and Extended-Character Extensions
 word sets.
 
 \enlargethispage{10ex}
 \subsection{Forth-\snapshot{} programs} % 18.5.2
 
-The phrase ``Requiring the Extended Character word set'' shall be
+The phrase ``Requiring the Extended-Character word set'' shall be
 appended to the label of Standard Programs that require the system
-to provide the Extended Character word set.
+to provide the Extended-Character word set.
 
-The phrase ``Requiring \emph{name(s)} from the Extended Character
+The phrase ``Requiring \emph{name(s)} from the Extended-Character
 Extensions word set'' shall be appended to the label of Standard Programs
-that require the system to provide portions of the Extended Character
+that require the system to provide portions of the Extended-Character
 Extensions word set.
 
-The phrase ``Requiring the Extended Character Extensions word set''
+The phrase ``Requiring the Extended-Character Extensions word set''
 shall be appended to the label of Standard Programs that require the
-system to provide all of the Extended Character Exception and
-Extended Character Extensions word sets.
+system to provide all of the Extended-Character Exception and
+Extended-Character Extensions word sets.
 
 \section{Glossary} % 18.6
 
-\subsection{Extended Character words} % 18.6.1
+\subsection{Extended-Character words} % 18.6.1
 
-\begin{worddef}{2486}[50]{X-SIZE}[][x:xchar]
+\begin{worddef}{2486}[50]{X-SIZE}[][X:xchar]
 \item \stack{xc-addr u_1}{u_2}
 
 	\param{u_2} is the number of pchars used to encode the first xchar
@@ -277,7 +278,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2487}[10]{XC!+}[x-c-store-plus][x:xchar]
+\begin{worddef}{2487}[10]{XC!+}[x-c-store-plus][X:xchar]
 \item \stack{xchar xc-addr_1}{xc-addr_2}
 
 	Stores the \param{xchar} at \param{xc-addr_1}.  \param{xc-addr_2}
@@ -296,7 +297,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[XC!+q]{2487}[15]{XC!+?}[x-c-store-plus-query][x:xchar]
+\begin{worddef}[XC!+q]{2487}[15]{XC!+?}[x-c-store-plus-query][X:xchar]
 \item \stack{xchar xc-addr_1 u_1}{xc-addr_2 u_2 flag}
 
 	Stores the \param{xchar} into the string buffer specified by
@@ -321,7 +322,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2487}[20]{XC,}[x-c-comma][x:xchar]
+\begin{worddef}{2487}[20]{XC,}[x-c-comma][X:xchar]
 \item \stack{xchar}{}
 
 	Append the encoding of \param{xchar} to the dictionary.
@@ -334,7 +335,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2487}[25]{XC-SIZE}[x-c-size][x:xchar]
+\begin{worddef}{2487}[25]{XC-SIZE}[x-c-size][X:xchar]
 \item \stack{xchar}{u}
 
 	\param{u} is the number of pchars used to encode \param{xchar} in memory.
@@ -365,7 +366,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2487}[35]{XC@+}[x-c-fetch-plus][x:xchar]
+\begin{worddef}{2487}[35]{XC@+}[x-c-fetch-plus][X:xchar]
 \item \stack{xc-addr_1}{xc-addr_2 xchar}
 
 	Fetches the \param{xchar} at \param{xc-addr_1}.  \param{xc-addr_2}
@@ -397,7 +398,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2487}[40]{XCHAR+}[x-char-plus][x:xchar]
+\begin{worddef}{2487}[40]{XCHAR+}[x-char-plus][X:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 
 	Adds the size of the xchar stored at \param{xc-addr_1} to this address,
@@ -412,7 +413,7 @@ Extended Character Extensions word sets.
 
 
 \vspace*{-0.5ex}
-\begin{worddef}{2488}[10]{XEMIT}[x-emit][x:xchar]
+\begin{worddef}{2488}[10]{XEMIT}[x-emit][X:xchar]
 \item \stack{xchar}{}
 
 	Prints an \param{xchar} on the terminal.
@@ -433,7 +434,7 @@ Extended Character Extensions word sets.
 
 
 \vspace*{-0.5ex}
-\begin{worddef}{2488}[30]{XKEY}[x-key][x:xchar]
+\begin{worddef}{2488}[30]{XKEY}[x-key][X:xchar]
 \item \stack{}{xchar}
 
 	Reads an \param{xchar} from the terminal.  This will discard all input
@@ -454,7 +455,7 @@ Extended Character Extensions word sets.
 
 
 \vspace*{-0.5ex}
-\begin{worddef}[XKEYq]{2488}[35]{XKEY?}[x-key-query][x:xchar]
+\begin{worddef}[XKEYq]{2488}[35]{XKEY?}[x-key-query][X:xchar]
 \item \stack{}{flag}
 
 	\param{Flag} is true when it's possible to do \word{XKEY} without
@@ -466,10 +467,10 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\subsection{Extended Character extension words} % 18.6.2
+\subsection{Extended-Character extension words} % 18.6.2
 \extended
 
-\begin{worddef}{0145}{+X/STRING}[plus-x-string][x:xchar]
+\begin{worddef}{0145}{+X/STRING}[plus-x-string][X:xchar]
 \item \stack{xc-addr_1 u_1}{xc-addr_2 u_2}
 
 	Step forward by one xchar in the buffer defined by \param{xc-addr_1 u_1}.
@@ -485,7 +486,7 @@ Extended Character Extensions word sets.
 
 \vspace*{-0.5ex}
 \enlargethispage{8ex}
-\begin{worddef}{0175}{-TRAILING-GARBAGE}[minus-trailing-garbage][x:xchar]
+\begin{worddef}{0175}{-TRAILING-GARBAGE}[minus-trailing-garbage][X:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
 	Examine the last xchar in the string \param{xc-addr u_1} --- if the
@@ -506,7 +507,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{0895}{CHAR}[][x:xchar]
+\begin{worddef}{0895}{CHAR}[][X:xchar]
 \item \stack{"<spaces>name"}{xchar}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a space.
@@ -527,7 +528,7 @@ Extended Character Extensions word sets.
 
 
 \vspace*{-0.75ex}
-\begin{worddef}[EKEYtoXCHAR]{1306}[60]{EKEY>XCHAR}[e-key-to-x-char][x:xchar]
+\begin{worddef}[EKEYtoXCHAR]{1306}[60]{EKEY>XCHAR}[e-key-to-x-char][X:xchar]
 \item \stack{x}{xchar true | x false}
 
 	If the keyboard event \param{x} corresponds to an xchar, return the
@@ -541,7 +542,7 @@ Extended Character Extensions word sets.
 
 
 \vspace*{-0.75ex}
-\begin{worddef}{2008}{PARSE}[][x:xchar]
+\begin{worddef}{2008}{PARSE}[][X:xchar]
 \item \stack{xchar "ccc<xchar>"}{c-addr u}
 
   Parse \param{ccc} in the input stream delimited by \param{xchar}.
@@ -557,7 +558,7 @@ Extended Character Extensions word sets.
 
 
 \vspace*{-0.75ex}
-\begin{worddef}{2486}[70]{X-WIDTH}[][x:xchar]
+\begin{worddef}{2486}[70]{X-WIDTH}[][X:xchar]
 \item \stack{xc-addr u}{n}
 
 	\param{n} is the number of monospace ASCII characters that take the same
@@ -575,7 +576,7 @@ Extended Character Extensions word sets.
 
 
 \vspace*{-0.75ex}
-\begin{worddef}{2487}[30]{XC-WIDTH}[x-c-width][x:xchar]
+\begin{worddef}{2487}[30]{XC-WIDTH}[x-c-width][X:xchar]
 \item \stack{xchar}{n}
 
 	\param{n} is the number of monospace ASCII characters that take the same
@@ -742,7 +743,7 @@ Extended Character Extensions word sets.
 
 \vspace*{-0.75ex}
 \enlargethispage{8ex}
-\begin{worddef}{2487}[45]{XCHAR-}[x-char-minus][x:xchar]
+\begin{worddef}{2487}[45]{XCHAR-}[x-char-minus][X:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 
 	Goes backward from \param{xc-addr_1} until it finds an xchar so that the
@@ -757,7 +758,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2488}[20]{XHOLD}[x-hold][x:xchar]
+\begin{worddef}{2488}[20]{XHOLD}[x-hold][X:xchar]
 \item \stack{xchar}{}
 
 	Adds \param{xchar} to the picture numeric output string.  An ambiguous
@@ -775,7 +776,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[XSTRING-]{2495}{X\bs{}STRING-}[x-string-minus][x:xchar]
+\begin{worddef}[XSTRING-]{2495}{X\bs{}STRING-}[x-string-minus][X:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
 	Search for the penultimate xchar in the string \param{xc-addr u_1}.
@@ -792,7 +793,7 @@ Extended Character Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2520}{[CHAR]}[bracket-char][x:xchar]
+\begin{worddef}{2520}{[CHAR]}[bracket-char][X:xchar]
 \interpret
 	Interpretation semantics for this word are undefined.
 

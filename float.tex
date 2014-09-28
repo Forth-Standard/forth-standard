@@ -60,6 +60,7 @@ Append table \ref{float:types} to table \ref{table:datatypes}.
 	\hline
 	\emph{df-addr}	& double-float-aligned address	& 1 cell \\
 	\emph{f-addr}	& float-aligned address				& 1 cell \\
+	\uline{\emph{r}}& \cbstart\uline{floating-point number}\cbend	& \uline{implementation-defined} \\
 	\emph{sf-addr}	& single-float-aligned address	& 1 cell \\
 	\hline\hline
 	\end{tabular}
@@ -830,7 +831,7 @@ word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile time action to
+	Add the \param{offset} calculated during the compile\place{ed14}{-}time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
@@ -893,7 +894,7 @@ word sets.
 
 % ========== x:stoftos ==========
 
-\begin{worddef}[FtoS]{1471}{F>S}[F to S][x:stoftos]
+\begin{worddef}[FtoS]{1471}{F>S}[F to S][X:stoftos]
 \item \stack{}{n} \stack[F]{r}{} or \stack{r}{n}
 
 	\param{n} is the single-cell signed-integer equivalent of the
@@ -1297,7 +1298,7 @@ word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile time action to
+	Add the \param{offset} calculated during the compile\place{ed14}{-}time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
@@ -1434,7 +1435,7 @@ word sets.
 % ---------------------------------------------------------
 
 \vspace*{-0.5ex}
-\begin{worddef}{1627}{FTRUNC}[f-trunc][x:ftrunc]
+\begin{worddef}{1627}{FTRUNC}[f-trunc][X:ftrunc]
 \item \stack[F]{r_1}{r_2} or \stack{r_1}{r_2}
 
 	Round \param{r_1} to an integral value using the ``round
@@ -1573,7 +1574,7 @@ word sets.
 
 % ========== x:stoftos ==========
 
-\begin{worddef}[StoF]{2175}{S>F}[S to F][x:stoftos]
+\begin{worddef}[StoF]{2175}{S>F}[S to F][X:stoftos]
 \item \stack{n}{} \stack[F]{}{r} or \stack{n}{r}
 
 	\param{r} is the floating-point equivalent of the single-cell
@@ -1670,7 +1671,7 @@ word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile time action to
+	Add the \param{offset} calculated during the compile\place{ed14}{-}time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},

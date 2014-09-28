@@ -657,12 +657,12 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile][x:traverse-wordlist]
+\begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile][X:traverse-wordlist]
 \item \stack{nt}{x xt}
 
 	\param{x xt} represents the compilation semantics of the word
 	\param{nt}.  The returned \param{xt} has the stack effect
-	\stack{i*x x}{j*x}.  \word{EXECUTE}ing \param{xt} consumes
+	\stack{i*x x}{j*x}.  \replace{ed14}{\word{EXECUTE}ing}{Executing} \param{xt} consumes
 	\param{x} and performs the compilation semantics of the word
 	represented by \param{nt}.
 
@@ -689,7 +689,7 @@ Extensions word sets.
   	\end{rationale} 
 \end{worddef}
 
-\begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret][x:traverse-wordlist]
+\begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret][X:traverse-wordlist]
 \item \stack{nt}{xt|0}
 
 	\param{xt} represents the interpretation semantics of the word
@@ -703,7 +703,7 @@ Extensions word sets.
 \see \xref{tools:TRAVERSE-WORDLIST}{}.
 \end{worddef}
 
-\begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string][x:traverse-wordlist]
+\begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string][X:traverse-wordlist]
 \item \stack{nt}{c-addr u}
 
 	\word{NAMEtoSTRING} returns the name of the word \param{nt}

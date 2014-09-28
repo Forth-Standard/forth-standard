@@ -1,4 +1,5 @@
 % !TeX root = forth.tex
+
 \chapter{Usage requirements}
 \label{usage}
 
@@ -292,6 +293,7 @@ the range \{-4095 {\ldots} -256\} and their meanings are implementation
 defined.
 
 A word that returns an \param{ior} will not \word[exception]{THROW}
+\place{ed14}{that \param{ior} as}
 an exception, but indicates the exception through the \param{ior}.
 This allows a program to take appropriate actions, which may include
 throwing the exception.
@@ -415,7 +417,10 @@ character ``9''. For digits beginning with the decimal value ten
 the graphic characters beginning with the character ``A'' are used.
 This correspondence continues up to and including the digit with
 the decimal value thirty-five which is represented by the character
-``Z''. The conversion of digits outside this range is implementation
+``Z''. \place{ed14}{The characters ``a'' though to ``z'' should be
+treated the same as ``A'' though ``Z'', with ``a'' having the value
+ten and ``z'' the value thirty-five.}
+The conversion of digits outside this range is implementation
 defined.
 
 \subsubsection{Free-field number display} % 3.2.1.3
@@ -538,11 +543,12 @@ types.
 The control-flow stack may, but need not, physically exist in an
 implementation. If it does exist, it may be, but need not be,
 implemented using the data stack. The format of the control-flow
-stack is implementation defined. Since the control-flow stack may
+stack is implementation defined.
+\remove{ed14}{Since the control-flow stack may
 be implemented using the data stack, items placed on the data stack
 are unavailable to a program after items are placed on the
 control-flow stack and remain unavailable until the control-flow
-stack items are removed.
+stack items are removed.}
 
 \subsubsection{Return stack} % 3.2.3.3
 \label{usage:returnstack}
@@ -557,8 +563,10 @@ execution of a definition subject to the following restrictions:
 
 \begin{itemize}
 \item A program shall not access values on the return stack
-	(using \word{R@}, \word{Rfrom}, \word{2R@} or \word{2Rfrom})
-	that it did not place there using \word{toR} or \word{2toR};
+	(using \word{R@}, \word{Rfrom}, \word{2R@}\replace{ed14}{ or}{,}
+	\word{2Rfrom}\place{ed14}{ or \word[tools]{NRfrom}})
+	that it did not place there using \word{toR}\replace{ed14}{ or }{,}
+	\word{2toR} \place{ed14}{or \word[tools]{NtoR}};
 
 \item A program shall not access from within a do-loop values
 	placed on the return stack before the loop was entered;
@@ -592,10 +600,11 @@ The method of selecting the user output device is implementation
 defined.
 
 \subsection{Mass storage} % 3.2.5
+\label{usage:mass}
 
 A system need not provide any standard words for accessing mass
-storage. If a system provides any standard word for accessing
-mass storage, it shall also implement the Block word set.
+storage. \remove{ed14}{If a system provides any standard word for accessing
+mass storage, it shall also implement the Block word set.}
 
 \subsection{Environmental queries} % 3.2.6
 \label{usage:env}
@@ -747,7 +756,7 @@ itself an extension. Known as the \textsf{X:extension-query} extension.
 		\texttt{X:structures}			& -- & -- & the \textsf{X:structures} extension is present \\
 		\texttt{X:synonym}				& -- & -- & the \textsf{X:synonym} extensions is present \\
 		\texttt{X:throw-iors}			& -- & -- & the \textsf{X:throw-iors} extension is present \\
-		\texttt{x:traverse-wordlist}	& -- & -- & the \textsf{x:traverse-wordlist} extensions is present \\
+		\texttt{X:traverse-wordlist}	& -- & -- & the \textsf{X:traverse-wordlist} extensions is present \\
 		\texttt{X:xchar}				& -- & -- & the \textsf{X:xchar} extension is present \\
 		\hline\hline
 	\end{tabular}
@@ -885,12 +894,15 @@ restricted to read-only access.
 \label{usage:"literal}
 
 The text-literal regions, specified by strings compiled with
-\word{Sq} and \word{Cq}, may be read-only.
+\word{Sq}\place{X:interpret-escape-s}{, \word{Seq}} and
+\word{Cq}, may be read-only.
 
 A program shall not store into the text-literal regions created
-by \word{Sq} and \word{Cq} nor into any read-only system variable
-or read-only transient regions. An ambiguous condition exists when
-a program attempts to store into read-only regions.
+by \word{Sq}\place{X:interpret-escape-s}{, \word{Seq}} and
+\word{Cq} nor into any read-only system variable or read-only
+transient regions. \remove{X:interpret-excape-s}{An ambiguous
+condition exists when a program attempts to store into read-only
+regions.}
 
 \subsubsection{Input buffers} % 3.3.3.5
 \label{usage:inbuf}
@@ -1070,7 +1082,8 @@ then \texttt{B} and finally \texttt{C}. Words that cause deviations
 from this linear flow of control are called control-flow words.
 Combinations of control-flow words whose stack effects are
 compatible form control-flow structures. Examples of typical use are
-given for each control-flow word in \ref{annex:rationale} (Annex A).
+given for each control-flow word in \place{ed14}{Annex} \ref{annex:rationale}
+\remove{ed14}{(Annex A)}.
 
 Forth syntax is extensible; for example, new control-flow words can
 be defined in terms of existing ones. This standard does not require
@@ -1124,7 +1137,7 @@ The radix used for number conversion is:
 	\end{tabular}
 \end{center}
 
-See \xref{notations}.
+See \xref{notation:BNF}.
 
 \subsection{Finding definition names} % 3.4.2
 \label{usage:find}

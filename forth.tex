@@ -650,14 +650,15 @@
 % special characters
 
 \newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% _
-\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% ^
-\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}		% *
-\newcommand{\stack@bar}{~\textbar~}								% |
+\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}		% ^
+%\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}		% *
+\newcommand{\stack@mul}{\,*\,}								% *
+\newcommand{\stack@bar}{~\textbar~}							% |
 \newcommand{\stack@opa}{\ensuremath{\langle}}					% <
 \newcommand{\stack@cla}{\ensuremath{\rangle}}					% >
 
 \newif\if@stack@quote\@stack@quotetrue
-\newcommand{\stack@qot}{%											% "
+\newcommand{\stack@qot}{%									% "
 	\if@stack@quote``\@stack@quotefalse\else''\@stack@quotetrue\fi}
 
 % Now we have to activate the special characters we are going to
@@ -665,11 +666,11 @@
 % group so we don't screw up the rest of the system.
 
 \begingroup
-	\catcode`\_=\active  % Subscript:      _1 or _{12}
-	\catcode`\*=\active  % Multiply:       1*2
-	\catcode`\|=\active  % Alternative:    u|n
-	\catcode`\<=\active  % Start text:     <ccc>
-	\catcode`\>=\active  % End text:       <ccc>
+	\catcode`\_=\active  % Subscript:	_1 or _{12}
+	\catcode`\*=\active  % Multiply:		1*2
+	\catcode`\|=\active  % Alternative:	u|n
+	\catcode`\<=\active  % Start text:	<ccc>
+	\catcode`\>=\active  % End text:	<ccc>
 	\catcode`\"=\active  % Syntax element: "name"
 
 % Because we are inside a simple group, we have to use \gdef rather
@@ -701,7 +702,7 @@
 % _x or _{xx}	x or xx is a subscript
 % x*y			becomes x multiplied by y ($x\times y$)
 % x|y			becomes x or y ( x \textbar y )
-% <xxx>			becomes an argument <xxx>
+% <xxx>		becomes an argument <xxx>
 % "				becomes open or close double quote
 %
 % All other characters are typeset in italic.
@@ -710,7 +711,7 @@
 	(				% Mark the start of the signature
 	\ifx#1\empty\else #1: \fi	% The stack name (if given)
 	\begingroup		% Open a new restricted scope for new specials
-	\itshape		% The signature is in italic
+	\itshape			% The signature is in italic
 	\stack@set		% Enable the specials
 	\stack@sig		% Parse the signature parameters
 					% We have to do this in a separate macro as
@@ -719,9 +720,9 @@
 }
 
 \newcommand{\stack@sig}[2]{% ...{<before>}{<after>}
-	#1\ 			% Pre-condition (before)
-	\texttt{-{}-}	% Mark the "execution point"
-	\ #2			% Post-condition (after)
+	#1\ 				% Pre-condition (before)
+	--{\,}--			% Mark the "execution point"
+	\ #2				% Post-condition (after)
 	\endgroup		% Close restricted scope
 					% Disable new specials and \itshape
 	)				% Close stack signature
@@ -735,13 +736,13 @@
 
 \newcommand{\param}{% ...
 	\begingroup		% Open a restricted scope for our specials
-	\itshape		% A stack parameter is always given in italic
+	\itshape			% A stack parameter is always given in italic
 	\stack@set		% Enable the specials
 	\param@arg		% Parse the parameter
 }
 
 \newcommand{\param@arg}[1]{% ...{<param>}
-	#1%				% Parse the parameter with our specials enabled
+	#1%			% Parse the parameter with our specials enabled
 	\endgroup		% Close restricted scope, we don't want our
 					% specials buggering up anything else now do we,
 					% this also cancels the \itshape command

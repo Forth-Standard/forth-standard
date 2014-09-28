@@ -16,7 +16,7 @@
 			In the \emph{review} (r) version of the document the
 			rationale text for each of the words is given in with
 			the main definition of the word.  The rationale for
-			words in the \textbf{#1} wordset will appear here in
+			words in the \textbf{#1} word set will appear here in
 			the final document.
 		\end{editor}
 	\else
@@ -690,7 +690,7 @@ Table~\textbf{\ref{table:control}} shows the desired behavior.
 	\label{table:control}
 	\begin{tabular}{lccl}
 	\hline\hline
-	\multicolumn{4}{l}{at compile time,} \\
+	\multicolumn{4}{l}{at compile\place{ed14}{-}time,} \\
 	word: & supplies: & resolves: & is used to: \\ \hline
 	\word{IF}				& \emph{orig}	&				&	mark origin of forward conditional branch \\
 	\word{THEN}			&				& \emph{orig}	&	resolve \word{IF} or \word[tools]{AHEAD} \\
@@ -1197,11 +1197,12 @@ program source and data on disk.
 
 \setcounter{subsection}{1}
 \subsection{Additional terms} % A.7.2 ===============================
+\label{rat:block:terms}
 
 \begin{description}
 \item[block] ~
 
-	Many Forth systems use blocks to contain program source.
+	\remove{ed14}{Many} Forth systems \place{ed14}{may} use blocks to contain program source.
 	Conventionally such blocks are formatted for editing as
 	16 lines of 64 characters. Source blocks are often referred
 	to as ``screens''.
@@ -1357,6 +1358,35 @@ subsequently opened file may be given the same identifier. If the
 original file has blocks still in block buffers, these will be
 incorrectly associated with the newly opened file with disastrous
 results. The block buffer system must be flushed to avoid this.
+
+\cbstart\patch{X:interpret-escape-s}
+\setcounter{subsubsection}{3}
+\subsubsection[Other transient regions]{\uline{Other transient regions}}
+\label{rat:file:buffers}
+
+\uline{%
+Additional transient buffers are provided for use by \word{Sq} and \word{Seq}.
+The buffers should be able to store two consecutive strings, thus allowing the
+command line:
+}
+
+\begin{quote}
+	\uline{\texttt{\word{Sq} name1" \word{Sq} name2" \word{RENAME-FILE}}}
+\end{quote}
+
+\uline{%
+The buffers may be implemented in a circular arrangement, where a string
+is placed into the next available buffer. When there are no buffers available,
+the oldest buffer is overwritten.
+}
+
+\uline{\word{Sq} and \word{Seq} may share the same buffers.}
+
+\uline{%
+The list of words using memory in transient regions is extended to include
+\wref{file:Sq}{} and \wref{file:Seq}{}.}
+See \xref[3.3.3.6 Other transient regions]{usage:transient}.
+\cbend
 
 \pagebreak
 \setcounter{subsection}{5}
@@ -1614,7 +1644,7 @@ Some encodings (not UTF-8) might give surprises when you use a case
 insensitive ASCII-compare that's 8-bit safe, but not aware of the
 current encoding.
 
-The xchar wordset does not address problems that come from using
+The xchar \replace{ed14}{wordset}{ word set} does not address problems that come from using
 multiple different encodings and switching or converting between them.
 It is good practice for a system implementing xchar to support UTF--8.
 

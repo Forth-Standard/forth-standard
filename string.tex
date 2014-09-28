@@ -328,7 +328,7 @@ to provide all of the String and String Extensions word sets.
 \subsection{String extension words} % 17.6.2
 \extended
 
-\begin{worddef}{2141}{REPLACES}[][x:substitute]
+\begin{worddef}{2141}{REPLACES}[][X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{}
 
 	Set the string \param{c-addr_1 u_1} as the text to substitute for
@@ -412,7 +412,7 @@ to provide all of the String and String Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\begin{worddef}{2255}{SUBSTITUTE}[][x:substitute]
+\begin{worddef}{2255}{SUBSTITUTE}[][X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_2 u_3 n}
 
 	Perform substitution on the string \param{c-addr_1 u_1} placing
@@ -536,10 +536,13 @@ to provide all of the String and String Extensions word sets.
 		As the substitution name ``currencyvalue'' has not been defined, it is
 		left unchanged in the resulting string.
 
-		The return value \param{n} is in the range \{0 {\ldots} +n\} on success
+		The return value \param{n} is
+\place{ed14}{nonnegative}
+\remove{ed14}{in the range \{0 {\ldots} +n\}}
+		on success
 		and indicates the number of substitutions made.  In the above example,
 		this would be two.  A negative value indicates that an error occurred.
-		As substitution is non-recursive, the return value could be used to
+		As substitution is \replace{ed14}{non}{not} recursive, the return value could be used to
 		provide a recursive substitution.
 
 		Implementation of \word{SUBSTITUTE} may be considered as being equivalent
@@ -683,13 +686,13 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\begin{worddef}{2375}{UNESCAPE}[][x:substitute]
+\begin{worddef}{2375}{UNESCAPE}[][X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2}{c-addr_2 u_2}
 
 	Replace each `\texttt{\%}' character in the input string
 	\param{c-addr_1 u_1} by two `\texttt{\%}' characters.  The output
 	is represented by \param{c-addr_2 u_2}.  The buffer at \param{c-addr_2}
-	must be big enough to hold the unescaped string.  An ambiguous
+	\replace{ed14}{must}{ shall} be big enough to hold the unescaped string.  An ambiguous
 	condition occurs if the resulting string will not fit into the
 	destination buffer (\param{c-addr_2}).
 

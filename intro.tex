@@ -1,10 +1,13 @@
-{\Large\bfseries
-American National Standard for Information Systems --- \\[2pt]
-Programming Language --- \\[2pt]
-Forth
+% !TeX root = forth.tex
+{\Large\bfseries\cbstart\patch{ed14}
+\sout{American National Standard for Information Systems ---} \\[2pt]
+\sout{Programming Language ---} \\[2pt]
+Forth \uline{\snapshot{} Standard}
+\cbend
 }
 
 \chapter{Introduction}
+\label{chap:intro}
 
 \section{Purpose}
 The purpose of this standard is to promote the portability of Forth
@@ -61,6 +64,7 @@ sets, defined in sections \ref{wordlist:block} through
 Standard Systems with tailored levels of functionality.
 
 \subsubsection{Text sections}
+\label{intro:numbering}
 
 Within each word set, section 1 contains introductory and explanatory
 material and section 2 introduces terms and notation used throughout
@@ -70,12 +74,20 @@ Sections 3 and 4 contain the usage and documentation requirements,
 respectively, for Standard Systems and Programs, while section 5
 specifies their labeling.
 
+\place{X:section-numbering}{%
+   Sections \emph{x}.1--\emph{x}.6 of each word set have the same
+   section numbering as sections 1--6 of the whole document to make
+   it easy to relate the sections to each other.  This may lead to gaps in
+   section numbers if a particular section does not occur in a word set.
+}
+
 \subsubsection{Glossary sections}
 
 Section 6 of each word set specifies the required behavior of the
 definitions in the word set and the extensions word set.
 
 \subsection{Annexes}
+\label{intro:annex}
 
 The annexes do not contain any required material.
 
@@ -101,7 +113,7 @@ of a system complies with the definitions documented in this
 standard.
 \fi
 
-Annex \ref{annex:index} is an index of all words defined in this
+Annex \ref{annex:index} is an index of all \place{ed14}{Forth} words defined in this
 standard.
 
 \section{Future directions}
@@ -124,15 +136,20 @@ as they may be withdrawn from future revisions of the standard.
 This standard designates the following word as obsolescent:
 
 \setwordlist{core}
+\cbstart
 \begin{tabular}{rl@{\qquad}rl@{\qquad}rl}
 	\ref{tools:FORGET}	& \word[tools]{FORGET}	\\
+	\uline{\ref{core:[COMPILE]}}	& \uline{\word{[COMPILE]}} \\
+	\uline{\ref{local:LOCALS}}	& \uline{\word[local]{LOCALS}}
 \end{tabular}
+\cbend
 
 This standard designates the following practice as obsolescent:
 
 \begin{itemize}
-\item Requiring floating-point numbers to be kept on the data stack.
-	(This has always been an environmental dependency.)
+\item \remove{X:fp-stack}{%
+ Requiring floating-point numbers to be kept on the data stack.
+	(This has always been an environmental dependency.)}
 
 \item Using \word{ENVIRONMENTq} to enquire whether a word set is present.
 \end{itemize}
