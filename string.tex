@@ -536,13 +536,10 @@ to provide all of the String and String Extensions word sets.
 		As the substitution name ``currencyvalue'' has not been defined, it is
 		left unchanged in the resulting string.
 
-		The return value \param{n} is
-\place{ed14}{nonnegative}
-\remove{ed14}{in the range \{0 {\ldots} +n\}}
-		on success
-		and indicates the number of substitutions made.  In the above example,
-		this would be two.  A negative value indicates that an error occurred.
-		As substitution is \replace{ed14}{non}{not} recursive, the return value could be used to
+		The return value \param{n} is nonnegative on success and indicates the
+		number of substitutions made.  In the above example, this would be two.
+		A negative value indicates that an error occurred.
+		As substitution is not recursive, the return value could be used to
 		provide a recursive substitution.
 
 		Implementation of \word{SUBSTITUTE} may be considered as being equivalent
@@ -692,7 +689,7 @@ to provide all of the String and String Extensions word sets.
 	Replace each `\texttt{\%}' character in the input string
 	\param{c-addr_1 u_1} by two `\texttt{\%}' characters.  The output
 	is represented by \param{c-addr_2 u_2}.  The buffer at \param{c-addr_2}
-	\replace{ed14}{must}{ shall} be big enough to hold the unescaped string.  An ambiguous
+	shall be big enough to hold the unescaped string.  An ambiguous
 	condition occurs if the resulting string will not fit into the
 	destination buffer (\param{c-addr_2}).
 

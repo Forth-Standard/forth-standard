@@ -85,8 +85,8 @@
 \makeatother
 
 \ifrelease
-	\lhead[\leftmark]{Forth \snapshot{} RC\release}
-	\rhead[Forth \snapshot{} RC\release]{\leftmark}
+	\lhead[\leftmark]{Forth \snapshot{} \release}
+	\rhead[Forth \snapshot{} \release]{\leftmark}
 \else
 	\lhead[\leftmark]{Forth 200\emph{x} / \docversion}
 	\rhead[Forth 200\emph{x} / \docversion]{\leftmark}
@@ -922,7 +922,7 @@
 	\renewcommand{\worddeferparams}{%
 		{\ifnum\value{word@core}=\value{chapter}\thesection\else\thesubsection\fi}%	Section (or sub-section) number
 		{\ifx\empty\word@num0\else\word@num\fi}%		2 Word number or \empty
-		{\word@sub}%		3 Word sub-number
+		{\ifx\empty\word@sub0\else\word@sub\fi}%		3 Word sub-number
 		{\word@list}%		4 The current word list
 		{\word@label}%		5 The label for the word
 		{\word@name}%		6 The LaTeX name for the word
@@ -974,8 +974,8 @@
 	% where defined by \deferwordparams to be:
 	%
 	% #1	Section (or sub-section) number
-	% #2	Word number or \empty
-	% #3	Word sub-number
+	% #2	Word number or 0
+	% #3	Word sub-number or 0
 	% #4	The current word list
 	% #5	The label for the word
 	% #6	The LaTeX name for the word
@@ -1017,7 +1017,7 @@
 		\hyperdef{\defer@space.#4}{#5}{%
 			\textbf{\rmfamily\thechapter.#1%
 				\ifnum#2=0\empty.\rule[.8ex]{2em}{.5pt}\else.#2\fi%
-				\ifx#3\empty\else.#3\fi
+				\ifnum#3=0\empty\else.#3\fi
 				\quad \hyperref{}{}{#4.#5}{\texttt{#6}}
 			}
 		} \\[-1.4\baselineskip]
@@ -1049,10 +1049,7 @@
 		%
 		% Create a few variables, used by \label
 		%
-		\def\@currentlabel{\thechapter.#1%
-			\ifx#2\empty.0\else.#2\fi%
-			\ifx#3\empty\else .#3\fi
-		}
+		\def\@currentlabel{\thechapter.#1{}.#2{}\ifnum#3=0\else.#3\fi}
 		\edef\@currentlabelname{#6}
 		\def\@currentHref{\defer@space.#4.#5}
 		%

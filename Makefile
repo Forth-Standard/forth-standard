@@ -1,7 +1,7 @@
 # Default target simply complains
 
-$PDFTEX = pdflatex
-$TEX = latex
+PDFTEX = pdflatex
+TEX = latex
 
 usage:
 	@echo "Usage: make [ dvi | ps | pdf | clean ]"

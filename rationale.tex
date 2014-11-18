@@ -72,6 +72,12 @@ Utility	&
 \subsection{Definitions of terms} % A.2.1
 
 \begin{description}
+\item[aligned]~
+
+Data can only be loaded from and stored to addresses that are aligned
+according to the alignment requirements of the accessed type.  Field
+offsets that are added to structure addresses also need to be aligned.
+
 \item[ambiguous condition] ~
 
 The response of a Standard System to an ambiguous condition is left
@@ -299,6 +305,7 @@ mathematical operations come into play.
 		\word{ROLL}	\word{ROT}	\word{SWAP}
 	\end{quote}
 
+\pagebreak
 \item \textbf{Additional operations}
 
 	The following mathematical operators are valid for character data:
@@ -690,7 +697,7 @@ Table~\textbf{\ref{table:control}} shows the desired behavior.
 	\label{table:control}
 	\begin{tabular}{lccl}
 	\hline\hline
-	\multicolumn{4}{l}{at compile\place{ed14}{-}time,} \\
+	\multicolumn{4}{l}{at compile-time,} \\
 	word: & supplies: & resolves: & is used to: \\ \hline
 	\word{IF}				& \emph{orig}	&				&	mark origin of forward conditional branch \\
 	\word{THEN}			&				& \emph{orig}	&	resolve \word{IF} or \word[tools]{AHEAD} \\
@@ -828,8 +835,6 @@ possible control-flow stack usage.
   \end{tabbing}
 \end{quote}
 
-
-\pagebreak
 \paragraph{Return stack} ~ % A.3.2.3.3
 
 The restrictions in section \xref[3.2.3.3 Return stack]{usage:returnstack}
@@ -961,8 +966,7 @@ The 16-bit cell system could implement \word{@} using the processor's
 portable program must assume that alignment may be required and
 follow the requirements of this section.
 
-
-\pagebreak
+\newpage
 \paragraph{Contiguous regions} ~ % A.3.3.3.2
 \label{rat:regions}
 
@@ -1202,7 +1206,7 @@ program source and data on disk.
 \begin{description}
 \item[block] ~
 
-	\remove{ed14}{Many} Forth systems \place{ed14}{may} use blocks to contain program source.
+	Forth systems may use blocks to contain program source.
 	Conventionally such blocks are formatted for editing as
 	16 lines of 64 characters. Source blocks are often referred
 	to as ``screens''.
@@ -1326,7 +1330,6 @@ known to \word{THROW}, for example). Under these circumstances it is
 not possible for a Standard Program to define words such as
 \word[block]{LOAD} in a completely portable way.
 
-\pagebreak
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.9.6 =============================
 
@@ -1359,36 +1362,28 @@ original file has blocks still in block buffers, these will be
 incorrectly associated with the newly opened file with disastrous
 results. The block buffer system must be flushed to avoid this.
 
-\cbstart\patch{X:interpret-escape-s}
 \setcounter{subsubsection}{3}
-\subsubsection[Other transient regions]{\uline{Other transient regions}}
+\subsubsection{Other transient regions}
 \label{rat:file:buffers}
 
-\uline{%
 Additional transient buffers are provided for use by \word{Sq} and \word{Seq}.
 The buffers should be able to store two consecutive strings, thus allowing the
 command line:
-}
 
 \begin{quote}
-	\uline{\texttt{\word{Sq} name1" \word{Sq} name2" \word{RENAME-FILE}}}
+	\texttt{\word{Sq} name1" \word{Sq} name2" \word{RENAME-FILE}}
 \end{quote}
 
-\uline{%
 The buffers may be implemented in a circular arrangement, where a string
 is placed into the next available buffer. When there are no buffers available,
 the oldest buffer is overwritten.
-}
 
-\uline{\word{Sq} and \word{Seq} may share the same buffers.}
+\word{Sq} and \word{Seq} may share the same buffers.
 
-\uline{%
 The list of words using memory in transient regions is extended to include
-\wref{file:Sq}{} and \wref{file:Seq}{}.}
+\wref{file:Sq}{} and \wref{file:Seq}{}.
 See \xref[3.3.3.6 Other transient regions]{usage:transient}.
-\cbend
 
-\pagebreak
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.11.6 ============================
 
@@ -1562,7 +1557,7 @@ out of name tokens.
 The search-order word set is intended to be a portable ``construction
 set'' from which search-order words may be built.  \word{ALSO}/\word{ONLY}
 or the various ``vocabulary'' schemes supported by the major Forth
-vendors can bedefined in terms of the primitive search-order word set.
+vendors can be defined in terms of the primitive search-order word set.
 
 The encoding for word list identifiers \emph{wid} might be a
 small-integer index into an array of word-list definition records, the
@@ -1580,6 +1575,7 @@ in a word list, or anything else. It is entirely up to the system implementor.
 	imply implementation as a linked list
 \end{description}
 
+\pagebreak
 \subsection{Additional usage requirements} % A 16.3 ============
 
 \setcounter{subsubsection}{2}
@@ -1644,7 +1640,7 @@ Some encodings (not UTF-8) might give surprises when you use a case
 insensitive ASCII-compare that's 8-bit safe, but not aware of the
 current encoding.
 
-The xchar \replace{ed14}{wordset}{ word set} does not address problems that come from using
+The xchar word set does not address problems that come from using
 multiple different encodings and switching or converting between them.
 It is good practice for a system implementing xchar to support UTF--8.
 

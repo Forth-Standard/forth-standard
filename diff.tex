@@ -101,7 +101,7 @@ considerable success in the market place.  This allowed them to identify
 and document features common to these systems, many of which had not been
 included in any previous standard.
 This was the most comprehensive review of Forth systems to date, taking
-eighty\place{ed14}{-}seven days covering twenty\place{ed14}{-}three meetings over eight years.
+eighty-seven days covering twenty-three meetings over eight years.
 The inclusive nature of the standard allowed the various factions within
 the community to unify in support of ANS Forth, with many systems
 providing a compatibility layer.
@@ -215,23 +215,13 @@ Forth 94 declared seven words as `obsolescent', all but
 \end{description}
 
 
-\subsection[Separate Floating-point Stack is now Standard]{%
-\replace{X:fp-stack}{Combined Floating-point/Data Stack Obsolescent}{%
-\newline Separate Floating-point Stack is now Standard}
-} % D.7.2
+\subsection{Separate Floating-point Stack is now Standard} % D.7.2
 \label{diff:fpstack}
 
-\remove{X:fp-stack}{%
-The requirement for floating-point numbers to be kept on the data stack
-has been marked as obsolescent.  This was previously an environmental
-dependency/restriction.}
-
-\place{X:fp-stack}{%
-	Previously systems could implement either a separate floating-point
-	stack or a combined floating-point/data stack; programs were required
-	to cater for both (or declare an environmental dependency on a particular
-	variant).
-}
+Previously systems could implement either a separate floating-point
+stack or a combined floating-point/data stack; programs were required
+to cater for both (or declare an environmental dependency on a
+particular variant).
 
 \begin{description}
 \item[Words Affected:] ~\\
@@ -253,14 +243,8 @@ dependency/restriction.}
 	Forth 94 programs (without environmental dependency, i.e., those
 	working on either kind of system) remain standard programs.
 
-\remove{X:fp-stack}{%
 	Forth 94 systems that implement a separate floating-point stack
-	are now standard systems and no longer have an environmental
-	restriction on providing a floating-point stack.}
-
-\place{X:fp-stack}{%
-	Forth 94 systems that implement a separate floating-point stack
-	continue to be standard systems.}
+	continue to be standard systems.
 
 	Forth 94 systems that implement a combined stack become systems
 	with an environmental restriction of not providing a separate
@@ -277,7 +261,7 @@ dependency/restriction.}
 \end{description}
 
 
-\subsection[Using ENVIRONMENT? to inquire whether a word set is present]{Using \word{ENVIRONMENT?} to inquire whether a word set is present} % D.7.3
+\subsection[Using ENVIRONMENT? to inquire whether a word set is present]{Using \word{ENVIRONMENTq} to inquire whether a word set is present} % D.7.3
 \label{diff:environment}
 
 With the advent of a new standard, it was necessary to review the
@@ -296,7 +280,7 @@ mechanism, but rather to mark it as obsolescent.
 
 \begin{description}
 \item[Words Affected:] ~\\
-	\word{ENVIRONMENT?}
+	\word{ENVIRONMENTq}
 
 \item[Reason:] ~\\
 	The use of the word-set query to inquire whether a word set is
@@ -385,7 +369,7 @@ mechanism, but rather to mark it as obsolescent.
  
 \item[Transition/Conversion:] ~\\
 	Existing programs are unaffected.  Systems implementing the locals
-	\replace{ed14}{wordset}{ word set} have to be changed to support at least 16 (previously 8)
+	word set have to be changed to support at least 16 (previously 8)
 	locals.
 \end{description}
 
@@ -470,19 +454,16 @@ The following words have been added to \xref{wordlist:core-ext}:
 \html{<br class="clear" />}
 
 
-\pagebreak
-\subsection[Block word sets]{\remove{ed14}{Block word sets}}
-\remove{ed14}{No words have been added to \xref{wordlist:block}.}
-%\stepcounter{subsection}
+% Block word sets
+\stepcounter{subsection}
 
 \subsection{Double-Number word sets}
 The following words have been added to \xref{wordlist:double-ext}:
 
 \wref{double:2VALUE}{}
 
-\subsection[Exception word sets]{\remove{ed14}{Exception word sets}}
-\remove{ed14}{No words have been added to \xref{wordlist:exception}.}
-%\stepcounter{subsection}
+% Exception word sets
+\stepcounter{subsection}
 
 \subsection{Facility word sets}
 The following words have been added to \xref{wordlist:facility-ext}:
@@ -569,9 +550,8 @@ The following words have been added to \xref{wordlist:local-ext}:
 
 \wref{local:b:}{}
 
-\subsection[Memory-Allocation word sets]{\remove{ed14}{Memory-Allocation word sets}}
-\remove{ed14}{No words have been added to \xref{wordlist:memory}.}
-%\stepcounter{subsection}
+% Memory-Allocation word sets
+\stepcounter{subsection}
 
 \subsection{Programming-Tools word sets}
 \label{diff:12:tools}
@@ -593,9 +573,8 @@ The following words have been added to the \xref{wordlist:tools-ext}:
 \end{minipage}
 \html{<br class="clear" />}
 
-\subsection[Search-Order word sets]{\remove{ed14}{Search-Order word sets}}
-\remove{ed14}{No words have been added to \xref{wordlist:search}.}
-%\stepcounter{subsection}
+% Search-Order word sets
+\stepcounter{subsection}
 
 \subsection{String word sets}
 The following words have been added to the \xref{wordlist:string-ext}:

@@ -85,11 +85,10 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 	\wref{tools:[ELSE]}{[ELSE]} or \wref{tools:[THEN]}{[THEN]}
 	(\wref{tools:[IF]}{[IF]});
 \item removing a needed definition (\wref{tools:FORGET}{}).
-\item \wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{}.
-\item \wref{tools:NRfrom}{} is used with data not stored by \wref{tools:NtoR}{}.
+\item \wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{};
+\item \wref{tools:NRfrom}{} is used with data not stored by \wref{tools:NtoR}{};
 \item adding to or deleting from the wordlist during the execution of
 	\wref{tools:TRAVERSE-WORDLIST}.
-
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -114,7 +113,7 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \end{itemize}
 
 \section{Compliance and labeling} % 15.5
-
+\enlargethispage{2ex}
 \subsection{Forth-\snapshot{} systems} % 15.5.1
 
 The phrase ``Providing the Programming-Tools word set'' shall be
@@ -186,7 +185,6 @@ Extensions word sets.
 \end{worddef}
 
 
-\enlargethispage{4ex}
 \begin{worddef}{1280}{DUMP}
 \item \stack{addr u}{}
 
@@ -202,7 +200,6 @@ Extensions word sets.
 \end{worddef}
 
 
-%\enlargethispage{2ex}
 \begin{worddef}{2194}{SEE}
 \item \stack{"<spaces>name"}{}
 
@@ -327,7 +324,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0740}{ASSEMBLER}
 \item \stack{}{}
 
@@ -337,15 +334,15 @@ Extensions word sets.
 \see \xref[16. The optional Search-Order word set]{wordlist:search}.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0830}{BYE}
 \item \stack{}{}
 
 	Return control to the host operating system, if any.
 \end{worddef}
 
-
-\enlargethispage{8ex}
+\vspace*{-2ex}
+\enlargethispage{6ex}
 \begin{worddef}{0930}{CODE}
 \item \stack{"<spaces>name"}{}
 
@@ -381,7 +378,6 @@ Extensions word sets.
 \end{worddef}
 
 
-%\enlargethispage{4ex}
 \begin{worddef}{1015}{CS-PICK}[c-s-pick]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -574,8 +570,10 @@ Extensions word sets.
 	compilation word list is deleted.
 
 	An ambiguous condition exists if \word{FORGET} removes a word
-	required for correct execution. Note: This word is obsolescent
-	and is included as a concession to existing implementations.
+	required for correct execution.
+
+\note This word is obsolescent and is included as a concession to
+	existing implementations.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\rref{tools:FORGET}{}.
@@ -594,7 +592,7 @@ Extensions word sets.
 \end{worddef}
 
 % -------------------------------------------------------------------
-
+\vspace*{-2ex}
 \begin{worddef}[NtoR]{1908}{N>R}[n-to-r][X:n-to-r]
 
 \interpret
@@ -657,12 +655,13 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
+\vspace*{-2ex}
 \begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile][X:traverse-wordlist]
 \item \stack{nt}{x xt}
 
 	\param{x xt} represents the compilation semantics of the word
 	\param{nt}.  The returned \param{xt} has the stack effect
-	\stack{i*x x}{j*x}.  \replace{ed14}{\word{EXECUTE}ing}{Executing} \param{xt} consumes
+	\stack{i*x x}{j*x}.  Executing \param{xt} consumes
 	\param{x} and performs the compilation semantics of the word
 	represented by \param{nt}.
 
@@ -689,6 +688,8 @@ Extensions word sets.
   	\end{rationale} 
 \end{worddef}
 
+\vspace*{-2ex}
+\enlargethispage{4ex}
 \begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret][X:traverse-wordlist]
 \item \stack{nt}{xt|0}
 
@@ -703,6 +704,7 @@ Extensions word sets.
 \see \xref{tools:TRAVERSE-WORDLIST}{}.
 \end{worddef}
 
+\vspace*{-2ex}
 \begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string][X:traverse-wordlist]
 \item \stack{nt}{c-addr u}
 
@@ -715,6 +717,7 @@ Extensions word sets.
 
 \see \wref{tools:TRAVERSE-WORDLIST}{}.
 \end{worddef}
+
 
 \begin{worddef}[NRfrom]{1940}{NR>}[n-r-from][X:n-to-r]
 
@@ -774,6 +777,7 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
+\enlargethispage{6ex}
 \begin{worddef}{2264}{SYNONYM}[][X:synonym]
 \item \stack{"<spaces>newname" "<spaces>oldname"}{}
 
@@ -965,7 +969,6 @@ Extensions word sets.
 \end{worddef}
 
 
-\pagebreak
 \begin{worddef}{2532}{[IF]}[bracket-if]
 \compile
 	Perform the execution semantics given below.

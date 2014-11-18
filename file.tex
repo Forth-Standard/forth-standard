@@ -81,8 +81,7 @@ file names is implementation defined.
 \subsection{Blocks in files} % 11.3.2
 \label{file:blocks}
 
-\remove{ed14}{If the File-Access word set is implemented, the Block word set
-shall be implemented.} Blocks may, but need not, reside in files.
+Blocks may, but need not, reside in files.
 When they do:
 \begin{itemize}
 \item Block numbers may be mapped to one or more files by
@@ -118,18 +117,12 @@ an environmental dependency. See:
 \subsection{Other transient regions} % 11.3.5
 \label{file:buffers}
 
-\remove{X:interpret-escaped-s}{%
-The list of words using memory in transient regions is extended to
-include \wref{file:Sq}{S"}. See:} \xref[3.3.3.6 Other transient
-regions]{usage:transient}.
-
-\place{X:interpret-escaped-s}{%
 The system provides transient buffers for \word{Sq} and \word{Seq}
 strings. These buffers shall be no less than 80 characters in length, and
 there shall be at least two buffers. The system should be able to store
 two strings defined by sequential use of \word{Sq} or \word{Seq}.
 RAM-limited systems may have environmental restrictions on the number
-of buffers and their lifetimes.}
+of buffers and their lifetimes.
 
 \subsection{Parsing} % 11.3.6
 \label{file:parsing}
@@ -175,8 +168,8 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 \item maximum size of input line (\xref[11.3.6 Parsing]{file:parsing});
 \item methods for mapping block ranges to files
 	(\xref[11.3.2 Blocks in files]{file:blocks});
-\item number of string buffers provided (\replace{X:interpret-escape-s}{\wref{file:Sq}{S"}}{ \xref{file:buffers}});
-\item size of string buffer used by \replace{X:interpret-escape-s}{\wref{file:Sq}{S"}}{ \xref{file:buffers}}.
+\item number of string buffers provided (\xref{file:buffers});
+\item size of string buffer used by \xref{file:buffers}.
 \end{itemize}
 
 \subsubsection{Ambiguous conditions} % 11.4.1.2
@@ -194,19 +187,19 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 \item requesting an unmapped block number
 	(\xref[11.3.2 Blocks in files]{file:blocks});
 \item using \wref{file:SOURCE-ID}{SOURCE-ID} when
-	\wref{block:BLK}{BLK} is not zero.
+	\wref{block:BLK}{BLK} is not zero;
 
 % ==== X:Required ====
 
 \item a file is required while it is being \word{REQUIRED}
-	(\ref{file:REQUIRED}) or \word{INCLUDED} (\ref{file:INCLUDED}).
+	(\ref{file:REQUIRED}) or \word{INCLUDED} (\ref{file:INCLUDED});
 \item a marker is defined outside and executed inside a file or
 	vice versa, and the file is \word{REQUIRED}
-	(\ref{file:REQUIRED}) again.
+	(\ref{file:REQUIRED}) again;
 \item the same file is required twice using different names
 	(e.g., through symbolic links), or different files with the
 	same name are provided to \wref{file:REQUIRED}{REQUIRED} (by doing
-	some renaming between the invocations of \word{REQUIRED}).
+	some renaming between the invocations of \word{REQUIRED});
 \item the stack effect of including with
 	\wref{file:REQUIRED}{REQUIRED} the file is not \stack{i*x}{i*x}.
 
@@ -268,7 +261,6 @@ provide all of the File Access and File Access Extensions word sets.
 
 \subsection{File Access words} % 11.6.1
 
-\enlargethispage{2ex}
 \begin{worddef}[p]{0080}{(}[paren]
 \item \stack{"ccc<paren>"}{}
 
@@ -286,7 +278,6 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab[2.4] 7 8 9 ) 11 22 33}{11 22 33}
 	\end{testing}
 \end{worddef}
-
 
 \enlargethispage{4ex}
 \begin{worddef}{0765}{BIN}
@@ -361,7 +352,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1190}{DELETE-FILE}
 \item \stack{c-addr u}{ior}
 
@@ -376,7 +367,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1520}{FILE-POSITION}
 \item \stack{fileid}{ud ior}
 
@@ -385,7 +376,7 @@ provide all of the File Access and File Access Extensions word sets.
 	result code. \param{ud} is undefined if \param{ior} is non-zero.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1522}{FILE-SIZE}
 \item \stack{fileid}{ud ior}
 
@@ -423,7 +414,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\newpage
 \begin{worddef}{1717}{INCLUDE-FILE}
 \item \stack{i*x fileid}{j*x}
 
@@ -662,7 +653,7 @@ provide all of the File Access and File Access Extensions word sets.
 		Implementations are allowed to store the line terminator in
 		the memory buffer in order to allow the use of line reading
 		functions provided by host operating systems, some of which
-		store the terminator. Without this provision, a \replace{ed14}{temporary}{transient}
+		store the terminator. Without this provision, a transient
 		buffer might be needed. The two-character limitation is
 		sufficient for the vast majority of existing operating
 		systems. Implementations on host operating systems whose line
@@ -797,13 +788,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\stack{"ccc<quote>"}{c-addr u}
 
 	Parse \param{ccc} delimited by \texttt{"} (double quote). Store
-	the resulting string \replace{X:interpret-escape-s}{%
-	\param{c-addr u} at a temporary location.
-	The maximum length of the temporary buffer is
-	implementation-dependent but shall be no less than 80 characters.
-	Subsequent uses of \word{Sq} may overwrite the temporary buffer.
-	At least one such buffer shall be provided.}{ in a transient buffer
-	\param{c-addr u}.}
+	the resulting string in a transient buffer \param{c-addr u}.
 
 \compile
 	\stack{"ccc<quote>"}{}
@@ -821,7 +806,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{core:Cq}{C"},
 	\wref{core:Sq}{S"},
 	\xref[11.3.5 Other transient regions]{file:buffers}, \\
-	\place{X:interpret-escape-s}{\wref{file:Seq}{},}
+	\wref{file:Seq}{},
 	\xref{rat:file:buffers},
 	\rref{file:Sq}{}.
 
@@ -881,7 +866,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}{2425}{W/O}[w-o]
 \item \stack{}{fam}
 
@@ -950,7 +935,6 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
-\pagebreak
 \begin{worddef}{1560}{FLUSH-FILE}
 \item \stack{fileid}{ior}
 
@@ -1064,7 +1048,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{2ex}
+
 \begin{worddef}{2144}[50]{REQUIRED}[][X:required]
 \item \stack{i*x c-addr u}{i*x}
 
@@ -1180,33 +1164,27 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\begin{worddef*}[Seq]{2266}{S\bs{"}}[s-backslash-quote][X:interpret-escape-s]
+\begin{worddef}[Seq]{2266}{S\bs{"}}[s-backslash-quote][X:interpret-escape-s]
 \item
-	\uline{Extend the semantics of \wref{core:Seq}{} to be:}
+	Extend the semantics of \wref{core:Seq}{} to be:
 
-\interpret \stack{\uline{"ccc<quote>"}}{\uline{c-addr u}}
+\interpret \stack{"ccc<quote>"}{c-addr u}
 
-\uline{%
 	Parse \param{ccc} delimited by \texttt{"} (double quote) according to the
 	translation rules given in \wref{core:Seq}{}.  Store the resulting string in a
 	transient buffer \param{c-addr u}.
-}
 
-\compile \stack{\uline{"ccc<quote>"}}{}
+\compile \stack{"ccc<quote>"}{}
 
-\uline{%
 	Parse \param{ccc} delimited by \texttt{"} (double quote) according to the
 	translation rules given in \wref{core:Seq}{}.  Append the run-time semantics
 	given below to the current definition.
-}
 
-\runtime \stack{}{\uline{c-addr u}}
+\runtime \stack{}{c-addr u}
 
-\uline{%
 	Return a string \param{c-addr u} describing the translation of \param{ccc}.
 	A program shall not alter the returned string.
-}
 
-\see \uline{\wref{core:Seq},} \xref[11.3.4 Transient String Buffers]{file:buffers},
-	\uline{\wref{file:Sq}{},} \xref[A.11.3.4 Transient String Buffers]{rat:file:buffers}.
-\end{worddef*}
+\see \wref{core:Seq}, \xref[11.3.4 Transient String Buffers]{file:buffers},
+	\wref{file:Sq}{}, \xref[A.11.3.4 Transient String Buffers]{rat:file:buffers}.
+\end{worddef}

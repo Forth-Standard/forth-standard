@@ -1,11 +1,11 @@
 % !TeX root = forth.tex
-\chapter[The optional Extended-Character word set]{The optional Extended-Character \replace{ed14}{wordset}{ word set}} % 18
+\chapter{The optional Extended-Character word set} % 18
 \wordlist{xchar}
 
 \section{Introduction} % 18.1
 \label{xchar:intro}
 
-This \replace{ed14}{wordset}{ word set} deals with variable width character encodings.  It also
+This word set deals with variable width character encodings.  It also
 works with fixed width encodings.
 
 Since the standard specifies ASCII encoding for characters, only
@@ -14,11 +14,10 @@ has so many benefits, most encodings actually are ASCII compatible.
 The characters beyond the ASCII encoding are called ``extended
 characters'' (xchars).
 
-All words dealing with strings shall handle xchars when the xchar
-\replace{ed14}{wordset}{ word set} is present.  This includes dictionary definitions\remove{ed14}{, so the
-dictionary entries should not use bit 8 for other purposes}.  White
-space parsing does not have to treat code points greater than \$20
-as white space.
+All words dealing with strings shall handle xchars when the xchar word
+set is present.  This includes dictionary definitions.  White space
+parsing does not have to treat code points greater than \$20 as white
+space.
 
 \section{Additional terms and notation} % 18.2
 
@@ -198,7 +197,7 @@ string handling should work transparently with \emph{xchars}.
 \item the data in memory does not encode a valid xchar
 	(\wref{xchar:X-SIZE}{});
 \item the \emph{xchars} value is outside the range of allowed code points of
-	the current character set used.
+	the current character set used;
 \item words improperly used outside
 	\wref{core:num-start}{<\num} and \wref{core:num-end}{\num>}
 	(\wref{xchar:XHOLD}{}).
@@ -232,7 +231,6 @@ shall be appended to the label of any Standard System that provides
 all of the Extended-Character and Extended-Character Extensions
 word sets.
 
-\enlargethispage{10ex}
 \subsection{Forth-\snapshot{} programs} % 18.5.2
 
 The phrase ``Requiring the Extended-Character word set'' shall be
@@ -484,8 +482,6 @@ Extended-Character Extensions word sets.
 \end{worddef}
 
 
-\vspace*{-0.5ex}
-\enlargethispage{8ex}
 \begin{worddef}{0175}{-TRAILING-GARBAGE}[minus-trailing-garbage][X:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
@@ -575,7 +571,7 @@ Extended-Character Extensions word sets.
 \end{worddef}
 
 
-\vspace*{-0.75ex}
+\newpage
 \begin{worddef}{2487}[30]{XC-WIDTH}[x-c-width][X:xchar]
 \item \stack{xchar}{n}
 
@@ -741,8 +737,6 @@ Extended-Character Extensions word sets.
 \end{worddef}
 
 
-\vspace*{-0.75ex}
-\enlargethispage{8ex}
 \begin{worddef}{2487}[45]{XCHAR-}[x-char-minus][X:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 

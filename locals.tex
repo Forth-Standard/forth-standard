@@ -234,7 +234,6 @@ to provide all of the Locals and Locals Extensions word sets.
 
 \subsection{Locals words} % 13.6.1
 
-
 \enlargethispage{4ex}
 \begin{worddef}[LOCAL]{0086}{(LOCAL)}[paren-local-paren]
 \interpret
@@ -318,6 +317,9 @@ to provide all of the Locals and Locals Extensions word sets.
 	identifier \param{name_2} with \param{x_2}, etc. When invoked,
 	each local will return its value. The value of a local may be
 	changed using \wref{core:TO}{TO}.
+
+\note This word is obsolescent and is included as a concession to
+	existing implementations.
 
 	\begin{implement}
 	\word{:} \word{LOCALS} \word{p} "name{\ldots}name |" -{}- ) \\

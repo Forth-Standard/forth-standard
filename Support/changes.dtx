@@ -1,0 +1,1271 @@
+% \CheckSum{432}
+%
+%^^A --------------------------------------------------------------------------
+%
+% \maketitle
+%
+% \tableofcontents
+% \cleardoublepage
+%
+%^^A -- Einleitung ------------------------------------------------------------
+%
+% \iflanguage{english}{
+%  \section{Introduction}
+%
+%  This package provides manual change markup.
+%
+%  Any comments, thoughts or improvements are welcome, just send an email.
+%
+%  If you want to see the commented package-sourcecode, please uncomment \befehl{OnlyDescription} in \datei{changes.drv} and translate the document.
+%
+%  \begin{quote}
+%    \small\textsc{README:}
+%    The changes-package allows users to manually markup changes of text such as additions, deletions, or replacements.
+%    Changed text is shown in a different colour; deleted text is striked out.
+%    The package allows free defining of additional authors and their associated colour.
+%    It also allows you to define a markup for authors or annotations.
+%  \end{quote}
+%
+%  As I'm not a native speaker, please feel free to report any grammatic or orthographic errors.
+% }{
+%  \section{Einleitung}
+%
+%  Dieses Paket dient dazu, manuelle Änderungsmarkierung anzubieten.
+%
+%  Ein offenes Ohr für Verbesserungsvorschläge oder Kritik habe ich per Mail immer.
+%
+%  Diejenigen, die den kommentierten Quellcode des Pakets lesen wollen, kommentieren bitte die Anweisung \befehl{OnlyDescription} in der Datei \datei{changes.drv} aus und übersetzen diese.
+%
+%  \begin{quote}
+%    \small\textsc{README:}
+%    Das changes-Paket dient zur manuellen Markierung von geändertem Text, insbesondere Einfügungen, Löschungen und Ersetzungen.
+%    Der geänderte Text wird farbig markiert und, bei gelöschtem Text, durchgestrichen.
+%    Das Paket ermöglicht die freie Definition von Autoren und deren zugeordneten Farben.
+%    Es erlaubt zusätzlich die Definition des Autor- und Anmerkungsmarkups.
+%  \end{quote}
+% }
+%
+%^^A -- Nutzerschnittstelle----------------------------------------------------
+%
+% \iflanguage{english}{
+%  \section{User interface of the \paket{changes}-package}
+% }{
+%  \section{Die Benutzerschnittstelle des \paket{changes}-Pakets}
+% }
+%
+% \iflanguage{english}{
+%  For activating manual change management, address the \paket{changes}-package as follows:
+% }{
+%  Um die Änderungsverfolgung zu aktivieren, ist das \paket{changes}-Paket wie folgt einzubinden:
+% }
+%
+% \befehl{usepackage\{changes\}}
+%
+% \iflanguage{english}{
+%  Options for the package are described in \autoref{sec:Optionen}.
+% }{
+%  Die Paketoptionen werden in \autoref{sec:Optionen} erläutert.
+% }
+%
+%^^A -- Pakete ----------------------------------------------------------------
+%
+% \iflanguage{english}{
+%  \subsection{Used packages}
+%
+%  The \paket{changes}-package uses already existing packages.
+%  The following packages have to be installed for the \paket{changes}-package; otherwise errors may occur.
+%
+%  You will find detailed description of the packages in their distributions.
+%  \begin{description}
+%   \item [ifthen] provides an enhanced \befehl{if}-command as well as a \texttt{while}-loop
+%   \item [pdfcolmk] solves the problem of coloured text and page breaks (with pdflatex)
+%   \item [ulem] striking out texts
+%   \item [xcolor] provides colourised markup of texts
+%   \item [xkeyval] provides options with key-value-pairs
+%  \end{description}
+% }{
+%  \subsection{Benötigte Pakete}
+%
+%  Das \paket{changes}-Paket bindet bereits Pakete ein, die für das Paket notwendig sind.
+%  Die Pakete werden im folgenden kurz vorgestellt und müssen für die Nutzung des \paket{changes}-Pakets zur Verfügung stehen, sonst gibt es Fehlermeldungen.
+%
+%  Eine genauere Beschreibung der einzelnen Pakete ist in der Dokumentation der Pakete selbst zu finden.
+%  \begin{description}
+%   \item [ifthen] stellt eine verbesserte \texttt{if}-Abfrage sowie eine \texttt{while}-Schleife zur Verfügung
+%   \item [pdfcolmk] löst das Problem farbigen Texts über Seitenümbrüche hinweg (bei pdflatex)
+%   \item [ulem] Durchstreichen von Texten
+%   \item [xcolor] farbige Markierung von Texten
+%   \item [xkeyval] Eingabe von Optionen mit Werteübergabe
+%  \end{description}
+% }
+%
+%^^A -- Optionen --------------------------------------------------------------
+%
+% \iflanguage{english}{
+%  \subsection{Options}
+% }{
+%  \subsection{Optionen}
+% }
+% \label{sec:Optionen}
+%
+% \minisec{draft}
+% \iflanguage{english}{
+%  The \option{draft}-option enables markup of changes.
+%  The list of changes is available via \befehl{listofchanges}.
+%  This option is the default option, if no other option is selected.
+% }{
+%  Die \option{draft}-Option bewirkt, dass alle Änderungen markiert werden.
+%  Die Änderungsliste kann durch \befehl{listofchanges} ausgegeben werden.
+%  Ohne Optionsangabe wird \option{draft} automatisch eingestellt.
+% }
+%
+% \befehl{usepackage[draft]\{changes\}}
+%
+% \minisec{final}
+%
+% \iflanguage{english}{
+%  The \option{final}-option disables markup of changes, only the correct text will be shown.
+%  The list of changes is disabled, too.
+% }{
+%  Die \option{final}-Option bewirkt, dass alle Änderungsmarkierungen ausgeblendet werden und nur noch der korrekte Text ausgegeben wird.
+%  Die Änderungsliste wird ebenfalls unterdrückt.
+% }
+%
+% \befehl{usepackage[final]\{changes\}}
+%
+%^^A -- Neue Befehle ----------------------------------------------------------
+%
+% \iflanguage{english}{
+%  \subsection{New commands}
+%
+%  This section describes all new commands of the \paket{changes}-package.
+% }{
+%  \subsection{Neue Befehle}
+%
+%  Dieser Abschnitt führt alle neuen Befehle auf und erläutert sie.
+% }
+%
+% \iflanguage{english}{
+%  \subsubsection{Change management}
+% }{
+%  \subsubsection{Änderungsmanagement}
+% }
+%
+% \DescribeMacro{\added}
+% \iflanguage{english}{
+%  The command \befehl{added} marks new text.
+%  The new text is the mandatory argument for the command, thus it is written in curly braces.
+%  There are two optional arguments: author-id and remark.
+%  The author-id has to be defined using \befehl{definechangesauthor}.
+%  Use an empty author for an anonymous remark.
+%  \begin{einspiel}
+%   \>\befehl{added[\meta{author-id}][\meta{remark}]\{\meta{new text}\}}
+%  \end{einspiel}
+%  \begin{einspiel}[true]
+%   \>\texttt{This is \befehl{added}[EK]\{new\} text.}\\
+%   \>This is \added[EK]{new} text.\\
+%   \>\texttt{This is \befehl{added}[][anonymous]\{new\} text.}\\
+%   \>This is \added[][anonymous]{new} text.
+%  \end{einspiel}
+% }{
+%  Der Befehl \befehl{added} markiert zugefügten Text.
+%  Der neue Text wird als notwendiges Argument in geschweiften Klammern übergeben.
+%  Optional können eine Autoren-ID sowie eine Anmerkung übergeben werden.
+%  Die Autoren-ID muss mit einer mit dem \befehl{definechangesauthor}-Befehl definierten ID übereinstimmen.
+%  Soll nur eine Anmerkung (ohne Autor) eingegeben werden, so ist statt des Autors ein leeres Argument zu übergeben.
+%  \begin{einspiel}
+%   \>\befehl{added[\meta{Autor-ID}][\meta{Anmerkung}]\{\meta{neuer Text}\}}
+%  \end{einspiel}
+%  \begin{einspiel}[true]
+%   \>\texttt{Das ist \befehl{added}[EK]\{neuer\} Text.}\\
+%   \>Das ist \added[EK]{neuer} Text.\\
+%   \>\texttt{Das ist \befehl{added}[][anonym]\{neuer\} Text.}\\
+%   \>Das ist \added[][anonym]{neuer} Text.
+%  \end{einspiel}
+% }
+%
+% \DescribeMacro{\deleted}
+% \iflanguage{english}{
+%  The command \befehl{deleted} marks deleted text.
+%  For arguments see \befehl{added}.
+%  \begin{einspiel}
+%   \>\befehl{deleted[\meta{author-id}][\meta{remark}]\{\meta{deleted text}\}}
+%  \end{einspiel}
+%  \begin{einspiel}[true]
+%   \>\texttt{This is \befehl{deleted}[][unnecessary]\{bad\} text.}\\
+%   \>This is \deleted[][obsolet]{bad} text.
+%  \end{einspiel}
+% }{
+%  Der Befehl \befehl{deleted} markiert gelöschten Text.
+%  Argumente: siehe \befehl{added}.
+%  \begin{einspiel}
+%   \>\befehl{deleted[\meta{Autor-ID}][\meta{Anmerkung}]\{\meta{gelöschter Text}\}}
+%  \end{einspiel}
+%  \begin{einspiel}[true]
+%   \>\texttt{Das ist \befehl{deleted}[][obsolet]\{schlechter\} Text.}\\
+%   \>Das ist \deleted[][obsolet]{schlechter} Text.
+%  \end{einspiel}
+% }
+%
+% \DescribeMacro{\replaced}
+% \iflanguage{english}{
+%  The command \befehl{replaced} marks replaced text.
+%  Mandatory arguments are new and old text.
+%  For optional arguments see \befehl{added}.
+%  \begin{einspiel}
+%   \>\befehl{replaced[\meta{author-id}][\meta{remark}]\{\meta{new text}\}\{\meta{old text}\}}
+%  \end{einspiel}
+%  \begin{einspiel}[true]
+%   \>\texttt{This is \befehl{replaced}[EK]\{nice\}\{ugly\} text.}\\
+%   \>This is \replaced[EK]{nice}{ugly} text.
+%  \end{einspiel}
+% }{
+%  Der Befehl \befehl{replaced} markiert geänderten Text.
+%  Notwendige Argumente sind der neue sowie der alte Text.
+%  Optionale Argumente: siehe \befehl{added}.
+%  \begin{einspiel}
+%   \>\befehl{replaced[\meta{Autor-ID}][\meta{Anmerkung}]\{\meta{neuer Text}\}\{\meta{alter Text}\}}
+%  \end{einspiel}
+%  \begin{einspiel}[true]
+%   \>\texttt{Das ist \befehl{replaced}[EK]\{schöner\}\{schlechter\} Text.}\\
+%   \>Das ist \replaced[EK]{schöner}{schlechter} Text.
+%  \end{einspiel}
+% }
+%
+% \DescribeMacro{\listofchanges}
+% \iflanguage{english}{
+%  The command \befehl{listofchanges} outputs a list of changes.
+%  The first \LaTeX-run creates an auxiliary file, the second run uses the data of this file.
+%  Therefore you need two \LaTeX-runs for an actual list of changes.
+% }{
+%  Der Befehl \befehl{listofchanges} gibt eine Liste der Änderungen aus.
+%  Im ersten \LaTeX-Lauf wird eine Hilfsdatei angelegt, deren Daten im zweiten Durchlauf eingebunden werden.
+%  Für eine aktuelle Liste der Änderungen sind daher zwei \LaTeX-Läufe notwendig.
+% }
+% \begin{einspiel}
+%  \>\befehl{listofchanges}
+% \end{einspiel}
+%
+%^^A -- Nutzeranpassungen -----------------------------------------------------
+%
+% \iflanguage{english}{
+%  \subsubsection{User specific adaptions}
+% }{
+%  \subsubsection{Nutzerdefinierte Anpassungen}
+% }
+%
+% \DescribeMacro{\definechangesauthor}
+% \iflanguage{english}{
+%  The command \befehl{definechangesauthor} defines a new author for changes.
+%  You have to define a unique author-id and a corresponding colour.
+%  Special characters or spaces are not allowed in the author-id.
+%  The name of the author can optionally be defined, it is used in the list of changes.
+%  \begin{einspiel}
+%   \>\befehl{definechangesauthor[\meta{author-name}]\{\meta{author-id}\}\{\meta{colour}\}}
+%  \end{einspiel}
+% }{
+%  Der Befehl \befehl{definechangesauthor} definiert einen neuen Autor für Änderungen.
+%  Es muss eine eindeutige Autor-ID und dessen Farbe angegeben werden.
+%  Die Autor-ID darf keine Sonder- oder Leerzeichen enthalten.
+%  Ein Autorenname kann optional angegeben werden, er wird in der Änderungsliste benutzt.
+%  \begin{einspiel}
+%   \>\befehl{definechangesauthor[\meta{Autor-Name}]\{\meta{Autor-ID}\}\{\meta{Farbe}\}}
+%  \end{einspiel}
+% }
+% \begin{einspiel}[true]
+%  \>\befehl{definechangesauthor\{EK\}\{orange\}}\\
+%  \>\befehl{definechangesauthor[Ekkart Kleinod]\{EK\}\{orange\}}
+% \end{einspiel}
+%
+% \DescribeMacro{\setlocextension}
+% \iflanguage{english}{
+%  The command \befehl{setlocextension} sets the extension of the auxiliary file for the list of changes.
+%  The default extension is "\texttt{loc}".
+%  In the example, the auxiliary file for "\texttt{foo.tex}" would be named named "\texttt{foo.changes}".
+% }{
+%  Der Befehl \befehl{setlocextension} legt das Suffix der Hilfsdatei für die Änderungsliste fest.
+%  Ohne andere Definition gilt das Suffix "`\texttt{loc}"'.
+%  Das Beispiel würde für "`\texttt{foo.tex}"' Hilfsdateien erzeugen, die "`\texttt{foo.changes}"' heißen.
+% }
+% \begin{einspiel}
+%  \>\befehl{setlocextension\{\meta{extension}\}}
+% \end{einspiel}
+% \begin{einspiel}[true]
+%  \>\befehl{setlocextension\{changes\}}
+% \end{einspiel}
+%
+% \DescribeMacro{\setauthormarkup}
+% \iflanguage{english}{
+%  The command \befehl{setauthormarkup} sets the layout of the authormarkup in the text.
+%  The default markup is a superscripted author-id on the right side of the changed text.
+%
+%  Values for position (optional): \emph{left} = left of the changes; all other values: right\\
+%  Values for definition: any \LaTeX-commands, author-id can be shown using "\#1".
+% }{
+%  Der Befehl \befehl{setauthormarkup} legt fest, wie der Autor im Text angezeigt wird.
+%  Ohne andere Definition gilt, dass der Autor rechts von den Änderungen hochgestellt erscheint.
+%
+%  Werte für Position (optional): \emph{left} = links von den Änderungen; alles andere: rechts\\
+%  Werte für Definition: beliebige \LaTeX-Befehle, der Autorenname wird mit "`\#1"' gekennzeichnet.
+% }
+% \begin{einspiel}
+%  \>\befehl{setauthormarkup[\meta{position}]\{\meta{definition}\}}
+% \end{einspiel}
+% \begin{einspiel}[true]
+%  \>\befehl{setauthormarkup\{(\#1)\}}\\
+%  \>\befehl{setauthormarkup[left]\{(\#1)\textasciitilde{}-{}-\textasciitilde{}\}}\\
+%  \>\befehl{setauthormarkup\{}\befehl{marginpar\{\#1\}\}}\\
+%  \>\befehl{setauthormarkup[right]\{\}}
+% \end{einspiel}
+%
+% \DescribeMacro{\setremarkmarkup}
+% \iflanguage{english}{
+%  The command \befehl{setremarkmarkup} sets the layout of the remarkmarkup in the text.
+%  The default markup sets the remark in a footnote.
+%
+%  Values for definition: any \LaTeX-commands, author-id can be used with "\#1", remark can be shown using "\#2".
+%  Using the author-id you can use the author's colour with \texttt{Changes@Color\#1}.
+% }{
+%  Der Befehl \befehl{setremarkmarkup} legt fest, wie die Anmerkungen im Text angezeigt werden.
+%  Ohne andere Definition gilt, dass die Anmerkungen als Fußnote mit farbigem Text gesetzt werden.
+%
+%  Werte für Definition: beliebige \LaTeX-Befehle, die Autor-ID wird mit "`\#1"' benutzt, der Anmerkungstext mit "`\#2"'.
+%  Über die Autor-ID kann mit \texttt{Changes@Color\#1} die Farbe des Autors benutzt werden.
+% }
+% \begin{einspiel}
+%  \>\befehl{setremarkmarkup\{\meta{definition}\}}
+% \end{einspiel}
+% \begin{einspiel}[true]
+%  \>\befehl{setremarkmarkup\{(\#2:\#1)\}}\\
+%  \>\befehl{setremarkmarkup\{\befehl{footnote}\{\#1:\befehl{textcolor\{Changes@Color\#1\}}\{\#2\}\}\}}
+% \end{einspiel}
+%
+%^^A -- Versionen -------------------------------------------------------------
+%
+% \StopEventually{
+%
+% \iflanguage{english}{
+%  \section{Versions}
+% }{
+%  \section{Versionen}
+% }
+%
+% \iflanguage{english}{
+%  \subsection{TODO/known bugs}
+%
+%  \begin{itemize}
+%   \item ant-task for deleting all \paket{changes}-commands
+%   \item markup of figures/tables
+%   \item change-environments for longer text
+%   \item missing T1-fonts (umlauts) and \paket{inputenc} create errors
+%   \item maybe introducing second-class change-commands (not so important), using starred commands?
+%  \end{itemize}
+% }{
+%  \subsection{TODO/bekannte Fehler}
+%
+%  \begin{itemize}
+%   \item Ant-Task zur Entfernung aller \paket{changes}-Befehle
+%   \item Bild/Tabellenauszeichnung
+%   \item Änderungsumgebungen für längere Passagen
+%   \item bei fehlenden T1-Fonts (Umlautkodierung) und \paket{inputenc} gibt es Fehler
+%   \item evtl.\ zweite Klasse von Änderungen: nicht so wichtige (extra ausblendbar), vielleicht über Stern-Variante?
+%  \end{itemize}
+% }
+%
+% \subsection{Version 0.5.1}
+%
+% \iflanguage{english}{
+%  Date: 2007/08/27
+%  \begin{itemize}
+%   \item deleted text is striked out again using package \paket{ulem}, greying didn't work
+%  \end{itemize}
+% }{
+%  Datum: 27.\,08.~2007
+%  \begin{itemize}
+%   \item gelöschter Text wieder durchgestrichen, Paket \paket{ulem} funktioniert; ausgrauen hat nicht funktioniert
+%  \end{itemize}
+% }
+%
+% \subsection{Version 0.5}
+%
+% \iflanguage{english}{
+%  Date: 2007/08/26
+%  \begin{itemize}
+%   \item no usage of package \paket{arrayjob} anymore, thus no errors using package \paket{array}
+%   \item switch to UTF-8-encoding
+%   \item no usage of package \paket{soul} anymore, thus no errors using UTF-8-encoding
+%   \item markup for deleted text changed to gray background, because there's no possibility to conveniently strikeout UTF-8-text
+%   \item new optional argument for author name
+%   \item coloured list of changes
+%   \item changed loc file format
+%   \item improved English documentation
+%  \end{itemize}
+% }{
+%  Datum: 26.\,08.~2007
+%  \begin{itemize}
+%   \item keine Nutzung des \paket{arrayjob}-Pakets mehr, dadurch Fehler im Zusammenspiel mit \paket{array} behoben
+%   \item auf UTF-8-encoding umgestellt
+%   \item keine Nutzung des \paket{soul}-Pakets mehr, dadurch Fehler im Zusammenspiel UTF-8-encoding behoben
+%   \item gelöschter Text durch grauen Hintergrund visualisiert (es gibt bisher kein ordentliches Durchstreichen bei UTF-8-Nutzung)
+%   \item neues optionales Argument für Autorenname
+%   \item farbige Liste der Änderungen
+%   \item loc-Format geändert
+%   \item englische Doku verbessert
+%  \end{itemize}
+% }
+%
+% \subsection{Version 0.4}
+%
+% \iflanguage{english}{
+%  Date: 2007/01/24
+%  \begin{itemize}
+%   \item included \paket{pdfcolmk} to solve problem with coloured text and page breaks
+%   \item extended \befehl{setremarkmarkup} with author-id for using colour in remarks
+%   \item remarks are by default coloured now
+%   \item first version uploaded to CTAN
+%  \end{itemize}
+% }{
+%  Datum: 24.\,01.~2007
+%  \begin{itemize}
+%   \item \paket{pdfcolmk} eingebunden, um Problem mit farbigem Text bei Seitenumbrüchen zu lösen
+%   \item \befehl{setremarkmarkup} um Autor-ID erweitert, um Anmerkung farbig setzen zu können
+%   \item Anmerkungen werden in der Fußnote farbig gesetzt
+%   \item erste Version für das CTAN
+%  \end{itemize}
+% }
+%
+% \subsection{Version 0.3}
+%
+% \iflanguage{english}{
+%  Date: 2007/01/22
+%  \begin{itemize}
+%   \item english user-documentation
+%   \item replaced \befehl{changed} with \befehl{replaced}
+%   \item improved \option{final}-option: no additional space
+%  \end{itemize}
+% }{
+%  Datum: 22.\,01.~2007
+%  \begin{itemize}
+%   \item englische Nutzerdokumentation
+%   \item Befehl \befehl{changed} ersetzt durch \befehl{replaced}
+%   \item verbesserte \option{final}-Option: kein zusätzlicher Leerraum
+%  \end{itemize}
+% }
+%
+% \subsection{Version 0.2}
+%
+% \iflanguage{english}{
+%  Date: 2007/01/17
+%  \begin{itemize}
+%   \item defined loc-names when missing \paket{babel}-package
+%   \item \befehl{setauthormarkup}, \befehl{setlocextension}, \befehl{setremarkmarkup} new
+%   \item generated examples
+%   \item inserted LPPL
+%  \end{itemize}
+%  Bugfixes
+%  \begin{itemize}
+%   \item fixed wrong \paket{ifthen}-placement
+%   \item fixed error in loc, always showing "added"
+%   \item fixed authormarkup (\befehl{if}-condition not bugfree)
+%  \end{itemize}
+% }{
+%  Datum: 17.\,01.~2007
+%  \begin{itemize}
+%   \item Bezeichnungen auch bei fehlendem \paket{babel}-Paket eingeführt
+%   \item \befehl{setauthormarkup}, \befehl{setlocextension}, \befehl{setremarkmarkup} für Einstellungen
+%   \item Beispieldateien generiert
+%   \item LPPL eingefügt
+%  \end{itemize}
+%  Bugfixes
+%  \begin{itemize}
+%   \item Fehler mit \paket{ifthen}-Paketplazierung behoben
+%   \item bei Liste war immer "`Eingefügt"' eingestellt, behoben
+%   \item Autorausgabe war buggy (\befehl{if}-Abfrage nicht einwandfrei)
+%  \end{itemize}
+% }
+%
+% \subsection{Version 0.1}
+%
+% \iflanguage{english}{
+%  Date: 2007/01/16
+%  \begin{itemize}
+%   \item initial version
+%   \item commands \befehl{added}, \befehl{deleted}, and \befehl{changed}
+%  \end{itemize}
+% }{
+%  Datum: 16.\,01.~2007
+%  \begin{itemize}
+%   \item initiale Version
+%   \item Befehle \befehl{added}, \befehl{deleted} und \befehl{changed}
+%  \end{itemize}
+% }
+%
+% \iflanguage{english}{
+%  \section{Distribution, Copyright, License}
+%
+%  Copyright 2007 Ekkart Kleinod (\href{mailto:ekkart@ekkart.de}{ekkart@ekkart.de})
+%
+%  This work may be distributed and/or modified under the
+%  conditions of the \LaTeX\ Project Public License, either version~1.3
+%  of this license or any later version.
+%  The latest version of this license is in\\
+%   \url{http://www.latex-project.org/lppl.txt}\\
+%  and version~1.3 or later is part of all distributions of \LaTeX\
+%  version 2005/12/01 or later.
+%
+%  This work has the LPPL maintenance status "maintained".
+%  The current maintainer of this work is Ekkart Kleinod.
+%
+%  This work consists of the files
+%  \begin{tabbing}
+%   mm\=\kill
+%   \>\texttt{changes.drv}\\
+%   \>\texttt{changes.dtx}\\
+%   \>\texttt{changes.ins}\\
+%   \>\texttt{README}
+%  \end{tabbing}
+%  and the derived files
+%  \begin{tabbing}
+%   mm\=\kill
+%   \>\texttt{changes.sty}\\
+%   \>\texttt{changes.pdf}\\
+%   \>\texttt{changes.example1.tex}\\
+%   \>\texttt{changes.example2.tex}\\
+%   \>\texttt{changes.example3.tex}
+%  \end{tabbing}
+% }{
+%  \section{Weitergabe, Copyright, Lizenz}
+%
+%  Copyright 2007 Ekkart Kleinod (\href{mailto:ekkart@ekkart.de}{ekkart@ekkart.de})
+%
+%  Dieses Paket darf unter der "`\LaTeX\ Project Public License"' Version~1.3 oder jeder späteren Version weitergegeben und/oder geändert werden.
+%  Die neueste Version dieser Lizenz steht auf\\
+%   \url{http://www.latex-project.org/lppl.txt}\\
+%  Version~1.3 und spätere Versionen sind Teil aller \LaTeX-Distributionen ab Version~2005/12/01.
+%
+%  Dieses Paket besitzt den Status "`maintained"' (verwaltet).
+%  Der aktuelle Verwalter dieses Pakets ist Ekkart Kleinod.
+%
+%  Dieses Paket besteht aus den Dateien
+%  \begin{tabbing}
+%   mm\=\kill
+%   \>\texttt{changes.drv}\\
+%   \>\texttt{changes.dtx}\\
+%   \>\texttt{changes.ins}\\
+%   \>\texttt{README}
+%  \end{tabbing}
+%  und den generierten Dateien
+%  \begin{tabbing}
+%   mm\=\kill
+%   \>\texttt{changes.sty}\\
+%   \>\texttt{changes.pdf}\\
+%   \>\texttt{changes.example1.tex}\\
+%   \>\texttt{changes.example2.tex}\\
+%   \>\texttt{changes.example3.tex}
+%  \end{tabbing}
+% }
+%
+% } ^^A \StopEventually
+%
+%^^A -- Quellcode -------------------------------------------------------------
+%
+% \iflanguage{english}{
+%  \section{The documented sourcecode}
+% }{
+%  \section{Der kommentierte Quellcode}
+% }
+%
+% \iflanguage{english}{
+%  \subsection{Package information and options}
+% }{
+%  \subsection{Paketinfo und Optionen}
+% }
+%
+%    \begin{macrocode}
+%<*changes>
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Set needed \LaTeX-format to \LaTeXe{}, provide name, date, version.
+%  Type some information to the console.
+% }{
+%  Zunächst legen wir die benötigte \LaTeX-Version auf \LaTeXe{} fest und geben Name, Datum und Version des Pakets zurück.
+%  Außerdem werden einige Ausgaben auf die Konsole gegeben.
+% }
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{changes}
+[2007/08/27 v0.5.1 changes-Paket]
+\typeout{*** changes-Paket 2007/08/27 v0.5.1 ***}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Package \paket{xkeyval} provides options with key-value-pairs.
+% }{
+%  Das Paket \paket{xkeyval} ist für die Eingabe von Optionen mit Werteübergabe zuständig.
+% }
+%    \begin{macrocode}
+\RequirePackage{xkeyval}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Package \paket{ifthen} provides improved \texttt{if} as well as a \texttt{while}-loop.
+% }{
+%  Das Paket \paket{ifthen} stellt eine verbesserte \texttt{if}-Abfrage sowie eine \texttt{while}-Schleife zur Verfügung.
+% }
+%    \begin{macrocode}
+\RequirePackage{ifthen}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  \minisec{Options}
+%  Option \option{draft}, \emph{default}
+% }{
+%  \minisec{Optionen}
+%  \option{draft}-Option, \emph{default}
+% }
+%    \begin{macrocode}
+\newboolean{Changes@optiondraft}
+\setboolean{Changes@optiondraft}{true}
+\DeclareOptionX{draft}{
+ \typeout{Changes-Option 'draft'}
+}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Option \option{final}
+% }{
+%  \option{final}-Option
+% }
+%    \begin{macrocode}
+\DeclareOptionX{final}{
+ \setboolean{Changes@optiondraft}{false}
+ \typeout{Changes-Option 'final'}
+}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Execute processing of options.
+% }{
+%  Ausführung des Optionenbearbeitens.
+% }
+%    \begin{macrocode}
+\ProcessOptionsX
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Package \paket{xcolor} provides coloured text.
+% }{
+%  Das Paket \paket{xcolor} stellt die Färbung von Texten zur Verfügung.
+% }
+%    \begin{macrocode}
+\RequirePackage{xcolor}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Package \paket{pdfcolmk} solves the problem of coloured text and page breaks (has to be loaded after \paket{xcolor}).
+% }{
+%  Das Paket \paket{pdfcolmk} löst das Problem farbigen Texts über Seitenumbrüche hinweg (muss nach \paket{xcolor} geladen werden).
+% }
+%    \begin{macrocode}
+\RequirePackage{pdfcolmk}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Package \paket{ulem} provides commands for striking out text.
+% }{
+%  Das Paket \paket{ulem} stellt Kommandos für das Durchstreichen von Text zur Verfügung.
+% }
+%    \begin{macrocode}
+\RequirePackage{ulem}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  \subsection{Definitions}
+%  Names.
+% }{
+%  \subsection{Einstellungen}
+%  Bezeichnungen.
+% }
+%    \begin{macrocode}
+\ifthenelse{\isundefined{\addto}}
+ {
+  \def\listchangesname{\"Anderungen}
+  \def\changesaddname{Eingef\"ugt}
+  \def\changesdeletename{Gel\"oscht}
+  \def\changesreplacename{Ersetzt}
+  \def\changesauthorname{Autor}
+  \def\changesanonymousname{Anonym}
+  \def\changesnoloc{\"Anderungsliste erst nach dem n\"achsten Durchlauf verf\"ugbar.}
+ }{
+  \addto\captionsngerman{\def\listchangesname{\"Anderungen}}
+  \addto\captionsgerman{\def\listchangesname{\"Anderungen}}
+  \addto\captionsenglish{\def\listchangesname{Changes}}
+
+  \addto\captionsngerman{\def\changesaddname{Eingef\"ugt}}
+  \addto\captionsgerman{\def\changesaddname{Eingef\"ugt}}
+  \addto\captionsenglish{\def\changesaddname{Added}}
+
+  \addto\captionsngerman{\def\changesdeletename{Gel\"oscht}}
+  \addto\captionsgerman{\def\changesdeletename{Gel\"oscht}}
+  \addto\captionsenglish{\def\changesdeletename{Deleted}}
+
+  \addto\captionsngerman{\def\changesreplacename{Ersetzt}}
+  \addto\captionsgerman{\def\changesreplacename{Ersetzt}}
+  \addto\captionsenglish{\def\changesreplacename{Replaced}}
+
+  \addto\captionsngerman{\def\changesauthorname{Autor}}
+  \addto\captionsgerman{\def\changesauthorname{Autor}}
+  \addto\captionsenglish{\def\changesauthorname{Author}}
+
+  \addto\captionsngerman{\def\changesanonymousname{Anonym}}
+  \addto\captionsgerman{\def\changesanonymousname{Anonym}}
+  \addto\captionsenglish{\def\changesanonymousname{anonymous}}
+
+  \addto\captionsngerman{\def\changesnoloc{\"Anderungsliste erst nach dem n\"achsten \LaTeX-Lauf verf\"ugbar.}}
+  \addto\captionsgerman{\def\changesnoloc{\"Anderungsliste erst nach dem n\"achsten Durchlauf verf\"ugbar.}}
+  \addto\captionsenglish{\def\changesnoloc{List of changes is available after the next \LaTeX\ run.}}
+ }
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  File extension.
+% }{
+%  Dateiendung.
+% }
+%    \begin{macrocode}
+\newcommand{\Changes@extension}{loc}
+%    \end{macrocode}
+%
+% \begin{macro}{\setlocextension}
+% \iflanguage{english}{
+%  Set new file extension.
+%  Argument: new extension.
+% }{
+%  Dieser Befehl überschreibt die Default-Dateiendung.
+%  Argument: neue Endung
+% }
+%    \begin{macrocode}
+\newcommand{\setlocextension}[1]{
+ \renewcommand{\Changes@extension}{#1}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iflanguage{english}{
+%  \subsection{management of authors}
+%  Authorcount.
+% }{
+%  \subsection{Autorenverwaltung}
+%  Autoren-Zähler.
+% }
+%    \begin{macrocode}
+\newcounter{Changes@AuthorCount}
+\setcounter{Changes@AuthorCount}{0}
+\newcounter{Changes@iAuthor}
+%    \end{macrocode}
+%
+% \begin{macro}{\definechangesauthor}
+% \iflanguage{english}{
+%  Define a new author.
+%  Arguments: author-id and author's colour.
+%  Optional argument: author name.
+%
+%  Store author id, name and colour using named variables.
+%  Define counter and colour per author.
+% }{
+%  Dieser Befehl definiert einen neuen Autor.
+%  Argumente: Autor-ID und Farbe des Autors.
+%  Optionales Argument: Autorenname.
+%
+%  Autor-ID, Name und Farbe mit benannten Variablen merken.
+%  Pro Autor eigenen Zähler und Farben definieren.
+% }
+%    \begin{macrocode}
+\newcommand{\definechangesauthor}[3][\@empty]{
+ \stepcounter{Changes@AuthorCount}
+ \@namedef{Changes@Author\theChanges@AuthorCount}{#2}
+ \@namedef{Changes@AuthorName#2}{#1}
+ \@namedef{Changes@AuthorColor#2}{#3}
+ \newcounter{Changes@AddCount#2}
+ \newcounter{Changes@DeleteCount#2}
+ \newcounter{Changes@ReplaceCount#2}
+ \colorlet{Changes@Color#2}{#3}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iflanguage{english}{
+%  Define default-author (anonymous).
+% }{
+%  Default-Autor definieren (anonym).
+% }
+%    \begin{macrocode}
+\definechangesauthor{\@empty}{blue}
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  Position of the authors markup relative to the text.
+%  \emph{true} = left, \emph{false} = right (default).
+% }{
+%  Position der Autormarkierung bzgl.\ eingegebenem Text.
+%  \emph{true} = links, \emph{false} = rechts (default).
+% }
+%    \begin{macrocode}
+\newboolean{Changes@AuthorPositionLeft}
+\setboolean{Changes@AuthorPositionLeft}{false}
+%    \end{macrocode}
+%
+% \begin{macro}{\Changes@AuthorMark}
+% \iflanguage{english}{
+%  Markup of the author.
+%  Default: superscripted.
+% }{
+%  Ausgabe des Autors bei eingegebenem Text.
+%  Default: hochgestellt.
+% }
+%    \begin{macrocode}
+\newcommand{\Changes@AuthorMark}[1]{%
+ \textsuperscript{#1}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\setauthormarkup}
+% \iflanguage{english}{
+%  Redefining the author markup.
+% }{
+%  Neudefinition der Autorenausgabe.
+% }
+%    \begin{macrocode}
+\newcommand{\setauthormarkup}[2][left]{%
+ \ifthenelse{\equal{#1}{left}}
+  {\setboolean{Changes@AuthorPositionLeft}{true}}
+  {\setboolean{Changes@AuthorPositionLeft}{false}}
+ \renewcommand{\Changes@AuthorMark}[1]{#2}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Changes@Remark}
+% \iflanguage{english}{
+%  Markup of remarks.
+%  Default: in a footnote.
+% }{
+%  Ausgabe der Anmerkung.
+%  Default: als Fußnote.
+% }
+%    \begin{macrocode}
+\newcommand{\Changes@Remark}[2]{%
+ \footnote{\textcolor{Changes@Color#1}{#2}}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\setremarkmarkup}
+% \iflanguage{english}{
+%  Redefining the remark markup.
+% }{
+%  Neudefinition der Anmerkungen.
+% }
+%    \begin{macrocode}
+\newcommand{\setremarkmarkup}[1]{%
+ \renewcommand{\Changes@Remark}[2]{#1}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iflanguage{english}{
+%  \subsection{Change commands}
+%  Temporary variable for exchange of optional parameters between interlocked commands.
+% }{
+%  \subsection{Änderungsbefehle}
+%  Temporärer Speicher, um Parameterübergabe zwischen den geschachtelten Kommandos zu erledigen.
+% }
+%    \begin{macrocode}
+\newcommand{\Changes@temp}{\@empty}
+%    \end{macrocode}
+%
+% \begin{macro}{\added}
+% \iflanguage{english}{
+%  The command formats text as new text.
+%  It's rather complicated for defining a command with two optional parameters.
+%
+%  Arguments: author-id (opt.), remark (opt), and new text
+% }{
+%  Dieser Befehl formatiert den Text als neuen Text.
+%  Die komplizierte Konstruktion ist nötig, um ein Kommando mit zwei optionalen Argumenten zu definieren.
+%
+%  Argumente: Autor-ID (opt.), Erläuterung (opt.) und neuer Text
+% }
+%    \begin{macrocode}
+\newcommand{\added}[1][\@empty]{%
+ \renewcommand{\Changes@temp}{#1}%
+ \Changes@added%
+}
+\newcommand{\Changes@added}[2][\@empty]{%
+ \ifthenelse{\boolean{Changes@optiondraft}}%
+  {%
+   \textcolor{Changes@Color\Changes@temp}{%
+    \ifthenelse{\boolean{Changes@AuthorPositionLeft}}%
+     {\ifthenelse{\equal{\@empty}{\Changes@temp}}%
+      {}{\Changes@AuthorMark{\Changes@temp}}%
+     }{}%
+    #2%
+    \ifthenelse{\not\boolean{Changes@AuthorPositionLeft}}%
+     {\ifthenelse{\equal{\@empty}{\Changes@temp}}%
+      {}{\Changes@AuthorMark{\Changes@temp}}%
+     }{}%
+    \ifthenelse{\equal{\@empty}{#1}}%
+     {}{\Changes@Remark{\Changes@temp}{#1}}%
+   }%
+   \stepcounter{Changes@AddCount\Changes@temp}%
+  }{#2}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\deleted}
+% \iflanguage{english}{
+%  The command formats text as deleted text.
+%  It's rather complicated for defining a command with two optional parameters.
+%
+%  The \option{final}-part is taken from a tip from \texttt{de.comp.text.tex}.
+%  It solves the problem of additional space caused by an empty command.
+%
+%  Arguments: author-id (opt.), remark (opt), and deleted text
+% }{
+%  Dieser Befehl formatiert den Text als gelöschten Text.
+%  Die komplizierte Konstruktion ist nötig, um ein Kommando mit zwei optionalen Argumenten zu definieren.
+%
+%  Der \option{final}-Teil ist einem Tip von \texttt{de.comp.text.tex} entnommen.
+%  Er löst das Problem des zusätzlichen Leerraums bei leeren Kommandos.
+%
+%  Argumente: Autor-ID (opt.), Erläuterung (opt.) und gelöschter Text
+% }
+%    \begin{macrocode}
+\newcommand{\deleted}[1][\@empty]{%
+ \renewcommand{\Changes@temp}{#1}%
+ \Changes@deleted%
+}
+\newcommand{\Changes@deleted}[2][\@empty]{%
+ \ifthenelse{\boolean{Changes@optiondraft}}%
+  {%
+   \textcolor{Changes@Color\Changes@temp}{%
+    \ifthenelse{\boolean{Changes@AuthorPositionLeft}}%
+     {\ifthenelse{\equal{\@empty}{\Changes@temp}}%
+      {}{\Changes@AuthorMark{\Changes@temp}}%
+     }{}%
+    \sout{#2}%
+    \ifthenelse{\not\boolean{Changes@AuthorPositionLeft}}%
+     {\ifthenelse{\equal{\@empty}{\Changes@temp}}%
+      {}{\Changes@AuthorMark{\Changes@temp}}%
+     }{}%
+    \ifthenelse{\equal{\@empty}{#1}}%
+     {}{\Changes@Remark{\Changes@temp}{#1}}%
+   }%
+   \stepcounter{Changes@DeleteCount\Changes@temp}%
+  }{\@bsphack \expandafter \@esphack}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\replaced}
+% \iflanguage{english}{
+%  The command formats text as replaced text.
+%  It's rather complicated for defining a command with two optional parameters.
+%
+%  Arguments: author-id (opt.), remark (opt), new text, and old text
+% }{
+%  Dieser Befehl formatiert den Text als ersetzten Text.
+%  Die komplizierte Konstruktion ist nötig, um ein Kommando mit zwei optionalen Argumenten zu definieren.
+%
+%  Argumente: Autor-ID (opt.), Erläuterung (opt.), neuer Text und alter Text
+% }
+%    \begin{macrocode}
+\newcommand{\replaced}[1][\@empty]{%
+ \renewcommand{\Changes@temp}{#1}%
+ \Changes@replaced%
+}
+\newcommand{\Changes@replaced}[3][\@empty]{%
+ \ifthenelse{\boolean{Changes@optiondraft}}%
+  {%
+   \textcolor{Changes@Color\Changes@temp}{%
+    \ifthenelse{\boolean{Changes@AuthorPositionLeft}}%
+     {\ifthenelse{\equal{\@empty}{\Changes@temp}}%
+      {}{\Changes@AuthorMark{\Changes@temp}}%
+     }{}%
+    #2%
+    \sout{#3}%
+    \ifthenelse{\not\boolean{Changes@AuthorPositionLeft}}%
+     {\ifthenelse{\equal{\@empty}{\Changes@temp}}%
+      {}{\Changes@AuthorMark{\Changes@temp}}%
+     }{}%
+    \ifthenelse{\equal{\@empty}{#1}}%
+     {}{\Changes@Remark{\Changes@temp}{#1}}%
+   }%
+   \stepcounter{Changes@ReplaceCount\Changes@temp}%
+  }{#2}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iflanguage{english}{
+%  \subsection{List of changes}
+% }{
+%  \subsection{Änderungsliste}
+% }
+%
+% \begin{macro}{\changes@chopline}
+% \iflanguage{english}{
+%  Auxiliary command for reading the content of the loc-files.
+% }{
+%  Hilfsbefehl zum Einlesen der loc-Dateien.
+% }
+%    \begin{macrocode}
+\def\changes@chopline#1;#2;#3;#4;#5;#6 \\{
+ \def\Changes@InID{#1}
+ \def\Changes@InColor{#2}
+ \def\Changes@InName{#3}
+ \def\Changes@InAdded{#4}
+ \def\Changes@InDeleted{#5}
+ \def\Changes@InReplaced{#6}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\listofchanges}
+% \iflanguage{english}{
+%  This command outputs a list of changes, sorted by authors.
+%  The values are read from the loc-file, if it exists.
+% }{
+%  Dieser Befehl gibt eine Liste der Änderungen nach Autoren aus.
+%  Die Werte werden aus der loc-Datei gelesen, wenn diese existiert.
+% }
+%    \begin{macrocode}
+\newcommand{\listofchanges}{%
+ \ifthenelse{\boolean{Changes@optiondraft}}
+  {
+   \section*{\listchangesname}
+   \IfFileExists{\jobname.\Changes@extension}
+    {
+     \newboolean{Changes@MoreLines}
+     \setboolean{Changes@MoreLines}{true}
+     \newread\Changes@InFile
+     \openin\Changes@InFile = \jobname.\Changes@extension
+      \whiledo{\boolean{Changes@MoreLines}}{
+      \read\Changes@InFile to \Changes@Line
+       \ifeof\Changes@InFile
+        \setboolean{Changes@MoreLines}{false}
+       \else
+        \expandafter\changes@chopline\Changes@Line\\
+        \begin{tabbing}
+         mm\=mmmmmm\=\kill
+         \ifthenelse{\equal{\Changes@InID}{}}
+          {\textcolor{\Changes@InColor}{\changesauthorname: \changesanonymousname}\\}
+          {\textcolor{\Changes@InColor}{\changesauthorname: \Changes@InID}
+           \ifthenelse{\equal{\Changes@InName}{}}{}
+           { \textcolor{\Changes@InColor}{(\Changes@InName)}}
+           \\
+          }
+         \>\changesaddname:\>\Changes@InAdded\\
+         \>\changesdeletename:\>\Changes@InDeleted\\
+         \>\changesreplacename:\>\Changes@InReplaced\\
+        \end{tabbing}
+       \fi
+      }
+     \closein\Changes@InFile
+    }{
+     \emph{\changesnoloc}
+    }
+  }{}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iflanguage{english}{
+%  Writing the list of changes in the loc-file, therefore open file, write values, close file.
+%  Changes are written as \LaTeX-formatted text, so they can simply be read via \befehl{input}.
+%
+%  Line format: ID;colour;name;added;deleted;replaced
+% }{
+%  Ausgabe der Änderungen in loc-Datei, dazu Datei öffnen, Werte herausschreiben, Datei schließen.
+%  Die Änderungen werden als \LaTeX-formatierter Text ausgegeben, der mit \befehl{input} eingelesen werden kann.
+%
+%  Zeilenformat: ID;Farbe;Name;Zugefügte;Gelöschte;Geänderte
+% }
+%    \begin{macrocode}
+\AtEndDocument{
+ \newwrite\Changes@OutFile
+ \immediate\openout\Changes@OutFile = \jobname.\Changes@extension
+ \setcounter{Changes@iAuthor}{0}
+ \whiledo{\value{Changes@iAuthor} < \value{Changes@AuthorCount}}{
+  \stepcounter{Changes@iAuthor}
+  \def\Changes@ID{\@nameuse{Changes@Author\theChanges@iAuthor}}
+  \immediate\write\Changes@OutFile{\Changes@ID;%
+   \@nameuse{Changes@AuthorColor\Changes@ID};%
+   \@nameuse{Changes@AuthorName\Changes@ID};%
+   \the\value{Changes@AddCount\Changes@ID};%
+   \the\value{Changes@DeleteCount\Changes@ID};%
+   \the\value{Changes@ReplaceCount\Changes@ID}}
+ }
+ \closeout\Changes@OutFile
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%</changes>
+%    \end{macrocode}
+%
+%^^A -- Beispieldateien -------------------------------------------------------
+%
+% \iflanguage{english}{
+%  \section{Example files}
+%  \subsection{Basic example without \paket{babel}}
+% }{
+%  \section{Beispieldateien}
+%  \subsection{Rudimentär ohne \paket{babel}}
+% }
+%    \begin{macrocode}
+%<*example:1>
+\documentclass{article}
+
+ % draft = Ausgabe der Änderungen
+\usepackage[draft]{changes}
+
+\definechangesauthor{EK}{orange}
+
+\begin{document}
+
+ Dieses Beispiel zeigt die rudiment\"aren Funktionen.
+
+ \listofchanges
+
+ Dieser Text ist nicht modifiziert.
+
+ Hier \added{f\"uge} ich Text anonym \added{ein}.
+ Hier \deleted{l\"osche} ich anonym Text.
+ Und an dieser Stelle \replaced{\"andere}{alt} ich anonym Text.
+ Anonyme \deleted[][Ja!]{L\"oschung} mit Anmerkung.
+
+ Hier \added[EK]{f\"uge} ich Text als Autor "EK" \added[EK]{ein}.
+ Hier f\"uge ich \added[EK][Weil ich es kann.]{Text}
+ als Autor "EK" mit Begr\"undung ein.
+
+\end{document}
+%</example:1>
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  \subsection{Basic example using \paket{babel}}
+% }{
+%  \subsection{Rudimentär mit \paket{babel}}
+% }
+%
+%    \begin{macrocode}
+%<*example:2>
+\documentclass[ngerman]{article}
+
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+
+ % draft = Ausgabe der Änderungen
+\usepackage[draft]{changes}
+
+\definechangesauthor{EK}{orange}
+
+\begin{document}
+
+ Dieses Beispiel zeigt die rudimentären Funktionen
+ unter Einbeziehung des babel-Pakets.
+
+ \listofchanges
+
+ Dieser Text ist nicht modifiziert.
+
+ Hier \added{füge} ich Text anonym \added{ein}.
+ Hier \deleted{lösche} ich anonym Text.
+ Und an dieser Stelle \replaced{ändere}{alt} ich anonym Text.
+ Anonyme \deleted[][Ja!]{Löschung} mit Anmerkung.
+
+ Hier \added[EK]{füge} ich Text als Autor "`EK"' \added[EK]{ein}.
+ Hier füge ich \added[EK][Weil ich es kann.]{Text}
+ als Autor "`EK"' mit Begründung ein.
+
+\end{document}
+%</example:2>
+%    \end{macrocode}
+%
+% \iflanguage{english}{
+%  \subsection{Additional definitions}
+% }{
+%  \subsection{Erweiterte Einstellungen}
+% }
+%
+%    \begin{macrocode}
+%<*example:3>
+\documentclass[ngerman]{article}
+
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+
+ % draft = Ausgabe der Änderungen
+\usepackage[draft]{changes}
+
+\definechangesauthor[Ekkart Kleinod]{EK}{orange}
+\definechangesauthor{Test}{green}
+
+\setlocextension{changes}
+\setauthormarkup[left]{(#1)~--~}
+\setremarkmarkup{(#2:#1)}
+
+\begin{document}
+
+ Dieses Beispiel zeigt die erweiterten Funktionen.
+ Es setzt die Erweiterung der Hilfsdatei auf \texttt{changes}.
+ Ein Autorname wird angegeben.
+ Die Autorenmarkierung wird links gesetzt.
+ Sie besteht aus dem eingeklammerten Autorennamen,
+ der durch Leerzeichen und einen Gedankenstrich
+ von der Änderung abgesetzt ist.
+ Die Anmerkung wird in Klammern gesetzt, der Autorname dahinter.
+
+ \listofchanges
+
+ Dieser Text ist nicht modifiziert.
+
+ Hier \added{füge} ich Text anonym \added{ein}.
+ Hier \deleted{lösche} ich anonym Text.
+ Und an dieser Stelle \replaced{ändere}{alt} ich anonym Text.
+ Anonyme \deleted[][Ja!]{Löschung} mit Anmerkung.
+
+ Hier \added[EK]{füge} ich Text als Autor "`EK"' \added[EK]{ein}.
+ Hier füge ich \added[EK][Weil ich es kann.]{Text}
+ als Autor "`EK"' mit Begründung ein.
+
+ Hier \deleted[Test][Weil ich es will.]{lösche} ich Text
+ als Autor "`Text"'.
+
+ Test von Zeilenumbrüchen.
+ \added{eingefügt eingefügt eingefügt eingefügt eingefügt
+ eingefügt eingefügt eingefügt eingefügt eingefügt eingefügt
+ eingefügt eingefügt eingefügt eingefügt eingefügt.}
+ \deleted{gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht
+ gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht
+ gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht.}
+ \replaced{eingefügt eingefügt eingefügt eingefügt eingefügt
+ eingefügt eingefügt eingefügt eingefügt eingefügt eingefügt
+ eingefügt eingefügt eingefügt eingefügt eingefügt.}
+ {gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht
+ gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht
+ gelöscht gelöscht gelöscht gelöscht gelöscht gelöscht.}
+
+\end{document}
+%</example:3>
+%    \end{macrocode}
+%
+%\Finale
+\endinput
+

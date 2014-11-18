@@ -59,8 +59,8 @@ Append table \ref{float:types} to table \ref{table:datatypes}.
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
 	\emph{df-addr}	& double-float-aligned address	& 1 cell \\
-	\emph{f-addr}	& float-aligned address				& 1 cell \\
-	\uline{\emph{r}}& \cbstart\uline{floating-point number}\cbend	& \uline{implementation-defined} \\
+	\emph{f-addr}	& float-aligned address			& 1 cell \\
+	\emph{r}		& floating-point number			& implementation-defined \\
 	\emph{sf-addr}	& single-float-aligned address	& 1 cell \\
 	\hline\hline
 	\end{tabular}
@@ -213,7 +213,7 @@ See:
 \begin{itemize}
 \item format and range of floating-point numbers
 	(\xref[12.3.1 Data types]{float:datatypes},
-	 \wref{floating:REPRESENT}{REPRESENT})
+	 \wref{floating:REPRESENT}{REPRESENT});
 \item results of \wref{floating:REPRESENT}{REPRESENT} when
 	\emph{float} is out of range;
 \item rounding or truncation of floating-point numbers
@@ -267,7 +267,7 @@ See:
 \item string larger than pictured-numeric output area
 	(\wref{floating:Fd}{F.},
 	 \wref{floating:FEd}{FE.},
-	 \wref{floating:FSd}{FS.}).
+	 \wref{floating:FSd}{FS.});
 \item \param{n} can't be precisely represented as
 	\emph{float} in \wref{floating:StoF}{S>F};
 \item integer part of \emph{float} can't be represented
@@ -293,7 +293,7 @@ See:
 
 \begin{itemize}
 \item requiring the floating-point stack to be larger than six items
-	(\xref[12.3.3 Floating-point stack]{float:stack}).
+	(\xref[12.3.3 Floating-point stack]{float:stack});
 \item requiring floating-point numbers to be kept on the data stack,
 	with $n$ cells per floating point number.
 \end{itemize}
@@ -340,7 +340,6 @@ word sets.
 \section{Glossary} % 12.6
 
 \subsection{Floating-Point words} % 12.6.1
-
 \enlargethispage{2ex}
 \begin{worddef}[toFLOAT]{0558}{>FLOAT}[to-float]
 \item \stack{c-addr u}{true | false}
@@ -711,7 +710,6 @@ word sets.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-0.5ex}
 \enlargethispage{6ex}
 \begin{worddef}{2143}{REPRESENT}
 \item \stack{c-addr u}{n flag_1 flag_2} \stack[F]{r}{} or
@@ -815,8 +813,7 @@ word sets.
 \end{worddef}
 
 % ---------------------------------------------------------
-
-\pagebreak
+\newpage
 \begin{worddef}{1207}[40]{DFFIELD:}[d-f-field-colon][X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
@@ -831,7 +828,7 @@ word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile\place{ed14}{-}time action to
+	Add the \param{offset} calculated during the compile-time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
@@ -868,8 +865,7 @@ word sets.
 	\param{r_3}.
 \end{worddef}
 
-
-\enlargethispage{8ex}
+\enlargethispage{4ex}
 \begin{worddef}[Fd]{1427}{F.{}}[f-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
@@ -1199,8 +1195,7 @@ word sets.
 	\param{r_2} is the hyperbolic cosine of \param{r_1}.
 \end{worddef}
 
-
-\pagebreak
+\newpage
 \begin{worddef}[FEd]{1513}{FE.{}}[f-e-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
@@ -1298,7 +1293,7 @@ word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile\place{ed14}{-}time action to
+	Add the \param{offset} calculated during the compile-time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
@@ -1396,7 +1391,7 @@ word sets.
 \see \rref{floating:FATAN2}{FATAN2}.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1617}{FSINH}[f-cinch]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1472,9 +1467,7 @@ word sets.
 \end{worddef}
 
 % ---------------------------------------------------------
-
-\vspace*{-0.5ex}
-\enlargethispage{10ex}
+\enlargethispage{6ex}
 \begin{worddef}{1628}{FVALUE}[f-value][X:fvalue]
 \item \stack[F]{r}{} \stack{"<spaces>name"}{} or
 	\stack{r "<spaces>name"}{}
@@ -1671,7 +1664,7 @@ word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile\place{ed14}{-}time action to
+	Add the \param{offset} calculated during the compile-time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},

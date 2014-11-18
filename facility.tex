@@ -62,7 +62,7 @@ See: \xref[3.1.2 Character types]{usage:char}.
 
 \begin{itemize}
 \item \wref{facility:AT-XY}{AT-XY} operation can't be performed on
-	user output device.
+	user output device;
 
 \item A \param{name} defined by
 	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}
@@ -174,7 +174,6 @@ to provide all of the Facility and Facility Extensions word sets.
 		the application must use \word{KEYq} and \word[core]{KEY} only
 		when it wishes to discard non-character events until a valid
 		character is received.
-\pagebreak
 	\end{rationale}
 \end{worddef}
 
@@ -400,7 +399,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile\place{ed14}{-}time action to
+	Add the \param{offset} calculated during the compile-time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},
@@ -475,7 +474,6 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\pagebreak
 \begin{worddef}[EKEYtoFKEY]{1306}[40]{EKEY>FKEY}[e-key-to-f-key][X:ekeys]
 \item \stack{x}{u flag}
 
@@ -669,7 +667,6 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 % -------------------------------------
-\enlargethispage{2ex}
 \begin{worddef}{1336}{END-STRUCTURE}[][X:structures]
 \item \stack{struct-sys +n}{}
 
@@ -687,8 +684,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-
-\pagebreak
+\newpage
 \begin{worddef}{1518}{FIELD:}[field-colon][X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
@@ -702,7 +698,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \execute[name]
 	\stack{addr_1}{addr_2}
 
-	Add the \param{offset} calculated during the compile\place{ed14}{-}time action
+	Add the \param{offset} calculated during the compile-time action
 	to \param{addr_1} giving the address \param{addr_2}.
 
 \see \wref{facility:+FIELD}{+FIELD},

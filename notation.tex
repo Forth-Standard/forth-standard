@@ -43,24 +43,20 @@ Depending on context, either
 3) the contents of such a memory storage element; or
 4) the units in which the length of a region of memory is expressed.
 
+\item[aligned:]
+	Divisible by a type-dependent power of 2 (typically used as
+	``\arg{type}-aligned address'' or\linebreak
+	``\arg{type}-aligned value'').
+
 \item[aligned address:]
 	The address of a memory location at which a character, cell, cell
 	pair, or double-cell integer can be accessed.
 
 \item[ambiguous condition:]
 	A circumstance for which this standard does not prescribe a
-	specific behavior
-	\remove{ed14}{for Forth systems and programs}.
-	\place{ed14}{See section \xref[4.1.2]{doc:ambiguous}
+	specific behavior.  See section \xref[4.1.2]{doc:ambiguous}
 	for a list of such circumstances and
-	\xref[3.4.4]{usage:ambiguous}.}
-
-\remove{ed14}{%
-	Ambiguous conditions include such things as the absence of a needed
-	delimiter while parsing, attempted access to a nonexistent file, or
-	attempted use of a nonexistent word. An ambiguous condition also
-	exists when a standard word is passed values that are improper or
-	out of range.}
+	\xref[3.4.4]{usage:ambiguous}.
 
 \item[cell:]
 	The primary unit of information in the architecture of a Forth
@@ -171,12 +167,11 @@ Depending on context, either
 	Denotes system behaviors or features that must be provided by a
 	system but whose further details are not prescribed by this standard.
 
-\item[\uline{initiation semantics:}]
-\place{ed14}{%
+\item[initiation semantics:]
 	Describes the behavior at the start of some word definitions (those
 	of words defined with \word{:}, \word{:NONAME}, \word{CREATE}
 	\word{DOES}).  Other parts of the specification of these defining
-	words (and nothing else) refer to initiation semantics.}
+	words (and nothing else) refer to initiation semantics.
 
 \item[input buffer:]
 	A region of memory containing the sequence of characters from the
@@ -272,47 +267,6 @@ Depending on context, either
 
 \section{Notation} % ================================================
 \label{notations}
-
-% ---------- X:number-prefix ----------
-\cbstart\patch{ed14}
-\sout{%
-The following notation is used to define the syntax of some
-elements within the document:}
-
-\begin{itemize}
-\item \sout{Each component of the element is defined with a rule consisting
-	of the name of the component (italicized in angle-brackets,
-	e.g., \arg{decdigit}), the characters \textsf{:=} and a concatenation
-	of tokens and metacharacters;}
-
-\item \sout{Tokens may be literal characters (in bold face, e.g.,
-	\textbf{E}) or rule names in angle brackets (e.g.,
-	\linebreak \arg{decdigit});}
-
-\item \sout{The metacharacter * is used to specify zero or more occurrences of
-	the preceding token (e.g., \arg{decdigit}*);}
-
-\item \sout{Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);}
-
-\item \sout{Vertical bars separate choices from a list of tokens enclosed
-	with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).}
-\end{itemize}
-
-\begin{list}{}{
-	\setlength{\labelwidth}{1.7em}		% <== Magic number, width of indent
-	\setlength{\leftmargin}{\labelwidth}
-	\addtolength{\leftmargin}{\labelsep}
-}
-\item[\sout{See:}]
-	\xref[3.4.1.3 Text interpreter input number conversion]{usage:numbers},
-	\xref[12.3.7 Text interpreter input number conversion]{float:conv},
-	\sout{\wref{floating:toFLOAT}{},
-	\wref{floating:FSd}{FSd},
-	\wref{local:b:}{}.}
-\end{list}
-
-\cbend
-% --------------------
 
 \subsection{Numeric notation}
 \label{notation:numeric}
@@ -439,7 +393,7 @@ The index line is a single-line entry containing, from left to right:
 	Programming-Tools word set	& TOOLS		\\
 	Search-Order word set		& SEARCH		\\
 	String-Handling word set	& STRING			\\
-	\uline{Extended-Character word set} & \cbstart\uline{XCHAR}\cbend \\
+	Extended-Character word set & XCHAR \\
 	\hline\hline
 	\end{tabular}
   \end{center}
@@ -453,39 +407,37 @@ remaining paragraphs contain a text description of the semantics.
 See \xref[Semantics]{usage:semantics}.
 
 % ---------- X:number-prefix ----------
-\cbstart\patch{ed14}
-\subsection[BNF notation]{\uline{BNF notation}}
+\subsection{BNF notation}
 \label{notation:BNF}
 
-\uline{The following notation is used to define the syntax of some
-elements within the document:}
+The following notation is used to define the syntax of some
+elements within the document:
 
 \begin{itemize}
-\item \uline{Each component of the element is defined with a rule consisting
+\item Each component of the element is defined with a rule consisting
 	of the name of the component (italicized in angle-brackets,
 	e.g., \arg{decdigit}), the characters \textsf{:=} and a concatenation
-	of tokens and metacharacters;}
+	of tokens and metacharacters;
 
-\item \uline{Tokens may be literal characters (in bold face, e.g.,
+\item Tokens may be literal characters (in bold face, e.g.,
 	\textbf{E}) or rule names in angle brackets (e.g.,
-	\linebreak \arg{decdigit});}
+	\linebreak \arg{decdigit});
 
-\item \uline{The metacharacter * is used to specify zero or more occurrences of
-	the preceding token (e.g., \arg{decdigit}*);}
+\item The metacharacter * is used to specify zero or more occurrences of
+	the preceding token (e.g., \arg{decdigit}*);
 
-\item \uline{Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);}
+\item Tokens enclosed with [ and ] are optional (e.g., [\textbf{-}]);
 
-\item \uline{Vertical bars separate choices from a list of tokens enclosed
-	with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).}
+\item Vertical bars separate choices from a list of tokens enclosed
+	with braces (e.g., \{ \textbf{0} {\textbar} \textbf{1} \}).
 \end{itemize}
 
-\uline{See:}
+See:
 	\xref[3.4.1.3 Text interpreter input number conversion]{usage:numbers},
 	\xref[12.3.7 Text interpreter input number conversion]{float:conv},
-	\uline{\wref{floating:toFLOAT}{},
+	\wref{floating:toFLOAT}{},
 	\wref{floating:FSd}{FSd},
-	\wref{local:b:}{}.}
-\cbend
+	\wref{local:b:}{}.
 % --------------------
 
 
@@ -497,9 +449,9 @@ in this standard:
 
 \begin{itemize}
 \item ISO/IEC 15145:1997 \emph{Information technology.
-	Programming languages. FORTH}.
+	Programming languages. FORTH};
 
-\item ANSI X3.215-1994 \emph{Programming Languages -- Forth}.
+\item ANSI X3.215-1994 \emph{Programming Languages -- Forth};
 
 \item ANSI X3.172-1990 \emph{Dictionary for Information Systems},
 	(\xref[Definition of terms]{notation:terms});
