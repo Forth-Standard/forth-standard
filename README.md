@@ -1,105 +1,106 @@
-This directory structure contains the source code for the current
-forth200x basis document.
+# Forth Programming Language Standard (2012)
 
-Requirements
-============
+The Forth 200*x* Standardisation Committee was formed in 2004 to allow
+the Forth community to updated the ANS Forth (1994) standard.
+Annual public meetings where held to review and vote on the proposed
+changes.  This reposatory contains the resault of thoes meetings,
+the [forth 2012 standard](forth-2012.pdf) as a PDF and the LaTeX source
+for that document.
 
-I assume you have a standard latex2e system installed. This includes
-the use of the latex, pdflatex, and dvips programs.  I also assume
-a perl interpreter is installed.
+## Requirements
+
+I assume you have a standard **latex2e** system installed. This
+includes the use of the latex, pdflatex, and dvips programs, and
+of course a Forth system.
 
 The document uses a number of standard latex packages.  These are
 part of the standard latex2e installation.  If your system does not
 have any of these packages they can be obtained from your local CTAN
 mirror (www.ctan.org).
 
-a4wide:    Setting the paper size correctly
-graphicx:  Enhanced Graphics
-fancyhdr:  Fancy headings
-changebar: Change Bars
-ulem:      Underline and struck thorough text
-hyperref:  Hypertext links
-mathptmx:  New-Times-Roman for roman and formula, part of PS-NFSS
-helvet:    Helvetica for sans-serif, part of PS-NFSS
-courier:   Courier font, also part of PS-NFSS
-parskip:   Non-zero parskip adjustments
+|
+|---|---|
+|`a4wide`    || Setting the paper size correctly|
+|`graphicx`  || Enhanced Graphics|
+|`fancyhdr`  || Fancy headings|
+|`changebar` || Change Bars|
+|`ulem`      || Underline and struck thorough text|
+|`hyperref`  || Hypertext links|
+|`mathptmx`  || New-Times-Roman for roman and formula, part of PS-NFSS|
+|`helvet`    || Helvetica for sans-serif, part of PS-NFSS|
+|`courier`   || Courier font, also part of PS-NFSS|
+|`parskip`   || Non-zero parskip adjustments|
 
-In addition to these packages I also make use of the following
-optional packages:
+In addition to these packages it also uses the following optional
+packages, copies of which are available on CTAN and provided in the
+Support directory:
 
-answers:  Deferred text - this is provided as a .sty, but the full
-          package is provided in the Support directory.  It is also
-          available on CTAN.
+|
+|---|---|
+|`andwers`	|| Deferred text, used to export informative text to support files. |
+|`randtext`	|| Randomise text, used to prevent an email harvester scraping email addresses from the document. |
+|`environ`	|| To provide the Editors comment box. |
 
-history:  Change Log - I have been developing this package alongside
-          the document.  The version included here is the full code
-          as it currently exists.
+There is also a change markup system (`history.sty`) which has been
+developed as part of this project.
 
-randtext: Randomise text - used to typeset email address in a manner
-          that automatic harvester program find impossible to process.
 
-environ:  Editors Comments Box.
+## Building the Document
 
-Building the Document
-=====================
 
-I have include both a makefile for use with *nix systems and a
-make.bat for use with dos/windows systems.  Simply cd into the
+I have include both a `makefile` for use with *nix systems and a
+`make.bat` for use with dos/windows systems.  Simply cd into the
 directory and type make.
 
 There are a number of make targets available:
 
-dvi:    This will build a "forth.dvi" file.  This is used to produce
-        the PostScript version of the document.
-
-ps:     This will produce a file "forth.ps", a PostScript version of
-        the document.  It uses both latex and dvips to do this.
-
-pdf:    This will produce a file "forth.pdf", a PDF version of the
-        document, complete with internal hyper links.
-        pdflatex is used to produce this.
-
-clean:  Will clean up all the temporary files which get left behind.
+|
+|--|--|
+|`dvi`	 || This will build a `forth.dvi` file.  This is used to produce the PostScript version of the document.|
+|`ps`	 || This will produce a file `forth.ps`, a PostScript version of the document.|
+|        || It uses both latex and dvips to do this.|
+|`pdf`   || This will produce a file `forth.pdf`, a PDF version of the document, complete with internal hyper links.|
+|        || pdflatex is used to produce this.|
+|`clean` || Will clean up all the temporary files which get left behind.|
 
 
-The latex process
-=================
+### The latex process
 
-The main "driver" file is "forth.tex".  This will include all the
+The main "driver" file is `forth.tex`.  This will include all the
 other files as it needs them.  In order to build the final document
 you need to run it though latex several times.
 
-Extract auxiliary file
-----------------------
+#### Extract auxiliary file
+
 The first time it runs, it will generate a lot of auxiliary files,
 these contain information needed for the cross referencing system.
 It will also generate a set of "labels" and you will see a large
 number of warnings of the form:
 
-        LaTeX Warning: Reference `search:ONLY' on page 274 undefined
-        on input line 398.
+	    LaTeX Warning: Reference `search:ONLY' on page 274 undefined
+	    on input line 398.
 
 and
 
-        LaTeX Warning: Can't find definition of "TIB" in wordlist
-        "core", reference on page 2 on input line 128.
+	    LaTeX Warning: Can't find definition of "TIB" in wordlist
+	    "core", reference on page 2 on input line 128.
 
 These are produced because the labels have not been defined yet, they
 are being defined by this run.
 
-Sort the index
---------------
-When latex is run on forth.tex it produces a "forth.wrd" file.  This
+#### Sort the index
+
+When latex is run on forth.tex it produces a `forth.wrd` file.  This
 is the list of words defined in the document given in the order they
 have been defined.  In order to get the alphabetical word list used
 as the index we have to sort this list.  This is done with the aid
-of a small perl script which produces a "forth.wds" file.
+of the `SortIndex.fs` program which produces a `forth.wds` file.
 
 As this file uses labels to locate the page of a word definition, we
 do not need to wait for the page numbers to settle down.
 
-Correct Labels
---------------
+#### Correct Labels
+
 As there are no labels on the first run, place holders are used.
 These will not be the same size as the text of the actual label.
 Thus having defined the labels, we have to run the file though latex
@@ -107,8 +108,8 @@ once again to get the labels correct. As these labels will be of
 a different size to the place holders, we have to run latex a third
 time to resolve all the page numbers correctly.
 
-Change Bars
------------
+#### Change Bars
+
 Now that the text has settled down we can work out where to place
 the change bars.  This uses a similar technique to the labels, in
 that it collects the information it requires on one run, and then
@@ -117,255 +118,236 @@ changed the information on the last run, so we have to run the
 whole thing through latex two more times.
 
 
-Configuration
-=============
+## Configuration
 
-There are four configuration options which can be found at the top of
-the "forth.tex" file.
+There are several configuration options that control the way the
+document looks when processed.  These are held in the `config.tex`
+file.
 
-Page Size
----------
-This is currently defined by line:
 
-        \usepackage{a4wide}
+### Labels
 
-If you wish to change the paper size you need to remove this line and
-add a suitable option to the \documentclass command on the first line.
-For example to use US legal the \documentclass command should be:
-
-        \documentclass[10pt,legalpaper]{book}
-
-The standard LaTeX paper sizes are available:
-
-        a4paper         297mm x 210mm
-        a5paper         210mm x 148mm
-        b5paper         250mm x 176mm
-        letterpaper     11in  x 8.5in
-        legalpaper      14in  x 8.5in
-        executivepaper  10.5in x 7.25in
-
-Text Size
----------
-The size of the text can be modified in the normal way, replace the
-10pt option in the \documentclass command with a different option.
-LaTeX allows three size options:
-
-        10pt    11pt    12pt
-
-Labels
-------
 All words are given a label so they can be referenced, this label
 normally has the same name as the word.  Unfortunately this is not
-always possible.  As the label is used as the target for a hyperlink
-it can not contain characters which have special meaning in the target
-format (PS/PDF or HTML).  These labels are not normally shown, a flag
-is provided to show these label in the word header block and in the
-index.  To enable this feature you must comment out the
-\showreffalse command and uncomment the \showreftrue line.
+always possible, as the label is used as the target for a hyperlink
+it can not contain characters which have special meaning in PS, PDF
+or HTML.  These labels are not normally internal to the LaTeX system
+and thus are not shown, a flag is provided to show these label in the
+word header block and in the index.  To enable this feature you must
+comment out the `\showreffalse` command and uncomment the
+`\showreftrue` line.
 
-Informative text Location
--------------------------
-The informative text for a word is given in the word definition.
-The \inline flag, controls how these sections are presented:
+### Inlining informative text
 
-\inlinetrue
-        The informative text is given alongside the main defintion.
-        This is known as the review (r) version of the document.
+The informative text (rationale, testing and reference implementation)
+for a word is given as part of the word definition.  These sections
+are normally exported to support files to be included in the associated
+appendix.  While working on a defintion it is useful to keep these
+section together.  The `\inline` flag, controls how these sections
+are presented:
 
-\inlinefalse
-        The informative text is shipped out to an external file.
-        The file is read back in when the approperate appendix
-        is processed.
+`\inlinetrue`
+>	The informative text is given alongside the main defintion.
+>	This is known as the review (r) version of the document.
+
+`\inlinefalse`
+>	The informative text is shipped out to an external file.
+>	The file is read back in when the approperate appendix is processed.
 
 
-Macros
-======
+## Macros
 
 As you would expect a number of LaTeX macros are defined to make the
 whole thing easier to handle.
 
-Change Markup
--------------
+### Change Markup
+
 The change markup is provided via the "history" package.  All
 changes require a label, the label is normally the name of the
 proposal associated with the change.  All markup is identified
-with a change bar in the margin.  The <text> is limited to a
-single paragraph and must not span a paragraph break.
+with a change bar in the margin.  The text is limited to a single
+paragraph and must not span a paragraph break.
 
-\place{label}{text}
-        Place new <text> in the document.  The text will appear
-        underlined.
+`\place{label}{text}`
+>	Place new "text" in the document.
+>	The text will appear underlined.
 
-\replace{label}{old}{new}
-        Replace the <old> text with the <new> text.  The <old> text
-        will appear struck though, while the <new> text will appear
-        underlined.
+`\replace{label}{old}{new}`
+>	Replace the "old" text with the "new" text.
+>	The "old" text will appear struck though, while
+>	the "new" text will appear underlined.
 
-\remove{label}{text}
-        Remove the <text> from the document.  The <text> will appear
-        struck though.
+`\remove{label}{text}`
+>	Remove the "text" from the document.
+>	The "text" will appear struck though.
 
-Word lists
-----------
+### Word lists
+
 When a word is defined a label is automatically defined for cross
 reference.  These labels are separated into wordlists.  A few
 commands have been defined to manage the LaTeX wordlists.
 
-\wordlist{<wordlist>}
-        Starts the definition of a new <wordlist>.  This command
-        sets up the chapter heading and support files required for
-        the word definitions.
+`\wordlist{<wordlist>}`
+>	Starts the definition of a new wordlist.  This command
+>	sets up the chapter heading and support files required for
+>	the word definitions.
 
-\setwordlist{<wordlist>}
-        Sets the current wordlist search order to <wordlist>.
+`\setwordlist{<wordlist>}`
+>	Sets the current wordlist search order to wordlist.
 
-\extended
-        Switches the word list label on the definition header to add
-        the "EXT" or extended word set.
+`\extended`
+>	Switches the word list label on the definition header to add
+>	the "EXT" or extended word set.
 
-Word Definition
----------------
+### Word Definition
+
 To define a new word the worddef environment is used:
 
-\begin{worddef}[<label>]{<number>}[<sub-number>]{<name>}[<english>][<proposal>]
-<label>         Is the LaTeX label given to the word.  It is used
-                when processing links, and should not include any PDF
-                or HTML Special characters.  This is the label by
-                which the word in known to the LaTeX system, and the
-                name which should be used in the \word{} and \wref{}
-                commands.
-                Default: <name> is assumed to be the label.
+`\begin{worddef}[<label>]{<number>}[<sub-number>]{<name>}[<english>][<proposal>]`
 
-<number>        The word's number in the alphabetical listing of
-                words.  This should be the full four digit number.
-                If it is empty a long dash is used.
+label
+>	Is the LaTeX label given to the word.  It is used when processing
+>	links, and should not include any PostScript, PDF or HTML special
+>	characters.  This is the label by which the word in known to the
+>	LaTeX system, and the name which should be used in the `\word{}`
+>	and `\wref{}` commands.
 
-<sub-number>    The document requires we add new words between
-                existing words.  I.e., a new word between 0124 and
-                0125, we can only archive this by further dividing
-                the number with a two digit sub-number.
-                Default: No subdivision.
+>	Default: name is assumed to be the label.
 
-<name>          This is the display name of the word. It is typeset
-                in standard LaTeX.  Note the use of additional macros
-                for special characters (see below).
+number
+>	The word's number in the alphabetical listing of words.
+>	This should be the full four digit number.
+>	If it is empty a long dash is used.
 
-<english>       Is the English pronunciation of the word.
-                Default: None.
+sub-number
+>	The document requires we add new words between existing words.
+>	I.e., a new word between 0124 and 0125, we can only archive this
+>	by further dividing the number with a two digit sub-number.
 
-<proposal>      The name of the proposal which introduced this word.
-                All words introduced by Forth 200x should have a
-                proposal.  When a new word is defined an <english>
-                argument MUST also be defined.  This may be empty.
-                Default: None.
+>	Default: No subdivision.
 
-The worddef* environment adds change bars to the output.  This is
-used to introduce a new word into the standard for the first time.
+name
+>	This is the display name of the word. It is typeset in standard
+>	LaTeX.  Note the use of additional Special Character macros below.
+
+english
+>	Is the English pronunciation of the word.
+
+>	Default: None.
+
+proposal
+>	The name of the proposal which introduced this word.
+>	All words introduced by Forth 200*x* should have a proposal.
+>	When a new word is defined an "english" argument **must** also be
+>	defined.  This may be empty.
+
+>	Default: None.
+
+The `worddef*` environment adds change bars to the output.
+This is used to introduce a new word into the standard for the first
+time.
 
 The following commands are provided to aid the word definition:
 
-\stack[<stack>]{<before>}{<after>}
-                Type set a stack picture according to the rules below.
+`\stack[<stack>]{<before>}{<after>}`
+>	Type set a stack picture according to the rules below.
 
-\param{<item>}  Type set the stack <item> according to the following
-                rule:
+`\param{<item>}`
+>	Type set the stack item according to the following rules:
 
-                _x or _{xx}     x or xx is a subscript.
-                x*y             x multiplied by y.
-                x|y             x or y
-                <xxx>           the argument <xxx>
-                "               the open or close double quote
-                All other characters are typeset in italic.
+|
+|---|--|
+|`_x or _{xx}`	|| x or xx is a subscript.|
+|`x*y`			|| x multiplied by y.|
+|`x|y`			|| x or y|
+|`<xxx>`		|| the argument `<xxx>`|
+|`"`			|| the open or close double quote|
+|				||  All other characters are typeset in italic.|
 
-The worddef environment MUST begin with one of the following section
+The worddef environment **must** begin with one of the following section
 headings:
 
-\item                   No section heading
-\compile                Compilation time semantics
-\execute[<type>]        Execution semantics, with a given <type>
-\init                   Initiation
-\interpret              Interpretation semantics
+|
+|---|
+|`\item`			|| No section heading|
+|`\compile`			|| Compilation time semantics|
+|`\execute[<type>]`	|| Execution semantics, with a given type|
+|`\init`			|| Initiation|
+|`\interpret`		|| Interpretation semantics|
+|`\note[<number>]`	|| Note with an optional number|
+|`\runtime[<type>]`	|| Run-time semantics, with a given type|
+|`\see`				|| Reference to other words (See)|
+|`\item[<name>]`	|| None standard section "name`:`"|
 
-\note[<number>]         Note with an optional <number>
-\runtime[<type>]        Run-time semantics, with a given <type>
-\see                    Reference to other words (See)
-\item[<name>]           None standard section "<name>:"
+### Word Rationale
 
-Word Rationale
---------------
-The rationale environment should be used to identify text which is
+The `rationale` environment should be used to identify text which is
 to be included in the rationale for a definition.  Only one rationale
 section is allowed for each definition.
 
-\begin{rationale}
-        The \inline flag controls how the text is processed:
+The `\inline` flag controls how the text is processed:
 
-        \inlinefalse
-                The text is exported to an external support file
-                (r-<wordlist>.sub).  The text is subsequently
-                included into the rationale, appendix A.
+`\inlinefalse`
+>	The text is exported to an external support file (r-*wordlist*.sub).
+>	The text is subsequently included into the rationale, appendix A.
 
-        \inlinetrue
-                All text typeset in a sans-serif font, but the text
-                will appear as part of the word definition.  This is
-                used in the review version of the document.
+`\inlinetrue`
+>	All text typeset in a sans-serif font, but the text will appear as
+>	part of the word definition.  This is used in the review version
+>	of the document.
 
-Testing
--------
-The testing environment should be used to identify text which is to
+### Testing
+
+The `testing` environment should be used to identify text which is to
 be included in the test cases for a defintion.  It works in the same
-manner as the rationale environment, producing a t-<wordlist>.sub
+manner as the rationale environment, producing a t-*wordlist*.sub
 support file which is read in by the Testing appendix.
 
 A macros has been defined to present a test case:
 
-\test[<format>]{<pre>}{<post>}
-        Will generate a test case where <pre> is the code under test,
-        <post> is the expected result, and <format> is the format
-        of the result.  This will produce the following output:
+`\test[<format>]{<pre>}{<post>}`
+>	Will generate a test case where "pre" is the code under test,
+>	"post" is the expected result, and "format" is the format of the
+>	result.  This will produce the following output:
 
-        T{ <pre> -> <post> <format>}T
+	          T{ <pre> -> <post> <format>}T
 
-        The text is typeset in the teletype font and spaces are *not*
-        ignored.  Additional spaces in the input will appear in the
-        output.  This allow for formatting of a group of test cases.
+>	The text is typeset in the teletype font and spaces are **not**
+>	ignored.  Additional spaces in the input will appear in the output.
+>	This allow for formatting of a group of test cases.
 
-Reference Implementation
-------------------------
-The implement environment should be used to identify a reference
+### Reference Implementation
+
+The `implement` environment should be used to identify a reference
 implementation for a defintion.  It works in the same manner as the
-rationale environment, producing an i-<wordlist>.sub support file
+rationale environment, producing an i-*wordlist*.sub support file
 which is read in by the Reference Implementation appendix.  The
 teletype font is used for the text in this envirnment.
 
-\textdf{<text>} Typeset the <text> in the default font, sans-serif
-                in the review document and times-new-roman in the
-                final version.  <text> may not span more than a
-                single paragraph.
+`\textdf{<text>}`
+>	Typeset the text in the default font, sans-serif in the review
+>	document and times-new-roman in the release version.  The text may
+>	not span more than a single paragraph.
 
-\dffamily       Switch to the default font for the rest of the
-                environment.
-
-
-Special Characters
-------------------
-\tab[n]         Insert additional horizontal space.
-                n is a multiplier so \tab[2] will insert twice as
-                much space as a single \tab.
-
-\arg{<text>}    <text> is typeset in italic between < and > sines.
-
-\bs             Outputs the "\" (backslash) character.
-
-\tilde          Outputs the "~" (tilde) character.
-
-\num            Outputs the "#" (number) character.
-
-\brace          Outputs the "{" (open brace) character.
+`\dffamily`
+>	Switch to the default font for the rest of the environment.
 
 
-Cross Referencing
------------------
+### Special Characters
+
+|
+|--|
+|`\tab[n]`		|| Insert additional horizontal space.|
+|               || n is a multiplier so `\tab[2]` will insert twice as much space as a single `\tab`.|
+|`\arg{<text>}`	|| text is typeset in italic between < and > sines.|
+|`\bs`			|| Outputs the "\\" (backslash) character.|
+|`\tilde`		|| Outputs the "~" (tilde) character.|
+|`\num`			|| Outputs the "#" (number) character.|
+|`\brace`		|| Outputs the "{" (open brace) character.
+
+
+## Cross Referencing
+
 There are a number of commands which extend the standard cross
 reference mechanism.  These commands take account of the word list
 and the hyperlinking.
@@ -376,79 +358,78 @@ label will be <wordlist>:<name> however, when <name> contains a
 character which may confuse PDF, PS or HTML the word has to be given
 a special label in which case this label is used <wordlist>:<label>.
 
-\word[<wordlist>]{<label>} - word definition
-        Reference the word associated with <label>.  The word is
-        either in the current wordlist (see \wordlist or \setwordlist),
-        the core wordlist or the optional <wordlist>.  The word is
-        shown in courier-bold and hyperlinked to its definition.
+`\word[<wordlist>]{<label>}` - word definition
+>	Reference the word associated with label.  The word is either in
+>	the current wordlist (see `\wordlist` or `\setwordlist`),
+>	the core wordlist or the optional wordlist.  The word is shown in
+>	courier-bold and hyperlinked to its definition.
+>
+>	If the `\showref` flag is true (`\showreftrue`) the word is
+>	underlined when the label is found.
+>
+>	If the word has not been defined, or can not be found, a warning
+>	is reported and the label is typeset struck through with a line.
 
-        If the \showref flag is true (\showreftrue) the word is
-        underlined.
+`\xref[<text>]{<label>}` - Extended cross reference
+>	This was originally developed as a tool to help in the conversion
+>	of an existing documents into LaTeX form.  It will look up label
+>	and places the section number followed by the section name as a
+>	hyperlink to the section.
+>
+>	Should the label not be found it places the label (between brackets)
+>	with the optional text along side.  The idea being that we can see
+>	what was in the original document (text), and which label was not
+>	found.  If the optional text is not given, the traditional double
+>	question mark is used.
+>
+>	Thus for the following example, let the label "foo" refer to
+>	section 3.2.1 which has the title "Extended Xref", the cross
+>	reference:
+>
+>>		\xref[original text]{foo}.
+>
+>	would produce:
+>
+>>	"3.2.1 Extended Xref"
+>
+>	which is hyperlink to section 3.2.1.
+>	If the label foo is not defined, it would produce:
+>
+>>	"[foo: original text]"
+>
+>	where the "[foo: original text]" appears in bold.  This is intended
+>	to indicate that the label foo was not found, but the original
+>	document had "original text" as the text which should appear here.
 
-        If the word has not been defined, or can not be found, a
-        warning is reported and the <label> is typeset struck
-        through with a line.
+`\wref{<label>}{<Name>}` - Word reference
+>	Cross reference to a words definition.
+>
+>	The label must be of the form "wordlist`:`label".
+>
+>	name is the LaTeX which will be typeset for the word reference.
+>	Both the word number and name are type set and a hyperlink is
+>	provided to the word's definition.
 
-\xref[<text>]{<label>} - Extended cross reference
-        This was originally developed as a tool to help in the
-        conversion of existing documents into LaTeX form.  It will
-        look up <label> and places the section number followed by
-        the section name as a hyperlink to the section.
+`\rref{<label>}{<name>}` - Rationale reference
+>	`\rref` is the same as `\wref` except it looks in the rationale
+>	(`rat:`) name space.
 
-        Should <label> not be found it places <label> (between
-        brackets) with the optional <text> along side.  The idea
-        being that we can see what was in the original document
-        (<text>), and which <label> was not found.  If the <text> is
-        not given, the traditional double question mark is used.
+`\tref{<label>}{<name>}` - Testing reference
+>	`\tref` is the same as `\wref` excpet it looks in the testing
+>	(`test:`) name sapce.
 
-        Thus for the following example, let the label "foo" refer to
-        section 3.2.1 which has the title "Extended Xref", the
-        cross reference:
-
-                \xref[original text]{foo}.
-
-        would produce:
-
-                "3.2.1 Extended Xref"
-
-        which is hyperlink to section 3.2.1.
-        If the label foo is not defined, it would produce:
-
-                "[foo: original text]"
-
-        where the "[foo: original text]" appears in bold.  This is
-        intended to indicate that the label foo was not found, but
-        the original document had "original text" as the text which
-        should appear here.
-
-\wref{<label>}{<Name>} - Word reference
-        Cross reference to a words definition.
-        <label> will be of the form <wordlist>:<label>.
-        <name>  is the LaTeX which will be typeset for the word
-                reference.  Both the word number and name are type
-                set and a hyperlink is provided to the word's
-                definition.
-
-\rref{<label>}{<name>} - Rationale reference
-        \rref is the same as \wref except it looks in the rationale
-        (rat:) name space.
-
-\tref{<label>}{<name>} - Testing reference
-        \tref is the same as \wref excpet it looks in the testing
-        (test:) name sapce.
-
-\iref{<label>}{<name>} - Implementation reference
-        \iref is the same as \wref excpet it looks in the reference
-        implmentation (imp:) name space.
+`\iref{<label>}{<name>}` - Implementation reference
+>	`\iref` is the same as `\wref` excpet it looks in the reference
+>	implmentation (`imp:`) name space.
 
 
-Utilities
-=========
+## Utilities
 
 I have been developing the document on a Windows 7 system using the
 following utilities:
 
-MiKTeX 2.9      www.miktex.org
-TeXworks 0.4.3  www.tug.org/texworks
-TextPad 5.4.2   www.textpad.com
-Perl 5.14.2     www.ActiveState.com/perl
+|
+|---|---|
+|MiKTeX		|| 2.9    || www.miktex.org |
+|TeXworks	|| 0.4.3  || www.tug.org/texworks |
+|TextPad	|| 5.4.2  || www.textpad.com |

@@ -2,6 +2,7 @@
 
 PDFTEX = pdflatex
 TEX = latex
+FORTH = sf
 
 usage:
 	@echo "Usage: make [ dvi | ps | pdf | clean ]"
@@ -11,7 +12,6 @@ usage:
 dvi: forth.dvi
 ps: forth.ps
 pdf: forth.pdf
-html: forth.html
 
 # Now for the actual detail
 
@@ -19,18 +19,18 @@ one:
 	$(PDFTEX) forth.tex
 
 forth.wrd: forth.tex *.tex
-	$(PDFTEX) forth.tex
+	$(TEX) forth.tex
 
 forth.wds: forth.wrd
-	perl sort.pl < forth.wrd > forth.wds
+	$(FORTH) SortIndex.fs
 
 forth.dvi: forth.wds
-	$(TEX) "\scrollmode\input forth.tex"
+	$(TEX) forth.tex
 	$(TEX) forth.tex
 
 	# Now for the change bars
 	$(TEX) forth.tex
-	$(TEX) forth.tex
+	$(TEX) -synctex=1 forth.tex
 
 	# Stop make from re-building when the ps target is used
 	touch forth.wds		# update .wds as .wrd has been updated
@@ -40,7 +40,7 @@ forth.ps: forth.dvi
 	dvips -K -t A4 forth
 
 forth.pdf: forth.wds
-	$(PDFTEX) "\scrollmode\input forth.tex"
+	$(PDFTEX) forth.tex
 	$(PDFTEX) forth.tex
 
 	# Now for the change bars
@@ -49,13 +49,7 @@ forth.pdf: forth.wds
 
 zip: *.tex clean
 	(cd ..; zip -9 -r basis.zip basis -x \*CVS\* -x \*.pdf -x \*.zip)
-	mv ../basis.zip basis-`grep \\revision\} forth.tex | cut -c24-27`-`date +%b-%d`.zip
-
-# This is not currently supported in the latex source,
-# but at least we get something usable, one day ...
-
-forth.html: forth.wds
-	htlatex forth
+	mv ../basis.zip basis-`grep \\revision\} config.tex | cut -c24-27`-`date +%b-%d`.zip
 
 clean:
 	# First we clean the LaTeX files
@@ -69,13 +63,5 @@ clean:
 
 	# Document's own support files
 	rm -f *.sub		# Auto generated support files
-	rm -f forth.wrd		# Word list (unsorted)
-	rm -f forth.wds		# Word list (sorted)
-
-	# htlatex (text4ht) support files
-	rm -f forth.4ct		# ToC postfix
-	rm -f forth.4tc		# ToC prefix
-	rm -f forth.idv		# Fonts extract
-	rm -f forth.lg		# log file
-	rm -f forth.xref	# Cross references
-	rm -f forth*.tmp
+	rm -f forth.wrd		# Word list (definition order)
+	rm -f forth.wds		# Word list (alphabetical order)
