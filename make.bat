@@ -68,7 +68,7 @@ rem forth.synctex.gz	SyncTex sync data
 rem *.aux	LaTeX auxiliary files
 rem *.sub	Auto generated support files
 
-for %%x in (log out toc wrd wds cb cb2 synctex.gz) do if exist forth.%%x del forth.%%x
+for %%x in (log out toc wrd cb cb2 synctex.gz) do if exist forth.%%x del forth.%%x
 for %%x in (aux sub) do del *.%%x
 
 rem Keep the following:

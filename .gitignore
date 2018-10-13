@@ -1,3 +1,6 @@
+## Application specific support files:
+*.sub
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

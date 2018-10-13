@@ -401,13 +401,12 @@ Extensions word sets.
 		The intent is to copy a \param{dest} on the control-flow
 		stack so that it can be resolved more than once. For example:
 		\setwordlist{core}
-		\begin{quote}\ttfamily
-			\word{bs} Conditionally transfer control to beginning of \\
-			\word{bs} loop.  This is similar in spirit to C's "continue" \\
-			\word{bs} statement.
+		\begin{quote}\ttfamily\small
+			\word{bs} Conditionally transfer control to beginning of loop.  \\
+			\word{bs} This is similar in spirit to C's "continue" statement.
 
 			\word{:} ?REPEAT ~~\word{p} dest -{}- dest ) \word{bs} Compilation \\
-			\tab\tab\tab~\word{p} flag -{}- ) \tab~\word{bs} Execution \\
+			\tab[6]~\word{p} flag -{}- ) \tab[2.2]~\word{bs} Execution \\
 			\tab 0 \word[tools]{CS-PICK} ~ \word{POSTPONE} \word{UNTIL} \\
 			\word{;} \word{IMMEDIATE}
 
