@@ -12,6 +12,7 @@ and reasons why this is so.
 \label{doc:system}
 
 \subsection{Implementation-defined options} % 4.1.1
+\label{doc:imp}
 
 The implementation-defined items in the following list represent
 characteristics and choices left to the discretion of the
@@ -114,14 +115,12 @@ item.
 
 \item values of \wref{core:STATE}{STATE} when true;
 
-\item values returned after arithmetic overflow
+\item \remove{x:2-complement}{values returned after arithmetic overflow}
 	(\xref[Other integer operations]{usage:intops});
 
 \item whether the current definition can be found after
 	\wref{core:DOES}{DOES>} (\wref{core::}{:}).
-
 \end{itemize}
-
 
 
 \subsection{Ambiguous conditions} % 4.1.2 ===========================
@@ -135,7 +134,6 @@ The following general ambiguous conditions could occur because of a
 combination of factors:
 
 \begin{itemize}
-
 \item a \emph{name} is neither a valid definition name nor a valid
 	number during text interpretation (\xref[The Forth text
 	interpreter]{usage:command});
@@ -197,8 +195,7 @@ combination of factors:
 	(stack underflow);
 
 \item unexpected end of input buffer, resulting in an attempt to
-	use a zero-length string as a \emph{name};
-
+	use a zero-length string as a \emph{name}.
 \end{itemize}
 
 
@@ -206,7 +203,6 @@ The following specific ambiguous conditions are noted in the
 glossary entries of the relevant words:
 
 \begin{itemize}
-
 \item \word{toIN} greater than size of input buffer
 	(\xref[Parsing]{usage:parsing});
 
@@ -301,7 +297,6 @@ glossary entries of the relevant words:
 A system shall provide the following information:
 
 \begin{itemize}
-
 \item list of non-standard words using \wref{core:PAD}{PAD}
 	(\xref[Other transient regions]{usage:transient});
 
@@ -329,7 +324,6 @@ where they apply, and should document other known environmental
 dependencies:
 
 \begin{itemize}
-
 \item considering the pictured numeric output string buffer a fixed
 	area with unchanging access parameters
 	(\xref[Other transient regions]{usage:transient});
@@ -365,17 +359,15 @@ dependencies:
 
 \item using the graphic character with a value of hex 24
 	(\xref[Graphic characters]{usage:ASCII}).
-
 \end{itemize}
+
 
 \subsection{Other program documentation} % 4.2.2
 
 A program shall also document:
 
 \begin{itemize}
-
 \item minimum operator's terminal facilities required;
 
 \item whether a Standard System exists after the program is loaded.
-
 \end{itemize}

@@ -259,10 +259,10 @@ sets.
 	\wref{core:[']}{[']}.
 
 	\begin{implement}
-		\textdf{Assuming {\tt\#order} and {\tt context} are defined as per \iref{search:GET-ORDER}{}.}
+		\textdf{Assuming \texttt{\#order} and \texttt{context} are defined as per \iref{search:GET-ORDER}{}.}
 
 		\begin{tabbing}
-		\tab \= \tab \= \tab \= \tab \= 2swap 2drop leave \tab \= \\\kill
+		\tab \= \tab \= \tab \= \tab \= 2swap 2drop leave \tab \= \kill
 		\word{:} \word{FIND} \word{p} c-addr -{}- c-addr 0 | xt 1 | xt -1 ) \+ \\
 			0 														\>\>\>\>	\word{p} c-addr 0 ) \\
 			\#order \word{@} 0 \word{qDO} \+ \\
@@ -309,7 +309,7 @@ sets.
 	Return \param{wid}, the identifier of the compilation word list.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1647}{GET-ORDER}
 \item \stack{}{wid_n {\ldots} wid_1 n}
 
@@ -335,7 +335,7 @@ sets.
 	\end{implement}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{2192}{SEARCH-WORDLIST}
 \item \stack{c-addr u wid}{0 | xt 1 | xt -1}
 
@@ -365,7 +365,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{2195}{SET-CURRENT}
 \item \stack{wid}{}
 
@@ -383,7 +383,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{2197}{SET-ORDER}
 \item \stack{wid_n {\ldots} wid_1 n}{}
 
@@ -430,7 +430,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{2ex}
+\vspace*{-1ex}
 \begin{worddef}{2460}{WORDLIST}
 \item \stack{}{wid}
 
@@ -475,7 +475,7 @@ sets.
 	\param{wid_{\word{FORTH-WORDLIST}}}.
 
 	\begin{implement}
-	\word{:} (wordlist) \word{p} wid "<name>" -- ; ) \\
+	\word{:} (wordlist) \word{p} wid "<name>" -{}- ; ) \\
 	\tab \word{CREATE} \word{,} \\
 	\tab \word{DOES} \\
 	\tab[2] \word{@}  \word{toR} \\

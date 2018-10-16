@@ -174,7 +174,6 @@ to provide all of the Facility and Facility Extensions word sets.
 		the application must use \word{KEYq} and \word[core]{KEY} only
 		when it wishes to discard non-character events until a valid
 		character is received.
-\pagebreak
 	\end{rationale}
 \end{worddef}
 
@@ -193,7 +192,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------
 
-\begin{worddef}{0135}{+FIELD}[plus-field][X:structures]
+\begin{worddef}{0135}{+FIELD}[plus-field]
 \item \stack{n_1 n_2 "<spaces>name"}{n_3}
 
 	Skip leading space delimiters.  Parse \param{name} delimited
@@ -239,7 +238,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{0763}{BEGIN-STRUCTURE}[][X:structures]
+\begin{worddef}{0763}{BEGIN-STRUCTURE}
 \item \stack{"<spaces>name"}{struct-sys 0}
 
 	Skip leading space delimiters. Parse \param{name} delimited
@@ -386,7 +385,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{0893}{CFIELD:}[c-field-colon][X:structures]
+\begin{worddef}{0893}{CFIELD:}[c-field-colon]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -475,7 +474,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}[EKEYtoFKEY]{1306}[40]{EKEY>FKEY}[e-key-to-f-key][X:ekeys]
+\begin{worddef}[EKEYtoFKEY]{1306}[40]{EKEY>FKEY}[e-key-to-f-key]
 \item \stack{x}{u flag}
 
 	If the keyboard event \param{x} corresponds to a keypress in the
@@ -668,7 +667,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 % -------------------------------------
-\begin{worddef}{1336}{END-STRUCTURE}[][X:structures]
+\begin{worddef}{1336}{END-STRUCTURE}
 \item \stack{struct-sys +n}{}
 
 	Terminate definition of a structure started by
@@ -686,7 +685,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 \newpage
-\begin{worddef}{1518}{FIELD:}[field-colon][X:structures]
+\begin{worddef}{1518}{FIELD:}[field-colon]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -730,7 +729,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{1740}[01]{K-ALT-MASK}[][X:ekeys]
+\begin{worddef}{1740}[01]{K-ALT-MASK}
 \item \stack{}{u}
 
 	Mask for the \textsc{Alt} key, that can be \word{OR}ed with the
@@ -743,7 +742,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[02]{K-CTRL-MASK}[][X:ekeys]
+\begin{worddef}{1740}[02]{K-CTRL-MASK}
 \item \stack{}{u}
 
 	Mask for the \textsc{Ctrl} key, that can be \word{OR}ed with the
@@ -756,7 +755,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[03]{K-DELETE}[][X:ekeys]
+\begin{worddef}{1740}[03]{K-DELETE}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -768,7 +767,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[04]{K-DOWN}[][X:ekeys]
+\begin{worddef}{1740}[04]{K-DOWN}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -780,7 +779,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[05]{K-END}[][X:ekeys]
+\begin{worddef}{1740}[05]{K-END}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -792,7 +791,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[06]{K-F1}[k-f-1][X:ekeys]
+\begin{worddef}{1740}[06]{K-F1}[k-f-1]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -804,7 +803,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[07]{K-F10}[k-f-10][X:ekeys]
+\begin{worddef}{1740}[07]{K-F10}[k-f-10]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -816,7 +815,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[08]{K-F11}[k-f-11][X:ekeys]
+\begin{worddef}{1740}[08]{K-F11}[k-f-11]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -828,7 +827,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[09]{K-F12}[k-f-12][X:ekeys]
+\begin{worddef}{1740}[09]{K-F12}[k-f-12]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -840,7 +839,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[10]{K-F2}[k-f-2][X:ekeys]
+\begin{worddef}{1740}[10]{K-F2}[k-f-2]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -852,7 +851,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[11]{K-F3}[k-f-3][X:ekeys]
+\begin{worddef}{1740}[11]{K-F3}[k-f-3]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -864,7 +863,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[12]{K-F4}[k-f-4][X:ekeys]
+\begin{worddef}{1740}[12]{K-F4}[k-f-4]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -876,7 +875,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[13]{K-F5}[k-f-5][X:ekeys]
+\begin{worddef}{1740}[13]{K-F5}[k-f-5]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -888,7 +887,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[14]{K-F6}[k-f-6][X:ekeys]
+\begin{worddef}{1740}[14]{K-F6}[k-f-6]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -900,7 +899,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[15]{K-F7}[k-f-7][X:ekeys]
+\begin{worddef}{1740}[15]{K-F7}[k-f-7]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -912,7 +911,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[16]{K-F8}[k-f-8][X:ekeys]
+\begin{worddef}{1740}[16]{K-F8}[k-f-8]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -924,7 +923,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[17]{K-F9}[k-f-9][X:ekeys]
+\begin{worddef}{1740}[17]{K-F9}[k-f-9]
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -936,7 +935,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[18]{K-HOME}[][X:ekeys]
+\begin{worddef}{1740}[18]{K-HOME}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -948,7 +947,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[19]{K-INSERT}[][X:ekeys]
+\begin{worddef}{1740}[19]{K-INSERT}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -960,7 +959,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[20]{K-LEFT}[][X:ekeys]
+\begin{worddef}{1740}[20]{K-LEFT}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -972,7 +971,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[21]{K-NEXT}[][X:ekeys]
+\begin{worddef}{1740}[21]{K-NEXT}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -984,7 +983,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[22]{K-PRIOR}[][X:ekeys]
+\begin{worddef}{1740}[22]{K-PRIOR}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -996,7 +995,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[23]{K-RIGHT}[][X:ekeys]
+\begin{worddef}{1740}[23]{K-RIGHT}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}
@@ -1008,7 +1007,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[24]{K-SHIFT-MASK}[][X:ekeys]
+\begin{worddef}{1740}[24]{K-SHIFT-MASK}
 \item \stack{}{u}
 
 	Mask for the \textsc{Shift} key, that can be \word{OR}ed with the
@@ -1021,7 +1020,7 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1740}[25]{K-UP}[][X:ekeys]
+\begin{worddef}{1740}[25]{K-UP}
 \item \stack{}{u}
 
 	Leaves the value \param{u} that the sequence \word{EKEY}

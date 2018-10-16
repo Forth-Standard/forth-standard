@@ -1,0 +1,273 @@
+body {
+	text-align: justify;
+	margin: 0 auto;
+	top: 12ex;
+	width: 50em;
+}
+
+.ttocc {
+	font-weight: bold;
+}
+
+.wordHead {
+	clear: both;
+	padding-top: 2ex;
+	width: 50em;
+}
+
+.wordNumber {
+	float: left;
+	font-weight: bold;
+	width: 7em;
+}
+
+.wordName {
+	float: left;
+	font-weight: bold;
+	min-width: 15em;
+}
+
+.wordEnglish {
+	float: left;
+	min-width: 18.2em;
+}
+
+.wordList {
+}
+
+.wordProp {
+	margin-left: 90ex;
+}
+
+.wordBody {
+	clear: both;
+	margin-left: 1em;
+	margin-top: 1ex;
+	padding-bottom: 5ex;
+	width: 49em;
+}
+
+.secdef {
+	clear: both;
+}
+
+.secname {
+	float: left;
+	text-align: right;
+	margin-right: 1em;
+	width: 8em;
+}
+
+.sec,
+.sectesting,
+.secrationale,
+.secimplement {
+	float: left;
+	padding-bottom: 1ex;
+	width: 40em;
+}
+
+.secimplement {
+	font-family: monospace;
+}
+
+.implement {
+	font-family: monospace;
+}
+
+dl.compact {
+	margin-top: 1ex;
+}
+
+dl.compact dt {
+	clear: both;
+	float: left;
+	width: 5%;
+	text-align: right;
+}
+dl.compact dd {
+	float: left;
+	width: 87%;
+}
+
+dl.desc dt {
+	clear: both;
+	float: left;
+	width: 50%;
+	font-weight: bold;
+}
+
+dl.desc dd {
+	float: left;
+	width: 87%;
+}
+
+dl.toc dt {
+	clear: both;
+	float: left;
+	width: 2em;
+}
+dl.toc dd { float: left; }
+
+.tocc  { margin-top: 2ex; font-weight: bold; }
+.tocs  { margin-left: 1em }
+.tocss { margin-left: 2em }
+
+.r { text-align: right; }
+.l { text-align: left; }
+.c { text-align: center; }
+u { color: green; }
+s { color: red; }
+
+.clear { clear: both; }
+.quote { margin-left: 2em; }
+
+.rm { font-family: serif }
+.tt { font-family: monospace; }
+.sf { font-family: sans-serif }
+.df { font-family: serif }
+.sl { font-style: oblique }
+.sc { font-variant: small-caps }
+.bf { font-weight: bold; }
+
+.caption {
+	text-align: center;
+	font-weight: bold;
+}
+
+.fbox {
+	border: 1px solid black;
+	width: 80%;
+}
+
+.editor {
+	border: 2px solid blue;
+	color: blue;
+	font-style: oblique;
+	width: 80%
+}
+
+.editor, .center, .fbox {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+}
+
+.prop {
+	font-size: small;
+	font-family: sans-serif;
+	margin-bottom: 1ex;
+	text-align: right;
+}
+
+.Large { font-size: 200%; }
+.minipage { float: left; }
+
+#wrapper {
+	-background: #f4f4f4;
+	-box-shadow: 0 0 24px 12px #888888;
+	padding: 10px 10px 0;
+}
+body {
+	-background: none repeat scroll 0 0 #d8d9da;
+	-color: #000000;
+	font-family: Geneva,Helvetica,sans-serif;
+	-margin: 0 auto;
+	margin: 40px 0 0 10px;
+	-width: 1024px;
+}
+.clear {
+	float: none;
+	clear: both;
+	height: 1px;
+}
+#body { margin: 40px 0 0 10px; }
+#adminbar li.ab-item { padding-left: 10px; }
+.wordList { text-align: right; }
+sub { font-size: 80%; position: relative; top: -0.5ex; }
+.wordBody a:link { color: red; text-decoration: none; }
+.wordBody a:hover, .wordBody a:focus { color: blue; text-decoration: underline; }
+
+#menu-bar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 100%;
+	background: #252526;
+}
+#menu-bar ul {
+	list-style: none outside none;
+	color: #ffffff;
+	-height: 32px;
+	padding: 0;
+	margin: 0;
+}
+#menu-bar li {
+	border-left: 2px solid #ffffff;
+	float: left;
+	padding: 2px 8px;
+}
+#menu-bar li.first {
+	border: none;
+}
+#menu-bar .with-menu {
+	cursor: pointer;
+	padding: 0 2px;
+	position: relative;
+}
+#menu-bar .with-menu:hover{
+	color: #000000;
+	background: #ffffff;
+}
+#menu-bar .menu{
+	height: 0;
+	width: 0;
+	position: relative;
+	left: -4px;
+	top: 4px;
+}
+#menu-bar .menu ul {
+	background: #252526;
+	padding: 0 0 4px;
+	width: 250px;
+	height: auto;
+	display: none;
+}
+.scroll-bar {
+	max-height: 240px;
+	overflow-y: scroll;
+}
+#menu-bar .menu li {
+	border: none;
+	float: none;
+	text-align: left;
+}
+#menu-bar .menu a {
+	padding: 0 2px;
+	display: block;
+	text-decoration: none;
+	color: #ffffff;
+}
+#menu-bar .menu a.current {
+	background: #dddddd;
+	color: #252526;
+}
+#menu-bar .menu a:hover{
+	background: #ffffff;
+	color: #252526;
+}
+@media only screen and (max-width: 767px){
+	body { width: 320px; }
+	ul { padding: 0 0 0 1em; }
+	dl.desc dd { margin-left: 1em; }
+	h1, h2 { font-size: large; }
+	h3, h4 { font-size: 100%; }
+	.wordHead { width: 300px; }
+	.wordNumber { float: none; width: auto; display: inline; }
+	.wordName { float: none; display: inline; }
+	.wordEnglish { float: right; min-width: 0; margin-left: 0.5em; }
+	.secname { float: none; text-align: left; margin-left: -1em; }
+	.sec, .sectesting, .secimplement, .secrationale { width: 300px; float: none; }
+	#menu-bar li { float: none; border: none; }
+	#menu-bar .menu { height: auto; }
+}

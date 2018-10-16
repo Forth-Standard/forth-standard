@@ -40,7 +40,7 @@ a standard-conforming implementation.
 
 Numerous people have contributed to the test cases given in section
 \ref{test:core} onwards.  The majority of the test cases have been
-taken from John Hayes' test suite\footnote{url{http://www.taygeta.com/forth.html}},
+taken from John Hayes' test suite\footnote{\url{http://www.taygeta.com/forth.html}},
 Gerry Jackson's test suite\footnote{\url{http://soton.mpeforth.com/flag/anstests/index.html}}
 and David Williams with significant contributions from the committee.
 
@@ -138,7 +138,7 @@ The following source code provides the test harness.
 \word{HEX} \\
 \\
 \word{VARIABLE} ACTUAL-DEPTH         \word{bs} stack record \\
-\word{CREATE} ACTUAL-RESULTS 20 CELLS ALLOT \\
+\word{CREATE} ACTUAL-RESULTS 20 \word{CELLS} \word{ALLOT} \\
 \word{VARIABLE} START-DEPTH \\
 \word{VARIABLE} XCURSOR              \word{bs} for ...\}T \\
 \word{VARIABLE} ERROR-XT \\
@@ -524,7 +524,7 @@ The numeric representation can be tested with the following test cases:
 Before testing the comparison operators it is necessary to define
 a few constants to allow the testing of the upper and lower bounds.
 
-\begin{tt}\frenchspacing\obeyspaces
+\begin{quote}\ttfamily\frenchspacing\obeyspaces\setlength{\leftmargin}{-10pt}
 0 \word{INVERT}                					\word{CONSTANT} MAX-UINT \\
 0 \word{INVERT} 1 \word{RSHIFT}       			\word{CONSTANT} MAX-INT \\
 0 \word{INVERT} 1 \word{RSHIFT} \word{INVERT}	\word{CONSTANT} MIN-INT \\
@@ -533,10 +533,11 @@ a few constants to allow the testing of the upper and lower bounds.
 \\
 0S \word{CONSTANT} <FALSE> \\
 1S \word{CONSTANT} <TRUE>
-\end{tt}
 \nonfrenchspacing\catcode`\ =10
+\end{quote}
 
-With these constants defined, it is now possible to perferom the
+
+With these constants defined, it is now possible to perform the
 	\tref{core:0=}{0=},
 	\tref{core:=}{=},
 	\tref{core:0less}{0<},
@@ -855,24 +856,24 @@ but rather refers to the previous definition of the word.
 
 Two additional constants are defined to assist tests in this word set:
 
-\begin{tt}\frenchspacing\obeyspaces
+\begin{quote}\ttfamily\frenchspacing\obeyspaces
 MAX-INT \word{2/}  \word{CONSTANT} HI-INT   \word{bs} 001...1 \\
 MIN-INT \word{2/}  \word{CONSTANT} LO-INT   \word{bs} 110...1
-\end{tt}
 \nonfrenchspacing\catcode`\ =10
+\end{quote}
 
 Before anything can be tested, the text interpreter must be
 tested (\ref{test:dbl:in}).
 Once the \linebreak \tref{double:2CONSTANT}{2CONSTANT} test has been preformed
 we can also define a number of double constants:
 
-\begin{tt}\frenchspacing\obeyspaces
+\begin{quote}\ttfamily\frenchspacing\obeyspaces
 ~     1S MAX-INT \word{2CONSTANT} MAX-2INT   \word{bs} 01...1 \\\mbox{}
       0 MIN-INT \word{2CONSTANT} MIN-2INT   \word{bs} 10...0 \\
 MAX-2INT      \word{2/} \word{2CONSTANT} HI-2INT    \word{bs} 001...1 \\
 MIN-2INT      \word{2/} \word{2CONSTANT} LO-2INT    \word{bs} 110...0
-\end{tt}
 \nonfrenchspacing\catcode`\ =10
+\end{quote}
 
 The rest of the word set can be tesed:
 \tref{double:DNEGATE}{},

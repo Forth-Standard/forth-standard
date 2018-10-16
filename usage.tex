@@ -232,15 +232,18 @@ addresses, execution tokens, flags, and integers are one cell wide.
 \label{usage:flags}
 
 Flags may have one of two logical states, \emph{true} or \emph{false}.
+\remove{x:2-complement}{%
 Programs that use flags as arithmetic operands have an environmental
-dependency. A true flag returned by a standard word shall be a
+dependency.}
+A true flag returned by a standard word shall be a
 single-cell value with all bits set. A false flag returned by a
 standard word shall be a single-cell value with all bits clear.
 
 \subsubsection{Integers} % 3.1.3.2
+\label{usage:int}
 
 The implementation-defined range of signed integers shall include
-\{-32767 {\ldots} +32767\}. The im\-ple\-ment\-ation-de\-fined range of
+\{\replace{x:2-complement}{-32767}{ -32768} {\ldots} +32767\}. The im\-ple\-ment\-ation-de\-fined range of
 non-negative integers shall include \{0 {\ldots} 32767\}. The
 implementation-defined range of unsigned integers shall include
 \{0 {\ldots} 65535\}.
@@ -392,8 +395,12 @@ and \word{UNLOOP}.
 \subsubsection{Internal number representation} % 3.2.1.1
 \label{usage:number}
 
+\replace{x:2-complement}{%
 This standard allows one's complement, two's complement, or
-sign-magnitude number representations and arithmetic. Arithmetic
+sign-magnitude number representations and arithmetic.}{%
+This standard requires two's complement number representation and arithmetic.
+}
+Arithmetic
 zero is represented as the value of a single cell with all bits
 clear.
 
@@ -516,9 +523,26 @@ dependency on the desired rounding direction.
 \subsubsection{Other integer operations} % 3.2.2.2
 \label{usage:intops}
 
+\cbstart\patch{x:2-complement}
+\sout{%
 In all integer arithmetic operations, both overflow and underflow
 shall be ignored. The value returned when either overflow or
 underflow occurs is implementation defined.
+}
+
+\uline{%
+In all integer arithmetic operations except divisions, both overflow
+and underflow shall be ignored.  The value returned when either
+overflow or underflow occurs in these case is:
+}
+\begin{itemize}
+\item \uline{for unsigned results, the exact result modulo $2^n$;}
+\item \uline{for signed results, with the exact result being $r$,
+	the number $x$ in the range $2^{n-1}\leq x<2^{n-1}$ that
+	satisfies $x$ congruent $r$ (mod $2^n$).}
+\end{itemize}
+\uline{where $n$ is the number of bits in the result.}
+\cbend
 
 \subsection{Stacks} % 3.2.3
 
@@ -1005,9 +1029,11 @@ either the parse area is empty or an ambiguous condition exists:
 \item If a definition name matching the string is not found,
 	attempt to convert the string to a number
 	(see \ref{usage:numbers}). If successful:
+
 	\begin{enumerate}
 	\item if interpreting, place the number on the data stack,
 		and continue at a);
+
 	\item if compiling, compile code that when executed will place
 		the number on the stack (see \wref{core:LITERAL}{LITERAL}),
 		and continue at a);

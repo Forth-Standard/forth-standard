@@ -1079,6 +1079,9 @@
 
 
 \version{13.1}{Hamburg Meeting}{25--27 September 2013}
+	The following changes where incorporated into the Forth 2012 standard
+	document released on 10/Nov/2014.
+
 	\begin{itemize}
 	\item \xref{foreword}:							% foreword 
 		~\\ \textsf{ed13}: Merged \textbf{Foreword to ANS Forth} with \textbf{Foreword}.
@@ -1222,9 +1225,11 @@
 	\end{itemize}
 
 
-\version{14.3}{Palma de Mallorca Meeting}{24--26 September 2014}
+\version{14.5}{Palma de Mallorca Meeting}{24--26 September 2014}
+	The following changes where incorporated into the Forth 2012 standard
+	document released on 10/Nov/2014.
+	
 	\begin{itemize}
-%	\item \xref{foreword}:						% foreword 
 	\item \xref{process}:							% process
 		~\\ \textsf{ed14}: Replaced ``dismiss'' with ``dismissed'' in item c of \xref{process}.
 
@@ -1277,17 +1282,11 @@
 		\textsf{ed14}: ``interpretating'' replaced with ``interpreting'' in
 		\xref{doc:ambiguous}.
 		
-%	\item[5] Compliance and labeling:				% label
-
 	\item[6--18] All Word Sets: ~\\
 		\textsf{ed14}: Replaced ``$\times$'' with ``\emph{*}'' in stack descriptions.
 
 	\item[6] Core Word Set:						% core
-		~\\ \textsf{ed14}: Removed empty run-time clause from \wref{core:TO}{}.
-		
-%	\item[7] Block Word Set:						% block
-%	\item[8] Double-Number Word Set:				% double
-
+		~\\ \textsf{ed14}: Added obsolescent notice to \wref{core:[COMPILE]}{}.
 	\item[9] Exception Word Set:					% exception
 		~ \\ \textsf{ed14}: ``tack'' replaced with ``stack'' in table \xref{table:throw}.
 		
@@ -1317,13 +1316,9 @@
 	\item[13] Locals Word Set:						% local
 		~\\ \textsf{ed14}: Changed reference to BNF notation in \wref{local:b:}{}.
 
-%	\item[14] Memory-Allocation Word Set:			% memory
 	\item[15] Programming-Tools Word Set:			% tools
-~\\
-	\textsf{ed14}: Replaced ``\word{EXECUTE}ing'' with ``Executing''
-		in \wref{tools:NAMEtoCOMPILE}.
-
-%	\item[16] Search-Order Word Set:				% search
+		~\\	\textsf{ed14}: Replaced ``\word{EXECUTE}ing'' with ``Executing''
+			in \wref{tools:NAMEtoCOMPILE}.
 
 	\item[17] String Word Set:						% string
 		~\\ \textsf{ed14}: Replaced ``must'' with ``shall'' in \wref{string:UNESCAPE}{}.
@@ -1344,18 +1339,10 @@
 		\item \textsf{ed14}: Replaced ``temporary buffer'' with ``transient buffer'' in \rref{core:PARSE}{}.
 % Block
 		\item Replaced ``Many Forth systems use blocks'' with ``Forth systems may use blocks'' in \xref{rat:block:terms}.
-% Double
-% Exception
-% Facility
 % File
 		\item \textsf{X:interpret-escape-s}: Added \xref{rat:file:buffers}.
 		\item \textsf{ed14}: ``temporary buffer'' to ``transient buffer'' in
 			\wref{file:READ-LINE}{}.
-% Float
-% Locals
-% Memory
-% Tools
-% Search
 % String
 		\item \textsf{ed14}: Replaced ``in the range \{0 \ldots +n\}'' with
 			``nonnegative'' and ``non-recursive'' with ``not recursive'' in
@@ -1364,8 +1351,6 @@
 		\item \textsf{ed14}: Replaced ``wordset'' with ``word set'' in last paragraph
 			of \xref{rat:xchar}.
 		\end{enumerate}
-
-%	\item[B] Bibliography (Annex \ref{annex:bib}):					% bib
 
 	\item[C] Compatibility analysis (Annex \ref{annex:diff}):			% diff
 		\begin{enumerate}
@@ -1381,44 +1366,83 @@
 		\end{enumerate}
 		
 	\item[D] Portability guide (Annex \ref{annex:port}):			% port
-~ \\
-		\textsf{ed14}: ``practise'' to ``practice'' in \xref{port:intro}.
+		~ \\ \textsf{ed14}: ``practise'' to ``practice'' in \xref{port:intro}.
 
 	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
-% Core
-% Block
-% Double
-% Exception
-% Facility
-% File
-% Float
-% Locals
-% Memory
-% Tools
-% Search
-% String
 % Xchar
 		~\\ \textsf{ed14}: Replaced ``wordset'' with ``word set'' in
 			\xref{imp:xchar}.
 
 	\item[F] Test Suite (Annex \ref{annex:test}):					% test
-% Core
-% Block
 % Double
 		~\\ \textsf{ed14}: Replaced ``wordset'' with ``word set'' in
 			\xref{test:double}.
-% Exception
-% Facility
-% File
-% Float
-% Locals
-% Memory
-% Tools
-% Search
-% String
-% Xchar
 	\end{itemize}
 
+
+\version{16.1}{Bath Meeting}{30 September -- 2 October 2015}
+	\begin{itemize}
+	\item \xref{members}:						% members-2x
+		\begin{enumerate}
+		\item \textsf{x:membership}: Replaced membership rules.
+		\item \textsf{ed16}: Moved Andrew Haley and Willi Stricker from current to past members.
+		\end{enumerate}
+
+	\item[3] Usage requirements:					% usage
+	\begin{enumerate}
+		\item \textsf{x:2-complement}: Removed ``Programs that use flags as arithmetic operands have an environmental dependency.'' from \xref{usage:flags}.
+		\item \textsf{x:2-complement}: Replaced -32767 with -32768 in \xref{usage:int}.
+		\item \textsf{x:2-complement}: Removed reference to alternate arithmetic  architectures from \xref{usage:number}.
+		\item \textsf{x:2-complement}: Replaced implementation defined response to overflow/underflow of signed numbers with specific text in \xref{usage:intops}.
+	\end{enumerate}
+
+	\item[4] Documentation requirements:			% doc
+		\begin{enumerate}
+		\item \textsf{x:2-complement}:
+			Removed ``values returned after arithmetic overflow''
+			from \xref{doc:imp}.
+		\end{enumerate}
+
+	\item[12] Floating-Point Word Set:				% float
+		\begin{enumerate}
+		\item \textsf{ed16}: Replaced \texttt{0E} with \texttt{-0E} in  \wref{floating:FATAN2}{}.
+		\end{enumerate}
+
+	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
+		\begin{enumerate}
+		\item \textsf{x:2-complement}: Removed number representations from \xref{rat:char}.
+		\item \textsf{ed16}: Removed reference to EBCDIC from \xref{rat:char}.
+		\item \textsf{x:2-complement}: Remove discussion of alternative arithmetic architectures from \xref{rat:env:num}.
+		\item \textsf{x:2-complement}: Revised example in \xref{rat:math:int}.
+		\item \textsf{x:2-complement}: Replaced environmental dependency example in  \xref{rat:label:prog}.
+% Core
+		\item \textsf{x:2-complement}: Removed reference
+			to two's-complement from \rref{core:WITHIN}{}.
+% Double
+		\item \textsf{x:2-complement}:
+		Replaced rational for \rref{double:DtoS}{}.
+		\end{enumerate}
+
+	\item[D] Portability guide (Annex \ref{annex:port}):				% port
+		\begin{enumerate}
+		\item \textsf{x:2-complement}: Removed \xref{port:ALU}.
+		\end{enumerate}
+
+	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
+		\begin{enumerate}
+% Core
+		\item \textsf{x:2-complement}: Added \iref{core:WITHIN}{}.
+% Double
+		\item \textsf{x:2-complement}: Added \iref{double:DtoS}{}.
+		\end{enumerate}
+
+	\item[F] Test Suite (Annex \ref{annex:test}):						% test
+% Core
+		\begin{enumerate}
+		\item \textsf{x:2-complement}: Added test case to \tref{core:1+}{}.
+		\item \textsf{x:2-complement}: Added test case to \tref{core:INVERT}{}.
+		\end{enumerate}
+	\end{itemize}
 
 
 \endinput
@@ -1426,20 +1450,20 @@
  
 \version{<version>}{<location> Meeting}{<dates>}
 	\begin{itemize}
-	\item \xref{foreword}:						% foreword 
-	\item \xref{process}:							% process
-	\item \xref{members}:						% members-2x
-	\item[1] Introduction:							% intro
-	\item[2] Terms, notation, and references:		% notation
-	\item[3] Usage requirements:					% usage
+	\item \xref{foreword}:								% foreword 
+	\item \xref{process}:								% process
+	\item \xref{members}:							% members-2x
+	\item[1] Introduction:								% intro
+	\item[2] Terms, notation, and references:			% notation
+	\item[3] Usage requirements:						% usage
 	\item[4] Documentation requirements:			% doc
 	\item[5] Compliance and labeling:				% label
-	\item[6] Core Word Set:						% core
-	\item[7] Block Word Set:						% block
+	\item[6] Core Word Set:							% core
+	\item[7] Block Word Set:							% block
 	\item[8] Double-Number Word Set:				% double
-	\item[9] Exception Word Set:					% exception
-	\item[10] Facility Word Set:					% facility
-	\item[11] File-Access Word Set:				% file
+	\item[9] Exception Word Set:						% exception
+	\item[10] Facility Word Set:						% facility
+	\item[11] File-Access Word Set:					% file
 	\item[12] Floating-Point Word Set:				% float
 	\item[13] Locals Word Set:						% local
 	\item[14] Memory-Allocation Word Set:			% memory
@@ -1447,7 +1471,7 @@
 	\item[16] Search-Order Word Set:				% search
 	\item[17] String Word Set:						% string
 	\item[18] Extended Character Word Set			% xchar
-	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
+	\item[A] Rationale (Annex \ref{annex:rationale}):	% rationale
 % Core
 % Block
 % Double
@@ -1495,10 +1519,3 @@
 	\end{itemize}
 
 \endinput
-
-\version{ToDo}{}{\empty}
-	\begin{itemize}
-	\item Develop new Globalisation word set
-	\item Develop extended Memory Access word set
-	\end{itemize}
-

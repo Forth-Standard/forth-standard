@@ -1,5 +1,5 @@
 % !TeX root = forth.tex
-% !TeX spell check = en_US
+% !TeX spellcheck = en_US
 
 \chapter{The optional Floating-Point word set} % 12
 \wordlist{floating}
@@ -511,7 +511,7 @@ word sets.
 	or equal to \param{addr}.
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{1492}{FCONSTANT}[f-constant]
 \item \stack{"<spaces>name"}{} \stack[F]{r}{} or
 	\stack{r "<spaces>name"}{}
@@ -600,7 +600,7 @@ word sets.
 	\param{f-addr_1}, giving \param{f-addr_2}.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1556}{FLOATS}
 \item \stack{n_1}{n_2}
 
@@ -608,7 +608,7 @@ word sets.
 	numbers.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1558}{FLOOR}
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -620,7 +620,7 @@ word sets.
 	\wref{floating:FTRUNC}{}.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1562}{FMAX}[f-max]
 \item \stack[F]{r_1 r_2}{r_3} or
 	\stack{r_1 r_2}{r_3}
@@ -628,7 +628,7 @@ word sets.
 	\param{r_3} is the greater of \param{r_1} and \param{r_2}.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1565}{FMIN}[f-min]
 \item \stack[F]{r_1 r_2}{r_3} or
 	\stack{r_1 r_2}{r_3}
@@ -636,7 +636,7 @@ word sets.
 	\param{r_3} is the lesser of \param{r_1} and \param{r_2}.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1567}{FNEGATE}[f-negate]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -644,7 +644,8 @@ word sets.
 	\param{r_2} is the negation of \param{r_1}.
 \end{worddef}
 
-
+\vspace*{-1ex}
+\enlargethispage{10ex}
 \begin{worddef}{1600}{FOVER}[f-over]
 \item \stack[F]{r_1 r_2}{r_1 r_2 r_1} or
 	\stack{r_1 r_2}{r_1 r_2 r_1}
@@ -652,7 +653,7 @@ word sets.
 	Place a copy of \param{r_1} on top of the floating-point stack.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1610}{FROT}[f-rote]
 \item \stack[F]{r_1 r_2 r_3}{r_2 r_3 r_1} or
 	\stack{r_1 r_2 r_3}{r_2 r_3 r_1}
@@ -814,7 +815,7 @@ word sets.
 
 % ---------------------------------------------------------
 \newpage
-\begin{worddef}{1207}[40]{DFFIELD:}[d-f-field-colon][X:structures]
+\begin{worddef}{1207}[40]{DFFIELD:}[d-f-field-colon]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -890,7 +891,7 @@ word sets.
 
 % ========== x:stoftos ==========
 
-\begin{worddef}[FtoS]{1471}{F>S}[F to S][X:stoftos]
+\begin{worddef}[FtoS]{1471}{F>S}[F to S]
 \item \stack{}{n} \stack[F]{r}{} or \stack{r}{n}
 
 	\param{n} is the single-cell signed-integer equivalent of the
@@ -987,7 +988,7 @@ word sets.
 	\param{r_3} is the principal radian angle (between -$\pi$ and $\pi$)
 	whose tangent is \param{r_1/r_2}.
 	A system that returns false for ``\texttt{-0E 0E 0E \word{Ftilde}}''
-	shall return a value (approximating) $-\pi$ when \param{r_1} $=$ 0E
+	shall return a value (approximating) $-\pi$ when \param{r_1} $=$ \replace{ed16}{0E}{ -0E}
 	and \param{r_2} is negative.
 	An ambiguous condition exists if \param{r_1} and \param{r_2} are
 	zero.
@@ -1253,7 +1254,6 @@ word sets.
 			subtract one (1) and convert to percentage = 0.038\%.
 		\end{enumerate}
 		Thus we only have two-digit accuracy.
-	\pagebreak
 		\begin{enumerate}
 		\item[2.] Using \word{FLNP1} and \word{FEXPM1}:
 
@@ -1281,7 +1281,7 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef}{1517}{FFIELD:}[f-field-colon][X:structures]
+\begin{worddef}{1517}{FFIELD:}[f-field-colon]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -1431,7 +1431,7 @@ word sets.
 % ---------------------------------------------------------
 
 \vspace*{-0.5ex}
-\begin{worddef}{1627}{FTRUNC}[f-trunc][X:ftrunc]
+\begin{worddef}{1627}{FTRUNC}[f-trunc]
 \item \stack[F]{r_1}{r_2} or \stack{r_1}{r_2}
 
 	Round \param{r_1} to an integral value using the ``round
@@ -1469,7 +1469,7 @@ word sets.
 
 % ---------------------------------------------------------
 \enlargethispage{6ex}
-\begin{worddef}{1628}{FVALUE}[f-value][X:fvalue]
+\begin{worddef}{1628}{FVALUE}[f-value]
 \item \stack[F]{r}{} \stack{"<spaces>name"}{} or
 	\stack{r "<spaces>name"}{}
 
@@ -1568,7 +1568,7 @@ word sets.
 
 % ========== x:stoftos ==========
 
-\begin{worddef}[StoF]{2175}{S>F}[S to F][X:stoftos]
+\begin{worddef}[StoF]{2175}{S>F}[S to F]
 \item \stack{n}{} \stack[F]{}{r} or \stack{n}{r}
 
 	\param{r} is the floating-point equivalent of the single-cell
@@ -1651,7 +1651,7 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef}{2206}[40]{SFFIELD:}[s-f-field-colon][X:structures]
+\begin{worddef}{2206}[40]{SFFIELD:}[s-f-field-colon]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by

@@ -68,6 +68,7 @@ Utility	&
 
 
 \section{Terms and notation} % A.2
+\label{rat:notation:terms}
 
 \subsection{Definitions of terms} % A.2.1
 
@@ -187,6 +188,7 @@ data typing in Forth.
 
 \setcounter{subsubsection}{1}
 \subsubsection{Character types} % A.3.1.2
+\label{rat:char}
 
 The correct identification and proper manipulation of the character
 data type is beyond the purview of Forth's enforcement of data type
@@ -210,10 +212,10 @@ mathematical operations come into play.
 		environmental dependencies cannot assume the ability to
 		store numbers outside that range in a ``char'' location.
 
-	\item The allowed number representations are two's-complement,
-		one's-complement, and signed-magnitude. Note that all of
+	\item \remove{x:2-complement}{The allowed number representations are two's-complement,
+		one's-complement, and signed- magnitude. Note that all of
 		these number systems agree on the representation of positive
-		numbers.
+		numbers.}
 
 	\item Since a ``\emph{char}'' can store small positive numbers
 		and since the character data type is a sub-range of the
@@ -229,8 +231,8 @@ mathematical operations come into play.
 		and output (\word{EMIT}, \word{TYPE}, etc.), the encoding
 		between numbers and human-readable symbols is ISO646/IRV
 		(ASCII) within the range from 32 to 126 (space to \tilde).
-		EBCDIC is out (most ``EBCDIC'' computer systems support ASCII
-		too). Outside that range, it is up to the implementation. The
+\remove{ed16}{EBCDIC is out (most ``EBCDIC'' computer systems support ASCII too).}
+		Outside that range, it is up to the implementation. The
 		obvious implementation choice is to use ASCII control
 		characters for the range from 0 to 31, at least for the
 		``displayable'' characters in that range (TAB, RETURN, LINEFEED,
@@ -309,14 +311,17 @@ mathematical operations come into play.
 \item \textbf{Additional operations}
 
 	The following mathematical operators are valid for character data:
+
 	\begin{quote}\ttfamily
 		\word{+}	\word{-}	\word{*}	\word{/}
 		\word{/MOD}	\word{MOD}
 	\end{quote}
+
 	The following comparison and bitwise operators may be valid for
 	characters, keeping in mind that display information cached in
 	the most significant bits of characters in an implementation-defined
 	fashion may have to be masked or otherwise dealt with:
+
 	\begin{quote}\ttfamily
 		\word{AND}		\word{OR}		\word{more}	\word{less}
 		\word{Umore}	\word{Uless}	\word{=}	\word{ne}
@@ -346,6 +351,7 @@ represented by one or more single-cell stack entries.
 
 	Here is a selection of the most important words which move
 	single-cell data to, from and upon the data stack:
+
 	\begin{quote}\ttfamily
 		\word{!}	\word{@}	\word{toR}	\word{qDUP}
 		\word{DROP}	\word{DUP}	\word{OVER}	\word{PICK}
@@ -357,6 +363,7 @@ represented by one or more single-cell stack entries.
 
 	The following comparison operators are universally valid for one
 	or more single cells:
+
 	\begin{quote}\ttfamily
 		\word{=}	\word{ne}	\word{0=}	\word{0ne}
 	\end{quote}
@@ -378,6 +385,7 @@ logical operations on the flag will be predictable.
 In addition to the words which move, fetch and store single-cell
 items, the following words are valid for operations on one or more
 flag data residing on the data stack:
+
 \begin{quote}\ttfamily
 	\word{AND}	\word{OR}	\word{XOR}	\word{INVERT}
 \end{quote}
@@ -391,13 +399,13 @@ single-cell data. In addition to the universally-applicable operators
 for single-cell data specified above, the following mathematical and
 comparison operators are valid for single-cell signed integers:
 
-\hspace{\leftmargin}{\ttfamily%
+\begin{quote}\ttfamily
 	\word{*}	\word{*/}	\word{*/MOD}	\word{/MOD}
 	\word{MOD}	\word{+}	\word{+!}		\word{-}
 	\word{/}	\word{1+}	\word{1-}		\word{ABS}
 	\word{MAX}	\word{MIN}	\word{NEGATE}	\word{0less}
 	\word{0more}	\word{less}	\word{more}
-}
+\end{quote}
 
 Given the same number of bits, unsigned integers usually represent
 twice the number of absolute values representable by signed integers.
@@ -406,6 +414,7 @@ A single-cell datum may be treated by a Standard Program as an
 unsigned integer. Moving and storing such data is performed as for
 any single-cell data. In addition, the following mathematical and
 comparison operators are valid for single-cell unsigned integers:
+
 \begin{quote}\ttfamily
 	\word{UM*}	\word{UM/MOD}	\word{+}	\word{+!}
 	\word{-}	\word{1+}		\word{1-}	\word{*}
@@ -424,16 +433,20 @@ an equivalence between address arithmetic and the corresponding
 operations on unsigned numbers.
 
 Several operators are provided specifically for address arithmetic:
+
 \begin{quote}\ttfamily
 	\word{CHAR+}	\word{CHARS}
 	\word{CELL+}	\word{CELLS}
 \end{quote}
+
 and, if the floating-point word set is present:
+
 \begin{quote}\ttfamily
 	\word[floating]{FLOAT+}		\word[floating]{FLOATS}
 	\word[floating]{SFLOAT+}	\word[floating]{SFLOATS}
 	\word[floating]{DFLOAT+}	\word[floating]{DFLOATS}
 \end{quote}
+
 A Standard Program may never assume a particular correspondence
 between a Forth address and the physical address to which it is
 mapped.
@@ -461,10 +474,12 @@ representation.
 The association between an execution token and a definition is static.
 Once made, it does not change with changes in the search order or
 anything else. However it may not be unique, e.g., the phrases
+
 \begin{quote}\ttfamily
 	\word{'} \word{1+} and \\
 	\word{'} \word{CHAR+}
 \end{quote}
+
 might return the same value.
 
 \paragraph{Error results} ~ % A.3.1.3.6
@@ -480,6 +495,7 @@ operations.
 \item \textbf{Storage and retrieval}
 
 	Two operators are provided to fetch and store cell pairs:
+
 	\begin{quote}\ttfamily
 		\word{2@}	\word{2!}
 	\end{quote}
@@ -488,6 +504,7 @@ operations.
 
 	Additionally, these operators may be used to move cell pairs
 	from, to and upon the stack:
+
 	\begin{quote}\ttfamily
 		\word{2toR}	\word{2DROP}	\word{2DUP}	\word{2OVER}
 		\word{2Rfrom}	\word{2SWAP}	\word[double]{2ROT}
@@ -497,6 +514,7 @@ operations.
 
 	The following comparison operations are universally valid for
 	cell pairs:
+
 	\begin{quote}\ttfamily
 		\word[double]{D=}	\word[double]{D0=}
 	\end{quote}
@@ -507,14 +525,17 @@ operations.
 
 If a double-cell integer is to be treated as signed, the following
 comparison and mathematical operations are valid:
+
 \begin{quote}\ttfamily
 	\word[double]{D+}		\word[double]{D-}		\word[double]{Dless}
 	\word[double]{D0less}	\word[double]{DABS}		\word[double]{DMAX}
 	\word[double]{DMIN}		\word[double]{DNEGATE}
 	\word[double]{M*/}		\word[double]{M+}
 \end{quote}
+
 If a double-cell integer is to be treated as unsigned, the following
 comparison and mathematical operations are valid:
+
 \begin{quote}\ttfamily
 	\word[double]{D+}	\word[double]{D-}
 	\word{UM/MOD}		\word[double]{DUless}
@@ -529,6 +550,7 @@ See: \xref[A.3.1.3.4 Counted Strings]{rat:cstring}.
 \subsection{The Implementation environment} % A.3.2
 
 \subsubsection{Numbers} % A.3.2.1
+\label{rat:env:num}
 
 Traditionally, Forth has been implemented on two's-complement machines
 where there is a one-to-one mapping of signed numbers to unsigned
@@ -540,52 +562,64 @@ type. Arithmetic ordering on two's complement machines allows \word{+}
 and \word{-} to work on both signed and unsigned numbers. This
 arithmetic behavior is deeply embedded in common Forth practice.
 
+\cbstart\patch{x:2-complement}\uline{%
+As a consequence of these behaviors, the likely range of
+signed numbers is $-n-1$ to $n$ and for
+unsigned numbers is $0$ to $2n+1$.
+Where $n$ is the largest positive signed number.
+Signed numbers in the $0$ to $n$ range are bitwise identical to the
+corresponding unsigned number.}
+
+
+\sout{%
 As a consequence of these behaviors, the likely ranges of signed and
 unsigned numbers for implementations hosted on each of the permissible
-arithmetic architectures is:
+arithmetic architectures is:}
 
 \begin{center}
-  \begin{tabular}{cr@{ to }llr@{ to }l}
+  \begin{tabular}{cr@{\sout{ to }}llr@{\sout{ to }}l}
 	\hline\hline
-	\textbf{Arithmetic architecture}
-	&\multicolumn{2}{c}{\textbf{signed numbers}}
-	&\multicolumn{3}{c}{\textbf{unsigned numbers}} \\
+	\textbf{\sout{Arithmetic architecture}}
+	&\multicolumn{2}{c}{\textbf{\sout{signed numbers}}}
+	&\multicolumn{3}{c}{\textbf{\sout{unsigned numbers}}} \\
 	\hline
-	Two's complement	& $-n-1$ & $n$		&& $0$ & $2n+1$	\\
-	One's complement	& $-n$ & $n$		&& $0$ & $n$		\\
-	Signed magnitude	& $-n$ & $n$		&& $0$ & $n$		\\
+	\sout{Two's complement}	& \sout{$-n-1$} & \sout{$n$}	&& \sout{$0$} & \sout{$2n+1$}	\\
+	\sout{One's complement}	& \sout{$-n$} 	& \sout{$n$}	&& \sout{$0$} & \sout{$n$}		\\
+	\sout{Signed magnitude}	& \sout{$-n$} 	& \sout{$n$}	&& \sout{$0$} & \sout{$n$}		\\
 	\hline\hline
   \end{tabular}
 \end{center}
 
-where $n$ is the largest positive signed number. For all three
+\sout{where $n$ is the largest positive signed number. For all three
 architectures, signed numbers in the $0$ to $n$ range are bitwise
 identical to the corresponding unsigned number. Note that unsigned
 numbers on a signed magnitude machine are equivalent to signed
 non-negative numbers as a consequence of the forced correspondence
 between addresses and unsigned numbers and of the required behavior
-of \word{+} and \word{-}.
+of \word{+} and \word{-}.}
 
+\sout{%
 For reference, these number representations may be defined by the
-way that \word{NEGATE} is implemented:
+way that \word{NEGATE} is implemented:}
 
 \begin{quote}
   \begin{tabular}{ll}
-	two's complement: & \word{:} \word{NEGATE} \word{INVERT} \word{1+} \word{;} \\
-	one's complement: & \word{:} \word{NEGATE} \word{INVERT} \word{;} \\
-	signed-magnitude: & \word{:} \word{NEGATE} \texttt{HIGH-BIT} \word{XOR} \word{;}
+	\sout{two's complement:} & \sout{\word{:} \word{NEGATE} \word{INVERT} \word{1+} \word{;}} \\
+	\sout{one's complement:} & \sout{\word{:} \word{NEGATE} \word{INVERT} \word{;}} \\
+	\sout{signed-magnitude:} & \sout{\word{:} \word{NEGATE} \texttt{HIGH-BIT} \word{XOR} \word{;}}
   \end{tabular}
 \end{quote}
 
-where \texttt{HIGH-BIT} is a bit mask with only the most-significant
+\sout{where \texttt{HIGH-BIT} is a bit mask with only the most-significant
 bit set. Note that all of these number systems agree on the
-representation of non-negative numbers.
+representation of non-negative numbers.}
 
-Per \xref[3.2.1.1 Internal number representation]{usage:number} and
-\wref{core:0=}{0=}, the implementor must ensure that no standard or
+\sout{Per} \xref[3.2.1.1 Internal number representation]{usage:number} \sout{and}
+\wref{core:0=}{0=}\sout{, the implementor must ensure that no standard or
 supported word return negative zero for any numeric (non-Boolean or
 flag) result. Many existing programmer assumptions will be violated
-otherwise.
+otherwise.}
+\cbend
 
 There is no requirement to implement circular unsigned arithmetic,
 nor to set the range of unsigned numbers to the full size of a cell.
@@ -630,10 +664,15 @@ and Forth-83 programs to Forth 94 without any analysis of the
 original programs.
 
 \paragraph{Other integer operations} ~ % A.3.2.2.2
+\label{rat:math:int}
 
-Whether underflow occurs depends on the data-type of the result. For
+Whether underflow occurs depends on the data-type of the result.
+\replace{x:2-complement}{For
 example, the phrase \texttt{1 2} \word{-} underflows if the result is
-unsigned and produces the valid signed result -1.
+unsigned and produces the valid signed result -1.}{For
+example, the phrase \texttt{1 2} \word{-} underflows and produces
+the largest unsigned number if the result is unsigned and produces
+the valid signed result \texttt{-1}.}
 
 
 \subsubsection{Stacks} % A.3.2.3
@@ -966,7 +1005,6 @@ The 16-bit cell system could implement \word{@} using the processor's
 portable program must assume that alignment may be required and
 follow the requirements of this section.
 
-\newpage
 \paragraph{Contiguous regions} ~ % A.3.3.3.2
 \label{rat:regions}
 
@@ -979,12 +1017,15 @@ placement of multiple regions in memory.
 
 Section \ref{usage:contiguous} does prescribe conditions under which
 contiguous regions of data space may be obtained. For example:
+
 \begin{quote}\ttfamily
 	\word{CREATE} TABLE \quad
 	1 \word{C,} 2 \word{C,} \word{ALIGN} 1000 \word{,} 2000 \word{,}
 \end{quote}
+
 makes a table whose address is returned by \texttt{TABLE}. In
 accessing this table,
+
 \begin{quote}
   \begin{tabular}{ll}
 	\texttt{TABLE} \word{C@}					& will return 1 \\
@@ -995,18 +1036,23 @@ accessing this table,
 		\word{ALIGNED} \word{CELL+} \word{@}	&  will return 2000. \\
   \end{tabular}
 \end{quote}
+
 Similarly,
+
 \begin{quote}\ttfamily
 	\word{CREATE} DATA \quad 1000 \word{ALLOT}
 \end{quote}
+
 makes an array 1000 address units in size. A more portable strategy
 would define the array in application units, such as:
+
 \begin{quote}\ttfamily
 	500 \word{CONSTANT} NCELLS \\
 	\word{CREATE} CELL-DATA NCELLS \word{CELLS} \word{ALLOT}
 \end{quote}
 
 This array can be indexed like this:
+
 \begin{quote}\ttfamily
 	\word{:} LOOK \quad
 		NCELLS 0 \word{DO}
@@ -1109,15 +1155,21 @@ for a cross compiler to be labeled a Forth-\snapshot{} standard system.
 
 \setcounter{subsubsection}{1}
 \subsubsection{Program labeling} % A.5.2.2
+\label{rat:label:prog}
 
 Declaring an environmental dependency should not be considered
 undesirable, merely an acknowledgment that the author has taken
-advantage of some assumed architecture. For example, most computers
+advantage of some assumed architecture.
+\remove{x:2-complement}{For example, most computers
 in common use are based on two's complement binary arithmetic. By
 acknowledging an environmental dependency on this architecture,
 a programmer becomes entitled to use the number \texttt{-1} to
 represent all bits set without significantly restricting the
-portability of the program.
+portability of the program.}
+\place{x:2-complement}{For example, by acknowledging an
+environmental dependency on big-endian memory access,
+a programmer becomes entitle to use the lower memory address
+of a cell as its the most significant byte.}
 
 Because all programs require space for data and instructions, and
 time to execute those instructions, they depend on the presence of
@@ -1331,7 +1383,6 @@ not possible for a Standard Program to define words such as
 \word[block]{LOAD} in a completely portable way.
 
 \setcounter{subsection}{5}
-\pagebreak
 \subsection{Glossary} % A.9.6 =============================
 
 \readrationale{exception}
@@ -1386,7 +1437,6 @@ The list of words using memory in transient regions is extended to include
 See \xref[3.3.3.6 Other transient regions]{usage:transient}.
 
 \setcounter{subsection}{5}
-\pagebreak
 \subsection{Glossary} % A.11.6 ============================
 
 \readrationale{file}
@@ -1578,7 +1628,6 @@ in a word list, or anything else. It is entirely up to the system implementor.
 	imply implementation as a linked list
 \end{description}
 
-\pagebreak
 \subsection{Additional usage requirements} % A 16.3 ============
 
 \setcounter{subsubsection}{2}

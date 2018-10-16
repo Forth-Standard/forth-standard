@@ -84,11 +84,11 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \item reaching the end of the input source before matching
 	\wref{tools:[ELSE]}{[ELSE]} or \wref{tools:[THEN]}{[THEN]}
 	(\wref{tools:[IF]}{[IF]});
-\item removing a needed definition (\wref{tools:FORGET}{}).
+\item removing a needed definition (\wref{tools:FORGET}{});
 \item \wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{};
 \item \wref{tools:NRfrom}{} is used with data not stored by \wref{tools:NtoR}{};
 \item adding to or deleting from the wordlist during the execution of
-	\wref{tools:TRAVERSE-WORDLIST}.
+	\wref{tools:TRAVERSE-WORDLIST}{}.
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -199,7 +199,7 @@ Extensions word sets.
 \see \xref[3.3.3.6 Other transient regions]{usage:transient}.
 \end{worddef}
 
-
+\vspace*{-5ex}
 \begin{worddef}{2194}{SEE}
 \item \stack{"<spaces>name"}{}
 
@@ -222,7 +222,7 @@ Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2465}{WORDS}
 \item \stack{}{}
 
@@ -242,10 +242,11 @@ Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \subsection{Programming-Tools extension words} % 15.6.2
 \extended
 
+\enlargethispage{10ex}
 \begin{worddef}{0470}{;CODE}[semicolon-code]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -324,7 +325,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0740}{ASSEMBLER}
 \item \stack{}{}
 
@@ -334,15 +335,13 @@ Extensions word sets.
 \see \xref[16. The optional Search-Order word set]{wordlist:search}.
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0830}{BYE}
 \item \stack{}{}
 
 	Return control to the host operating system, if any.
 \end{worddef}
 
-\vspace*{-2ex}
-\enlargethispage{6ex}
 \begin{worddef}{0930}{CODE}
 \item \stack{"<spaces>name"}{}
 
@@ -377,7 +376,8 @@ Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\pagebreak
+\vspace*{-5ex}
 \begin{worddef}{1015}{CS-PICK}[c-s-pick]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -450,7 +450,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{1020}{CS-ROLL}[c-s-roll]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -544,7 +544,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{1300}{EDITOR}
 \item \stack{}{}
 
@@ -554,7 +554,8 @@ Extensions word sets.
 \see \xref[16. The Optional Search-Order Word Set]{wordlist:search}.
 \end{worddef}
 
-
+\vspace*{-3ex}
+\enlargethispage{10ex}
 \begin{worddef}{1580}{FORGET}
 \item \stack{"<spaces>name"}{}
 
@@ -591,8 +592,8 @@ Extensions word sets.
 \end{worddef}
 
 % -------------------------------------------------------------------
-\vspace*{-2ex}
-\begin{worddef}[NtoR]{1908}{N>R}[n-to-r][X:n-to-r]
+
+\begin{worddef}[NtoR]{1908}{N>R}[n-to-r]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -654,8 +655,8 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
-\begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile][X:traverse-wordlist]
+
+\begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile]
 \item \stack{nt}{x xt}
 
 	\param{x xt} represents the compilation semantics of the word
@@ -687,9 +688,8 @@ Extensions word sets.
   	\end{rationale} 
 \end{worddef}
 
-\vspace*{-2ex}
-\enlargethispage{4ex}
-\begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret][X:traverse-wordlist]
+
+\begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret]
 \item \stack{nt}{xt|0}
 
 	\param{xt} represents the interpretation semantics of the word
@@ -703,8 +703,8 @@ Extensions word sets.
 \see \xref{tools:TRAVERSE-WORDLIST}{}.
 \end{worddef}
 
-\vspace*{-2ex}
-\begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string][X:traverse-wordlist]
+
+\begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string]
 \item \stack{nt}{c-addr u}
 
 	\word{NAMEtoSTRING} returns the name of the word \param{nt}
@@ -718,7 +718,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[NRfrom]{1940}{NR>}[n-r-from][X:n-to-r]
+\begin{worddef}[NRfrom]{1940}{NR>}[n-r-from]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -776,8 +776,7 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\enlargethispage{6ex}
-\begin{worddef}{2264}{SYNONYM}[][X:synonym]
+\begin{worddef}{2264}{SYNONYM}
 \item \stack{"<spaces>newname" "<spaces>oldname"}{}
 
 	For both strings skip leading space delimiters.  Parse \param{newname}
@@ -822,7 +821,8 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{2297}{TRAVERSE-WORDLIST}[][X:traverse-wordlist]
+\pagebreak
+\begin{worddef}{2297}{TRAVERSE-WORDLIST}
 \item \stack{i*x xt wid}{j*x}
 
 	Remove \param{wid} and \param{xt} from the stack.  Execute
@@ -856,7 +856,7 @@ Extensions word sets.
 		Typical use:
 
 		\begin{quote}\ttfamily
- 			\word{:} WORDS-COUNT \word{p} x nt -- x' f )
+ 			\word{:} WORDS-COUNT \word{p} x nt -{}- x' f )
 				\word{DROP} \word{1+} \word{TRUE}
 			\word{;}
 		\\
@@ -896,7 +896,7 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{2530}[30]{[DEFINED]}[bracket-defined][X:defined]
+\begin{worddef}{2530}[30]{[DEFINED]}[bracket-defined]
 \compile
 	Perform the execution semantics given below.
 
@@ -967,7 +967,7 @@ Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{2532}{[IF]}[bracket-if]
 \compile
 	Perform the execution semantics given below.
@@ -1101,7 +1101,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2534}{[UNDEFINED]}[bracket-undefined][X:defined]
+\begin{worddef}{2534}{[UNDEFINED]}[bracket-undefined]
 \compile
 	Perform the execution semantics given below.
 

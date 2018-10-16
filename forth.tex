@@ -85,8 +85,8 @@
 \makeatother
 
 \ifrelease
-	\lhead[\leftmark]{Forth \snapshot{} \release}
-	\rhead[Forth \snapshot{} \release]{\leftmark}
+	\lhead[\leftmark]{Forth \snapshot{} RC\release}
+	\rhead[Forth \snapshot{} RC\release]{\leftmark}
 \else
 	\lhead[\leftmark]{Forth 200\emph{x} / \docversion}
 	\rhead[Forth 200\emph{x} / \docversion]{\leftmark}
@@ -1398,8 +1398,10 @@
 	\rule{-#1pt}{0pt}%
 }
 
-% Ignore html specific content
-
+% The LaTeX to HTML converter occasionally needs a helping hand.
+% The \html{} command allows me to embed HTML that is copied
+% directly into the HTML output untouched.  But is ignored by
+% LaTeX.
 \newcommand{\html}[1]{}
 
 % ========================================

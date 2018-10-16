@@ -188,9 +188,9 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 	(\xref[11.3.2 Blocks in files]{file:blocks});
 \item using \wref{file:SOURCE-ID}{SOURCE-ID} when
 	\wref{block:BLK}{BLK} is not zero;
-
+%
 % ==== X:Required ====
-
+%
 \item a file is required while it is being \word{REQUIRED}
 	(\ref{file:REQUIRED}) or \word{INCLUDED} (\ref{file:INCLUDED});
 \item a marker is defined outside and executed inside a file or
@@ -506,7 +506,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-5ex}
 \begin{worddef}{1970}{OPEN-FILE}
 \item \stack{c-addr u fam}{fileid ior}
 
@@ -534,7 +534,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2054}{R/O}[r-o]
 \item \stack{}{fam}
 
@@ -545,7 +545,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:OPEN-FILE}{OPEN-FILE}.
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2056}{R/W}[r-w]
 \item \stack{}{fam}
 
@@ -556,7 +556,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:OPEN-FILE}{OPEN-FILE}.
 \end{worddef}
 
-
+\vspace*{-3ex}
+\enlargethispage{10ex}
 \begin{worddef}{2080}{READ-FILE}
 \item \stack{c-addr u_1 fileid}{u_2 ior}
 
@@ -741,7 +742,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\enlargethispage{10ex}
 \begin{worddef}{2147}{RESIZE-FILE}
 \item \stack{ud fileid}{ior}
 
@@ -780,7 +781,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-5ex}
 \begin{worddef}[Sq]{2165}{S"}[s-quote]
 \item Extend the semantics of \wref{core:Sq}{S"} to be:
 
@@ -840,7 +841,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2218}{SOURCE-ID}[source-i-d]
 \item \stack{}{0 | -1 | fileid}
 
@@ -866,7 +867,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2425}{W/O}[w-o]
 \item \stack{}{fam}
 
@@ -877,7 +878,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:OPEN-FILE}{OPEN-FILE}.
 \end{worddef}
 
-
+\vspace*{-3ex}
+\enlargethispage{10ex}
 \begin{worddef}{2480}{WRITE-FILE}
 \item \stack{c-addr u fileid}{ior}
 
@@ -947,7 +949,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{1714}{INCLUDE}[][X:required]
+\begin{worddef}{1714}{INCLUDE}
 \item \stack{i*x "name"}{j*x}
 
 	Skip leading white space and parse \param{name} delimited by a
@@ -975,7 +977,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{2125}{REFILL}
 \item \stack{}{flag}
 
@@ -1020,7 +1022,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2144}[10]{REQUIRE}[][X:required]
+\begin{worddef}{2144}[10]{REQUIRE}
 \item \stack{i*x "name"}{i*x}
 
 	Skip leading white space and parse \param{name} delimited by a
@@ -1048,8 +1050,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
-\begin{worddef}{2144}[50]{REQUIRED}[][X:required]
+\enlargethispage{6ex}
+\begin{worddef}{2144}[50]{REQUIRED}
 \item \stack{i*x c-addr u}{i*x}
 
 	If the file specified by \param{c-addr u} has been \word{INCLUDED}
@@ -1098,14 +1100,14 @@ provide all of the File Access and File Access Extensions word sets.
 		\word{bs} \textdf{copy a memory block into a newly allocated region in the heap} \\
 		\tab \word{SWAP} \word{toR} \\
 		\tab \word{DUP} \word[memory]{ALLOCATE} \word[exception]{THROW} \\
-		\tab \word{SWAP} \word{2DUP} \word{Rfrom} \word{ROT} \word{ROT} \word{MOVE} \word{;} \\
+		\tab \word{SWAP} \word{2DUP} \word{Rfrom} \word{ROT} \word{ROT} \word{MOVE} \word{;}
 
 		\word{:} name-add \word{p} addr u listp -{}- ) \\
 		\tab \word{toR} save-mem \word{p} addr1 u ) \\
 		\tab 3 \word{CELLS} \word[memory]{ALLOCATE} \word[exception]{THROW} \word{bs} allocate list node \\
 		\tab \word{R@} \word{@} \word{OVER} \word{!} \word{bs} \textdf{set next pointer} \\
 		\tab \word{DUP} \word{Rfrom} \word{!} \word{bs} \textdf{store current node in list var} \\
-		\tab \word{CELL+} \word{2!} \word{;} \\
+		\tab \word{CELL+} \word{2!} \word{;}
 
 		\word{:} name-present? \word{p} addr u list -{}- f ) \\
 		\tab \word{ROT} \word{ROT} \word{2toR} \word{BEGIN} \word{p} list R: addr u ) \\
@@ -1116,20 +1118,20 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab[2]	\word{THEN} \\
 		\tab[2] \word{@} \\
 		\tab \word{REPEAT} \\
-		\tab \word{p} \word{DROP} 0 ) \word{2Rfrom} \word{2DROP} \word{;} \\
+		\tab \word{p} \word{DROP} 0 ) \word{2Rfrom} \word{2DROP} \word{;}
 
 		\word{:} name-join \word{p} addr u list -{}- ) \\
 		\tab \word{toR} \word{2DUP} \word{R@} \word{@} name-present? \word{IF} \\
 		\tab[2] \word{Rfrom} \word{DROP} \word{2DROP} \\
 	    \tab \word{ELSE} \\
 		\tab[2] \word{Rfrom} name-add \\
-		\tab \word{THEN} \word{;} \\
+		\tab \word{THEN} \word{;}
 
-		\word{VARIABLE} included-names 0 included-names \word{!} \\
+		\word{VARIABLE} included-names 0 included-names \word{!}
 
 		\word{:} included \word{p} i*x addr u -{}- j*x ) \\
 		\tab \word{2DUP} included-names name-join \\
-		\tab \word{INCLUDED} \word{;} \\
+		\tab \word{INCLUDED} \word{;}
 
 		\word{:} \word{REQUIRED} \word{p} i*x addr u -{}- i*x ) \\
 		\tab \word{2DUP} included-names \word{@} name-present? \word{0=} \word{IF} \\
@@ -1164,7 +1166,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\begin{worddef}[Seq]{2266}{S\bs{"}}[s-backslash-quote][X:interpret-escape-s]
+\begin{worddef}[Seq]{2266}{S\bs{"}}[s-backslash-quote]
 \item
 	Extend the semantics of \wref{core:Seq}{} to be:
 
@@ -1185,6 +1187,6 @@ provide all of the File Access and File Access Extensions word sets.
 	Return a string \param{c-addr u} describing the translation of \param{ccc}.
 	A program shall not alter the returned string.
 
-\see \wref{core:Seq}, \xref[11.3.4 Transient String Buffers]{file:buffers},
+\see \wref{core:Seq}{}, \xref[11.3.4 Transient String Buffers]{file:buffers},
 	\wref{file:Sq}{}, \xref[A.11.3.4 Transient String Buffers]{rat:file:buffers}.
 \end{worddef}

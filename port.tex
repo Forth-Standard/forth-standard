@@ -200,8 +200,18 @@ with \word{2!}, the cell that was on top of the stack is placed at the
 lower memory address. It is useful and reasonable to manipulate the
 individual cells when they are in memory.
 
-\subsection{ALU organization} % E.3.2
+\ifrelease\else
+\begin{editor}
+This would be a good place to add a discussion
+of characters and the extended character word set.
+\end{editor}
+\fi
 
+\cbstart\patch{x:2-complement}
+\subsection[ALU organization]{\sout{ALU organization}} % E.3.2
+\label{port:ALU}
+
+\sout{%
 Different computers use different bit patterns to represent integers.
 Possibilities include binary representations (two's complement, one's
 complement, sign magnitude, etc.) and decimal representations (BCD,
@@ -209,7 +219,9 @@ etc.). Each of these formats creates advantages and disadvantages in
 the design of a computer's arithmetic logic unit (ALU). The most
 commonly used representation, two's complement, is popular because of
 the simplicity of its addition and subtraction operations.
+}
 
+\sout{%
 Programmers who have grown up on two's complement machines tend to
 become intimate with their representation of numbers and take some
 properties of that representation for granted. For example, a trick
@@ -218,11 +230,15 @@ off some bits with \word{AND}. A common application of this trick is
 to test a number for oddness using 1 \word{AND}. However, this will
 not work on a one's complement machine if the number is negative (a
 portable technique is 2 \word{MOD}).
+}
 
+\sout{%
 The remainder of this section is a (non-exhaustive) list of things to
 watch for when portability between machines with binary representations
 other than two's complement is desired.
+}
 
+\sout{%
 To convert a single-cell number to a double-cell number, Forth 94
 provided the operator \word{StoD}. To convert a double-cell number to
 single-cell, Forth programmers have traditionally used \word{DROP}.
@@ -230,14 +246,9 @@ However, this trick doesn't work on sign-magnitude machines. For
 portability a \word[double]{DtoS} operator is available. Converting an
 unsigned single-cell number to a double-cell number can be done portably
 by pushing a zero on the stack.
+}
+\cbend
 
-
-\ifrelease\else
-\begin{editor}
-This would be a good place to add a discussion
-of characters and the extended character word set.
-\end{editor}
-\fi
 
 \section{Forth system implementation} % E.4
 

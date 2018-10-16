@@ -2,6 +2,7 @@
 % !TeX spellcheck = en_US
 
 \chapter{Glossary} % 6
+\label{chap:core}
 
 \section{Core words} % 6.1
 \wordlist{core}
@@ -687,7 +688,10 @@
 		\test{       0 \word{1+}}{         1} \\
 		\test{      -1 \word{1+}}{         0} \\
 		\test{       1 \word{1+}}{         2} \\
-		\test{MID-UINT \word{1+}}{MID-UINT+1}
+		\test{MID-UINT \word{1+}}{MID-UINT+1} \\
+\place{x:2-complement}{%
+		\test{ MAX-INT  \word{1+}}{   MIN-INT}
+}
 	\end{testing}
 \end{worddef}
 
@@ -2578,7 +2582,10 @@
 
 	\begin{testing} % T.6.1.1720 INVERT
 		\test{0S \word{INVERT}}{1S} \\
-		\test{1S \word{INVERT}}{0S}
+		\test{1S \word{INVERT}}{0S} \\
+\place{x:2-complement}{%
+		\test{ 0 \word{INVERT}}{-1}
+}
 	\end{testing}
 \end{worddef}
 
@@ -4162,7 +4169,7 @@
 %	\Opensolutionfile{implementation}[i-core-ext]
 \fi
 
-%\begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b][x:legacy]
+%\begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b]
 %\item \stack{}{a-addr}
 %
 %	\param{a-addr} is the address of a cell containing the number
@@ -4477,7 +4484,7 @@
 \end{worddef}
 
 
-\begin{worddef}{0698}{ACTION-OF}[][X:deferred]
+\begin{worddef}{0698}{ACTION-OF}
 \interpret
 	\stack{"<spaces>name"}{xt}
 
@@ -4569,7 +4576,7 @@
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{0825}{BUFFER:}[buffer-colon][x:buffer]
+\begin{worddef}{0825}{BUFFER:}[buffer-colon]
 \item \stack{u "<spaces>name"}{}
 
 	Skip leading space delimiters. Parse \param{name} delimited by a space.
@@ -4622,7 +4629,7 @@
 		system.
 
 		\ttfamily
-		\word{:} \word{BUFFER:} \word{bs} u "<name>" -- ; -- addr \\
+		\word{:} \word{BUFFER:} \word{bs} u "<name>" -{}- ; -{}- addr \\
 		\word{bs} \textdf{Create a buffer of u address units whose address is returned at run time.} \\
 		\tab \word{CREATE} \word{ALLOT} \\
 		\word{;}
@@ -4838,7 +4845,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{0970}{CONVERT}[][x:legacy]
+%\begin{worddef}{0970}{CONVERT}
 %\item \stack{ud_1 c-addr_1}{ud_2 c-addr_2}
 %
 %	\param{ud_2} is the result of converting the characters within
@@ -4867,7 +4874,7 @@
 %\end{worddef}
 
 
-\begin{worddef}{1173}{DEFER}[][X:deferred]
+\begin{worddef}{1173}{DEFER}
 \item \stack{"<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
@@ -4904,7 +4911,7 @@
 \end{worddef}
 
 
-\begin{worddef}{1175}{DEFER!}[defer-store][X:deferred]
+\begin{worddef}{1175}{DEFER!}[defer-store]
 \item \stack{xt_2 xt_1}{}
 
 	Set the word \param{xt_1} to execute \param{xt_2}.  An ambiguous
@@ -4933,7 +4940,7 @@
 \end{worddef}
 
 
-\begin{worddef}{1177}{DEFER@}[defer-fetch][X:deferred]
+\begin{worddef}{1177}{DEFER@}[defer-fetch]
 \item \stack{xt_1}{xt_2}
 
 	\param{xt_2} is the execution token \param{xt_1} is set to execute.
@@ -5060,7 +5067,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{1390}{EXPECT}[][x:legacy]
+%\begin{worddef}{1390}{EXPECT}
 %\item \stack{c-addr +n}{}
 %
 %	Receive a string of at most \param{+n} characters. Display graphic
@@ -5121,7 +5128,7 @@
 
 % ===================================================================
 
-\begin{worddef}{1675}{HOLDS}[][x:xchar]
+\begin{worddef}{1675}{HOLDS}
 \item \stack{c-addr u}{}
 
 	Adds the string represented by \param{c-addr u} to the pictured numeric
@@ -5144,7 +5151,7 @@
 % ===================================================================
 
 \enlargethispage{2ex}
-\begin{worddef}{1725}{IS}[][X:deferred]
+\begin{worddef}{1725}{IS}
 \interpret
 	\stack{xt "<spaces>name"}{}
 
@@ -5228,7 +5235,6 @@
 		system to remember ``landmark information'' in advance that
 		specifically marks the spots where the dictionary may at some
 		future time have to be rearranged.
-\pagebreak
 	\end{rationale}
 \end{worddef}
 
@@ -5400,7 +5406,7 @@
 \end{worddef}
 
 \vspace*{-3ex}
-\begin{worddef}{2020}{PARSE-NAME}[][X:parse-name]
+\begin{worddef}{2020}{PARSE-NAME}
 \item \stack{"<spaces>name<space>"}{c-addr u}
 
 	Skip leading space delimiters. Parse \param{name} delimited by a
@@ -5478,7 +5484,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{2040}{QUERY}[][x:legacy]
+%\begin{worddef}{2040}{QUERY}
 %\item \stack{}{}
 %
 %	Make the user input device the input source. Receive input into
@@ -5561,7 +5567,7 @@
 
 % -------------------------------------------------------------------
 
-\begin{worddef}[Seq]{2266}{S\bs"}[s-backslash-quote][X:escaped-strings]
+\begin{worddef}[Seq]{2266}{S\bs"}[s-backslash-quote]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -5735,7 +5741,6 @@
 		These are examples only; a Standard Program may not assume any
 		particular meaning for the individual stack items returned by
 		\word{SAVE-INPUT}.
-\pagebreak
 	\end{rationale}
 
 	\begin{testing}\ttfamily
@@ -5826,7 +5831,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{2240}{SPAN}[][x:legacy]
+%\begin{worddef}{2240}{SPAN}
 %\item \stack{}{a-addr}
 %
 %	\param{a-addr} is the address of a cell containing the count of
@@ -5838,7 +5843,7 @@
 %\end{worddef}
 
 
-%\begin{worddef}{2290}{TIB}[t-i-b][x:legacy]
+%\begin{worddef}{2290}{TIB}[t-i-b]
 %\item \stack{}{c-addr}
 %
 %	\param{c-addr} is the address of the terminal input buffer.
@@ -6043,14 +6048,14 @@
 		number line with the overflow point ($o$) at the far right and
 		the underflow point ($u$) at the far left:
 		\begin{center}
-			$u$\rule[.5ex]{15em}{.4pt}$o$
+			$u$ \rule[.5ex]{15em}{.4pt} $o$
 		\end{center}
 		There are two cases to consider: either the
 		\param{n_2|u_2\ldots n_3|u_3} range straddles the overflow/underflow
 		points or it does not. Lets examine the non-straddle case
 		first:
 		\begin{center}
-			$u$\rule[.5ex]{5em}{.4pt}\makebox[5em]{[\dotfill)}\rule[.5ex]{5em}{.4pt}$o$
+			$u$ \rule[.5ex]{5em}{.4pt} \makebox[5em]{[\dotfill)} \rule[.5ex]{5em}{.4pt} $o$
 		\end{center}
 		The [ denotes \param{n_2|u_2}, the ) denotes \param{n_3|u_3},
 		and the dots and [ are numbers \word{WITHIN} the range.
@@ -6058,12 +6063,12 @@
 		following tests will determine if \param{n_1|u_1} is
 		\word{WITHIN} \param{n_2|u_2} and \param{n_3|u_3}:
 		\begin{center}
-			\param{n_2|u_2} $\le$ \param{n_1|u_1} and \param{n_1|u_1} < \param{n_3|u_3}.
+			\param{n_2|u_2} $\le$ \param{n_1|u_1} and \param{n_1|u_1} < \param{n_3|u_3}
 		\end{center}
 		In the case where the comparison range straddles the
 		overflow/underflow points:
 		\begin{center}
-			$u$\makebox[5em]{\dotfill)}\rule[.5ex]{5em}{.4pt}\makebox[5em]{[\dotfill}$o$
+			$u$\makebox[5em]{\dotfill)} \rule[.5ex]{5em}{.4pt} \makebox[5em]{[\dotfill}$o$
 		\end{center}
 		\param{n_3|u_3} is less than \param{n_2|u_2} and the following
 		tests will determine if \param{n_1|u_1} is \word{WITHIN}
@@ -6080,7 +6085,7 @@
 				\word{AND} \\
 			\word{;}
 		\end{quote}
-		Assume two's-complement arithmetic on a 16-bit machine, and
+		Assume \remove{x:2-complement}{two's-complement arithmetic on} a 16-bit machine, and
 		consider the following test:
 
 		\tab \texttt{33000 ~ 32000 ~ 34000 ~ WITHIN}
@@ -6103,15 +6108,21 @@
 		\end{quote}
 		would give an incorrect answer.
 
-		For two's-complement machines that ignore arithmetic overflow
+		\replace{x:2-complement}{For two's-complement machines that ignore arithmetic overflow
 		(most machines), the following implementation works in all
-		cases:
+		cases:}{The following implementation works in all cases:}
 		\begin{quote}\ttfamily
-			\word{:} \word{WITHIN} \word{p} test low high -{}- flag )	~
-				\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} ~
+			\word{:} \word{WITHIN} \word{p} test low high -{}- flag ) \\
+				\tab ~\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} \\
 			\word{;}
 		\end{quote}
 	\end{rationale}
+
+	\begin{implement}\cbstart\patch{x:2-complement}
+		\uline{\word{:} \word{WITHIN} \word{p} test low high -{}- flag )} \\
+		\tab \uline{\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless}} \\
+		\uline{\word{;}}\cbend
+	\end{implement}
 \end{worddef}
 
 
@@ -6127,6 +6138,9 @@
 	compilation semantics, append them to the current definition;
 	otherwise append the execution semantics of \param{name}. An
 	ambiguous condition exists if \param{name} is not found.
+
+\note \place{ed14}{This word is obsolescent and is included as a concession to
+	existing implementations.}
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\rref{core:[COMPILE]}{}.

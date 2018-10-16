@@ -69,7 +69,7 @@ rem *.aux	LaTeX auxiliary files
 rem *.sub	Auto generated support files
 
 for %%x in (log out toc wrd cb cb2 synctex.gz) do if exist forth.%%x del forth.%%x
-for %%x in (aux sub) do del *.%%x
+for %%x in (aux sub bak) do del *.%%x
 
 rem Keep the following:
 rem forth.pdf	PDF Final output

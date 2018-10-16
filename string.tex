@@ -151,7 +151,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-5ex}
 \begin{worddef}{0910}{CMOVE}[c-move]
 \item \stack{c-addr_1 c-addr_2 u}{}
 
@@ -179,7 +179,7 @@ to provide all of the String and String Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}[CMOVEtop]{0920}{CMOVE>}[c-move-up]
 \item \stack{c-addr_1 c-addr_2 u}{}
 
@@ -209,7 +209,7 @@ to provide all of the String and String Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{0935}{COMPARE}
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{n}
 
@@ -256,7 +256,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2191}{SEARCH}
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_3 u_3 flag}
 
@@ -284,7 +284,8 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
+\enlargethispage{6ex}
 \begin{worddef}{2212}{SLITERAL}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -328,7 +329,7 @@ to provide all of the String and String Extensions word sets.
 \subsection{String extension words} % 17.6.2
 \extended
 
-\begin{worddef}{2141}{REPLACES}[][X:substitute]
+\begin{worddef}{2141}{REPLACES}
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{}
 
 	Set the string \param{c-addr_1 u_1} as the text to substitute for
@@ -339,7 +340,7 @@ to provide all of the String and String Extensions word sets.
 
 	Ambiguous conditions occur as follows:
 	\begin{itemize}
-	\item The substitution cannot be created.
+	\item The substitution cannot be created;
 	\item The name of a substitution contains the `\texttt{\%}' delimiter character.
 	\end{itemize}
 
@@ -412,7 +413,9 @@ to provide all of the String and String Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\begin{worddef}{2255}{SUBSTITUTE}[][X:substitute]
+\vspace*{-3ex}
+\enlargethispage{6ex}
+\begin{worddef}{2255}{SUBSTITUTE}
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_2 u_3 n}
 
 	Perform substitution on the string \param{c-addr_1 u_1} placing
@@ -518,10 +521,11 @@ to provide all of the String and String Extensions word sets.
 
 		\begin{quote}\ttfamily
 			\begin{tabbing}
+				date\ \= \kill
 				\word{:} date \word{Sq} \pdate" \word{;} \\
 				\word{:} time \word{Sq} \ptime" \word{;} \\
-				date\ \= \word{Sq} date" \word{REPLACES} \\
-				time\ \> \word{Sq} time" \word{REPLACES}
+				date \> \word{Sq} date" \word{REPLACES} \\
+				time \> \word{Sq} time" \word{REPLACES}
 			\end{tabbing}
 		\end{quote}
 
@@ -683,7 +687,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\begin{worddef}{2375}{UNESCAPE}[][X:substitute]
+\begin{worddef}{2375}{UNESCAPE}
 \item \stack{c-addr_1 u_1 c-addr_2}{c-addr_2 u_2}
 
 	Replace each `\texttt{\%}' character in the input string
