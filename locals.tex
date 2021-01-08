@@ -1,5 +1,6 @@
 % !TeX root = forth.tex
 % !TeX spellcheck = en_US
+% !TeX program = pdflatex
 
 \chapter{The optional Locals word set} % 13
 \wordlist{local}
@@ -78,11 +79,13 @@ shall take the following actions at compile time:
 \item For each identifier passed to \word{LOCAL}, the system shall
 	generate an appropriate code sequence that does the following at
 	execution time:
+
 	\begin{enumerate}
 	\item Allocate a storage resource adequate to contain the value
 		of a local. The storage shall be allocated in a way that
 		does not preclude re-entrancy or recursion in the definition
 		using the local.
+
 	\item Initialize the value using the top item on the data stack.
 		If more than one local is declared, the top item on the
 		stack shall be moved into the first local identified, the
@@ -229,7 +232,7 @@ The phrase ``Requiring the Locals Extensions word set'' shall be
 appended to the label of Standard Programs that require the system
 to provide all of the Locals and Locals Extensions word sets.
 
-
+\pagebreak
 \section{Glossary} % 13.6
 
 \subsection{Locals words} % 13.6.1
@@ -321,7 +324,7 @@ to provide all of the Locals and Locals Extensions word sets.
 \note This word is obsolescent and is included as a concession to
 	existing implementations.
 
-	\begin{implement}
+	\begin{implement} % I.13.6.2.1795 LOCALS|
 	\word{:} \word{LOCALS} \word{p} "name{\ldots}name |" -{}- ) \\
 	\tab \word{BEGIN} \\
 	\tab~ \word{BL} \word{WORD} ~ \word{COUNT} \word{OVER} \word{C@} \\
@@ -335,7 +338,7 @@ to provide all of the Locals and Locals Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}[b:]{2550}{\brace:}[brace-colon]
+\begin{worddef}[b:]{2550}{\brace:}[brace-colon]%[X:enhanced-locals]
 \interpret
 	Interpretation semantics for this word are undefined.
 
@@ -395,7 +398,7 @@ to provide all of the Locals and Locals Extensions word sets.
 	\wref{core:TO}{},
 	\rref{local:b:}{}.
 
-	\begin{rationale}
+	\begin{rationale} % A.13.6.2.2550 {:
 		The Forth 94 Technical Committee was unable to identify any
 		common practice for locals.  It provided a way to define locals
 		and a method of parsing them in the hope that a common practice
@@ -433,7 +436,7 @@ to provide all of the Locals and Locals Extensions word sets.
 		`\texttt{\textasciicircum}' (caret) are reserved.
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.13.6.2.2550 {:
 12345 \word{CONSTANT} undefined-value
 
 \word{:} match-or-end? \word{p} c-addr1 u1 c-addr2 u2 -{}- f ) \\

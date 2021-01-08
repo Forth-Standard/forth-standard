@@ -1,5 +1,9 @@
 % !TeX root = forth.tex
-\chapter{The optional Exception word set} % 9
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
+\chapter{The Exception word set} % 9
+
 \wordlist{exception}
 
 \section{Introduction} % 9.1
@@ -205,38 +209,13 @@ state for continued execution past the \word{CATCH}.
 \item no additional requirements.
 \end{itemize}
 
-\section{Compliance and labeling} % 9.5
-
-\subsection{Forth-\snapshot{} systems} % 9.5.1
-
-The phrase ``Providing the Exception word set'' shall be appended to
-the label of any Standard System that provides all of the Exception
-word set.
-
-The phrase ``Providing \emph{name(s)} from the Exception Extensions
-word set'' shall be appended to the label of any Standard System
-that provides portions of the Exception Extensions word set.
-
-The phrase ``Providing the Exception Extensions word set'' shall be
-appended to the label of any Standard System that provides all of
-the Exception and Exception Extensions word sets.
-
-\subsection{Forth-\snapshot{} programs} % 9.5.2
-
-The phrase ``Requiring the Exception word set'' shall be appended
-to the label of Standard Programs that require the system to provide
-the Exception word set.
-
-The phrase ``Requiring \emph{name(s)} from the Exception Extensions
-word set'' shall be appended to the label of Standard Programs that
-require the system to provide portions of the Exception Extensions
-word set.
-
-The phrase ``Requiring the Exception Extensions word set'' shall be
-appended to the label of Standard Programs that require the system
-to provide all of the Exception and Exception Extensions word sets.
+% \section{Compliance and labeling} % 9.5
+% \label{exception:label}
+% \subsection{Forth-\shapshot{} systems} % 9.5.1
+% \subsection{Forth-\snapshot() programs} % 9.5.2
 
 \newpage
+\setcounter{section}{5}
 \section{Glossary} % 9.6
 
 \subsection{Exception words} % 9.6.1
@@ -260,7 +239,7 @@ to provide all of the Exception and Exception Extensions word sets.
 
 \see \rref{exception:THROW}{}.
 
-	\begin{implement} % I.9.1.0875 CATCH
+	\begin{implement} % I.9.6.1.0875 CATCH
 	\dffamily
 		This sample implementation of \word{CATCH} uses the non-standard
 		words described below.  They or their equivalents are available in many
@@ -312,7 +291,7 @@ to provide all of the Exception and Exception Extensions word sets.
 		resort'' present, as shown in \iref{core:QUIT}{}.
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.9.1.0875 CATCH
 		See \tref{exception:THROW}{}.
 	\end{testing}
 \end{worddef}
@@ -397,7 +376,7 @@ to provide all of the Exception and Exception Extensions word sets.
 		\setwordlist{exception}
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.9.6.1.2275 THROW
 		\textdf{This is the counter part to \iref{exception:CATCH}{}.}
 
 		\begin{tabbing}
@@ -416,7 +395,7 @@ to provide all of the Exception and Exception Extensions word sets.
 		\end{tabbing}
 	\end{implement}
 
-	\begin{testing} \ttfamily
+	\begin{testing} \ttfamily % T.9.6.1.2275 THROW
 		\word{DECIMAL}
 
 		\word{:} t1 9 \word{;} \\
@@ -456,11 +435,11 @@ to provide all of the Exception and Exception Extensions word sets.
 
 \see \wref{core:ABORT}{ABORT}.
 
-	\begin{implement} % I.9.1.0875 CATCH
+	\begin{implement} % I.9.6.1.0670 ABORT
 		\word{:} \word{ABORT} ~ -1 \word{THROW} ~ \word{;}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.9.6.1.0670 ABORT
 		See \tref{exception:ABORTq}{}.
 	\end{testing}
 \end{worddef}

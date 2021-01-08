@@ -1,5 +1,6 @@
 % !TeX root = forth.tex
 % !TeX spellcheck = en_US
+% !TeX program = pdflatex
 
 \chapter{Glossary} % 6
 \label{chap:core}
@@ -19,7 +20,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[num]{0030}{\num}[number-sign]
 \item \stack{ud_1}{ud_2}
 
@@ -41,7 +42,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[num-end]{0040}{\num>}[number-sign-greater]
 \item \stack{xd}{c-addr u}
 
@@ -62,7 +63,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[numS]{0050}{\num{}S}[number-sign-s]
 \item \stack{ud_1}{ud_2}
 
@@ -117,8 +118,8 @@
 	\end{testing}
 \end{worddef}
 
-
-\pagebreak
+\vspace*{-2ex}
+\enlargethispage{6ex}
 \begin{worddef}{0070}{'}[tick]
 \item \stack{"<spaces>name"}{xt}
 
@@ -173,14 +174,14 @@
 		Typical use: {\ldots} \word{p} \param{ccc}\texttt{)} {\ldots}
 	\end{rationale}
 
-	\begin{testing}
+	\begin{testing} % T.6.1.0080 (
 		\word{bs} \textdf{There is no space either side of the ).}\\[\parskip]
 		\test{\word{p} A comment)1234}{} \\
 		\test{\word{:} pc1 \word{p} A comment)1234 \word{;} pc1}{1234}
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{0090}{*}[star]
 \item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
 
@@ -204,7 +205,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{0100}{*/}[star-slash]
 \item \stack{n_1 n_2 n_3}{n_4}
 
@@ -248,8 +249,7 @@
 	\end{testing}
 \end{worddef}
 
-
-\pagebreak
+\vspace*{-1.5ex}
 \begin{worddef}{0110}{*/MOD}[star-slash-mod]
 \item \stack{n_1 n_2 n_3}{n_4 n_5}
 
@@ -293,7 +293,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{0120}{+}[plus]
 \item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
 
@@ -313,6 +313,7 @@
 		\test{      -1 -2 \word{+}}{        -3} \\
 		\test{      -1  1 \word{+}}{         0} \\
 		\test{MID-UINT  1 \word{+}}{MID-UINT+1}
+		\pagebreak
 	\end{testing}
 \end{worddef}
 
@@ -332,7 +333,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0140}{+LOOP}[plus-loop]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -429,8 +430,7 @@
 	\end{testing}
 \end{worddef}
 
-
-\pagebreak
+\vspace*{-2ex}
 \begin{worddef}{0150}{,}[comma]
 \item \stack{x}{}
 
@@ -473,7 +473,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0160}{-}[minus]
 \item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
 
@@ -496,7 +496,8 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
+\enlargethispage{4ex}
 \begin{worddef}[d]{0180}{.{}}[dot]
 \item \stack{n}{}
 
@@ -556,8 +557,8 @@
 	\end{testing}
 \end{worddef}
 
-
 \enlargethispage{4ex}
+\vspace*{-2ex}
 \begin{worddef}{0230}{/}[slash]
 \item \stack{n_1 n_2}{n_3}
 
@@ -601,7 +602,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0240}{/MOD}[slash-mod]
 \item \stack{n_1 n_2}{n_3 n_4}
 
@@ -645,7 +646,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[0less]{0250}{0<}[zero-less]
 \item \stack{n}{flag}
 
@@ -660,7 +661,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0270}{0=}[zero-equals]
 \item \stack{x}{flag}
 
@@ -677,7 +678,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0290}{1+}[one-plus]
 \item \stack{n_1|u_1}{n_2|u_2}
 
@@ -689,9 +690,7 @@
 		\test{      -1 \word{1+}}{         0} \\
 		\test{       1 \word{1+}}{         2} \\
 		\test{MID-UINT \word{1+}}{MID-UINT+1} \\
-\place{x:2-complement}{%
-		\test{ MAX-INT  \word{1+}}{   MIN-INT}
-}
+		\test{MAX-INT  \word{1+}}{   MIN-INT}
 	\end{testing}
 \end{worddef}
 
@@ -888,7 +887,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{0460}{;}[semicolon]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -902,6 +901,10 @@
 	data-space pointer is not aligned, reserve enough data space to
 	align it.
 
+	An ambiguous condition exists if the compilation semantics of
+	\word{;} are preformed inside a quotation (\word[tools]{[:} {\ldots}
+	\word[tools]{;]} block).
+	
 \runtime
 	\stack{}{}
 	\stack[R]{nest-sys}{}
@@ -979,7 +982,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}{0530}{=}[equals]
 \item \stack{x_1 x_2}{flag}
 
@@ -997,7 +1000,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}[more]{0540}{>}[greater-than]
 \item \stack{n_1 n_2}{flag}
 
@@ -1025,7 +1028,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}[toBODY]{0550}{>BODY}[to-body]
 \item \stack{xt}{a-addr}
 
@@ -1048,7 +1051,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}[toIN]{0560}{>IN}[to-in]
 \item \stack{}{a-addr}
 
@@ -1077,8 +1080,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
-\enlargethispage{4ex}
+
 \begin{worddef}[toNUMBER]{0570}{>NUMBER}[to-number]
 \item \stack{ud_1 c-addr_1 u_1}{ud_2 c-addr_2 u_2}
 
@@ -1135,11 +1137,11 @@
 		\test{       0   0 MAX-BASE GN1}{       0   0 0} \\
 		\test{MAX-UINT   0 MAX-BASE GN1}{MAX-UINT   0 0} \\
 		\test{MAX-UINT DUP MAX-BASE GN1}{MAX-UINT DUP 0}
+		\pagebreak
 	\end{testing}
 \end{worddef}
 
 
-\enlargethispage{6ex}
 \begin{worddef}[toR]{0580}{>R}[to-r]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1238,7 +1240,7 @@
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-5ex}
+
 \begin{worddef}{0690}{ABS}[abs]
 \item \stack{n}{u}
 
@@ -1252,7 +1254,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2.5ex}
+
 \begin{worddef}{0695}{ACCEPT}
 \item \stack{c-addr +n_1}{+n_2}
 
@@ -1309,7 +1311,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2.5ex}
+
 \begin{worddef}{0705}{ALIGN}
 \item \stack{}{}
 
@@ -1345,7 +1347,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2.5ex}
+
 \begin{worddef}{0706}{ALIGNED}
 \item \stack{addr}{a-addr}
 
@@ -1356,8 +1358,7 @@
 	\wref{core:ALIGN}{}.
 \end{worddef}
 
-\vspace*{-2.5ex}
-\enlargethispage{10ex}
+\vspace*{-1ex}
 \begin{worddef}{0710}{ALLOT}
 \item \stack{n}{}
 
@@ -1389,7 +1390,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-5ex}
+\vspace*{-1ex}
 \begin{worddef}{0720}{AND}
 \item \stack{x_1 x_2}{x_3}
 
@@ -1412,7 +1413,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
 \begin{worddef}{0750}{BASE}
 \item \stack{}{a-addr}
 
@@ -1430,7 +1431,8 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
+\enlargethispage{8ex}
 \begin{worddef}{0760}{BEGIN}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1475,7 +1477,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0770}{BL}[b-l]
 \item \stack{}{char}
 
@@ -1495,7 +1497,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0850}{C!}[c-store]
 \item \stack{char c-addr}{}
 
@@ -1510,8 +1512,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
-\enlargethispage{10ex}
+
 \begin{worddef}{0860}{C,}[c-comma]
 \item \stack{char}{}
 
@@ -1655,7 +1656,9 @@
 \see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
 
 	\begin{testing} % T.6.1.0897 CHAR+
-		See \tref{core:C,}{C,}.
+		\test{0 \word{CHAR+} 1 \word{=}}{<TRUE>}
+
+		See \tref{core:C,}{C,} for additional test.
 	\end{testing}
 \end{worddef}
 
@@ -1671,11 +1674,12 @@
 		\word{p} CHARACTERS >= 1 AU, <= SIZE OF CELL, >= 8 BITS ) \\
 		\test{1 \word{CHARS} 1 \word{less}      }{<FALSE>} \\
 		\test{1 \word{CHARS} 1 \word{CELLS} \word{more}}{<FALSE>} \\
+		\test{1 \word{CHARS} 1 \word{=}      }{<TRUE> } \\
 		\word{p} TBD: HOW TO FIND NUMBER OF BITS? )
 	\end{testing}
 \end{worddef}
 
-\vspace*{-5ex}
+\vspace*{-6ex}
 \begin{worddef}{0950}{CONSTANT}
 \item \stack{x "<spaces>name"}{}
 
@@ -1789,7 +1793,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-2ex}
 \begin{worddef}{1200}{DEPTH}
 \item \stack{}{+n}
 
@@ -1803,7 +1807,6 @@
 	\end{testing}
 \end{worddef}
 
-
 \begin{worddef}{1240}{DO}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1816,7 +1819,6 @@
 	semantics are incomplete until resolved by a consumer of
 	\param{do-sys} such as \word{LOOP}.
 
-%\pagebreak
 \runtime
 	\stack{n_1|u_1 n_2|u_2}{}
 	\stack[R]{}{loop-sys}
@@ -1858,7 +1860,6 @@
 			\tref{core:UNLOOP}{UNLOOP}.
 	\end{testing}
 \end{worddef}
-
 
 \begin{worddef}[DOES]{1250}{DOES>}[does]
 \interpret
@@ -1903,7 +1904,12 @@
 	represent arguments to and results from \param{name},
 	respectively.
 
+\item[Quotation]
+	The \word{DOES} part inside a quotation
+	end with the terminating \word[tools]{;]}.
+	
 \see \wref{core:CREATE}{CREATE},
+	\wref{tools:;]}{},
 	\rref{core:DOES}{}.
 
 	\begin{rationale} % A.6.1.1250 DOES>
@@ -1941,7 +1947,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-6ex}
 \begin{worddef}{1260}{DROP}
 \item \stack{x}{}
 
@@ -1953,7 +1959,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{1290}{DUP}[dupe]
 \item \stack{x}{x x}
 
@@ -1964,8 +1970,9 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{1310}{ELSE}
+\vspace*{-2ex}
 \interpret
 	Interpretation semantics for this word are undefined.
 
@@ -2002,7 +2009,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{1320}{EMIT}
 \item \stack{x}{}
 
@@ -2051,7 +2058,8 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+\vspace*{-3ex}
+\enlargethispage{6ex}
 \begin{worddef}[ENVIRONMENTq]{1345}{ENVIRONMENT?}[environment-query]
 \item \stack{c-addr u}{false | i*x true}
 
@@ -2086,7 +2094,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1360}{EVALUATE}
 \item \stack{i*x c-addr u}{j*x}
 
@@ -2119,7 +2127,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1370}{EXECUTE}
 \item \stack{i*x xt}{j*x}
 
@@ -2135,7 +2143,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1380}{EXIT}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2166,8 +2174,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
-\enlargethispage{5ex}
+
 \begin{worddef}{1540}{FILL}
 \item \stack{c-addr u char}{}
 
@@ -2187,8 +2194,7 @@
 	\end{testing}
 \end{worddef}
 
-
-\enlargethispage{10ex}
+\enlargethispage{4ex}
 \begin{worddef}{1550}{FIND}
 \item \stack{c-addr}{c-addr 0 | xt 1 | xt -1}
 
@@ -2368,11 +2374,11 @@
 		\test{MIN-INT MAX-INT \word{M*} MIN-INT \word{FM/MOD}}{ 0 MAX-INT} \\
 		\test{MIN-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0 MIN-INT} \\
 		\test{MAX-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0 MAX-INT}
+		\pagebreak
 	\end{testing}
 \end{worddef}
 
 
-\enlargethispage{4ex}
 \begin{worddef}{1650}{HERE}
 \item \stack{}{addr}
 
@@ -2425,7 +2431,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+\enlargethispage{2ex}
 \begin{worddef}{1700}{IF}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2482,7 +2488,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-6ex}
 \begin{worddef}{1710}{IMMEDIATE}
 \item \stack{}{}
 
@@ -2523,10 +2529,11 @@
 			\tref{core:POSTPONE}{POSTPONE},
 			\tref{core:STATE}{STATE},
 			\tref{core:Sq}{S"}.
+		\pagebreak
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1720}{INVERT}
 \item \stack{x_1}{x_2}
 
@@ -2583,13 +2590,11 @@
 	\begin{testing} % T.6.1.1720 INVERT
 		\test{0S \word{INVERT}}{1S} \\
 		\test{1S \word{INVERT}}{0S} \\
-\place{x:2-complement}{%
 		\test{ 0 \word{INVERT}}{-1}
-}
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1730}{J}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2634,7 +2639,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+\vspace*{-2ex}
 \begin{worddef}{1750}{KEY}
 \item \stack{}{char}
 
@@ -2668,7 +2673,8 @@
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-2ex}
+\enlargethispage{6ex}
 \begin{worddef}{1760}{LEAVE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2710,7 +2716,6 @@
 \end{worddef}
 
 
-\enlargethispage{4ex}
 \begin{worddef}{1780}{LITERAL}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2740,7 +2745,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}{1800}{LOOP}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2770,14 +2775,17 @@
 	\rref{core:LOOP}{}.
 
 	\begin{rationale} % A.6.1.1800 LOOP
+		\enlargethispage{2ex}
 		Typical use:
-		
+
 		\tab \word{:} \texttt{X} {\ldots}
 			\emph{limit} \emph{first} \word{DO}
 				{\ldots}
 			\word{LOOP}
-		{\ldots} \word{;} \\
-		or\\
+		{\ldots} \word{;}
+
+		or
+
 		\tab \word{:} \texttt{X} {\ldots}
 			\emph{limit} \emph{first} \word{qDO}
 				{\ldots}
@@ -2897,7 +2905,7 @@
 		\test{      1      -1 \word{MIN}}{     -1} \\
 		\test{      0 MIN-INT \word{MIN}}{MIN-INT} \\
 		\test{MAX-INT MIN-INT \word{MIN}}{MIN-INT} \\
-		\test{MAX-INT       0 \word{MIN}}{      0} \\
+		\test{MAX-INT       0 \word{MIN}}{      0}
 	\end{testing}
 \end{worddef}
 
@@ -2994,8 +3002,7 @@
 	\end{testing}
 \end{worddef}
 
-
-\enlargethispage{8ex}
+\enlargethispage{4ex}
 \begin{worddef}{1910}{NEGATE}
 \item \stack{n_1}{n_2}
 
@@ -3003,6 +3010,12 @@
 
 \see \wref{core:INVERT}{INVERT},
 	\wref{core:0=}{0=}.
+
+	\begin{implement} % I.6.1.1910 NEGATE
+		\word{:} \word{NEGATE} \word{p} n1 -{}- n2 ) \\
+		\tab \word{INVERT} \word{1+} \\
+		\word{;}
+	\end{implement}
 
 	\begin{testing} % T.6.1.1910 NEGATE
 		\test{ 0 \word{NEGATE}}{ 0} \\
@@ -3028,7 +3041,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-6ex}
 \begin{worddef}{1990}{OVER}
 \item \stack{x_1 x_2}{x_1 x_2 x_1}
 
@@ -3039,7 +3052,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+\vspace*{-2ex}
 \begin{worddef}{2033}{POSTPONE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3112,7 +3125,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2050}{QUIT}
 \item \stack{}{}
 	\stack[R]{i*x}{}
@@ -3131,7 +3144,7 @@
 
 \see \xref[3.4 The Forth text interpreter]{usage:command}.
 
-	\begin{implement}
+	\begin{implement} % I.6.1.2050 QUIT
 		\word{:} \word{QUIT} \\
 		\tab \word{p} \textdf{empty the return stack and set the input source to the user input device} ) \\
 		\tab \word{POSTPONE} \word{[} \\
@@ -3157,8 +3170,7 @@
 	\end{implement}
 \end{worddef}
 
-
-\enlargethispage{8ex}
+\vspace*{-2ex}
 \begin{worddef}[Rfrom]{2060}{R>}[r-from]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3181,7 +3193,8 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
+\enlargethispage{4ex}
 \begin{worddef}{2070}{R@}[r-fetch]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3216,8 +3229,12 @@
 	the current definition. An ambiguous condition exists if
 	\word{RECURSE} appears in a definition after \word{DOES}.
 
-\see \wref{core:DOES}{DOES>},
-	\wref{core:RECURSE}{RECURSE},
+	If inside a quotation, calls the quotation directly surrounding
+	the \word{RECURSE}, not the containing colon definition.
+
+\see \wref{core:DOES}{},
+	\wref{core:RECURSE}{},
+	\wref{tools:[:}{},
 	\rref{core:RECURSE}{}.
 
 	\begin{rationale} % A.6.1.2120 RECURSE
@@ -3353,11 +3370,13 @@
 	\end{testing}
 \end{worddef}
 
-
 \pagebreak
 \begin{worddef}[Sq]{2165}{S"}[s-quote]
 \interpret
-	Interpretation semantics for this word are undefined.
+	\stack{"ccc<quote>"}{c-addr u}
+
+	Parse \param{ccc} delimited by \texttt{"} (double quote).
+	Store the resulting string in a transient buffer \param{c-addr u}.
 
 \compile
 	\stack{"ccc<quote>"}{}
@@ -3373,30 +3392,54 @@
 	consisting of the characters \param{ccc}. A program shall
 	not alter the returned string.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
+\see \xref{usage:"literal},
+	\xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Cq}{C"},
-	\wref{file:Sq}{S"},
 	\wref{core:Seq}{},
 	\rref{core:Sq}{}.
 
 	\begin{rationale} % A.6.1.2165 S"
-		Typical use:
-			\word{:} \texttt{X} {\ldots}
+		Typical use: \\
+			\tab {\ldots} \word{Sq} \emph{ccc}\texttt{"} {\ldots} \par
+			or \par
+			\tab \word{:} \texttt{X} {\ldots}
 				\word{Sq} \emph{ccc}\texttt{"}
 			{\ldots} \word{;}
+
+		The interpretation semantics for \word{Sq} are intended to
+		provide a simple mechanism for entering a string in the
+		interpretation state. Since an implementation may choose to
+		provide only one buffer for interpreted strings, an
+		interpreted string is subject to being overwritten by the
+		next execution of \word{Sq} or \word{Seq} in interpretation
+		state. It is intended that no standard words other than
+		\word{Sq} or \word{Seq} should in themselves cause the
+		interpreted string to be overwritten.
+		However, since words such as \word[core]{EVALUATE},
+		\word[block]{LOAD}, \word[file]{INCLUDE-FILE} and
+		\word[file]{INCLUDED} can result in the interpretation of arbitrary
+		text, possibly including instances of \word{Sq} or \word{Seq},
+		the interpreted string may be invalidated by some uses of these
+		words.
+
+		When the possibility of overwriting a string can arise, it is
+		prudent to copy the string to a ``safe'' buffer allocated by
+		the application.
 	\end{rationale}
 
-	\begin{testing} % A.6.1.2165 S"
+	\begin{testing} % T.6.1.2165 S"
 		\test{\word{:} GC4 \word{Sq} XY" \word{;}}{ } \\
 		\test{GC4 \word{SWAP} \word{DROP} }{2} \\
 		\test{GC4 \word{DROP} \word{DUP} \word{C@} \word{SWAP} \word{CHAR+} \word{C@}}{58 59}
 
 		\word{:} GC5 \word{Sq} A String"\word{2DROP} \word{;} \word{bs} \textdf{There is no space between the " and \word{2DROP}} \\
 		\test{GC5}{}
+
+		\test{\word{Sq} A String"\word{2DROP}}{} \quad \word{bs} \textdf{There is no space between the " and \word{2DROP}}
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}[StoD]{2170}{S>D}[s-to-d]
 \item \stack{n}{d}
 
@@ -3414,7 +3457,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{2210}{SIGN}
 \item \stack{n}{}
 
@@ -3430,7 +3473,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{2214}{SM/REM}[s-m-slash-rem]
 \item \stack{d_1 n_1}{n_2 n_3}
 
@@ -3507,6 +3550,7 @@
 	\end{testing}
 \end{worddef}
 
+\vspace*{-1ex}
 \begin{worddef}{2216}{SOURCE}
 \item \stack{}{c-addr u}
 
@@ -3656,7 +3700,6 @@
 \end{worddef}
 
 
-
 \begin{worddef}{2270}{THEN}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3696,7 +3739,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-6ex}
 \begin{worddef}{2310}{TYPE}
 \item \stack{c-addr u}{}
 
@@ -3718,7 +3761,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}[Ud]{2320}{U.{}}[u-dot]
 \item \stack{u}{}
 
@@ -3729,7 +3772,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}[Uless]{2340}{U<}[u-less-than]
 \item \stack{u_1 u_2}{flag}
 
@@ -3754,7 +3797,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2360}{UM*}[u-m-star]
 \item \stack{u_1 u_2}{ud}
 
@@ -3777,7 +3820,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2370}{UM/MOD}[u-m-slash-mod]
 \item \stack{ud u_1}{u_2 u_3}
 
@@ -3802,8 +3845,8 @@
 	\end{testing}
 \end{worddef}
 
-
-\pagebreak
+\vspace*{-3ex}
+\enlargethispage{8ex}
 \begin{worddef}{2380}{UNLOOP}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3852,7 +3895,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-6ex}
 \begin{worddef}{2390}{UNTIL}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3887,7 +3930,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2410}{VARIABLE}
 \item \stack{"<spaces>name"}{}
 
@@ -3920,8 +3963,7 @@
 	\end{testing}
 \end{worddef}
 
-
-\pagebreak
+\vspace*{-2ex}
 \begin{worddef}{2430}{WHILE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3971,7 +4013,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2450}{WORD}
 \item \stack{char "<chars>ccc<char>"}{c-addr}
 
@@ -4003,7 +4045,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2490}{XOR}[x-or]
 \item \stack{x_1 x_2}{x_3}
 
@@ -4018,7 +4060,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2500}{[}[left-bracket]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4049,7 +4091,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2510}{[']}[bracket-tick]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4093,7 +4135,8 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
+\enlargethispage{6ex}
 \begin{worddef}{2520}{[CHAR]}[bracket-char]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4153,7 +4196,7 @@
 	\end{testing}
 \end{worddef}
 
-\newpage
+
 \section{Core extension words} % 6.2
 \extended
 
@@ -4169,7 +4212,7 @@
 %	\Opensolutionfile{implementation}[i-core-ext]
 \fi
 
-%\begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b]
+%\begin{worddef}[numTIB]{0060}{\num{}TIB}[number-t-i-b][X:legacy]
 %\item \stack{}{a-addr}
 %
 %	\param{a-addr} is the address of a cell containing the number
@@ -4186,7 +4229,6 @@
 %\end{worddef}
 
 
-\enlargethispage{6ex}
 \begin{worddef}[.p]{0200}{.(}[dot-paren]
 \compile
 	Perform the execution semantics given below.
@@ -4207,7 +4249,7 @@
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0210}{.R}[dot-r]
 \item \stack{n_1 n_2}{}
 
@@ -4223,7 +4265,7 @@
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[0ne]{0260}{0<>}[zero-not-equals]
 \item \stack{x}{flag}
 
@@ -4231,7 +4273,7 @@
 	zero.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[0more]{0280}{0>}[zero-greater]
 \item \stack{n}{flag}
 
@@ -4239,7 +4281,7 @@
 	zero.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[2toR]{0340}{2>R}[two-to-r]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4269,7 +4311,6 @@
 \end{worddef}
 
 
-\pagebreak
 \begin{worddef}[2Rfrom]{0410}{2R>}[two-r-from]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4361,7 +4402,7 @@
 	\note \word{RECURSE} and \word{DOES} are allowed within a \word{:NONAME} definition.
 	\end{rationale}
 
-	\begin{testing}
+	\begin{testing} % T.6.2.0455 :NONAME
 	\word{VARIABLE} nn1 \\
 	\word{VARIABLE} nn2 \\
 	\test{\word{:NONAME} 1234 \word{;} nn1 \word{!}}{} \\
@@ -4421,7 +4462,8 @@
 		\tab \word{:} \texttt{X} {\ldots} \word{qDO} {\ldots} \word{LOOP} {\ldots} \word{;}
 	\end{rationale}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.6.2.0620 ?DO
+	\ttfamily
 	\word{DECIMAL}
 
 	\word{:} qd \word{qDO} \word{I} \word{LOOP} \word{;} \\
@@ -4480,11 +4522,12 @@
 	\test{-1  2  0 qd6}{ 2  2  2  2  2  2 6 } \\
 	\test{-1  2  1 qd6}{ 2  3  4  5  6  7 6 } \\
 	\test{ 2 -1  1 qd6}{-1  0  1          3 }
+	\pagebreak
 	\end{testing}
 \end{worddef}
 
 
-\begin{worddef}{0698}{ACTION-OF}
+\begin{worddef}{0698}{ACTION-OF}[]%[X:deferred]
 \interpret
 	\stack{"<spaces>name"}{xt}
 
@@ -4517,7 +4560,7 @@
 	\wref{core:DEFER@}{DEFER@},
 	\wref{core:IS}{IS}.
 
-	\begin{implement} % I.6.2.---- ACTION-OF
+	\begin{implement} % I.6.2.0698 ACTION-OF
 		\word{:} \word{ACTION-OF} \\
 		\tab \word{STATE} \word{@} \word{IF} \\
 		\tab[2] \word{POSTPONE} \word{[']} \word{POSTPONE} \word{DEFER@} \\
@@ -4526,7 +4569,7 @@
 		\tab \word{THEN} \word{;} \word{IMMEDIATE}
 	\end{implement}
 
-	\begin{testing} % T.6.2.---- ACTION-OF
+	\begin{testing} % T.6.20698 ACTION-OF
 		\test{\word{DEFER} defer1}{} \\
 		\test{\word{:} action-defer1 \word{ACTION-OF} defer1 \word{;}}{}
 
@@ -4575,8 +4618,7 @@
 \end{worddef}
 
 % -------------------------------------------------------------------
-
-\begin{worddef}{0825}{BUFFER:}[buffer-colon]
+\begin{worddef}{0825}{BUFFER:}[buffer-colon]%[X:buffer]
 \item \stack{u "<spaces>name"}{}
 
 	Skip leading space delimiters. Parse \param{name} delimited by a space.
@@ -4621,7 +4663,7 @@
 		initialize it.
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.6.2.0825 BUFFER:
 		\dffamily
 		This implementation depends on children of \word{CREATE}
 		returning an aligned address.  Other memory location techniques
@@ -4635,7 +4677,7 @@
 		\word{;}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.6.2.0825 BU*FFER:
 		\ttfamily
 		\word{DECIMAL} \\
 		\test{127 \word{CHARS} \word{BUFFER:} TBUF1}{} \\
@@ -4662,7 +4704,6 @@
 		\test{TBUF1 127 0 TFULL?}{<TRUE>}
 	\end{testing}
 \end{worddef}
-
 % -------------------------------------------------------------------
 
 \begin{worddef}[Cq]{0855}{C"}[c-quote]
@@ -4683,9 +4724,10 @@
 	characters \param{ccc}. A program shall not alter the returned
 	string.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
+\see \xref{usage:"literal},
+	\xref[3.4.1 Parsing]{usage:parsing},
 	\wref{core:Sq}{S"},
-	\wref{file:Sq}{S"},
+	\wref{core:Seq}{},
 	\rref{core:Cq}{}.
 
 	\begin{rationale} % A.6.2.0855 C"
@@ -4815,7 +4857,7 @@
 		the classic interpreter/com\-piler loop:
 
 		\begin{quote}\ttfamily
-		\ldots 										\tab[23.2]	\word{p} c-addr ) \\
+		\ldots 										\tab[23.8]\word{p} c-addr ) \\
 		\word{FIND} \word{qDUP} \word{IF}			\tab[17.2]	\word{p} xt +-1 ) \\
 		\tab \word{STATE} \word{@} \word{IF}		\tab[17.4]	\word{p} xt +-1 ) \\
 			\tab[2] \word{0more} \word{IF} \ 
@@ -4845,7 +4887,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{0970}{CONVERT}
+%\begin{worddef}{0970}{CONVERT}[][X:legacy]
 %\item \stack{ud_1 c-addr_1}{ud_2 c-addr_2}
 %
 %	\param{ud_2} is the result of converting the characters within
@@ -4874,7 +4916,7 @@
 %\end{worddef}
 
 
-\begin{worddef}{1173}{DEFER}
+\begin{worddef}{1173}{DEFER}[]%[X:deferred]
 \item \stack{"<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
@@ -4893,14 +4935,14 @@
 	\wref{core:DEFER@}{DEFER@},
 	\wref{core:IS}{IS}.
 
-	\begin{implement} % I.6.2.---- DEFER
+	\begin{implement} % I.6.2.1173 DEFER
 		\word{:} \word{DEFER} \word{p} "name" -{}- ) \\
 		\tab \word{CREATE} \word{[']} \word{ABORT} \word{,} \\
 		\word{DOES} \word{p} {\ldots} -{}- {\ldots} ) \\
 		\tab \word{@} \word{EXECUTE} \word{;}
 	\end{implement}
 
-	\begin{testing} % T 6.2.---- DEFER
+	\begin{testing} % T 6.2.1173 DEFER
 		\test{\word{DEFER} defer2}{ } \\
 		\test{\word{'} \word{*} \word{'} defer2 \word{DEFER!}}{} \\
 		\test{  2 3 defer2}{6}
@@ -4911,7 +4953,7 @@
 \end{worddef}
 
 
-\begin{worddef}{1175}{DEFER!}[defer-store]
+\begin{worddef}{1175}{DEFER!}[defer-store]%[X:deferred]
 \item \stack{xt_2 xt_1}{}
 
 	Set the word \param{xt_1} to execute \param{xt_2}.  An ambiguous
@@ -4923,12 +4965,12 @@
 	\wref{core:DEFER@}{DEFER@},
 	\wref{core:IS}{IS}.
 
-	\begin{implement} % I.6.2.---- DEFER!
+	\begin{implement} % I.6.2.1175 DEFER!
 		\word{:} \word{DEFER!} \word{p} xt2 xt1 -{}- ) \\
 		\tab \word{toBODY} \word{!} \word{;}
 	\end{implement}
 
-	\begin{testing} % T.6.2.---- DEFER!
+	\begin{testing} % T.6.2.1175 DEFER!
 		\test{\word{DEFER} defer3}{}
 
 		\test{\word{'} \word{*} \word{'} defer3 \word{DEFER!}}{} \\
@@ -4940,7 +4982,7 @@
 \end{worddef}
 
 
-\begin{worddef}{1177}{DEFER@}[defer-fetch]
+\begin{worddef}{1177}{DEFER@}[defer-fetch]%[X:deferred]
 \item \stack{xt_1}{xt_2}
 
 	\param{xt_2} is the execution token \param{xt_1} is set to execute.
@@ -4953,12 +4995,12 @@
 	\wref{core:DEFER!}{DEFER!},
 	\wref{core:IS}{IS}.
 
-	\begin{implement} % I.6.2.---- DEFER@
+	\begin{implement} % I.6.2.1177 DEFER@
 		\word{:} \word{DEFER@} \word{p} xt1 -{}- xt2 ) \\
 		\tab \word{toBODY} \word{@} \word{;}
 	\end{implement}
 
-	\begin{testing} % T.6.2.---- DEFER@
+	\begin{testing} % T.6.2.1177 DEFER@
 		\test{\word{DEFER} defer4}{}
 
 		\test{\word{'} \word{*} \word{'} defer4 \word{DEFER!}}{} \\
@@ -5067,7 +5109,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{1390}{EXPECT}
+%\begin{worddef}{1390}{EXPECT}[][X:legacy]
 %\item \stack{c-addr +n}{}
 %
 %	Receive a string of at most \param{+n} characters. Display graphic
@@ -5128,7 +5170,7 @@
 
 % ===================================================================
 
-\begin{worddef}{1675}{HOLDS}
+\begin{worddef}{1675}{HOLDS}[]%[X:xchar]
 \item \stack{c-addr u}{}
 
 	Adds the string represented by \param{c-addr u} to the pictured numeric
@@ -5137,21 +5179,20 @@
 
 \see \wref{core:HOLD}{}.
 
-	\begin{implement}
+	\begin{implement} % I.6.2.1675 HOLDS
 	\word{:} \word{HOLDS} \word{p} addr u -{}- ) \\
 	\tab[0.6] \word{BEGIN} \word{DUP} \word{WHILE} \word{1-} \word{2DUP} \word{+}
 	\word{C@} \word{HOLD} \word{REPEAT} \word{2DROP} \word{;}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.6.2.1675 HOLDS
 		\test{0. \word{num-start} \word[file]{Sq} Test" \word{HOLDS} \word{num-end} \word[file]{Sq} Test" \word[string]{COMPARE}}{0}
 	\end{testing}
 \end{worddef}
 
 % ===================================================================
 
-\enlargethispage{2ex}
-\begin{worddef}{1725}{IS}
+\begin{worddef}{1725}{IS}[]%[X:deferred]
 \interpret
 	\stack{xt "<spaces>name"}{}
 
@@ -5182,7 +5223,7 @@
 	\wref{core:DEFER!}{DEFER!},
 	\wref{core:DEFER@}{DEFER@}.
 
-	\begin{implement} % I.6.2.---- IS
+	\begin{implement} % I.6.2.1725 IS
 		\word{:} \word{IS} \\
 		\tab \word{STATE} \word{@} \word{IF} \\
 		\tab[2] \word{POSTPONE} \word{[']} \word{POSTPONE} \word{DEFER!} \\
@@ -5191,7 +5232,7 @@
 		\tab \word{THEN} \word{;} \word{IMMEDIATE}
 	\end{implement}
 
-	\begin{testing} % T.6.2.---- IS
+	\begin{testing} % T.6.2.1725 IS
 		\test{\word{DEFER} defer5}{} \\
 		\test{\word{:} is-defer5 \word{IS} defer5 \word{;}}{}
 
@@ -5203,7 +5244,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+\newpage
 \begin{worddef}{1850}{MARKER}
 \item \stack{"<spaces>name"}{}
 
@@ -5311,7 +5352,8 @@
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-5ex}
+
+\vspace*{-6ex}
 \begin{worddef}{2008}{PARSE}
 \item \stack{char "ccc<char>"}{c-addr u}
 
@@ -5406,7 +5448,7 @@
 \end{worddef}
 
 \vspace*{-3ex}
-\begin{worddef}{2020}{PARSE-NAME}
+\begin{worddef}{2020}{PARSE-NAME}[]%[X:parse-name]
 \item \stack{"<spaces>name<space>"}{c-addr u}
 
 	Skip leading space delimiters. Parse \param{name} delimited by a
@@ -5417,7 +5459,7 @@
 	parse area is empty or contains only white space, the resulting
 	string has length zero.
 
-	\begin{implement} % I.6.2.---- PARSE-NAME
+	\begin{implement} % I.6.2.2020 PARSE-NAME
 		\word{:} isspace? \word{p} c -{}- f ) \\
 		\tab \word{BL} \word{1+} \word{Uless} \word{;}
 
@@ -5444,7 +5486,7 @@
 		\tab \word{DROP} \word{Rfrom} \word{TUCK} \word{-} \word{;}
 	\end{implement}
 
-	\begin{testing} % T.6.2.---- PARSE-NAME
+	\begin{testing} % T.6.2.2020 PARSE-NAME
 		\test{\word{PARSE-NAME} abcd \word{Sq} abcd" S=}{<TRUE>} \\
 		\test{\word{PARSE-NAME}   abcde   \word{Sq} abcde" S=}{<TRUE>}
 
@@ -5484,7 +5526,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{2040}{QUERY}
+%\begin{worddef}{2040}{QUERY}[]%[X:legacy]
 %\item \stack{}{}
 %
 %	Make the user input device the input source. Receive input into
@@ -5501,6 +5543,7 @@
 %		and \word{EVALUATE}.
 %	\end{rationale}
 %\end{worddef}
+
 
 \vspace*{-3ex}
 \begin{worddef}{2125}{REFILL}
@@ -5533,7 +5576,7 @@
 \end{worddef}
 
 \vspace*{-3ex}
-\enlargethispage{10ex}
+\enlargethispage{8ex}
 \begin{worddef}{2148}{RESTORE-INPUT}
 \item \stack{x_n {\ldots} x_1 n}{flag}
 
@@ -5548,7 +5591,7 @@
 	  \rref{core:SAVE-INPUT}{SAVE-INPUT}.
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-6ex}
 \begin{worddef}{2150}{ROLL}
 \item \stack{x_u x_{u-1} {\ldots} x_0 u}{x_{u-1} {\ldots} x_0 x_u}
 
@@ -5566,11 +5609,15 @@
 \end{worddef}
 
 % -------------------------------------------------------------------
-
-\begin{worddef}[Seq]{2266}{S\bs"}[s-backslash-quote]
+\enlargethispage{12ex}
+\begin{worddef}[Seq]{2266}{S\bs"}[s-backslash-quote]%[X:escaped-strings]
 
 \interpret
-	Interpretation semantics for this word are undefined.
+	\stack{"ccc<quote>"}{c-addr u}
+
+	Parse \param{ccc} delimited by \texttt{"} (double quote) according to the
+	translation rules below.  Store the resulting string in a transient buffer
+	\param{c-addr u}.
 
 \compile \stack{"ccc<quote>"}{} \\
 	Parse \param{ccc} delimited by \verb|"| (double-quote), using the
@@ -5584,25 +5631,28 @@
 	the character after the backslash is case sensitive:
 
 	\begin{tabular}{llll}
-		\verb|\a|		& BEL		& (alert,					& ASCII 7) \\
-		\verb|\b|	& BS		& (backspace,			& ASCII 8) \\
-		\verb|\e|		& ESC		& (escape,				& ASCII 27) \\
-		\verb|\f|		& FF		& (form feed,			& ASCII 12) \\
-		\verb|\l|		& LF		& (line feed,				& ASCII 10) \\
-		\verb|\m|	& CR/LF		& pair					& (ASCII 13, 10) \\
-		\verb|\n|	& newline	& \multicolumn{2}{l}{(implementation dependent , e.g., CR/LF, CR, LF, LF/CR)} \\
-		\verb|\q|	& \multicolumn{2}{l}{double-quote}	& (ASCII 34) \\
-		\verb|\r|		& CR		& (carriage return,		& ASCII 13) \\
-		\verb|\t|		& HT		& (horizontal tab,			& ASCII 9) \\
-		\verb|\v|		& VT		& (vertical tab,			& ASCII 11) \\
-		\verb|\z|		& NUL		& (no character,			& ASCII 0) \\
-		\verb|\"|		& \multicolumn{2}{l}{double-quote}	& (ASCII 34) \\
+		\verb|\a|	& BEL		& (alert,		& ASCII 7) \\
+		\verb|\b|	& BS		& (backspace,	& ASCII 8) \\
+		\verb|\e|	& ESC		& (escape,		& ASCII 27) \\
+		\verb|\f|	& FF		& (form feed,	& ASCII 12) \\
+		\verb|\l|	& LF		& (line feed,	& ASCII 10) \\
+		\verb|\m|	& CR/LF	& pair			& (ASCII 13, 10) \\
+		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent , e.g., CR/LF, CR, LF, LF/CR)} \\
+		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
+		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
+		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
+		\verb|\v|	& VT		& (vertical tab,		& ASCII 11) \\
+		\verb|\z|	& NUL		& (no character,		& ASCII 0) \\
+	\end{tabular}
+
+	\begin{tabular}{llll}
+		\verb|\"|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
 		\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
 		&&\multicolumn{2}{p{27em}}{
 			The resulting character is the conversion of these two hexadecimal
 			digits. An ambiguous conditions exists if \texttt{\bs{x}} is not
 			followed by two hexadecimal characters.} \\
-		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & (ASCII 92) \\
+		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & (ASCII 92)
 	\end{tabular}
 
 	An ambiguous condition exists if a \bs{} is placed before any character,
@@ -5613,9 +5663,10 @@
 	the translation of the characters \param{ccc}.  A program shall not
 	alter the returned string.
 
-\see \xref{usage:parsing},
+\see \xref{usage:"literal},
+	\xref{usage:parsing},
 	\wref{core:Cq}{},
-	\wref{file:Sq}{},
+	\wref{core:Sq}{},
 	\rref{core:Sq}{}.
 \end{worddef}
 
@@ -5831,7 +5882,7 @@
 \end{worddef}
 
 
-%\begin{worddef}{2240}{SPAN}
+%\begin{worddef}{2240}{SPAN}[]%[X:legacy]
 %\item \stack{}{a-addr}
 %
 %	\param{a-addr} is the address of a cell containing the count of
@@ -5843,7 +5894,7 @@
 %\end{worddef}
 
 
-%\begin{worddef}{2290}{TIB}[t-i-b]
+%\begin{worddef}{2290}{TIB}[t-i-b]%[X:legacy]
 %\item \stack{}{c-addr}
 %
 %	\param{c-addr} is the address of the terminal input buffer.
@@ -5860,7 +5911,7 @@
 %	\end{rationale}
 %\end{worddef}
 
-
+\enlargethispage{4ex}
 \begin{worddef}{2295}{TO}
 \interpret
 	\stack{i*x "<spaces>name"}{}
@@ -5908,7 +5959,6 @@
 \end{worddef}
 
 
-\enlargethispage{6ex}
 \begin{worddef}{2298}{TRUE}
 \item \stack{}{true}
 
@@ -6085,8 +6135,7 @@
 				\word{AND} \\
 			\word{;}
 		\end{quote}
-		Assume \remove{x:2-complement}{two's-complement arithmetic on} a 16-bit machine, and
-		consider the following test:
+		Assume a 16-bit machine, and consider the following test:
 
 		\tab \texttt{33000 ~ 32000 ~ 34000 ~ WITHIN}
 
@@ -6108,20 +6157,18 @@
 		\end{quote}
 		would give an incorrect answer.
 
-		\replace{x:2-complement}{For two's-complement machines that ignore arithmetic overflow
-		(most machines), the following implementation works in all
-		cases:}{The following implementation works in all cases:}
+		The following implementation works in all cases:
 		\begin{quote}\ttfamily
 			\word{:} \word{WITHIN} \word{p} test low high -{}- flag ) \\
-				\tab ~\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} \\
+			\tab ~\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} \\
 			\word{;}
 		\end{quote}
 	\end{rationale}
 
-	\begin{implement}\cbstart\patch{x:2-complement}
-		\uline{\word{:} \word{WITHIN} \word{p} test low high -{}- flag )} \\
-		\tab \uline{\word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless}} \\
-		\uline{\word{;}}\cbend
+	\begin{implement} % I.6.2.2440 WITHIN
+		\word{:} \word{WITHIN} \word{p} test low high -{}- flag ) \\
+		\tab \word{OVER} \word{-} \word{toR} \word{-} \word{Rfrom} \word{Uless} \\
+		\word{;}
 	\end{implement}
 \end{worddef}
 
@@ -6139,8 +6186,8 @@
 	otherwise append the execution semantics of \param{name}. An
 	ambiguous condition exists if \param{name} is not found.
 
-\note \place{ed14}{This word is obsolescent and is included as a concession to
-	existing implementations.}
+\note This word is obsolescent and is included as a concession to
+	existing implementations.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
 	\rref{core:[COMPILE]}{}.

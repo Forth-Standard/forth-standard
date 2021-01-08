@@ -1,4 +1,7 @@
 % !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \chapter{The optional Double-Number word set} % 8
 \wordlist{double}
 
@@ -138,7 +141,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{0390}{2LITERAL}[two-literal]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -174,7 +177,8 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-3ex}
+\enlargethispage{8ex}
 \begin{worddef}{0440}{2VARIABLE}[two-variable]
 \item \stack{"<spaces>name"}{}
 
@@ -402,7 +406,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1100}{D2/}[d-two-slash]
 \item \stack{xd_1}{xd_2}
 
@@ -420,7 +424,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[Dless]{1110}{D<}[d-less-than]
 \item \stack{d_1 d_2}{flag}
 
@@ -445,7 +449,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1120}{D=}[d-equals]
 \item \stack{xd_1 xd_2}{flag}
 
@@ -484,7 +488,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[DtoS]{1140}{D>S}[d-to-s]
 \item \stack{d}{n}
 
@@ -495,36 +499,28 @@ Extensions word sets.
 \see \rref{double:DtoS}{}.
 
 	\begin{rationale} % A.8.6.1.1140 D>S
-	\remove{x:2-complement}{%
-		There exist number representations, e.g., the sign-magnitude
-		representation, where reduction from double- to single-precision
-		cannot simply be done with \word[core]{DROP}. This word,
-		equivalent to \word[core]{DROP} on two's complement systems,
-		desensitizes application code to number representation and
-		facilitates portability.}
-
-	\place{x:2-complement}{%
 		An alias for \word[core]{DROP} that conveys the intent to convert
 		a double-cell to a single-cell integer.  The original intention of this
 		word was to support signed-number representations other than
-		twos-complement.}
+		two's complement.
 	\end{rationale}
 
-	\begin{testing}
+	\begin{implement} % I.8.6.1.1140 D>S
+		\word{:} \word{DtoS} \word{p} d -{}- n ) \\
+		\tab \word{DROP} \\
+		\word{;} \\[1ex]
+	\end{implement}
+
+	\begin{testing} % T.8.6.1.1140 D>S
 		\test{   1234  0 \word{DtoS}}{ 1234  } \\
 		\test{  -1234 -1 \word{DtoS}}{-1234  } \\
 		\test{MAX-INT  0 \word{DtoS}}{MAX-INT} \\
 		\test{MIN-INT -1 \word{DtoS}}{MIN-INT}
 	\end{testing}
-	
-	\begin{implement}\cbstart\patch{x:2-complement}
-		\word{:} \word{StoD} \word{p} d -{}- n ) \\
-		\tab \word{DROP} \\
-		\word{;} \\[1ex]
-	\cbend	\end{implement}
+
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1160}{DABS}[d-abs]
 \item \stack{d}{ud}
 
@@ -538,7 +534,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1210}{DMAX}[d-max]
 \item \stack{d_1 d_2}{d_3}
 
@@ -566,7 +562,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1220}{DMIN}[d-min]
 \item \stack{d_1 d_2}{d_3}
 
@@ -594,7 +590,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1230}{DNEGATE}[d-negate]
 \item \stack{d_1}{d_2}
 
@@ -676,7 +672,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\newpage
+
 \subsection{Double-Number extension words} % 8.6.2
 \extended
 
@@ -694,7 +690,8 @@ Extensions word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef}{0435}{2VALUE}[two-value]
+\enlargethispage{6ex}
+\begin{worddef}{0435}{2VALUE}[two-value]%[X:2value]
 \item \stack{x_1 x_2 "<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
@@ -720,7 +717,7 @@ Extensions word sets.
 \see \xref{usage:parsing} and \wref{core:TO}{},
 	\rref{double:2VALUE}{}.
 
-	\begin{rationale}
+	\begin{rationale} % R.8.6.2.0435 2VALUE
 		Typical use:
 		\begin{quote}\ttfamily
 			\word{:} fn1 \word{Sq} filename" \word{;} \\
@@ -732,7 +729,7 @@ Extensions word sets.
 		\end{quote}
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.8.6.2.0435 2VALUE
 		\dffamily
 		The implementation of \word{TO} to include \word{2VALUE}s
 		requires detailed knowledge of the host implementation of
@@ -766,7 +763,7 @@ Extensions word sets.
 		\end{quote}
 	\end{implement}
 
-	\begin{testing}\ttfamily
+	\begin{testing}\ttfamily % T.8.6.2.0435 2VALUE
 		\test{1 2 \word{2VALUE} t2val}{} \\
 		\test{t2val}{1 2} \\[2ex]
 		\test{3 4 \word{TO} t2val}{} \\

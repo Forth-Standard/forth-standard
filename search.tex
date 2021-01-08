@@ -1,4 +1,7 @@
 % !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \chapter{The optional Search-Order word set} % 16
 \wordlist{search}
 
@@ -191,7 +194,7 @@ sets.
 
 \see \xref[16.3.3 Finding Definition Names]{search:find}.
 
-	\begin{implement}
+	\begin{implement} % I.16.6.1.1180 DEFINITIONS
 		\word{:} discard \word{p} x1 {\ldots} xn u -{}- ) \bs{} \textdf{Drop u+1 stack items} \\
 		\tab 0 \word{qDO} \word{DROP} \word{LOOP} \\
 		\word{;}
@@ -201,7 +204,8 @@ sets.
 		\word{;}
 	\end{implement}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.16.6.1.1180 DEFINITIONS
+		\ttfamily
 		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS}}{} \\
 		\test{\word{GET-CURRENT}}{FORTH-WORDLIST}
 
@@ -258,7 +262,7 @@ sets.
 	\wref{core:POSTPONE}{POSTPONE},
 	\wref{core:[']}{[']}.
 
-	\begin{implement}
+	\begin{implement} % I.16.6.1.1550 FIND
 		\textdf{Assuming \texttt{\#order} and \texttt{context} are defined as per \iref{search:GET-ORDER}{}.}
 
 		\begin{tabbing}
@@ -277,7 +281,8 @@ sets.
 		\end{tabbing}
 	\end{implement}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.16.6.1.1550 FIND
+		\ttfamily
 		\word{:} c"dup" \word{Cq} DUP" \word{;} \\
 		\word{:} c".("~ \word{Cq} .("~ \word{;} \\
 		\word{:} c"x"~~ \word{Cq} unknown word" \word{;}
@@ -297,7 +302,7 @@ sets.
 	is initially the compilation word list and is part of the initial
 	search order.
 
-	\begin{testing}
+	\begin{testing} % T.16.6.2.1595 FORTH-WORDLIST
 		\test{\word{FORTH-WORDLIST} wid1 \word{!}}{}
 	\end{testing}
 \end{worddef}
@@ -309,7 +314,7 @@ sets.
 	Return \param{wid}, the identifier of the compilation word list.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1647}{GET-ORDER}
 \item \stack{}{wid_n {\ldots} wid_1 n}
 
@@ -319,7 +324,7 @@ sets.
 	list that is searched first, and \param{wid_n} the word list that
 	is searched last. The search order is unaffected.
 
-	\begin{implement}
+	\begin{implement} % I.16.6.1.1647 GET-ORDER
 		\textdf{Here is a very simple search order implementation:}
 
 		\word{VARIABLE} \#order
@@ -335,7 +340,7 @@ sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{2192}{SEARCH-WORDLIST}
 \item \stack{c-addr u wid}{0 | xt 1 | xt -1}
 
@@ -347,14 +352,15 @@ sets.
 
 \see \rref{search:SEARCH-WORDLIST}{}.
 
-	\begin{rationale} % A.16.6.1.219  SEARCH-WORDLIST
+	\begin{rationale} % A.16.6.1.2192 SEARCH-WORDLIST
 		When \word{SEARCH-WORDLIST} fails to find the word, it does
 		not return the string, unlike \word{FIND}. This is in
 		accordance with the general principle that Forth words consume
 		their arguments.
 	\end{rationale}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.16.6.1.2192 SEARCH-WORDLIST
+		\ttfamily
 		\word{ONLY} \word{FORTH} \word{DEFINITIONS} \\
 		\word{VARIABLE} xt~ \word{'} \word{DUP} xt~ \word{!} \\
 		\word{VARIABLE} xti \word{'} \word{.p}~ xti \word{!} \word{bs} \textdf{Immediate word}
@@ -365,14 +371,14 @@ sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{2195}{SET-CURRENT}
 \item \stack{wid}{}
 
 	Set the compilation word list to the word list identified by
 	\param{wid}.
 
-	\begin{testing}
+	\begin{testing} % T.16.6.1.2195 SET-CURRENT
 		\test{\word{GET-CURRENT}}{wid1 \word{@}}
 
 		\test{\word{WORDLIST} wid2 \word{!}}{} \\
@@ -383,7 +389,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{2197}{SET-ORDER}
 \item \stack{wid_n {\ldots} wid_1 n}{}
 
@@ -397,7 +403,7 @@ sets.
 	\word{SET-ORDER}. A system shall allow \param{n} to be at least
 	eight.
 
-	\begin{implement}
+	\begin{implement} % I.16.6.1.2197 SET-ORDER
 		\textdf{This is the complement of \iref{search:GET-ORDER}{}.}
 
 		\word{:} \word{SET-ORDER} \word{p} wid1 {\ldots} widn n -{}0 ) \\
@@ -409,7 +415,8 @@ sets.
 		\word{;}
 	\end{implement}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.16.6.1.2197 SET-ORDER
+		\ttfamily
 		\test{\word{GET-ORDER} \word{OVER}     }{\word{GET-ORDER} wid1 \word{@}} \\% \word{bs} \textdf{Forth wordlist at top} \\
 		\test{\word{GET-ORDER} \word{SET-ORDER}}{} \\% \tab \word{bs} \textdf{Effectively noop} \\
 		\test{\word{GET-ORDER}          }{get-orderlist} % \tab \word{bs} \textdf{Check nothing changed} \\
@@ -430,7 +437,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+\enlargethispage{2ex}
 \begin{worddef}{2460}{WORDLIST}
 \item \stack{}{wid}
 
@@ -454,18 +461,18 @@ sets.
 	\param{wid_1}. An ambiguous condition exists if there are too
 	many word lists in the search order.
 
-	\begin{implement}
+	\begin{implement} % I.16.6.2.0715 ALSO
 		\word{:} \word{ALSO} \word{p} -{}- ) \\
 		\tab \word{GET-ORDER} \word{OVER} \word{SWAP} \word{1+} \word{SET-ORDER} \\
 		\word{;}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.16.6.2.0715 ALSO
 		\test{\word{ALSO} \word{GET-ORDER} \word{ONLY}}{get-orderlist \word{OVER} \word{SWAP} \word{1+}}
 	\end{testing}
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{1590}{FORTH}
 \item \stack{}{}
 
@@ -474,7 +481,7 @@ sets.
 	first) into \param{wid_n}, {\ldots} \param{wid_2},
 	\param{wid_{\word{FORTH-WORDLIST}}}.
 
-	\begin{implement}
+	\begin{implement} % I.16.6.2.1590 FORTH
 	\word{:} (wordlist) \word{p} wid "<name>" -{}- ; ) \\
 	\tab \word{CREATE} \word{,} \\
 	\tab \word{DOES} \\
@@ -495,11 +502,12 @@ sets.
 	order. The minimum search order shall include the words
 	\word{FORTH-WORDLIST} and \word{SET-ORDER}.
 
-	\begin{implement}
+	\begin{implement} % A.16.6.2.1965 ONLY
 		\word{:} \word{ONLY} \word{p} -{}- ) -1 \word{SET-ORDER} \word{;}
 	\end{implement}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.16.6.2.1965 ONLY
+		\ttfamily
 		\test{\word{ONLY} \word{FORTH} \word{GET-ORDER}}{get-orderlist}
 
 		\word{:} so1 \word{SET-ORDER} {;} \word{bs} \textdf{In case it is unavailable in the forth wordlist}
@@ -524,7 +532,8 @@ sets.
 
 \see \xref[3.3.3.6 Other Transient Regions]{usage:transient}.
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.16.6.2.1985 ORDER
+		\ttfamily
 		\word{CR} \word{.p} ONLY FORTH DEFINITIONS search order and compilation list) \word{CR} \\
 		\test{\word{ONLY} \word{FORTH} \word{DEFINITIONS} \word{ORDER}}{}
 
@@ -543,7 +552,7 @@ sets.
 	condition exists if the search order was empty before
 	\word{PREVIOUS} was executed.
 
-	\begin{implement}
+	\begin{implement} % I.16.6.2.2037 PREVIOUS
 		\word{:} \word{PREVIOUS} \word{p} -{}- )
 			 \word{GET-ORDER} \word{NIP} \word{1-} \word{SET-ORDER}
 		\word{;}

@@ -1,5 +1,6 @@
 % !TeX root = forth.tex
 % !TeX spellcheck = en_US
+% !TeX program = pdflatex
 
 \chapter{The optional File-Access word set} % 11
 \wordlist{file}
@@ -29,10 +30,8 @@ under the following assumptions:
 \item[file-access method:]
 	A permissible means of accessing a file, such as ``read/write''
 	or ``read only''.
-
 \item[file position:]
 	The character offset from the start of the file.
-
 \item[input file:]
 	The file, containing a sequence of lines, that is the input source.
 \end{description}
@@ -117,13 +116,6 @@ an environmental dependency. See:
 \subsection{Other transient regions} % 11.3.5
 \label{file:buffers}
 
-The system provides transient buffers for \word{Sq} and \word{Seq}
-strings. These buffers shall be no less than 80 characters in length, and
-there shall be at least two buffers. The system should be able to store
-two strings defined by sequential use of \word{Sq} or \word{Seq}.
-RAM-limited systems may have environmental restrictions on the number
-of buffers and their lifetimes.
-
 \subsection{Parsing} % 11.3.6
 \label{file:parsing}
 
@@ -168,8 +160,6 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 \item maximum size of input line (\xref[11.3.6 Parsing]{file:parsing});
 \item methods for mapping block ranges to files
 	(\xref[11.3.2 Blocks in files]{file:blocks});
-\item number of string buffers provided (\xref{file:buffers});
-\item size of string buffer used by \xref{file:buffers}.
 \end{itemize}
 
 \subsubsection{Ambiguous conditions} % 11.4.1.2
@@ -202,7 +192,6 @@ See: \xref[3.4.1 Parsing]{usage:parsing}.
 	some renaming between the invocations of \word{REQUIRED});
 \item the stack effect of including with
 	\wref{file:REQUIRED}{REQUIRED} the file is not \stack{i*x}{i*x}.
-
 \end{itemize}
 
 \subsubsection{Other system documentation} % 11.4.1.3
@@ -272,14 +261,14 @@ provide all of the File Access and File Access Extensions word sets.
 	zero, and resume parsing, repeating this process until either a
 	right parenthesis is found or the end of the file is reached.
 
-	\begin{testing}
+	\begin{testing} % T.11.6.1.0080 (
 		\test{\word{p} 1 2 3 \\
 		\tab[2.4] 4 5 6 \\
 		\tab[2.4] 7 8 9 ) 11 22 33}{11 22 33}
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{4ex}
+\vspace*{-2ex}
 \begin{worddef}{0765}{BIN}
 \item \stack{fam_1}{fam_2}
 
@@ -306,7 +295,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{0900}{CLOSE-FILE}
 \item \stack{fileid}{ior}
 
@@ -314,7 +303,7 @@ provide all of the File Access and File Access Extensions word sets.
 	implementation-defined I/O result code.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1010}{CREATE-FILE}
 \item \stack{c-addr u fam}{fileid ior}
 
@@ -343,7 +332,8 @@ provide all of the File Access and File Access Extensions word sets.
 			\word[core]{;}
 	\end{rationale}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.11.6.1.1010 CREATE-FILE
+		\ttfamily
 		\word{:} fn1 \word{Sq} fatest1.txt" \word{;} \\
 		\word{VARIABLE} fid1
 
@@ -352,7 +342,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1190}{DELETE-FILE}
 \item \stack{c-addr u}{ior}
 
@@ -360,10 +350,11 @@ provide all of the File Access and File Access Extensions word sets.
 	\param{c-addr u}. \param{ior} is the {im\-ple\-ment\-ation-de\-fin\-ed}
 	I/O result code.
 
-	\begin{testing}
+	\begin{testing} % T.11.6.1.1190 DELETE-FILE
 		\test{fn2 \word{DELETE-FILE}}{0} \\
 		\test{fn2 \word{R/W} \word{BIN} \word{OPEN-FILE} \word{SWAP} \word{DROP}}{0} \\
 		\test{fn2 \word{DELETE-FILE}}{0}
+		\pagebreak
 	\end{testing}
 \end{worddef}
 
@@ -388,7 +379,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\hyperref{}{file}{FILE-POSITION}{\textbf{\texttt{POSITION}}}.
 	\param{ud} is undefined if \param{ior} is non-zero.
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.11.6.1.1522 FILE-SIZE
+		\ttfamily
 		\word{:} cbuf buf bsize 0 \word{FILL} \word{;} \\
 		\word{:} fn2 \word{Sq} fatest2.txt" \word{;} \\
 		\word{VARIABLE} fid2 \\
@@ -414,7 +406,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\newpage
+
 \begin{worddef}{1717}{INCLUDE-FILE}
 \item \stack{i*x fileid}{j*x}
 
@@ -464,7 +456,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\enlargethispage{-4ex}
 \begin{worddef}{1718}{INCLUDED}
 \item \stack{i*x c-addr u}{j*x}
 
@@ -506,7 +498,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-5ex}
+
 \begin{worddef}{1970}{OPEN-FILE}
 \item \stack{c-addr u fam}{fileid ior}
 
@@ -534,7 +526,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2054}{R/O}[r-o]
 \item \stack{}{fam}
 
@@ -545,7 +537,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:OPEN-FILE}{OPEN-FILE}.
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2056}{R/W}[r-w]
 \item \stack{}{fam}
 
@@ -556,8 +548,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:OPEN-FILE}{OPEN-FILE}.
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{10ex}
+\vspace*{-7ex}
 \begin{worddef}{2080}{READ-FILE}
 \item \stack{c-addr u_1 fileid}{u_2 ior}
 
@@ -613,7 +604,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-3ex}
+\enlargethispage{8ex}
 \begin{worddef}{2090}{READ-LINE}
 \item \stack{c-addr u_1 fileid}{u_2 flag ior}
 
@@ -676,7 +668,7 @@ provide all of the File Access and File Access Extensions word sets.
 										\>	 \word{p} length not-eof-flag ) \\
 			\word{WHILE} 			\>\> \word{p} length ) \\
 			\> {\ldots}				\>	 \word{p} ) \\
-			\word{REPEAT} \word{DROP}	\>\> \word{p} ) 
+			\word{REPEAT} \word{DROP}	\>\> \word{p} ) \\
 		  \end{tabbing}
 		\end{quote}\setwordlist{file}
 
@@ -685,7 +677,8 @@ provide all of the File Access and File Access Extensions word sets.
 		zero-length line cannot be used to signify end-of-file.
 	\end{rationale}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.11.6.1.2090 READ-LINE
+		\ttfamily
 		200 \word{CONSTANT} bsize \\
 		\word{CREATE} buf bsize \word{ALLOT} \\
 		\word{VARIABLE} \#chars
@@ -711,7 +704,8 @@ provide all of the File Access and File Access Extensions word sets.
 	At the conclusion of the operation, \word{FILE-POSITION}
 	returns the value \param{ud}.
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.11.6.1.2142 REPOSITION-FILE
+		\ttfamily
 		\word{:} line2 \word{Sq} Line 2 blah blah blah" \word{;} \\
 		\word{:} rl1 buf 100 fid1 \word{@} \word{READ-LINE} \word{;} \\
 		\word[double]{2VARIABLE} fp
@@ -742,7 +736,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{10ex}
+
 \begin{worddef}{2147}{RESIZE-FILE}
 \item \stack{ud fileid}{ior}
 
@@ -763,7 +757,7 @@ provide all of the File Access and File Access Extensions word sets.
 \see \wref{file:READ-FILE}{READ-FILE},
 	\wref{file:READ-LINE}{READ-LINE}.
 
-	\begin{testing}
+	\begin{testing} % T.11.6.1.2147 RESIZE-FILE
 		\texttt{setpad} \\
 		\test{fn2 \word{R/W} \word{BIN} \word{OPEN-FILE} \word{SWAP} fid2 \word{!}}{0} \\
 		\test{37. fid2 \word{@} \word{RESIZE-FILE}}{0} \\
@@ -781,67 +775,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-5ex}
-\begin{worddef}[Sq]{2165}{S"}[s-quote]
-\item Extend the semantics of \wref{core:Sq}{S"} to be:
 
-\interpret
-	\stack{"ccc<quote>"}{c-addr u}
-
-	Parse \param{ccc} delimited by \texttt{"} (double quote). Store
-	the resulting string in a transient buffer \param{c-addr u}.
-
-\compile
-	\stack{"ccc<quote>"}{}
-
-	Parse \param{ccc} delimited by \texttt{"} (double quote). Append
-	the run-time semantics given below to the current definition.
-
-\runtime
-	\stack{}{c-addr u}
-
-	Return \param{c-addr} and \param{u} that describe a string
-	consisting of the characters \param{ccc}.
-
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:Cq}{C"},
-	\wref{core:Sq}{S"},
-	\xref[11.3.5 Other transient regions]{file:buffers}, \\
-	\wref{file:Seq}{},
-	\xref{rat:file:buffers},
-	\rref{file:Sq}{}.
-
-	\begin{rationale} % A.11.6.1.2165 S"
-		Typical use:
-			{\ldots} \word{Sq} \emph{ccc}\texttt{"} {\ldots}
-
-		The interpretation semantics for \word{Sq} are intended to
-		provide a simple mechanism for entering a string in the
-		interpretation state. Since an implementation may choose to
-		provide only one buffer for interpreted strings, an
-		interpreted string is subject to being overwritten by the
-		next execution of \word{Sq} in interpretation state. It is
-		intended that no standard words other than \word{Sq} should
-		in themselves cause the interpreted string to be overwritten.
-		However, since words such as \word[core]{EVALUATE},
-		\word[block]{LOAD}, \word{INCLUDE-FILE} and
-		\word{INCLUDED} can result in the interpretation of arbitrary
-		text, possibly including instances of \word{Sq}, the
-		interpreted string may be invalidated by some uses of these
-		words.
-
-		When the possibility of overwriting a string can arise, it is
-		prudent to copy the string to a ``safe'' buffer allocated by
-		the application.
-	\end{rationale}
-
-	\begin{testing}
-		\test{\word{Sq} A String"\word{2DROP}}{}
-			\tab \word{bs} \textdf{There is no space between the " and \word{2DROP}}
-	\end{testing}
-\end{worddef}
-
-\vspace*{-3ex}
 \begin{worddef}{2218}{SOURCE-ID}[source-i-d]
 \item \stack{}{0 | -1 | fileid}
 
@@ -862,12 +796,12 @@ provide all of the File Access and File Access Extensions word sets.
 	An ambiguous condition exists if \word{SOURCE-ID} is used when
 	\word[block]{BLK} contains a non-zero value.
 
-	\begin{testing}
+	\begin{testing} % T.11.6.1.2218 SOURCE-ID
 		\test{\word{SOURCE-ID} \word{DUP} -1 \word{=} \word{SWAP} \word{0=} \word{OR}}{<FALSE>}
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2425}{W/O}[w-o]
 \item \stack{}{fam}
 
@@ -878,8 +812,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:OPEN-FILE}{OPEN-FILE}.
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{10ex}
+\vspace*{-4ex}
 \begin{worddef}{2480}{WRITE-FILE}
 \item \stack{c-addr u fileid}{ior}
 
@@ -896,7 +829,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:READ-LINE}{READ-LINE}.
 \end{worddef}
 
-
+\vspace*{-3ex}
 \begin{worddef}{2485}{WRITE-LINE}
 \item \stack{c-addr u fileid}{ior}
 
@@ -913,7 +846,8 @@ provide all of the File Access and File Access Extensions word sets.
 \see \wref{file:READ-FILE}{READ-FILE},
 	\wref{file:READ-LINE}{READ-LINE}.
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.11.6.1.2485 WRITE-LINE
+		\ttfamily
 		\word{:} line1 \word{Sq} Line 1" \word{;}
 
 		\test{fn1 \word{W/O} \word{OPEN-FILE} \word{SWAP} fid1 \word{!}}{0} \\
@@ -937,6 +871,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
+\vspace*{-3ex}
 \begin{worddef}{1560}{FLUSH-FILE}
 \item \stack{fileid}{ior}
 
@@ -948,8 +883,9 @@ provide all of the File Access and File Access Extensions word sets.
 	code.
 \end{worddef}
 
-
-\begin{worddef}{1714}{INCLUDE}
+\vspace*{-3ex}
+\enlargethispage{6ex}
+\begin{worddef}{1714}{INCLUDE}[]%[X:required]
 \item \stack{i*x "name"}{j*x}
 
 	Skip leading white space and parse \param{name} delimited by a
@@ -960,24 +896,25 @@ provide all of the File Access and File Access Extensions word sets.
 \see \wref{file:INCLUDED}{INCLUDED},
 	\rref{file:INCLUDE}{}.
 
-	\begin{rationale} % A.11.6.2.---- INCLUDE
+	\begin{rationale} % A.11.6.2.1714 INCLUDE
 		Typical use:
 		\begin{quote}
 			\word{INCLUDE} \texttt{filename}
 		\end{quote}
 	\end{rationale}
 
-	\begin{implement} % I.11.6.2.---- INCLUDE
+	\begin{implement} % I.11.6.2.1714 INCLUDE
 		\word{:} \word{INCLUDE} \word{p} i*x "name" -{}- j*x ) \\
 		\tab \word{PARSE-NAME} \word{INCLUDED} \word{;}
 	\end{implement}
 
-	\begin{testing} % T.11.6.2.---- INCLUDE
+	\begin{testing} % T.11.6.2.1714 INCLUDE
 		See \tref{file:REQUIRED}{REQUIRED}.
+		\pagebreak
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}{2125}{REFILL}
 \item \stack{}{flag}
 
@@ -1001,7 +938,8 @@ provide all of the File Access and File Access Extensions word sets.
 	to the name in the character string \param{c-addr_2 u_2}.
 	\param{ior} is the implementation-defined I/O result code.
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.11.6.2.2130 RENAME-FILE
+		\ttfamily
 		\word{:} fn3 \word{Sq} fatest3.txt" \word{;} \\
 		\word{:} >end fid1 \word{@} \word{FILE-SIZE} \word{DROP} fid1 \word{@} \word{REPOSITION-FILE} \word{;}
 
@@ -1022,7 +960,7 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2144}[10]{REQUIRE}
+\begin{worddef}{2144}[10]{REQUIRE}[]%[X:required]
 \item \stack{i*x "name"}{i*x}
 
 	Skip leading white space and parse \param{name} delimited by a
@@ -1033,25 +971,25 @@ provide all of the File Access and File Access Extensions word sets.
 \see \wref{file:REQUIRED}{REQUIRED},
 	\rref{file:REQUIRE}{}.
 
-	\begin{rationale} % A.11.6.2.---- REQUIRE
+	\begin{rationale} % A.11.6.2.2144.10 REQUIRE
 		Typical use:
 		\begin{quote}
 			\word{REQUIRE} \texttt{filename}
 		\end{quote}
 	\end{rationale}
 
-	\begin{implement} % I.11.6.2.---- REQUIRE
+	\begin{implement} % I.11.6.2.2144.10 REQUIRE
 		\word{:} \word{REQUIRE} \word{p} i*x "name" -{}- i*x ) \\
 		\tab \word{PARSE-NAME} \word{REQUIRED} \word{;}
 	\end{implement}
 
-	\begin{testing} % T.11.6.2.---- REQUIRE
+	\begin{testing} % T.11.6.2.2144.10 REQUIRE
 		See \tref{file:REQUIRED}{REQUIRED}.
 	\end{testing}
 \end{worddef}
 
 \enlargethispage{6ex}
-\begin{worddef}{2144}[50]{REQUIRED}
+\begin{worddef}{2144}[50]{REQUIRED}[]%[X:required]
 \item \stack{i*x c-addr u}{i*x}
 
 	If the file specified by \param{c-addr u} has been \word{INCLUDED}
@@ -1077,14 +1015,14 @@ provide all of the File Access and File Access Extensions word sets.
 
 \see \rref{file:REQUIRED}{}.
 
-	\begin{rationale} % A.11.6.2.---- REQUIRED
+	\begin{rationale} % A.11.6.2.2144.50 REQUIRED
 		Typical use:
 		\begin{quote}
 			\word{Sq} \texttt{filename"} \word{REQUIRED}
 		\end{quote}
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.11.6.2.2144.50 REQUIRED
 		\dffamily
 		This implementation does not implement the requirements with
 		regard to \word{MARKER} and \word[tools]{FORGET} (\word{REQUIRED}
@@ -1141,7 +1079,7 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab \word{THEN} \word{;}
 	\end{implement}
 
-	\begin{testing} % T.11.6.2.---- REQUIRED
+	\begin{testing} % T.11.6.2.2144.50 REQUIRED
 		This test requires two additional files:
 			\texttt{required-helper1.fs} and
 			\texttt{required-helper2.fs}.
@@ -1164,29 +1102,4 @@ provide all of the File Access and File Access Extensions word sets.
 		\tab \word{Sq} required-helper2.fs" \word{INCLUDED}	\word{bs} Increment TOS \\
 		}{2}
 	\end{testing}
-\end{worddef}
-
-\begin{worddef}[Seq]{2266}{S\bs{"}}[s-backslash-quote]
-\item
-	Extend the semantics of \wref{core:Seq}{} to be:
-
-\interpret \stack{"ccc<quote>"}{c-addr u}
-
-	Parse \param{ccc} delimited by \texttt{"} (double quote) according to the
-	translation rules given in \wref{core:Seq}{}.  Store the resulting string in a
-	transient buffer \param{c-addr u}.
-
-\compile \stack{"ccc<quote>"}{}
-
-	Parse \param{ccc} delimited by \texttt{"} (double quote) according to the
-	translation rules given in \wref{core:Seq}{}.  Append the run-time semantics
-	given below to the current definition.
-
-\runtime \stack{}{c-addr u}
-
-	Return a string \param{c-addr u} describing the translation of \param{ccc}.
-	A program shall not alter the returned string.
-
-\see \wref{core:Seq}{}, \xref[11.3.4 Transient String Buffers]{file:buffers},
-	\wref{file:Sq}{}, \xref[A.11.3.4 Transient String Buffers]{rat:file:buffers}.
 \end{worddef}

@@ -1,5 +1,6 @@
 % !TeX root = forth.tex
-% !TeX spelling = en_US
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
 
 \annex{Rationale} % A. (informative annex)}}}
 \label{annex:rationale}
@@ -68,7 +69,6 @@ Utility	&
 
 
 \section{Terms and notation} % A.2
-\label{rat:notation:terms}
 
 \subsection{Definitions of terms} % A.2.1
 
@@ -155,7 +155,6 @@ implement a Forth System, but rather will provide some guidance as
 to what the minimum requirements are for systems that can properly
 claim compliance with this standard.
 
-\pagebreak\vspace*{-7ex}
 \subsection{Data types} % A.3.1
 \label{rat:types}
 
@@ -212,11 +211,6 @@ mathematical operations come into play.
 		environmental dependencies cannot assume the ability to
 		store numbers outside that range in a ``char'' location.
 
-	\item \remove{x:2-complement}{The allowed number representations are two's-complement,
-		one's-complement, and signed- magnitude. Note that all of
-		these number systems agree on the representation of positive
-		numbers.}
-
 	\item Since a ``\emph{char}'' can store small positive numbers
 		and since the character data type is a sub-range of the
 		unsigned integer data type, \word{C!} must store the \param{n}
@@ -231,7 +225,6 @@ mathematical operations come into play.
 		and output (\word{EMIT}, \word{TYPE}, etc.), the encoding
 		between numbers and human-readable symbols is ISO646/IRV
 		(ASCII) within the range from 32 to 126 (space to \tilde).
-\remove{ed16}{EBCDIC is out (most ``EBCDIC'' computer systems support ASCII too).}
 		Outside that range, it is up to the implementation. The
 		obvious implementation choice is to use ASCII control
 		characters for the range from 0 to 31, at least for the
@@ -330,7 +323,7 @@ mathematical operations come into play.
 	\end{quote}
 \end{enumerate}
 
-
+\pagebreak
 \subsubsection{Single-cell types} % A.3.1.3
 
 A single-cell stack entry viewed without regard to typing is the
@@ -562,70 +555,11 @@ type. Arithmetic ordering on two's complement machines allows \word{+}
 and \word{-} to work on both signed and unsigned numbers. This
 arithmetic behavior is deeply embedded in common Forth practice.
 
-\cbstart\patch{x:2-complement}\uline{%
-As a consequence of these behaviors, the likely range of
-signed numbers is $-n-1$ to $n$ and for
-unsigned numbers is $0$ to $2n+1$.
-Where $n$ is the largest positive signed number.
+As a consequence of these behaviors, the range of
+signed numbers is $-n-1$ to $n$ and for unsigned numbers is $0$ to
+$2n+1$, where $n$ is the largest positive signed number.
 Signed numbers in the $0$ to $n$ range are bitwise identical to the
-corresponding unsigned number.}
-
-
-\sout{%
-As a consequence of these behaviors, the likely ranges of signed and
-unsigned numbers for implementations hosted on each of the permissible
-arithmetic architectures is:}
-
-\begin{center}
-  \begin{tabular}{cr@{\sout{ to }}llr@{\sout{ to }}l}
-	\hline\hline
-	\textbf{\sout{Arithmetic architecture}}
-	&\multicolumn{2}{c}{\textbf{\sout{signed numbers}}}
-	&\multicolumn{3}{c}{\textbf{\sout{unsigned numbers}}} \\
-	\hline
-	\sout{Two's complement}	& \sout{$-n-1$} & \sout{$n$}	&& \sout{$0$} & \sout{$2n+1$}	\\
-	\sout{One's complement}	& \sout{$-n$} 	& \sout{$n$}	&& \sout{$0$} & \sout{$n$}		\\
-	\sout{Signed magnitude}	& \sout{$-n$} 	& \sout{$n$}	&& \sout{$0$} & \sout{$n$}		\\
-	\hline\hline
-  \end{tabular}
-\end{center}
-
-\sout{where $n$ is the largest positive signed number. For all three
-architectures, signed numbers in the $0$ to $n$ range are bitwise
-identical to the corresponding unsigned number. Note that unsigned
-numbers on a signed magnitude machine are equivalent to signed
-non-negative numbers as a consequence of the forced correspondence
-between addresses and unsigned numbers and of the required behavior
-of \word{+} and \word{-}.}
-
-\sout{%
-For reference, these number representations may be defined by the
-way that \word{NEGATE} is implemented:}
-
-\begin{quote}
-  \begin{tabular}{ll}
-	\sout{two's complement:} & \sout{\word{:} \word{NEGATE} \word{INVERT} \word{1+} \word{;}} \\
-	\sout{one's complement:} & \sout{\word{:} \word{NEGATE} \word{INVERT} \word{;}} \\
-	\sout{signed-magnitude:} & \sout{\word{:} \word{NEGATE} \texttt{HIGH-BIT} \word{XOR} \word{;}}
-  \end{tabular}
-\end{quote}
-
-\sout{where \texttt{HIGH-BIT} is a bit mask with only the most-significant
-bit set. Note that all of these number systems agree on the
-representation of non-negative numbers.}
-
-\sout{Per} \xref[3.2.1.1 Internal number representation]{usage:number} \sout{and}
-\wref{core:0=}{0=}\sout{, the implementor must ensure that no standard or
-supported word return negative zero for any numeric (non-Boolean or
-flag) result. Many existing programmer assumptions will be violated
-otherwise.}
-\cbend
-
-There is no requirement to implement circular unsigned arithmetic,
-nor to set the range of unsigned numbers to the full size of a cell.
-There is historical precedent for limiting the range of \param{u} to
-that of \param{+n}, which is permissible when the cell size is greater
-than 16 bits.
+corresponding unsigned number.
 
 \setcounter{paragraph}{1}
 \paragraph{Digit conversion} ~ % A.3.2.1.2
@@ -662,17 +596,6 @@ primitive \word{SM/REM} to construct a division operator of the
 desired flavor. This simple technique can be used to convert Forth-79
 and Forth-83 programs to Forth 94 without any analysis of the
 original programs.
-
-\paragraph{Other integer operations} ~ % A.3.2.2.2
-\label{rat:math:int}
-
-Whether underflow occurs depends on the data-type of the result.
-\replace{x:2-complement}{For
-example, the phrase \texttt{1 2} \word{-} underflows if the result is
-unsigned and produces the valid signed result -1.}{For
-example, the phrase \texttt{1 2} \word{-} underflows and produces
-the largest unsigned number if the result is unsigned and produces
-the valid signed result \texttt{-1}.}
 
 
 \subsubsection{Stacks} % A.3.2.3
@@ -1062,6 +985,28 @@ This array can be indexed like this:
 \end{quote}
 
 
+\setcounter{paragraph}{3}
+\paragraph{Text-literal regions} ~
+\label{rat:"literal}
+
+Additional transient buffers are provided for use by \word{Cq}, \word{Sq} and
+\word{Seq}.  The buffers should be able to store two consecutive strings, thus
+allowing the command line:
+
+\begin{quote}
+	\texttt{\word[core]{Sq} name1" \word[core]{Sq} name2" \word{RENAME-FILE}}
+\end{quote}
+
+The buffers may be implemented in a circular arrangement, where a string
+is placed into the next available buffer. When there are no buffers available,
+the oldest buffer is overwritten.
+
+\word[core]{Sq} and \word[core]{Seq} may share the same buffers.
+
+The list of words using memory in transient regions is extended to include
+\wref{core:Sq}{} and \wref{core:Seq}{}.
+
+
 \setcounter{paragraph}{5}
 \paragraph{Other transient regions} ~ % A.3.3.3.6
 
@@ -1160,16 +1105,9 @@ for a cross compiler to be labeled a Forth-\snapshot{} standard system.
 Declaring an environmental dependency should not be considered
 undesirable, merely an acknowledgment that the author has taken
 advantage of some assumed architecture.
-\remove{x:2-complement}{For example, most computers
-in common use are based on two's complement binary arithmetic. By
-acknowledging an environmental dependency on this architecture,
-a programmer becomes entitled to use the number \texttt{-1} to
-represent all bits set without significantly restricting the
-portability of the program.}
-\place{x:2-complement}{For example, by acknowledging an
-environmental dependency on big-endian memory access,
-a programmer becomes entitle to use the lower memory address
-of a cell as its the most significant byte.}
+For example, by acknowledging an environmental dependency on
+big-endian memory access, a programmer becomes entitled to use
+the lowest memory address of a cell as its the most significant byte.
 
 Because all programs require space for data and instructions, and
 time to execute those instructions, they depend on the presence of
@@ -1322,7 +1260,7 @@ Refer to \ref{rat:types} for a discussion of data types in Forth.
 \readrationale{double}
 
 
-\section{The optional Exception word set} % A.9 =====================
+\section{The Exception word set} % A.9 =====================
 \setwordlist{exception}
 \label{rat:exception}
 
@@ -1414,27 +1352,8 @@ original file has blocks still in block buffers, these will be
 incorrectly associated with the newly opened file with disastrous
 results. The block buffer system must be flushed to avoid this.
 
-\setcounter{subsubsection}{3}
-\subsubsection{Other transient regions}
-\label{rat:file:buffers}
-
-Additional transient buffers are provided for use by \word{Sq} and \word{Seq}.
-The buffers should be able to store two consecutive strings, thus allowing the
-command line:
-
-\begin{quote}
-	\texttt{\word{Sq} name1" \word{Sq} name2" \word{RENAME-FILE}}
-\end{quote}
-
-The buffers may be implemented in a circular arrangement, where a string
-is placed into the next available buffer. When there are no buffers available,
-the oldest buffer is overwritten.
-
-\word{Sq} and \word{Seq} may share the same buffers.
-
-The list of words using memory in transient regions is extended to include
-\wref{file:Sq}{} and \wref{file:Seq}{}.
-See \xref[3.3.3.6 Other transient regions]{usage:transient}.
+% \subsubsection{Other transient regions} % 11.3.3
+% \label{rat:file:buffers}
 
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.11.6 ============================
@@ -1501,6 +1420,7 @@ put the full digit string on the stack as a double number and use
 other means to inform the application of the location of the decimal
 point.
 
+\pagebreak
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.12.6 ============================
 
@@ -1544,13 +1464,12 @@ written by a System Implementor, may require inside knowledge of the
 internal structure of the return stack, such knowledge is not required
 of a user of compliant Forth systems.
 
-\vspace*{-1ex}
 \setcounter{subsection}{5}
 \subsection{Glossary} % A.13.6 ============================
 
 \readrationale{local}
 
-\vspace*{-1ex}
+
 \section{The optional Memory-Allocation word set} % A.14 ============
 \setwordlist{memory}
 \label{rat:memory}
@@ -1563,7 +1482,7 @@ necessary for the use of \word{ALLOT}).  The Memory-Allocation word set
 can acquire memory from the system at any time, without knowing in
 advance the address of the memory that will be acquired.
 
-\vspace*{-1ex}\enlargethispage{2ex}
+
 \section{The optional Programming-Tools word set} % A.15 ============
 \setwordlist{tools}
 \label{rat:tools}

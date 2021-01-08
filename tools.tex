@@ -1,4 +1,7 @@
 % !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \chapter{The optional Programming-Tools word set} % 15
 \wordlist{tools}
 
@@ -28,13 +31,23 @@ Append table \ref{tools:types} to table \ref{table:datatypes}.
 	\hline\hline
 	\emph{Symbol} & \emph{Data type} & \emph{Size on stack} \\
 	\hline
-	\emph{nt}	& name token & 1 cell \\
+	\emph{nt}				& name token				& 1 cell \\
+	\emph{quotation-sys}	& colon definition status	& implementation dependent \\
 	\hline\hline
 	\end{tabular}
   \end{center}
 \end{table}
 
+
 See: \xref[A.15.3.x Name token]{rat:tools:nt}{}.
+
+\subsection{Colon definition status}
+\label{tools:quotation-sys}
+
+The implementation-dependent \emph{quotation-sys} type
+contains the data that needs to be saved for the enclosing
+colon definition and restored after the end of the quotation.
+It is used in combination with \emph{colon-sys}.
 
 \subsection{The Forth dictionary} % 15.3.2
 \label{tools:dict}
@@ -54,6 +67,7 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \subsection{System documentation} % 15.4.1
 
 \subsubsection{Implementation-defined options} % 15.4.1.1
+\label{tools:impopt}
 
 \begin{itemize}
 \item ending sequence for input following
@@ -88,7 +102,9 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \item \wref{core:IMMEDIATE}{} is applied to a word defined by \wref{tools:SYNONYM}{};
 \item \wref{tools:NRfrom}{} is used with data not stored by \wref{tools:NtoR}{};
 \item adding to or deleting from the wordlist during the execution of
-	\wref{tools:TRAVERSE-WORDLIST}{}.
+	\wref{tools:TRAVERSE-WORDLIST};
+\item The compilation semantics of \wref{tools:;CODE}{} or \wref{core:;}{} used within
+	a quotation \\(\word{[:} {\ldots} \word{;]}).
 \end{itemize}
 
 \subsubsection{Other system documentation} % 15.4.1.3
@@ -199,7 +215,7 @@ Extensions word sets.
 \see \xref[3.3.3.6 Other transient regions]{usage:transient}.
 \end{worddef}
 
-\vspace*{-5ex}
+
 \begin{worddef}{2194}{SEE}
 \item \stack{"<spaces>name"}{}
 
@@ -222,7 +238,7 @@ Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2465}{WORDS}
 \item \stack{}{}
 
@@ -242,11 +258,10 @@ Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \subsection{Programming-Tools extension words} % 15.6.2
 \extended
 
-\enlargethispage{10ex}
 \begin{worddef}{0470}{;CODE}[semicolon-code]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -266,6 +281,9 @@ Extensions word sets.
 	machine code. The process continues, refilling the input buffer
 	as needed, until an implementation-defined ending sequence is
 	processed.
+
+	An ambiguous condition exists if the compilation semantics of
+	\word{;CODE} is preformed inside a quotation.
 
 \runtime
 	\stack{}{}
@@ -299,6 +317,30 @@ Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
+\pagebreak
+\begin{worddef}{}{;]}[semi-bracket][x:quotations]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\compile
+	\stack[C]{quotation-sys colon-sys}{}
+
+	Ends the current nested definition, and resumes compilation to the
+	previous (containing) current definition. It appends the following
+	run-time action to the (containing) current definition.
+
+\runtime
+	\stack{}{xt}
+	
+	\param{xt} is the execution token of the nested definition.
+
+\see \wref{tools:[:}{}, \rref{tools:[:}{}.
+
+	\begin{implement}
+		\textdf{See \iref{tools:[:}{}.}
+	\end{implement}
+\end{worddef}
+
 
 \begin{worddef}{0702}{AHEAD}
 \interpret
@@ -319,7 +361,7 @@ Extensions word sets.
 	Continue execution at the location specified by the resolution
 	of \param{orig}.
 
-	\begin{testing}
+	\begin{testing} % T.15.6.2.0702 AHEAD
 		\test{\word{:} pt1 \word{AHEAD} 1111 2222 \word{THEN} 3333 \word{;}}{} \\
 		\test{pt1}{3333}
 	\end{testing}
@@ -342,6 +384,7 @@ Extensions word sets.
 	Return control to the host operating system, if any.
 \end{worddef}
 
+\pagebreak
 \begin{worddef}{0930}{CODE}
 \item \stack{"<spaces>name"}{}
 
@@ -376,8 +419,7 @@ Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\pagebreak
-\vspace*{-5ex}
+
 \begin{worddef}{1015}{CS-PICK}[c-s-pick]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -401,12 +443,13 @@ Extensions word sets.
 		The intent is to copy a \param{dest} on the control-flow
 		stack so that it can be resolved more than once. For example:
 		\setwordlist{core}
-		\begin{quote}\ttfamily\small
-			\word{bs} Conditionally transfer control to beginning of loop.  \\
-			\word{bs} This is similar in spirit to C's "continue" statement.
+		\begin{quote}\ttfamily
+			\word{bs} Conditionally transfer control to beginning of \\
+			\word{bs} loop.  This is similar in spirit to C's "continue" \\
+			\word{bs} statement.
 
 			\word{:} ?REPEAT ~~\word{p} dest -{}- dest ) \word{bs} Compilation \\
-			\tab[6]~\word{p} flag -{}- ) \tab[2.2]~\word{bs} Execution \\
+			\tab\tab\tab~\word{p} flag -{}- ) \tab~\word{bs} Execution \\
 			\tab 0 \word[tools]{CS-PICK} ~ \word{POSTPONE} \word{UNTIL} \\
 			\word{;} \word{IMMEDIATE}
 
@@ -423,7 +466,8 @@ Extensions word sets.
 		\setwordlist{tools}
 	\end{rationale}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.15.6.2.1015 CS-PICK
+		\ttfamily
 		\word{:} ?repeat \\
 		\tab 0 \word{CS-PICK} \word{POSTPONE} \word{UNTIL} \\
 		\word{;} \word{IMMEDIATE}
@@ -450,7 +494,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{1020}{CS-ROLL}[c-s-roll]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -488,7 +532,8 @@ Extensions word sets.
 		\setwordlist{tools}
 	\end{rationale}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.15.6.2.1020 CS-ROLL
+	\ttfamily
 		\test{\word{:} ?DONE \word{p} dest -{}- orig dest )  \tab \word{bs} \textdf{Same as WHILE} \\
 		\tab[2.4] \word{POSTPONE} \word{IF} 1 \word{CS-ROLL} \\
 		\tab[1.2] \word{;} \word{IMMEDIATE}}{} \\
@@ -544,7 +589,7 @@ Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{1300}{EDITOR}
 \item \stack{}{}
 
@@ -554,8 +599,243 @@ Extensions word sets.
 \see \xref[16. The Optional Search-Order Word Set]{wordlist:search}.
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{10ex}
+
+% -------------------------------------------------------------------
+\begin{worddef*}{}{FIND-NAME}[][x:find-name]
+\item \stack{c-addr u}{nt|0}
+
+\place{x:find-name}{%
+	Find the definition identified by the string \param{c-addr u} in the current
+	search order.  Return its name token \param{nt}, if found, otherwise 0.
+}
+
+\see \wref{tools:FIND-NAME-IN}{},
+	\rref{tools:FIND-NAME}{}.
+
+\begin{rationale}
+\place{x:find-name}{%
+\word{FIND-NAME} and \word{FIND-NAME-IN} are natural factors of all words that
+look up words in the dictionary, such as \word{FIND}, \word{'}, \word{POSTPONE},
+the text interpreter, and \word[search]{SEARCH-WORDLIST}.  So implementing them
+does not cost additional code, only some refactoring effort.}
+
+\place{x:find-name}{%
+This approach is not compatible with system that use separate word headers for the
+interpretation and compilation semantics of a word.  This problem already exists for
+the other words that deal with name tokens.  However, such systems have been known
+for a lest two decades, and have seen little to no uptake in standard systems.
+}
+
+\place{x:find-name}{%
+Typically used to build a custom text interpreter:
+}
+
+\setwordlist{tools}\ttfamily
+\uline{\word{:} get-name-token \word{p} "name<space>" -{}- nt )} \\
+\tab[1]	\uline{\word{PARSE-NAME} \word{FIND-NAME} \word{DUP} \word{0=} -13 \word{AND} \word[exception]{THROW}}\\
+\uline{\word{;}}
+
+\uline{\word{:} \word{'} get-name-token  \word{NAMEtoINTERPRET} \word{;}}
+
+\uline{\word{:} \word{POSTPONE}} \\
+\tab[1]	\uline{get-name-token \word{NAMEtoCOMPILE} \word{SWAP} \word{POSTPONE} \word{LITERAL} \word{COMPILE,}}\\
+\uline{\word{;} \word{IMMEDIATE}}
+
+\uline{\word{bs} \textdf{User-defined text interpreter}} \\
+\uline{\word{:} interpret-word} \\
+\tab[1]	\uline{\word{PARSE-NAME} \word{2DUP} \word{FIND-NAME} \word{IF}} \\
+\tab[2]		\uline{\word{NIP} \word{NIP} \word{STATE} \word{@} \word{IF}} \\
+\tab[3]			\uline{\word{NAMEtoCOMPILE}} \\
+\tab[2]		\uline{\word{ELSE}} \\
+\tab[3]			\uline{\word{NAMEtoINTERPRET}} \\
+\tab[2]		\uline{\word{THEN} \word{EXECUTE}} \\
+\tab[1]	\uline{\word{ELSE}} \\
+\tab[2]		\uline{\word{bs} \textdf{Process numbers}} \\
+\tab[2]		\uline{0 0 \word{2SWAP} \word{toNUMBER} \word{2DROP}} \\
+\tab[2]		\uline{\word{STATE} \word{@} \word{IF} \word[double]{2LITERAL} \word{THEN}} \\
+\tab[1]	\uline{\word{THEN}} \\
+\uline{\word{;}}
+\end{rationale}
+
+\begin{implement}
+\uline{\word{bs} \word{FIND-NAME} \textdf{and} \word{FIND-NAME-IN}}\\
+\uline{\word{bs} \textdf{mostly by Bernd Paysan}} \\
+\uline{\word{bs} \textdf{\url{http://forth-standard.org/standard/core/FIND\#reply-146}}}
+
+\uline{\word{[DEFINED]} gforth \word{[IF]}} \\
+\tab \uline{\word{bs} \textdf{Gforth's implementation of \word[local]{b:} {\ldots} uses a system-specific}}\\
+\tab \uline{\word{bs} \textdf{wordlist that does not work with the \word{FIND-NAME-IN} below.}}\\
+\tab \uline{\word{bs} \textdf{Therefore we use the reference implementation of \word[local]{b:} instead.}}\\
+\tab \uline{\word[file]{REQUIRE} locals.fs}\\
+\uline{\word{[THEN]}}
+
+\uline{\word{[UNDEFINED]} bounds \word{[IF]}} \\
+\tab[1]	\uline{\word{:} bounds \word{p} \textdf{addr len -{}- addr+len addr} )} \\
+\tab[2]		\uline{\word{OVER} \word{+} \word{SWAP}} \\
+\tab[1]	\uline{\word{;}} \\
+\uline{\word{[THEN]}}
+
+\uline{\word{[UNDEFINED]} -rot \word{[IF]}} \\
+\tab[1]	\uline{\word{:} -rot \word{p} \textdf{a b c -{}- c a b} )} \\
+\tab[2]		\uline{\word{ROT} \word{ROT}} \\
+\tab[1] \uline{\word{;}} \\
+\uline{\word{[THEN]}}
+
+\uline{\word{:} >lower \word{p} \textdf{c1 -{}- c2} )} \\
+\tab \uline{\word{DUP} 'A' 'Z' \word{1+} \word{WITHIN} \word{BL} \word{AND} \word{OR}} \\
+\uline{\word{;}}
+
+\uline{\word{:} istr= \word{p} \textdf{addr1 u1 addr2 u2 -{}- flag} )} \\
+\tab[1]	\uline{\word{ROT} \word{OVER} \word{ne} \word{IF} \word{2DROP} \word{FALSE} \word{EXIT} \word{THEN}} \\
+\tab[1]	\uline{bounds \word{qDO}} \\
+\tab[2]		\uline{\word{DUP} \word{C@} >lower \word{I} \word{C@} >lower \word{ne} \word{IF} \word{DROP} \word{FALSE} \word{UNLOOP} \word{EXIT} \word{THEN}} \\
+\tab[2]		\uline{\word{1+}} \\
+\tab[1]	\uline{\word{LOOP}} \\
+\tab[1]	\uline{\word{DROP} \word{TRUE}} \\
+\uline{\word{;}}
+
+\uline{\word{:} find-name-in-helper  \word{p} \textdf{addr u wid -{}- nt / 0} )} \\
+\tab[1]	\uline{\word{DUP} \word{toR} \word{NAMEtoSTRING} \word{2OVER} istr= \word{IF}} \\
+\tab[2]		\uline{\word{ROT} \word{DROP} \word{Rfrom} -rot \word{FALSE}} \\
+\tab[1]	\uline{\word{ELSE}} \\
+\tab[2]		\uline{\word{Rfrom} \word{DROP} \word{TRUE}} \\
+\tab[1]	\uline{\word{THEN}} \\
+\uline{\word{;}}
+
+\uline{\word{:} \word{FIND-NAME-IN} \word{p} \textdf{addr u wid -{}- nt / 0} )}\\
+\tab[1]	\uline{\word{toR} 0 -rot \word{Rfrom}} \\
+\tab[1]	\uline{\word{[']} find-name-in-helper} \\
+\tab[1]	\uline{\word{SWAP} \word{TRAVERSE-WORDLIST} \word{2DROP}} \\
+\uline{\word{;}}
+  
+\uline{\word{:} \word{FIND-NAME} \word[local]{b:} c-addr u -{}- nt | 0 :\}} \\
+\tab[1]	\uline{\word[search]{GET-ORDER}} \\
+\tab[1]	\uline{\word{[DEFINED]} gforth \word{[IF]}} \\
+\tab[2]		\uline{\word{[} \word{'} locals \word{toBODY} \word{]} \word{LITERAL} \word{SWAP} \word{1+}} \\
+\tab[1]	\uline{\word{[ELSE]} \word{[DEFINED]} vfxforth \word{[IF]}} \\
+\tab[3]			\uline{\word{[} \word{'} localvars \word{toBODY} 3 \word{CELLS} \word{+} \word{]} \word{LITERAL} \word{SWAP} \word{1+}} \\
+\tab[2]		\uline{\word{[ELSE]}} \\
+\tab[3]			\uline{\word{CR} \word{.p} \textdf{warning:\ find-name does not find locals} )}\\
+\tab[2]		\uline{\word{[THEN]}} \\
+\tab[1]	\uline{\word{[THEN]}} \\
+\tab[1]	\uline{0 \word{SWAP} 0 \word{qDO} \word{p} \textdf{widn {\ldots} widi nt | 0})} \\
+\tab[2]		\uline{\word{DUP} \word{0=} \word{IF}} \\
+\tab[3]			\uline{\word{DROP} c-addr u \word{ROT} \word{FIND-NAME-IN}} \\
+\tab[2]		\uline{\word{ELSE}} \\
+\tab[3]			\uline{\word{NIP}} \\
+\tab[2]		\uline{\word{THEN}} \\
+\tab[1]	\uline{\word{LOOP}} \\
+\uline{\word{;}}
+\end{implement}
+
+\begin{testing}\ttfamily\setwordlist{tools}
+\uline{\word{:} >lower \word{p} c1 -{}- c2 )} \\
+\tab[1] \uline{\word{DUP} 'A' 'Z' \word{1+} \word{WITHIN} \word{BL} \word{AND} \word{OR}} \\
+\uline{\word{;}}
+
+\uline{\word{:} istr= \word{p} addr1 u1 addr2 u2 -{}- flag )} \\
+\tab[1] \uline{\word{ROT} \word{OVER} \word{ne} \word{IF}
+			\word{2DROP} \word{DROP} \word{FALSE}  \word{EXIT}
+		\word{THEN}} \\
+\tab[1]	\uline{bounds \word{qDO}} \\
+\tab[2]		\uline{\word{DUP} \word{C@} >lower \word{I} \word{C@} >lower \word{ne} \word{IF}  					\word{DROP} \word{FALSE} \word{UNLOOP} \word{EXIT} \word{THEN}} \\
+\tab[2] \uline{\word{1+}} \\
+\tab[1] \uline{\word{LOOP}} \\
+\tab[1] \uline{\word{DROP} \word{TRUE}} \\
+\uline{\word{;}}
+
+\uline{\word[search]{WORDLIST} \word{CONSTANT} fntwl} \\
+\uline{\word[search]{GET-CURRENT} fntwl \word[search]{SET-CURRENT}} \\
+\uline{\word{:} fnt1 25 \word{;}} \\
+\uline{\word{:} fnt2 34 \word{;} \word{IMMEDIATE}} \\
+\uline{\word[search]{SET-CURRENT}} \\
+
+\uline{\test{\word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoINTERPRET} \word{EXECUTE}}{25}}
+
+\test{\uline{\word{:} fnt3}\\
+\tab[1]	\uline{\word{[} \word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{]}}\\
+	\uline{\word{;} fnt3}}{\uline{25}} \\
+\uline{\test{\word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoSTRING} \word{Sq} fnt1" istr=}{\word{TRUE}}}
+
+\uline{\test{\word{Sq} fnt2" fntwl \word{FIND-NAME-IN} \word{NAMEtoINTERPRET} \word{EXECUTE}}{34}} \\
+\uline{\test{\word{Sq} fnt2" fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE}   \word{EXECUTE}}{34}}
+
+\uline{\word{:} fnt4 fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{;} \word{IMMEDIATE}}
+
+\uline{\test{\word{Sq} fnt2" \word{]} fnt4 \word{[}}{34}}
+
+\uline{\test{\word{Sq} fnt0" fntwl \word{FIND-NAME-IN}}{0}}
+
+\uline{\word{:} fnt5 42 \word{;}} \\
+\uline{\word{:} fnt6 51 \word{;} \word{IMMEDIATE}}
+
+\uline{\test{\word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE}}{42}}
+
+\test{\uline{\word{:} fnt7} \\
+\tab[1] \uline{\word{[} \word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{]}} \\
+	\uline{\word{;} fnt7}}{\uline{42}}
+
+\uline{\test{\word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoSTRING} \word{Sq} fnt5" istr=}{\word{TRUE}}}
+
+\uline{\test{\word{Sq} fnt6" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE}}{51}} \\
+\uline{\test{\word{Sq} fnt6" \word{FIND-NAME} \word{NAMEtoCOMPILE}   \word{EXECUTE}}{51}}
+
+\uline{\word{:} fnt8 \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{;} \word{IMMEDIATE}}
+
+\uline{\test{\word{Sq} fnt6" \word{]} fnt8 \word{[}}{51}} \\
+\uline{\test{\word{Sq} fnt0hfshkshdfskl" \word{FIND-NAME}}{0}} \\
+\uline{\test{\word{Seq} s\bs{"}" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE} bla" \word{Sq} bla" \word[string]{COMPARE}}{0}}
+
+\uline{\test{\word{:} fnt9 \word{[} \word{Seq} s\bs{"}" \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} ble" \word{]} \word{;}}{}} \\
+\uline{\test{fnt9 \word{Sq} ble" \word[string]{COMPARE}}{0}}
+
+\uline{\word{:} fnta \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE} \word{;} \word{IMMEDIATE}} \\
+\uline{\test{\word{:} fntb \word{[} \word{Seq} s\bs{"}" \word{]} fnta bli" \word[double]{2LITERAL} \word{;}}{}} \\
+\uline{\test{fntb \word{Sq} bli" \word[string]{COMPARE}}{0}}
+
+\uline{\word{:} fnt-interpret-words \word{p} {\ldots} \textdf{"rest-of-line"} -{}- {\ldots} )} \\
+\tab[1] \uline{\word{BEGIN}} \\
+\tab[2]		\uline{\word{PARSE-NAME} \word{DUP}} \\
+\tab[1] \uline{\word{WHILE}} \\
+\tab[2]		\uline{\word{2DUP} \word{FIND-NAME} \word{DUP} \word{0=} -13 \word{AND} \word[exception]{THROW}} \\
+\tab[2]		\uline{\word{NIP} \word{NIP} \word{STATE} \word{@} \word{IF}} \\
+\tab[3]			\uline{\word{NAMEtoCOMPILE}} \\
+\tab[2]		\uline{\word{ELSE}} \\
+\tab[3]			\uline{\word{NAMEtoINTERPRET}} \\
+\tab[2]		\uline{\word{THEN} \word{EXECUTE}} \\
+\tab[1]	\uline{\word{REPEAT} \word{2DROP}} \\
+\uline{\word{;}}
+
+\test{\uline{fnt-interpret-words fnt5 \word{VALUE} fntd fnt6 \word{TO} fntd}\\
+\uline{fntd}}{\uline{fnt6}} \\
+\uline{\test{fnt-interpret-words \word{Sq} yyy" \word{:} fnte \word{Sq} yyy" \word{;} fnte \word[string]{COMPARE}}{0}} \\
+\test{\uline{fnt-interpret-words \word{:} fntc \word[local]{b:} xa xb :\}} \\
+\tab \uline{xa xb \word{TO} xa \word{TO} xb xa xb \word{Sq} xxx"}\\
+\uline{\word{;} \word{Sq} xxx" \word{SWAP} fntc \word[string]{COMPARE}}}{\uline{0}}
+\end{testing}
+\end{worddef*}
+
+\begin{worddef*}{}{FIND-NAME-IN}[][x:find-name]
+\item \stack{c-addr u wid}{nt|0}
+
+\place{x:find-name}{%
+	Find the definition identified by the string \param{c-addr u} in the wordlist
+	\param{wid}.  Return its name token \param{nt}, if found, otherwise 0.
+}
+
+\see \xref{tools:FIND-NAME}{},
+	\rref{tools:FIND-NAME}{}.
+
+\begin{implement}
+	\uline{\textdf{See \iref{tools:FIND-NAME}{}.}}
+\end{implement}
+
+\begin{testing}
+	\uline{\textdf{See \iref{tools:FIND-NAME}{}.}}
+\end{testing}
+\end{worddef*}
+% -------------------------------------------------------------------
+
 \begin{worddef}{1580}{FORGET}
 \item \stack{"<spaces>name"}{}
 
@@ -592,8 +872,8 @@ Extensions word sets.
 \end{worddef}
 
 % -------------------------------------------------------------------
-
-\begin{worddef}[NtoR]{1908}{N>R}[n-to-r]
+\pagebreak
+\begin{worddef}[NtoR]{1908}{N>R}[n-to-r]%[X:n-to-r]
 
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -625,7 +905,7 @@ Extensions word sets.
 	  \wref{search:SET-ORDER}{}.
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.15.6.2.1908 N>R
 		\textdf{This implementation depends on the return address being on
 			the return stack.}
 
@@ -646,7 +926,7 @@ Extensions word sets.
 		\end{tabbing}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.15.6.2.1908 N>R
 		\word{:} TNR1 \word{NtoR} \word{SWAP} \word{NRfrom} \word{;} \\
 		\test{1 2 10 20 30 3 TNR1}{2 1 10 20 30 3}
 
@@ -656,7 +936,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile]
+\begin{worddef}[NAMEtoCOMPILE]{1909}[10]{NAME>COMPILE}[name-to-compile]%[X:traverse-wordlist]
 \item \stack{nt}{x xt}
 
 	\param{x xt} represents the compilation semantics of the word
@@ -689,7 +969,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret]
+\begin{worddef}[NAMEtoINTERPRET]{1909}[20]{NAME>INTERPRET}[name-to-interpret]%[X:traverse-wordlist]
 \item \stack{nt}{xt|0}
 
 	\param{xt} represents the interpretation semantics of the word
@@ -704,7 +984,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string]
+\begin{worddef}[NAMEtoSTRING]{1909}[40]{NAME>STRING}[name-to-string]%[X:traverse-wordlist]
 \item \stack{nt}{c-addr u}
 
 	\word{NAMEtoSTRING} returns the name of the word \param{nt}
@@ -718,8 +998,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}[NRfrom]{1940}{NR>}[n-r-from]
-
+\begin{worddef}[NRfrom]{1940}{NR>}[n-r-from]%[X:n-to-r]
 \interpret
 	Interpretation semantics for this word are undefined.
 
@@ -732,7 +1011,7 @@ Extensions word sets.
 
 \see \wref{tools:NtoR}{}, \rref{tools:NtoR}{}.
 
-	\begin{implement}
+	\begin{implement} % I.15.6.2.1940 NR>
 		\textdf{This implementation depends on the return address being on
 			the return stack.}
 
@@ -776,7 +1055,10 @@ Extensions word sets.
 
 % -------------------------------------------------------------------
 
-\begin{worddef}{2264}{SYNONYM}
+\enlargethispage{6ex}
+\Writetofile{implementation}{\protect\vspace*{-6ex}}
+
+\begin{worddef}{2264}{SYNONYM}[]%[X:synonym]
 \item \stack{"<spaces>newname" "<spaces>oldname"}{}
 
 	For both strings skip leading space delimiters.  Parse \param{newname}
@@ -798,7 +1080,7 @@ Extensions word sets.
 
 \see \wref{core:IMMEDIATE}{}.
 
-	\begin{implement}
+	\begin{implement} % I.15.6.2.2264 SYNONYM
 		\dffamily
 		The implementation of \word{SYNONYM} requires detailed knowledge
 		of the host implementation, which is one reason why it should be
@@ -816,13 +1098,13 @@ Extensions word sets.
 			\tab[2] \word{IF} \word{EXECUTE} \word{ELSE} \word{COMPILE,} \word{THEN} \\
 			\word{;}
 		\end{quote}
+		\vspace*{-1ex}
 	\end{implement}
 \end{worddef}
 
 % -------------------------------------------------------------------
 
-\pagebreak
-\begin{worddef}{2297}{TRAVERSE-WORDLIST}
+\begin{worddef}{2297}{TRAVERSE-WORDLIST}[]%[X:traverse-wordlist]
 \item \stack{i*x xt wid}{j*x}
 
 	Remove \param{wid} and \param{xt} from the stack.  Execute
@@ -895,8 +1177,131 @@ Extensions word sets.
 \end{worddef}
 
 % -------------------------------------------------------------------
+\begin{worddef}{}{[:}[bracket-colon][x:quotations]
+\interpret
+	Interpretation semantics for this word are undefined.
 
-\begin{worddef}{2530}[30]{[DEFINED]}[bracket-defined]
+\compile
+	\stack[C]{}{quotation-sys colon-sys}
+
+	Suspends compiling to the current definition, starts a new nested
+	definition with execution token xt, and compilation continues with
+	this nested definition.
+
+	Locals may be defined in the nested definition.  An ambiguous
+	condition exists if a name is used that satisfies the following
+	constraints:
+	\begin{itemize}
+	\item It is not the name of a currently visible local of the current
+		quotation;
+	\item It is the name of a local that was visible right before the start
+		of the present quotation or any of the containing quotations.
+	\end{itemize} 
+
+\see \wref{tools:;]}{}, \rref{tools:[:}{}. % \iref{tools:[:}{}, \tref{tools:[:}{}.
+
+	\begin{rationale}
+		The essence of quotations is to provide nested colon definitions,
+		in which the inner definition(s) are nameless. The expression
+		\begin{quote}\ttfamily
+			\word{:} foo {\ldots} \word{[:} some words \word{;]} {\ldots} \word{;}
+		\end{quote}
+		is equivalent to
+		\begin{quote}\ttfamily
+			\word{:NONAME} some words \word{;} \word{CONSTANT} (temp) \\
+			\word{:} foo {\ldots} (temp) {\ldots} \word{;}
+		\end{quote}
+
+		A simple quotation is an anonymous colon definition that is defined
+		inside a colon definition or quotation.
+
+		Their advantage is as a syntactic ``sugar'' that permits a nameless
+		definition in close proximity to its use; and that it avoids generating
+		one-use names only for the purpose of referring to the definition
+		inside another word.
+
+		One example use of quotations is to provide a solution to the use
+		of \word[exception]{CATCH} in a form close to other languages'
+		\texttt{try {\ldots} catch} blocks.
+
+		\begin{quote}\ttfamily
+		\word{:} hex. \word{p} u -{}- ) \\
+		\tab \word{BASE} \word{@} \word{toR} \\
+		\tab \word{[:} \word{HEX} \word{Ud} \word{;]} \word[exception]{CATCH} \\
+		\tab \word{Rfrom} \word{BASE} \word{!} \word[exception]{THROW} \\
+		\word{;}
+		\end{quote}
+
+		The advantage of using \word[exception]{CATCH} here is that
+		the \word{BASE} is restored even if there is an exception (e.g.,
+		a user interrupt) during the \word{Ud}.
+
+		Moreover, return-address manipulation has often been used as a way to
+		split a definition into several parts, e.g,:
+
+		\begin{quote}\ttfamily
+		\word{:} foo bar LIST> bla blub \word{;}
+		\end{quote}
+
+		where \texttt{LIST>} is a return-address manipulating word and executes
+		the \texttt{bla blub} part of the word possibly several times.  This
+		demonstrates that introducing a helper definition is unattractive to
+		these programmers; with quotations this code could be written without
+		helper word as
+
+		\begin{quote}\ttfamily
+			\word{:} foo bar \word{[:} bla blub \word{;]} map-list \word{;}
+		\end{quote}
+
+		The advantages of this variant are:
+		\begin{itemize}
+		\item Implementing quotations puts less restrictions on the Forth
+			system than implementing manipulable return-addresses
+			(which would restrict tail-call elimination and inlining).
+		\item It is immediately visible to the reader that there is a
+			separate definition containing \texttt{bla blub}.
+		\end{itemize}
+		
+		A quotation may not be able to access the locals of the outer word
+		because it has no knowledge of when it might be executed and hence
+		whether outer locals are still alive. It does permit defining and
+		accessing its own locals.  Note that this means that both the
+		quotation and the containing definition may define locals.
+	\end{rationale}
+	
+	\begin{implement}
+		\textdf{%
+			It in not possible to define quotations in ISO Forth.  The following
+			is an outline definition where \word{save-definition-state} and
+			\word{restore-definition-state} require carnal knowledge of the
+			system and are left to the implementor.
+		}
+		
+		\word{:} \word{[:} \word{p} C: -{}- quotation-sys colon-sys ) \\
+		\tab \word{POSTPONE} \word{AHEAD} \word{save-definition-state} \word{:NONAME} \\
+		\word{;} \word{IMMEDIATE}
+		
+		\word{:} \word{;]} \word{p} C: quotation-sys colon-sys -{}- ) ( -{}- xt ) \\
+		\tab \word{POSTPONE} \word{;} \word{toR} \word{restore-definition-state} \\
+		\tab \word{POSTPONE} \word{THEN} \word{Rfrom} \word{POSTPONE} \word{LITERAL} \\
+		\word{;} \word{IMMEDIATE}
+	\end{implement}
+
+	\begin{testing}
+	\test{\word{:} q1 \word{[:} 1 \word{;]} \word{;}                               q1 \word{EXECUTE}}{  1} \\
+	\test{\word{:} q2 \word{[:} \word{[:} 2 \word{;]} \word{;]} \word{;}                 q2 \word{EXECUTE} \word{EXECUTE}}{  2}\\
+	\test{\word{:} q3 \word[local]{b:} a :\} \word{[:} \word[local]{b:} a b :\} b a \word{;]} \word{;}     1 2 3 q3 \word{EXECUTE}}{2 1}\\
+	\test{\word{:} q4 \word{[:} \word{DUP} \word{IF} \word{DUP} \word{1-} \word{RECURSE} \word{THEN} \word{;]} \word{;} 3 q4 \word{EXECUTE} \word{.S}}{\newline \tab[34.2] 3 2 1 0}\\
+	\test{\word{:} q5 \word{[:} \word{DOES} \word{DROP} 4 \word{;]} 5 \word{SWAP} \word{;}  \word{CREATE} x q5 \word{EXECUTE} x}{5 4} \\
+	\test{\word{:} q6 \word[local]{b:} a :\} \word{[:} \word[local]{b:} a b :\} b a \word{;]} a 1+ \word{;} 1 2 q6 \word{SWAP} \word{EXECUTE}\newline\tab[34.8]}{3 1}\\
+	\test{1 2 q6 q6 \word{SWAP} \word{EXECUTE} \word{EXECUTE}\tab[14.98]}{4 1}\\
+	\test{1 2 3 q3 \word{SWAP} q6 \word{SWAP} \word{EXECUTE} \word{EXECUTE}\tab[10.8]}{3 1}
+	\end{testing}
+\end{worddef}
+
+% -------------------------------------------------------------------
+
+\begin{worddef}{2530}[30]{[DEFINED]}[bracket-defined]%[X:defined]
 \compile
 	Perform the execution semantics given below.
 
@@ -909,12 +1314,12 @@ Extensions word sets.
 	otherwise return a false flag.
 	\word{[DEFINED]} is an immediate word.
 
-	\begin{implement} % I.15.6.2.---- [DEFINED]
+	\begin{implement} % I.15.6.2.2540.30 [DEFINED]
 		\word{:} \word{[DEFINED]} \word{BL} \word{WORD} \word{FIND} \word{NIP} \word{0ne} \word{;} \word{IMMEDIATE}
 	\end{implement}
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{2531}{[ELSE]}[bracket-else]
 \compile
 	Perform the execution semantics given below.
@@ -941,7 +1346,7 @@ Extensions word sets.
 			\word[tools]{[THEN]} {\ldots}
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.15.6.2.2531 [ELSE]
 		\begin{tabbing}
 		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
 		  \+
@@ -967,7 +1372,7 @@ Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}{2532}{[IF]}[bracket-if]
 \compile
 	Perform the execution semantics given below.
@@ -1000,7 +1405,7 @@ Extensions word sets.
 			\word[tools]{[THEN]} {\ldots}
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.15.6.2.2532 [IF]
 		\word{:} \word[tools]{[IF]} \word{p} flag -{}- ) \\
 		\tab \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN} \\
 		\word{;} \word{IMMEDIATE}
@@ -1060,11 +1465,11 @@ Extensions word sets.
 		extensions word set are useful for this purpose.
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.15.6.2.2533 [THEN]
 		\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.15.6.2.2533 [THEN]
 		\test{<TRUE>  \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{111} \\
 		\test{<FALSE> \word{[IF]} 111 \word{[ELSE]} 222 \word{[THEN]}}{222}
 
@@ -1101,7 +1506,7 @@ Extensions word sets.
 \end{worddef}
 
 
-\begin{worddef}{2534}{[UNDEFINED]}[bracket-undefined]
+\begin{worddef}{2534}{[UNDEFINED]}[bracket-undefined]%[X:defined]
 \compile
 	Perform the execution semantics given below.
 

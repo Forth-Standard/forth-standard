@@ -1,5 +1,6 @@
 % !TeX root = forth.tex
 % !TeX spellcheck = en_US
+% !TeX program = pdflatex
 
 \chapter{The optional Floating-Point word set} % 12
 \wordlist{floating}
@@ -242,8 +243,6 @@ See:
 	 \wref{floating:FSd}{FS.});
 \item both arguments equal zero (\wref{floating:FATAN2}{FATAN2});
 \item cosine of argument is zero for \wref{floating:FTAN}{FTAN};
-\item \param{d} can't be precisely represented as \emph{float} in
-	\wref{floating:DtoF}{D>F};
 \item dividing by zero (\wref{floating:F/}{F/});
 \item exponent too big for conversion
 	(\wref{floating:DF!}{DF!},
@@ -268,8 +267,6 @@ See:
 	(\wref{floating:Fd}{F.},
 	 \wref{floating:FEd}{FE.},
 	 \wref{floating:FSd}{FS.});
-\item \param{n} can't be precisely represented as
-	\emph{float} in \wref{floating:StoF}{S>F};
 \item integer part of \emph{float} can't be represented
 	by \param{n} in \wref{floating:FtoS}{F>S}.
 \end{itemize}
@@ -336,7 +333,7 @@ be appended to the label of Standard Programs that require the system
 to provide all of the Floating-Point and Floating-Point Extensions
 word sets.
 
-
+\pagebreak
 \section{Glossary} % 12.6
 
 \subsection{Floating-Point words} % 12.6.1
@@ -359,15 +356,15 @@ word sets.
 	The syntax of a convertible string
 	\begin{center}
 		\begin{tabular}{r@{ \textsf{:=} }l}
-							& \arg{significand}[\arg{exponent}] \\
+					& \arg{significand}[\arg{exponent}] \\
 		\arg{significand}	& [\arg{sign}]\{\arg{digits}[\textbf{.}\arg{digits0}]
-								{\textbar} \textbf{.}\arg{digits} \} \\
-		\arg{exponent}		& \arg{marker}\arg{digits0} \\
-		\arg{marker}		& \{\arg{e-form} {\textbar} \arg{sign-form}\}\\
-		\arg{e-form}		& \arg{e-char}[\arg{sign-form}] \\
+					    {\textbar} \textbf{.}\arg{digits} \} \\
+		\arg{exponent}	& \arg{marker}\arg{digits0} \\
+		\arg{marker}	& \{\arg{e-form} {\textbar} \arg{sign-form}\}\\
+		\arg{e-form}	& \arg{e-char}[\arg{sign-form}] \\
 		\arg{sign-form} 	& \{ \textbf{+} {\textbar} \textbf{-} \} \\
-		\arg{e-char}		& \{ \textbf{D} {\textbar} \textbf{d} {\textbar}
-								 \textbf{E} {\textbar} \textbf{e} \} \\
+		\arg{e-char}	& \{ \textbf{D} {\textbar} \textbf{d} {\textbar}
+					    \textbf{E} {\textbar} \textbf{e} \} \\
 		\end{tabular}
 	\end{center}
 
@@ -392,17 +389,18 @@ word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}[DtoF]{1130}{D>F}[d-to-f]
 \item \stack{d}{} \stack[F]{}{r} or
 	\stack{d}{r}
 
-	\param{r} is the floating-point equivalent of \param{d}. An ambiguous
-	condition exists if \param{d} cannot be precisely represented as a
-	floating-point value.
+	\param{r} is the floating-point value which is nearest to \param{d} in
+	the sense of ``round to nearest''.
+	
+\see \xref{float:ops}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1400}{F!}[f-store]
 \item \stack{f-addr}{} \stack[F]{r}{} or
 	\stack{r f-addr}{}
@@ -410,7 +408,7 @@ word sets.
 	Store \param{r} at \param{f-addr}.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1410}{F*}[f-star]
 \item \stack[F]{r_1 r_2}{r_3} or
 	\stack{r_1 r_2}{r_3}
@@ -418,7 +416,7 @@ word sets.
 	Multiply \param{r_1} by \param{r_2} giving \param{r_3}.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1420}{F+}[f-plus]
 \item \stack[F]{r_1 r_2}{r_3} or
 	\stack{r_1 r_2}{r_3}
@@ -511,7 +509,7 @@ word sets.
 	or equal to \param{addr}.
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}{1492}{FCONSTANT}[f-constant]
 \item \stack{"<spaces>name"}{} \stack[F]{r}{} or
 	\stack{r "<spaces>name"}{}
@@ -600,7 +598,7 @@ word sets.
 	\param{f-addr_1}, giving \param{f-addr_2}.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1556}{FLOATS}
 \item \stack{n_1}{n_2}
 
@@ -608,7 +606,7 @@ word sets.
 	numbers.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1558}{FLOOR}
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -620,7 +618,7 @@ word sets.
 	\wref{floating:FTRUNC}{}.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1562}{FMAX}[f-max]
 \item \stack[F]{r_1 r_2}{r_3} or
 	\stack{r_1 r_2}{r_3}
@@ -628,7 +626,7 @@ word sets.
 	\param{r_3} is the greater of \param{r_1} and \param{r_2}.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1565}{FMIN}[f-min]
 \item \stack[F]{r_1 r_2}{r_3} or
 	\stack{r_1 r_2}{r_3}
@@ -636,7 +634,7 @@ word sets.
 	\param{r_3} is the lesser of \param{r_1} and \param{r_2}.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1567}{FNEGATE}[f-negate]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -644,8 +642,7 @@ word sets.
 	\param{r_2} is the negation of \param{r_1}.
 \end{worddef}
 
-\vspace*{-1ex}
-\enlargethispage{10ex}
+
 \begin{worddef}{1600}{FOVER}[f-over]
 \item \stack[F]{r_1 r_2}{r_1 r_2 r_1} or
 	\stack{r_1 r_2}{r_1 r_2 r_1}
@@ -653,7 +650,7 @@ word sets.
 	Place a copy of \param{r_1} on top of the floating-point stack.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{1610}{FROT}[f-rote]
 \item \stack[F]{r_1 r_2 r_3}{r_2 r_3 r_1} or
 	\stack{r_1 r_2 r_3}{r_2 r_3 r_1}
@@ -793,7 +790,7 @@ word sets.
 	\xref[12.3.2 Floating-point operations]{float:ops}.
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{1205}{DFALIGN}[d-f-align]
 \item \stack{}{}
 
@@ -814,8 +811,8 @@ word sets.
 \end{worddef}
 
 % ---------------------------------------------------------
-\newpage
-\begin{worddef}{1207}[40]{DFFIELD:}[d-f-field-colon]
+
+\begin{worddef}{1207}[40]{DFFIELD:}[d-f-field-colon]%[X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -866,7 +863,7 @@ word sets.
 	\param{r_3}.
 \end{worddef}
 
-\enlargethispage{4ex}
+\vspace*{-2ex}
 \begin{worddef}[Fd]{1427}{F.{}}[f-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
@@ -891,7 +888,8 @@ word sets.
 
 % ========== x:stoftos ==========
 
-\begin{worddef}[FtoS]{1471}{F>S}[F to S]
+\vspace*{-2ex}
+\begin{worddef}[FtoS]{1471}{F>S}[F to S]%[X:stoftos]
 \item \stack{}{n} \stack[F]{r}{} or \stack{r}{n}
 
 	\param{n} is the single-cell signed-integer equivalent of the
@@ -905,7 +903,7 @@ word sets.
 
 \see \wref{floating:StoF}{}.
 
-	\begin{implement}
+	\begin{implement} % I.12.6.1.1471 F>S
 		\word{:} \word{FtoS} \word{p} r -{}- n ) \\
 		\tab \word{FtoD} \word[double]{DtoS} \\
 		\word{;}
@@ -914,6 +912,7 @@ word sets.
 
 % ==============================
 
+\vspace*{-2ex}
 \begin{worddef}{1474}{FABS}[f-abs]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -922,6 +921,7 @@ word sets.
 \end{worddef}
 
 
+\vspace*{-2ex}
 \begin{worddef}{1476}{FACOS}[f-a-cos]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -931,7 +931,8 @@ word sets.
 	greater than one.
 \end{worddef}
 
-
+\vspace*{-2ex}
+\enlargethispage{4ex}
 \begin{worddef}{1477}{FACOSH}[f-a-cosh]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -988,7 +989,7 @@ word sets.
 	\param{r_3} is the principal radian angle (between -$\pi$ and $\pi$)
 	whose tangent is \param{r_1/r_2}.
 	A system that returns false for ``\texttt{-0E 0E 0E \word{Ftilde}}''
-	shall return a value (approximating) $-\pi$ when \param{r_1} $=$ \replace{ed16}{0E}{ -0E}
+	shall return a value (approximating) $-\pi$ when \param{r_1} $=$ $-0$E
 	and \param{r_2} is negative.
 	An ambiguous condition exists if \param{r_1} and \param{r_2} are
 	zero.
@@ -1023,7 +1024,8 @@ word sets.
 		\word{FATAN2} has zero magnitude.
 	\end{rationale}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.12.6.1.1389 FATAN2
+		\ttfamily
 		\word[tools]{[UNDEFINED]} ~NaN \word[tools]{[IF]} ~0e 0e \word{F/} \word{FCONSTANT} ~NaN \word[tools]{[THEN]} \\
 		\word[tools]{[UNDEFINED]} +Inf \word[tools]{[IF]} ~1e 0e \word{F/} \word{FCONSTANT} +Inf \word[tools]{[THEN]} \\
 		\word[tools]{[UNDEFINED]} -Inf \word[tools]{[IF]} -1e 0e \word{F/} \word{FCONSTANT} -Inf \word[tools]{[THEN]}
@@ -1196,7 +1198,7 @@ word sets.
 	\param{r_2} is the hyperbolic cosine of \param{r_1}.
 \end{worddef}
 
-\newpage
+
 \begin{worddef}[FEd]{1513}{FE.{}}[f-e-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
@@ -1281,7 +1283,7 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef}{1517}{FFIELD:}[f-field-colon]
+\begin{worddef}{1517}{FFIELD:}[f-field-colon]%[X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
@@ -1313,7 +1315,7 @@ word sets.
 	condition exists if \param{r_1} is less than or equal to zero.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1554}{FLNP1}[f-l-n-p-one]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1339,7 +1341,7 @@ word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1557}{FLOG}[f-log]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1348,7 +1350,7 @@ word sets.
 	condition exists if \param{r_1} is less than or equal to zero.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[FSd]{1613}{FS.{}}[f-s-dot]
 \item \stack{}{} \stack[F]{r}{} or
 	\stack{r}{}
@@ -1373,7 +1375,8 @@ word sets.
 	\wref{floating:REPRESENT}{REPRESENT}.
 \end{worddef}
 
-
+\enlargethispage{6ex}
+\vspace*{-2ex}
 \begin{worddef}{1614}{FSIN}[f-sine]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1381,7 +1384,7 @@ word sets.
 	\param{r_2} is the sine of the radian angle \param{r_1}.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1616}{FSINCOS}[f-sine-cos]
 \item \stack[F]{r_1}{r_2 r_3} or
 	\stack{r_1}{r_2 r_3}
@@ -1392,7 +1395,7 @@ word sets.
 \see \rref{floating:FATAN2}{FATAN2}.
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-4ex}
 \begin{worddef}{1617}{FSINH}[f-cinch]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1400,8 +1403,7 @@ word sets.
 	\param{r_2} is the hyperbolic sine of \param{r_1}.
 \end{worddef}
 
-
-\vspace*{-0.5ex}
+\vspace*{-1ex}
 \begin{worddef}{1618}{FSQRT}[f-square-root]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1411,7 +1413,7 @@ word sets.
 \end{worddef}
 
 
-\vspace*{-0.5ex}
+\vspace*{-1ex}
 \begin{worddef}{1625}{FTAN}[f-tan]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1420,7 +1422,7 @@ word sets.
 	ambiguous condition exists if $\cos(r_1)$ is zero.
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1626}{FTANH}[f-tan-h]
 \item \stack[F]{r_1}{r_2} or
 	\stack{r_1}{r_2}
@@ -1429,9 +1431,8 @@ word sets.
 \end{worddef}
 
 % ---------------------------------------------------------
-
-\vspace*{-0.5ex}
-\begin{worddef}{1627}{FTRUNC}[f-trunc]
+\vspace*{-1ex}
+\begin{worddef}{1627}{FTRUNC}[f-trunc]%[X:ftrunc]
 \item \stack[F]{r_1}{r_2} or \stack{r_1}{r_2}
 
 	Round \param{r_1} to an integral value using the ``round
@@ -1439,7 +1440,7 @@ word sets.
 
 \see \xref{float:ops}, \wref{floating:FROUND}{}, \wref{floating:FLOOR}{}.
 
-	\begin{implement}
+	\begin{implement} % I.12.6.1.1627 FTRUNC
 		\word{:} \word{FTRUNC}   \word{p} r1 -{}- r2 ) \\
 		\tab[3.8] \word{FDUP} \word{F0=} \word{0=} \\
 		\tab \word{IF}	\tab[1] \word{FDUP} \word{F0less} \\
@@ -1449,7 +1450,7 @@ word sets.
 		\tab \word{THEN}\tab \word{;}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.12.6.1.1627 FTRUNC
 		\texttt{SET-EXACT}
 
 		\test{-0E          \word{FTRUNC} \word{F0=}}{<TRUE>} \\
@@ -1469,7 +1470,8 @@ word sets.
 
 % ---------------------------------------------------------
 \enlargethispage{6ex}
-\begin{worddef}{1628}{FVALUE}[f-value]
+\vspace*{-2ex}
+\begin{worddef}{1628}{FVALUE}[f-value]%[X:fvalue]
 \item \stack[F]{r}{} \stack{"<spaces>name"}{} or
 	\stack{r "<spaces>name"}{}
 
@@ -1494,7 +1496,7 @@ word sets.
 
 \see \xref{usage:parsing}, \wref{core:TO}{}
 
-	\begin{implement}
+	\begin{implement} % I.12.6.1.1628 FVALUE
 		\dffamily
 		The implementation of \word{FVALUE} requires detailed
 		knowledge of the host implementation of \word{VALUE} and
@@ -1516,7 +1518,8 @@ word sets.
 		\end{quote}
 	\end{implement}
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.12.6.1.1628 FVALUE
+		\ttfamily
 		\test{0e0 \word{FVALUE} Tval}{} \\
 		\test[R]{Tval}{0e0} \\
 		\test{1e0 \word{TO} Tval}{} \\
@@ -1568,21 +1571,21 @@ word sets.
 
 % ========== x:stoftos ==========
 
-\begin{worddef}[StoF]{2175}{S>F}[S to F]
+\begin{worddef}[StoF]{2175}{S>F}[s-to-f]%[X:stoftos]
 \item \stack{n}{} \stack[F]{}{r} or \stack{n}{r}
 
-	\param{r} is the floating-point equivalent of the single-cell
-	value \param{n}.  An ambiguous condition exists if \param{n}
-	can not be precisely represented as a floating-point value.
+	\param{r} is the floating-point value which is nearest to
+	\param{n} in the sense of ``round to nearest''.
 
 \see \wref{floating:FtoS}{F>S}.
 
-	\begin{implement}
+	\begin{implement} % I.12.6.1.2175 S>F
 		\word{:} \word{StoF} \word{p} n -{}- r ) \\
 		\tab \word{StoD} \word{DtoF} \\
 		\word{;}
 	\end{implement}
 \end{worddef}
+
 
 % ==============================
 
@@ -1651,7 +1654,7 @@ word sets.
 
 % ---------------------------------------------------------
 
-\begin{worddef}{2206}[40]{SFFIELD:}[s-f-field-colon]
+\begin{worddef}{2206}[40]{SFFIELD:}[s-f-field-colon]%[X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
 	Skip leading space delimiters. Parse \param{name} delimited by

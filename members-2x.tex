@@ -1,5 +1,6 @@
 % !TeX root = forth.tex
 % !TeX spellcheck = en_US
+% !TeX program = pdflatex
 
 \chapter*{200\emph{x} Membership}
 \label{members}
@@ -8,31 +9,17 @@
 
 This document is maintained by the Forth 200\emph{x} Standards
 Committee. The committee meetings are open to the public, anybody
-is allowed to \replace{x:membership}{join the committee in its deliberations}{
-attend a physical meeting as an observer}.
+is allowed to attend a physical meeting as an observer.
 
-\remove{x:membership}{%
-Membership of the committee is open to anybody who can attend.  On
-attending a meeting of any kind a non-member becomes an observing
-member (observer).  If they attend the next voting meeting, they
-will become a voting member of the committee, otherwise they revert
-to non-member status.  An observer will not normally be allowed to
-vote, but may be allowed at the discretion of the committee.
-A member will be deemed to have resigned from the committee if they
-fail to attend two consecutive voting meetings.}
-
-\place{x:membership}{%
 Committee membership is open to anybody who can attend physical
 meetings.  On attending a physical meeting, a non-member becomes
 an observer.  An observer becomes a voting member by attending the
-next physical meeting.  An observer will not normally be allowed to
-vote except at the discretion of the committee.  A member will be
-deemed to have resigned from the committee by failing to attend two
-consecutive physical meetings.}
+next physical meeting.  An observer will not normally be allowed to vote
+except at the discretion of the committee.  A member will be deemed
+to have resigned from the committee by failing to attend two consecutive
+physical meetings.
 
-\place{x:membership}{%
-Electronic meetings of the committee are held between physical
-meetings as required.}
+Electronic meetings of the committee are held between physical meetings as required.
 
 Currently the committee has the following voting members:
 
@@ -52,18 +39,35 @@ Currently the committee has the following voting members:
 	\ifx\empty#1\else\cbend\fi \par
 }
 
+% \member[+/-]{name}{domain}{user}{Company}{City}
+
 \html{<table class="center" width="600px">}
+\member{Prof.\ Sergey Baranov}
+	{googlemail.com}{snbaranov}
+	{SPIIRAS}
+	{St.\ Petersburg, Russia}
+
+\member{Paul E. Bennet}
+	{topmail.co.uk}{Paul\_E.Bennett}
+	{Independent Member}
+	{Exeter, UK}
+	
 \member{Willem Botha}
 	{ccssa.com}{willem.botha}
 	{Construction Computer Software (Pty) Ltd}
 	{Cape Town, South Africa}
 
-\member{Dr.\ M.\ Anton Ertl (Chair)}
+\member[+]{Jermain Davies}
+	{ccssa.com}{jermain.davies}
+	{Construction Computer Software (Pty) Ltd}
+	{Cape Town, South Africa}
+
+\member{Dr.\ M. Anton Ertl}
 	{mips.complang.tuwien.at}{anton}
 	{Technische Universit\"at Wien}
 	{Wien, Austria}
 
-\member[-]{Andrew Haley}
+\member{Andrew Haley}
 	{redhat.com}{aph}
 	{Red Hat UK Ltd.}
 	{Cambridge, UK}
@@ -73,37 +77,32 @@ Currently the committee has the following voting members:
 	{FH Wedel}
 	{Wedel, Germany}
 
-\member{Simon Kaphahn}
-	{gmx.de}{Simon\_K99}
-	{Independent Member}
-	{Munich, Germany}
-
 \member{Dr.\ Peter Knaggs (Editor)}
 	{bcs.org.uk}{pjk}
 	{Independent Member}
 	{Trowbridge, UK}
 
-\member{Bernd Paysan}
+\member{Howerd Oakford}
+	{inventio.co.uk}{howerd}
+	{Inventio Software Ltd}
+	{Wolfsburg, Germany}
+
+\member{Bernd Paysan (Treasurer)}
 	{gmx.de}{bernd.paysan}
 	{Net2o}
 	{Munich, Germany}
 
-\member{Stephen Pelc}
+\member{Stephen Pelc (Chair)}
 	{mpeforth.com}{stephen}
 	{MicroProcessor Engineering Ltd.}
 	{Southampton, UK}
-
-\member[-]{Dr.\ Willi Stricker}
-	{t-online.de}{stricker\_w}
-	{Independent Member}
-	{Springe, Germany}
 
 \member{Leon Wagner}
 	{forth.com}{leon}
 	{FORTH, Inc.}
 	{Los Angeles, USA}
 
-\member{Gerald Wodni}
+\member{Gerald Wodni (Technical)}
 	{wodni.at}{gerald}
 	{Independent Member}
 	{Wien, Austria}
@@ -119,17 +118,17 @@ respects their contributions:
 	{Universidad de Cantabria}
 	{Santander, Spain}
 
-\member[+]{Andrew Haley}
-	{redhat.com}{aph}
-	{Red Hat UK Ltd.}
-	{Cambridge, UK}
+\member{Simon Kaphahn}
+	{gmx.de}{Simon\_K99}
+	{Independent Member}
+	{Munich, Germany}
 
 \member{Dr.\ Bill Stoddart}
 	{gmail.com}{w.j.stoddart}
 	{Teesside University}
 	{Middlesbrough, UK}
 
-\member[+]{Dr.\ Willi Stricker}
+\member{Dr.\ Willi Stricker}
 	{t-online.de}{stricker\_w}
 	{Independent Member}
 	{Springe, Germany}
@@ -156,8 +155,8 @@ Krishna		Myneni \\
 \end{minipage}
 \hfill
 \begin{minipage}[t]{.3\linewidth}
-Howerd		Oakford \\
-Tim			Partridge \\
+% Howerd Oakford \\
+Tim		Partridge \\
 Elizabeth	Rather \\
 David N.	Williams \\
 \end{minipage}

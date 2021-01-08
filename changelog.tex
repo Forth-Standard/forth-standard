@@ -1,5 +1,7 @@
 % !TeX root = forth.tex
 % !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \annex{Change Log} % F (informative annex)}}}
 \label{annex:changelog}
 
@@ -29,1358 +31,1360 @@
 
 % =========================================================
 
-\version{05}{Original Text.}{\empty}
-	Original document based on the dpANS6 basis document distributed
-	as the final public draft during the development of Forth 94
-	(ANS X3.215-1994).
+%\version{05}{Original Text.}{\empty}
+%	Original document based on the dpANS6 basis document distributed
+%	as the final public draft during the development of Forth 94
+%	(ANS X3.215-1994).
 
-\version{06.1}{Santander Meeting}{21--23 October, 2005}
-	\begin{enumerate}
-	\item[1] Introduction:
-		\begin{enumerate}
-		\item Added reference to the validation suite in annex F.
-		\item Annex F (Alphabetic list of words) now annex G.
-		\end{enumerate}
-
-	\item[2] Terms, notations and references:
-		\begin{enumerate}
-		\item Added ``Extension Designator'' to description of the
-			glossary index line.
-		\end{enumerate}
-
-	\item[3] Usage Requirements:
-		\begin{enumerate}
-		\item Added \textsf{X:extension-query} proposal:
-			Section \xref{usage:extensions}, including table
-			\xref{table:extensions}.
-		\end{enumerate}
-
-	\item[4] Documentation requirements:
-		\begin{enumerate}
-		\item Added \textsf{X:deferred} ambiguous conditions.
-		\end{enumerate}
-
-	\item[6] Core Word Set:
-		\begin{enumerate}
-		\item Added ``validation'' section to glossary entries, taken
-			from John Hayes' tester suite.
-		\item Added \textsf{X:deferred} proposal:
-			\wref{core:ACTION-OF}{ACTION-OF},
-			\wref{core:DEFER}{DEFER},
-			\wref{core:DEFER!}{DEFER!},
-			\wref{core:DEFER@}{DEFER@} and
-			\wref{core:IS}{IS}.
-		\item Added \textsf{X:parse-name} proposal:
-			\wref{core:PARSE-NAME}{PARSE-NAME}.
-		\end{enumerate}
-
-	\item[15] Tools Word Set:
-		\begin{enumerate}
-		\item Added \textsf{X:defined} proposal:
-			\wref{tools:[DEFINED]}{[DEFINED]} and
-			\wref{tools:[UNDEFINED]}{[UNDEFINED]}.
-		\end{enumerate}
-
-	\item[F] Added the ``Validation'' annex, with John Hayes'
-		introduction to his tester suite.
-
-	\item[G] Annex F (Alphabetic list of words) now annex G.
-	\end{enumerate}
-
-% =========================================================
-
-\version{06.2}{Minor additions}{30 August 2006}
-	\begin{enumerate}
-	\item[6] Added validation and reference implementations for new words:
-		\wref{core:ACTION-OF}{ACTION-OF},
-		\wref{core:DEFER}{DEFER},
-		\wref{core:DEFER!}{DEFER!},
-		\wref{core:DEFER@}{DEFER@},
-		\wref{core:IS}{IS},
-		\wref{core:PARSE-NAME}{PARSE-NAME},
-		\wref{tools:[DEFINED]}{[DEFINED]} and
-		\wref{tools:[UNDEFINED]}{[UNDEFINED]}.
-
-	\item[G] Annex G was sorted numerically, this was changed to a full
-		Alphabetical sort.
-	\end{enumerate}
+%\version{06.1}{Santander Meeting}{21--23 October, 2005}
+%	\begin{enumerate}
+%	\item[1] Introduction:
+%		\begin{enumerate}
+%		\item Added reference to the validation suite in annex F.
+%		\item Annex F (Alphabetic list of words) now annex G.
+%		\end{enumerate}
+%
+%	\item[2] Terms, notations and references:
+%		\begin{enumerate}
+%		\item Added ``Extension Designator'' to description of the
+%			glossary index line.
+%		\end{enumerate}
+%
+%	\item[3] Usage Requirements:
+%		\begin{enumerate}
+%		\item Added \textsf{X:extension-query} proposal:
+%			Section \xref{usage:extensions}, including table
+%			\xref{table:extensions}.
+%		\end{enumerate}
+%
+%	\item[4] Documentation requirements:
+%		\begin{enumerate}
+%		\item Added \textsf{X:deferred} ambiguous conditions.
+%		\end{enumerate}
+%
+%	\item[6] Core Word Set:
+%		\begin{enumerate}
+%		\item Added ``validation'' section to glossary entries, taken
+%			from John Hayes' tester suite.
+%		\item Added \textsf{X:deferred} proposal:
+%			\wref{core:ACTION-OF}{ACTION-OF},
+%			\wref{core:DEFER}{DEFER},
+%			\wref{core:DEFER!}{DEFER!},
+%			\wref{core:DEFER@}{DEFER@} and
+%			\wref{core:IS}{IS}.
+%		\item Added \textsf{X:parse-name} proposal:
+%			\wref{core:PARSE-NAME}{PARSE-NAME}.
+%		\end{enumerate}
+%
+%	\item[15] Tools Word Set:
+%		\begin{enumerate}
+%		\item Added \textsf{X:defined} proposal:
+%			\wref{tools:[DEFINED]}{[DEFINED]} and
+%			\wref{tools:[UNDEFINED]}{[UNDEFINED]}.
+%		\end{enumerate}
+%
+%	\item[F] Added the ``Validation'' annex, with John Hayes'
+%		introduction to his tester suite.
+%
+%	\item[G] Annex F (Alphabetic list of words) now annex G.
+%	\end{enumerate}
 
 % =========================================================
 
-\version{07.1}{Cambridge Meeting}{14--15 September, 2006}
-	\begin{itemize}
-	\item Significant reworking of \LaTeX{} source with a view to
-		publication of source code, and to ease the parsing of the
-		document source.
-
-	\item Added new ``\xref{foreword}'' and ``\xref{process}'' as defined
-		in \textsf{X:foreword}.
-
-	\item Replaced ``X3 Membership'' with ``\xref{members}'' as
-		defined in \textsf{X:foreword}.
-
-	\item[3] Usage Requirements:
-		\begin{enumerate}
-		\item Added
-			\textsf{X:defined},
-			\textsf{X:ekeys} and
-			\textsf{X:required}
-			to table \xref{table:extensions}
-		\end{enumerate}
-
-	\item[4] Documentation requirements:
-		\begin{enumerate}
-		\item Added ambiguous conditions for \textsf{X:required} proposal.
-		\item Altered ambiguous conditions for \textsf{X:to} proposal.
-		\end{enumerate}
-
-	\item[6] Core Word Set:
-		\begin{enumerate}
-		\item Renamed ``Validation'' section to ``Testing''.
-		\item Reference implementations labeled with ``Implementation''.
-		\item Replaced ``gotten'' with ``become'' in rationale of
-			\wref{core:MARKER}{MARKER}.
-		\item Applied \textsf{X:to} proposal:
-			\wref{core:TO}{TO} and \wref{core:VALUE}{VALUE}.
-		\end{enumerate}
-
-	\item[10] Facility Word Set:
-		Added \textsf{X:ekeys} proposal:
-		\wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-		\wref{facility:K-DELETE}{K-DELETE},
-		\wref{facility:K-DOWN}{K-DOWN},
-		\wref{facility:K-END}{K-END},
-		\wref{facility:K-HOME}{K-HOME},
-		\wref{facility:K-INSERT}{K-INSERT},
-		\wref{facility:K-LEFT}{K-LEFT},
-		\wref{facility:K-NEXT}{K-NEXT},
-		\wref{facility:K-PRIOR}{K-PRIOR},
-		\wref{facility:K-RIGHT}{K-RIGHT},
-		\wref{facility:K-UP}{K-UP},
-		\wref{facility:K-ALT-MASK}{K-ALT-MASK},
-		\wref{facility:K-CTRL-MASK}{K-CTRL-MASK},
-		\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
-		\wref{facility:K-F1}{K-F1},
-		\wref{facility:K-F2}{K-F2},
-		\wref{facility:K-F3}{K-F3}, \linebreak
-		\wref{facility:K-F4}{K-F4},
-		\wref{facility:K-F5}{K-F5},
-		\wref{facility:K-F6}{K-F6},
-		\wref{facility:K-F7}{K-F7},
-		\wref{facility:K-F8}{K-F8},
-		\wref{facility:K-F9}{K-F9},
-		\wref{facility:K-F10}{K-F10},
-		\wref{facility:K-F11}{K-F11} and
-		\wref{facility:K-F12}{K-F12}.
-
-	\item[11] Files Word Set:
-		Added \textsf{X:required} proposal:
-		\wref{file:INCLUDED}{INCLUDED},
-		\wref{file:REQUIRE}{REQUIRE},
-		\wref{file:REQUIRED}{REQUIRED} and
-		\wref{file:INCLUDE}{INCLUDE}.
-
-	\item[13] Locals Word Set:
-		Applied \textsf{X:to} proposal:
-		Ambiguous condition,
-		\wref{local:LOCAL}{(LOCAL)} and \linebreak
-		\wref{local:LOCALS}{LOCALS|} and removed 13.6.2.2295 TO.
-
-	\item[B] Bibliography (Annex \ref{annex:bib}):
-		Added \emph{ANS Forth} and \emph{ISO Forth} to
-		``Industry standards'' section.
-
-	\item[F] Test Suite (Annex \ref{annex:test}):
-		Added John Hayes' core test suite, changing the
-		introduction in the process.
-
-	\item[G] Change Log (Annex \ref{annex:changelog}):
-		Added this Change Log.
-
-	\item[H] Word List (Annex \ref{annex:index}):
-		Original annex F (alphabetic list of words) is now
-		annex H.
-	\end{itemize}
+%\version{06.2}{Minor additions}{30 August 2006}
+%	\begin{enumerate}
+%	\item[6] Added validation and reference implementations for new words:
+%		\wref{core:ACTION-OF}{ACTION-OF},
+%		\wref{core:DEFER}{DEFER},
+%		\wref{core:DEFER!}{DEFER!},
+%		\wref{core:DEFER@}{DEFER@},
+%		\wref{core:IS}{IS},
+%		\wref{core:PARSE-NAME}{PARSE-NAME},
+%		\wref{tools:[DEFINED]}{[DEFINED]} and
+%		\wref{tools:[UNDEFINED]}{[UNDEFINED]}.
+%
+%	\item[G] Annex G was sorted numerically, this was changed to a full
+%		Alphabetical sort.
+%	\end{enumerate}
 
 % =========================================================
 
-\version{07.2}{Dagstuhl Meeting}{13--14 September, 2007}
-	\begin{itemize}
-	\item \LaTeX{} source file now given in page footer.
-
-	\item Rename ``forward'' to ``foreword''.
-
-	\item \xref{process}: \\
-		Two new sentences (\textsf{ed07}).
-
-	\item \xref{members}: \\
-		Membership Rules (\textsf{ed07}).
-
-	\item[2] Terms, notation, and references: \\
-		\textsf{X:number-prefix}: Extended section
-		\xref{notation:numeric}.
-
-	\item[3] Usage Requirements:
-		\begin{enumerate}
-		\item Added \textsf{X:number-prefix}, \textsf{X:structures}
-			and \textsf{X:throw-iors} to table \xref{table:extensions}.
-		\item \textsf{X:number-prefix}: replaced section
-			\xref{usage:numbers}.
-		\end{enumerate}
-
-	\item[4] Documentation requirements: \\
-		Added ambiguous condition for \textsf{X:structures}.
-
-	\item[6] Core Word Set: \\
-		Inline text is now in sans-serif.
-
-	\item[8] Double-Number Word Set: \\
-		\textsf{X:number-prefix}: added ``, except a \arg{cnum},''
-		to 8.3.2 Text interpreter input number conversion.
-
-	\item[9] Exception Word Set: \\
-		Added \textsf{X:throw-iors} to table \xref{table:throw}.
-
-	\item[10] Facility Word Set:
-		\begin{enumerate}
-		\item Added \textsf{X:structures}:
-			\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
-			\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \linebreak
-			\wref{facility:+FIELD}{+FIELD},
-			\wref{facility:CFIELD:}{CFIELD:} and
-			\wref{facility:FIELD:}{FIELD:}.
-		\item Tidied up source code of \textsf{X:ekeys} definitions.
-		\item \textsf{ed07}: Added to \word[facility]{EKEY} rationale.
-		\end{enumerate}
-
-	\item[12] Floating Word Set:
-		\begin{enumerate}
-		\item \textsf{X:structures}: Added
-			\wref{floating:DFFIELD:}{DFFIELD:},
-			\wref{floating:FFIELD:}{FFIELD:}, and
-			\wref{floating:SFFIELD:}{SFFIELD:}.
-		\item \textsf{X:number-prefix}:
-			Removed section \xref{float:notation}, now
-			in section \xref{notation:numeric}.
-		\end{enumerate}
-
-	\item[A] Rationale:
-		\begin{enumerate}
-		\item Corrected a number of section numbering errors
-		\item \textsf{X:number-prefix}:
-			Added test cases (A.3.4.1.3 Numeric notation).
-		\end{enumerate}
-
-	\item[B] Bibliography (Annex \ref{annex:bib}):
-		\begin{enumerate}
-		\item \textsf{ed07}: Added books by Elizabeth Rather
-			and Stephen Pelc.
-		\item \textsf{ed07}: Added URL for Thinking Forth.
-		\end{enumerate}
-
-	\item[G] Change Log (Annex \ref{annex:changelog}):
-		Reformatted the change log to allow separate versions
-		to appear in the table of contents.
-	\end{itemize}
-
-% =========================================================
-
-\version{08.1}{Vienna Meeting}{25--26 September, 2008}
-	\begin{itemize}
-	\item \xref{process}: \\
-		\textsf{ed08}: Changed ``an standard'' to ``a standard''.
-
-	\item \xref{members}:
-		\begin{enumerate}
-		\item \textsf{ed08}: Change of contact details for Peter Knaggs.
-		\item \textsf{ed08}: Added Andrew Haley, Ulrich Hoffmann,
-			Bernd Paysan, Willi Stricker, and Leon Wagner.
-		\end{enumerate}
-
-	\item[1] Introduction: \\
-		\textsf{X:fp-stack}: Added the combined float/data
-			stack to \xref{intro:obsoleat}.
-
-	\item[6] Core Word Set: \\
-		\textsf{X:test}: Added test cases:
-			\tref{core:RECURSE}{},
-			\tref{core::NONAME}{},
-			\tref{core:qDO}{},
-			\tref{core:Cq}{},
-			\tref{core:CASE}{},
-			\tref{core:COMPILE,}{},
-			\tref{core:FALSE}{},
-			\tref{core:SAVE-INPUT}{},
-			\tref{core:TRUE}{},
-			\tref{core:VALUE}{} and
-			\tref{core:[COMPILE]}{}.
-
-	\item[8] Double Numbers Word Set: \\
-		\textsf{X:test}: Added test cases:
-		\ref{test:dbl:in},
-		\tref{double:2CONSTANT}{}, 
-		\tref{double:2LITERAL}{}, \linebreak
-		\tref{double:2VARIABLE}{},
-		\tref{double:D+}{},
-		\tref{double:D-}{},
-		\tref{double:D.R}{},
-		\tref{double:D0less}{},
-		\tref{double:D0=}{},
-		\tref{double:D2*}{},
-		\tref{double:D2/}{},
-		\tref{double:Dless}{},
-		\tref{double:D=}{},
-		\tref{double:DtoS}{},
-		\tref{double:DABS}{},
-		\tref{double:DMAX}{},
-		\tref{double:DMIN}{}, \linebreak
-		\tref{double:DNEGATE}{},
-		\tref{double:M*/}{},
-		\tref{double:M+}{},
-		\tref{double:2ROT}{} and
-		\tref{double:DUless}{}.
-
-	\item[9] Exception Word Set: \\
-		\textsf{X:test}: Added test cases
-		\ref{test:throw},
-		\tref{exception:CATCH}{} and
-		\tref{exception:ABORTq}{}.
-
-	\item[11] File-Access Word Set: \\
-		\textsf{X:test}: Added test cases:
-		\tref{file:p}{},
-		\tref{file:CREATE-FILE}{}, \linebreak
-		\tref{file:DELETE-FILE}{},
-		\tref{file:FILE-SIZE}{},
-		\tref{file:READ-LINE}{}, \linebreak
-		\tref{file:REPOSITION-FILE}{},
-		\tref{file:RESIZE-FILE}{},
-		\tref{file:SOURCE-ID}{},
-		\tref{file:WRITE-LINE}{} and
-		\tref{file:RENAME-FILE}{}.
-
-	\item[10] Facility Word Set: \\
-		\textsf{ed08}: Changed ``schools of though'' to ``schools of
-			thought'' in rationale for \linebreak
-			\rref{facility:BEGIN-STRUCTURE}{}.
-
-	\item[12] Floating-Point Word Set: \\
-		Added \textsf{X:fp-stack}:
-		A separate floating point stack is now the default,
-		with a combined stack being an environmental
-		dependency.
-		(\xref{float:notation},
-		 \xref{float:stack},
-		 \xref{float:env},
-		 \xref{float:restrictions},
-		 \xref{float:dependencies}, and
-		 \wref{floating:FDEPTH}{FDEPTH})
-
-	\item[14] Memory Allocation Word Set: \\
-		\textsf{X:test}: Added test cases for
-		\tref{memory:ALLOCATE}{} and \tref{memory:RESIZE}{}.
-
-	\item[15] Programming-Tools Word Set: \\
-		\textsf{X:test}: Added test cases for:
-			\tref{tools:AHEAD}{},
-			\tref{tools:CS-PICK}{}, \linebreak
-			\tref{tools:CS-ROLL}{} and
-			\tref{tools:[THEN]}{}.
-
-	\item[16] Search-Order Word Set: \\
-		\textsf{X:test}: Added test cases for:
-		\tref{search:DEFINITIONS}{},
-		\tref{search:FIND}{},
-		\tref{search:FORTH-WORDLIST}{},
-		\tref{search:SEARCH-WORDLIST}{},
-		\tref{search:SET-CURRENT}{}, \linebreak
-		\tref{search:SET-ORDER}{},
-		\tref{search:ALSO}{},
-		\tref{search:ONLY}{} and \linebreak
-		\tref{search:ORDER}{}.
-
-	\item[17] String Word Set: \\
-		\textsf{X:test}: Added test cases for:
-		\tref{string:-TRAILING}{},
-		\tref{string:/STRING}{},
-		\tref{string:BLANK}{},
-		\tref{string:COMPARE}{},
-		\tref{string:SEARCH}{} and
-		\tref{string:SLITERAL}{}.
-
-	\item[F] Test Suite (\xref{annex:test}):
-		\begin{enumerate}
-		\item \textsf{X:test}: Complete revision of introduction and
-			Test Harness to reflect new test harness: including
-			the new \verb"T{ -> }T" syntax.  Test harness source
-			code now folded into discussion of the harness.
-
-		\item \textsf{X:test}: Complete revision of Core Test,
-			converted to text with references to the appropriate
-			sections for the test, rather than a complete repetition
-			of the tests.
-
-		\item \textsf{X:test}: All test cases have been migrated to the
-			new syntax and reformatted where appropriate.
-		\end{enumerate}
-	\end{itemize}
+%\version{07.1}{Cambridge Meeting}{14--15 September, 2006}
+%	\begin{itemize}
+%	\item Significant reworking of \LaTeX{} source with a view to
+%		publication of source code, and to ease the parsing of the
+%		document source.
+%
+%	\item Added new ``\xref{foreword}'' and ``\xref{process}'' as defined
+%		in \textsf{X:foreword}.
+%
+%	\item Replaced ``X3 Membership'' with ``\xref{members}'' as
+%		defined in \textsf{X:foreword}.
+%
+%	\item[3] Usage Requirements:
+%		\begin{enumerate}
+%		\item Added
+%			\textsf{X:defined},
+%			\textsf{X:ekeys} and
+%			\textsf{X:required}
+%			to table \xref{table:extensions}
+%		\end{enumerate}
+%
+%	\item[4] Documentation requirements:
+%		\begin{enumerate}
+%		\item Added ambiguous conditions for \textsf{X:required} proposal.
+%		\item Altered ambiguous conditions for \textsf{X:to} proposal.
+%		\end{enumerate}
+%
+%	\item[6] Core Word Set:
+%		\begin{enumerate}
+%		\item Renamed ``Validation'' section to ``Testing''.
+%		\item Reference implementations labeled with ``Implementation''.
+%		\item Replaced ``gotten'' with ``become'' in rationale of
+%			\wref{core:MARKER}{MARKER}.
+%		\item Applied \textsf{X:to} proposal:
+%			\wref{core:TO}{TO} and \wref{core:VALUE}{VALUE}.
+%		\end{enumerate}
+%
+%	\item[10] Facility Word Set:
+%		Added \textsf{X:ekeys} proposal:
+%		\wref{facility:EKEYtoFKEY}{EKEY>FKEY},
+%		\wref{facility:K-DELETE}{K-DELETE},
+%		\wref{facility:K-DOWN}{K-DOWN},
+%		\wref{facility:K-END}{K-END},
+%		\wref{facility:K-HOME}{K-HOME},
+%		\wref{facility:K-INSERT}{K-INSERT},
+%		\wref{facility:K-LEFT}{K-LEFT},
+%		\wref{facility:K-NEXT}{K-NEXT},
+%		\wref{facility:K-PRIOR}{K-PRIOR},
+%		\wref{facility:K-RIGHT}{K-RIGHT},
+%		\wref{facility:K-UP}{K-UP},
+%		\wref{facility:K-ALT-MASK}{K-ALT-MASK},
+%		\wref{facility:K-CTRL-MASK}{K-CTRL-MASK},
+%		\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
+%		\wref{facility:K-F1}{K-F1},
+%		\wref{facility:K-F2}{K-F2},
+%		\wref{facility:K-F3}{K-F3}, \linebreak
+%		\wref{facility:K-F4}{K-F4},
+%		\wref{facility:K-F5}{K-F5},
+%		\wref{facility:K-F6}{K-F6},
+%		\wref{facility:K-F7}{K-F7},
+%		\wref{facility:K-F8}{K-F8},
+%		\wref{facility:K-F9}{K-F9},
+%		\wref{facility:K-F10}{K-F10},
+%		\wref{facility:K-F11}{K-F11} and
+%		\wref{facility:K-F12}{K-F12}.
+%
+%	\item[11] Files Word Set:
+%		Added \textsf{X:required} proposal:
+%		\wref{file:INCLUDED}{INCLUDED},
+%		\wref{file:REQUIRE}{REQUIRE},
+%		\wref{file:REQUIRED}{REQUIRED} and
+%		\wref{file:INCLUDE}{INCLUDE}.
+%
+%	\item[13] Locals Word Set:
+%		Applied \textsf{X:to} proposal:
+%		Ambiguous condition,
+%		\wref{local:LOCAL}{(LOCAL)} and \linebreak
+%		\wref{local:LOCALS}{LOCALS|} and removed 13.6.2.2295 TO.
+%
+%	\item[B] Bibliography (Annex \ref{annex:bib}):
+%		Added \emph{ANS Forth} and \emph{ISO Forth} to
+%		``Industry standards'' section.
+%
+%	\item[F] Test Suite (Annex \ref{annex:test}):
+%		Added John Hayes' core test suite, changing the
+%		introduction in the process.
+%
+%	\item[G] Change Log (Annex \ref{annex:changelog}):
+%		Added this Change Log.
+%
+%	\item[H] Word List (Annex \ref{annex:index}):
+%		Original annex F (alphabetic list of words) is now
+%		annex H.
+%	\end{itemize}
 
 % =========================================================
 
-\version{09.1}{Internal release only.}{\empty}
-	\begin{quote}
-		All changes are formating related.
-	\end{quote}
+%\version{07.2}{Dagstuhl Meeting}{13--14 September, 2007}
+%	\begin{itemize}
+%	\item \LaTeX{} source file now given in page footer.
+%
+%	\item Rename ``forward'' to ``foreword''.
+%
+%	\item \xref{process}: \\
+%		Two new sentences (\textsf{ed07}).
+%
+%	\item \xref{members}: \\
+%		Membership Rules (\textsf{ed07}).
+%
+%	\item[2] Terms, notation, and references: \\
+%		\textsf{X:number-prefix}: Extended section
+%		\xref{notation:numeric}.
+%
+%	\item[3] Usage Requirements:
+%		\begin{enumerate}
+%		\item Added \textsf{X:number-prefix}, \textsf{X:structures}
+%			and \textsf{X:throw-iors} to table \xref{table:extensions}.
+%		\item \textsf{X:number-prefix}: replaced section
+%			\xref{usage:numbers}.
+%		\end{enumerate}
+%
+%	\item[4] Documentation requirements: \\
+%		Added ambiguous condition for \textsf{X:structures}.
+%
+%	\item[6] Core Word Set: \\
+%		Inline text is now in sans-serif.
+%
+%	\item[8] Double-Number Word Set: \\
+%		\textsf{X:number-prefix}: added ``, except a \arg{cnum},''
+%		to 8.3.2 Text interpreter input number conversion.
+%
+%	\item[9] Exception Word Set: \\
+%		Added \textsf{X:throw-iors} to table \xref{table:throw}.
+%
+%	\item[10] Facility Word Set:
+%		\begin{enumerate}
+%		\item Added \textsf{X:structures}:
+%			\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
+%			\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \linebreak
+%			\wref{facility:+FIELD}{+FIELD},
+%			\wref{facility:CFIELD:}{CFIELD:} and
+%			\wref{facility:FIELD:}{FIELD:}.
+%		\item Tidied up source code of \textsf{X:ekeys} definitions.
+%		\item \textsf{ed07}: Added to \word[facility]{EKEY} rationale.
+%		\end{enumerate}
+%
+%	\item[12] Floating Word Set:
+%		\begin{enumerate}
+%		\item \textsf{X:structures}: Added
+%			\wref{floating:DFFIELD:}{DFFIELD:},
+%			\wref{floating:FFIELD:}{FFIELD:}, and
+%			\wref{floating:SFFIELD:}{SFFIELD:}.
+%		\item \textsf{X:number-prefix}:
+%			Removed section \xref{float:notation}, now
+%			in section \xref{notation:numeric}.
+%		\end{enumerate}
+%
+%	\item[A] Rationale:
+%		\begin{enumerate}
+%		\item Corrected a number of section numbering errors
+%		\item \textsf{X:number-prefix}:
+%			Added test cases (A.3.4.1.3 Numeric notation).
+%		\end{enumerate}
+%
+%	\item[B] Bibliography (Annex \ref{annex:bib}):
+%		\begin{enumerate}
+%		\item \textsf{ed07}: Added books by Elizabeth Rather
+%			and Stephen Pelc.
+%		\item \textsf{ed07}: Added URL for Thinking Forth.
+%		\end{enumerate}
+%
+%	\item[G] Change Log (Annex \ref{annex:changelog}):
+%		Reformatted the change log to allow separate versions
+%		to appear in the table of contents.
+%	\end{itemize}
 
 % =========================================================
 
-\version{09.2}{Neuenkirchen Meeting}{25--27 March 2009}
-	\begin{itemize}
-	\item[4] Documentation requirements: \\
-		\textsf{ed09}: In the ambiguous conditions for the
-			\textsf{X:deferred} extension, changed ``associated with''
-			to \linebreak ``assigned to''.
-
-	\item[6] Core Word Set: \\
-		\textsf{ed09}:
-			Changed ``associated with'' to ``assigned to''
-			or ``assigned an'' in the definitions of
-			\wref{core:ACTION-OF}{}, \wref{core:DEFER}{},
-			\wref{core:DEFER@}{} and \wref{core:VALUE}.
-
-	\item[13] Locals Word Set: \\
-		\textsf{ed09}:
-			Changed ``associated with'' to ``assigned to''
-			or ``assigned an'' in the defintion of
-			\wref{local:LOCAL}{}.
-
-	\item[F] References Implementations (\xref{annex:implement}): \\
-		\textsf{X:reference}:
-			Added a new annex to collect the reference implementations.
-	\end{itemize}
+%\version{08.1}{Vienna Meeting}{25--26 September, 2008}
+%	\begin{itemize}
+%	\item \xref{process}: \\
+%		\textsf{ed08}: Changed ``an standard'' to ``a standard''.
+%
+%	\item \xref{members}:
+%		\begin{enumerate}
+%		\item \textsf{ed08}: Change of contact details for Peter Knaggs.
+%		\item \textsf{ed08}: Added Andrew Haley, Ulrich Hoffmann,
+%			Bernd Paysan, Willi Stricker, and Leon Wagner.
+%		\end{enumerate}
+%
+%	\item[1] Introduction: \\
+%		\textsf{X:fp-stack}: Added the combined float/data
+%			stack to \xref{intro:obsoleat}.
+%
+%	\item[6] Core Word Set: \\
+%		\textsf{X:test}: Added test cases:
+%			\tref{core:RECURSE}{},
+%			\tref{core::NONAME}{},
+%			\tref{core:qDO}{},
+%			\tref{core:Cq}{},
+%			\tref{core:CASE}{},
+%			\tref{core:COMPILE,}{},
+%			\tref{core:FALSE}{},
+%			\tref{core:SAVE-INPUT}{},
+%			\tref{core:TRUE}{},
+%			\tref{core:VALUE}{} and
+%			\tref{core:[COMPILE]}{}.
+%
+%	\item[8] Double Numbers Word Set: \\
+%		\textsf{X:test}: Added test cases:
+%		\ref{test:dbl:in},
+%		\tref{double:2CONSTANT}{}, 
+%		\tref{double:2LITERAL}{}, \linebreak
+%		\tref{double:2VARIABLE}{},
+%		\tref{double:D+}{},
+%		\tref{double:D-}{},
+%		\tref{double:D.R}{},
+%		\tref{double:D0less}{},
+%		\tref{double:D0=}{},
+%		\tref{double:D2*}{},
+%		\tref{double:D2/}{},
+%		\tref{double:Dless}{},
+%		\tref{double:D=}{},
+%		\tref{double:DtoS}{},
+%		\tref{double:DABS}{},
+%		\tref{double:DMAX}{},
+%		\tref{double:DMIN}{}, \linebreak
+%		\tref{double:DNEGATE}{},
+%		\tref{double:M*/}{},
+%		\tref{double:M+}{},
+%		\tref{double:2ROT}{} and
+%		\tref{double:DUless}{}.
+%
+%	\item[9] Exception Word Set: \\
+%		\textsf{X:test}: Added test cases
+%		\ref{test:throw},
+%		\tref{exception:CATCH}{} and
+%		\tref{exception:ABORTq}{}.
+%
+%	\item[11] File-Access Word Set: \\
+%		\textsf{X:test}: Added test cases:
+%		\tref{file:p}{},
+%		\tref{file:CREATE-FILE}{}, \linebreak
+%		\tref{file:DELETE-FILE}{},
+%		\tref{file:FILE-SIZE}{},
+%		\tref{file:READ-LINE}{}, \linebreak
+%		\tref{file:REPOSITION-FILE}{},
+%		\tref{file:RESIZE-FILE}{},
+%		\tref{file:SOURCE-ID}{},
+%		\tref{file:WRITE-LINE}{} and
+%		\tref{file:RENAME-FILE}{}.
+%
+%	\item[10] Facility Word Set: \\
+%		\textsf{ed08}: Changed ``schools of though'' to ``schools of
+%			thought'' in rationale for \linebreak
+%			\rref{facility:BEGIN-STRUCTURE}{}.
+%
+%	\item[12] Floating-Point Word Set: \\
+%		Added \textsf{X:fp-stack}:
+%		A separate floating point stack is now the default,
+%		with a combined stack being an environmental
+%		dependency.
+%		(\xref{float:notation},
+%		 \xref{float:stack},
+%		 \xref{float:env},
+%		 \xref{float:restrictions},
+%		 \xref{float:dependencies}, and
+%		 \wref{floating:FDEPTH}{FDEPTH})
+%
+%	\item[14] Memory Allocation Word Set: \\
+%		\textsf{X:test}: Added test cases for
+%		\tref{memory:ALLOCATE}{} and \tref{memory:RESIZE}{}.
+%
+%	\item[15] Programming-Tools Word Set: \\
+%		\textsf{X:test}: Added test cases for:
+%			\tref{tools:AHEAD}{},
+%			\tref{tools:CS-PICK}{}, \linebreak
+%			\tref{tools:CS-ROLL}{} and
+%			\tref{tools:[THEN]}{}.
+%
+%	\item[16] Search-Order Word Set: \\
+%		\textsf{X:test}: Added test cases for:
+%		\tref{search:DEFINITIONS}{},
+%		\tref{search:FIND}{},
+%		\tref{search:FORTH-WORDLIST}{},
+%		\tref{search:SEARCH-WORDLIST}{},
+%		\tref{search:SET-CURRENT}{}, \linebreak
+%		\tref{search:SET-ORDER}{},
+%		\tref{search:ALSO}{},
+%		\tref{search:ONLY}{} and \linebreak
+%		\tref{search:ORDER}{}.
+%
+%	\item[17] String Word Set: \\
+%		\textsf{X:test}: Added test cases for:
+%		\tref{string:-TRAILING}{},
+%		\tref{string:/STRING}{},
+%		\tref{string:BLANK}{},
+%		\tref{string:COMPARE}{},
+%		\tref{string:SEARCH}{} and
+%		\tref{string:SLITERAL}{}.
+%
+%	\item[F] Test Suite (\xref{annex:test}):
+%		\begin{enumerate}
+%		\item \textsf{X:test}: Complete revision of introduction and
+%			Test Harness to reflect new test harness: including
+%			the new \verb"T{ -> }T" syntax.  Test harness source
+%			code now folded into discussion of the harness.
+%
+%		\item \textsf{X:test}: Complete revision of Core Test,
+%			converted to text with references to the appropriate
+%			sections for the test, rather than a complete repetition
+%			of the tests.
+%
+%		\item \textsf{X:test}: All test cases have been migrated to the
+%			new syntax and reformatted where appropriate.
+%		\end{enumerate}
+%	\end{itemize}
 
 % =========================================================
 
-\version{09.3}{Exeter Meeting}{2--4 September, 2009}
-	\begin{itemize}
-	\item \xref{members}:
-		\begin{enumerate}
-		\item \textsf{ed09b}: Added doctrinal designation for Anton Ertl and
-			Ulrich Hoffmann.
-		\item \textsf{ed09b}: Changed contact details for Bill Stoddart and
-			Leon Wagner.
-		\end{enumerate}
+%\version{09.1}{Internal release only.}{\empty}
+%	\begin{quote}
+%		All changes are formating related.
+%	\end{quote}
 
-	\item[3] Usage requirements:
-		\begin{enumerate}
-		\item \textsf{X:key-ekey}: Replaced first paragraph of
-			\xref{usage:char}.
-		\item \textsf{X:key-ekey}: Added section
-			\xref{usage:pchar}.
-		\item Added \textsf{X:2value}, \textsf{X:fatan2}, \textsf{X:ftrunc}
-			and \textsf{X:fvalue:} to table \xref{table:extensions}.
-		\item \textsf{X:namelen}: Extended first paragraph of
-			\xref{usage:names}.
-		\end{enumerate}
+% =========================================================
 
-	\item[4] Documentation requirements: \\
-		\textsf{X:namelen}: Added use of names longer than 31
-			characters to \xref{doc:env}.
+%\version{09.2}{Neuenkirchen Meeting}{25--27 March, 2009}
+%	\begin{itemize}
+%	\item[4] Documentation requirements: \\
+%		\textsf{ed09}: In the ambiguous conditions for the
+%			\textsf{X:deferred} extension, changed ``associated with''
+%			to \linebreak ``assigned to''.
+%
+%	\item[6] Core Word Set: \\
+%		\textsf{ed09}:
+%			Changed ``associated with'' to ``assigned to''
+%			or ``assigned an'' in the definitions of
+%			\wref{core:ACTION-OF}{}, \wref{core:DEFER}{},
+%			\wref{core:DEFER@}{} and \wref{core:VALUE}.
+%
+%	\item[13] Locals Word Set: \\
+%		\textsf{ed09}:
+%			Changed ``associated with'' to ``assigned to''
+%			or ``assigned an'' in the defintion of
+%			\wref{local:LOCAL}{}.
+%
+%	\item[F] References Implementations (\xref{annex:implement}): \\
+%		\textsf{X:reference}:
+%			Added a new annex to collect the reference implementations.
+%	\end{itemize}
 
-	\item[6--17] \textsf{ed09b}: Preparation for Snapshot document,
-		replaced ``Rationale:'' reference with a ``See:'' reference,
-		removed ``Implementation:'' and ``Testing:'' references.
+% =========================================================
 
-	\item[6] Core Word Set: \\
-		\textsf{X:key-ekey}: Added rationale for \wref{core:KEY}{}.
+%\version{09.3}{Exeter Meeting}{2--4 September, 2009}
+%	\begin{itemize}
+%	\item \xref{members}:
+%		\begin{enumerate}
+%		\item \textsf{ed09b}: Added doctrinal designation for Anton Ertl and
+%			Ulrich Hoffmann.
+%		\item \textsf{ed09b}: Changed contact details for Bill Stoddart and
+%			Leon Wagner.
+%		\end{enumerate}
+%
+%	\item[3] Usage requirements:
+%		\begin{enumerate}
+%		\item \textsf{X:key-ekey}: Replaced first paragraph of
+%			\xref{usage:char}.
+%		\item \textsf{X:key-ekey}: Added section
+%			\xref{usage:pchar}.
+%		\item Added \textsf{X:2value}, \textsf{X:fatan2}, \textsf{X:ftrunc}
+%			and \textsf{X:fvalue:} to table \xref{table:extensions}.
+%		\item \textsf{X:namelen}: Extended first paragraph of
+%			\xref{usage:names}.
+%		\end{enumerate}
+%
+%	\item[4] Documentation requirements: \\
+%		\textsf{X:namelen}: Added use of names longer than 31
+%			characters to \xref{doc:env}.
+%
+%	\item[6--17] \textsf{ed09b}: Preparation for Snapshot document,
+%		replaced ``Rationale:'' reference with a ``See:'' reference,
+%		removed ``Implementation:'' and ``Testing:'' references.
+%
+%	\item[6] Core Word Set: \\
+%		\textsf{X:key-ekey}: Added rationale for \wref{core:KEY}{}.
+%
+%	\item[8] Double-Number Word Set: \\
+%		\textsf{X:2value}: Added \wref{double:2VALUE}{}.
+%
+%	\item[9] Exception Word Set:
+%		\begin{enumerate}
+%		\item \textsf{ed09b}: Add reference to
+%			\rref{exception:THROW}{} to definition of
+%			\wref{exception:CATCH}{}.
+%
+%		\item \textsf{ed09b}: Replace reference to
+%			\tref{exception:CATCH}{} with \tref{exception:THROW}{}
+%			in \tref{exception:CATCH}{}.
+%		\end{enumerate}
+%
+%	\item[10] Facility Word Set:
+%		\begin{enumerate}
+%		\item \textsf{ed09b}: Replaced ``bother with'' with
+%			``process'' in \rref{facility:KEYq}{}.
+%		\item \textsf{X:key-ekey}: Complete rewrite of
+%			\rref{facility:EKEY}{}.
+%		\end{enumerate}
+%
+%	\item[12] Floating-Point Word Set:
+%		\begin{enumerate}
+%		\item \textsf{X:ftrunc}: Added ``Round toward zero'' to \xref{float:ops}
+%			and a ``see also'' clause to \wref{floating:FLOOR}{}.
+%		\item \textsf{X:fasinh}: Removed the ``float less than zero'' ambiguous
+%			condition from \wref{floating:FASINH}{} and the reference to
+%			\wref{floating:FASINH}{} from the ambiguous conditions
+%			(\xref{float:ambiguous}).
+%		\item \textsf{X:ftrunc}: Added\wref{floating:FTRUNC}{} and reference to
+%			\wref{floating:FLOOR}{} and to \wref{floating:FROUND}{}.
+%		\item \textsf{X:fatan2}: Revised description of
+%			\wref{floating:FATAN2}{}, adding a test section.
+%		\item \textsf{X:fvalue}: Added \wref{floating:FVALUE}{}.
+%		\end{enumerate}
+%
+%	\item[G] Test Suite:
+%		\begin{enumerate}
+%		\item \textsf{ed09b}: Corrected ``exmaple'' to ``example'' in
+%			\xref{test:harness}
+%		\item \textsf{ed09b}: Corrected ``Heyes'' to ``Hayes''
+%			in \xref{test:core}.
+%		\item \textsf{ed09b}: Reduced severity of test by replacing
+%			``must'' with ``should'' in \xref{test:core}.
+%		\end{enumerate}
+%	\end{itemize}
 
-	\item[8] Double-Number Word Set: \\
-		\textsf{X:2value}: Added \wref{double:2VALUE}{}.
+% =========================================================
 
-	\item[9] Exception Word Set:
-		\begin{enumerate}
-		\item \textsf{ed09b}: Add reference to
-			\rref{exception:THROW}{} to definition of
-			\wref{exception:CATCH}{}.
+%\version{10.1}{Rostock Meeting}{24--26 March, 2010}
+%	\begin{itemize}
+%	\item Title page: \\
+%		\textsf{ed10}: Corrected spelling of ``Rational'' to ``Rationale''
+%			in the review (r) version of the title page.
+%
+%	\item \xref{members}: \\
+%		\textsf{ed10}: Moved ``Currently the committee has the
+%			following voting members:'' sentence.
+%
+%	\item[6--17] Removed ``and'' proceeding the last element in an list
+%		replacing it with a comma, in the American style, in:
+%			\tref{core:num-start}{},
+%			\tref{core:BEGIN}{},
+%			\tref{core:DO}{},
+%			\rref{core:ENVIRONMENTq}{}, \linebreak
+%			\tref{core:HERE}{},
+%			\tref{core:I}{},
+%			\tref{core:IMMEDIATE}{},
+%			\wref{core:STATE}{}, \rref{core:STATE}{}
+%			\wref{core:ACTION-OF}{},
+%			\wref{core:DEFER}{},
+%			\wref{core:DEFER!}{},
+%			\wref{core:DEFER@}{},
+%			\wref{core:IS}{}, \linebreak
+%			\wref{facility:BEGIN-STRUCTURE}{},
+%			\rref{facility:EKEYtoFKEY}{},
+%			\wref{facility:END-STRUCTURE}{}, \linebreak
+%			\wref{facility:FIELD:}{},
+%			\wref{facility:TIMEandDATE}{},
+%			\xref{file:impopt}, \linebreak
+%			\wref{floating:FLOOR}{},
+%			\wref{floating:FROUND}{},
+%			\wref{floating:DFFIELD:}{},
+%			\wref{floating:FFIELD:}{}, \linebreak
+%			\wref{floating:FTRUNC}{},
+%			\wref{floating:FVALUE}{} and
+%			\wref{floating:SFFIELD:}{}.
+%	
+%	\item[6] Core Word List: \\
+%		\textsf{ed10}: Replaced ``\texttt{(}'' with ``\texttt{)}'' in
+%			\wref{core:p}{}.
+%
+%	\item[13] Locals Word Set: \\
+%		\textsf{ed10}: Moved definition of ``\word{TO} \param{local} runtime''
+%		within \wref{local:LOCAL}{}.
+%	\end{itemize}
 
-		\item \textsf{ed09b}: Replace reference to
-			\tref{exception:CATCH}{} with \tref{exception:THROW}{}
-			in \tref{exception:CATCH}{}.
-		\end{enumerate}
+% =========================================================
 
-	\item[10] Facility Word Set:
-		\begin{enumerate}
-		\item \textsf{ed09b}: Replaced ``bother with'' with
-			``process'' in \rref{facility:KEYq}{}.
-		\item \textsf{X:key-ekey}: Complete rewrite of
-			\rref{facility:EKEY}{}.
-		\end{enumerate}
+%\version{10.2}{Hamburg Meeting}{2{}2--24 September, 2010}
+%	\begin{itemize}
+%	\item \xref{process}: \\
+%		\textsf{X:rfc}: Added rules for non-substantive changes (RfC rules).
+%
+%	\item \xref{members}:
+%		\begin{enumerate}
+%		\item \textsf{ed10b}: Removed Federico de Ceballos, Willi Stricker
+%			and Carsten Strotmann from the \linebreak membership list.
+%		\item \textsf{ed10b}: Added Gerald Wodni to the membership list.
+%		\end{enumerate}
+%
+%	\item[1] Introduction:
+%		\begin{enumerate}
+%		\item \textsf{X:legacy}: Removed \texttt{\#TIB}, \texttt{SPAN},
+%			\texttt{CONVERT}, \texttt{QUERY}, \texttt{TIB} and \texttt{EXPECT}
+%			from \ref{intro:obsoleat}, leaving \word[tools]{FORGET}.
+%
+%		\item \textsf{X:wordset-queries}: Added use of word set environmental
+%			queries to \xref{intro:obsoleat}.
+%		\end{enumerate}
+%
+%	\item[3] Usage requirements:
+%		\begin{enumerate}
+%		\item \textsf{ed10b}: Added ``be'' to start of the first character
+%			property in \xref{usage:char}.
+%		\item \textsf{X:wordset-query}: Added \xref{usage:obsolete} and table
+%			\ref{table:obsolete}.
+%		\item \textsf{X:xchar}: Added \word{HOLDS} and \word[xchar]{XHOLD} to
+%			\ref{usage:transient}.
+%		\end{enumerate}
+%
+%	\item[4] Documentation requirements:
+%		\begin{enumerate}
+%		\item \textsf{X:legacy}: Removed reference to \texttt{EXPECT} from
+%			\xref{doc:system}.
+%		\item \textsf{X:legacy}: Removed reference to \texttt{CONVERT} from
+%			\xref{doc:ambiguous}.
+%		\item \textsf{X:xchar}: Added \wref{core:HOLDS}{} to 
+%			\xref{doc:ambiguous}.
+%		\item \textsf{ed10b}: Removed \textsf{X:required} and
+%			\textsf{X:structures} from \xref{doc:ambiguous}.
+%		\item \textsf{X:escaped-strings}: Added \word{Seq} to \xref{doc:ambiguous}.
+%		\item \textsf{X:legacy}: Removed reference to \texttt{EXPECT} from
+%			\xref{doc:env}.
+%		\end{enumerate}
+%
+%	\item[6--17] ~\\
+%		\textsf{X:wordset-query}: Removed word set environmental queries.
+%
+%	\item[6] Core Word Set:
+%		\begin{enumerate}
+%		\item \textsf{X:synonym}: Added ambiguous condition to \wref{core:IMMEDIATE}{}.
+%		\item \textsf{X:legacy}: Removed reference to \texttt{EXPECT} from
+%			\rref{core:ACCEPT}{}.
+%		\item \textsf{X:legacy}: Removed reference to \texttt{TIB} and
+%			\texttt{\#TIB} from \rref{core:SOURCE}{}.
+%		\item \textsf{X:legacy}: Removed reference to \texttt{CONVERT} from
+%			\wref{core:WORD}{}.
+%		\item \textsf{X:legacy}: Removed reference to \texttt{QUERY} from
+%			\rref{core:REFILL}{}.
+%		\item \textsf{X:legacy}: Removed \texttt{\#TIB},
+%			\texttt{CONVERT},
+%			\texttt{EXPECT},
+%			\texttt{QUERY},
+%			\texttt{SPAN},
+%			\texttt{TIB}.
+%		\item \textsf{X:xchar}: Added \wref{core:HOLDS}{}.
+%		\item \textsf{X:escaped-strings}: Added \wref{core:Seq}{}.
+%		\end{enumerate}
+%
+%	\item[9] Exception Word Set: \\
+%		\textsf{X:xchar}: Added -77 malformed xchar to \xref{table:throw}.
+%
+%	\item[10] Facility Word Set:
+%		\begin{enumerate}
+%		\item \textsf{X:structures}: Changed \wref{facility:CFIELD:}{},
+%			and \wref{facility:FIELD:}{}.
+%		\item \textsf{X:structures}: Added \rref{facility:FIELD:}{}.
+%		\item \textsf{X:ekey}: Changed \param{u} to \param{x} in
+%			\wref{facility:EKEY}{},
+%			\wref{facility:EKEYtoCHAR}{} and \linebreak
+%			\wref{facility:EKEYtoFKEY}{}.
+%		\end{enumerate}
+%
+%	\item[12] Floating-Point Word Set:
+%		\begin{enumerate}
+%		\item \textsf{ed10b}: Added \emph{f-addr} and \emph{sf-addr} to
+%			\xref{float:types}.
+%		\item \textsf{ed10b}: Replaced ``which'' with ``that'' in
+%			\wref{floating:FATAN2}{}.
+%		\item \textsf{ed10b}: Removed an en-dash from the stack description of
+%			\wref{floating:FVALUE}{}.
+%		\item \textsf{X:structures}: Changed \wref{floating:DFFIELD:}{},
+%			\wref{floating:FFIELD:}{} and
+%			\wref{floating:SFFIELD:}{}.
+%		\end{enumerate}
+%
+%	\item[15] Programming-Tools Word Set:
+%		\begin{enumerate}
+%		\item \textsf{X:synonym}: Added ambiguous conditions to \xref{tools:ambiguous}.
+%		\item \textsf{X:n-to-r}: Added ambiguous condition to \xref{tools:ambiguous}.
+%		\item \textsf{X:legacy}: Replaced \rref{tools:FORGET}{}.
+%		\item \textsf{X:n-to-r}: Added \wref{tools:NtoR}{} and \wref{tools:NRfrom}.
+%		\item \textsf{X:synonym}: Added \wref{tools:SYNONYM}{}.
+%		\end{enumerate}
+%
+%	\item[18] Extended Character Word Set: \\
+%		\textsf{X:xchar}: Add word set.
+%
+%	\item[A] Rationale:								% (Annex \ref{annex:rationale}):
+%		\begin{enumerate}
+%		\item \textsf{X:wordset-query}: Added \xref{rat:obsolete}.
+%		\item \textsf{X:legacy}: Removed \texttt{\#TIB} and \texttt{TIB} from
+%			\xref{rat:dataspace}
+%		\item \textsf{X:xchar}: Added \xref{rat:xchar}.
+%		\end{enumerate}
+%
+%	\item[D] Compatibility analysis: \\			% (Annex \ref{annex:diff}):
+%		\textsf{X:legacy}: Added \xref{diff:forth94}.
+%
+%	\item[F] Reference Implementations: (Annex \ref{annex:implement}): \\
+%		\textsf{X:xchar}: Added \textsf{X:xchar} words.
+%
+%	\item[G] Test Suite (Annex \ref{annex:test}): \\
+%		\textsf{X:xchar}: Added test for the extended character word set.
+%	\end{itemize}
 
-	\item[12] Floating-Point Word Set:
-		\begin{enumerate}
-		\item \textsf{X:ftrunc}: Added ``Round toward zero'' to \xref{float:ops}
-			and a ``see also'' clause to \wref{floating:FLOOR}{}.
-		\item \textsf{X:fasinh}: Removed the ``float less than zero'' ambiguous
-			condition from \wref{floating:FASINH}{} and the reference to
-			\wref{floating:FASINH}{} from the ambiguous conditions
-			(\xref{float:ambiguous}).
-		\item \textsf{X:ftrunc}: Added\wref{floating:FTRUNC}{} and reference to
-			\wref{floating:FLOOR}{} and to \wref{floating:FROUND}{}.
-		\item \textsf{X:fatan2}: Revised description of
-			\wref{floating:FATAN2}{}, adding a test section.
-		\item \textsf{X:fvalue}: Added \wref{floating:FVALUE}{}.
-		\end{enumerate}
+% =========================================================
 
-	\item[G] Test Suite:
-		\begin{enumerate}
-		\item \textsf{ed09b}: Corrected ``exmaple'' to ``example'' in
-			\xref{test:harness}
-		\item \textsf{ed09b}: Corrected ``Heyes'' to ``Hayes''
-			in \xref{test:core}.
-		\item \textsf{ed09b}: Reduced severity of test by replacing
-			``must'' with ``should'' in \xref{test:core}.
-		\end{enumerate}
-	\end{itemize}
+%\version{11.1}{Vienna Meeting}{2{}1--23 September, 2011}
+%	\begin{itemize}
+%	\item \textsf{F94}: Removed or replaced references to ``ANS Forth''
+%
+%	\item \xref{members}: \\						% members-2x
+%		\textsf{ed11}: Updated contact details for Peter Knaggs.
+%
+%	\item[2] Terms, notation, and references: \\	% notation
+%		\textsf{X:enhanced-locals}: Moved description of BNF notation from
+%			\xref{notation:numeric} to \xref{notations}.
+%
+%	\item[3] Usage requirements:					% usage
+%		\begin{enumerate}
+%		\item \textsf{ed11}: Finally corrected the header for table \xref{table:ASCII}.
+%		\item \textsf{ed11}: Added reference to \xref{rat:obsolete} in \xref{usage:obsolete}.
+%		\item \textsf{X:enhanced-locals}: Added reference to \xref{notations} in \xref{usage:numbers}.
+%		\end{enumerate}
+%
+%	\item[6] Core Word Set:							% core
+%		\begin{enumerate}
+%		\item \textsf{X:is}: Revised ``assign'' to ``set to'' in
+%			\wref{core:ACTION-OF}{},
+%			\wref{core:DEFER}{},
+%			\wref{core:DEFER@}{} and
+%			\wref{core:IS}{}.
+%		\item \textsf{X:buffer}: Added \wref{core:BUFFER:}{}.
+%		\item \textsf{ed11}: Revised description of \texttt{\bs{n}} in \wref{core:Seq}{}.
+%		\end{enumerate}
+%
+%	\item[7] Block Word Set: \\					% block
+%		\textsf{X:block}: Add reference to \xref{rat:block:buffers} in \xref{block:buffers}.
+%
+%	\item[10] Facility Word Set: \\				% facility
+%		\textsf{ed11}: Revised alignment of child for \wref{facility:CFIELD:}{}.
+%
+%	\item[11] File-Access Word Set: \\			% file
+%		\textsf{X:source-id}: Added clarification of \word[file]{FILE-POSITION} during interpretation (\xref{file:source}).
+%
+%	\item[12] Floating-Point Word Set: \\		% float
+%		\textsf{ed11}: Revised alignment of child for
+%			\wref{floating:DFFIELD:}{},
+%			\wref{floating:FFIELD:}{} and
+%			\wref{floating:SFFIELD:}{}.
+%
+%	\item[13] Locals Word Set:						% local
+%		\begin{enumerate}
+%		\item \textsf{X:enhanced-locals}:
+%			Moved from eight to sixteen locals in
+%			\xref{local:locals} (three times)
+%			and in \xref{locals:environment} (once).
+%		\item \textsf{X:enhanced-locals}:
+%			Added additional ambiguous conditions to
+%			\xref{locals:ambiguous}.
+%		\item \textsf{X:enhanced-locals}:
+%			Added \wref{local:b:}{}.
+%		\end{enumerate}
+%
+%	\item[15] Programming-Tools Word Set: \\	% tools
+%		\textsf{ed11}: Added clarification to \wref{tools:SYNONYM}{}.
+%
+%	\item[17] String Word Set: \\					% string
+%		\textsf{X:substitute}:
+%			Added \xref{string:document},
+%			\wref{string:REPLACES}{},
+%			\wref{string:SUBSTITUTE}{} and
+%			\wref{string:UNESCAPE}{}.
+%
+%	\item[A] Rationale								(Annex \ref{annex:rationale}):
+%		\begin{enumerate}
+%		\item \textsf{F94}: Removed reference to ``X3J14'' (three times)
+%		\item \textsf{ed11}: Moved test cases from A.3.4.1.3 Numeric notation to \xref{test:numeric}.
+%		\item \textsf{X:buffer}: Added \rref{core:BUFFER:}{}.
+%		\item \textsf{X:block}: Added \xref{rat:block:buffers}.
+%		\item \textsf{ed11}: Revised \rref{facility:FIELD:}{}.
+%		\item \textsf{X:enhanced-locals}:
+%			Added \rref{local:b:}{}.
+%		\item \textsf{ed11}: Revised \rref{tools:FORGET}{}.
+%		\item \textsf{X:substitute}: Added \rref{string:SUBSTITUTE}{}.
+%		\end{enumerate}
+%		
+%	\item[D] Compatibility analysis 				(Annex \ref{annex:diff}):
+%		\begin{enumerate}
+%		\item \textsf{F94}: Revised \xref{diff:ans} to the past tense.
+%		\item \textsf{F94}: Added \xref{diff:iso}.
+%		\item \textsf{ed11}: Added \textbf{C.7.2 Obsolescent features}.
+%		\end{enumerate}
+%
+%	\item[F] Reference Implementations			(Annex \ref{annex:implement}):
+%		\begin{enumerate}
+%		\item \textsf{X:buffer}: Added \iref{core:BUFFER:}{}.
+%		\item \textsf{X:enhanced-locals}: Added \iref{local:b:}{}.
+%		\item \textsf{X:substitute}: Added
+%			\iref{string:REPLACES}{},
+%			\iref{string:SUBSTITUTE}{} and
+%			\iref{string:UNESCAPE}{}.
+%		\end{enumerate}
+%
+%	\item[G] Test Suite								(Annex \ref{annex:test}):
+%		\begin{enumerate}
+%		\item \textsf{ed11}: Added test cases \xref{test:numeric}.
+%		\item \textsf{X:buffer}: Added \tref{core:BUFFER:}{}.
+%		\item \textsf{X:substitute}: Added
+%			\tref{string:SUBSTITUTE}{} and
+%			\tref{string:UNESCAPE}{}.
+%		\end{enumerate}
+%	\end{itemize}
 
+% =========================================================
 
-\version{10.1}{Rostock Meeting}{24--26 March 2010}
-	\begin{itemize}
-	\item Title page: \\
-		\textsf{ed10}: Corrected spelling of ``Rational'' to ``Rationale''
-			in the review (r) version of the title page.
+%\version{12.1}{Oxford Meeting}{12--14 September, 2012}
+%	\begin{itemize}
+%	\item \textsf{ed12}: Page number replaced by sheet numbering.
+%		% for the hard of understanding.
+%
+%	\item \textsf{F12}: Updated ``ANS Forth'' and ``Forth'' to ``Forth-\snapshot''.
+%		With particular regard to section 5 (Compliance and labeling).
+%
+%	\item \textsf{ed12}: References to the ``Technical Committee'' have been
+%		replaced with a reference to the ``Committee'' with the exception of
+%		the forward to ANS Forth.
+%
+%	\item \xref{foreword}: 							% foreword 
+%		\begin{enumerate}
+%		\item \textsf{ed12}: Changed origin of basis to dpANS6.
+%		\item \textsf{ed12}: Added Oxford meeting
+%		\end{enumerate}
+%
+%	\item \xref{process}:							% process
+%		\\ \textsf{F12}: Identified the current standard for reference implementations
+%
+%	\item[1] Introduction:							% intro
+%		\begin{enumerate}
+%		\item \textsf{ed12}: Changed number of wordlists (to include \xref{wordlist:xchar}) in \xref{intro:wordsets}.
+%		\item \textsf{ed12}: Dropped reference to Forth 83 from description of \xref{annex:diff}.
+%		\item \textsf{ed12}: Revised description of \xref{annex:index}
+%		\end{enumerate}
+%
+%	\item[2] Terms, notation, and references:	% notation
+%		\begin{enumerate}
+%		\item \textsf{ed12}: ``Tn'' to ``An'' in definition of \textbf{data type} in \xref{notation:terms}.
+%		\item \textsf{ed12}: ``various'' to ``some'' in \xref{notations}.
+%		\item \textsf{ed12}: ``an'' to ``a'' in \xref{notation:glossary}.
+%		\item \textsf{ed12}: Added ISO Forth to \xref{notation:references}.
+%		\item \textsf{ed12}: Removed footnote from ISO 646-1983 in \xref{notation:references}.
+%		\end{enumerate}
+%
+%	\item[3] Usage requirements:					% usage
+%		\begin{enumerate}
+%		\item \textsf{ed12}: ``the Forth 94 Standard'' to ``Forth 94'' in \xref{usage:obsolete}.
+%		\item \textsf{ed12}: \xref[3.2.8 Extension queries]{usage:extensions} removed from snapshot,
+%			retained in the rolling document.
+%		\item \textsf{ed12}: First sentence of \xref{usage:aaddr} revised.
+%		\item \textsf{ed12}: Removed reference to \textsf{X:number-prefixes} proposal from \xref{usage:numbers}.
+%		\end{enumerate}
+%
+%	\item[5] Compliance and labeling:			% label
+%		\\ \textsf{F12}: Revised ``ANS Forth'' to ``Forth-\snapshot''
+%
+%	\item[6] Core Word Set:							% core
+%		\begin{enumerate}
+%		\item \textsf{ed12}: ``via'' to ``by'' in \wref{core:DEFER!}{}, \wref{core:DEFER@}{}.
+%		\item \textsf{ed12}: ``slash'' to ``backslash'' in glossary entry for \wref{core:Seq}{}.
+%		\end{enumerate}
+%
+%	\item[9] Exception Word Set:					% exception
+%		\\ \textsf{ed12}: Added throw codes for \word[string]{REPLACES} and \word[string]{SUBSTITUTE}
+%			to \xref{table:throw}.
+%
+%	\item[10] Facility Word Set:					% facility
+%		\\ \textsf{ed12}: Removed alignment requirements from run-time action of
+%			words defined with:
+%			\wref{facility:CFIELD:}{},
+%			\wref{facility:FIELD:}{}.
+%
+%	\item[11] File-Access Word Set:				% file
+%		\\ \textsf{ed12}: Tightened up text in \xref{file:source}.
+%
+%	\item[12] Floating-Point Word Set:			% float
+%		\\ \textsf{ed12}: Removed alignment requirements from run-time action of
+%			words defined with:
+%			\wref{floating:DFFIELD:}{},
+%			\wref{floating:FFIELD:}{},
+%			\wref{floating:SFFIELD:}{}.
+%
+%	\item[13] Locals Word Set:						% local
+%		\begin{enumerate}
+%		\item \textsf{ed12}: Removed reference to \xref{rat:local} from \xref{locals:intro}.
+%		\item \textsf{ed12}: Conflated \arg{val} and \arg{arg} names in \wref{local:b:}{}.
+%		\item \textsf{ed12}: ``assign'' to ``set to'' in \wref{local:b:}{}.
+%		\end{enumerate}
+%
+%	\item[17] String Word Set:						% string
+%		\\ \textsf{substitute}: Clarification of \wref{string:SUBSTITUTE}{}.
+%
+%	\item[18] Extended Character Word Set		% xchar
+%		\\ \textsf{ed12}: Removed reference to \wref{core:CHAR+}{}. from \wref{xchar:XCHAR+}{}.
+%
+%	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
+%		\begin{enumerate}
+%		\item \textsf{ed12}: Revised \xref{rat:scope}, \xref{rat:aaddr}.
+%		\item \textsf{ed12}: Removed \textbf{A.1.3.1 Word sets}.
+%		\item \textsf{ed12}: Renumbered \xref{rat:obsolete}.
+%		
+%		% Core
+%		\item \textsf{ed12}: Removed
+%			\textbf{A.6.1.0320 2*},
+%			\textbf{A.6.1.0330 2/},
+%			\textbf{A.6.1.0350 2@},
+%			\textbf{A.6.1.1360 EVALUATE}.
+%		\item \textsf{ed12}: Removed first and third paragraphs from \rref{core:ACCEPT}{}.
+%		\item \textsf{ed12}: Removed first paragraph of \rref{core:2toR}{}.
+%		\item \textsf{ed12}: Removed last paragraph of \rref{core:ENVIRONMENTq}{},
+%			\rref{core:Sq}{},\rref{core:STATE}{}
+%		\item \textsf{ed12}: ``needed'' to ``needs'' in \rref{core:MOVE}{}.
+%		\item \textsf{ed12} Revised rationale for \rref{core:VARIABLE}{},
+%			\rref{core::NONAME}{}, \rref{core:qDO}{}, \rref{core:Cq}{},
+%			\rref{core:COMPILE,}{}, \rref{core:TO}{}.
+%		\item \textsf{X:parse} Revised rationale for \rref{core:PARSE}{}.
+%
+%		% Block
+%		\item \textsf{ed12}: Revised introduction to \xref{rat:block}.
+%
+%		% Exception
+%		\item \textsf{ed12}: Moved reference implementation from
+%			\xref{rat:exception} to \linebreak \iref{core:QUIT}{}, \iref{exception:CATCH}{},
+%			\iref{exception:THROW}{} and \iref{exception:ABORT}{}.
+%
+%		% Facility
+%		\item \textsf{ed12}: Removed rational for \textbf{A.10.6.0742 AT-XY}.
+%		\item \textsf{ed12}: Removed alignment requirements in rational for
+%			\rref{facility:FIELD:}{}.
+%
+%		% File
+%		\item \textsf{ed12}: Removed introduction to \xref{rat:file}.
+%		\item \textsf{ed12}: Removed last sentence from \rref{file:BIN}{}.
+%		\item \textsf{ed12}: Removed ``unexpected exceptions'' from
+%			\rref{file:READ-FILE}{} and \rref{file:READ-LINE}{}.
+%		\item \textsf{ed12}; Removed last paragraph of \rref{file:Sq}{}.
+%
+%		% Float
+%		\item \textsf{ed12}: Revised introduction to \xref{rat:floating}.
+%		\item \textsf{F12}: Revised \rref{floating:toFLOAT}{} to refer to Forth-\snapshot.
+%		\item \textsf{ed12}: Fixed typo in \rref{floating:Fd}{}.
+%		\item \textsf{ed12}: Removed comment on stack ordering from \rref{floating:FATAN2}.
+%		\item \textsf{ed12}: Replaced example hyperbolic function in \rref{floating:FEXPM1}.
+%
+%		% Locals
+%		\item \textsf{ed12}: Removed introduction to \xref{locals:intro}.
+%		\item \textsf{ed12}: Removed \textbf{A.13.6.2.1795 LOCALS|}.
+%		\item \textsf{ed12}: ``where'' to ``were'' in \rref{local:b:}{}.
+%
+%		% Tools
+%		\item \textsf{ed12}: ``reiterate'' to ``copy'' in \rref{tools:CS-PICK}{}.
+%		\item \textsf{ed12}: Moved implementation from \rref{tools:[THEN]}{} to
+%			\iref{tools:[IF]}{}, \iref{tools:[ELSE]}{} and \iref{tools:[THEN]}{}.
+%
+%		% Search
+%		\item \textsf{ed12}: Revised introduction to \xref{rat:search}.
+%		\item \textsf{ed12}: Revised \rref{search:SEARCH-WORDLIST}{}.
+%		\item \textsf{ed12}: Moved implementation from \textbf{A.16.6.2.0715 ALSO} to
+%			\iref{search:DEFINITIONS}{},
+%			\iref{search:FIND}{},
+%			\iref{search:GET-ORDER}{},
+%			\iref{search:SET-ORDER}{},
+%			\iref{search:ALSO}{},
+%			\iref{search:FORTH}{},
+%			\iref{search:ONLY}{},
+%			\iref{search:PREVIOUS}{}.
+%
+%
+%		% String
+%		\item \textsf{ed12}: Revised \rref{string:/STRING}{}, \rref{string:CMOVE}{},
+%			\rref{string:CMOVEtop}{}, \rref{string:SUBSTITUTE}{}.			
+%		\item \textsf{ed12}: Removed \textbf{A.17.6.1.0935 COMPARE}, \textbf{A.17.6.1.2191 SEARCH}.
+%
+%		% Xchar
+%		\end{enumerate}
+%
+%	\item[C] Perspective %(Annex \ref{annex:intro}):					% intro
+%		\\ \textsf{ed12}: Removed Annex.
+%
+%	\item[C] Compatibility analysis (Annex \ref{annex:diff}):	% diff
+%		\\ \textsf{compatibility}: Revised whole Annex.
+%	
+%	\item[D] Portability guide (Annex \ref{annex:port}):			% port
+%		\\ \textsf{ed12}: Revised whole Annex
+%
+%	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
+%		\begin{enumerate}
+%		% Exception
+%		\item \textsf{ed12}: Added \iref{exception:CATCH}{}, \iref{exception:THROW}{}, \iref{exception:ABORT}{}.
+%
+%		% Locals
+%		\item \textsf{ed12}: Added \iref{local:LOCALS}{}.
+%
+%		% Tools
+%		\item \textsf{ed12}: Added \iref{tools:[ELSE]}{}, \iref{tools:[IF]}{} and \iref{tools:[THEN]}{}.
+%
+%		% Search
+%		\item \textsf{ed12}: Added
+%			\iref{search:DEFINITIONS}{},
+%			\iref{search:FIND}{},
+%			\iref{search:GET-ORDER}{},
+%			\iref{search:SET-ORDER}{},
+%			\iref{search:ALSO}{},
+%			\iref{search:FORTH}{},
+%			\iref{search:ONLY}{},
+%			\iref{search:PREVIOUS}{}.
+%		\end{enumerate}
+%
+%	\item[F] Test Suite (Annex \ref{annex:test}):					% test
+%		\begin{enumerate}
+%		\item \textsf{ed12}: Added credits to \xref{test:intro}.
+%		\item \textsf{ed12}: Removed reference to \textsf{X:number-prefix}
+%			from \xref{test:numeric}.
+%		\end{enumerate}
+%
+%	\item[G] Change Log (Annex \ref{annex:changelog}): \\
+%		\textsf{ed12}: Changed origin of basis to dpANS6 in
+%			version 05 (Original Text).
+%	\end{itemize}
 
-	\item \xref{members}: \\
-		\textsf{ed10}: Moved ``Currently the committee has the
-			following voting members:'' sentence.
+% =========================================================
 
-	\item[6--17] Removed ``and'' proceeding the last element in an list
-		replacing it with a comma, in the American style, in:
-			\tref{core:num-start}{},
-			\tref{core:BEGIN}{},
-			\tref{core:DO}{},
-			\rref{core:ENVIRONMENTq}{}, \linebreak
-			\tref{core:HERE}{},
-			\tref{core:I}{},
-			\tref{core:IMMEDIATE}{},
-			\wref{core:STATE}{}, \rref{core:STATE}{}
-			\wref{core:ACTION-OF}{},
-			\wref{core:DEFER}{},
-			\wref{core:DEFER!}{},
-			\wref{core:DEFER@}{},
-			\wref{core:IS}{}, \linebreak
-			\wref{facility:BEGIN-STRUCTURE}{},
-			\rref{facility:EKEYtoFKEY}{},
-			\wref{facility:END-STRUCTURE}{}, \linebreak
-			\wref{facility:FIELD:}{},
-			\wref{facility:TIMEandDATE}{},
-			\xref{file:impopt}, \linebreak
-			\wref{floating:FLOOR}{},
-			\wref{floating:FROUND}{},
-			\wref{floating:DFFIELD:}{},
-			\wref{floating:FFIELD:}{}, \linebreak
-			\wref{floating:FTRUNC}{},
-			\wref{floating:FVALUE}{} and
-			\wref{floating:SFFIELD:}{}.
-	
-	\item[6] Core Word List: \\
-		\textsf{ed10}: Replaced ``\texttt{(}'' with ``\texttt{)}'' in
-			\wref{core:p}{}.
+%\version{12.2}{Testing updates}{\empty}
+%	\begin{itemize}
+%	\item[F] Test Suite (Annex \ref{annex:test}): \\
+%		\textsf{test12}: Test suite updated in line with Gerry Jackson's test suite (version 0.9):
+%		\begin{enumerate}
+%		\item Added support word for \xref{test:memory}{}.
+%		\item Added tests to
+%			\tref{core:p}{(},
+%			\tref{core:.q}{.\"{}},
+%			\tref{core:IMMEDIATE}{IMMEDIATE},
+%			\tref{file:Sq}{S\"{}},
+%			\tref{memory:FREE}{FREE}.
+%		\item Additional test for
+%			\tref{core:+LOOP}{+LOOP},
+%			\tref{core:toIN}{$>$IN},
+%			\tref{core:IF}{IF},
+%			\tref{core:Sq}{S\"{}},
+%			\tref{double:2CONSTANT}{2CONSTANT},
+%			\tref{double:2LITERAL}{2LITERAL},
+%			\tref{double:2VARIABLE}{2VARIABLE},
+%			\tref{memory:ALLOCATE}{ALLOCATE},
+%			\tref{tools:[THEN]}{[THEN]}.
+%		\item Modified tests for
+%			\tref{memory:RESIZE}{RESIZE}.
+%		\end{enumerate}
+%	\end{itemize}
 
-	\item[13] Locals Word Set: \\
-		\textsf{ed10}: Moved definition of ``\word{TO} \param{local} runtime''
-		within \wref{local:LOCAL}{}.
-	\end{itemize}
+% =========================================================
 
-
-\version{10.2}{Hamburg Meeting}{2{}2--24 September 2010}
-	\begin{itemize}
-	\item \xref{process}: \\
-		\textsf{X:rfc}: Added rules for non-substantive changes (RfC rules).
-
-	\item \xref{members}:
-		\begin{enumerate}
-		\item \textsf{ed10b}: Removed Federico de Ceballos, Willi Stricker
-			and Carsten Strotmann from the \linebreak membership list.
-		\item \textsf{ed10b}: Added Gerald Wodni to the membership list.
-		\end{enumerate}
-
-	\item[1] Introduction:
-		\begin{enumerate}
-		\item \textsf{X:legacy}: Removed \texttt{\#TIB}, \texttt{SPAN},
-			\texttt{CONVERT}, \texttt{QUERY}, \texttt{TIB} and \texttt{EXPECT}
-			from \ref{intro:obsoleat}, leaving \word[tools]{FORGET}.
-
-		\item \textsf{X:wordset-queries}: Added use of word set environmental
-			queries to \xref{intro:obsoleat}.
-		\end{enumerate}
-
-	\item[3] Usage requirements:
-		\begin{enumerate}
-		\item \textsf{ed10b}: Added ``be'' to start of the first character
-			property in \xref{usage:char}.
-		\item \textsf{X:wordset-query}: Added \xref{usage:obsolete} and table
-			\ref{table:obsolete}.
-		\item \textsf{X:xchar}: Added \word{HOLDS} and \word[xchar]{XHOLD} to
-			\ref{usage:transient}.
-		\end{enumerate}
-
-	\item[4] Documentation requirements:
-		\begin{enumerate}
-		\item \textsf{X:legacy}: Removed reference to \texttt{EXPECT} from
-			\xref{doc:system}.
-		\item \textsf{X:legacy}: Removed reference to \texttt{CONVERT} from
-			\xref{doc:ambiguous}.
-		\item \textsf{X:xchar}: Added \wref{core:HOLDS}{} to 
-			\xref{doc:ambiguous}.
-		\item \textsf{ed10b}: Removed \textsf{X:required} and
-			\textsf{X:structures} from \xref{doc:ambiguous}.
-		\item \textsf{X:escaped-strings}: Added \word{Seq} to \xref{doc:ambiguous}.
-		\item \textsf{X:legacy}: Removed reference to \texttt{EXPECT} from
-			\xref{doc:env}.
-		\end{enumerate}
-
-	\item[6--17] ~\\
-		\textsf{X:wordset-query}: Removed word set environmental queries.
-
-	\item[6] Core Word Set:
-		\begin{enumerate}
-		\item \textsf{X:synonym}: Added ambiguous condition to \wref{core:IMMEDIATE}{}.
-		\item \textsf{X:legacy}: Removed reference to \texttt{EXPECT} from
-			\rref{core:ACCEPT}{}.
-		\item \textsf{X:legacy}: Removed reference to \texttt{TIB} and
-			\texttt{\#TIB} from \rref{core:SOURCE}{}.
-		\item \textsf{X:legacy}: Removed reference to \texttt{CONVERT} from
-			\wref{core:WORD}{}.
-		\item \textsf{X:legacy}: Removed reference to \texttt{QUERY} from
-			\rref{core:REFILL}{}.
-		\item \textsf{X:legacy}: Removed \texttt{\#TIB},
-			\texttt{CONVERT},
-			\texttt{EXPECT},
-			\texttt{QUERY},
-			\texttt{SPAN},
-			\texttt{TIB}.
-		\item \textsf{X:xchar}: Added \wref{core:HOLDS}{}.
-		\item \textsf{X:escaped-strings}: Added \wref{core:Seq}{}.
-		\end{enumerate}
-
-	\item[9] Exception Word Set: \\
-		\textsf{X:xchar}: Added -77 malformed xchar to \xref{table:throw}.
-
-	\item[10] Facility Word Set:
-		\begin{enumerate}
-		\item \textsf{X:structures}: Changed \wref{facility:CFIELD:}{},
-			and \wref{facility:FIELD:}{}.
-		\item \textsf{X:structures}: Added \rref{facility:FIELD:}{}.
-		\item \textsf{X:ekey}: Changed \param{u} to \param{x} in
-			\wref{facility:EKEY}{},
-			\wref{facility:EKEYtoCHAR}{} and \linebreak
-			\wref{facility:EKEYtoFKEY}{}.
-		\end{enumerate}
-
-	\item[12] Floating-Point Word Set:
-		\begin{enumerate}
-		\item \textsf{ed10b}: Added \emph{f-addr} and \emph{sf-addr} to
-			\xref{float:types}.
-		\item \textsf{ed10b}: Replaced ``which'' with ``that'' in
-			\wref{floating:FATAN2}{}.
-		\item \textsf{ed10b}: Removed an en-dash from the stack description of
-			\wref{floating:FVALUE}{}.
-		\item \textsf{X:structures}: Changed \wref{floating:DFFIELD:}{},
-			\wref{floating:FFIELD:}{} and
-			\wref{floating:SFFIELD:}{}.
-		\end{enumerate}
-
-	\item[15] Programming-Tools Word Set:
-		\begin{enumerate}
-		\item \textsf{X:synonym}: Added ambiguous conditions to \xref{tools:ambiguous}.
-		\item \textsf{X:n-to-r}: Added ambiguous condition to \xref{tools:ambiguous}.
-		\item \textsf{X:legacy}: Replaced \rref{tools:FORGET}{}.
-		\item \textsf{X:n-to-r}: Added \wref{tools:NtoR}{} and \wref{tools:NRfrom}.
-		\item \textsf{X:synonym}: Added \wref{tools:SYNONYM}{}.
-		\end{enumerate}
-
-	\item[18] Extended Character Word Set: \\
-		\textsf{X:xchar}: Add word set.
-
-	\item[A] Rationale:								% (Annex \ref{annex:rationale}):
-		\begin{enumerate}
-		\item \textsf{X:wordset-query}: Added \xref{rat:obsolete}.
-		\item \textsf{X:legacy}: Removed \texttt{\#TIB} and \texttt{TIB} from
-			\xref{rat:dataspace}
-		\item \textsf{X:xchar}: Added \xref{rat:xchar}.
-		\end{enumerate}
-
-	\item[D] Compatibility analysis: \\			% (Annex \ref{annex:diff}):
-		\textsf{X:legacy}: Added \xref{diff:forth94}.
-
-	\item[F] Reference Implementations: (Annex \ref{annex:implement}): \\
-		\textsf{X:xchar}: Added \textsf{X:xchar} words.
-
-	\item[G] Test Suite (Annex \ref{annex:test}): \\
-		\textsf{X:xchar}: Added test for the extended character word set.
-	\end{itemize}
-
-
-\version{11.1}{Vienna Meeting}{2{}1--23 September 2011}
-	\begin{itemize}
-	\item \textsf{F94}: Removed or replaced references to ``ANS Forth''
-
-	\item \xref{members}: \\						% members-2x
-		\textsf{ed11}: Updated contact details for Peter Knaggs.
-
-	\item[2] Terms, notation, and references: \\	% notation
-		\textsf{X:enhanced-locals}: Moved description of BNF notation from
-			\xref{notation:numeric} to \xref{notations}.
-
-	\item[3] Usage requirements:					% usage
-		\begin{enumerate}
-		\item \textsf{ed11}: Finally corrected the header for table \xref{table:ASCII}.
-		\item \textsf{ed11}: Added reference to \xref{rat:obsolete} in \xref{usage:obsolete}.
-		\item \textsf{X:enhanced-locals}: Added reference to \xref{notations} in \xref{usage:numbers}.
-		\end{enumerate}
-
-	\item[6] Core Word Set:							% core
-		\begin{enumerate}
-		\item \textsf{X:is}: Revised ``assign'' to ``set to'' in
-			\wref{core:ACTION-OF}{},
-			\wref{core:DEFER}{},
-			\wref{core:DEFER@}{} and
-			\wref{core:IS}{}.
-		\item \textsf{X:buffer}: Added \wref{core:BUFFER:}{}.
-		\item \textsf{ed11}: Revised description of \texttt{\bs{n}} in \wref{core:Seq}{}.
-		\end{enumerate}
-
-	\item[7] Block Word Set: \\					% block
-		\textsf{X:block}: Add reference to \xref{rat:block:buffers} in \xref{block:buffers}.
-
-	\item[10] Facility Word Set: \\				% facility
-		\textsf{ed11}: Revised alignment of child for \wref{facility:CFIELD:}{}.
-
-	\item[11] File-Access Word Set: \\			% file
-		\textsf{X:source-id}: Added clarification of \word[file]{FILE-POSITION} during interpretation (\xref{file:source}).
-
-	\item[12] Floating-Point Word Set: \\		% float
-		\textsf{ed11}: Revised alignment of child for
-			\wref{floating:DFFIELD:}{},
-			\wref{floating:FFIELD:}{} and
-			\wref{floating:SFFIELD:}{}.
-
-	\item[13] Locals Word Set:						% local
-		\begin{enumerate}
-		\item \textsf{X:enhanced-locals}:
-			Moved from eight to sixteen locals in
-			\xref{local:locals} (three times)
-			and in \xref{locals:environment} (once).
-		\item \textsf{X:enhanced-locals}:
-			Added additional ambiguous conditions to
-			\xref{locals:ambiguous}.
-		\item \textsf{X:enhanced-locals}:
-			Added \wref{local:b:}{}.
-		\end{enumerate}
-
-	\item[15] Programming-Tools Word Set: \\	% tools
-		\textsf{ed11}: Added clarification to \wref{tools:SYNONYM}{}.
-
-	\item[17] String Word Set: \\					% string
-		\textsf{X:substitute}:
-			Added \xref{string:document},
-			\wref{string:REPLACES}{},
-			\wref{string:SUBSTITUTE}{} and
-			\wref{string:UNESCAPE}{}.
-
-	\item[A] Rationale								(Annex \ref{annex:rationale}):
-		\begin{enumerate}
-		\item \textsf{F94}: Removed reference to ``X3J14'' (three times)
-		\item \textsf{ed11}: Moved test cases from A.3.4.1.3 Numeric notation to \xref{test:numeric}.
-		\item \textsf{X:buffer}: Added \rref{core:BUFFER:}{}.
-		\item \textsf{X:block}: Added \xref{rat:block:buffers}.
-		\item \textsf{ed11}: Revised \rref{facility:FIELD:}{}.
-		\item \textsf{X:enhanced-locals}:
-			Added \rref{local:b:}{}.
-		\item \textsf{ed11}: Revised \rref{tools:FORGET}{}.
-		\item \textsf{X:substitute}: Added \rref{string:SUBSTITUTE}{}.
-		\end{enumerate}
-		
-	\item[D] Compatibility analysis 				(Annex \ref{annex:diff}):
-		\begin{enumerate}
-		\item \textsf{F94}: Revised \xref{diff:ans} to the past tense.
-		\item \textsf{F94}: Added \xref{diff:iso}.
-		\item \textsf{ed11}: Added \textbf{C.7.2 Obsolescent features}.
-		\end{enumerate}
-
-	\item[F] Reference Implementations			(Annex \ref{annex:implement}):
-		\begin{enumerate}
-		\item \textsf{X:buffer}: Added \iref{core:BUFFER:}{}.
-		\item \textsf{X:enhanced-locals}: Added \iref{local:b:}{}.
-		\item \textsf{X:substitute}: Added
-			\iref{string:REPLACES}{},
-			\iref{string:SUBSTITUTE}{} and
-			\iref{string:UNESCAPE}{}.
-		\end{enumerate}
-
-	\item[G] Test Suite								(Annex \ref{annex:test}):
-		\begin{enumerate}
-		\item \textsf{ed11}: Added test cases \xref{test:numeric}.
-		\item \textsf{X:buffer}: Added \tref{core:BUFFER:}{}.
-		\item \textsf{X:substitute}: Added
-			\tref{string:SUBSTITUTE}{} and
-			\tref{string:UNESCAPE}{}.
-		\end{enumerate}
-	\end{itemize}
-
-
-\version{12.1}{Oxford Meeting}{12--14 September 2012}
-	\begin{itemize}
-	\item \textsf{ed12}: Page number replaced by sheet numbering.
-		% for the hard of understanding.
-
-	\item \textsf{F12}: Updated ``ANS Forth'' and ``Forth'' to ``Forth-\snapshot''.
-		With particular regard to section 5 (Compliance and labeling).
-
-	\item \textsf{ed12}: References to the ``Technical Committee'' have been
-		replaced with a reference to the ``Committee'' with the exception of
-		the forward to ANS Forth.
-
-	\item \xref{foreword}: 							% foreword 
-		\begin{enumerate}
-		\item \textsf{ed12}: Changed origin of basis to dpANS6.
-		\item \textsf{ed12}: Added Oxford meeting
-		\end{enumerate}
-
-	\item \xref{process}:							% process
-		\\ \textsf{F12}: Identified the current standard for reference implementations
-
+%\version{13.1}{Hamburg Meeting}{25--27 September, 2013}
+%	\begin{itemize}
+%	\item \xref{foreword}:							% foreword 
+%		~\\ \textsf{ed13}: Merged \textbf{Foreword to ANS Forth} with \textbf{Foreword}.
+%
 %	\item \xref{members}:							% members-2x
-
-	\item[1] Introduction:							% intro
-		\begin{enumerate}
-		\item \textsf{ed12}: Changed number of wordlists (to include \xref{wordlist:xchar}) in \xref{intro:wordsets}.
-		\item \textsf{ed12}: Dropped reference to Forth 83 from description of \xref{annex:diff}.
-		\item \textsf{ed12}: Revised description of \xref{annex:index}
-		\end{enumerate}
-
-	\item[2] Terms, notation, and references:	% notation
-		\begin{enumerate}
-		\item \textsf{ed12}: ``Tn'' to ``An'' in definition of \textbf{data type} in \xref{notation:terms}.
-		\item \textsf{ed12}: ``various'' to ``some'' in \xref{notations}.
-		\item \textsf{ed12}: ``an'' to ``a'' in \xref{notation:glossary}.
-		\item \textsf{ed12}: Added ISO Forth to \xref{notation:references}.
-		\item \textsf{ed12}: Removed footnote from ISO 646-1983 in \xref{notation:references}.
-		\end{enumerate}
-
-	\item[3] Usage requirements:					% usage
-		\begin{enumerate}
-		\item \textsf{ed12}: ``the Forth 94 Standard'' to ``Forth 94'' in \xref{usage:obsolete}.
-		\item \textsf{ed12}: \xref[3.2.8 Extension queries]{usage:extensions} removed from snapshot,
-			retained in the rolling document.
-		\item \textsf{ed12}: First sentence of \xref{usage:aaddr} revised.
-		\item \textsf{ed12}: Removed reference to \textsf{X:number-prefixes} proposal from \xref{usage:numbers}.
-		\end{enumerate}
-
-%	\item[4] Documentation requirements:		% doc
-
-	\item[5] Compliance and labeling:			% label
-		\\ \textsf{F12}: Revised ``ANS Forth'' to ``Forth-\snapshot''
-
-	\item[6] Core Word Set:							% core
-		\begin{enumerate}
-		\item \textsf{ed12}: ``via'' to ``by'' in \wref{core:DEFER!}{}, \wref{core:DEFER@}{}.
-		\item \textsf{ed12}: ``slash'' to ``backslash'' in glossary entry for \wref{core:Seq}{}.
-		\end{enumerate}
-
-%	\item[7] Block Word Set:						% block
-%	\item[8] Double-Number Word Set:				% double
-	\item[9] Exception Word Set:					% exception
-		\\ \textsf{ed12}: Added throw codes for \word[string]{REPLACES} and \word[string]{SUBSTITUTE}
-			to \xref{table:throw}.
-
-	\item[10] Facility Word Set:					% facility
-		\\ \textsf{ed12}: Removed alignment requirements from run-time action of
-			words defined with:
-			\wref{facility:CFIELD:}{},
-			\wref{facility:FIELD:}{}.
-
-	\item[11] File-Access Word Set:				% file
-		\\ \textsf{ed12}: Tightened up text in \xref{file:source}.
-
-	\item[12] Floating-Point Word Set:			% float
-		\\ \textsf{ed12}: Removed alignment requirements from run-time action of
-			words defined with:
-			\wref{floating:DFFIELD:}{},
-			\wref{floating:FFIELD:}{},
-			\wref{floating:SFFIELD:}{}.
-
-	\item[13] Locals Word Set:						% local
-		\begin{enumerate}
-		\item \textsf{ed12}: Removed reference to \xref{rat:local} from \xref{locals:intro}.
-		\item \textsf{ed12}: Conflated \arg{val} and \arg{arg} names in \wref{local:b:}{}.
-		\item \textsf{ed12}: ``assign'' to ``set to'' in \wref{local:b:}{}.
-		\end{enumerate}
-
+%		\begin{enumerate}
+%		\item \textsf{ed13}: Removed Bill Stoddart.
+%		\item \textsf{ed13}: Added Willi Stricker and Simon Kaphahn.
+%		\item \textsf{ed13}: Added ``previous members'' and ``contributors''.
+%		\end{enumerate}
+%
+%	\item[1] Introduction:							% intro
+%		~ \\
+%		\textsf{ed13}: Revised description of Annex \ref{annex:index}.
+%
+%	\item[3] Usage requirements:					% usage
+%		\begin{enumerate}
+%		\item \textsf{X:throw-iors}:
+%			Added \param{ior} to \xref{usage:type}, table \xref{table:datatypes}
+%			and \xref{usage:ior}.
+%		\item \textsf{X:traverse-wordlist}:
+%			Added \textsf{X:traverse-wordlist} to \xref{table:extensions}.
+%		\end{enumerate}
+%
+%	\item[9] Exception Word Set:					% exception
+%		~ \\
+%		\textsf{X:throw-iors}: Remove paragraph 2 of \xref{exception:throw}.
+%
+%	\item[10] Facility Word Set:					% facility
+%		~ \\
+%		\textsf{ed13}: Removed alignment requirement from \wref{facility:CFIELD:}{}, \wref{facility:FIELD:}{}.
+%
+%	\item[11] File-Access Word Set:				% file
+%		\begin{enumerate}
+%		\item \textsf{X:throw-iors}: Removed \param{ior} from table \xref{file:types}.
+%		\item \textsf{X:throw-iors}: Removed \textbf{11.3.1.2 I/O results}.
+%		\item \textsf{X:thorw-iors}: Removed \param{ior} documentation requirement from \xref{file:impopt}.
+%		\end{enumerate}
+%
+%	\item[12] Floating-Point Word Set:			% float
+%		\begin{enumerate}
+%		\item \textsf{ed13}: Added advisory note to \wref{floating:FtoD}{}.
+%		\item \textsf{ed13}: Revised advisory note for \wref{floating:FtoS}{}.
+%		\item \textsf{X:throw-iors}: Removed alignment requirements from
+%			\wref{floating:DFFIELD:}{},
+%			\wref{floating:FFIELD:}{},
+%			\wref{floating:SFFIELD:}{}.
+%		\end{enumerate}
+%
 %	\item[14] Memory-Allocation Word Set:		% memory
+%		\begin{enumerate}
+%		\item \textsf{X:throw-iors}: Removed \textbf{14.3.1 I/O Results data type}.
+%		\item \textsf{X:throw-iors}: Replaced \xref{mem:docs}{}.
+%		\end{enumerate}
+%
 %	\item[15] Programming-Tools Word Set:		% tools
-%	\item[16] Search-Order Word Set:				% search
-	\item[17] String Word Set:						% string
-		\\ \textsf{substitute}: Clarification of \wref{string:SUBSTITUTE}{}.
+%		\begin{enumerate}
+%		\item \textsf{X:traverse-wordlist}: Added \xref{tools:datatype}{}.
+%		\item \textsf{X:traverse-wordlist}: Added ambiguous condition to \xref{tools:ambiguous}{}.
+%		\item \textsf{X:traverse-wordlist}: Added
+%			\wref{tools:NAMEtoCOMPILE}{},
+%			\wref{tools:NAMEtoINTERPRET}{},
+%			\wref{tools:NAMEtoSTRING}{},
+%			\wref{tools:TRAVERSE-WORDLIST}{}.
+%		\end{enumerate}
+%
+%	\item[17] String Word Set:						% string
+%		~ \\
+%		\textsf{ed13}: Minor revisions to \wref{string:SUBSTITUTE}{}.
+%
+%	\item[18] Extended Character Word Set		% xchar
+%		\begin{enumerate}
+%		\item \textsf{X:ed13}: Added \xref{xchar:io}{}.
+%		\item \textsf{X:ed13}: Removed first sentence of \xref{xchar:impopt}{}.
+%		\end{enumerate}
+%
+%	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
+%		\begin{enumerate}
+%		\item \textsf{ed13}: Revised first line of \xref{rat:scope}{}.
+%		\item \textsf{ed13}: Removed \textbf{A.1.3 Document organization}.
+%		\item \textsf{X:throw-iors}: Added \xref{rat:ior}{}.
+%		\item \textsf{ed13}: Minor revision to second paragraph of \xref{rat:aaddr}{}.
+%		\item \textsf{ed13}: Corrected typo in \xref{rat:regions}{}.
+%
+%		% Core
+%		\item \textsf{ed13}: ``Since'' replaced by ``Because'' in \rref{core:ACCEPT}{}.
+%		\item \textsf{ed13}: Added ``LOOP'' to typical use of \rref{core:LEAVE}{}.
+%		\item \textsf{ed13}: Placed typical use inside a colon definition (\rref{core:qDO}{}).
+%		\item \textsf{ed13}: Revised \rref{core:COMPILE,}{}.
+%		\item \textsf{ed13}: Minor revision of \rref{core:PARSE}{}.
+%		\item \textsf{ed13}: Minor revision of \rref{core:TO}{}.
+%
+%		% Block
+%		\item \textsf{ed13}: Removed second paragraph of \xref{rat:block}{}.
+%		\item \textsf{ed13}: Removed reference to \textbf{C.7.9 Multitasking} from \xref{rat:block:buffers}{}.
+%
+%		% Facility
+%		\item \textsf{ed13}: Revised \rref{facility:EKEYtoFKEY}{}.
+%
+%		% Float
+%		\item \textsf{ed13}: Minor revision to \rref{floating:FEXPM1}{}.
+%
+%		% Locals
+%		\item \textsf{ed13}: Minor revision to \ref{local:b:}{}.
+%
+%		% Tools
+%		\item \textsf{X:traverse-wordlist}:
+%			Added \xref{rat:tools:nt}{},
+%			\rref{tools:NAMEtoCOMPILE}{},
+%			\rref{tools:TRAVERSE-WORDLIST}{}.
+%
+%		% String
+%		\item \textsf{ed13}: Minor revision to \rref{string:SUBSTITUTE}{}.
+%		\end{enumerate}
+%
+%	\item[C] Compatibility analysis (Annex \ref{annex:diff}):	% diff
+%		\begin{enumerate}
+%		\item \textsf{ed13}: Moved paragraph in \xref{diff:ans}{}.
+%		\item \textsf{ed13}: Minor revision to \xref{diff:approach}{}.
+%		\item \textsf{X:obsolete}: Replaced \xref{diff:ans:obsolete}{}.
+%		\item Replaced \textbf{C.7.2 Obsolescent features} with
+%			\xref{diff:fpstack}{} (\textsf{X:fpstack}) and
+%			\xref{diff:environment}{} (\textsf{X:environment}).
+%		\item Added
+%			\xref{diff:12:to}{}		(\textsf{X:to}),
+%			\xref{diff:12:ior}{}		(\textsf{X:thorw-iors}),
+%			\xref{diff:12:locals}{}		(\textsf{X:locals}),
+%			\xref{diff:12:prefix}{},	(\textsf{X:number-prefix}),
+%			\xref{diff:12:sourceid}{},	(\textsf{X:source-id}),
+%			\xref{diff:12:fasinh}{}	(\textsf{X:fasinh}),
+%			\xref{diff:12:fatan2}{}	(\textsf{X:fatan2}).
+%		\item \textsf{X:traverse-wordlist}: Added \word[tools]{NAMEtoCOMPILE},
+%			\word[tools]{NAMEtoINTERPRET}, \word[tools]{NAMEtoSTRING}, \linebreak
+%			\word[tools]{TRAVERSE-WORDLIST} to \xref{diff:12:tools}{}.
+%	\end{enumerate}
+%
+%	\item[D] Portability guide (Annex \ref{annex:port}):			% port
+%		\begin{enumerate}
+%		\item \textsf{ed13}: Minor revisions to \xref{port:intro}{}.
+%		\item \textsf{ed13}: ``big endian'' to ``big-endian'' in \xref{port:endian}{}.
+%		\end{enumerate}
+%	\end{itemize}
 
-	\item[18] Extended Character Word Set		% xchar
-		\\ \textsf{ed12}: Removed reference to \wref{core:CHAR+}{}. from \wref{xchar:XCHAR+}{}.
+% =========================================================
 
-	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
-		\begin{enumerate}
-		\item \textsf{ed12}: Revised \xref{rat:scope}, \xref{rat:aaddr}.
-		\item \textsf{ed12}: Removed \textbf{A.1.3.1 Word sets}.
-		\item \textsf{ed12}: Renumbered \xref{rat:obsolete}.
-% Core
-		\item \textsf{ed12}: Removed
-			\textbf{A.6.1.0320 2*},
-			\textbf{A.6.1.0330 2/},
-			\textbf{A.6.1.0350 2@},
-			\textbf{A.6.1.1360 EVALUATE}.
-		\item \textsf{ed12}: Removed first and third paragraphs from \rref{core:ACCEPT}{}.
-		\item \textsf{ed12}: Removed first paragraph of \rref{core:2toR}{}.
-		\item \textsf{ed12}: Removed last paragraph of \rref{core:ENVIRONMENTq}{},
-			\rref{core:Sq}{},\rref{core:STATE}{}
-		\item \textsf{ed12}: ``needed'' to ``needs'' in \rref{core:MOVE}{}.
-		\item \textsf{ed12} Revised rationale for \rref{core:VARIABLE}{},
-			\rref{core::NONAME}{}, \rref{core:qDO}{}, \rref{core:Cq}{},
-			\rref{core:COMPILE,}{}, \rref{core:TO}{}.
-		\item \textsf{X:parse} Revised rationale for \rref{core:PARSE}{}.
-% Block
-		\item \textsf{ed12}: Revised introduction to \xref{rat:block}.
-% Double
-% Exception
-		\item \textsf{ed12}: Moved reference implementation from
-			\xref{rat:exception} to \linebreak \iref{core:QUIT}{}, \iref{exception:CATCH}{},
-			\iref{exception:THROW}{} and \iref{exception:ABORT}{}.
-% Facility
-		\item \textsf{ed12}: Removed rational for \textbf{A.10.6.0742 AT-XY}.
-		\item \textsf{ed12}: Removed alignment requirements in rational for
-			\rref{facility:FIELD:}{}.
-% File
-		\item \textsf{ed12}: Removed introduction to \xref{rat:file}.
-		\item \textsf{ed12}: Removed last sentence from \rref{file:BIN}{}.
-		\item \textsf{ed12}: Removed ``unexpected exceptions'' from
-			\rref{file:READ-FILE}{} and \rref{file:READ-LINE}{}.
-		\item \textsf{ed12}; Removed last paragraph of \rref{file:Sq}{}.
-% Float
-		\item \textsf{ed12}: Revised introduction to \xref{rat:floating}.
-		\item \textsf{F12}: Revised \rref{floating:toFLOAT}{} to refer to Forth-\snapshot.
-		\item \textsf{ed12}: Fixed typo in \rref{floating:Fd}{}.
-		\item \textsf{ed12}: Removed comment on stack ordering from \rref{floating:FATAN2}.
-		\item \textsf{ed12}: Replaced example hyperbolic function in \rref{floating:FEXPM1}.
-% Locals
-		\item \textsf{ed12}: Removed introduction to \xref{locals:intro}.
-		\item \textsf{ed12}: Removed \textbf{A.13.6.2.1795 LOCALS|}.
-		\item \textsf{ed12}: ``where'' to ``were'' in \rref{local:b:}{}.
-% Memory
-% Tools
-		\item \textsf{ed12}: ``reiterate'' to ``copy'' in \rref{tools:CS-PICK}{}.
-		\item \textsf{ed12}: Moved implementation from \rref{tools:[THEN]}{} to
-			\iref{tools:[IF]}{}, \iref{tools:[ELSE]}{} and \iref{tools:[THEN]}{}.
-% Search
-		\item \textsf{ed12}: Revised introduction to \xref{rat:search}.
-		\item \textsf{ed12}: Revised \rref{search:SEARCH-WORDLIST}{}.
-		\item \textsf{ed12}: Moved implementation from \textbf{A.16.6.2.0715 ALSO} to
-			\iref{search:DEFINITIONS}{},
-			\iref{search:FIND}{},
-			\iref{search:GET-ORDER}{},
-			\iref{search:SET-ORDER}{},
-			\iref{search:ALSO}{},
-			\iref{search:FORTH}{},
-			\iref{search:ONLY}{},
-			\iref{search:PREVIOUS}{}.
+%\version{14.3}{Palma de Mallorca Meeting}{24--26 September, 2014}
+%	\begin{itemize}
+%	\item \xref{process}:							% process
+%		~\\ \textsf{ed14}: Replaced ``dismiss'' with ``dismissed'' in item c of \xref{process}.
+%
+%	\item \xref{members}:						% members-2x
+%		\begin{enumerate}
+%		\item \textsf{ed14}: Added ``Tim Partridge'' to the list of contributers.
+%		\item Corrected ``Howard Oakford'' to ``Howerd Oakford''.
+%	\end{enumerate}
+%
+%	\item[1] Introduction:							% intro
+%		\begin{enumerate}
+%		\item \textsf{ed14}: Changed document title (page \pageref{chap:intro}).
+%		\item \textsf{X:section-numbering}: Added final paragraph to \xref{intro:numbering}.
+%		\item \textsf{ed14}: Qualified Forth words in Annex H (\xref{intro:annex}).
+%		\item \textsf{ed14}: Added \word{[COMPILE]} and \word[local]{LOCALS} to \xref{intro:obsoleat}.
+%		\item \textsf{X:fp-stack}: Removed floating-point item from \xref{intro:obsoleat}.
+%		\end{enumerate}
+%
+%	\item[2] Terms, notation, and references:		% notation
+%		\begin{enumerate}
+%		\item \textsf{ed14}: Replaced description of an ``ambiguous condition'' in
+%			\xref{notation:terms}.
+%		\item \textsf{ed14}: Added description of ``initiation semantics'' to
+%			\xref{notation:terms}.
+%		\item \textsf{ed14}: Moved the description of BNF from the start of
+%			\xref{notations} to its own subsection (\xref{notation:BNF}).
+%		\end{enumerate}
+%
+%	\item[3] Usage requirements:					% usage
+%		\begin{enumerate}
+%		\item \textsf{ed14}: Added ``that \param{ior} as'' to last paragraph
+%			of \xref{usage:ior}.
+%		\item \textsf{ed14}: Added sentence to last paragraph of \xref{usage:digits} making
+%			parsing of numbers case-insensitive.
+%		\item \textsf{ed14}: Removed incorrect sentence from last paragraph of
+%			\xref{usage:controlstack} banning access to items on the data stack during
+%			compilation.
+%		\item \textsf{ed14}: Added \word[tools]{NtoR} and \word[tools]{NRfrom}
+%			to the list of return stack accessing words in \xref{usage:returnstack}.
+%		\item \textsf{ed14}: Removed requirement for Block word set when
+%			the File word set is loaded (\xref{usage:mass}).
+%		\item \textsf{X:interpret-escape-s}: Replaced \xref{usage:"literal}.
+%		\item \textsf{ed14}: Replaced ``in A (Annex A)'' with ``in Annex A'' in
+%			last sentence of first paragraph in \xref{usage:syntax}.
+%		\item \textsf{ed14}: Changed reference to BNF notation in \xref{usage:numbers}.
+%		\end{enumerate}
+%
+%	\item[4] Documentation requirements:			% doc
+%		~ \\
+%		\textsf{ed14}: ``interpretating'' replaced with ``interpreting'' in
+%		\xref{doc:ambiguous}.
+%		
+%	\item[6--18] All Word Sets: ~\\
+%		\textsf{ed14}: Replaced ``$\times$'' with ``\emph{*}'' in stack descriptions.
+%
+%	\item[6] Core Word Set:						% core
+%		~\\ \textsf{ed14}: Removed empty run-time clause from \wref{core:TO}{}.
+%		
+%	\item[9] Exception Word Set:					% exception
+%		~ \\ \textsf{ed14}: ``tack'' replaced with ``stack'' in table \xref{table:throw}.
+%		
+%	\item[10] Facility Word Set:					% facility
+%		~ \\
+%		\textsf{ed14}: Added - to ``compile-time'' in
+%			\wref{facility:CFIELD:}{} and \wref{facility:FIELD:}{}
+%
+%	\item[11] File-Access Word Set:				% file
+%		\begin{enumerate}
+%		\item \textsf{ed14}: Removed required for Block word set to be
+%			loaded when the File word set is loaded (\xref{file:blocks}).
+%		\item \textsf{X:interpret-escaped-s}: Replaced \xref{file:buffers}.
+%		\item \textsf{X:interpret-escaped-s}: Replaced reference to \wref{file:Sq}{} with
+%			reference to \xref{file:buffers} in \xref{file:impopt}.
+%		\item \textsf{X:interpret-escaped-s}: Revised definition of \wref{file:Sq}{}.
+%		\item \textsf{X:interpret-escaped-s}: Added \wref{file:Seq}{}.
+%		\end{enumerate}
+%
+%	\item[12] Floating-Point Word Set:				% float
+%		~\\
+%		\textsf{ed14}: Added - to ``compile-time'' in
+%			\wref{floating:DFFIELD:}{},
+%			\wref{floating:FFIELD:}{},
+%			\wref{floating:SFFIELD:}{}.
+%
+%	\item[13] Locals Word Set:						% local
+%		~\\ \textsf{ed14}: Changed reference to BNF notation in \wref{local:b:}{}.
+%
+%	\item[15] Programming-Tools Word Set:			% tools
+%~\\
+%	\textsf{ed14}: Replaced ``\word{EXECUTE}ing'' with ``Executing''
+%		in \wref{tools:NAMEtoCOMPILE}.
+%
+%	\item[17] String Word Set:						% string
+%		~\\ \textsf{ed14}: Replaced ``must'' with ``shall'' in \wref{string:UNESCAPE}{}.
+%
+%	\item[18] Extended Character Word Set			% xchar
+%		\begin{enumerate}
+%		\item \textsf{ed14}: Replaced ``wordset'' with ``word set'' in \xref{wordlist:xchar}
+%			and \xref{xchar:intro}.
+%		\item \textsf{ed14}: Removed reference to bit-8 from last paragraph of
+%			\xref{xchar:intro}.
+%		\end{enumerate}
+%		
+%	\item[A] Rationale (Annex \ref{annex:rationale}):	% rationale
+%		\begin{enumerate}
+%
+%		% Core
+%		\item \textsf{ed14}: Replaced ``shall work'' with ``are allowed'' in
+%			\rref{core::NONAME}{}.
+%		\item \textsf{ed14}: Replaced ``temporary buffer'' with ``transient buffer'' in \rref{core:PARSE}{}.
+%
+%		% Block
+%		\item Replaced ``Many Forth systems use blocks'' with ``Forth systems may use blocks'' in \xref{rat:block:terms}.
+%
+%		% File
+%		\item \textsf{X:interpret-escape-s}: Added \xref{rat:file:buffers}.
+%		\item \textsf{ed14}: ``temporary buffer'' to ``transient buffer'' in
+%			\wref{file:READ-LINE}{}.
+%
+%		% String
+%		\item \textsf{ed14}: Replaced ``in the range \{0 \ldots +n\}'' with
+%			``nonnegative'' and ``non-recursive'' with ``not recursive'' in
+%			\rref{string:SUBSTITUTE}{}.
+%
+%		% Xchar
+%		\item \textsf{ed14}: Replaced ``wordset'' with ``word set'' in last paragraph
+%			of \xref{rat:xchar}.
+%		\end{enumerate}
+%
+%	\item[C] Compatibility analysis (Annex \ref{annex:diff}):			% diff
+%		\begin{enumerate}
+%		\item \textsf{ed14}: Added - to ``twenty-three'' and ``eighty-seven''
+%			in \xref{diff:ans}.
+%		\item \textsf{ed14}: ``wordset'' replaced with ``word set'' in \xref{diff:12:locals}.
+%		\item \textsf{X:fp-stack}: Changed ``Separate Floating-point/Data Stack Obsolescent'' to \xref{diff:fpstack}.
+%		\item \textsf{X:fp-stack}: Replaced first paragraph of \xref{diff:fpstack}.
+%		\item \textsf{X:fp-stack}: Replaced paragraph 4 of Impact in \xref{diff:fpstack}.
+%		\item \textsf{ed14}: Removed word sets with no additional words
+%		(Block, Exception, Memory-Allocation and Search-Order)
+%		from \xref{diff:new12}.
+%		\end{enumerate}
+%		
+%	\item[D] Portability guide (Annex \ref{annex:port}):			% port
+%~ \\
+%		\textsf{ed14}: ``practise'' to ``practice'' in \xref{port:intro}.
+%
+%	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
+%		~\\ \textsf{ed14}: Replaced ``wordset'' with ``word set'' in
+%			\xref{imp:xchar}.
+%
+%	\item[F] Test Suite (Annex \ref{annex:test}):					% test
+%		~\\ \textsf{ed14}: Replaced ``wordset'' with ``word set'' in
+%			\xref{test:double}.
+%	\end{itemize}
 
-% String
-		\item \textsf{ed12}: Revised \rref{string:/STRING}{}, \rref{string:CMOVE}{},
-			\rref{string:CMOVEtop}{}, \rref{string:SUBSTITUTE}{}.			
-		\item \textsf{ed12}: Removed \textbf{A.17.6.1.0935 COMPARE}, \textbf{A.17.6.1.2191 SEARCH}.
-% Xchar
-		\end{enumerate}
+% =========================================================
 
-%	\item[B] Bibliography (Annex \ref{annex:bib}):					% bib
-	\item[C] Perspective %(Annex \ref{annex:intro}):					% intro
-		\\ \textsf{ed12}: Removed Annex.
-
-	\item[C] Compatibility analysis (Annex \ref{annex:diff}):	% diff
-		\\ \textsf{compatibility}: Revised whole Annex.
-	
-	\item[D] Portability guide (Annex \ref{annex:port}):			% port
-		\\ \textsf{ed12}: Revised whole Annex
-
-	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
-		\begin{enumerate}
-% Core
-% Block
-% Double
-% Exception
-		\item \textsf{ed12}: Added \iref{exception:CATCH}{}, \iref{exception:THROW}{}, \iref{exception:ABORT}{}.
-% Facility
-% File
-% Float
-% Locals
-		\item \textsf{ed12}: Added \iref{local:LOCALS}{}.
-% Memory
-% Tools
-		\item \textsf{ed12}: Added \iref{tools:[ELSE]}{}, \iref{tools:[IF]}{} and \iref{tools:[THEN]}{}.
-% Search
-		\item \textsf{ed12}: Added
-			\iref{search:DEFINITIONS}{},
-			\iref{search:FIND}{},
-			\iref{search:GET-ORDER}{},
-			\iref{search:SET-ORDER}{},
-			\iref{search:ALSO}{},
-			\iref{search:FORTH}{},
-			\iref{search:ONLY}{},
-			\iref{search:PREVIOUS}{}.
-		\end{enumerate}
-% String
-	\item[F] Test Suite (Annex \ref{annex:test}):					% test
-		\begin{enumerate}
-		\item \textsf{ed12}: Added credits to \xref{test:intro}.
-		\item \textsf{ed12}: Removed reference to \textsf{X:number-prefix}
-			from \xref{test:numeric}.
-		\end{enumerate}
-
-	\item[G] Change Log (Annex \ref{annex:changelog}): \\
-		\textsf{ed12}: Changed origin of basis to dpANS6 in
-			version 05 (Original Text).
-
-% Xchar
-	\end{itemize}
-
-
-\version{12.2}{Testing updates}{\empty}
-	\begin{itemize}
-	\item[F] Test Suite (Annex \ref{annex:test}): \\
-		\textsf{test12}: Test suite updated in line with Gerry Jackson's test suite (version 0.9):
-		\begin{enumerate}
-		\item Added support word for \xref{test:memory}{}.
-		\item Added tests to
-			\tref{core:p}{(},
-			\tref{core:.q}{.\"{}},
-			\tref{core:IMMEDIATE}{IMMEDIATE},
-			\tref{file:Sq}{S\"{}},
-			\tref{memory:FREE}{FREE}.
-		\item Additional test for
-			\tref{core:+LOOP}{+LOOP},
-			\tref{core:toIN}{$>$IN},
-			\tref{core:IF}{IF},
-			\tref{core:Sq}{S\"{}},
-			\tref{double:2CONSTANT}{2CONSTANT},
-			\tref{double:2LITERAL}{2LITERAL},
-			\tref{double:2VARIABLE}{2VARIABLE},
-			\tref{memory:ALLOCATE}{ALLOCATE},
-			\tref{tools:[THEN]}{[THEN]}.
-		\item Modified tests for
-			\tref{memory:RESIZE}{RESIZE}.
-		\end{enumerate}
-	\end{itemize}
-
-
-\version{13.1}{Hamburg Meeting}{25--27 September 2013}
-	The following changes where incorporated into the Forth 2012 standard
-	document released on 10/Nov/2014.
-
-	\begin{itemize}
-	\item \xref{foreword}:							% foreword 
-		~\\ \textsf{ed13}: Merged \textbf{Foreword to ANS Forth} with \textbf{Foreword}.
-
-	\item \xref{members}:							% members-2x
-		\begin{enumerate}
-		\item \textsf{ed13}: Removed Bill Stoddart.
-		\item \textsf{ed13}: Added Willi Stricker and Simon Kaphahn.
-		\item \textsf{ed13}: Added ``previous members'' and ``contributors''.
-		\end{enumerate}
-
-	\item[1] Introduction:							% intro
-		~ \\
-		\textsf{ed13}: Revised description of Annex \ref{annex:index}.
-
-	\item[3] Usage requirements:					% usage
-		\begin{enumerate}
-		\item \textsf{X:throw-iors}:
-			Added \param{ior} to \xref{usage:type}, table \xref{table:datatypes}
-			and \xref{usage:ior}.
-		\item \textsf{X:traverse-wordlist}:
-			Added \textsf{X:traverse-wordlist} to \xref{table:extensions}.
-		\end{enumerate}
-
-	\item[9] Exception Word Set:					% exception
-		~ \\
-		\textsf{X:throw-iors}: Remove paragraph 2 of \xref{exception:throw}.
-
-	\item[10] Facility Word Set:					% facility
-		~ \\
-		\textsf{ed13}: Removed alignment requirement from \wref{facility:CFIELD:}{}, \wref{facility:FIELD:}{}.
-
-	\item[11] File-Access Word Set:				% file
-		\begin{enumerate}
-		\item \textsf{X:throw-iors}: Removed \param{ior} from table \xref{file:types}.
-		\item \textsf{X:throw-iors}: Removed \textbf{11.3.1.2 I/O results}.
-		\item \textsf{X:thorw-iors}: Removed \param{ior} documentation requirement from \xref{file:impopt}.
-		\end{enumerate}
-
-	\item[12] Floating-Point Word Set:			% float
-		\begin{enumerate}
-		\item \textsf{ed13}: Added advisory note to \wref{floating:FtoD}{}.
-		\item \textsf{ed13}: Revised advisory note for \wref{floating:FtoS}{}.
-		\item \textsf{X:throw-iors}: Removed alignment requirements from
-			\wref{floating:DFFIELD:}{},
-			\wref{floating:FFIELD:}{},
-			\wref{floating:SFFIELD:}{}.
-		\end{enumerate}
-
-	\item[14] Memory-Allocation Word Set:		% memory
-		\begin{enumerate}
-		\item \textsf{X:throw-iors}: Removed \textbf{14.3.1 I/O Results data type}.
-		\item \textsf{X:throw-iors}: Replaced \xref{mem:docs}{}.
-		\end{enumerate}
-
-	\item[15] Programming-Tools Word Set:		% tools
-		\begin{enumerate}
-		\item \textsf{X:traverse-wordlist}: Added \xref{tools:datatype}{}.
-		\item \textsf{X:traverse-wordlist}: Added ambiguous condition to \xref{tools:ambiguous}{}.
-		\item \textsf{X:traverse-wordlist}: Added
-			\wref{tools:NAMEtoCOMPILE}{},
-			\wref{tools:NAMEtoINTERPRET}{},
-			\wref{tools:NAMEtoSTRING}{},
-			\wref{tools:TRAVERSE-WORDLIST}{}.
-		\end{enumerate}
-
-	\item[17] String Word Set:						% string
-		~ \\
-		\textsf{ed13}: Minor revisions to \wref{string:SUBSTITUTE}{}.
-
-	\item[18] Extended Character Word Set		% xchar
-		\begin{enumerate}
-		\item \textsf{X:ed13}: Added \xref{xchar:io}{}.
-		\item \textsf{X:ed13}: Removed first sentence of \xref{xchar:impopt}{}.
-		\end{enumerate}
-
-	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
-		\begin{enumerate}
-		\item \textsf{ed13}: Revised first line of \xref{rat:scope}{}.
-		\item \textsf{ed13}: Removed \textbf{A.1.3 Document organization}.
-		\item \textsf{X:throw-iors}: Added \xref{rat:ior}{}.
-		\item \textsf{ed13}: Minor revision to second paragraph of \xref{rat:aaddr}{}.
-		\item \textsf{ed13}: Corrected typo in \xref{rat:regions}{}.
-% Core
-		\item \textsf{ed13}: ``Since'' replaced by ``Because'' in \rref{core:ACCEPT}{}.
-		\item \textsf{ed13}: Added ``LOOP'' to typical use of \rref{core:LEAVE}{}.
-		\item \textsf{ed13}: Placed typical use inside a colon definition (\rref{core:qDO}{}).
-		\item \textsf{ed13}: Revised \rref{core:COMPILE,}{}.
-		\item \textsf{ed13}: Minor revision of \rref{core:PARSE}{}.
-		\item \textsf{ed13}: Minor revision of \rref{core:TO}{}.
-% Block
-		\item \textsf{ed13}: Removed second paragraph of \xref{rat:block}{}.
-		\item \textsf{ed13}: Removed reference to \textbf{C.7.9 Multitasking} from \xref{rat:block:buffers}{}.
-
-%		\item \textsf{ed13}: Remove ``(store)'' from second
-% Facility
-		\item \textsf{ed13}: Revised \rref{facility:EKEYtoFKEY}{}.
-
-% Float
-		\item \textsf{ed13}: Minor revision to \rref{floating:FEXPM1}{}.
-
-% Locals
-		\item \textsf{ed13}: Minor revision to \ref{local:b:}{}.
-
-% Tools
-		\item \textsf{X:traverse-wordlist}:
-			Added \xref{rat:tools:nt}{},
-			\rref{tools:NAMEtoCOMPILE}{},
-			\rref{tools:TRAVERSE-WORDLIST}{}.
-
-% String
-		\item \textsf{ed13}: Minor revision to \rref{string:SUBSTITUTE}{}.
-		\end{enumerate}
-
-	\item[C] Compatibility analysis (Annex \ref{annex:diff}):	% diff
-		\begin{enumerate}
-		\item \textsf{ed13}: Moved paragraph in \xref{diff:ans}{}.
-		\item \textsf{ed13}: Minor revision to \xref{diff:approach}{}.
-		\item \textsf{X:obsolete}: Replaced \xref{diff:ans:obsolete}{}.
-		\item Replaced \textbf{C.7.2 Obsolescent features} with
-			\xref{diff:fpstack}{} (\textsf{X:fpstack}) and
-			\xref{diff:environment}{} (\textsf{X:environment}).
-		\item Added
-			\xref{diff:12:to}{}		(\textsf{X:to}),
-			\xref{diff:12:ior}{}		(\textsf{X:thorw-iors}),
-			\xref{diff:12:locals}{}		(\textsf{X:locals}),
-			\xref{diff:12:prefix}{},	(\textsf{X:number-prefix}),
-			\xref{diff:12:sourceid}{},	(\textsf{X:source-id}),
-			\xref{diff:12:fasinh}{}	(\textsf{X:fasinh}),
-			\xref{diff:12:fatan2}{}	(\textsf{X:fatan2}).
-		\item \textsf{X:traverse-wordlist}: Added \word[tools]{NAMEtoCOMPILE},
-			\word[tools]{NAMEtoINTERPRET}, \word[tools]{NAMEtoSTRING}, \linebreak
-			\word[tools]{TRAVERSE-WORDLIST} to \xref{diff:12:tools}{}.
-	\end{enumerate}
-
-	\item[D] Portability guide (Annex \ref{annex:port}):			% port
-		\begin{enumerate}
-		\item \textsf{ed13}: Minor revisions to \xref{port:intro}{}.
-		\item \textsf{ed13}: ``big endian'' to ``big-endian'' in \xref{port:endian}{}.
-		\end{enumerate}
-	\end{itemize}
-
-
-\version{14.5}{Palma de Mallorca Meeting}{24--26 September 2014}
-	The following changes where incorporated into the Forth 2012 standard
-	document released on 10/Nov/2014.
-	
-	\begin{itemize}
-	\item \xref{process}:							% process
-		~\\ \textsf{ed14}: Replaced ``dismiss'' with ``dismissed'' in item c of \xref{process}.
-
-	\item \xref{members}:							% members-2x
-		\begin{enumerate}
-		\item \textsf{ed14}: Added ``Tim Partridge'' to the list of contributers.
-		\item Corrected ``Howard Oakford'' to ``Howerd Oakford''.
-	\end{enumerate}
-
-	\item[1] Introduction:							% intro
-		\begin{enumerate}
-		\item \textsf{ed14}: Changed document title (page \pageref{chap:intro}).
-		\item \textsf{X:section-numbering}: Added final paragraph to \xref{intro:numbering}.
-		\item \textsf{ed14}: Qualified Forth words in Annex H (\xref{intro:annex}).
-		\item \textsf{ed14}: Added \word{[COMPILE]} and \word[local]{LOCALS} to \xref{intro:obsoleat}.
-		\item \textsf{X:fp-stack}: Removed floating-point item from \xref{intro:obsoleat}.
-		\end{enumerate}
-
-	\item[2] Terms, notation, and references:		% notation
-		\begin{enumerate}
-		\item \textsf{ed14}: Replaced description of an ``ambiguous condition'' in
-			\xref{notation:terms}.
-		\item \textsf{ed14}: Added description of ``initiation semantics'' to
-			\xref{notation:terms}.
-		\item \textsf{ed14}: Moved the description of BNF from the start of
-			\xref{notations} to its own subsection (\xref{notation:BNF}).
-		\end{enumerate}
-
-	\item[3] Usage requirements:					% usage
-		\begin{enumerate}
-		\item \textsf{ed14}: Added ``that \param{ior} as'' to last paragraph
-			of \xref{usage:ior}.
-		\item \textsf{ed14}: Added sentence to last paragraph of \xref{usage:digits} making
-			parsing of numbers case-insensitive.
-		\item \textsf{ed14}: Removed incorrect sentence from last paragraph of
-			\xref{usage:controlstack} banning access to items on the data stack during
-			compilation.
-		\item \textsf{ed14}: Added \word[tools]{NtoR} and \word[tools]{NRfrom}
-			to the list of return stack accessing words in \xref{usage:returnstack}.
-		\item \textsf{ed14}: Removed requirement for Block word set when
-			the File word set is loaded (\xref{usage:mass}).
-		\item \textsf{X:interpret-escape-s}: Replaced \xref{usage:"literal}.
-		\item \textsf{ed14}: Replaced ``in A (Annex A)'' with ``in Annex A'' in
-			last sentence of first paragraph in \xref{usage:syntax}.
-		\item \textsf{ed14}: Changed reference to BNF notation in \xref{usage:numbers}.
-		\end{enumerate}
-
-	\item[4] Documentation requirements:			% doc
-		~ \\
-		\textsf{ed14}: ``interpretating'' replaced with ``interpreting'' in
-		\xref{doc:ambiguous}.
-		
-	\item[6--18] All Word Sets: ~\\
-		\textsf{ed14}: Replaced ``$\times$'' with ``\emph{*}'' in stack descriptions.
-
-	\item[6] Core Word Set:						% core
-		~\\ \textsf{ed14}: Added obsolescent notice to \wref{core:[COMPILE]}{}.
-	\item[9] Exception Word Set:					% exception
-		~ \\ \textsf{ed14}: ``tack'' replaced with ``stack'' in table \xref{table:throw}.
-		
-	\item[10] Facility Word Set:					% facility
-		~ \\
-		\textsf{ed14}: Added - to ``compile-time'' in
-			\wref{facility:CFIELD:}{} and \wref{facility:FIELD:}{}
-
-	\item[11] File-Access Word Set:				% file
-		\begin{enumerate}
-		\item \textsf{ed14}: Removed required for Block word set to be
-			loaded when the File word set is loaded (\xref{file:blocks}).
-		\item \textsf{X:interpret-escaped-s}: Replaced \xref{file:buffers}.
-		\item \textsf{X:interpret-escaped-s}: Replaced reference to \wref{file:Sq}{} with
-			reference to \xref{file:buffers} in \xref{file:impopt}.
-		\item \textsf{X:interpret-escaped-s}: Revised definition of \wref{file:Sq}{}.
-		\item \textsf{X:interpret-escaped-s}: Added \wref{file:Seq}{}.
-		\end{enumerate}
-
-	\item[12] Floating-Point Word Set:				% float
-		~\\
-		\textsf{ed14}: Added - to ``compile-time'' in
-			\wref{floating:DFFIELD:}{},
-			\wref{floating:FFIELD:}{},
-			\wref{floating:SFFIELD:}{}.
-
-	\item[13] Locals Word Set:						% local
-		~\\ \textsf{ed14}: Changed reference to BNF notation in \wref{local:b:}{}.
-
-	\item[15] Programming-Tools Word Set:			% tools
-		~\\	\textsf{ed14}: Replaced ``\word{EXECUTE}ing'' with ``Executing''
-			in \wref{tools:NAMEtoCOMPILE}.
-
-	\item[17] String Word Set:						% string
-		~\\ \textsf{ed14}: Replaced ``must'' with ``shall'' in \wref{string:UNESCAPE}{}.
-
-	\item[18] Extended Character Word Set			% xchar
-		\begin{enumerate}
-		\item \textsf{ed14}: Replaced ``wordset'' with ``word set'' in \xref{wordlist:xchar}
-			and \xref{xchar:intro}.
-		\item \textsf{ed14}: Removed reference to bit-8 from last paragraph of
-			\xref{xchar:intro}.
-		\end{enumerate}
-		
-	\item[A] Rationale (Annex \ref{annex:rationale}):				% rationale
-		\begin{enumerate}
-% Core
-		\item \textsf{ed14}: Replaced ``shall work'' with ``are allowed'' in
-			\rref{core::NONAME}{}.
-		\item \textsf{ed14}: Replaced ``temporary buffer'' with ``transient buffer'' in \rref{core:PARSE}{}.
-% Block
-		\item Replaced ``Many Forth systems use blocks'' with ``Forth systems may use blocks'' in \xref{rat:block:terms}.
-% File
-		\item \textsf{X:interpret-escape-s}: Added \xref{rat:file:buffers}.
-		\item \textsf{ed14}: ``temporary buffer'' to ``transient buffer'' in
-			\wref{file:READ-LINE}{}.
-% String
-		\item \textsf{ed14}: Replaced ``in the range \{0 \ldots +n\}'' with
-			``nonnegative'' and ``non-recursive'' with ``not recursive'' in
-			\rref{string:SUBSTITUTE}{}.
-% Xchar
-		\item \textsf{ed14}: Replaced ``wordset'' with ``word set'' in last paragraph
-			of \xref{rat:xchar}.
-		\end{enumerate}
-
-	\item[C] Compatibility analysis (Annex \ref{annex:diff}):			% diff
-		\begin{enumerate}
-		\item \textsf{ed14}: Added - to ``twenty-three'' and ``eighty-seven''
-			in \xref{diff:ans}.
-		\item \textsf{ed14}: ``wordset'' replaced with ``word set'' in \xref{diff:12:locals}.
-		\item \textsf{X:fp-stack}: Changed ``Separate Floating-point/Data Stack Obsolescent'' to \xref{diff:fpstack}.
-		\item \textsf{X:fp-stack}: Replaced first paragraph of \xref{diff:fpstack}.
-		\item \textsf{X:fp-stack}: Replaced paragraph 4 of Impact in \xref{diff:fpstack}.
-		\item \textsf{ed14}: Removed word sets with no additional words
-		(Block, Exception, Memory-Allocation and Search-Order)
-		from \xref{diff:new12}.
-		\end{enumerate}
-		
-	\item[D] Portability guide (Annex \ref{annex:port}):			% port
-		~ \\ \textsf{ed14}: ``practise'' to ``practice'' in \xref{port:intro}.
-
-	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
-% Xchar
-		~\\ \textsf{ed14}: Replaced ``wordset'' with ``word set'' in
-			\xref{imp:xchar}.
-
-	\item[F] Test Suite (Annex \ref{annex:test}):					% test
-% Double
-		~\\ \textsf{ed14}: Replaced ``wordset'' with ``word set'' in
-			\xref{test:double}.
-	\end{itemize}
-
-
-\version{16.1}{Bath Meeting}{30 September -- 2 October 2015}
+\version{16.1}{Bath Meeting}{30 September -- 2 October, 2015}
 	\begin{itemize}
 	\item \xref{members}:						% members-2x
 		\begin{enumerate}
@@ -1413,64 +1417,298 @@
 		\item \textsf{x:2-complement}: Removed number representations from \xref{rat:char}.
 		\item \textsf{ed16}: Removed reference to EBCDIC from \xref{rat:char}.
 		\item \textsf{x:2-complement}: Remove discussion of alternative arithmetic architectures from \xref{rat:env:num}.
-		\item \textsf{x:2-complement}: Revised example in \xref{rat:math:int}.
+		\item \textsf{x:2-complement}: Revised example in A.3.2.2.2 Other integer operations.
 		\item \textsf{x:2-complement}: Replaced environmental dependency example in  \xref{rat:label:prog}.
-% Core
+
+		% Core
 		\item \textsf{x:2-complement}: Removed reference
 			to two's-complement from \rref{core:WITHIN}{}.
-% Double
+
+		% Double
 		\item \textsf{x:2-complement}:
-		Replaced rational for \rref{double:DtoS}{}.
+			Replaced rational for \rref{double:DtoS}{}.
 		\end{enumerate}
 
 	\item[D] Portability guide (Annex \ref{annex:port}):				% port
 		\begin{enumerate}
-		\item \textsf{x:2-complement}: Removed \xref{port:ALU}.
+		\item \textsf{x:2-complement}: Removed D.3.2 ALU organization.
 		\end{enumerate}
 
 	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
 		\begin{enumerate}
-% Core
+
+		% Core
 		\item \textsf{x:2-complement}: Added \iref{core:WITHIN}{}.
-% Double
+
+		% Double
 		\item \textsf{x:2-complement}: Added \iref{double:DtoS}{}.
 		\end{enumerate}
 
 	\item[F] Test Suite (Annex \ref{annex:test}):						% test
-% Core
+		% Core
 		\begin{enumerate}
 		\item \textsf{x:2-complement}: Added test case to \tref{core:1+}{}.
 		\item \textsf{x:2-complement}: Added test case to \tref{core:INVERT}{}.
 		\end{enumerate}
 	\end{itemize}
 
+% =========================================================
+
+\version{17.1}{Konstanz Meeting}{7--9 September, 2016}
+	\begin{itemize}
+	\item Title page:
+		\begin{enumerate}
+		\item \textsf{x:reset}: Replaced ``ANS X3.215--1994'' with ``the Forth 2012
+			standard'' in document status;
+		\item \textsf{x:reset}: Renamed ``The Standardisation Committee'' to ``The
+			Forth 200\emph{x} Standardisation Committee'' in document status.
+		\end{enumerate}
+
+	\item \xref{foreword}:							% foreword 
+		\begin{enumerate}
+		\item \textsf{x:reset}: Revised to refer to Forth 2012 as the starting point
+			for the document;
+		\item \textsf{x:reset}: Removed meetings prior to 2015 (Bath) meeting;
+		\item \textsf{ed17}: Added 2016 (Konstanz) meeting.
+		\end{enumerate}
+
+	\item \xref{members}:						% members-2x
+		\begin{enumerate}
+		\item \textsf{ed17}: Added Sergey Baranov;
+		\item \textsf{ed17}: Moved Simon Kaphahn from members list to old members list;
+		\item \textsf{ed17}: Reinstated Andrew Haley, moving him from the old members list back into the members list;
+		\item \textsf{ed17}: Added officer title against officer holders.
+		\end{enumerate}
+
+	\item[1] Introduction:							% intro
+		\begin{enumerate}
+		\item \textsf{ed17}: Replaced ``2012'' with ``200\emph{x}'' in title on page \pageref{chap:intro}.
+		\end{enumerate}
+
+	\item[3] Usage requirements:					% usage
+		\begin{enumerate}
+		\item \textsf{x:1 chars = 1}: Replace ``at least one'' with ``exactly one'' in \xref{usage:char};
+		\item \textsf{x:2-complement}: Replaced ``two's complement'' with ``two's-complement'' in \xref{usage:number};
+		\item \textsf{x:2-complement}: Replaced ``divisions'' with ``division'' in \xref{usage:intops};
+		\item \textsf{x:2-complement}: Removed ``in these case'' from \xref{usage:intops};
+		\item \textsf{x:2-complement}: Added ``for operations other than division'' to \xref{usage:intops};
+		\item \textsf{x:2-complement}: Replaced ``$2^{n-1}$'' with ``$-2^{n-1}$'' in \xref{usage:intops};
+		\item \textsf{x:reset}: Removed ``X:wordset-query'' from \xref{usage:obsolete};
+		\item \textsf{x:reset}: Removed 3.2.8 Extension queries and table 3.7 Forth 200x Extensions.
+		\end{enumerate}
+		
+	\item[6--18] All word sets: ~\\
+		\textsf{x:reset}: Removed proposal labels;
+
+	\item[12] Floating-Point Word Set:			% float
+		\begin{enumerate}
+		\item \textsf{x:to-f-round}: Removed \word[floating]{DtoF} and \word[floating]{StoF} conditions from \xref{float:ambiguous};
+		\item \textsf{x:to-f-round}: Revised definition of \wref{floating:DtoF}{};
+		\item \textsf{x:to-f-round}: Revised definition of \wref{floating:StoF}{}.
+		\end{enumerate}
+
+	\item[A] Rationale (Annex \ref{annex:rationale}): 	% rationale
+		\begin{enumerate}
+		\item \textsf{x:2-complement}: Made definition of $n$ a clause of previous sentence in \xref{rat:env:num};
+		\item \textsf{x:2-complement}: Removed ``likely'' from second paragraph of \xref{rat:env:num};
+		\item \textsf{x:2-complement}: Removed final paragraph of \xref{rat:env:num};
+		\item \textsf{x:2-complement}: Remove A.3.2.2.2 Other integer operations;
+		\item \textsf{x:2-complement}: Replaced ``entitle'' with ``entitled'' in \xref{rat:label:prog};
+		\item \textsf{x:2-complement}: Replaced ``lower'' with ``lowest'' in \xref{rat:label:prog};
+
+		% Double
+		\item \textsf{x:2-complement}: Replaced ``twos-complement'' with ``two's complement'' in \rref{double:DtoS}{}.
+		\end{enumerate}
+
+	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
+		\begin{enumerate}
+		% Core
+		\item \textsf{x:2-complement}: Added \iref{core:NEGATE}{};
+
+		% Double
+		\item \textsf{x:2-complement}: Corrected ``S>D'' to ``D>S'' in \iref{double:DtoS}{}.
+		\end{enumerate}
+
+	\item[F] Test Suite (Annex \ref{annex:test}):	% test
+		\begin{enumerate}
+		% Core
+		\item \textsf{x:1 chars = 1}: Added test case to \tref{core:CHAR+}{};
+		\item \textsf{x:1 chars = 1}: Added test case to \tref{core:CHARS}{}.
+		\end{enumerate}
+
+	\item[H] Alphabetic list of words (Annex \ref{annex:index}): ~\\
+		\textsf{x:reset}: Removed proposal names.
+	\end{itemize}
+
+% ====================================================================
+
+\version{18.1}{Bad V\"oslau Meeting}{6--8 September, 2017}
+	\begin{itemize}
+	\item \xref{foreword}:						% foreword 
+	\begin{enumerate}
+		\item \textsf{ed18}: Added 2017 (Bad V\"oslau) meeting.
+	\end{enumerate}
+
+	\item \xref{members}:					% members-2x
+	\begin{enumerate}
+		\item \textsf{ed18}: Added Paul E. Bennet as member;
+		\item \textsf{ed18}: Moved Howerd Oakford from contributor to member.
+	\end{enumerate}
+	
+	\item[3] Usage requirements:				% usage
+	\begin{enumerate}
+		\item \textsf{ed18}: The Exception word set is no longer optional (\xref{usage});
+		\item \textsf{ed18}: Moved \ref{annex:rationale}.11.3.4 Other transient regions to \xref{usage:"literal};
+		\item \textsf{ed18}: Replaced ambiguous condition In \ref{usage:command} (d)
+			with exception;
+		\item \textsf{ed18}: Replaced ambiguous condition in last sentence of the second
+			paragraph in \ref{usage:parsing} with exception.
+	\end{enumerate}
+	
+	\item[4] Documentation requirements:	% doc
+	\begin{enumerate}
+		\item \textsf{ed18}: Moved \xref{file:impopt} documentation requirements to \xref{doc:imp}.
+	\end{enumerate}
+	
+	\item[6] Core Word Set:					% core
+	\begin{enumerate}
+		\item \textsf{x:quotation}: Added quotation ambiguous condition to \wref{core:;}{};
+		\item \textsf{x:quotation}: Added quotation ambiguous condition to \wref{core:DOES}{};
+		\item \textsf{x:quotation}: Added quotation requirement to \wref{core:RECURSE}{};
+		\item \textsf{ed18}: Merged 11.6.1.2165 \texttt{S"} with \wref{core:Sq}{};
+		\item \textsf{ed18} Added cross reference to \wref{core:Cq}{};
+		\item \textsf{ed18}: Merged 11.6.2.2266 \texttt{S\bs{"}} with \wref{core:Seq}{}.
+	\end{enumerate}
+	
+	\item[9] Exception Word Set:				% exception
+	\begin{enumerate}
+		\item \textsf{ed18}: The Exception word set is not longer optional (\xref{wordlist:exception}{});
+		\item \textsf{ed18}: Removed 9.5 Compliance and labeling.
+	\end{enumerate}
+
+	\item[11] File-Access Word Set:			% file
+	\begin{enumerate}
+		\item \textsf{ed18}: Merged \xref{file:buffers}{} with \xref{usage:"literal}{};
+		\item \textsf{ed18}: Removed \xref{file:buffers}{} related system documentation
+			 requirement;
+		\item \textsf{ed18}: Removed 11.6.1.2165 \texttt{S"}.
+		\item \textsf{ed18}: Removed 11.6.2.2266 \texttt{S\bs{"}}.
+	\end{enumerate}
+
+	\item[15] Programming-Tools Word Set:	% tools
+	\begin{enumerate}
+		\item \textsf{x:quotations}: Added \xref{tools:quotation-sys}{};
+		\item \textsf{x:quotations}: Extended \xref{tools:impopt}{};
+		\item \textsf{x:quotations}: Added ambiguous condition to \wref{tools:;CODE}{};
+		\item \textsf{x:quotations}: Added \wref{tools:;]}{};
+		\item \textsf{x:quotations}: Added \wref{tools:[:}{}.
+	\end{enumerate}
+
+	\item[A] Rationale (Annex \ref{annex:rationale}):	% rationale
+	\begin{enumerate}
+		\item \textsf{ed18}: Added \xref{rat:"literal}{};
+% Core
+		\item \textsf{ed18}: Merged \ref{annex:rationale}.11.6.1.2165 \texttt{S"} with \rref{core:Sq}{};
+% File
+		\item \textsf{ed18}: Removed \ref{annex:rationale}.11.3.4 Other transient regions;
+		\item \textsf{ed18}: Removed \ref{annex:rationale}.11.6.1.2165 \texttt{S"};
+% Tools
+		\item \textsf{x:quotations}: Added \rref{tools:[:}{}.
+		\end{enumerate}
+
+	\item[E] Reference Implementations (Annex \ref{annex:implement}): % imp
+	\begin{enumerate}
+% Core
+		\item \textsf{ed18}: Added \iref{tools:[:}{} and \iref{tools:;]}{}.
+	\end{enumerate}
+
+	\item[F] Test Suite (Annex \ref{annex:test}):	% test
+	\begin{enumerate}
+% Core
+		\item \textsf{ed18}: Moved \ref{annex:test}.11.6.1.2165 \texttt{S"} to \tref{core:Sq}{};
+% File
+	\item \textsf{ed18}: Added \tref{tools:[:}{}.
+	\end{enumerate}
+	
+	\item[H] Alphabetic list of words (Annex \ref{annex:index}): \\%
+		\textsf{ed18} Added reference to Rational, Testing and Implementation where available.
+\end{itemize}
+
+\version{19.1}{Queensferry  Meeting}{12--14 September 2018}
+\begin{itemize}
+	\item \xref{foreword}:						% foreword 
+	\begin{enumerate}
+		\item \textsf{ed19}: Added 2018 (Queensferry) meeting.
+	\end{enumerate}
+
+	\item \xref{members}:					% members-2x
+	\begin{enumerate}
+		\item \textsf{ed19}: Added Jermain Davies as member;
+	\end{enumerate}
+	
+	\item[3] Usage requirements:				% usage
+	\begin{enumerate}
+	\item \textsf{ed19}: Add reference to exception -19 (definition name too long) to
+		\xref{usage:names}.
+	\end{enumerate}
+
+	\item[\ref{doc:ambiguous}] Ambiguous Conditions:
+	\begin{enumerate}
+	\item \textsf{ed19}: Removed undefined word ambiguous condition;
+	\item \textsf{ed19}: Removed maximum length ambiguous condition;
+	\item \textsf{ed19}: Removed example from argument type ambiguous condition;
+	\item \textsf{ed19}: Removed insufficient space in the dictionary ambiguous condition;
+	\end{enumerate}
+
+	\item[15] Programming-Tools Word Set:	% tools
+	\begin{enumerate}
+		\item \textsf{x:find-name:} Added \wref{tools:FIND-NAME}{} and \wref{tools:FIND-NAME-IN}{};
+	\end{enumerate}
+
+	\item[A] Rationale (Annex \ref{annex:rationale}):	% rationale
+	\begin{enumerate}
+		\item \textsf{x:find-name:} Added \rref{tools:FIND-NAME}{};
+	\end{enumerate}
+
+	\item[E] Reference Implementations (Annex \ref{annex:implement}): % imp
+	\begin{enumerate}
+		\item \textsf{x:find-name:} Added \iref{tools:FIND-NAME}{} and \iref{tools:FIND-NAME-IN}{}.
+	\end{enumerate}
+
+	\item[F] Test Suite (Annex \ref{annex:test}):	% test
+	\begin{enumerate}
+		\item \textsf{x:find-name:} Added \tref{tools:FIND-NAME}{} and \iref{tools:FIND-NAME-IN}{}.
+	\end{enumerate}
+\end{itemize}
 
 \endinput
 
  
+% =========================================================
+
 \version{<version>}{<location> Meeting}{<dates>}
 	\begin{itemize}
-	\item \xref{foreword}:								% foreword 
-	\item \xref{process}:								% process
-	\item \xref{members}:							% members-2x
-	\item[1] Introduction:								% intro
-	\item[2] Terms, notation, and references:			% notation
-	\item[3] Usage requirements:						% usage
-	\item[4] Documentation requirements:			% doc
-	\item[5] Compliance and labeling:				% label
-	\item[6] Core Word Set:							% core
-	\item[7] Block Word Set:							% block
-	\item[8] Double-Number Word Set:				% double
-	\item[9] Exception Word Set:						% exception
-	\item[10] Facility Word Set:						% facility
-	\item[11] File-Access Word Set:					% file
-	\item[12] Floating-Point Word Set:				% float
-	\item[13] Locals Word Set:						% local
-	\item[14] Memory-Allocation Word Set:			% memory
-	\item[15] Programming-Tools Word Set:			% tools
-	\item[16] Search-Order Word Set:				% search
-	\item[17] String Word Set:						% string
-	\item[18] Extended Character Word Set			% xchar
+	\item \xref{foreword}:						% foreword 
+	\item \xref{process}:						% process
+	\item \xref{members}:					% members-2x
+	\item[1] Introduction:						% intro
+	\item[2] Terms, notation, and references:	% notation
+	\item[3] Usage requirements:				% usage
+	\item[4] Documentation requirements:	% doc
+	\item[5] Compliance and labeling:		% label
+	\item[6] Core Word Set:					% core
+	\item[7] Block Word Set:					% block
+	\item[8] Double-Number Word Set:		% double
+	\item[9] Exception Word Set:				% exception
+	\item[10] Facility Word Set:				% facility
+	\item[11] File-Access Word Set:			% file
+	\item[12] Floating-Point Word Set:		% float
+	\item[13] Locals Word Set:				% local
+	\item[14] Memory-Allocation Word Set:	% memory
+	\item[15] Programming-Tools Word Set:	% tools
+	\item[16] Search-Order Word Set:		% search
+	\item[17] String Word Set:				% string
+	\item[18] Extended Character Word Set	% xchar
 	\item[A] Rationale (Annex \ref{annex:rationale}):	% rationale
 % Core
 % Block
@@ -1485,10 +1723,10 @@
 % Search
 % String
 % Xchar
-	\item[B] Bibliography (Annex \ref{annex:bib}):					% bib
-	\item[C] Compatibility analysis (Annex \ref{annex:diff}):			% diff
-	\item[D] Portability guide (Annex \ref{annex:port}):				% port
-	\item[E] Reference Implementations (Annex \ref{annex:implement}):	% imp
+	\item[B] Bibliography (Annex \ref{annex:bib}):		% bib
+	\item[C] Compatibility analysis (Annex \ref{annex:diff}):	% diff
+	\item[D] Portability guide (Annex \ref{annex:port}):		% port
+	\item[E] Reference Implementations (Annex \ref{annex:implement}): % imp
 % Core
 % Block
 % Double
@@ -1502,7 +1740,7 @@
 % Search
 % String
 % Xchar
-	\item[F] Test Suite (Annex \ref{annex:test}):						% test
+	\item[F] Test Suite (Annex \ref{annex:test}):	% test
 % Core
 % Block
 % Double
@@ -1519,3 +1757,10 @@
 	\end{itemize}
 
 \endinput
+
+\version{ToDo}{}{\empty}
+	\begin{itemize}
+	\item Develop new Globalisation word set
+	\item Develop extended Memory Access word set
+	\end{itemize}
+

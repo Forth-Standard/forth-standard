@@ -6,18 +6,18 @@
 %\includeonly{core}%,block,double,exception,facility,file,float}
 %\includeonly{locals,memory,tools,search,string,xchar}
 %\includeonly{rationale,bib,history,diff,port,implement,testsuite}
-%\includeonly{locals}
+%\includeonly{process2018}
 
 % ========== Page Size ==========
 % (taken from a4wide.sty, but now applied to US Letter Paper)
 
-    \oddsidemargin	0.15 in 	% Left margin on odd-numbered pages.
+    \oddsidemargin		0.15 in 	% Left margin on odd-numbered pages.
     \evensidemargin	0.35 in 	% Left margin on even-numbered pages.
     \marginparwidth	1 in		% Width of marginal notes.
-    \oddsidemargin	0.25 in 	% Note that \oddsidemargin = \evensidemargin
+    \oddsidemargin		0.25 in 	% Note that \oddsidemargin = \evensidemargin
     \evensidemargin	0.25 in
     \marginparwidth	0.75 in
-    \textwidth		5.875 in	% Width of text line.
+    \textwidth			5.875 in	% Width of text line.
 
 % ========== Document Organisation Flags ==========
 
@@ -41,6 +41,15 @@
 %\usepackage{supertabular}
 \usepackage{graphicx}
 \usepackage{randtext}	% Randamize text (for email addresses)
+
+
+% ========== Subtables ==========
+%\usepackage{float}
+%\floatstyle{plaintop}
+%\newfloat{subtable}{hbtp}{lot}[table]
+%\floatname{subtable}{Table}
+%\renewcommand{\thesubtable}{\thetable \alph{subtable}}
+% ====================
 
 
 % ========== Remember Include Filename  ==========
@@ -85,8 +94,8 @@
 \makeatother
 
 \ifrelease
-	\lhead[\leftmark]{Forth \snapshot{} RC\release}
-	\rhead[Forth \snapshot{} RC\release]{\leftmark}
+	\lhead[\leftmark]{Forth \snapshot{} \release}
+	\rhead[Forth \snapshot{} \release]{\leftmark}
 \else
 	\lhead[\leftmark]{Forth 200\emph{x} / \docversion}
 	\rhead[Forth 200\emph{x} / \docversion]{\leftmark}
@@ -144,8 +153,14 @@
 \usepackage{courier}			% Courier for teletype
 
 % ======================================
-
+\usepackage{xcolor}
 \usepackage[colorlinks,
+	linkcolor = red,
+	urlcolor  = red,
+	citecolor = blue,
+	anchorcolor = blue,
+%	linkbordercolor=blue,
+%	pdfborderstyle={/S/U/W 1},
 	pageanchor=false,
 	pdfpagelabels=false,
 	breaklinks=true]{hyperref}
@@ -216,11 +231,10 @@
 % \begin{worddef*}[<label>]{<number>}[<sub-number>]{<name>}[<english>][<proposal>]
 %
 % <label>	Is the LaTeX label given to the word. It is used when
-%			processing links, and should not include any PDF or HTML
-%			Special characters. This is the label by which the word
-%			in known to the LaTeX system, and the name which should
-%			should be used in the \word{<label>} and \wref{<label>}
-%			commands.
+%			processing links, and should not include any non alphanumeric
+%			characters. This is the label by which the word in known to the
+%			LaTeX system, and the name which should should be used in
+%			the \word{<label>} and \wref{<label>} commands.
 %			Default: <name> is assumed to be the label.
 %
 % <number>	The word's number in the alphabetical listing of words.
@@ -434,6 +448,8 @@
 % Generate the word header based on the macros collected
 
 \newcommand{\word@def@head}{%
+	\ifx\word@prop\empty\else
+	\fi
 	%
 	% This is a good place to start a new page
 	%
@@ -542,7 +558,7 @@
 	\else
 		\ifrelease\else
 			\mbox{} \hfill	% flush right (under the wordset name)
-			\textsf{\small \word@prop}%
+			\textsf{\small \word@prop}
 		\fi
 	\fi
 	%
@@ -650,15 +666,15 @@
 % special characters
 
 \newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% _
-\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}		% ^
+\newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% ^
 %\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}		% *
-\newcommand{\stack@mul}{\,*\,}								% *
-\newcommand{\stack@bar}{~\textbar~}							% |
+\newcommand{\stack@mul}{\,*\,}									% *
+\newcommand{\stack@bar}{~\textbar~}								% |
 \newcommand{\stack@opa}{\ensuremath{\langle}}					% <
 \newcommand{\stack@cla}{\ensuremath{\rangle}}					% >
 
 \newif\if@stack@quote\@stack@quotetrue
-\newcommand{\stack@qot}{%									% "
+\newcommand{\stack@qot}{%										% "
 	\if@stack@quote``\@stack@quotefalse\else''\@stack@quotetrue\fi}
 
 % Now we have to activate the special characters we are going to
@@ -710,9 +726,9 @@
 \newcommand{\stack}[1][\empty]{% [<stack>]...
 	(				% Mark the start of the signature
 	\ifx#1\empty\else #1: \fi	% The stack name (if given)
-	\begingroup		% Open a new restricted scope for new specials
-	\itshape			% The signature is in italic
-	\stack@set		% Enable the specials
+	\begingroup	% Open a new restricted scope for new specials
+	\itshape		% The signature is in italic
+	\stack@set	% Enable the specials
 	\stack@sig		% Parse the signature parameters
 					% We have to do this in a separate macro as
 					% the specials are not active when this macro
@@ -720,9 +736,9 @@
 }
 
 \newcommand{\stack@sig}[2]{% ...{<before>}{<after>}
-	#1\ 				% Pre-condition (before)
+	#1\ 			% Pre-condition (before)
 	--{\,}--			% Mark the "execution point"
-	\ #2				% Post-condition (after)
+	\ #2			% Post-condition (after)
 	\endgroup		% Close restricted scope
 					% Disable new specials and \itshape
 	)				% Close stack signature
@@ -1091,7 +1107,9 @@
 \fi
 
 \newcommand{\proposal}[1]{%
-	\ifrelease\else\vspace*{-3ex}\hfill\textsf{\small #1}\\[-4ex]\fi
+	\ifrelease\else%
+		\vspace*{-3ex}\hfill\textsf{\small #1}\\[-4ex]
+	\fi
 }
 
 % ========== Special Characters ==========
@@ -1327,6 +1345,8 @@
 % =============================================
 
 
+
+
 % ========== Format of Headings ==========
 
 \setcounter{secnumdepth}{4}
@@ -1419,11 +1439,11 @@
 
 \makeatother
 
-% =======================================================
-% ==========                                   ==========
-% ========== Finally we can start the document ==========
-% ==========                                   ==========
-% =======================================================
+% ========================================================
+% ==========									==========
+% ========== Finally we can start the document	==========
+% ==========									==========
+% ========================================================
 
 \begin{document}
 
@@ -1453,7 +1473,9 @@
 %\newpage
 \include{foreword}
 %\include{foreword-ans}
+\ifrelease\else
 \include{process}
+\fi
 \include{members-2x}
 %\include{members-x3}
 

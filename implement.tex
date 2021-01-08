@@ -1,3 +1,7 @@
+% !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \annex{Reference Implementations} % I. (informative annex)
 \label{annex:implement}
 
@@ -54,7 +58,21 @@ given here.
 
 \impsection{block}{Block}					% I.7
 \impsection{double}{Double-Number}		% I.8
-\impsection{exception}{Exception}		% I.9
+
+\pagebreak
+\section{The Exception word set} % I.9
+\ifinline
+	\begin{editor}
+		In the \emph{review} (r) version of the document the
+		reference implementation for a word is given in the main
+		definition of the word.  The implementation of words in
+		the \textbf{Exception} word set will appear here in the final
+		document.
+	\end{editor}
+\else
+	\input{i-exception.sub}
+\fi
+
 \impsection{facility}{Facility}			% I.10
 \impsection{file}{File-Access}			% I.11
 \impsection{floating}{Floating-Point}	% I.12
@@ -64,6 +82,7 @@ given here.
 \impsection{search}{Search-Order}		% I.16
 \impsection{string}{String}				% I.17
 
+\pagebreak
 \section{The optional Extended-Character word set} % I.18
 \label{imp:xchar}
 

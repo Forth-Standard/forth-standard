@@ -1,3 +1,7 @@
+% !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \annex{Alphabetic list of words} % F (informative annex)}}}
 \label{annex:index}
 
@@ -5,6 +9,11 @@ In the following list, the last, four-digit, part of the reference
 number establishes a sequence corresponding to the alphabetic ordering
 of all standard words. The first two or three parts indicate the word
 set and glossary section in which the word is defined.
+
+At the end of the line, after the page number of the word defintion, are three
+letters indicating if the word has a presence in the R (rational), T (testing) and
+I (implementation) appenices (annex~\ref{annex:rationale}, \ref{annex:test}
+and \ref{annex:implement} respectivly).
 
 ~\par
 \makeatletter
@@ -28,8 +37,20 @@ set and glossary section in which the word is defined.
 	\setlength{\alpha@length}{0.3\textwidth}
 \fi
 
+\newcommand{\alpha@annex}[4]{%
+	\expandafter\ifx\csname r@#2:#3:#4\endcsname\relax\else%
+		\gdef\alpha@letter{#1}%
+		\expandafter\expandafter\expandafter\alpha@annex@inline\csname r@#2:#3:#4\endcsname%
+	\fi%
+}
+
+\newcommand{\alpha@annex@inline}[4]{%
+	\hyperref{}{}{#4}{\alpha@letter}%
+}
+
 \newcommand{\alpha@entry}[9]{%
-	\def\Prop{#7}
+	\def\Tmp{#7}
+	\ifx\Tmp\empty\else\@startrue\fi% x:reset
 	%
 	% Enable the change bar for * words
 	%
@@ -60,9 +81,9 @@ set and glossary section in which the word is defined.
 	%
 	\ifshowref
 		\makebox[6em]{%
-			\def\Tmpa{#8}%
-			\def\Tmpb{#4}%
-			\ifx\Tmpa\Tmpb\else\texttt{\small #8}\fi
+			\def\Tmp{#8}%
+			\def\Tmpa{#4}%
+			\ifx\Tmp\Tmpa\else\texttt{\small #8}\fi
 		}%
 	\fi%
 	%
@@ -89,6 +110,13 @@ set and glossary section in which the word is defined.
 	% Page reference
 	%
 	\makebox[3em]{\dotfill\pageref{#5:#8}}%
+	%
+	% Annex letters
+	%
+	\makebox[2pt]{}%
+	\makebox[8pt]{\alpha@annex{R}{rat}{#5}{#8}}%
+	\makebox[7pt]{\alpha@annex{T}{test}{#5}{#8}}%
+	\makebox[4pt]{\alpha@annex{I}{imp}{#5}{#8}}%
 	%
 	% Disable the change bar
 	%

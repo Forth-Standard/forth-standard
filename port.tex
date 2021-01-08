@@ -1,5 +1,7 @@
 % !TeX root = forth.tex
-% !TeX spell check = en_US
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \annex{Portability guide} % E.  (informative annex)
 \label{annex:port}
 
@@ -113,6 +115,7 @@ on regions of memory to use address units. One example is
 \word{ALLOT}.  By prefixing \word{ALLOT} with the appropriate scaling operator
 (\word{CELLS}, \word{CHARS}, etc.), space for any desired data structure can
 be allocated (see definition of array above). For example:
+
 \begin{quote}\ttfamily
 	\word{CREATE} ABUFFER 5 \word{CHARS} \word{ALLOT}
 	\word{p} \textrm{allot 5 character buffer})
@@ -162,9 +165,11 @@ address of the first thing after the character. However this may not
 be the address of \texttt{X} since we aligned the dictionary pointer
 between the \word{C,} and the \word{,}. The portable way to get the
 address of \texttt{X} is:
+
 \begin{quote}\ttfamily
 	ATABLE \word{CHAR+} \word{ALIGNED}
 \end{quote}
+
 \word{ALIGNED} adjusts the address on top of the stack to the first
 aligned address greater than or equal to its current value.
 
@@ -184,6 +189,7 @@ ordering).
 
 For example, the following code for a 16-bit little endian Forth
 would produce the answer 1:
+
 \begin{quote}\ttfamily
 	\word{VARIABLE} FOO
 	\quad 1 FOO \word{!}
@@ -206,49 +212,6 @@ This would be a good place to add a discussion
 of characters and the extended character word set.
 \end{editor}
 \fi
-
-\cbstart\patch{x:2-complement}
-\subsection[ALU organization]{\sout{ALU organization}} % E.3.2
-\label{port:ALU}
-
-\sout{%
-Different computers use different bit patterns to represent integers.
-Possibilities include binary representations (two's complement, one's
-complement, sign magnitude, etc.) and decimal representations (BCD,
-etc.). Each of these formats creates advantages and disadvantages in
-the design of a computer's arithmetic logic unit (ALU). The most
-commonly used representation, two's complement, is popular because of
-the simplicity of its addition and subtraction operations.
-}
-
-\sout{%
-Programmers who have grown up on two's complement machines tend to
-become intimate with their representation of numbers and take some
-properties of that representation for granted. For example, a trick
-to find the remainder of a number divided by a power of two is to mask
-off some bits with \word{AND}. A common application of this trick is
-to test a number for oddness using 1 \word{AND}. However, this will
-not work on a one's complement machine if the number is negative (a
-portable technique is 2 \word{MOD}).
-}
-
-\sout{%
-The remainder of this section is a (non-exhaustive) list of things to
-watch for when portability between machines with binary representations
-other than two's complement is desired.
-}
-
-\sout{%
-To convert a single-cell number to a double-cell number, Forth 94
-provided the operator \word{StoD}. To convert a double-cell number to
-single-cell, Forth programmers have traditionally used \word{DROP}.
-However, this trick doesn't work on sign-magnitude machines. For
-portability a \word[double]{DtoS} operator is available. Converting an
-unsigned single-cell number to a double-cell number can be done portably
-by pushing a zero on the stack.
-}
-\cbend
-
 
 \section{Forth system implementation} % E.4
 

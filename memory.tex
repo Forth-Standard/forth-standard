@@ -1,4 +1,7 @@
 % !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \chapter{The optional Memory-Allocation word set} % 14
 \wordlist{memory}
 
@@ -57,11 +60,13 @@ shall be appended to the label of Standard Programs that require
 the system to provide all of the Memory-Allocation and
 Memory-Al\-lo\-ca\-tion Extensions word sets.
 
+\pagebreak
+\vspace*{-6ex}
 \section{Glossary} % 14.6
 
 \subsection{Memory-Allocation words} % 14.6.1
 
-\vspace*{-1ex}
+
 \begin{worddef}{0707}{ALLOCATE}
 \item \stack{u}{a-addr ior}
 
@@ -81,7 +86,7 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	\wref{memory:FREE}{FREE},
 	\wref{memory:RESIZE}{RESIZE}.
 
-	\begin{testing}
+	\begin{testing} % T.14.6.1.0707 ALLOCATE
 		\ttfamily
 		\word{VARIABLE} datsp \\
 		\word{HERE} datsp \word{!}
@@ -102,8 +107,7 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
-\vspace*{-2ex}
+\vspace*{-3ex}
 \begin{worddef}{1605}{FREE}
 \item \stack{a-addr}{ior}
 
@@ -120,12 +124,13 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	\wref{memory:ALLOCATE}{ALLOCATE},
 	\wref{memory:RESIZE}{RESIZE}.
 
-	\begin{testing}
+	\begin{testing} % T.14.6.1.1605 FREE
 		\textdf{See \tref{memory:ALLOCATE}.}
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{6ex}
+\enlargethispage{4ex}
+\vspace*{-3ex}
 \begin{worddef}{2145}{RESIZE}
 \item \stack{a-addr_1 u}{a-addr_2 ior}
 
@@ -156,7 +161,8 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	\wref{memory:ALLOCATE}{ALLOCATE},
 	\wref{memory:FREE}{FREE}.
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.14.6.1.2145 RESIZE
+		\ttfamily
 		\test{50 \word{CHARS} \word{ALLOCATE} \word{SWAP} addr \word{!}}{0} \\
 		addr \word{@} 50 write-char-mem addr \word{@} 50 check-char-mem
 

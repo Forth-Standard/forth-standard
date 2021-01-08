@@ -1,4 +1,7 @@
 % !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \chapter{The optional String word set} % 17
 \wordlist{string}
 
@@ -92,7 +95,7 @@ to provide all of the String and String Extensions word sets.
 	is zero or the entire string consists of spaces, \param{u_2} is
 	zero.
 
-	\begin{testing}
+	\begin{testing} % T.17.6.1.0170 -TRAILING
 		\test{\word{:}  s8 \word{Sq} abc  " \word{;}}{} \\
 		\test{\word{:}  s9 \word{Sq}      " \word{;}}{} \\
 		\test{\word{:} s10 \word{Sq}    a " \word{;}}{}
@@ -127,7 +130,7 @@ to provide all of the String and String Extensions word sets.
 		-1 \word{/STRING} \word{TYPE} \word{bs} outputs ``BC''
 	\end{rationale}
 
-	\begin{testing}
+	\begin{testing} % T.17.6.1.0245 /STRING
 		\test{s1  5 \word{/STRING}}{s1 \word{SWAP} 5 \word{+} \word{SWAP} 5 \word{-}} \\
 		\test{s1 10 \word{/STRING} -4 \word{/STRING}}{s1 6 \word{/STRING}} \\
 		\test{s1  0 \word{/STRING}}{s1}
@@ -142,7 +145,8 @@ to provide all of the String and String Extensions word sets.
 	space in \param{u} consecutive character positions beginning at
 	\param{c-addr}.
 
-	\begin{testing} \ttfamily
+	\begin{testing} % T.17.6.1.0780 BLANK
+		\ttfamily
 		\word{:} s13 \word{Sq} aaaaa~~~~~~a" \word{;}						\tab[4.5] \word{bs} \textdf{Six spaces}
 
 		\test{\word{PAD} 25 \word{CHAR} a \word{FILL}}{}					\tab[2.8] \word{bs} \textdf{Fill PAD with 25 'a's} \\
@@ -151,7 +155,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-5ex}
+
 \begin{worddef}{0910}{CMOVE}[c-move]
 \item \stack{c-addr_1 c-addr_2 u}{}
 
@@ -170,16 +174,18 @@ to provide all of the String and String Extensions word sets.
 
 		Assume a character string at address
 		100: ``ABCD''. Then after
+
 		\begin{quote}\ttfamily
 			100 \word[core]{DUP} ~ \word[core]{CHAR+} ~ 3 \word{CMOVE}
 		\end{quote}
+
 		the string at address 100 is ``AAAA''.
 
 		See \rref{core:MOVE}{}.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
+\pagebreak
 \begin{worddef}[CMOVEtop]{0920}{CMOVE>}[c-move-up]
 \item \stack{c-addr_1 c-addr_2 u}{}
 
@@ -199,17 +205,20 @@ to provide all of the String and String Extensions word sets.
 
 		Assume a character string at address
 		100: ``ABCD''. Then after
+
 		\begin{quote}\ttfamily
 			100 \word[core]{DUP} \word[core]{CHAR+} \word[core]{SWAP}
 			3 \word{CMOVEtop}
 		\end{quote}
+
 		the string at address 100 is ``DDDD''.
 
 		See \rref{core:MOVE}{}.
+		\pagebreak
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{0935}{COMPARE}
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{n}
 
@@ -227,7 +236,8 @@ to provide all of the String and String Extensions word sets.
 	numeric value than the corresponding character in the string
 	specified by \param{c-addr_2 u_2} and one (1) otherwise.
 
-	\begin{testing}\ttfamily
+	\begin{testing} % T.17.6.1.0935 COMPARE
+		\ttfamily
 		\test{s1        s1 \word{COMPARE}}{ 0 } \\
 		\test{s1  PAD SWAP \word{CMOVE}  }{   } \tab \word{bs} \textdf{Copy s1 to PAD} \\
 		\test{s1  PAD OVER \word{COMPARE}}{ 0 } \\
@@ -256,7 +266,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2191}{SEARCH}
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_3 u_3 flag}
 
@@ -267,7 +277,7 @@ to provide all of the String and String Extensions word sets.
 	match and \param{c-addr_3} is \param{c-addr_1} and \param{u_3}
 	is \param{u_1}.
 
-	\begin{testing}
+	\begin{testing} % T.17.6.1.2191 SEARCH
 		\test{\word{:} s2 \word{Sq} abc"   \word{;}}{} \\
 		\test{\word{:} s3 \word{Sq} jklmn" \word{;}}{} \\
 		\test{\word{:} s4 \word{Sq} z"     \word{;}}{} \\
@@ -284,8 +294,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{6ex}
+
 \begin{worddef}{2212}{SLITERAL}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -308,6 +317,7 @@ to provide all of the String and String Extensions word sets.
 	\begin{rationale} % A.17.6.1.2212 SLITERAL
 		The current functionality of \wref{core:Sq}{S"} may be
 		provided by the following definition:
+
 		\setwordlist{core}
 		\begin{quote}\ttfamily
 			\word{:} \word{Sq} \word{p} "ccc<quote>" -{}- ) \\
@@ -318,18 +328,18 @@ to provide all of the String and String Extensions word sets.
 		\setwordlist{string}
 	\end{rationale}
 
-	\begin{testing}
+	\begin{testing} % T.17.6.1.2212 SLITERAL
 		\test{\word{:} s14 \word{[} s1 \word{]} \word{SLITERAL} \word{;}}{} \\
 		\test{s1 s14 \word{COMPARE}}{0} \\
 		\test{s1 s14 \word{ROT} \word{=} \word{ROT} \word{ROT} \word{=}}{<TRUE> <FALSE>}
 	\end{testing}
 \end{worddef}
 
-
+\pagebreak
 \subsection{String extension words} % 17.6.2
 \extended
 
-\begin{worddef}{2141}{REPLACES}
+\begin{worddef}{2141}{REPLACES}[]%[X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{}
 
 	Set the string \param{c-addr_1 u_1} as the text to substitute for
@@ -352,7 +362,7 @@ to provide all of the String and String Extensions word sets.
 	\xref{usage:compilation},
 	\wref{string:SUBSTITUTE}{}.
 
-	\begin{implement}
+	\begin{implement} % I.17.6.2.2141 REPLACES
 		\word{DECIMAL}
 
 		\word[tools]{[UNDEFINED]} place \word[tools]{[IF]} \\
@@ -410,12 +420,12 @@ to provide all of the String and String Extensions word sets.
 		\tab \word{THEN} \\
 		\tab place \tab[8] \word{bs} \textdf{copy as counted string} \\
 		\word{;}
+		\pagebreak
 	\end{implement}
 \end{worddef}
 
-\vspace*{-3ex}
 \enlargethispage{6ex}
-\begin{worddef}{2255}{SUBSTITUTE}
+\begin{worddef}{2255}{SUBSTITUTE}[]%[X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{c-addr_2 u_3 n}
 
 	Perform substitution on the string \param{c-addr_1 u_1} placing
@@ -459,7 +469,7 @@ to provide all of the String and String Extensions word sets.
 
 \see \wref{string:REPLACES}{}, \wref{string:UNESCAPE}{}, \rref{string:SUBSTITUTE}{}.
 
-	\begin{rationale}
+	\begin{rationale} % A.17.6.2.2255 SUBSTITUTE
 		Many applications need to be able to perform text substitution, for
 		example:
 
@@ -556,7 +566,7 @@ to provide all of the String and String Extensions word sets.
 		system may provide system-specific extensions.
 	\end{rationale}
 
-	\begin{implement}
+	\begin{implement} % I.17.6.2.2255 SUBSTITUTE
 		\textdf{Assuming \iref{string:REPLACES}{} has been defined.}
 
 		\word[tools]{[UNDEFINED]} bounds \word[tools]{[IF]} \\
@@ -647,7 +657,7 @@ to provide all of the String and String Extensions word sets.
 		\word{;}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.17.6.2.2255 SUBSTITUTE
 		\ttfamily
 		30 \word{CHARS} \word{BUFFER:} subbuff \word{bs} \textdf{Destination buffer}
 
@@ -687,7 +697,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\begin{worddef}{2375}{UNESCAPE}
+\begin{worddef}{2375}{UNESCAPE}[]%[X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2}{c-addr_2 u_2}
 
 	Replace each `\texttt{\%}' character in the input string
@@ -699,7 +709,7 @@ to provide all of the String and String Extensions word sets.
 
 \see \wref{string:SUBSTITUTE}{}.
 
-	\begin{implement}
+	\begin{implement} % I.17.6.2.2375 UNESCAPE
 		\word{:} \word{UNESCAPE} \word{bs} c-addr1 len1 c-addr2 -{}- c-addr2 len2 \\
 		\word{bs} \textdf{Replace each '\texttt{\%}' character in the input string \emph{c-addr$_1$ len$_1$} with two '\texttt{\%}' characters.} \\
 		\word{bs} \textdf{The output is represented by \emph{c-addr$_2$ len$_2$}.} \\
@@ -714,7 +724,7 @@ to provide all of the String and String Extensions word sets.
 		\word{;}
 	\end{implement}
 
-	\begin{testing}
+	\begin{testing} % T.17.6.2.2375 UNESCAPE
 		Using \texttt{subbuff}, \texttt{sub5} and \texttt{sub6} from \tref{string:SUBSTITUTE}{}.
 
 		\test{sub6 subbuff \word{UNESCAPE} sub5 \word{COMPARE}}{0}

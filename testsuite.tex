@@ -1,4 +1,7 @@
 % !TeX root = forth.tex
+% !TeX spellcheck = en_US
+% !TeX program = pdflatex
+
 \annex{Test Suite} % F. (informative annex)
 \label{annex:test}
 \setwordlist{core}
@@ -13,6 +16,7 @@ harness was extended by Anton Ertl and David N. Williams to
 allow the testing of floating point operations.
 The current revision of the test harness is available from the
 web site:
+
 \begin{quote}
 	\url{http://www.forth200x.org/tests/ttester.fs}
 \end{quote}
@@ -52,9 +56,11 @@ a set of expected results.  The syntax for each test starts with
 ``\texttt{T\{}'' (T-open brace) followed by a code sequence to test.
 This is followed by ``\texttt{->}'', the expected results, and
 ``\texttt{\}T}'' (close brace-T).  For example, the following:
+
 \begin{quote}
 	\test{1 1 \word{+}}{2}
 \end{quote}
+
 tests that one plus one indeed equals two.
 
 The ``\texttt{T\{}'' records the stack depth prior to the test code
@@ -903,7 +909,7 @@ to the existion words with the
 
 % ===================================================================
 
-\section{The optional Exception word set} % T.9
+\section{The Exception word set} % T.9
 \setwordlist{exception}
 \defersection{}
 
@@ -971,6 +977,7 @@ Finally \tref{file:RENAME-FILE}{} tests the extended words
 
 % ===================================================================
 
+\pagebreak
 \testsection{floating}{Floating-Point}	% T.12
 \testsection{local}{Locals}				% T.13
 
@@ -1016,6 +1023,7 @@ and to check the memory:
 
 The test \tref{memory:ALLOCATE}{} includes a test for \word{FREE}.
 
+\pagebreak
 \readtest{memory}
 
 % ===================================================================
@@ -1077,6 +1085,7 @@ Finally the \tref{search:ORDER}{} test can be performed.
 
 % ===================================================================
 
+\pagebreak
 \section{The optional String word set} % T.17
 \setwordlist{string}
 \defersection{}
