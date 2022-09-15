@@ -35,14 +35,14 @@ Check-Environment
 \ {1306}         - The Word number, a four digit number,
 \                  or {-} if a number has not yet been assigned
 \ {40}           - The Word sub-number (or {} if undefined)
-\ {EKEY>FKEY}    - The LaTeX frendly version of the word name
-\ {facility}     - The name of the wordset
-\ { EXT}         - If the word is part of the extended wordset or {}
-\                  if it is part of the core wordset
+\ {EKEY>FKEY}    - The LaTeX friendly version of the word name
+\ {facility}     - The name of the word set
+\ { EXT}         - If the word is part of the extended word set or {}
+\                  if it is part of the core word set
 \ {X:ekeys}      - The proposal that introduced the word (or {})
-\ {EKEYtoFKEY}   - A fendly cross-reference lable given to the word
-\                  (must not contain URL or PDF specail characters)
-\ {e-key-to-f-key} - The "english" produnciation for the word
+\ {EKEYtoFKEY}   - A friendly cross-reference label given to the word
+\                  (must not contain URL or PDF special characters)
+\ {e-key-to-f-key} - The "English" pronunciation for the word
 \                    (or {} if none given)
 
 \ ==== String handling ====
@@ -63,10 +63,10 @@ Check-Environment
     R>                        ( Return address of count )
 ;
 
-( Find the first occurance of the character /char/ in the string    )
+( Find the first occurrence of the character /char/ in the string   )
 ( identified by /c-addr/ /len/ starting at character position /n1/. )
-( If the chatacter is found, /flag/ will be true and /n2/ is the    )
-( position of the found chatacter.  Otherwise /flag/ is false and   )
+( If the character is found, /flag/ will be true and /n2/ is the    )
+( position of the found character.  Otherwise /flag/ is false and   )
 ( the value of /n2/ is unknown.  Should /n1/ be equal to or larger  )
 ( than /len/, /flag/ will be false.                                 )
 
@@ -99,12 +99,12 @@ Check-Environment
     THEN
 ;
 
-( Determin if /char/ is an ASCII alphebetic character )
+( Determine if /char/ is an ASCII alphabetic character )
 : ?ALPHA ( char -- flag )
     C>UPPER [CHAR] A [ CHAR Z 1+ ] LITERAL WITHIN
 ;
 
-( Convert the ASCII chatacter to its hexadecimal value )
+( Convert the ASCII character to its hexadecimal value )
 : C>HEX ( char -- n )
     C>UPPER [CHAR] 0 - DUP 9 > IF 7 - THEN
     DUP $F > ABORT" Invalid Hex character"
@@ -158,7 +158,8 @@ VARIABLE FirstNode
 \ ==== Line buffer ====
 
 128 CHARS CONSTANT /line-buffer
-/line-buffer 2 CHARS + BUFFER: line-buffer
+CREATE line-buffer
+/line-buffer 2 CHARS + ALLOT
 0 VALUE /line
 
 : nth-brace ( n1 -- n2 )
@@ -215,9 +216,9 @@ VARIABLE FirstNode
 ;
 
 ( Use the word number, word sub-number, chapter and sub section to  )
-( generate what should be a unique key for the word.  Unfortunatly, )
-( during the development of a wordset this is frequently 000000xx2  )
-( I.e., not unique, we therefor have to use the words name to help  )
+( generate what should be a unique key for the word.  Unfortunately,)
+( during the development of a word set this is frequently 000000xx2 )
+( I.e., not unique, we therefore have to use the words name to help )
 ( identify the correct location in the ordered index.               )
 
 : numb>node ( -- )
@@ -230,7 +231,7 @@ VARIABLE FirstNode
 ;
 
 \ ==== Copy word name into the current node ====
-\ WARNING: TeX commands are case sensative
+\ WARNING: TeX commands are case sensitive
 
 WORDLIST CONSTANT TeX-Wordlist
 GET-ORDER TeX-Wordlist SWAP 1+ SET-ORDER DEFINITIONS
@@ -273,13 +274,13 @@ GET-ORDER NIP 1- SET-ORDER DEFINITIONS
 \ copying the name into the node.  The only TeX commands we need
 \ to worry about are:
 \
-\ \char "xx   Replace with chatacter code xx (in hex)
+\ \char "xx   Replace with character code xx (in hex)
 \ \&          Replaced with &
 \ {xx}        Remove braces from text given just "xx"
 \
 \ As these all replace the original text with something smaller we
 \ can do it in-line before copying the name into the node.
-\ Remember the name is sourounded by braces.
+\ Remember the name is surrounded by braces.
 
 : name>node ( -- )
     line-buffer DUP 4 nth-brace CHARS +  ( dest src )
@@ -363,7 +364,7 @@ GET-ORDER NIP 1- SET-ORDER DEFINITIONS
 ;
 
 \ If we can regenerate the original unsorted file without any changes
-\ we know we heve read it in correctly.
+\ we know we have read it in correctly.
 
 : write-unsorted-index
     S" unsorted.out" W/O CREATE-FILE THROW
@@ -379,10 +380,10 @@ GET-ORDER NIP 1- SET-ORDER DEFINITIONS
     Index-File-ID CLOSE-FILE THROW
 ;
 
-\ ==== Compare index noces ====
+\ ==== Compare index nodes ====
 
-\ We are going to use an insersion sort to build an index of the
-\ nodes.  First we need to be able to compaire nodes.
+\ We are going to use an insertion sort to build an index of the
+\ nodes.  First we need to be able to compare nodes.
 
 : Node= ( node1 node2 -- n )
     \ n = 1  when node2 > node1
@@ -394,7 +395,7 @@ GET-ORDER NIP 1- SET-ORDER DEFINITIONS
     2DUP Node.Name @ COUNT
     ROT  Node.Name @ COUNT
     COMPARE DUP 0= IF
-        ( Where the same word appears in multiple wordsets we place )
+        ( Where the same word appears in multiple word sets we place)
         ( them in order of chapter, so use the calculated key to    )
         ( order them                                                )
         DROP

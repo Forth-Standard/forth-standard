@@ -9,7 +9,7 @@
 \section{Introduction} % F.1
 \label{test:intro}
 
-After the publication of the original ANS Forth document
+After the publication of the ANS Forth document
 (ANSI X3.215-1994), John Hayes developed a test suite, which
 included both a test harness and a suite of core tests.  The
 harness was extended by Anton Ertl and David N. Williams to
@@ -42,11 +42,11 @@ application words.  It can also be used to define tests of words in
 a standard-conforming implementation.
 % An example is the test of the ANS Forth CORE word set.
 
-Numerous people have contributed to the test cases given in section
-\ref{test:core} onwards.  The majority of the test cases have been
-taken from John Hayes' test suite\footnote{\url{http://www.taygeta.com/forth.html}},
-Gerry Jackson's test suite\footnote{\url{http://soton.mpeforth.com/flag/anstests/index.html}}
-and David Williams with significant contributions from the committee.
+%Numerous people have contributed to the test cases given in section
+%\ref{test:core} onwards.  The majority of the test cases have been
+%taken from John Hayes' test suite\footnote{\url{http://www.taygeta.com/forth.html}},
+%Gerry Jackson's test suite\footnote{\url{http://soton.mpeforth.com/flag/anstests/index.html}}
+%and David Williams with significant contributions from the committee.
 
 \section{Test Harness}
 \label{test:harness}
@@ -121,6 +121,535 @@ The internal word \texttt{ERROR} is vectored, through the
 the user (for example, to add a counter for the number of errors).
 The default action \texttt{ERROR1} can be used as a factor in the
 display of error reports.
+
+\section{Preliminary Testing}
+
+The test harness needs a lot of a Forth system to be working before
+the test programs can be run. This detracts from the progressive
+nature of the Hayes core tests where words are tested before being
+used. The tester requires the following to be fully working:
+
+\begin{itemize}
+\item 32 words from the Core word set
+\item 4 words from the Core Extension word set
+\item some rather complex colon definitions
+\item the word \word[file]{INCLUDED} or equivalent (not essential but desirable)
+\end{itemize}
+
+This is perfectly acceptable for a working system being re-tested but
+not for a new system under development where it is likely that the
+tester itself has to be debugged before testing can proceed. What is
+needed for such a system is a bootstrap program that assumes as
+little as possible of the system is proven and which tests, in a
+rudimentary way if not exhaustively, all the words used in the
+test harness.
+
+\subsection{Minimal requirements}
+
+At the very least for manual or automated testing, the Forth outer text
+interpreter has to be working which implies that the system can:
+
+\begin{itemize}
+\item accept a line of input from the keyboard/stdin
+\item display some text on the system monitor
+\item parse a line of text into space delimited words,
+	this implies that words \word{toIN} and \word{WORD} work and
+	that \word{SOURCE} is available
+\item search the Forth dictionary for a word,
+	hence \word{FIND} or a factor of \word{FIND} works
+\item if the word is found execute it
+\item otherwise recognize it as a valid integer and convert it using
+	\word{BASE}
+\item otherwise report an ``undefined word`` error or fail in some other way
+\item have working stacks (both data and return)
+\end{itemize}
+ 
+To avoid tests being typed in it helps if \word[file]{INCLUDED}
+works so that a file can be interpreted. That is not essential as
+input can be redirected from a file or pasted in to the command
+window but in the latter cases it can be difficult to inspect output
+from the tests due to the interpreted text being displayed
+between test results. A working \word[file]{INCLUDED} is
+recommended. This file is the documentation for the test program.
+
+\subsection{Assumptions}
+
+\renewcommand{\labelenumi}{\arabic{enumi})}
+\begin{enumerate}
+\item The outer text interpreter must be functional using at least
+	 input from a keyboard/stdin or, preferably a file using
+	 \word[file]{INCLUDED} or similar.
+	 In particular the words \word{SOURCE}, \word{TYPE} and
+	 \word{CR} need to work for the initial tests. 
+
+\item All core words used in the test harness are available for testing.
+
+\item In the early tests success will be verified by the user inspecting
+	a ``Pass'' message on the  system display until such time as
+	sufficient words have been defined and tested to enable
+	automated testing.
+
+\item If the early tests fail the Forth system reaction is unpredictable
+	and will probably do at least one of:
+	\begin{itemize}
+	\item display an error message e.g. ``undefined word''
+	\item crash in some way e.g. enter an infinite loop, access an
+		illegal address, stop running
+	\item ignore the failure and carry on so that the user can see that
+		the ``Pass'' message is missing.
+	\end{itemize}
+
+\item The system will only display the ``Pass'' message if the test
+	has actually passed.
+
+\item Tests on standard words will be rudimentary rather than
+	exhaustive, just testing the basic operation.
+\end{enumerate}
+
+\subsubsection{Restrictions}
+
+\begin{enumerate}
+\item Only words from the Core word set and will be used in the
+	test harness, any others will have to be defined unless already
+	defined - this particularly applies to the four Core Extension
+	words used in the harness. This restriction unfortunately
+	rules out the use of \word{'}, \word{.p}, \word{PARSE} and
+	a few other useful words.
+
+\item Only absolutely necessary words will be defined.
+
+\item Check that true and false flags are all 1's or 0's respectively.
+
+\item Make the tests progressive i.e. test before use.
+\end{enumerate}
+
+
+\subsubsection{The test sequence}
+
+\begin{enumerate}
+\item The first tests simply reproduce the line of Forth code,
+	if they display correctly then the test has passed, there
+	is no ``Pass'' message.
+
+\item The next few tests are checked by visual inspection of
+	the display which, if passed, will display a line beginning:
+	\begin{quote}
+		Pass \#nn: testing xyz
+	\end{quote}
+	where nn is a sequential number used to identify failures.
+	The first few tests have such a message in parentheses.
+
+\item As soon as possible a word is defined that checks the test
+	result and reports errors rather than relying on visual
+	inspection. To avoid having to use \word{IF} the check
+	manipulates \word{toIN} to implement an interpretive if.
+
+\item The error reporting from point 3 is used to test the rest
+	of the words used in the harness.
+
+\item If the four Core Extension words are not available they are defined.
+
+\item An error report is provided at the end.
+\end{enumerate}
+
+\subsubsection{Notes}
+
+If the system under test cannot include files then some way
+will have to be found to input the test programs into the system.
+This is system dependent and hence not considered further here.
+
+Initial testing of a result is done by the trick of incrementing
+\word{toIN}, a typical example is:
+
+\begin{quote} 
+     $\langle$some Forth code returning 0 or 1$\rangle$
+     \word{toIN} \word{+!} \texttt{x}\word{SOURCE} \word{TYPE}
+\end{quote}
+ 
+where 0 indicates failure and 1 success. If 0 then \word{toIN} is
+not incremented and the system tries to find \texttt{x}\word{SOURCE}
+and (hopefully) fails with an ``undefined word'' message. If 1
+then \word{toIN} is incremented and the word \word{SOURCE}
+is found and executed and the line displayed. Several variations
+of this theme are used in the test program. If the Forth code
+returns some other number then \word{toIN} may index outside
+the boundaries of the input buffer and the resulting behavior is
+unpredictable. In the early tests it is likely that the pass message
+for the test will not be displayed and the error detected by the user.
+After \word{=} is proved to return a well-formed flag and the error
+reporting word defined and used, this problem no longer exists.
+ 
+No assumptions have been made about the value held in
+\word{BASE} and integers bigger than 1 can't initially be used
+without possible error. Therefore \word{BASE} is set to 2 using
+the tested \word{1+} and then decimal 10 by using its binary value.
+The system is then in decimal mode and digits > 1 can be safely used.
+
+An error reporting word is needed, \word{.p} and \word{PARSE}
+would be useful except that they are in the Core Extension word set,
+only \word{WORD} is available to parse a message and must be used
+in a colon definition. Therefore simple colon definitions are tested
+by simply defining \texttt{.SRC} to display the line of source code.
+
+A word called \texttt{MSG} is defined to test \word{WORD} and
+\word{COUNT}, note that decimal 41 is the ASCII code for character
+`\texttt{)}'.  When tested the address returned by \word{WORD}
+is system dependent and cannot be tested, is dropped.
+
+A word \texttt{.MSG(} is defined to display parsed text thus removing
+the need to display the whole line of source code, reducing display
+noise. This is used until the error reporting word has been defined.
+
+Other notes are included in the relevant section.
+
+The final error report uses some low-level tricks to avoid having to
+use additional Forth words, this avoids the need to test such words
+before use.
+
+\subsubsection{Source}
+\begin{tt}
+\let\tilda\tilde
+\newcommand{\rem}[1]{\word{p} \textdf{#1} \textbf{)}}
+\newcommand{\lrem}[1]{\tilda\ \textdf{#1}}
+\newcommand{\q}[2][]{?#1\tilda\ \textdf{#2}}
+
+\word{CR} \word{CR} \word{SOURCE} \word{TYPE}
+\rem{Preliminary test} \word{CR} \\
+\word{SOURCE} \rem{These lines test \word{SOURCE}, \word{TYPE}, \word{CR} and parenthetic comments}
+\word{TYPE} \word{CR} \\
+\rem{The next line of output should be blank to test \word{CR}}
+\word{SOURCE} \word{TYPE} \word{CR} \word{CR}
+
+\textdf{%
+It is now assumed that \word{SOURCE}, \word{TYPE}, \word{CR} and comments
+work.  \word{SOURCE} and \word{TYPE} will be used to report test passes until
+something better can be defined to report errors.  Until then reporting failures
+will depend on the system under test and will usually be via reporting an
+unrecognized word or possibly the system crashing.  Tests will be numbered by
+\#n from now on to assist fault finding.  Test successes will be indicated by
+``Pass: \#n {\ldots}'' and failures by ``Error: \#n {\ldots}''.
+}
+
+\rem{Initial tests of \word{toIN} \word{+!} and \word{1+}} \\
+\rem{Check that \param{n} \word{toIN} \word{+!} acts as an interpretive \word{IF}, where $n >= 0$} \\
+\rem{Pass \#1: testing 0 \word{toIN} \word{+!}}
+	0 \word{toIN} \word{+!} \word{SOURCE} \word{TYPE} \word{CR} \\
+\rem{Pass \#2: testing 1 \word{toIN} \word{+!}}
+	1 \word{toIN} \word{+!} \texttt{x}\word{SOURCE} \word{TYPE} \word{CR} \\
+\rem{Pass \#3: testing \word{1+}}
+	1 \word{1+} \word{toIN} \word{+!} \texttt{xx}\word{SOURCE} \word{TYPE} \word{CR}
+
+\textdf{Test results can now be reported using the \word{toIN} \word{+!} trick
+to skip 1 or more characters.}
+
+\textdf{The value of \word{BASE} is unknown so it is not safe to use digits $> 1$,
+therefore it will be set it to binary and then decimal, this also tests \word{@}
+and \word{!}.}
+
+\rem{Pass \#4: testing \word{@} \word{!} \word{BASE}}
+	0 \word{1+} \word{1+} \word{BASE} \word{!} \word{BASE} \word{@} \word{toIN}
+	\word{+!} \texttt{xx}\word{SOURCE} \word{TYPE} \word{CR} \\
+\rem{Set \word{BASE} to decimal}
+	1010 \word{BASE} \word{!} \\
+\rem{Pass \#5: testing decimal \word{BASE}}
+	\word{BASE} \word{@} \word{toIN} \word{+!} \texttt{xxxxxxxxxx}\word{SOURCE}
+	\word{TYPE} \word{CR}
+
+\textdf{Now in decimal mode and digits >1 can be used.}
+
+\textdf{%
+A better error reporting word is needed, much like \word{.p} which can't
+be used as it is in the Core Extension word set, similarly \word{PARSE} can't
+be used either, only \word{WORD} is available to parse a message and must
+be used in a colon definition. Therefore a simple colon definition is tested next.}
+
+\rem{Pass \#6: testing \word{:} \word{;}}
+	\word{:} \texttt{.SRC} \word{SOURCE} \word{TYPE} \word{CR} \word{;}
+	6 \word{toIN} \word{+!} \texttt{xxxxxx.SRC} \\
+\rem{Pass \#7: testing number input}
+	19 \word{toIN} \word{+!} \texttt{xxxxxxxxxxxxxxxxxxx.SRC}
+
+\rem{\word{VARIABLE} is now tested as one will be used instead of \word{DROP}
+e.g. Y \word{!}}
+
+\rem{ Pass \#8: testing \word{VARIABLE}}
+	\word{VARIABLE} Y 2 Y \word{!} Y \word{@} \word{toIN} \word{+!} \texttt{xx.SRC}
+
+\word{:} MSG 41 \word{WORD} \word{COUNT} \word{;}  \rem{41 is the ASCII code for right parenthesis} \\
+\rem{Next test MSG leaves 2 items on the data stack}\\
+\rem{Pass \#9: testing \word{WORD} \word{COUNT}}
+	5 MSG abcdef) Y \word{!} Y \word{!} \word{toIN} \word{+!} xxxxx.SRC \\
+\rem{Pass \#10: testing \word{WORD} \word{COUNT}}
+	MSG ab) \word{toIN} \word{+!} xxY \word{!} .SRC
+
+\rem{For reporting success .MSG( is now defined}\\
+\word{:} .MSG( MSG \word{TYPE} \word{;} \\
+.MSG( \textdf{Pass \#11: testing \word{WORD} \word{COUNT} .MSG} ) \word{CR}
+
+\rem{To define an error reporting word, \word{=} \word{2*} \word{AND} will
+be needed, test them first}\\
+1 1 \word{=} \word{1+} \word{1+} \word{toIN} \word{+!} 
+	x.MSG( \textdf{Pass \#12: testing \word{=} returns all 1's (-1) for true} ) \word{CR}\\
+1 0 \word{=} \word{1+} \word{toIN} \word{+!}
+	x.MSG( \textdf{Pass \#13: testing \word{=} returns 0 for false} ) \word{CR} \\
+1 1 \word{=} -1 \word{=} \word{1+} \word{1+} \word{toIN} \word{+!}
+	x.MSG( \textdf{Pass \#14: testing -1 interpreted correctly} ) \word{CR}
+
+1 \word{2*} \word{toIN} \word{+!}
+	xx.MSG( \textdf{Pass \#15: testing \word{2*}} ) \word{CR} \\
+-1 \word{2*} \word{1+} \word{1+} \word{1+} \word{toIN} \word{+!}
+	x.MSG( \textdf{Pass \#16: testing \word{2*}} ) \word{CR}
+
+-1 -1 \word{AND} \word{1+} \word{1+} \word{toIN} \word{+!}
+	x.MSG( \textdf{Pass \#17: testing \word{AND}} ) \word{CR} \\
+-1  0 \word{AND} \word{1+} \word{toIN} \word{+!}
+	x.MSG( \textdf{Pass \#18: testing \word{AND}} ) \word{CR} \\
+6  -1 \word{AND} \word{toIN} \word{+!}
+	xxxxxx.MSG( \textdf{Pass \#19: testing \word{AND}} ) \word{CR}
+
+\rem{Define \texttt{\tilda} to use as a `to end of line' comment. \word{bs} cannot
+be used as it a Core Extension word} \\
+\word{:} \tilda \stack{}{} \word{SOURCE} \word{toIN} \word{!} Y \word{!} \word{;}
+
+\textdf{%
+Rather than relying on a pass message test words can now be defined to
+report errors in the event of a failure.  For convenience words \texttt{?T\tilda}
+and \texttt{?F\tilda} are defined together with a helper \texttt{?\tilda\tilda}
+to test for TRUE and FALSE.}
+
+\textdf{%
+Usage is: $\langle$test$\rangle$ \texttt{?T\tilda} Error \#n: $\langle$message$\rangle$ \\
+Success makes \word{toIN} index the \tilda in \texttt{?T\tilda} or \texttt{?F\tilda} to skip the error message.  Hence it is essential there is only 1 space between \texttt{?T\tilda} and Error.}
+
+\word{:} ?\tilda\tilda \stack{-1|0}{}  2* \word{toIN} \word{+!} ; \\
+\word{:} ?F\tilda \stack{f}{} ~0 \word{=} ?\tilda\tilda\ \word{;} \\
+\word{:} ?T\tilda \stack{f}{} -1 \word{=} ?\tilda\tilda\ \word{;}
+
+\rem{Errors will be counted}\\
+\word{VARIABLE} \#ERRS 0 \#ERRS \word{!} \\
+\word{:} Error ~1 \#ERRS \word{+!} -6 \word{toIN} \word{+!} .MSG( \word{CR} \word{;} \\
+\word{:} Pass ~-1 \#ERRS \word{+!} 1 \word{toIN} \word{+!} Error \word{;}
+\lrem{Pass is defined solely to test Error}
+
+-1 \q[F]{Pass \#20: testing \texttt{?F\tilda\ ?\tilda\tilda\ Pass Error}}\\
+-1 \q[T]{Error \#1: testing \texttt{?T\tilda\ ?\tilda\tilda\ \tilda}}
+
+\mbox{}~0  0 \word{=} \word{0=} \q[F]{Error \#2: testing \word{0=}}\\
+\mbox{}~1  0 \word{=} \word{0=} \q[T]{Error \#3: testing \word{0=}}\\
+\mbox{}-1 0 \word{=} \word{0=} \q[T]{Error \#4: testing \word{0=}}
+
+\mbox{}~0 ~0 \word{=} \q[T]{Error \#5: testing \word{=}}\\
+\mbox{}~0 ~1 \word{=} \q[F]{Error \#6: testing \word{=}}\\
+\mbox{}~1 ~0 \word{=} \q[F]{Error \#7: testing \word{=}}\\
+\mbox{}-1 ~1 \word{=} \q[F]{Error \#8: testing \word{=}}\\
+\mbox{}~1 -1 \word{=} \q[F]{Error \#9: testing \word{=}}
+
+\mbox{}-1 \word{0less} \q[T]{Error \#10: testing \word{0less}}\\
+\mbox{}~0 \word{0less} \q[F]{Error \#11: testing \word{0less}}\\
+\mbox{}~1 \word{0less} \q[F]{Error \#12: testing \word{0less}}
+
+\word{DEPTH} \word{1+} \word{DEPTH} \word{=} ?\tilda\tilda\ \textdf{Error \#13: testing \word{DEPTH}}
+
+\textdf{Up to now whether the data stack was empty or not hasn't mattered
+as long as it didn't overflow.  Now it will be emptied - also removing any
+unreported underflow.}
+
+\word{DEPTH} \word{0less} \word{0=} \word{1+} \word{toIN} \word{+!}
+	\tilda\ 0 0 \word{toIN} \word{!} \textdf{Remove any underflow} \\
+\word{DEPTH} \word{0=} \word{1+} \word{toIN} \word{+!}
+	\tilda\ Y \word{!}  0 \word{toIN} \word{!} \textdf{Empty the stack} \\
+\word{DEPTH} \word{0=} \q[T]{Error \#14: data stack not emptied}
+
+4 -5 \word{SWAP} 4 \word{=} \word{SWAP} -5 \word{=} \word{=}
+	 \q[T]{Error \#15: testing SWAP}\\
+111 222 333 444\\
+\word{DEPTH} 4 \word{=} \q[T]{Error \#16: testing DEPTH}\\
+444 \word{=} \word{SWAP} 333 \word{=} \word{=}
+	\word{DEPTH} 3 \word{=} \word{=} \q[T]{Error \#17: testing SWAP DEPTH} \\
+222 \word{=} \word{SWAP} 111 \word{=} \word{=}
+	\word{DEPTH} 1 \word{=} \word{=} \q[T]{Error \#18: testing SWAP DEPTH} \\
+\word{DEPTH} \word{0=} \q[T]{Error \#19: testing DEPTH = 0}
+
+\textdf{From now on the stack is expected to be empty after a test so
+\texttt{?\tilda} will be defined to include a check on the stack depth.
+Note that \texttt{?\tilda\tilda} was defined and used earlier instead of
+\texttt{?\tilda} to avoid (irritating) redefinition messages that many
+systems display had \texttt{?\tilda} simply been redefined.}
+
+\word{:} ?\tilda~ \stack{-1|0}{}
+	\word{DEPTH} \word{1} \word{=} \word{AND} ?\tilda\tilda\ 
+\word{;} \lrem{-1 test success, 0 test failure}
+
+123 -1 \q{Pass \#21: testing \texttt{?\tilda}}\\
+Y \word{!} \lrem{equivalent to \word{DROP}}
+
+\textdf{Testing the remaining Core words used in the harness, with the above
+definitions these are straightforward.}
+
+1 \word{DROP} \word{DEPTH} \word{0=} \q{Error \#20: testing \word{DROP}}\\
+123 \word{DUP} \word{=} \q{Error \#21: testing \word{DUP}}
+
+\mbox{}123 \word{qDUP} ~\word{=} \q{Error \#22: testing \word{qDUP}}\\
+\mbox{}~~0  \word{qDUP} \word{0=} \q{Error \#23: testing \word{qDUP}}
+
+\mbox{}~123 ~111 \word{+} ~234  \word{=}	\q{Error \#24: testing \word{+}}\\
+\mbox{}~123 -111 \word{+} ~~12   \word{=}	\q{Error \#25: testing \word{+}}\\
+\mbox{}-123 ~111 \word{+} ~-12  \word{=}	\q{Error \#26: testing \word{+}}\\
+\mbox{}-123 -111 \word{+} -234 \word{=}	\q{Error \#27: testing \word{+}}
+
+\mbox{}~-1 \word{NEGATE} ~~ 1 \word{=}		\q{Error \#28: testing \word{NEGATE}}\\
+\mbox{}~~0  \word{NEGATE} ~~~ \word{0=}		\q{Error \#29: testing \word{NEGATE}}\\
+\mbox{}987 \word{NEGATE} -987 \word{=}	\q{Error \#30: testing \word{NEGATE}}
+
+\word{HERE} \word{DEPTH} \word{SWAP} \word{DROP} 1 \word{=}
+	\q{Error \#31: testing \word{HERE}}\\
+\word{CREATE} TST1 \word{HERE} TST1 \word{=}
+	\q{Error \#32: testing \word{CREATE} \word{HERE}}
+
+\mbox{}~16  \word{ALLOT} \word{HERE} TST1 \word{NEGATE} \word{+} 16 \word{=}
+	\q{Error \#33: testing \word{ALLOT}}\\
+-16 \word{ALLOT} \word{HERE} TST1 \word{=}
+	\q{Error \#34: testing \word{ALLOT}}
+
+0 \word{CELLS} \word{0=}		\q{Error \#35: testing \word{CELLS}}\\
+1 \word{CELLS} \word{ALLOT} \word{HERE} TST1 \word{NEGATE} \word{+}
+	\word{VARIABLE} CSZ CSZ \word{!}\\
+CSZ \word{@} \word{0=} \word{0=}	\q{Error \#36: testing \word{CELLS}}\\
+3 \word{CELLS} CSZ \word{@} \word{DUP} \word{2*} \word{+} \word{=}
+	\q{Error \#37: testing \word{CELLS}}\\
+-3 CELLS CSZ @ DUP 2* + + 0= \q{Error \#38: testing \word{CELLS}}
+
+\word{:} TST2  \word{p} \textdf{f -{}- n} )
+	\word{DUP} \word{IF}
+		\word{1+}
+	\word{THEN}
+\word{;}\\
+0 TST2 ~\word{0=}	\q{Error \#39: testing \word{IF} \word{THEN}}\\
+1 TST2 2 \word{=}	\q{Error \#40: testing \word{IF} \word{THEN}}
+
+\word{:} TST3 \word{p} \textdf{n1 -{}- n2} )
+	\word{IF}
+		123
+	\word{ELSE}
+		234
+	\word{THEN}
+\word{;} \\
+0 TST3 234 \word{=}		\q{Error \#41: testing \word{IF} \word{ELSE} \word{THEN}}\\
+1 TST3 123 \word{=}		\q{Error \#42: testing \word{IF} \word{ELSE} \word{THEN}}
+
+\word{:} TST4 \word{p} \textdf{-{}- n} )
+	0 5 0 \word{DO}
+		\word{1+}
+	\word{LOOP}
+\word{;}\\
+TST4 5 \word{=}			\q{Error \#43: testing \word{DO} \word{LOOP}}
+
+\word{:} TST5 \word{p} \textdf{-{}- n} )
+	0 10 0 \word{DO}
+		\word{I} \word{+}
+	\word{LOOP}
+\word{;}\\
+TST5 45 \word{=}		\q{Error \#44: testing \word{I}}
+
+\word{:} TST6 \word{p} \textdf{-{}- n} )
+	0 10 0 \word{DO}
+		\word{DUP} 5 \word{=} \word{IF}
+			\word{LEAVE}
+		\word{ELSE}
+			\word{1+}
+		\word{THEN}
+	\word{LOOP}
+\word{;} \\
+TST6 5 \word{=} \q{Error \#45: testing \word{LEAVE}}
+
+\word{:} TST7 \word{p} \textdf{-{}- n1 n2} ) 123 \word{toR} 234 \word{Rfrom} \word{;}\\
+TST7 \word{NEGATE} \word{+} 111 \word{=} \q{Error \#46: testing >R R>}
+
+\word{:} TST8 \word{p} \textdf{-{}- ch} )  \word{[CHAR]} A \word{;} \\
+TST8 65 \word{=} \q{Error \#47: testing \word{[CHAR]}}
+
+\word{:} TST9  \word{p} \textdf{-{}-} )
+	\word{[CHAR]} s \word{[CHAR]} s \word{[CHAR]} a \word{[CHAR]} P
+	4 0 \word{DO} \word{EMIT} \word{LOOP}
+\word{;}\\
+TST9 .MSG( \textdf{\#22: testing \word{EMIT}} ) \word{CR}
+
+\word{:} TST10 \word{p} \textdf{-{}-} )
+	\word{Sq} \textdf{Pass \#23: testing S" \word{TYPE}
+	\word{[CHAR]}} " \word{EMIT} \word{CR}
+\word{;} TST10
+
+\textdf{The core test uses \word{CONSTANT} before it is tested therefore
+we test it here}
+
+1234 \word{CONSTANT} CTEST
+CTEST 1234 \word{=} \q{Error \#48: testing CONSTANT}
+
+\textdf{The harness uses some words from the Core extension word set.
+These will be conditionally defined following definition of a word called
+\texttt{?DEFINED} to determine whether these are already defined.}
+
+\word{VARIABLE} TIMM1 0 TIMM1 \word{!}\\
+\word{:} TIMM2  123 TIMM1 \word{!} \word{;} \word{IMMEDIATE}\\
+\word{:} TIMM3 TIMM2 \word{;} TIMM1 \word{@} 123 \word{=}
+\q{Error \#49: testing \word{IMMEDIATE}}
+
+\word{:} ?DEFINED \word{p} \textdf{"name" -{}- 0 | -1} )
+	32 \word{WORD} \word{FIND} \word{SWAP} \word{DROP} \word{0=} \word{0=}
+\word{;} \\
+?DEFINED \word{SWAP} \q{Error \#50: testing \word{FIND} ?DEFINED}\\
+?DEFINED <{}<no-such-word-hopefully>{}> \word{0=}
+	\q{Error \#51 testing \word{FIND} ?DEFINED}
+
+?DEFINED \word{bs} \q{\word{:} \word{bs} \texttt{\tilda}\ \word{;} \word{IMMEDIATE}}\\
+\word{bs} \textdf{Error \#52: testing \word{bs}}\\
+\word{:} TIMM4 \word{bs} \textdf{Error \#53: testing \word{bs} is \word{IMMEDIATE}} \\
+\word{;}
+
+\textdf{\word{TRUE} and \word{FALSE} are defined as colon definitions
+as they have been used more than \word{CONSTANT} above.}
+
+?DEFINED \word{TRUE}~		\q{\word{:} \word{TRUE} \texttt{1} \word{NEGATE} \word{;}}\\
+?DEFINED \word{FALSE}		\q{\word{:} \word{FALSE} \texttt{0} \word{;}}\\
+?DEFINED \word{HEX}~~		\q{\word{:} \word{HEX} 16 \word{BASE} \word{!} \word{;}}
+
+TRUE -1 \word{=}			\tab[4.8] \q{Error \#54: testing \word{TRUE}}\\
+FALSE \word{0=}  			\tab[5.4] \q{Error \#55: testing \word{FALSE}}\\
+10 \word{HEX} 0A \word{=}	\tab[3.6] \q{Error \#56: testing \word{HEX}}\\
+AB 0A \word{BASE} \word{!} 171 \word{=} \q{Error \#57: testing hex number}
+
+\lrem{Delete the ~ on the next 2 lines to check the final error report}\\
+\lrem{Error \#998: testing a deliberate failure}\\
+\lrem{Error \#999: testing a deliberate failure}
+
+\textdf{Describe the messages that should be seen.
+The previously defined \texttt{.MSG(} can be used for text messages.}
+
+\word{CR} .MSG( \textdf{Results:} ) \word{CR}\\
+\word{CR} .MSG( \textdf{Pass messages \#1 to \#23 should be displayed above})\\
+\word{CR} .MSG( \textdf{and no error messages}) \word{CR}
+
+\textdf{Finally display a message giving the number of tests that failed.
+This is complicated by the fact that untested words including \word{.p}
+\word{.q} and \word{d} cannot be used.  Also more colon definitions
+shouldn't be defined than are needed. To display a number, note that
+the number of errors will have one or two digits at most and an
+interpretive loop can be used to display those.}
+
+\word{CR}\\
+0 \#ERRS \word{@}\\
+\lrem{Loop to calculate the 10's digit (if any)}\\
+\word{DUP} \word{NEGATE} 9 \word{+} \word{0less} \word{NEGATE} \word{toIN} \word{+!}
+\word{p} -10 \word{+} \word{SWAP} \word{1+} \word{SWAP} 0 \word{toIN} \word{!} )\\
+\lrem{Display the error count}\\
+\word{SWAP} \word{qDUP} \word{0=} \word{1+} \word{toIN} \word{+!}
+\word{p} 48 \word{+} \word{EMIT} \word{p} ) 48 \word{+} \word{EMIT}
+
+.MSG(  \textdf{test}) \#ERRS \word{@} 1 \word{=} \word{1+} \word{toIN} \word{+!} \tilda\  .MSG( \textdf{s})\\
+.MSG(  \textdf{failed out of 57 additional tests}) \word{CR}
+
+\word{CR} \word{CR} .MSG( \textdf{-{-}- End of Preliminary Tests -{-}-} ) \word{CR}
+\end{tt}
 
 \subsection{Source}
 
@@ -721,7 +1250,7 @@ already been used, but it must still be tested fully.
 Testing of the input source can be quit dificult.  The tests
 require line breaks within the test:
 	\tref{core:SOURCE}{SOURCE},
-	\tref{core:toIN}{>IN}, and
+	\tref{core:toIN}{\word{toIN}}, and
 	\tref{core:WORD}{WORD}.
 
 \subsection{Number Patterns}

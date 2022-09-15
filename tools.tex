@@ -11,8 +11,17 @@ This optional word set contains words most often used during the
 development of applications.
 
 \section{Additional terms and notation} % 15.2
+\label{tools:terms}
 
-None.
+\remove{x:name-token}{None.}
+
+\begin{description}
+\item[\uline{name token:}]
+	\place{x:name-token}{An abstract data type identifying a named word.
+		Name tokens can be passed to words (such as \word{NAMEtoSTRING})
+		to obtain information about the named word.}
+\end{description}
+
 
 \section{Additional usage requirements} % 15.3
 
@@ -38,8 +47,7 @@ Append table \ref{tools:types} to table \ref{table:datatypes}.
   \end{center}
 \end{table}
 
-
-See: \xref[A.15.3.x Name token]{rat:tools:nt}{}.
+\remove{x:name-token}{See: \xref{rat:tools:nt}.}
 
 \subsection{Colon definition status}
 \label{tools:quotation-sys}
@@ -1309,9 +1317,14 @@ Typically used to build a custom text interpreter:
 	\stack{"<spaces>name {\ldots}"}{flag}
 
 	Skip leading space delimiters.  Parse name delimited by a space.
+\replace{x:defined-find}{%
 	Return a true flag if \param{name} is the name of a word that can
 	be found (according to the rules in the system's \word{FIND});
-	otherwise return a false flag.
+	otherwise return a false flag.%
+}{%
+	Try to find \param{name}.  Return a true flag if \param{name} can be
+	found; otherwise return a false flag.
+}
 	\word{[DEFINED]} is an immediate word.
 
 	\begin{implement} % I.15.6.2.2540.30 [DEFINED]
@@ -1344,6 +1357,9 @@ Typically used to build a custom text interpreter:
 			\word[tools]{[IF]} {\ldots}
 			\word[tools]{[ELSE]} {\ldots}
 			\word[tools]{[THEN]} {\ldots}
+
+		\place{ed20}{While it is possible to use \word{[ELSE]} without
+			a preceding \word{[IF]}, it is not recommended.}
 	\end{rationale}
 
 	\begin{implement} % I.15.6.2.2531 [ELSE]
