@@ -138,17 +138,10 @@ The following general ambiguous conditions could occur because of a
 combination of factors:
 
 \begin{itemize}
-\item \remove{ed19}{a \emph{name} is neither a valid definition name nor a valid
-	number during text interpretation} (\xref[The Forth text
-	interpreter]{usage:command});
-%
-\item \remove{ed19}{a definition name exceeded the maximum length allowed}
-	(\xref[Definition names]{usage:names});
 %
 \item addressing a region not listed in \xref[Data Space]{usage:dataspace};
 %
 \item argument type incompatible with specified input parameter,
-	\remove{ed19}{e.g., passing a \emph{flag} to a word expecting an \emph{n}}
 	(\xref[Data types]{usage:data});
 %
 \item attempting to obtain the execution token, (e.g., with
@@ -170,8 +163,6 @@ combination of factors:
 	overflow);
 %
 \item insufficient space for loop-control parameters;
-%
-\item \remove{ed19}{insufficient space in the dictionary;}
 %
 \item interpreting a word with undefined interpretation semantics;
 %

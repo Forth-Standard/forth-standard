@@ -13,13 +13,11 @@ development of applications.
 \section{Additional terms and notation} % 15.2
 \label{tools:terms}
 
-\remove{x:name-token}{None.}
-
 \begin{description}
-\item[\uline{name token:}]
-	\place{x:name-token}{An abstract data type identifying a named word.
-		Name tokens can be passed to words (such as \word{NAMEtoSTRING})
-		to obtain information about the named word.}
+\item[name token:]
+	An abstract data type identifying a named word.  Name tokens can be passed
+	to words (such as \word{NAMEtoSTRING}) to obtain information about the named
+	word.
 \end{description}
 
 
@@ -46,8 +44,6 @@ Append table \ref{tools:types} to table \ref{table:datatypes}.
 	\end{tabular}
   \end{center}
 \end{table}
-
-\remove{x:name-token}{See: \xref{rat:tools:nt}.}
 
 \subsection{Colon definition status}
 \label{tools:quotation-sys}
@@ -609,239 +605,230 @@ Extensions word sets.
 
 
 % -------------------------------------------------------------------
-\begin{worddef*}{}{FIND-NAME}[][x:find-name]
+\begin{worddef}{}{FIND-NAME}[][x:find-name]
 \item \stack{c-addr u}{nt|0}
 
-\place{x:find-name}{%
-	Find the definition identified by the string \param{c-addr u} in the current
-	search order.  Return its name token \param{nt}, if found, otherwise 0.
-}
+Find the definition identified by the string \param{c-addr u} in the current
+search order.  Return its name token \param{nt}, if found, otherwise 0.
 
 \see \wref{tools:FIND-NAME-IN}{},
 	\rref{tools:FIND-NAME}{}.
 
 \begin{rationale}
-\place{x:find-name}{%
 \word{FIND-NAME} and \word{FIND-NAME-IN} are natural factors of all words that
 look up words in the dictionary, such as \word{FIND}, \word{'}, \word{POSTPONE},
 the text interpreter, and \word[search]{SEARCH-WORDLIST}.  So implementing them
-does not cost additional code, only some refactoring effort.}
+does not cost additional code, only some refactoring effort.
 
-\place{x:find-name}{%
 This approach is not compatible with system that use separate word headers for the
 interpretation and compilation semantics of a word.  This problem already exists for
 the other words that deal with name tokens.  However, such systems have been known
 for a lest two decades, and have seen little to no uptake in standard systems.
-}
 
-\place{x:find-name}{%
 Typically used to build a custom text interpreter:
-}
 
 \setwordlist{tools}\ttfamily
-\uline{\word{:} get-name-token \word{p} "name<space>" -{}- nt )} \\
-\tab[1]	\uline{\word{PARSE-NAME} \word{FIND-NAME} \word{DUP} \word{0=} -13 \word{AND} \word[exception]{THROW}}\\
-\uline{\word{;}}
+\word{:} get-name-token \word{p} "name<space>" -{}- nt ) \\
+\tab[1]	\word{PARSE-NAME} \word{FIND-NAME} \word{DUP} \word{0=} -13 \word{AND} \word[exception]{THROW}\\
+\word{;}
 
-\uline{\word{:} \word{'} get-name-token  \word{NAMEtoINTERPRET} \word{;}}
+\word{:} \word{'} get-name-token  \word{NAMEtoINTERPRET} \word{;}
 
-\uline{\word{:} \word{POSTPONE}} \\
-\tab[1]	\uline{get-name-token \word{NAMEtoCOMPILE} \word{SWAP} \word{POSTPONE} \word{LITERAL} \word{COMPILE,}}\\
-\uline{\word{;} \word{IMMEDIATE}}
+\word{:} \word{POSTPONE} \\
+\tab[1]	get-name-token \word{NAMEtoCOMPILE} \word{SWAP} \word{POSTPONE} \word{LITERAL} \word{COMPILE,}\\
+\word{;} \word{IMMEDIATE}
 
-\uline{\word{bs} \textdf{User-defined text interpreter}} \\
-\uline{\word{:} interpret-word} \\
-\tab[1]	\uline{\word{PARSE-NAME} \word{2DUP} \word{FIND-NAME} \word{IF}} \\
-\tab[2]		\uline{\word{NIP} \word{NIP} \word{STATE} \word{@} \word{IF}} \\
-\tab[3]			\uline{\word{NAMEtoCOMPILE}} \\
-\tab[2]		\uline{\word{ELSE}} \\
-\tab[3]			\uline{\word{NAMEtoINTERPRET}} \\
-\tab[2]		\uline{\word{THEN} \word{EXECUTE}} \\
-\tab[1]	\uline{\word{ELSE}} \\
-\tab[2]		\uline{\word{bs} \textdf{Process numbers}} \\
-\tab[2]		\uline{0 0 \word{2SWAP} \word{toNUMBER} \word{2DROP}} \\
-\tab[2]		\uline{\word{STATE} \word{@} \word{IF} \word[double]{2LITERAL} \word{THEN}} \\
-\tab[1]	\uline{\word{THEN}} \\
-\uline{\word{;}}
+\word{bs} \textdf{User-defined text interpreter} \\
+\word{:} interpret-word \\
+\tab[1]	\word{PARSE-NAME} \word{2DUP} \word{FIND-NAME} \word{IF} \\
+\tab[2]		\word{NIP} \word{NIP} \word{STATE} \word{@} \word{IF} \\
+\tab[3]			\word{NAMEtoCOMPILE} \\
+\tab[2]		\word{ELSE} \\
+\tab[3]			\word{NAMEtoINTERPRET} \\
+\tab[2]		\word{THEN} \word{EXECUTE} \\
+\tab[1]	\word{ELSE} \\
+\tab[2]		\word{bs} \textdf{Process numbers} \\
+\tab[2]		0 0 \word{2SWAP} \word{toNUMBER} \word{2DROP} \\
+\tab[2]		\word{STATE} \word{@} \word{IF} \word[double]{2LITERAL} \word{THEN} \\
+\tab[1]	\word{THEN} \\
+\word{;}
 \end{rationale}
 
 \begin{implement}
-\uline{\word{bs} \word{FIND-NAME} \textdf{and} \word{FIND-NAME-IN}}\\
-\uline{\word{bs} \textdf{mostly by Bernd Paysan}} \\
-\uline{\word{bs} \textdf{\url{http://forth-standard.org/standard/core/FIND\#reply-146}}}
+\word{bs} \word{FIND-NAME} \textdf{and} \word{FIND-NAME-IN}\\
+\word{bs} \textdf{mostly by Bernd Paysan} \\
+\word{bs} \textdf{\url{http://forth-standard.org/standard/core/FIND\#reply-146}}
 
-\uline{\word{[DEFINED]} gforth \word{[IF]}} \\
-\tab \uline{\word{bs} \textdf{Gforth's implementation of \word[local]{b:} {\ldots} uses a system-specific}}\\
-\tab \uline{\word{bs} \textdf{wordlist that does not work with the \word{FIND-NAME-IN} below.}}\\
-\tab \uline{\word{bs} \textdf{Therefore we use the reference implementation of \word[local]{b:} instead.}}\\
-\tab \uline{\word[file]{REQUIRE} locals.fs}\\
-\uline{\word{[THEN]}}
+\word{[DEFINED]} gforth \word{[IF]} \\
+\tab \word{bs} \textdf{Gforth's implementation of \word[local]{b:} {\ldots} uses a system-specific}\\
+\tab \word{bs} \textdf{wordlist that does not work with the \word{FIND-NAME-IN} below.}\\
+\tab \word{bs} \textdf{Therefore we use the reference implementation of \word[local]{b:} instead.}\\
+\tab \word[file]{REQUIRE} locals.fs\\
+\word{[THEN]}
 
-\uline{\word{[UNDEFINED]} bounds \word{[IF]}} \\
-\tab[1]	\uline{\word{:} bounds \word{p} \textdf{addr len -{}- addr+len addr} )} \\
-\tab[2]		\uline{\word{OVER} \word{+} \word{SWAP}} \\
-\tab[1]	\uline{\word{;}} \\
-\uline{\word{[THEN]}}
+\word{[UNDEFINED]} bounds \word{[IF]} \\
+\tab[1]	\word{:} bounds \word{p} \textdf{addr len -{}- addr+len addr} ) \\
+\tab[2]		\word{OVER} \word{+} \word{SWAP} \\
+\tab[1]	\word{;} \\
+\word{[THEN]}
 
-\uline{\word{[UNDEFINED]} -rot \word{[IF]}} \\
-\tab[1]	\uline{\word{:} -rot \word{p} \textdf{a b c -{}- c a b} )} \\
-\tab[2]		\uline{\word{ROT} \word{ROT}} \\
-\tab[1] \uline{\word{;}} \\
-\uline{\word{[THEN]}}
+\word{[UNDEFINED]} -rot \word{[IF]} \\
+\tab[1]	\word{:} -rot \word{p} \textdf{a b c -{}- c a b} ) \\
+\tab[2]		\word{ROT} \word{ROT} \\
+\tab[1] \word{;} \\
+\word{[THEN]}
 
-\uline{\word{:} >lower \word{p} \textdf{c1 -{}- c2} )} \\
-\tab \uline{\word{DUP} 'A' 'Z' \word{1+} \word{WITHIN} \word{BL} \word{AND} \word{OR}} \\
-\uline{\word{;}}
+\word{:} >lower \word{p} \textdf{c1 -{}- c2} ) \\
+\tab \word{DUP} 'A' 'Z' \word{1+} \word{WITHIN} \word{BL} \word{AND} \word{OR} \\
+\word{;}
 
-\uline{\word{:} istr= \word{p} \textdf{addr1 u1 addr2 u2 -{}- flag} )} \\
-\tab[1]	\uline{\word{ROT} \word{OVER} \word{ne} \word{IF} \word{2DROP} \word{FALSE} \word{EXIT} \word{THEN}} \\
-\tab[1]	\uline{bounds \word{qDO}} \\
-\tab[2]		\uline{\word{DUP} \word{C@} >lower \word{I} \word{C@} >lower \word{ne} \word{IF} \word{DROP} \word{FALSE} \word{UNLOOP} \word{EXIT} \word{THEN}} \\
-\tab[2]		\uline{\word{1+}} \\
-\tab[1]	\uline{\word{LOOP}} \\
-\tab[1]	\uline{\word{DROP} \word{TRUE}} \\
-\uline{\word{;}}
+\word{:} istr= \word{p} \textdf{addr1 u1 addr2 u2 -{}- flag} ) \\
+\tab[1]	\word{ROT} \word{OVER} \word{ne} \word{IF} \word{2DROP} \word{FALSE} \word{EXIT} \word{THEN} \\
+\tab[1]	bounds \word{qDO} \\
+\tab[2]		\word{DUP} \word{C@} >lower \word{I} \word{C@} >lower \word{ne} \word{IF} \word{DROP} \word{FALSE} \word{UNLOOP} \word{EXIT} \word{THEN} \\
+\tab[2]		\word{1+} \\
+\tab[1]	\word{LOOP} \\
+\tab[1]	\word{DROP} \word{TRUE} \\
+\word{;}
 
-\uline{\word{:} find-name-in-helper  \word{p} \textdf{addr u wid -{}- nt / 0} )} \\
-\tab[1]	\uline{\word{DUP} \word{toR} \word{NAMEtoSTRING} \word{2OVER} istr= \word{IF}} \\
-\tab[2]		\uline{\word{ROT} \word{DROP} \word{Rfrom} -rot \word{FALSE}} \\
-\tab[1]	\uline{\word{ELSE}} \\
-\tab[2]		\uline{\word{Rfrom} \word{DROP} \word{TRUE}} \\
-\tab[1]	\uline{\word{THEN}} \\
-\uline{\word{;}}
+\word{:} find-name-in-helper  \word{p} \textdf{addr u wid -{}- nt / 0} ) \\
+\tab[1]	\word{DUP} \word{toR} \word{NAMEtoSTRING} \word{2OVER} istr= \word{IF} \\
+\tab[2]		\word{ROT} \word{DROP} \word{Rfrom} -rot \word{FALSE} \\
+\tab[1]	\word{ELSE} \\
+\tab[2]		\word{Rfrom} \word{DROP} \word{TRUE} \\
+\tab[1]	\word{THEN} \\
+\word{;}
 
-\uline{\word{:} \word{FIND-NAME-IN} \word{p} \textdf{addr u wid -{}- nt / 0} )}\\
-\tab[1]	\uline{\word{toR} 0 -rot \word{Rfrom}} \\
-\tab[1]	\uline{\word{[']} find-name-in-helper} \\
-\tab[1]	\uline{\word{SWAP} \word{TRAVERSE-WORDLIST} \word{2DROP}} \\
-\uline{\word{;}}
+\word{:} \word{FIND-NAME-IN} \word{p} \textdf{addr u wid -{}- nt / 0} )\\
+\tab[1]	\word{toR} 0 -rot \word{Rfrom} \\
+\tab[1]	\word{[']} find-name-in-helper \\
+\tab[1]	\word{SWAP} \word{TRAVERSE-WORDLIST} \word{2DROP} \\
+\word{;}
   
-\uline{\word{:} \word{FIND-NAME} \word[local]{b:} c-addr u -{}- nt | 0 :\}} \\
-\tab[1]	\uline{\word[search]{GET-ORDER}} \\
-\tab[1]	\uline{\word{[DEFINED]} gforth \word{[IF]}} \\
-\tab[2]		\uline{\word{[} \word{'} locals \word{toBODY} \word{]} \word{LITERAL} \word{SWAP} \word{1+}} \\
-\tab[1]	\uline{\word{[ELSE]} \word{[DEFINED]} vfxforth \word{[IF]}} \\
-\tab[3]			\uline{\word{[} \word{'} localvars \word{toBODY} 3 \word{CELLS} \word{+} \word{]} \word{LITERAL} \word{SWAP} \word{1+}} \\
-\tab[2]		\uline{\word{[ELSE]}} \\
-\tab[3]			\uline{\word{CR} \word{.p} \textdf{warning:\ find-name does not find locals} )}\\
-\tab[2]		\uline{\word{[THEN]}} \\
-\tab[1]	\uline{\word{[THEN]}} \\
-\tab[1]	\uline{0 \word{SWAP} 0 \word{qDO} \word{p} \textdf{widn {\ldots} widi nt | 0})} \\
-\tab[2]		\uline{\word{DUP} \word{0=} \word{IF}} \\
-\tab[3]			\uline{\word{DROP} c-addr u \word{ROT} \word{FIND-NAME-IN}} \\
-\tab[2]		\uline{\word{ELSE}} \\
-\tab[3]			\uline{\word{NIP}} \\
-\tab[2]		\uline{\word{THEN}} \\
-\tab[1]	\uline{\word{LOOP}} \\
-\uline{\word{;}}
+\word{:} \word{FIND-NAME} \word[local]{b:} c-addr u -{}- nt | 0 :\} \\
+\tab[1]	\word[search]{GET-ORDER} \\
+\tab[1]	\word{[DEFINED]} gforth \word{[IF]} \\
+\tab[2]		\word{[} \word{'} locals \word{toBODY} \word{]} \word{LITERAL} \word{SWAP} \word{1+} \\
+\tab[1]	\word{[ELSE]} \word{[DEFINED]} vfxforth \word{[IF]} \\
+\tab[3]			\word{[} \word{'} localvars \word{toBODY} 3 \word{CELLS} \word{+} \word{]} \word{LITERAL} \word{SWAP} \word{1+} \\
+\tab[2]		\word{[ELSE]} \\
+\tab[3]			\word{CR} \word{.p} \textdf{warning:\ find-name does not find locals} )\\
+\tab[2]		\word{[THEN]} \\
+\tab[1]	\word{[THEN]} \\
+\tab[1]	0 \word{SWAP} 0 \word{qDO} \word{p} \textdf{widn {\ldots} widi nt | 0}) \\
+\tab[2]		\word{DUP} \word{0=} \word{IF} \\
+\tab[3]			\word{DROP} c-addr u \word{ROT} \word{FIND-NAME-IN} \\
+\tab[2]		\word{ELSE} \\
+\tab[3]			\word{NIP} \\
+\tab[2]		\word{THEN} \\
+\tab[1]	\word{LOOP} \\
+\word{;}
 \end{implement}
 
 \begin{testing}\ttfamily\setwordlist{tools}
-\uline{\word{:} >lower \word{p} c1 -{}- c2 )} \\
-\tab[1] \uline{\word{DUP} 'A' 'Z' \word{1+} \word{WITHIN} \word{BL} \word{AND} \word{OR}} \\
-\uline{\word{;}}
+\word{:} >lower \word{p} c1 -{}- c2 ) \\
+\tab[1] \word{DUP} 'A' 'Z' \word{1+} \word{WITHIN} \word{BL} \word{AND} \word{OR} \\
+\word{;}
 
-\uline{\word{:} istr= \word{p} addr1 u1 addr2 u2 -{}- flag )} \\
-\tab[1] \uline{\word{ROT} \word{OVER} \word{ne} \word{IF}
+\word{:} istr= \word{p} addr1 u1 addr2 u2 -{}- flag ) \\
+\tab[1] \word{ROT} \word{OVER} \word{ne} \word{IF}
 			\word{2DROP} \word{DROP} \word{FALSE}  \word{EXIT}
-		\word{THEN}} \\
-\tab[1]	\uline{bounds \word{qDO}} \\
-\tab[2]		\uline{\word{DUP} \word{C@} >lower \word{I} \word{C@} >lower \word{ne} \word{IF}  					\word{DROP} \word{FALSE} \word{UNLOOP} \word{EXIT} \word{THEN}} \\
-\tab[2] \uline{\word{1+}} \\
-\tab[1] \uline{\word{LOOP}} \\
-\tab[1] \uline{\word{DROP} \word{TRUE}} \\
-\uline{\word{;}}
+		\word{THEN} \\
+\tab[1]	bounds \word{qDO} \\
+\tab[2]		\word{DUP} \word{C@} >lower \word{I} \word{C@} >lower \word{ne} \word{IF}  					\word{DROP} \word{FALSE} \word{UNLOOP} \word{EXIT} \word{THEN} \\
+\tab[2] \word{1+} \\
+\tab[1] \word{LOOP} \\
+\tab[1] \word{DROP} \word{TRUE} \\
+\word{;}
 
-\uline{\word[search]{WORDLIST} \word{CONSTANT} fntwl} \\
-\uline{\word[search]{GET-CURRENT} fntwl \word[search]{SET-CURRENT}} \\
-\uline{\word{:} fnt1 25 \word{;}} \\
-\uline{\word{:} fnt2 34 \word{;} \word{IMMEDIATE}} \\
-\uline{\word[search]{SET-CURRENT}} \\
+\word[search]{WORDLIST} \word{CONSTANT} fntwl \\
+\word[search]{GET-CURRENT} fntwl \word[search]{SET-CURRENT} \\
+\word{:} fnt1 25 \word{;} \\
+\word{:} fnt2 34 \word{;} \word{IMMEDIATE} \\
+\word[search]{SET-CURRENT} \\
 
-\uline{\test{\word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoINTERPRET} \word{EXECUTE}}{25}}
+\test{\word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoINTERPRET} \word{EXECUTE}}{25}
 
-\test{\uline{\word{:} fnt3}\\
-\tab[1]	\uline{\word{[} \word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{]}}\\
-	\uline{\word{;} fnt3}}{\uline{25}} \\
-\uline{\test{\word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoSTRING} \word{Sq} fnt1" istr=}{\word{TRUE}}}
+\test{\word{:} fnt3\\
+\tab[1]	\word{[} \word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{]}\\
+	\word{;} fnt3}{25} \\
+\test{\word{Sq} fnt1" fntwl \word{FIND-NAME-IN} \word{NAMEtoSTRING} \word{Sq} fnt1" istr=}{\word{TRUE}}
 
-\uline{\test{\word{Sq} fnt2" fntwl \word{FIND-NAME-IN} \word{NAMEtoINTERPRET} \word{EXECUTE}}{34}} \\
-\uline{\test{\word{Sq} fnt2" fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE}   \word{EXECUTE}}{34}}
+\test{\word{Sq} fnt2" fntwl \word{FIND-NAME-IN} \word{NAMEtoINTERPRET} \word{EXECUTE}}{34} \\
+\test{\word{Sq} fnt2" fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE}   \word{EXECUTE}}{34}
 
-\uline{\word{:} fnt4 fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{;} \word{IMMEDIATE}}
+\word{:} fnt4 fntwl \word{FIND-NAME-IN} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{;} \word{IMMEDIATE}
 
-\uline{\test{\word{Sq} fnt2" \word{]} fnt4 \word{[}}{34}}
+\test{\word{Sq} fnt2" \word{]} fnt4 \word{[}}{34}
 
-\uline{\test{\word{Sq} fnt0" fntwl \word{FIND-NAME-IN}}{0}}
+\test{\word{Sq} fnt0" fntwl \word{FIND-NAME-IN}}{0}
 
-\uline{\word{:} fnt5 42 \word{;}} \\
-\uline{\word{:} fnt6 51 \word{;} \word{IMMEDIATE}}
+\word{:} fnt5 42 \word{;} \\
+\word{:} fnt6 51 \word{;} \word{IMMEDIATE}
 
-\uline{\test{\word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE}}{42}}
+\test{\word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE}}{42}
 
-\test{\uline{\word{:} fnt7} \\
-\tab[1] \uline{\word{[} \word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{]}} \\
-	\uline{\word{;} fnt7}}{\uline{42}}
+\test{\word{:} fnt7 \\
+\tab[1] \word{[} \word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{]} \\
+	\word{;} fnt7}{42}
 
-\uline{\test{\word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoSTRING} \word{Sq} fnt5" istr=}{\word{TRUE}}}
+\test{\word{Sq} fnt5" \word{FIND-NAME} \word{NAMEtoSTRING} \word{Sq} fnt5" istr=}{\word{TRUE}}
 
-\uline{\test{\word{Sq} fnt6" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE}}{51}} \\
-\uline{\test{\word{Sq} fnt6" \word{FIND-NAME} \word{NAMEtoCOMPILE}   \word{EXECUTE}}{51}}
+\test{\word{Sq} fnt6" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE}}{51} \\
+\test{\word{Sq} fnt6" \word{FIND-NAME} \word{NAMEtoCOMPILE}   \word{EXECUTE}}{51}
 
-\uline{\word{:} fnt8 \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{;} \word{IMMEDIATE}}
+\word{:} fnt8 \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} \word{;} \word{IMMEDIATE}
 
-\uline{\test{\word{Sq} fnt6" \word{]} fnt8 \word{[}}{51}} \\
-\uline{\test{\word{Sq} fnt0hfshkshdfskl" \word{FIND-NAME}}{0}} \\
-\uline{\test{\word{Seq} s\bs{"}" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE} bla" \word{Sq} bla" \word[string]{COMPARE}}{0}}
+\test{\word{Sq} fnt6" \word{]} fnt8 \word{[}}{51} \\
+\test{\word{Sq} fnt0hfshkshdfskl" \word{FIND-NAME}}{0} \\
+\test{\word{Seq} s\bs{"}" \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE} bla" \word{Sq} bla" \word[string]{COMPARE}}{0}
 
-\uline{\test{\word{:} fnt9 \word{[} \word{Seq} s\bs{"}" \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} ble" \word{]} \word{;}}{}} \\
-\uline{\test{fnt9 \word{Sq} ble" \word[string]{COMPARE}}{0}}
+\test{\word{:} fnt9 \word{[} \word{Seq} s\bs{"}" \word{FIND-NAME} \word{NAMEtoCOMPILE} \word{EXECUTE} ble" \word{]} \word{;}}{} \\
+\test{fnt9 \word{Sq} ble" \word[string]{COMPARE}}{0}
 
-\uline{\word{:} fnta \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE} \word{;} \word{IMMEDIATE}} \\
-\uline{\test{\word{:} fntb \word{[} \word{Seq} s\bs{"}" \word{]} fnta bli" \word[double]{2LITERAL} \word{;}}{}} \\
-\uline{\test{fntb \word{Sq} bli" \word[string]{COMPARE}}{0}}
+\word{:} fnta \word{FIND-NAME} \word{NAMEtoINTERPRET} \word{EXECUTE} \word{;} \word{IMMEDIATE} \\
+\test{\word{:} fntb \word{[} \word{Seq} s\bs{"}" \word{]} fnta bli" \word[double]{2LITERAL} \word{;}}{} \\
+\test{fntb \word{Sq} bli" \word[string]{COMPARE}}{0}
 
-\uline{\word{:} fnt-interpret-words \word{p} {\ldots} \textdf{"rest-of-line"} -{}- {\ldots} )} \\
-\tab[1] \uline{\word{BEGIN}} \\
-\tab[2]		\uline{\word{PARSE-NAME} \word{DUP}} \\
-\tab[1] \uline{\word{WHILE}} \\
-\tab[2]		\uline{\word{2DUP} \word{FIND-NAME} \word{DUP} \word{0=} -13 \word{AND} \word[exception]{THROW}} \\
-\tab[2]		\uline{\word{NIP} \word{NIP} \word{STATE} \word{@} \word{IF}} \\
-\tab[3]			\uline{\word{NAMEtoCOMPILE}} \\
-\tab[2]		\uline{\word{ELSE}} \\
-\tab[3]			\uline{\word{NAMEtoINTERPRET}} \\
-\tab[2]		\uline{\word{THEN} \word{EXECUTE}} \\
-\tab[1]	\uline{\word{REPEAT} \word{2DROP}} \\
-\uline{\word{;}}
+\word{:} fnt-interpret-words \word{p} {\ldots} \textdf{"rest-of-line"} -{}- {\ldots} ) \\
+\tab[1] \word{BEGIN} \\
+\tab[2]		\word{PARSE-NAME} \word{DUP} \\
+\tab[1] \word{WHILE} \\
+\tab[2]		\word{2DUP} \word{FIND-NAME} \word{DUP} \word{0=} -13 \word{AND} \word[exception]{THROW} \\
+\tab[2]		\word{NIP} \word{NIP} \word{STATE} \word{@} \word{IF} \\
+\tab[3]			\word{NAMEtoCOMPILE} \\
+\tab[2]		\word{ELSE} \\
+\tab[3]			\word{NAMEtoINTERPRET} \\
+\tab[2]		\word{THEN} \word{EXECUTE} \\
+\tab[1]	\word{REPEAT} \word{2DROP} \\
+\word{;}
 
-\test{\uline{fnt-interpret-words fnt5 \word{VALUE} fntd fnt6 \word{TO} fntd}\\
-\uline{fntd}}{\uline{fnt6}} \\
-\uline{\test{fnt-interpret-words \word{Sq} yyy" \word{:} fnte \word{Sq} yyy" \word{;} fnte \word[string]{COMPARE}}{0}} \\
-\test{\uline{fnt-interpret-words \word{:} fntc \word[local]{b:} xa xb :\}} \\
-\tab \uline{xa xb \word{TO} xa \word{TO} xb xa xb \word{Sq} xxx"}\\
-\uline{\word{;} \word{Sq} xxx" \word{SWAP} fntc \word[string]{COMPARE}}}{\uline{0}}
+\test{fnt-interpret-words fnt5 \word{VALUE} fntd fnt6 \word{TO} fntd\\
+fntd}{fnt6} \\
+\test{fnt-interpret-words \word{Sq} yyy" \word{:} fnte \word{Sq} yyy" \word{;} fnte \word[string]{COMPARE}}{0} \\
+\test{fnt-interpret-words \word{:} fntc \word[local]{b:} xa xb :\} \\
+\tab xa xb \word{TO} xa \word{TO} xb xa xb \word{Sq} xxx"\\
+\word{;} \word{Sq} xxx" \word{SWAP} fntc \word[string]{COMPARE}}{0}
 \end{testing}
-\end{worddef*}
+\end{worddef}
 
-\begin{worddef*}{}{FIND-NAME-IN}[][x:find-name]
+\begin{worddef}{}{FIND-NAME-IN}[][x:find-name]
 \item \stack{c-addr u wid}{nt|0}
 
-\place{x:find-name}{%
-	Find the definition identified by the string \param{c-addr u} in the wordlist
-	\param{wid}.  Return its name token \param{nt}, if found, otherwise 0.
-}
+Find the definition identified by the string \param{c-addr u} in the wordlist
+\param{wid}.  Return its name token \param{nt}, if found, otherwise 0.
 
 \see \xref{tools:FIND-NAME}{},
 	\rref{tools:FIND-NAME}{}.
 
 \begin{implement}
-	\uline{\textdf{See \iref{tools:FIND-NAME}{}.}}
+	\textdf{See \iref{tools:FIND-NAME}{}.}
 \end{implement}
 
 \begin{testing}
-	\uline{\textdf{See \iref{tools:FIND-NAME}{}.}}
+	\textdf{See \iref{tools:FIND-NAME}{}.}
 \end{testing}
-\end{worddef*}
+\end{worddef}
 % -------------------------------------------------------------------
 
 \begin{worddef}{1580}{FORGET}
@@ -1317,14 +1304,8 @@ Typically used to build a custom text interpreter:
 	\stack{"<spaces>name {\ldots}"}{flag}
 
 	Skip leading space delimiters.  Parse name delimited by a space.
-\replace{x:defined-find}{%
-	Return a true flag if \param{name} is the name of a word that can
-	be found (according to the rules in the system's \word{FIND});
-	otherwise return a false flag.%
-}{%
 	Try to find \param{name}.  Return a true flag if \param{name} can be
 	found; otherwise return a false flag.
-}
 	\word{[DEFINED]} is an immediate word.
 
 	\begin{implement} % I.15.6.2.2540.30 [DEFINED]
@@ -1358,8 +1339,8 @@ Typically used to build a custom text interpreter:
 			\word[tools]{[ELSE]} {\ldots}
 			\word[tools]{[THEN]} {\ldots}
 
-		\place{ed20}{While it is possible to use \word{[ELSE]} without
-			a preceding \word{[IF]}, it is not recommended.}
+		While it is possible to use \word{[ELSE]} without
+			a preceding \word{[IF]}, it is not recommended.
 	\end{rationale}
 
 	\begin{implement} % I.15.6.2.2531 [ELSE]
