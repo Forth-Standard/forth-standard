@@ -1177,24 +1177,27 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 
 \see \wref{core:IMMEDIATE}{}.
 
+	\makeatletter\@startrue\makeatother
 	\begin{implement} % I.15.6.2.2264 SYNONYM
+		\cbstart\patch{x:synonym}%
 		\dffamily
-		The implementation of \word{SYNONYM} requires detailed knowledge
+		\sout{The implementation of \word{SYNONYM} requires detailed knowledge
 		of the host implementation, which is one reason why it should be
 		standardized.  The implementation below is imperfect and specific
 		to VFX Forth, in particular \texttt{HIDE}, \texttt{REVEAL} and
-		\texttt{IMMEDIATE?} are non-standard words.
+		\texttt{IMMEDIATE?} are non-standard words.}
 
 		\begin{quote}\ttfamily
-			\word{:} \word{SYNONYM} \word{bs} "newname" "oldname" -{-} \\
-			\word{bs} \textdf{Create a new definition which redirects to an existing one.} \\
-			\tab \word{CREATE} \word{IMMEDIATE} \\
-			\tab[2] HIDE \word{'} \word{,} REVEAL \\
-			\tab \word{DOES} \\
-			\tab[2] \word{@}  \word{STATE} \word{@} \word{0=} \word{OVER} IMMEDIATE? \word{OR} \\
-			\tab[2] \word{IF} \word{EXECUTE} \word{ELSE} \word{COMPILE,} \word{THEN} \\
-			\word{;}
+			\sout{\word{:} \word{SYNONYM} \word{bs} "newname" "oldname" -{-}} \\
+			\sout{\word{bs} \textdf{Create a new definition which redirects to an existing one.}} \\
+			\tab \sout{\word{CREATE} \word{IMMEDIATE}} \\
+			\tab[2] \sout{HIDE \word{'} \word{,} REVEAL} \\
+			\tab \sout{\word{DOES}} \\
+			\tab[2] \sout{\word{@}  \word{STATE} \word{@} \word{0=} \word{OVER} IMMEDIATE? \word{OR}} \\
+			\tab[2] \sout{\word{IF} \word{EXECUTE} \word{ELSE} \word{COMPILE,} \word{THEN}} \\
+			\sout{\word{;}}
 		\end{quote}
+		\cbend
 		\vspace*{-1ex}
 	\end{implement}
 \end{worddef}
