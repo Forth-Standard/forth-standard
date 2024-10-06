@@ -127,6 +127,9 @@ non-contiguous if \word{WORDLIST} is executed between allocations.
 	(\wref{search:PREVIOUS}{PREVIOUS});
 \item too many word lists in search order
 	(\wref{search:ALSO}{ALSO}).
+\item \place{x:vocabulary}{%
+	executing a vocabulary word when the search order is empty
+	(\wref{search:VOCABULARY}{}).}
 \end{itemize}
 
 \subsubsection{Other system documentation} % 16.4.1.3
@@ -565,3 +568,50 @@ sets.
 		\word{;}
 	\end{implement}
 \end{worddef}
+
+
+\begin{worddef*}{}{VOCABULARY}[][x:vocabulary]
+\item \stack{"<spaces>name"}{}
+
+	Skip leading space delimiter. Parse \param{name} delimited by a space.
+	Create a definition for \param{name} with the execution semantics defined
+	below. Create a new empty word list \param{wid} and associate it with
+	\param{name}.
+
+	\param{name} is referred to as a "vocabulary".
+
+\item[\param{name} Execution:]
+	\stack{}{}
+
+	Replace the first word list in the search order by the word list \param{wid}
+	that is associated with the \param{name} vocabulary. An ambiguous condition
+	exists if there are no word lists in the search order.
+
+\see \wref{search:WORDLIST}{},
+	\wref{search:ALSO}{},
+	\wref{search:PREVIOUS}{},
+	\wref{search:GET-ORDER}{},
+	\wref{search:SET-ORDER}{}.
+
+	\begin{rationale}
+		\word{VOCABULARY} has been used in traditional Forth systems and it is
+		available with consistent behaviour in many standard systems. First included
+		in Forth-83, it was removed from Forth-94 to promote the use of
+		\word{WORDLIST}.
+
+	\item[Typical use:]
+		\word{VOCABULARY} Assembler
+
+		To set search order to {\ldots} \word{FORTH} Assembler use: \\
+		\word{ONLY} \word{FORTH} \word{ALSO} Assembler \word{DEFINITIONS}
+	\end{rationale}
+
+	\begin{implement}
+		\word{:} \word{VOCABULARY} \word{p} -{}- ) \\
+		\tab \word{WORDLIST} \word{CREATE} \word{,} \\
+		\tab \word{DOES} \word{p} -{}- ) \\
+		\tab[2] \word{@} \word{toR} \word{GET-ORDER} \word{SWAP} \word{DROP} \\
+		\tab[2] \word{Rfrom} \word{SWAP} \word{SET-ORDER} \\
+		\word{;}
+	\end{implement}
+\end{worddef*}
