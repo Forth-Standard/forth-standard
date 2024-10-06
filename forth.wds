@@ -119,6 +119,7 @@
 \indexentry{6.1}{0990}{}{CR}{core}{}{}{CR}{c-r}
 \indexentry{6.1}{1000}{}{CREATE}{core}{}{}{CREATE}{}
 \indexentry{11.6.1}{1010}{}{CREATE-FILE}{file}{}{}{CREATE-FILE}{}
+\indexentry*{15.6.2}{}{}{CS-DROP}{tools}{ EXT}{x:cs-drop}{CS-DROP}{c-s-drop}
 \indexentry{15.6.2}{1015}{}{CS-PICK}{tools}{ EXT}{}{CS-PICK}{c-s-pick}
 \indexentry{15.6.2}{1020}{}{CS-ROLL}{tools}{ EXT}{}{CS-ROLL}{c-s-roll}
 \indexentry{8.6.1}{1040}{}{D+}{double}{}{}{D+}{d-plus}
@@ -411,6 +412,7 @@
 \indexentry{7.6.1}{2400}{}{UPDATE}{block}{}{}{UPDATE}{}
 \indexentry{6.2}{2405}{}{VALUE}{core}{ EXT}{}{VALUE}{}
 \indexentry{6.1}{2410}{}{VARIABLE}{core}{}{}{VARIABLE}{}
+\indexentry*{16.6.2}{}{}{VOCABULARY}{search}{ EXT}{x:vocabulary}{VOCABULARY}{}
 \indexentry{11.6.1}{2425}{}{W/O}{file}{}{}{W/O}{w-o}
 \indexentry{6.1}{2430}{}{WHILE}{core}{}{}{WHILE}{}
 \indexentry{6.2}{2440}{}{WITHIN}{core}{ EXT}{}{WITHIN}{}

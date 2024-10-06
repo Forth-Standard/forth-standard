@@ -384,6 +384,7 @@
 \indexentry{15.6.2}{0740}{}{ASSEMBLER}{tools}{ EXT}{}{ASSEMBLER}{}
 \indexentry{15.6.2}{0830}{}{BYE}{tools}{ EXT}{}{BYE}{}
 \indexentry{15.6.2}{0930}{}{CODE}{tools}{ EXT}{}{CODE}{}
+\indexentry*{15.6.2}{}{}{CS-DROP}{tools}{ EXT}{x:cs-drop}{CS-DROP}{c-s-drop}
 \indexentry{15.6.2}{1015}{}{CS-PICK}{tools}{ EXT}{}{CS-PICK}{c-s-pick}
 \indexentry{15.6.2}{1020}{}{CS-ROLL}{tools}{ EXT}{}{CS-ROLL}{c-s-roll}
 \indexentry{15.6.2}{1300}{}{EDITOR}{tools}{ EXT}{}{EDITOR}{}
@@ -418,6 +419,7 @@
 \indexentry{16.6.2}{1965}{}{ONLY}{search}{ EXT}{}{ONLY}{}
 \indexentry{16.6.2}{1985}{}{ORDER}{search}{ EXT}{}{ORDER}{}
 \indexentry{16.6.2}{2037}{}{PREVIOUS}{search}{ EXT}{}{PREVIOUS}{}
+\indexentry*{16.6.2}{}{}{VOCABULARY}{search}{ EXT}{x:vocabulary}{VOCABULARY}{}
 \indexentry{17.6.1}{0170}{}{-TRAILING}{string}{}{}{-TRAILING}{dash-trailing}
 \indexentry{17.6.1}{0245}{}{/STRING}{string}{}{}{/STRING}{slash-string}
 \indexentry{17.6.1}{0780}{}{BLANK}{string}{}{}{BLANK}{}
