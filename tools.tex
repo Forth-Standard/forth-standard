@@ -1208,7 +1208,9 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 \item \stack{i*x xt wid}{j*x}
 
 	Remove \param{wid} and \param{xt} from the stack.  Execute
-	\param{xt} once for every word in the wordlist \param{wid},
+	\param{xt} once for every
+	\replace{x:traverse-wordlist}{word}{named word that can be found} in the
+	wordlist \param{wid},
 	passing the name token \param{nt} of the word to \param{xt},
 	until the wordlist is exhausted or until \param{xt} returns false.
 
@@ -1220,6 +1222,11 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	does not put any items other than \param{nt} on the stack when
 	calling \param{xt}, so that \param{xt} can access and modify the
 	rest of the stack.
+
+\place{x:traverse-wordlist}{%
+	Every word that used to be findable in the wordlist but no longer is
+	(because antoher word with the same name has been defined in the
+	wordlist) is returned by \word{TRAVERSE-WORDLIST}.}
 
 	\word{TRAVERSE-WORDLIST} may visit words in any order, with one
 	exception: words with the same name are called in the order
