@@ -424,15 +424,117 @@ Extensions word sets.
 \end{worddef}
 
 
+\begin{worddef*}{}{CS-DROP}[c-s-drop][x:cs-drop]
+\interpret
+	Interpretation semantics for this word are undefined.
+
+\execute
+	\stack[C]{dest | orig}{}
+
+	Remove the top item (\param{dest | orig}) from the control-flow stack.
+	An ambiguous condition exists if the top control-flow stack item is
+	not a \param{dest} or an \param{orig}, or if the cotnrol-flow stack is empty.
+
+\see \rref{tools:CS-DROP}{}, \iref{tools:CS-DROP}{}, \tref{tools:CS-DROP}{}.
+
+	\begin{rationale} % A.15.6.2.---- CS-DROP
+		Typical use of \word{CS-DROP} would be in defining elaborated control
+		structures.  For example, a control structure that allows to branch multiple
+		times to an enclosing \word{BEGIN}.  A corresponding \texttt{END} drops
+		the \word{BEGIN}-generated control-flow dest item:
+
+		\begin{quote}\ttfamily
+			\word{:} END \word{p} C: dest -{}- ) \word{bs} Compilation \\
+			\tab[3] \word{p} -{}- ) \tab[4.1] \word{bs} Run-time \\
+			\tab \word{CS-DROP} \\
+			\word{;} \word{IMMEDIATE}
+
+			\word{:} ?\{ \word{p} C: dest -{}- dest orig dest) \word{bs} Compilation \\
+			\tab[2.4] \word{p} f -{}- ) \tab[11.4] \word{bs} Run-time \\
+			\tab \word{POSTPONE} \word{IF} \\
+			\tab 1 \word{CS-PICK} \\
+			\word{;} \word{IMMEDIATE}
+
+			\word{:} \}* \word{p} C: orig dest -{}- ) \\
+			\tab \word{POSTPONE} \word{AGAIN} \\
+			\tab \word{POSTPONE} \word{THEN} \\
+			\word{;} \word{IMMEDIATE}
+		\end{quote}
+
+		This can can then be used to define the Collatz function:
+
+		\begin{quote}\ttfamily
+			\word{:} even?\ \word{p} u -- f ) \\
+			\tab 1 \word{AND} \word{0=} \\
+			\word{;}
+
+			\word{:} collatz \word{p} u -- ) \\
+			\tab \word{BEGIN} \\
+			\tab[2] \word{DUP} \word{d} \\
+			\tab[2] \word{DUP} even?\  ?\{ 2 \word{/} \}* \\
+			\tab[2] \word{DUP} 1 \word{ne} ?\{ 3 \word{*} \word{1+} \}* \\
+			\tab END \\
+			\tab \word{DROP} \\
+			\word{;}
+
+			19 collatz ( 19 58 29 88 44 22 11 34 17 52 26 13 40 20 10 5 16 8 4 2 1  ok )
+		\end{quote}
+	\end{rationale}
+
+	\begin{implement} % E.15.6.2.---- CS-DROP
+		\textdf{As standard systems are:}
+		\begin{itemize}
+		\item \textdf{free to choose an appropriate representation for control-flow
+			dest and orig stack items and also}
+		\item \textdf{free to choose the data stack as control-flow stack or a
+			 separate stack for this purpose}
+		\end{itemize}
+		\textdf{a standard definition for \word{CS-DROP} cannot be provided.
+		However, it can be implemented easily with system specifing knowledge
+		of the control-stack implementation.}
+
+		\textdf{For example SwiftForth uses a single cell on the data stack as
+		control-flow items. A SwiftForth definition for \word{CS-DROP}, which also
+		takes compiler security into account would be:}
+
+		\word{:} \word{CS-DROP} \word{p} C: orig | dest -{}- ) \\
+		\tab \word{DROP} -BAL \\
+		\word{;}
+
+		\textdf{Win32Forth uses two cells on the data stack as control-flow items
+		including one cell for compiler security, so a defintion for \word{CS-DROP}
+		in Win32Forth would be:}
+
+		\word{:} \word{CS-DROP} \word{p} C: orig | dest -{}- ) \\
+		\tab 1 ?PAIRS \word{DROP} \\
+		\word{;}
+	\end{implement}
+
+	\begin{testing} % F.15.6.2.---- CS-DROP
+		The following test assures that \word{CS-DROP} actually removes the top
+		most dest item from the control-flow stack:
+
+		\test{99 \word{:NONAME} \word{BEGIN} \word{[} \word{CS-DROP} \word{]} \word{;} \word{DROP}}{99}
+
+		The following test assures that \word{CS-PICK} can copy \param{orig} items
+		and \word{CS-DROP} can discard them:
+
+		\test{99 \word{:NONAME} \word{IF} \word{[} 1 \word{CS-PICK} \word{CS-DROP} \word{]} \word{THEN} \word{;} \word{DROP}}{99}
+	\end{testing}
+\end{worddef*}
+
 \begin{worddef}{1015}{CS-PICK}[c-s-pick]
 \interpret
 	Interpretation semantics for this word are undefined.
 
 \execute
-	\stack[C]{dest_u {\ldots} orig_0|dest_0}{dest_u {\ldots} orig_0|dest_0 dest_u}
+\cbstart\patch{x:cs-drop}%
+	\stack[C]{\sout{dest_u {\ldots} orig_0 | dest_0}}{\sout{dest_u {\ldots} orig_0 | dest_0 dest_u}} \\
+	\stack[C]{\uline{dest$_u$ | orig$_u$ {\ldots} dest$_0$ | orig$_0$}}{\uline{dest$_u$ | orig$_u$ {\ldots} dest$_0$ | orig$_0$ dest$_u$ | orig$_u$}} \\
 	\stack[S]{u}{}
+\cbend
 
-	Remove \param{u}. Copy \param{dest_u} to the top of the
+	Remove \param{u}. Copy \replace{x:cs-drop}{\param{dest$_u$}}{\param{orig$_u$ | dest$_u$}} to the top of the
 	control-flow stack. An ambiguous condition exists if there
 	are less than \param{u}+1 items, each of which shall be an
 	\param{orig} or \param{dest}, on the control-flow stack
