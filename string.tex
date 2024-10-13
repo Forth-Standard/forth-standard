@@ -354,9 +354,12 @@ to provide all of the String and String Extensions word sets.
 	\item The name of a substitution contains the `\texttt{\%}' delimiter character.
 	\end{itemize}
 
-	\word{REPLACES} may allot data space and create a definition.  This breaks
-	the contiguity of the current region and is not allowed during compilation
-	of a colon definition
+	\word{REPLACES} may allot data space and create a definition. 
+	\replace{x:revise-replaces}{This breaks the contiguity of the current
+	 region and is not allowed during compilation of a colon definition}{%
+	Therefore \word{REPLACES} cannot be performed duing compilation
+	of a colon definition or in the middle of a contiguous regsion}.
+
   
 \see \xref{usage:contiguous},
 	\xref{usage:compilation},
