@@ -266,6 +266,9 @@ to provide all of the Locals and Locals Extensions word sets.
 	name with \word{TO}. An ambiguous condition exists when local is
 	executed while in interpretation state.
 
+\item[\uline{\emph{local} Interpretation}]
+	\place{x:local-interpret}{Interpretation semantics for this word are undefined.}
+
 \runtime[\word{TO} \param{local}] \stack{x}{}
 
 	Assign the value \param{x} to the local value \param{local}.
@@ -385,8 +388,12 @@ to provide all of the Locals and Locals Extensions word sets.
 	\stack{}{x}
 
 	Place the value currently assigned to \param{name} on the stack.
+\remove{x:local-interpret}{%
 	An ambiguous condition exists when \param{name} is executed while
-	in interpretation state.
+	in interpretation state.}
+
+\item[\uline{\emph{name} Interpretation}]
+	\place{x:local-interpret}{Interpreation semantics of \param{name} are undefined.}
 
 \runtime[\word{TO} \param{name}]
 	\stack{x}{}
