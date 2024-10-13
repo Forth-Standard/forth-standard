@@ -1177,7 +1177,6 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 
 \see \wref{core:IMMEDIATE}{}.
 
-	\makeatletter\@startrue\makeatother
 	\begin{implement} % I.15.6.2.2264 SYNONYM
 		\cbstart\patch{x:synonym}%
 		\dffamily
@@ -1447,7 +1446,9 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	immediate word.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\rref{tools:[ELSE]}{}.
+	\place{ed21}{\wref{tools:[IF]}{}, \wref{tools:[THEN]}{},}
+	\rref{tools:[ELSE]}{}%
+	\place{x:simplify-[else]}{, \iref{tools:[ELSE]}{}, \tref{tools:[THEN]}{}}.
 
 	\begin{rationale} % A.15.6.2.2531 [ELSE]
 		Typical use:
@@ -1461,28 +1462,49 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	\end{rationale}
 
 	\begin{implement} % I.15.6.2.2531 [ELSE]
+\cbstart\patch{x:simplify-[else]}
 		\begin{tabbing}
 		  \tab \= \tab \= \tab \= \tab \= \tab \= \tab \= \hspace*{17em} \= \kill
 		  \+
-		  \word{:} \word{[ELSE]} \word{p} -{}- ) \\
-			\+ 1 \word{BEGIN}																		\>\>\>\>\>\>\word{bs}~level \\
-				\+ \word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}	\>\>\>\>\>	\word{bs}~level adr len \\
-					\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}			\>\>\>\>	\word{bs}~level adr len \\
-					\> \word{2DROP} \word{1+}														\>\>\>		\word{bs}~level' \\
-					\+ \word{ELSE}																	\>\>\>\>	\word{bs}~level adr len \\
-						\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}	\>\>\>		\word{bs}~level adr len \\
-						\> \word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}		\>\>		\word{bs}~level' \\
-						\word{ELSE}																	\>\>\>		\word{bs}~level adr len \\
-						\> \word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}				\>\>		\word{bs}~level \\
-						\>\> \word{1-}																\>			\word{bs}~level' \\
-						\>\word{THEN} \\
-						\- \word{THEN} \\
-					\- \word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}		\>\>\>\>	\word{bs}~level' \\
-				\- \word{REPEAT} \word{2DROP}														\>\>\>\>\>	\word{bs}~level \\
-			\word{REFILL} \word{0=} \word{UNTIL}													\>\>\>\>\>\>\word{bs}~level \\
-			\- \word{DROP} \\
-		\word{;} \word{IMMEDIATE}
+		  \sout{\word{:} \word{[ELSE]} \word{p} -{}- )} \\
+			\+ \sout{1 \word{BEGIN}}																		\>\>\>\>\>\>\sout{\word{bs}~level}\\
+				\+ \sout{\word{BEGIN} ~ \word{BL} \word{WORD} \word{COUNT} ~ \word{DUP} ~ \word{WHILE}}	\>\>\>\>\>	\sout{\word{bs}~level adr len} \\
+					\sout{\word{2DUP} \word{Sq} [IF]"  \word[string]{COMPARE} \word{0=} \word{IF}}			\>\>\>\>	\sout{\word{bs}~level adr len} \\
+					\> \sout{\word{2DROP} \word{1+}}														\>\>\>		\sout{\word{bs}~level'} \\
+					\+ \sout{\word{ELSE}}																	\>\>\>\>	\sout{\word{bs}~level adr len} \\
+						\sout{\word{2DUP} \word{Sq} [ELSE]" \word[string]{COMPARE} \word{0=} \word{IF}}	\>\>\>		\sout{\word{bs}~level adr len} \\
+						\> \sout{\word{2DROP} \word{1-} \word{DUP} \word{IF} \word{1+} \word{THEN}}		\>\>		\sout{\word{bs}~level'} \\
+						\sout{\word{ELSE}}																	\>\>\>		\sout{\word{bs}~level adr len} \\
+						\> \sout{\word{Sq} [THEN]" \word[string]{COMPARE} \word{0=} \word{IF}}				\>\>		\sout{\word{bs}~level} \\
+						\>\> \sout{\word{1-}}																\>			\sout{\word{bs}~level'} \\
+						\>\sout{\word{THEN}} \\
+						\- \sout{\word{THEN}} \\
+					\- \sout{\word{THEN} \word{qDUP} \word{0=} ~ \word{IF} \word{EXIT} \word{THEN}}		\>\>\>\>	\sout{\word{bs}~level'} \\
+				\- \sout{\word{REPEAT} \word{2DROP}}														\>\>\>\>\>	\sout{\word{bs}~level} \\
+			\sout{\word{REFILL} \word{0=} \word{UNTIL}}													\>\>\>\>\>\>\sout{\word{bs}~level} \\
+			\- \sout{\word{DROP}} \\
+		\sout{\word{;} \word{IMMEDIATE}}
 		\end{tabbing}
+
+		\uline{\word[search]{WORDLIST} \word{CONSTANT} BRACKET-FLOW-WL} \\
+		\uline{BRACKET-FLOW-WL \word[search]{GET-CURRENT} \word{SWAP} \word[search]{SET-CURRENT}} \\
+		\uline{\word{:} \word{[IF]} ~  \word{p} level1 -{}- level2 ) \word{1+} \word{;}} \\
+		\uline{\word{:} \word{[ELSE]} \word{p} level1 -{}- level2 ) \word{DUP} 1 \word{=} \word{IF} \word{1-} \word{THEN} \word{;}} \\
+		\uline{\word{:} \word{[THEN]} \word{p} level1 -{}- level2 ) \word{1-} \word{;}} \\
+		\uline{\word[search]{SET-CURRENT}}
+		
+		\uline{\word{:} \word{[ELSE]} \word{p} -{}- )}\\
+		\tab[1]	\uline{1 \word{BEGIN} \word{BEGIN} \word{PARSE-NAME} \word{DUP} \word{WHILE}} \\
+		\tab[2]		\uline{BRACKET-FLOW-WL \word[search]{SEARCH-WORDLIST} \word{IF}} \\
+		\tab[3]			\uline{\word{EXECUTE} \word{DUP} \word{0=} \word{IF} \word{DROP} \word{EXIT} \word{THEN}} \\
+		\tab[2]		\uline{\word{THEN}} \\
+		\tab[1]	\uline{\word{REPEAT} \word{2DROP} \word{REFILL} \word{0=} \word{UNTIL} \word{DROP}} \\
+		\uline{\word{;} \word{IMMEDIATE}}
+		
+		\uline{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}}
+		
+		\uline{\word{:} \word{[IF]} \word{p} flag -{}- ) \word{0=} \word{IF} \word{POSTPONE} \word{[ELSE]} \word{THEN} \word{;} \word{IMMEDIATE}}
+\cbend
 	\end{implement}
 \end{worddef}
 
@@ -1509,7 +1531,9 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	\word{[ELSE]} or \word{[THEN]} is parsed.
 
 \see \xref[3.4.1 Parsing]{usage:parsing},
-	\rref{tools:[IF]}{}.
+	\place{ed21}{\wref{tools:[ELSE]}{}, \wref{tools:[THEN]}{},}
+	\rref{tools:[IF]}{}%
+	\place{simplify-[else]}{, \iref{tools:[ELSE]}{}, \tref{tools:[THEN]}{}}.
 
 	\begin{rationale} % A.15.6.2.2532 [IF]
 		Typical use:
@@ -1520,9 +1544,11 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	\end{rationale}
 
 	\begin{implement} % I.15.6.2.2532 [IF]
-		\word{:} \word[tools]{[IF]} \word{p} flag -{}- ) \\
-		\tab \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN} \\
-		\word{;} \word{IMMEDIATE}
+		\cbstart\patch{simplify-[else]}
+		\sout{\word{:} \word[tools]{[IF]} \word{p} flag -{}- )} \\
+		\sout{\tab \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN}} \\
+		\sout{\word{;} \word{IMMEDIATE}}
+		\cbend
 	\end{implement}
 \end{worddef}
 
@@ -1536,7 +1562,9 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 
 	Does nothing. \word{[THEN]} is an immediate word.
 
-\see \rref{tools:[THEN]}{}.
+\see \rref{tools:[THEN]}{}%
+	\place{ed21}{, \wref{tools:[IF]}{}, \wref{tools:[ELSE]}{},}%
+	\place{x:simplify-[else]}{, \iref{tools:[ELSE]}{}, \tref{tools:[THEN]}{}}.
 
 	\begin{rationale} % A.15.6.2.2533 [THEN]
 		Typical use:
@@ -1580,7 +1608,9 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	\end{rationale}
 
 	\begin{implement} % I.15.6.2.2533 [THEN]
-		\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}
+		\cbstart\patch{x:simplify-[else]}
+		\sout{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}}
+		\cbend
 	\end{implement}
 
 	\begin{testing} % T.15.6.2.2533 [THEN]
