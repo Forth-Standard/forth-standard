@@ -601,6 +601,7 @@ Extensions word sets.
 \end{worddef}
 
 
+\pagebreak
 \begin{worddef}{1020}{CS-ROLL}[c-s-roll]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -933,6 +934,7 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 \end{worddef}
 % -------------------------------------------------------------------
 
+\pagebreak
 \begin{worddef}{1580}{FORGET}
 \item \stack{"<spaces>name"}{}
 
@@ -969,7 +971,7 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 \end{worddef}
 
 % -------------------------------------------------------------------
-\pagebreak
+
 \begin{worddef}[NtoR]{1908}{N>R}[n-to-r]%[X:n-to-r]
 
 \interpret
@@ -1152,9 +1154,6 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 
 % -------------------------------------------------------------------
 
-\enlargethispage{6ex}
-\Writetofile{implementation}{\protect\vspace*{-6ex}}
-
 \begin{worddef}{2264}{SYNONYM}[]%[X:synonym]
 \item \stack{"<spaces>newname" "<spaces>oldname"}{}
 
@@ -1197,7 +1196,6 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 			\sout{\word{;}}
 		\end{quote}
 		\cbend
-		\vspace*{-1ex}
 	\end{implement}
 \end{worddef}
 
@@ -1429,7 +1427,7 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	\end{implement}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}{2531}{[ELSE]}[bracket-else]
 \compile
 	Perform the execution semantics given below.
