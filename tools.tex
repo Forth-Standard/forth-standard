@@ -1514,9 +1514,11 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	Perform the execution semantics given below.
 
 \execute
-	\stack{flag|flag "<spaces>name {\ldots}"}{}
+	\cbstart\patch{x:[if]-input}
+	\stack{\sout{flag} \uline{x} | \sout{flag} \uline{x} "<spaces>name {\ldots}"}{}
+	\cbend
 
-	If \param{flag} is true, do nothing. Otherwise, skipping leading
+	If \replace{x:[if]-input}{\param{flag} is true}{any bit of \param{x} is set}, do nothing. Otherwise, skipping leading
 	spaces, parse and discard space-delimited words from the parse
 	area, including nested occurrences of \word{[IF]} {\ldots}
 	\word{[THEN]} and \word{[IF]} {\ldots} \word{[ELSE]} {\ldots}
