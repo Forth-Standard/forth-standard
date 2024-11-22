@@ -95,6 +95,12 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 \item fewer than $u+1$ items on control-flow stack
 	(\wref{tools:CS-PICK}{CS-PICK},
 	 \wref{tools:CS-ROLL}{CS-ROLL});
+\item \place{x:cs-drop}{resolving an already resolved \param{orig}
+  forward reference (\wref{core:ELSE}{ELSE}, \wref{core:THEN}{THEN},
+  \wref{core:REPEAT}{REPEAT});}
+\item \place{x:cs-drop}{at the end of the current definition
+  unresolved \param{orig} forward references still exist
+  (\wref{core:;}{;}, \wref{core:IF}{IF}, \wref{core:ELSE}{ELSE});}
 \item \emph{name} can't be found (\wref{tools:FORGET}{}, \wref{tools:SYNONYM}{});
 \item \emph{name} not defined via \wref{core:CREATE}{CREATE}
 	(\wref{tools:;CODE}{;CODE});
@@ -433,7 +439,7 @@ Extensions word sets.
 
 	Remove the top item (\param{dest | orig}) from the control-flow stack.
 	An ambiguous condition exists if the top control-flow stack item is
-	not a \param{dest} or an \param{orig}, or if the cotnrol-flow stack is empty.
+	not a \param{dest} or an \param{orig}, or if the control-flow stack is empty.
 
 \see \rref{tools:CS-DROP}{}, \iref{tools:CS-DROP}{}, \tref{tools:CS-DROP}{}.
 
