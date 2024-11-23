@@ -587,7 +587,9 @@ sets.
 	that is associated with the \param{name} vocabulary. An ambiguous condition
 	exists if there are no word lists in the search order.
 
-\see \wref{search:WORDLIST}{},
+\see \rref{search:VOCABULARY}{},
+	\iref{search:VOCABULARY}{},
+	\wref{search:WORDLIST}{},
 	\wref{search:ALSO}{},
 	\wref{search:PREVIOUS}{},
 	\wref{search:GET-ORDER}{},
@@ -599,11 +601,14 @@ sets.
 		in Forth-83, it was removed from Forth-94 to promote the use of
 		\word{WORDLIST}.
 
-	\item[Typical use:]
-		\word{VOCABULARY} Assembler
+	\item[Typical use]
+		\word{VOCABULARY} \texttt{MYVOC}
 
-		To set search order to {\ldots} \word{FORTH} Assembler use: \\
-		\word{ONLY} \word{FORTH} \word{ALSO} Assembler \word{DEFINITIONS}
+		\word{ONLY} \word{FORTH} \word{ALSO} \texttt{MYVOC} \word{DEFINITIONS}
+
+                The last line sets the search order to search
+                \texttt{MYVOC} first and \word{FORTH} second, and it
+                sets the compilation wordlist to \texttt{MYVOC}.
 	\end{rationale}
 
 	\begin{implement}
