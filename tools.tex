@@ -96,11 +96,11 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
 	(\wref{tools:CS-PICK}{CS-PICK},
 	 \wref{tools:CS-ROLL}{CS-ROLL});
 \item \place{x:cs-drop}{resolving an already resolved \param{orig}
-  forward reference (\wref{core:ELSE}{ELSE}, \wref{core:THEN}{THEN},
+  forward reference (\wref{tools:CS-PICK}{CS-PICK}, \wref{core:ELSE}{ELSE}, \wref{core:THEN}{THEN},
   \wref{core:REPEAT}{REPEAT});}
 \item \place{x:cs-drop}{at the end of the current definition
   unresolved \param{orig} forward references still exist
-  (\wref{core:;}{;}, \wref{core:IF}{IF}, \wref{core:ELSE}{ELSE});}
+  (\wref{core:CS-DROP}{CS-DROP}, \wref{core:;}{;}, \wref{core:IF}{IF}, \wref{core:ELSE}{ELSE});}
 \item \emph{name} can't be found (\wref{tools:FORGET}{}, \wref{tools:SYNONYM}{});
 \item \emph{name} not defined via \wref{core:CREATE}{CREATE}
 	(\wref{tools:;CODE}{;CODE});
@@ -444,6 +444,11 @@ Extensions word sets.
 \see \rref{tools:CS-DROP}{}, \iref{tools:CS-DROP}{}, \tref{tools:CS-DROP}{}.
 
 	\begin{rationale} % A.15.6.2.---- CS-DROP
+          Note that for every \word{CS-DROP} of an \param{orig}, there
+          must be a \word{CS-PICK} of that \param{orig}, because every
+          \param{orig} must be resolved exactly once (see
+          \ref{tools:ambiguous}).
+          
 		Typical use of \word{CS-DROP} would be in defining elaborated control
 		structures.  For example, a control structure that allows to branch multiple
 		times to an enclosing \word{BEGIN}.  A corresponding \texttt{END} drops
@@ -512,7 +517,7 @@ Extensions word sets.
 		in Win32Forth would be:}
 
 		\word{:} \word{CS-DROP} \word{p} C: orig | dest -{}- ) \\
-		\tab 1 ?PAIRS \word{DROP} \\
+		\tab \word{2DROP} \\
 		\word{;}
 	\end{implement}
 
@@ -552,9 +557,9 @@ Extensions word sets.
 \see \rref{tools:CS-PICK}{}.
 
 	\begin{rationale} % A.15.6.2.1015 CS-PICK
-		The intent is to copy a \param{dest} on the control-flow
-		stack so that it can be resolved more than once. For example:
-		\setwordlist{core}
+		A common way to use \word{CS-PICK} is to copy
+                \param{dest} so that it can be resolved more than
+                once. For example: \setwordlist{core}
 		\begin{quote}\ttfamily
 			\word{bs} Conditionally transfer control to beginning of \\
 			\word{bs} loop.  This is similar in spirit to C's "continue" \\
@@ -576,6 +581,12 @@ Extensions word sets.
 			\word{;}
 		\end{quote}
 		\setwordlist{tools}
+
+                You can also use \word{CS-PICK} to copy an
+                \param{orig}, but then one of the resulting copies
+                must be \word{CS-DROP}ped because every \param{orig}
+                must be resolved exactly once (see
+                \ref{tools:ambiguous}).
 	\end{rationale}
 
 	\begin{testing} % T.15.6.2.1015 CS-PICK
