@@ -100,7 +100,7 @@ See: \xref[3.3 The Forth dictionary]{usage:dict}.
   \wref{core:REPEAT}{REPEAT});}
 \item \place{x:cs-drop}{at the end of the current definition
   unresolved \param{orig} forward references still exist
-  (\wref{core:CS-DROP}{CS-DROP}, \wref{core:;}{;}, \wref{core:IF}{IF}, \wref{core:ELSE}{ELSE});}
+  (\wref{tools:CS-DROP}{CS-DROP}, \wref{core:;}{;}, \wref{core:IF}{IF}, \wref{core:ELSE}{ELSE});}
 \item \emph{name} can't be found (\wref{tools:FORGET}{}, \wref{tools:SYNONYM}{});
 \item \emph{name} not defined via \wref{core:CREATE}{CREATE}
 	(\wref{tools:;CODE}{;CODE});
@@ -1581,7 +1581,7 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	Does nothing. \word{[THEN]} is an immediate word.
 
 \see \rref{tools:[THEN]}{}%
-	\place{ed21}{, \wref{tools:[IF]}{}, \wref{tools:[ELSE]}{},}%
+	\place{ed21}{, \wref{tools:[IF]}{}, \wref{tools:[ELSE]}{}}%
 	\place{x:simplify-[else]}{, \iref{tools:[ELSE]}{}, \tref{tools:[THEN]}{}}.
 
 	\begin{rationale} % A.15.6.2.2533 [THEN]
