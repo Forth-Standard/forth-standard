@@ -1522,10 +1522,6 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 		\tab[2]		\uline{\word{THEN}} \\
 		\tab[1]	\uline{\word{REPEAT} \word{2DROP} \word{REFILL} \word{0=} \word{UNTIL} \word{DROP}} \\
 		\uline{\word{;} \word{IMMEDIATE}}
-		
-		\uline{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}}
-		
-		\uline{\word{:} \word{[IF]} \word{p} flag -{}- ) \word{0=} \word{IF} \word{POSTPONE} \word{[ELSE]} \word{THEN} \word{;} \word{IMMEDIATE}}
 \cbend
 	\end{implement}
 \end{worddef}
@@ -1568,11 +1564,9 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	\end{rationale}
 
 	\begin{implement} % I.15.6.2.2532 [IF]
-		\cbstart\patch{simplify-[else]}
-		\sout{\word{:} \word[tools]{[IF]} \word{p} flag -{}- )} \\
-		\sout{\tab \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN}} \\
-		\sout{\word{;} \word{IMMEDIATE}}
-		\cbend
+		\word{:} \word[tools]{[IF]} \word{p} flag -{}- ) \\
+		\tab \word{0=} \word{IF} \word{POSTPONE} \word[tools]{[ELSE]} \word{THEN} \\
+		\word{;} \word{IMMEDIATE}
 	\end{implement}
 \end{worddef}
 
@@ -1632,9 +1626,7 @@ Find the definition identified by the string \param{c-addr u} in the wordlist
 	\end{rationale}
 
 	\begin{implement} % I.15.6.2.2533 [THEN]
-		\cbstart\patch{x:simplify-[else]}
-		\sout{\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}}
-		\cbend
+		\word{:} \word{[THEN]} \word{p} -{}- ) \word{;} \word{IMMEDIATE}
 	\end{implement}
 
 	\begin{testing} % T.15.6.2.2533 [THEN]
