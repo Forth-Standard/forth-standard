@@ -557,8 +557,8 @@ Extensions word sets.
 \see \rref{tools:CS-PICK}{}.
 
 	\begin{rationale} % A.15.6.2.1015 CS-PICK
-		\patch{x:cs-drop}\sout{The intent}\uline{A common way to use \word{CS-PICK}} is to copy
-                \param{dest} \patch{x:cs-drop}\sout{on the control-flow stack} so that it can be resolved more than
+		\replace{x:cs-drop}{The intent}{A common way to use \word{CS-PICK}} is to copy
+                \param{dest} \remove{x:cs-drop}{on the control-flow stack} so that it can be resolved more than
                 once. For example: \setwordlist{core}
 		\begin{quote}\ttfamily
 			\word{bs} Conditionally transfer control to beginning of \\
@@ -582,7 +582,7 @@ Extensions word sets.
 		\end{quote}
 		\setwordlist{tools}
 
-                \patch{x:cs-drop}\uline{You can also use \word{CS-PICK} to copy an
+                \place{x:cs-drop}{You can also use \word{CS-PICK} to copy an
                 \param{orig}, but then one of the resulting copies
                 must be \word{CS-DROP}ped because every \param{orig}
                 must be resolved exactly once (see
