@@ -211,7 +211,7 @@ have been defined to manage the LaTeX wordlists.
 
 To define a new word the worddef environment is used:
 
-`\begin{worddef}[<label>]{<number>}[<sub-number>]{<name>}[<english>]`
+`\begin{worddef}[<label>]{<number>}[<sub-number>]{<name>}[<english>][<proposal>]`
 
 - `<label>`
   Is the LaTeX label given to the word.  It is used when processing
