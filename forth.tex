@@ -1401,7 +1401,10 @@
 		\marginpar{\tiny{\color{white}c:b}}
 	\else
 		% New label for this page
-		\marginpar{\tiny\textsf{#1}{\color{white}c:b}}
+		\marginpar{%
+			\textsf{\footnotesize\colorbox{red!20}{#1}}%
+			\tiny\color{white}c:b
+		}
 		\edef\@history@label{\temp@b}
 	\fi
 }
