@@ -247,9 +247,9 @@ provide all of the File Access and File Access Extensions word sets.
 
 
 \section{Glossary} % 11.6
-
+\vspace{1ex}
 \subsection{File Access words} % 11.6.1
-
+\vspace{1ex}
 \begin{worddef}[p]{0080}{(}[paren]
 \item \stack{"ccc<paren>"}{}
 
@@ -268,7 +268,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0765}{BIN}
 \item \stack{fam_1}{fam_2}
 
@@ -277,10 +277,9 @@ provide all of the File Access and File Access Extensions word sets.
 	``binary'', i.e., not line oriented, file access method,
 	giving access method \param{fam_2}.
 
-\see \wref{file:R/O}{R/O},
-	\wref{file:R/W}{R/W},
-	\wref{file:W/O}{W/O},
-	\rref{file:BIN}{}.
+	\walso{file:R/O}
+	\walso{file:R/W}
+	\walso{file:W/O}
 
 	\begin{rationale} % A.11.6.1.0765 BIN
 		Some operating systems require that files be opened in a
@@ -295,7 +294,6 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-2ex}
 \begin{worddef}{0900}{CLOSE-FILE}
 \item \stack{fileid}{ior}
 
@@ -303,7 +301,6 @@ provide all of the File Access and File Access Extensions word sets.
 	implementation-defined I/O result code.
 \end{worddef}
 
-\vspace*{-2ex}
 \begin{worddef}{1010}{CREATE-FILE}
 \item \stack{c-addr u fam}{fileid ior}
 
@@ -319,8 +316,6 @@ provide all of the File Access and File Access Extensions word sets.
 
 	Otherwise, \param{ior} is the implementation-defined I/O result
 	code and \param{fileid} is undefined.
-
-\see \rref{file:CREATE-FILE}{}.
 
 	\begin{rationale} % A.11.6.1.1010 CREATE-FILE
 		Typical use:
@@ -342,7 +337,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{1190}{DELETE-FILE}
 \item \stack{c-addr u}{ior}
 
@@ -433,8 +428,7 @@ provide all of the File Access and File Access Extensions word sets.
 	condition exists, the status (open or closed) of any files that
 	were being interpreted is {im\-ple\-ment\-ation-de\-fin\-ed}.
 
-\see \xref[11.3.4 Input source]{file:source},
-	\rref{file:INCLUDE-FILE}{}.
+	\xalso{file:source}
 
 	\begin{rationale} % A.11.6.1.1717 INCLUDE-FILE
 		Here are two implementation alternatives for saving the input
@@ -456,7 +450,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\enlargethispage{-4ex}
+\vspace*{-6ex}
 \begin{worddef}{1718}{INCLUDED}
 \item \stack{i*x c-addr u}{j*x}
 
@@ -485,8 +479,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\word{INCLUDED} may allocate memory in data space before it
 	starts interpreting the file.
 
-\see \wref{file:INCLUDE-FILE}{INCLUDE-FILE},
-	\rref{file:INCLUDED}{}.
+	\walso{file:INCLUDE-FILE}
 
 	\begin{rationale} % A.11.6.1.1718 INCLUDED
 		Typical use:
@@ -498,7 +491,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}\enlargethispage{8ex}
 \begin{worddef}{1970}{OPEN-FILE}
 \item \stack{c-addr u fam}{fileid ior}
 
@@ -514,8 +507,6 @@ provide all of the File Access and File Access Extensions word sets.
 	Otherwise, \param{ior} is the implementation-defined I/O
 	result code and \param{fileid} is undefined.
 
-\see \rref{file:OPEN-FILE}{}.
-
 	\begin{rationale} % A.11.6.1.1970 OPEN-FILE
 		Typical use:
 
@@ -526,29 +517,29 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2054}{R/O}[r-o]
 \item \stack{}{fam}
 
 	\param{fam} is the implementation-defined value for selecting
 	the ``read only'' file access method.
 
-\see \wref{file:CREATE-FILE}{CREATE-FILE},
-	\wref{file:OPEN-FILE}{OPEN-FILE}.
+	\walso{file:CREATE-FILE}
+	\walso{file:OPEN-FILE}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2056}{R/W}[r-w]
 \item \stack{}{fam}
 
 	\param{fam} is the implementation-defined value for selecting
 	the ``read/write'' file access method.
 
-\see \wref{file:CREATE-FILE}{CREATE-FILE},
-	\wref{file:OPEN-FILE}{OPEN-FILE}.
+	\walso{file:CREATE-FILE}
+	\walso{file:OPEN-FILE}
 \end{worddef}
 
-\vspace*{-7ex}
+\vspace*{-7ex}\enlargethispage{8ex}
 \begin{worddef}{2080}{READ-FILE}
 \item \stack{c-addr u_1 fileid}{u_2 ior}
 
@@ -580,8 +571,6 @@ provide all of the File Access and File Access Extensions word sets.
 	At the conclusion of the operation, \word{FILE-POSITION} returns
 	the next file position after the last character read.
 
-\see \rref{file:READ-FILE}{}.
-
 	\begin{rationale} % A.11.6.1.2080 READ-FILE
 		A typical sequential file-processing algorithm might look like:
 		\begin{quote}\ttfamily\setwordlist{core}
@@ -605,7 +594,6 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 \vspace*{-3ex}
-\enlargethispage{8ex}
 \begin{worddef}{2090}{READ-LINE}
 \item \stack{c-addr u_1 fileid}{u_2 flag ior}
 
@@ -639,8 +627,6 @@ provide all of the File Access and File Access Extensions word sets.
 
 	At the conclusion of the operation, \word{FILE-POSITION} returns
 	the next file position after the last character read.
-
-\see \rref{file:READ-LINE}{}.
 
 	\begin{rationale} % A.11.6.1.2090 READ-LINE
 		Implementations are allowed to store the line terminator in
@@ -754,8 +740,8 @@ provide all of the File Access and File Access Extensions word sets.
 	\hyperref{}{file}{FILE-POSITION}{\textbf{\texttt{POSITION}}}
 	returns an unspecified value.
 
-\see \wref{file:READ-FILE}{READ-FILE},
-	\wref{file:READ-LINE}{READ-LINE}.
+	\walso{file:READ-FILE}
+	\walso{file:READ-LINE}
 
 	\begin{testing} % T.11.6.1.2147 RESIZE-FILE
 		\texttt{setpad} \\
@@ -812,7 +798,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\wref{file:OPEN-FILE}{OPEN-FILE}.
 \end{worddef}
 
-\vspace*{-4ex}
+
 \begin{worddef}{2480}{WRITE-FILE}
 \item \stack{c-addr u fileid}{ior}
 
@@ -825,11 +811,11 @@ provide all of the File Access and File Access Extensions word sets.
 	file, and \word{FILE-SIZE} returns a value greater than or equal
 	to the value returned by \word{FILE-POSITION}.
 
-\see \wref{file:READ-FILE}{READ-FILE},
-	\wref{file:READ-LINE}{READ-LINE}.
+	\walso{file:READ-FILE}
+	\walso{file:READ-LINE}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2485}{WRITE-LINE}
 \item \stack{c-addr u fileid}{ior}
 
@@ -843,8 +829,8 @@ provide all of the File Access and File Access Extensions word sets.
 	file, and \word{FILE-SIZE} returns a value greater than or equal
 	to the value returned by \word{FILE-POSITION}.
 
-\see \wref{file:READ-FILE}{READ-FILE},
-	\wref{file:READ-LINE}{READ-LINE}.
+	\walso{file:READ-FILE}
+	\walso{file:READ-LINE}
 
 	\begin{testing} % T.11.6.1.2485 WRITE-LINE
 		\ttfamily
@@ -858,7 +844,9 @@ provide all of the File Access and File Access Extensions word sets.
 
 
 \subsection{File-Access extension words} % 11.6.2
+\vspace{1ex}
 \extended
+\vspace{1ex}
 
 \begin{worddef}{1524}{FILE-STATUS}
 \item \stack{c-addr u}{x ior}
@@ -871,7 +859,6 @@ provide all of the File Access and File Access Extensions word sets.
 \end{worddef}
 
 
-\vspace*{-3ex}
 \begin{worddef}{1560}{FLUSH-FILE}
 \item \stack{fileid}{ior}
 
@@ -883,8 +870,7 @@ provide all of the File Access and File Access Extensions word sets.
 	code.
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{6ex}
+
 \begin{worddef}{1714}{INCLUDE}[]%[X:required]
 \item \stack{i*x "name"}{j*x}
 
@@ -893,8 +879,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\param{name} on the stack and perform the function of
 	\word{INCLUDED}.
 
-\see \wref{file:INCLUDED}{INCLUDED},
-	\rref{file:INCLUDE}{}.
+	\walso{file:INCLUDED}{INCLUDED}
 
 	\begin{rationale} % A.11.6.2.1714 INCLUDE
 		Typical use:
@@ -926,8 +911,8 @@ provide all of the File Access and File Access Extensions word sets.
 	the current input buffer, set \word[core]{toIN} to zero, and
 	return \emph{true}. Otherwise return \emph{false}.
 
-\see \wref{core:REFILL}{REFILL},
-	\wref{block:REFILL}{REFILL}.
+	\walso{core:REFILL}
+	\walso{block:REFILL}
 \end{worddef}
 
 
@@ -968,8 +953,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\param{name} on the stack and perform the function of
 	\word{REQUIRED}.
 
-\see \wref{file:REQUIRED}{REQUIRED},
-	\rref{file:REQUIRE}{}.
+	\walso{file:REQUIRED}
 
 	\begin{rationale} % A.11.6.2.2144.10 REQUIRE
 		Typical use:
@@ -988,7 +972,7 @@ provide all of the File Access and File Access Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{6ex}
+\pagebreak
 \begin{worddef}{2144}[50]{REQUIRED}[]%[X:required]
 \item \stack{i*x c-addr u}{i*x}
 
@@ -1012,8 +996,6 @@ provide all of the File Access and File Access Extensions word sets.
 
 	An ambiguous condition exists if the stack effect of including the
 	file is not \stack{i*x}{i*x}.
-
-\see \rref{file:REQUIRED}{}.
 
 	\begin{rationale} % A.11.6.2.2144.50 REQUIRED
 		Typical use:
