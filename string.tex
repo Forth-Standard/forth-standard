@@ -82,9 +82,10 @@ to provide all of the String and String Extensions word sets.
 
 
 \section{Glossary} % 17.6
+\vspace{1ex}
 
 \subsection{String words} % 17.6.1
-
+\vspace{1ex}
 
 \begin{worddef}{0170}{-TRAILING}[dash-trailing]
 \item \stack{c-addr u_1}{c-addr u_2}
@@ -116,8 +117,6 @@ to provide all of the String and String Extensions word sets.
 	characters. The resulting character string, specified by
 	\param{c-addr_2 u_2}, begins at \param{c-addr_1} plus \param{n}
 	characters and is \param{u_1} minus \param{n} characters long.
-
-\see \rref{string:/STRING}{}.
 
 	\begin{rationale} % A.17.6.1.0245 /STRING
 		\word{/STRING} is used to remove or add characters relative
@@ -164,7 +163,7 @@ to provide all of the String and String Extensions word sets.
 	that starting at \param{c-addr_2}, proceeding character-by-character
 	from lower addresses to higher addresses.
 
-\see \wref{string:CMOVEtop}{}, \rref{string:CMOVE}{}.
+	\walso{string:CMOVEtop}
 
 	\begin{rationale} % A.17.6.1.0910 CMOVE
 		If \param{c-addr_2} lies within the source region (i.e., when
@@ -185,7 +184,7 @@ to provide all of the String and String Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}[CMOVEtop]{0920}{CMOVE>}[c-move-up]
 \item \stack{c-addr_1 c-addr_2 u}{}
 
@@ -194,7 +193,7 @@ to provide all of the String and String Extensions word sets.
 	that starting at \param{c-addr_2}, proceeding character-by-character
 	from higher addresses to lower addresses.
 
-\see \wref{string:CMOVE}{}, \rref{string:CMOVEtop}{}.
+	\walso{string:CMOVE}
 
 	\begin{rationale} % A.17.6.1.0920 CMOVE>
 		If \param{c-addr_1} lies within the destination region (i.e.,
@@ -312,8 +311,6 @@ to provide all of the String and String Extensions word sets.
 	the characters specified by \param{c-addr_1 u} during
 	compilation. A program shall not alter the returned string.
 
-\see \rref{string:SLITERAL}{}.
-
 	\begin{rationale} % A.17.6.1.2212 SLITERAL
 		The current functionality of \wref{core:Sq}{S"} may be
 		provided by the following definition:
@@ -335,9 +332,9 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+
 \subsection{String extension words} % 17.6.2
-\extended
+\extended\vspace{1ex}
 
 \begin{worddef}{2141}{REPLACES}[]%[X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2 u_2}{}
@@ -361,9 +358,9 @@ to provide all of the String and String Extensions word sets.
 	of a colon definition or in the middle of a contiguous region}.
 
   
-\see \xref{usage:contiguous},
-	\xref{usage:compilation},
-	\wref{string:SUBSTITUTE}{}.
+	\xalso{usage:contiguous}
+	\xalso{usage:compilation}
+	\walso{string:SUBSTITUTE}
 
 	\begin{implement} % I.17.6.2.2141 REPLACES
 		\word{DECIMAL}
@@ -469,7 +466,8 @@ to provide all of the String and String Extensions word sets.
 	If after processing any pairs of delimiters, the residue of the input string contains
 	a single delimiter, the residue is passed unchanged to the output.
 
-\see \wref{string:REPLACES}{}, \wref{string:UNESCAPE}{}, \rref{string:SUBSTITUTE}{}.
+	\walso{string:REPLACES}
+	\walso{string:UNESCAPE}
 
 	\begin{rationale} % A.17.6.2.2255 SUBSTITUTE
 		Many applications need to be able to perform text substitution, for
@@ -699,6 +697,7 @@ to provide all of the String and String Extensions word sets.
 	\end{testing}
 \end{worddef}
 
+
 \begin{worddef}{2375}{UNESCAPE}[]%[X:substitute]
 \item \stack{c-addr_1 u_1 c-addr_2}{c-addr_2 u_2}
 
@@ -709,7 +708,7 @@ to provide all of the String and String Extensions word sets.
 	condition occurs if the resulting string will not fit into the
 	destination buffer (\param{c-addr_2}).
 
-\see \wref{string:SUBSTITUTE}{}.
+	\walso{string:SUBSTITUTE}
 
 	\begin{implement} % I.17.6.2.2375 UNESCAPE
 		\word{:} \word{UNESCAPE} \word{bs} c-addr1 len1 c-addr2 -{}- c-addr2 len2 \\
