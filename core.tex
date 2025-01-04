@@ -266,6 +266,7 @@
 
 	\xalso{usage:div}
 
+	\Writetofile{testing}{\pagebreak}
 	\begin{testing} % T.6.1.0110 */MOD
 		\ttfamily
 		IFFLOORED \tab	\word{:} T*/MOD \word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} \word{;} \\
@@ -313,7 +314,6 @@
 		\test{      -1 -2 \word{+}}{        -3} \\
 		\test{      -1  1 \word{+}}{         0} \\
 		\test{MID-UINT  1 \word{+}}{MID-UINT+1}
-		\pagebreak
 	\end{testing}
 \end{worddef}
 
@@ -1134,7 +1134,6 @@
 		\test{       0   0 MAX-BASE GN1}{       0   0 0} \\
 		\test{MAX-UINT   0 MAX-BASE GN1}{MAX-UINT   0 0} \\
 		\test{MAX-UINT DUP MAX-BASE GN1}{MAX-UINT DUP 0}
-		\pagebreak
 	\end{testing}
 \end{worddef}
 
@@ -2354,7 +2353,6 @@
 		\test{MIN-INT MAX-INT \word{M*} MIN-INT \word{FM/MOD}}{ 0 MAX-INT} \\
 		\test{MIN-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0 MIN-INT} \\
 		\test{MAX-INT MAX-INT \word{M*} MAX-INT \word{FM/MOD}}{ 0 MAX-INT}
-		\pagebreak
 	\end{testing}
 \end{worddef}
 
@@ -2503,11 +2501,10 @@
 		\test{222 iw9 iw10 find-iw iw10}{-1} \tab \word{bs} \textdf{iw10 is not immediate} \\
 		\test{iw10 find-iw iw10}{224 1} \tab[3.8] \word{bs} \textdf{iw10 becomes immediate}
 
-		See \tref{core:[']}{[']},
+		\see \tref{core:[']}{[']},
 			\tref{core:POSTPONE}{POSTPONE},
 			\tref{core:STATE}{STATE},
 			\tref{core:Sq}{S"}.
-		\pagebreak
 	\end{testing}
 \end{worddef}
 
@@ -3014,6 +3011,7 @@
 
 	\begin{testing} % T.6.1.1990 OVER
 		\test{1 2 \word{OVER}}{1 2 1}
+		\pagebreak
 	\end{testing}
 \end{worddef}
 
@@ -4458,7 +4456,6 @@
 	\test{-1  2  0 qd6}{ 2  2  2  2  2  2 6 } \\
 	\test{-1  2  1 qd6}{ 2  3  4  5  6  7 6 } \\
 	\test{ 2 -1  1 qd6}{-1  0  1          3 }
-	\pagebreak
 	\end{testing}
 \end{worddef}
 
