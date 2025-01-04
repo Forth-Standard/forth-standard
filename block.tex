@@ -178,7 +178,7 @@ to provide all of the Block and Block Extensions word sets.
 	\word[core]{SOURCE-ID} is available. An ambiguous condition
 	exists if a program directly alters the contents of \word{BLK}.
 
-\see \xref[7.3.3 Block buffer regions]{block:buffers}.
+	\xalso{block:buffers}
 \end{worddef}
 
 
@@ -234,7 +234,7 @@ to provide all of the Block and Block Extensions word sets.
 	by \param{a-addr} is the current block buffer and is assigned to
 	\param{u}.
 
-\see \wref{block:BLOCK}{BLOCK}.
+	\walso{block:BLOCK}
 \end{worddef}
 
 
@@ -252,7 +252,7 @@ to provide all of the Block and Block Extensions word sets.
 	block buffers.
 \end{worddef}
 
-\vspace*{-1ex}
+\vspace*{-1ex}\enlargethispage{6ex}
 \begin{worddef}{1790}{LOAD}
 \item \stack{i*x u}{j*x}
 
@@ -266,10 +266,10 @@ to provide all of the Block and Block Extensions word sets.
 	An ambiguous condition exists if \param{u} is zero or is not a
 	valid block number.
 
-\see \xref[3.4 The Forth text interpreter]{usage:command}.
+	\xalso{usage:command}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2180}{SAVE-BUFFERS}
 \item \stack{}{}
 
@@ -277,7 +277,7 @@ to provide all of the Block and Block Extensions word sets.
 	mass storage. Mark all buffers as unmodified.
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{2400}{UPDATE}
 \item \stack{}{}
 
@@ -286,15 +286,15 @@ to provide all of the Block and Block Extensions word sets.
 
 	\word{UPDATE} does not immediately cause I/O.
 
-\see \wref{block:BLOCK}{BLOCK},
-	\wref{block:BUFFER}{BUFFER},
-	\wref{block:FLUSH}{FLUSH},\\
-	\wref{block:SAVE-BUFFERS}{SAVE-BUFFERS}.
+	\walso{block:BLOCK}
+	\walso{block:BUFFER}
+	\walso{block:FLUSH}
+	\walso{block:SAVE-BUFFERS}
 \end{worddef}
 
-\vspace*{-6ex}
+\newpage\vspace*{-6ex}
 \subsection{Block extension words} % 7.6.2
-\extended
+\extended\vspace{1ex}
 
 \begin{worddef}{1330}{EMPTY-BUFFERS}
 \item \stack{}{}
@@ -302,20 +302,20 @@ to provide all of the Block and Block Extensions word sets.
 	Unassign all block buffers. Do not transfer the contents of
 	any \word{UPDATE}d block buffer to mass storage.
 
-\see \wref{block:BLOCK}{BLOCK}.
+	\walso{block:BLOCK}
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-3ex}\enlargethispage{10ex}
 \begin{worddef}{1770}{LIST}
 \item \stack{u}{}
 
 	Display block \param{u} in an implementation-defined format.
 	Store \param{u} in \word{SCR}.
 
-\see \wref{block:BLOCK}{BLOCK}.
+	\walso{block:BLOCK}
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-2.5ex}
 \begin{worddef}{2125}{REFILL}
 \item \stack{}{flag}
 
@@ -328,8 +328,8 @@ to provide all of the Block and Block Extensions word sets.
 	\emph{true} if the new value of BLK is a valid block number,
 	otherwise \emph{false}.
 
-\see \wref{core:REFILL}{REFILL},
-	\wref{file:REFILL}{REFILL}.
+	\walso{core:REFILL}
+	\walso{file:REFILL}
 \end{worddef}
 
 \vspace*{-3ex}
@@ -338,8 +338,6 @@ to provide all of the Block and Block Extensions word sets.
 
 	\param{a-addr} is the address of a cell containing the block
 	number of the block most recently \word{LIST}ed.
-
-\see \rref{block:SCR}{}.
 
 	\begin{rationale} % A.7.6.2.2190 SCR
 		\word{SCR} is short for screen.
@@ -355,7 +353,6 @@ to provide all of the Block and Block Extensions word sets.
 	\word{LOAD}ed.
 \end{worddef}
 
-\enlargethispage{8ex}
 \vspace*{-3ex}
 \begin{worddef}[bs]{2535}{\bs}[backslash]
 \item Extend the semantics of \wref{core:bs}{\bs} to be:
