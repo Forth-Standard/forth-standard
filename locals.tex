@@ -234,10 +234,12 @@ to provide all of the Locals and Locals Extensions word sets.
 
 \pagebreak
 \section{Glossary} % 13.6
+\vspace{1ex}
 
 \subsection{Locals words} % 13.6.1
+\vspace{1ex}
 
-\enlargethispage{4ex}
+
 \begin{worddef}[LOCAL]{0086}{(LOCAL)}[paren-local-paren]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -292,13 +294,15 @@ to provide all of the Locals and Locals Extensions word sets.
 	is described in detail in section \xref[13.3.3 Processing
 	locals]{local:locals}.
 
-\see \xref[3.4 The Forth text interpreter]{usage:command} and
-	\wref{core:TO}{TO}.
+	\xalso{usage:command}
+	\walso{core:TO}
 \end{worddef}
 
 
+\pagebreak
 \subsection{Locals extension words} % 13.6.2
-\extended
+\extended\vspace{1ex}
+
 
 \begin{worddef}[LOCALS]{1795}{LOCALS|}[locals-bar]
 \interpret
@@ -339,8 +343,7 @@ to provide all of the Locals and Locals Extensions word sets.
 
 \end{worddef}
 
-% -------------------------------------------------------------------
-
+\enlargethispage{6ex}
 \begin{worddef}[b:]{2550}{\brace:}[brace-colon]%[X:enhanced-locals]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -393,17 +396,15 @@ to provide all of the Locals and Locals Extensions word sets.
 	in interpretation state.}
 
 \item[\uline{\emph{name} Interpretation}]
-	\place{x:local-interpret}{Interpreation semantics of \param{name} are undefined.}
-\enlargethispage{4ex}
+	\place{x:local-interpret}{Interpretation semantics of \param{name} are undefined.}
 \runtime[\word{TO} \param{name}]
 	\stack{x}{}
 
 	Set \param{name} to the value \param{x}.
 
-\see \xref[2.2 Notation]{notation:BNF},
-	\wref{core:VALUE}{},
-	\wref{core:TO}{},
-	\rref{local:b:}{}.
+	\xalso{notation:BNF}
+	\walso{core:VALUE}
+	\walso{core:TO}
 
 	\begin{rationale} % A.13.6.2.2550 {:
 		The Forth 94 Technical Committee was unable to identify any
