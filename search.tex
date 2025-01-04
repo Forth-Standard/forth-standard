@@ -189,8 +189,10 @@ sets.
 
 
 \section{Glossary} % 16.6
+\vspace{1ex}
 
 \subsection{Search-Order words} % 16.6.1
+\vspace{1ex}
 
 \begin{worddef}{1180}{DEFINITIONS}
 \item \stack{}{}
@@ -201,7 +203,7 @@ sets.
 	Subsequent changes in the search order will not affect the
 	compilation word list.
 
-\see \xref[16.3.3 Finding Definition Names]{search:find}.
+	\xalso{search:find}
 
 	\begin{implement} % I.16.6.1.1180 DEFINITIONS
 		\word{:} discard \word{p} x1 {\ldots} xn u -{}- ) \bs{} \textdf{Drop u+1 stack items} \\
@@ -265,14 +267,13 @@ sets.
 	by \word{FIND} while compiling may differ from those returned
 	while not compiling.
 
-\see \place{ed21}{}\xref[16.3.3 Finding definition names]{search:find},
-      %the above replaced a reference to 3.4.2 Finding definition names;
-      %but I could not get \replace or \sout or \uline to work
-	\wref{core:'}{'},
-	\wref{core:FIND}{FIND},
-	\wref{core:POSTPONE}{POSTPONE},
-	\wref{core:[']}{[']},
-	\place{x:rules-of-find}{\wref{tools:[DEFINED]}{}}.
+	\xalso[-]{usage:find}
+	\xalso[+]{search:find}
+	\walso{core:'}
+	\walso{core:FIND}
+	\walso{core:POSTPONE}
+	\walso{core:[']}
+	\walso[+]{tools:[DEFINED]}
 
 	\begin{implement} % I.16.6.1.1550 FIND
 		\textdf{Assuming \texttt{\#order} and \texttt{context} are defined as per \iref{search:GET-ORDER}{}.}
@@ -352,7 +353,7 @@ sets.
 	\end{implement}
 \end{worddef}
 
-
+\enlargethispage{4ex}
 \begin{worddef}{2192}{SEARCH-WORDLIST}
 \item \stack{c-addr u wid}{0 | xt 1 | xt -1}
 
@@ -361,8 +362,6 @@ sets.
 	found, return zero. If the definition is found, return its
 	execution token \param{xt} and one (\param{1}) if the definition is
 	immediate, minus-one (\param{-1}) otherwise.
-
-\see \rref{search:SEARCH-WORDLIST}{}.
 
 	\begin{rationale} % A.16.6.1.2192 SEARCH-WORDLIST
 		When \word{SEARCH-WORDLIST} fails to find the word, it does
@@ -449,7 +448,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{2ex}
+
 \begin{worddef}{2460}{WORDLIST}
 \item \stack{}{wid}
 
@@ -462,7 +461,7 @@ sets.
 
 
 \subsection{Search-Order extension words} % 16.6.2
-\extended
+\extended\vspace{1ex}
 
 \begin{worddef}{0715}{ALSO}
 \item \stack{}{}
@@ -484,7 +483,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+\enlargethispage{8ex}\vspace*{-2ex}
 \begin{worddef}{1590}{FORTH}
 \item \stack{}{}
 
@@ -494,19 +493,19 @@ sets.
 	\param{wid_{\word{FORTH-WORDLIST}}}.
 
 	\begin{implement} % I.16.6.2.1590 FORTH
-	\word{:} (wordlist) \word{p} wid "<name>" -{}- ; ) \\
-	\tab \word{CREATE} \word{,} \\
-	\tab \word{DOES} \\
-	\tab[2] \word{@}  \word{toR} \\
-	\tab[2] \word{GET-ORDER} \word{NIP} \\
-	\tab[2] \word{Rfrom} \word{SWAP} \word{SET-ORDER} \\
-	\word{;}
-
-	\word{FORTH-WORDLIST} (wordlist) \word{FORTH}
+		\word{:} (wordlist) \word{p} wid "<name>" -{}- ; ) \\
+		\tab \word{CREATE} \word{,} \\
+		\tab \word{DOES} \\
+		\tab[2] \word{@}  \word{toR} \\
+		\tab[2] \word{GET-ORDER} \word{NIP} \\
+		\tab[2] \word{Rfrom} \word{SWAP} \word{SET-ORDER} \\
+		\word{;}
+	
+		\word{FORTH-WORDLIST} (wordlist) \word{FORTH}
 	\end{implement}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1965}{ONLY}
 \item \stack{}{}
 
@@ -529,7 +528,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{1985}{ORDER}
 \item \stack{}{}
 
@@ -542,7 +541,7 @@ sets.
 	words. Consequently, its use may corrupt the transient region
 	identified by \word[core]{num-end}.
 
-\see \xref[3.3.3.6 Other Transient Regions]{usage:transient}.
+	\xalso{usage:transient}
 
 	\begin{testing} % T.16.6.2.1985 ORDER
 		\ttfamily
@@ -554,7 +553,7 @@ sets.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2037}{PREVIOUS}
 \item \stack{}{}
 
@@ -589,13 +588,11 @@ sets.
 	that is associated with the \param{name} vocabulary. An ambiguous condition
 	exists if there are no word lists in the search order.
 
-\see \rref{search:VOCABULARY}{},
-	\iref{search:VOCABULARY}{},
-	\wref{search:WORDLIST}{},
-	\wref{search:ALSO}{},
-	\wref{search:PREVIOUS}{},
-	\wref{search:GET-ORDER}{},
-	\wref{search:SET-ORDER}{}.
+	\walso{search:GET-ORDER}
+	\walso{search:WORDLIST}
+	\walso{search:ALSO}
+	\walso{search:PREVIOUS}
+	\walso{search:SET-ORDER}
 
 	\begin{rationale}
 		\word{VOCABULARY} has been used in traditional Forth systems and it is
