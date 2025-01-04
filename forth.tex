@@ -839,6 +839,7 @@
 		\def\@currentHref{#1.\word@list.\word@label}
 		% Finally, the label itself
 		\label{#1:\word@list:\word@label}
+		% \also@c{#1:}{\word@list:\word@label}
 	}
 
 	% \begin{rationale} ... \end{rationale}
@@ -922,20 +923,15 @@
 	\Newassociation{implement}{worddefer}{implementation}
 
 	% The pre<x> macros are invoked before the text is shipped out to
-	% the auxiliary file.  We use them to redirect the reader to the
-	% appropriate appendix.
+	% the auxiliary file.  This would be the place to add the environment
+	% to the see also list for the definiton.  However, to do so would
+	% require we use \gdef in \also@v, which causes LaTeX to run out of
+	% memory.  Thus we we limited to useing \edef which means we need to
+	% run the \<x>also words in the wordef environment.
 
-%	\newcommand{\prerationale}{%
-%		\item[Rationale] See \rref{\word@list:\word@label}{\word@name}.
-%	}
-
-%	\newcommand{\pretesting}{%
-%		\item[Testing] See \tref{\word@list:\word@label}{\word@name}.
-%	}
-
-%	\newcommand{\preimplement}{%
-%		\item[Implementation] See \iref{\word@list:\word@label}{\word@name}.
-%	}	
+	% \newcommand{\prerationale}{\ralso{\word@list:\word@label}}
+	% \newcommand{\pretesting}{\talso{\word@list:\word@label}}
+	% \newcommand{\preimplement}{\ialso{\word@list:\word@label}}
 
 	% The text for all three environments will be processed by
 	% the worddefer environment.  This will be given a number
@@ -1384,7 +1380,7 @@
 \newcommand{\also@d}[2][!]{\also@v{#1}{!}{\temp@a#2}}
 \newcommand{\also@v}[3]{%
 	\expandafter\ifx\csname r@#3\endcsname\relax\else%
-		\edef\also@list{{#1}{#2}{#3},\also@list}
+		\edef\also@list{\also@list,{#1}{#2}{#3}}
 	\fi%
 }
 
