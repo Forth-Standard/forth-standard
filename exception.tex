@@ -217,9 +217,10 @@ state for continued execution past the \word{CATCH}.
 \newpage
 \setcounter{section}{5}
 \section{Glossary} % 9.6
+\vspace{1ex}
 
 \subsection{Exception words} % 9.6.1
-
+\vspace{1ex}
 \begin{worddef}{0875}{CATCH}
 \item \stack{i*x xt}{j*x 0 | i*x n}
 
@@ -237,7 +238,7 @@ state for continued execution past the \word{CATCH}.
 	the remainder of the execution semantics are given by
 	\word{THROW}.
 
-\see \rref{exception:THROW}{}.
+	\ralso{exception:THROW}
 
 	\begin{implement} % I.9.6.1.0875 CATCH
 	\dffamily
@@ -330,8 +331,6 @@ state for continued execution past the \word{CATCH}.
 	perform the function of \wref{core:ABORT}{ABORT} (the version
 	of \word[core]{ABORT} in the Core word set).
 
-\see \rref{exception:THROW}{}.
-
 	\begin{rationale} % A.9.6.1.2275 THROW
 		If \word{THROW} is executed with a non zero argument, the effect
 		is as if the corresponding \word{CATCH} had returned it. In that
@@ -423,7 +422,7 @@ state for continued execution past the \word{CATCH}.
 
 \newpage
 \subsection{Exception extension words} % 9.6.2
-\extended
+\extended\vspace{2ex}
 
 \begin{worddef}{0670}{ABORT}
 \item Extend the semantics of \wref{core:ABORT}{ABORT} to be:
@@ -433,7 +432,7 @@ state for continued execution past the \word{CATCH}.
 
 	Perform the function of \texttt{-1} \word{THROW}.
 
-\see \wref{core:ABORT}{ABORT}.
+	\walso{core:ABORT}
 
 	\begin{implement} % I.9.6.1.0670 ABORT
 		\word{:} \word{ABORT} ~ -1 \word{THROW} ~ \word{;}
@@ -467,8 +466,8 @@ state for continued execution past the \word{CATCH}.
 	displaying \param{ccc} if there is no exception frame on the
 	exception stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:ABORTq}{ABORT"}.
+	\xalso{usage:parsing}
+	\walso{core:ABORTq}
 
 	\begin{testing}\ttfamily
 		\word{DECIMAL} \\
