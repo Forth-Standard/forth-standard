@@ -251,8 +251,10 @@ system to provide all of the Extended-Character Exception and
 Extended-Character Extensions word sets.
 
 \section{Glossary} % 18.6
+\vspace{1ex}
 
 \subsection{Extended-Character words} % 18.6.1
+\vspace{1ex}
 
 \begin{worddef}{2486}[50]{X-SIZE}[]%[X:xchar]
 \item \stack{xc-addr u_1}{u_2}
@@ -278,7 +280,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{2487}[10]{XC!+}[x-c-store-plus]%[X:xchar]
 \item \stack{xchar xc-addr_1}{xc-addr_2}
 
@@ -297,7 +299,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-4ex}
+\enlargethispage{8ex}\vspace*{-1ex}
 \begin{worddef}[XC!+q]{2487}[15]{XC!+?}[x-c-store-plus-query]%[X:xchar]
 \item \stack{xchar xc-addr_1 u_1}{xc-addr_2 u_2 flag}
 
@@ -322,20 +324,20 @@ Extended-Character Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
 \begin{worddef}{2487}[20]{XC,}[x-c-comma]%[X:xchar]
 \item \stack{xchar}{}
 
 	Append the encoding of \param{xchar} to the dictionary.
 
-\see \wref{core:C,}{}.
+	\walso{core:C,}
 
 	\begin{implement} % I.18.6.1.2487,29 XC,
 	\word{:} \word{XC,} \word{p} xchar -{}- ) \word{HERE} \word{XC!+} DP \word{!} \word{;}
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
 \begin{worddef}{2487}[25]{XC-SIZE}[x-c-size]%[X:xchar]
 \item \stack{xchar}{u}
 
@@ -366,7 +368,7 @@ Extended-Character Extensions word sets.
   \end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
 \begin{worddef}{2487}[35]{XC@+}[x-c-fetch-plus]%[X:xchar]
 \item \stack{xc-addr_1}{xc-addr_2 xchar}
 
@@ -376,7 +378,7 @@ Extended-Character Extensions word sets.
 	\begin{implement} % I.18.6.1.2487.35 XC@+
 	\word{:} \word{XC@+} \word{p} xc-addr -{}- xc-addr' u ) \\
 	\tab \word{COUNT} \word{DUP} \$80 \word{Uless} \word{IF} \word{EXIT} \word{THEN}  \word{bs} \textdf{special case ASCII} \\
-   \tab \$7F \word{AND} \$40 \word{toR} \\
+	\tab \$7F \word{AND} \$40 \word{toR} \\
 	\tab \word{BEGIN} \word{DUP} \word{R@} \word{AND} \word{WHILE} \word{R@} \word{XOR} \\
 	\tab[2] 6 \word{LSHIFT} \word{Rfrom} 5 \word{LSHIFT} \word{toR} \word{toR} \word{COUNT} \\
 	\tab[2] \$3F \word{AND} \word{Rfrom} \word{OR} \\
@@ -398,27 +400,27 @@ Extended-Character Extensions word sets.
 %	 \end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
 \begin{worddef}{2487}[40]{XCHAR+}[x-char-plus]%[X:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 
 	Adds the size of the xchar stored at \param{xc-addr_1} to this address,
 	giving \param{xc-addr_2}.
 
-	\see \wref{core:CHAR+}{CHAR+}.
+	\walso{core:CHAR+}
 
 	\begin{implement} % I.18.6.1.2487.40 XCHAR+
 	\word{:} \word{XCHAR+} \word{p} xc-addr -{}- xc-addr' )  \word{XC@+} \word{DROP} \word{;}
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2488}[10]{XEMIT}[x-emit]%[X:xchar]
 \item \stack{xchar}{}
 
 	Prints an \param{xchar} on the terminal.
 
-\see \wref{core:EMIT}.
+	\walso{core:EMIT}
 
 	\begin{implement} % I.18.6.1.2488.10 XEMIT
 	\word{:} \word{XEMIT} \word{p} xchar -{}- ) \\
@@ -433,15 +435,13 @@ Extended-Character Extensions word sets.
 \end{worddef}
 
 
-\vspace*{-2ex}
-\enlargethispage{6ex}
 \begin{worddef}{2488}[30]{XKEY}[x-key]%[X:xchar]
 \item \stack{}{xchar}
 
 	Reads an \param{xchar} from the terminal.  This will discard all input
 	events up to the completion of the \param{xchar}.
 
-\see \wref{core:KEY}{}.
+	\walso{core:KEY}
 
 	\begin{implement} % I.18.6.1.2488.30 XKEY
 	\word{:} \word{XKEY} \word{p} -{}- xchar ) \\
@@ -455,7 +455,6 @@ Extended-Character Extensions word sets.
 \end{worddef}
 
 
-\vspace*{-6ex}
 \begin{worddef}[XKEYq]{2488}[35]{XKEY?}[x-key-query]%[X:xchar]
 \item \stack{}{flag}
 
@@ -464,12 +463,12 @@ Extended-Character Extensions word sets.
 	\word[facility]{EKEYq}, and \word[facility]{EKEY} may be affected
 	by \word{XKEYq}.
 
-\see \wref{facility:KEYq}{}.
+	\walso{facility:KEYq}
 \end{worddef}
 
 
 \subsection{Extended-Character extension words} % 18.6.2
-\extended
+\extended\vspace{1ex}
 
 \begin{worddef}{0145}{+X/STRING}[plus-x-string]%[X:xchar]
 \item \stack{xc-addr_1 u_1}{xc-addr_2 u_2}
@@ -484,7 +483,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0175}{-TRAILING-GARBAGE}[minus-trailing-garbage]%[X:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
@@ -505,14 +504,14 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0895}{CHAR}[]%[X:xchar]
 \item \stack{"<spaces>name"}{xchar}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a space.
 	Put the value of its first \param{xchar} onto the stack.
 
-\see \wref{core:CHAR}.
+	\walso{core:CHAR}
 
 	\begin{rationale} % A.18.6.2.0895 CHAR
 		The behavior of the extended version of \word{CHAR} is fully backward
@@ -525,8 +524,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-
-\vspace*{-2ex}
+\enlargethispage{8ex}
 \begin{worddef}[EKEYtoXCHAR]{1306}[60]{EKEY>XCHAR}[e-key-to-x-char]%[X:xchar]
 \item \stack{x}{xchar true | x false}
 
@@ -534,14 +532,12 @@ Extended-Character Extensions word sets.
 	\param{xchar} and \param{true}.  Otherwise, return \param{x} and
 	\param{false}.
 
-\see \wref{facility:EKEY}{},
-	\wref{facility:EKEYtoCHAR}{},
-	\wref{facility:EKEYtoFKEY}{}.
+	\walso{facility:EKEY}
+	\walso{facility:EKEYtoCHAR}
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
-\vspace*{-2ex}
-\enlargethispage{6ex}
 \begin{worddef}{2008}{PARSE}[]%[X:xchar]
 \item \stack{xchar "ccc<xchar>"}{c-addr u}
 
@@ -551,12 +547,12 @@ Extended-Character Extensions word sets.
 	is the length of the parsed string. If the parse area was empty, the
 	resulting string has a zero length.
 
-\see \xref{usage:parsing}{},
-	\wref{core:PARSE}{},
-	\rref{core:PARSE}{}.
+	\xalso{usage:parsing}
+	\walso{core:PARSE}
+	\ralso{core:PARSE}
 \end{worddef}
 
-\vspace*{-6ex}
+
 \begin{worddef}{2486}[70]{X-WIDTH}[]%[X:xchar]
 \item \stack{xc-addr u}{n}
 
@@ -573,7 +569,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2487}[30]{XC-WIDTH}[x-c-width]%[X:xchar]
 \item \stack{xchar}{n}
 
@@ -738,7 +734,7 @@ Extended-Character Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2487}[45]{XCHAR-}[x-char-minus]%[X:xchar]
 \item \stack{xc-addr_1}{xc-addr_2}
 
@@ -753,7 +749,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2488}[20]{XHOLD}[x-hold]%[X:xchar]
 \item \stack{xchar}{}
 
@@ -761,7 +757,7 @@ Extended-Character Extensions word sets.
 	condition exists if \word{XHOLD} executes outside of a \word{num-start}
 	\word{num-end} delimited number conversion.
 
-\see \wref{core:HOLD}{}.
+	\walso{core:HOLD}
 
 	\begin{implement} % I.18.6.2.2488 XHOLD
 	\word{CREATE} xholdbuf 8 \word{ALLOT}
@@ -771,7 +767,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}[XSTRING-]{2495}{X\bs{}STRING-}[x-string-minus]%[X:xchar]
 \item \stack{xc-addr u_1}{xc-addr u_2}
 
@@ -788,8 +784,7 @@ Extended-Character Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{6ex}
+
 \begin{worddef}{2520}{[CHAR]}[bracket-char]%[X:xchar]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -804,7 +799,7 @@ Extended-Character Extensions word sets.
 	Place \param{xchar}, the value of the first xchar of \param{name}, on
 	the stack.
 
-\see \wref{core:[CHAR]}.
+	\walso{core:[CHAR]}
 
 	\begin{implement} % I.18.6.2.2520 [CHAR]
 	\word{:} \word{[CHAR]} \word{p} "name" -{}- rt:xchar ) \\
