@@ -63,10 +63,9 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 \pagebreak
 \vspace*{-6ex}
 \section{Glossary} % 14.6
-
 \subsection{Memory-Allocation words} % 14.6.1
 
-
+\enlargethispage{8ex}
 \begin{worddef}{0707}{ALLOCATE}
 \item \stack{u}{a-addr ior}
 
@@ -82,9 +81,9 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	address and \param{ior} is the {im\-ple\-ment\-ation-de\-fin\-ed} I/O result
 	code.
 
-\see \wref{core:HERE}{HERE},
-	\wref{memory:FREE}{FREE},
-	\wref{memory:RESIZE}{RESIZE}.
+	\walso{core:HERE}
+	\walso{memory:FREE}
+	\walso{memory:RESIZE}
 
 	\begin{testing} % T.14.6.1.0707 ALLOCATE
 		\ttfamily
@@ -120,16 +119,15 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	If the operation succeeds, \param{ior} is zero. If the operation
 	fails, \param{ior} is the implementation-defined I/O result code.
 
-\see \wref{core:HERE}{HERE},
-	\wref{memory:ALLOCATE}{ALLOCATE},
-	\wref{memory:RESIZE}{RESIZE}.
+	\walso{core:HERE}
+	\walso{memory:ALLOCATE}
+	\walso{memory:RESIZE}
 
 	\begin{testing} % T.14.6.1.1605 FREE
 		\textdf{See \tref{memory:ALLOCATE}.}
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{4ex}
 \vspace*{-3ex}
 \begin{worddef}{2145}{RESIZE}
 \item \stack{a-addr_1 u}{a-addr_2 ior}
@@ -157,9 +155,9 @@ Memory-Al\-lo\-ca\-tion Extensions word sets.
 	the region of memory at \param{a-addr_1} is unaffected, and
 	\param{ior} is the implementation-defined I/O result code.
 
-\see \wref{core:HERE}{HERE},
-	\wref{memory:ALLOCATE}{ALLOCATE},
-	\wref{memory:FREE}{FREE}.
+	\walso{core:HERE}
+	\walso{memory:ALLOCATE}
+	\walso{memory:FREE}
 
 	\begin{testing} % T.14.6.1.2145 RESIZE
 		\ttfamily
