@@ -140,7 +140,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	with the specified parameters.
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-2ex}\enlargethispage{8ex}
 \begin{worddef}[KEYq]{1755}{KEY?}[key-question]
 \item \stack{}{flag}
 
@@ -154,8 +154,6 @@ to provide all of the Facility and Facility Extensions word sets.
 	subsequent executions of \word{KEYq} prior to the execution
 	of \word[core]{KEY} or \word{EKEY} also return \emph{true},
 	without discarding keyboard events.
-
-\see \rref{facility:KEYq}{}.
 
 	\begin{rationale} % A.10.6.1.1755 KEY?
 		The committee has gone around several times on the
@@ -180,8 +178,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{4ex}
+\vspace{-2ex}
 \begin{worddef}{2005}{PAGE}
 \item \stack{}{}
 
@@ -213,14 +210,13 @@ to provide all of the Facility and Facility Extensions word sets.
 
 	Add \param{n_1} to \param{addr_1} giving \param{addr_2}.
 
-\see \wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \\
-	\wref{facility:CFIELD:}{CFIELD:},
-	\wref{facility:FIELD:}{FIELD:},
-	\wref{floating:FFIELD:}{FFIELD:}, \\
-	\wref{floating:SFFIELD:}{SFFIELD:},
-	\wref{floating:DFFIELD:}{DFFIELD:},
-	\rref{facility:+FIELD}{}.
+	\walso{facility:BEGIN-STRUCTURE}
+	\walso{facility:END-STRUCTURE}
+	\walso{facility:CFIELD:}
+	\walso{facility:FIELD:}
+	\walso{floating:FFIELD:}
+	\walso{floating:SFFIELD:}
+	\walso{floating:DFFIELD:}
 
 	\begin{rationale} % A.10.6.2.0135 +FIELD
 		\word{+FIELD} is not required to align items.  This is
@@ -242,7 +238,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-
+\vspace*{-2ex}\enlargethispage{8ex}
 \begin{worddef}{0763}{BEGIN-STRUCTURE}[]%[X:structures]
 \item \stack{"<spaces>name"}{struct-sys 0}
 
@@ -260,10 +256,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{name} is executed prior to the associated
 	\word{END-STRUCTURE} being executed.
 
-\see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE}, \\
-	\rref{facility:BEGIN-STRUCTURE}{}.
-
+	\walso{facility:+FIELD}
+	\walso{facility:END-STRUCTURE}
 
 	\begin{rationale} % A.10.6.2.0763 BEGIN-STRUCTURE
 		There are two schools of thought regarding named data
@@ -389,7 +383,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{implement}
 \end{worddef}
 
-\enlargethispage{4ex}
+\vspace*{-2ex}
 \begin{worddef}{0893}{CFIELD:}[c-field-colon]%[X:structures]
 \item \stack{n_1 "<spaces>name"}{n_2}
 
@@ -407,10 +401,10 @@ to provide all of the Facility and Facility Extensions word sets.
 	Add the \param{offset} calculated during the compile-time action to
 	\param{addr_1} giving the address \param{addr_2}.
 
-\see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
-	\rref{facility:FIELD:}{}.
+	\walso{facility:+FIELD}
+	\walso{facility:BEGIN-STRUCTURE}
+	\walso{facility:END-STRUCTURE}
+	\ralso{facility:FIELD:}
 \end{worddef}
 
 % -------------------------------------
@@ -421,10 +415,8 @@ to provide all of the Facility and Facility Extensions word sets.
 	Receive one keyboard event \param{x}. The encoding of keyboard events
 	is implementation defined.
 
-\see \wref{core:KEY}{KEY},
-	\wref{facility:KEYq}{KEY?},
-	\rref{facility:EKEY}{}.
-
+	\walso{core:KEY}
+	\walso{facility:KEYq}
 
 	\begin{rationale} % A.10.6.2.1305 EKEY
 		For some input devices, such as keyboards, more information is
@@ -455,15 +447,13 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{rationale}
 \end{worddef}
 
-
+\vspace*{-2ex}\enlargethispage{8ex}
 \begin{worddef}[EKEYtoCHAR]{1306}{EKEY>CHAR}[e-key-to-char]
 \item \stack{x}{x false | char true}
 
 	If the keyboard event \param{x} corresponds to a character in the
 	implementation-defined character set, return that character and
 	\emph{true}. Otherwise return \param{x} and \emph{false}.
-
-\see \rref{facility:EKEYtoCHAR}{}.
 
 	\begin{rationale} % A.10.6.2.1306 EKEY>CHAR
 		\word{EKEYtoCHAR} translates a keyboard event into the
@@ -478,7 +468,7 @@ to provide all of the Facility and Facility Extensions word sets.
 
 
 % -------------------------------------------------------------------
-
+\vspace*{-2ex}
 \begin{worddef}[EKEYtoFKEY]{1306}[40]{EKEY>FKEY}[e-key-to-f-key]%[X:ekeys]
 \item \stack{x}{u flag}
 
@@ -493,35 +483,32 @@ to provide all of the Facility and Facility Extensions word sets.
 	less conveniently or with less functionality) if these key numbers
 	cannot be produced.
 
-\see
-	\wref{facility:EKEY}{EKEY},
-	\wref{facility:K-ALT-MASK}{K-ALT-MASK},
-	\wref{facility:K-CTRL-MASK}{K-CTRL-MASK}, \linebreak
-	\wref{facility:K-DELETE}{K-DELETE},
-	\wref{facility:K-DOWN}{K-DOWN},
-	\wref{facility:K-END}{K-END}, \linebreak
-	\wref{facility:K-F1}{K-F1},
-	\wref{facility:K-F10}{K-F10},
-	\wref{facility:K-F11}{K-F11}, \linebreak
-	\wref{facility:K-F12}{K-F12},
-	\wref{facility:K-F2}{K-F2},
-	\wref{facility:K-F3}{K-F3}, \linebreak
-	\wref{facility:K-F4}{K-F4},
-	\wref{facility:K-F5}{K-F5},
-	\wref{facility:K-F6}{K-F6}, \linebreak
-	\wref{facility:K-F7}{K-F7},
-	\wref{facility:K-F8}{K-F8},
-	\wref{facility:K-F9}{K-F9}, \linebreak
-	\wref{facility:K-HOME}{K-HOME},
-	\wref{facility:K-INSERT}{K-INSERT},
-	\wref{facility:K-LEFT}{K-LEFT}, \linebreak
-	\wref{facility:K-NEXT}{K-NEXT},
-	\wref{facility:K-PRIOR}{K-PRIOR},
-	\wref{facility:K-RIGHT}{K-RIGHT}, \linebreak
-	\wref{facility:K-SHIFT-MASK}{K-SHIFT-MASK},
-	\wref{facility:K-UP}{K-UP}, \linebreak
-	\rref{facility:EKEYtoFKEY}{}.
-
+	\walso{facility:EKEY}
+	\walso{facility:K-ALT-MASK}
+	\walso{facility:K-CTRL-MASK}
+	\walso{facility:K-DELETE}
+	\walso{facility:K-DOWN}
+	\walso{facility:K-END}
+	\walso{facility:K-F1}
+	\walso{facility:K-F10}
+	\walso{facility:K-F11}
+	\walso{facility:K-F12}
+	\walso{facility:K-F2}
+	\walso{facility:K-F3}
+	\walso{facility:K-F4}
+	\walso{facility:K-F5}
+	\walso{facility:K-F6}
+	\walso{facility:K-F7}
+	\walso{facility:K-F8}
+	\walso{facility:K-F9}
+	\walso{facility:K-HOME}
+	\walso{facility:K-INSERT}
+	\walso{facility:K-LEFT}
+	\walso{facility:K-NEXT}
+	\walso{facility:K-PRIOR}
+	\walso{facility:K-RIGHT}
+	\walso{facility:K-SHIFT-MASK}
+	\walso{facility:K-UP}
 
 	\begin{rationale} % A.10.6.2.1306.40 EKEY>FKEY
 		\word{EKEY} produces an abstract cell type for a keyboard
@@ -635,7 +622,6 @@ to provide all of the Facility and Facility Extensions word sets.
 	\end{testing}
 \end{worddef}
 
-
 % -------------------------------------------------------------------
 
 \begin{worddef}[EKEYq]{1307}{EKEY?}[e-key-question]
@@ -651,7 +637,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\emph{true}, referring to the same event.
 \end{worddef}
 
-
+\vspace*{-6ex}
 \begin{worddef}[EMITq]{1325}{EMIT?}[emit-question]
 \item \stack{}{flag}
 
@@ -659,8 +645,6 @@ to provide all of the Facility and Facility Extensions word sets.
 	accept data and the execution of \word[core]{EMIT} in place of
 	\word{EMITq} would not have suffered an indefinite delay. If
 	the device status is indeterminate, \emph{flag} is true.
-
-\see \rref{facility:EMITq}{}.
 
 	\begin{rationale} % A.10.6.2.1325 EMIT?
 		An indefinite delay is a device related condition, such as
@@ -670,15 +654,16 @@ to provide all of the Facility and Facility Extensions word sets.
 \end{worddef}
 
 % -------------------------------------
-\vspace*{-2ex}
+
+\vspace*{-2ex}\enlargethispage{8ex}
 \begin{worddef}{1336}{END-STRUCTURE}[]%[X:structures]
 \item \stack{struct-sys +n}{}
 
 	Terminate definition of a structure started by
 	\word{BEGIN-STRUCTURE}.
 
-\see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}.
+	\walso{facility:+FIELD}
+	\walso{facility:BEGIN-STRUCTURE}
 
 	\begin{implement} % I.10.6.2.1336 END-STRUCTURE
 		\textdf{Terminate definition of a structure.}
@@ -705,10 +690,9 @@ to provide all of the Facility and Facility Extensions word sets.
 	Add the \param{offset} calculated during the compile-time action
 	to \param{addr_1} giving the address \param{addr_2}.
 
-\see \wref{facility:+FIELD}{+FIELD},
-	\wref{facility:BEGIN-STRUCTURE}{BEGIN-STRUCTURE}, \\
-	\wref{facility:END-STRUCTURE}{END-STRUCTURE},
-	\rref{facility:FIELD:}{}.
+	\walso{facility:+FIELD}
+	\walso{facility:BEGIN-STRUCTURE}
+	\walso{facility:END-STRUCTURE}
 
 	\begin{rationale}
 		Create an aligned single-cell field in a data structure.
@@ -742,13 +726,10 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} may produce when the user presses the
 	corresponding key combination.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
-
-\vspace*{-2ex}
-\enlargethispage{4ex}
+\vspace*{-1ex}
 \begin{worddef}{1740}[02]{K-CTRL-MASK}[]%[X:ekeys]
 \item \stack{}{u}
 
@@ -757,8 +738,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} may produce when the user presses the
 	corresponding key combination.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -769,8 +749,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``Delete'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -781,8 +760,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor down'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -793,8 +771,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``End'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -805,8 +782,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F1'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -817,8 +793,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F10'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -829,8 +804,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F11'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -841,8 +815,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F12'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -853,8 +826,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F2'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -865,8 +837,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F3'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -877,8 +848,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F4'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -889,8 +859,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F5'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -901,8 +870,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F6'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -913,8 +881,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F7'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -925,8 +892,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F8'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -937,8 +903,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``F9'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -949,8 +914,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``home'' or ``Pos1'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -961,8 +925,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``Insert'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -973,8 +936,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor left'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -985,8 +947,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``PgDn'' (Page Down) or ``Next'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -997,8 +958,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``PgUp'' (Page Up) or ``Prior'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -1009,8 +969,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor right'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -1022,8 +981,7 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} may produce when the user presses the
 	corresponding key combination.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
 
@@ -1034,13 +992,10 @@ to provide all of the Facility and Facility Extensions word sets.
 	\word{EKEYtoFKEY} would produce when the user presses the
 	``cursor up'' key.
 
-\see \wref{facility:EKEYtoFKEY}{EKEY>FKEY},
-	\rref{facility:EKEYtoFKEY}{EKEY>FKEY}.
+	\walso{facility:EKEYtoFKEY}
 \end{worddef}
 
-
 % -------------------------------------------------------------------
-
 
 \begin{worddef}{1905}{MS}
 \item \stack{u}{}
@@ -1052,8 +1007,6 @@ to provide all of the Facility and Facility Extensions word sets.
 	upon the {im\-ple\-ment\-ation-de\-fin\-ed} resolution of the system clock
 	and upon other system and computer characteristics beyond the
 	scope of this standard.
-
-\see \rref{facility:MS}{}.
 
 	\begin{rationale} % A.10.6.2.1905 MS
 		Although their frequencies vary, every system has a clock.
@@ -1076,8 +1029,6 @@ to provide all of the Facility and Facility Extensions word sets.
 	\param{+n_4} is the day \{1{\ldots}31\},
 	\param{+n_5} is the month \{1{\ldots}12\} and
 	\param{+n_6} is the year (e.g., 1991).
-
-\see \rref{facility:TIMEandDATE}{}.
 
 	\begin{rationale} % A.10.6.2.2292 TIME&DATE
 		Most systems have a real-time clock/calendar.
