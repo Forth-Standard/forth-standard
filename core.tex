@@ -13,14 +13,14 @@
 
 	Store \param{x} at \param{a-addr}.
 
-	\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0010 !
 		See \tref{core:,}{,}.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}[num]{0030}{\num}[number-sign]
 \item \stack{ud_1}{ud_2}
 
@@ -32,9 +32,9 @@
 	exists if \word{num} executes outside of a 
 	\word{num-start} \word{num-end} delimited number conversion.
 
-\see \wref{core:num-end}{\num>},
-	\wref{core:numS}{\num{}S},
-	\wref{core:num-start}{<\num}.
+	\walso{core:num-end}
+	\walso{core:numS}
+	\walso{core:num-start}
 
 	\begin{testing} % T.6.1.0030 #
 		\texttt{\word{:} GP3  \word{num-start} 1 0 \word{num} \word{num} \word{num-end} \word{Sq} 01" S= \word{;}} \\
@@ -42,7 +42,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}[num-end]{0040}{\num>}[number-sign-greater]
 \item \stack{xd}{c-addr u}
 
@@ -51,9 +51,9 @@
 	specify the resulting character string. A program may replace
 	characters within the string.
 
-\see \wref{core:num}{\num},
-	\wref{core:numS}{\num{}S},
-	\wref{core:num-start}{<\num}.
+	\walso{core:num}
+	\walso{core:numS}
+	\walso{core:num-start}
 
 	\begin{testing} % T.6.1.0040 #>
 		See \tref{core:num}{\num},
@@ -63,7 +63,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}[numS]{0050}{\num{}S}[number-sign-s]
 \item \stack{ud_1}{ud_2}
 
@@ -73,9 +73,9 @@
 	\word{numS} executes outside of a \word{num-start} \word{num-end}
 	delimited number conversion.
 
-\see \wref{core:num}{\num},
-	\wref{core:num-end}{\num>},
-	\wref{core:num-start}{<\num}.
+	\walso{core:num}
+	\walso{core:num-end}
+	\walso{core:num-start}
 
 	\begin{testing} % T.6.1.0050 #S
 		\ttfamily
@@ -118,8 +118,10 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
-\enlargethispage{6ex}
+
+\pagebreak
+%\vspace*{-2ex}
+%\enlargethispage{6ex}
 \begin{worddef}{0070}{'}[tick]
 \item \stack{"<spaces>name"}{xt}
 
@@ -129,11 +131,10 @@
 	\param{name} is not found. When interpreting,
 	\texttt{' xyz EXECUTE} is equivalent to \texttt{xyz}.
 
-\see \xref[3.4 The Forth text interpreter]{usage:interpret},
-	\xref[3.4.1 Parsing]{usage:parsing},
-	\rref{core:'}{},
-	\rref{core:POSTPONE}{POSTPONE},
-	\rref{core:[']}{[']}.
+	\xalso{usage:interpret}
+	\xalso{usage:parsing}
+	\ralso{core:POSTPONE}
+	\ralso{core:[']}
 
 	\begin{rationale} % A.6.1.0070 '
 		Typical use: {\ldots} \word{'} \param{name}.
@@ -166,9 +167,8 @@
 	The number of characters in \param{ccc} may be zero to the
 	number of characters in the parse area.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\xref[11.6.1.0080 (]{file:p},
-	\rref{core:p}{}.
+	\xalso{usage:parsing}
+	\walso{file:p}
 
 	\begin{rationale} % A.6.1.0080 (
 		Typical use: {\ldots} \word{p} \param{ccc}\texttt{)} {\ldots}
@@ -181,7 +181,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}{0090}{*}[star]
 \item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
 
@@ -205,7 +205,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}{0100}{*/}[star-slash]
 \item \stack{n_1 n_2 n_3}{n_4}
 
@@ -220,7 +220,7 @@
 	or the phrase
 	\word{toR} \word{M*} \word{Rfrom} \word{SM/REM} \word{SWAP} \word{DROP}.
 
-\see \xref[3.2.2.1 Integer division]{usage:div}.
+	\xalso{usage:div}
 
 	\begin{testing} % T.6.1.0100 */
 		\ttfamily
@@ -249,7 +249,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}{0110}{*/MOD}[star-slash-mod]
 \item \stack{n_1 n_2 n_3}{n_4 n_5}
 
@@ -264,7 +264,7 @@
 	\word{toR} \word{M*} \word{Rfrom} \word{FM/MOD} or the phrase
 	\word{toR} \word{M*} \word{Rfrom} \word{SM/REM}.
 
-\see \xref[3.2.2.1 Integer division]{usage:div}.
+	\xalso{usage:div}
 
 	\begin{testing} % T.6.1.0110 */MOD
 		\ttfamily
@@ -293,14 +293,14 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1.5ex}
+
 \begin{worddef}{0120}{+}[plus]
 \item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
 
 	Add \param{n_2|u_2} to \param{n_1|u_1}, giving the sum
 	\param{n_3|u_3}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0120 +
 		\test{       0  5 \word{+}}{         5} \\
@@ -323,7 +323,7 @@
 
 	Add \param{n|u} to the single-cell number at \param{a-addr}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0130 +!
 		\test{ 0 1ST \word{!}       }{ } \\
@@ -333,7 +333,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0140}{+LOOP}[plus-loop]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -359,10 +359,9 @@
 	parameters and continue execution immediately following the
 	loop.
 
-\see \wref{core:DO}{DO},
-	\wref{core:I}{I},
-	\wref{core:LEAVE}{LEAVE},
-	\rref{core:+LOOP}{}.
+	\walso{core:DO}
+	\walso{core:I}
+	\walso{core:LEAVE}
 
 	\begin{rationale} % A.6.1.0140 +LOOP
 		Typical use:
@@ -430,7 +429,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-4ex}\enlargethispage{8ex}
 \begin{worddef}{0150}{,}[comma]
 \item \stack{x}{}
 
@@ -440,9 +439,8 @@
 	execution. An ambiguous condition exists if the data-space
 	pointer is not aligned prior to execution of \word{,}.
 
-\see \xref[3.3.3 Data space]{usage:dataspace},
-	\xref[3.3.3.1 Address alignment]{usage:aaddr},
-	\rref{core:,}{}.
+	\xalso{usage:dataspace}
+	\xalso{usage:aaddr}
 
 	\begin{rationale} % A.6.1.0150 ,
 		The use of \word{,} (comma) for compiling execution tokens is
@@ -473,14 +471,14 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1.5ex}
 \begin{worddef}{0160}{-}[minus]
 \item \stack{n_1|u_1 n_2|u_2}{n_3|u_3}
 
 	Subtract \param{n_2|u_2} from \param{n_1|u_1}, giving the
 	difference \param{n_3|u_3}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0160 -
 		\test{         0  5 \word{-}}{      -5} \\
@@ -496,22 +494,21 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
-\enlargethispage{4ex}
+\vspace*{-1.5ex}
 \begin{worddef}[d]{0180}{.{}}[dot]
 \item \stack{n}{}
 
 	Display \param{n} in free field format.
 
-\see \xref[3.2.1.2 Digit conversion]{usage:digits},
-	\xref[3.2.1.3 Free-field number display]{usage:dot}.
+	\xalso{usage:digits}
+	\xalso{usage:dot}
 
 	\begin{testing} % T.6.1.0180 .
 		See \tref{core:EMIT}{EMIT}.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}[.q]{0190}{."}[dot-quote]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -528,9 +525,8 @@
 
 	Display \param{ccc}.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:.p}{.(},
-	\rref{core:.q}{}.
+	\xalso{usage:parsing}
+	\walso{core:.p}
 
 	\begin{rationale} % A.6.1.0190 ."
 		Typical use:
@@ -557,8 +553,7 @@
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{4ex}
-\vspace*{-2ex}
+\vspace*{-1.5ex}
 \begin{worddef}{0230}{/}[slash]
 \item \stack{n_1 n_2}{n_3}
 
@@ -571,7 +566,7 @@
 	or the phrase
 	\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{SWAP} \word{DROP}.
 
-\see \xref[3.2.2.1 Integer division]{usage:div}.
+	\xalso{usage:div}
 
 	\begin{testing} % T.6.1.0230 /
 		\ttfamily
@@ -602,7 +597,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{0240}{/MOD}[slash-mod]
 \item \stack{n_1 n_2}{n_3 n_4}
 
@@ -615,7 +610,7 @@
 	or the phrase
 	\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM}.
 
-\see \xref[3.2.2.1 Integer division]{usage:div}.
+	\xalso{usage:div}
 
 	\begin{testing} % T.6.1.0240 /MOD
 		\ttfamily
@@ -646,7 +641,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1.5ex}
 \begin{worddef}[0less]{0250}{0<}[zero-less]
 \item \stack{n}{flag}
 
@@ -661,7 +656,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1.5ex}
 \begin{worddef}{0270}{0=}[zero-equals]
 \item \stack{x}{flag}
 
@@ -678,7 +673,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1.5ex}
 \begin{worddef}{0290}{1+}[one-plus]
 \item \stack{n_1|u_1}{n_2|u_2}
 
@@ -694,7 +689,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{0300}{1-}[one-minus]
 \item \stack{n_1|u_1}{n_2|u_2}
 
@@ -709,7 +704,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{0310}{2!}[two-store]
 \item \stack{x_1 x_2 a-addr}{}
 
@@ -718,7 +713,7 @@
 	consecutive cell. It is equivalent to the sequence
 	\word{SWAP} \word{OVER} \word{!} \word{CELL+} \word{!}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0310 2!
 		See \tref{core:,}{,}.
@@ -742,7 +737,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}\enlargethispage{3ex}
 \begin{worddef}{0330}{2/}[two-slash]
 \item \stack{x_1}{x_2}
 
@@ -760,7 +755,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0350}{2@}[two-fetch]
 \item \stack{a-addr}{x_1 x_2}
 
@@ -769,15 +764,15 @@
 	next consecutive cell. It is equivalent to the sequence
 	\word{DUP} \word{CELL+} \word{@} \word{SWAP} \word{@}.
 
-\see \xref[3.3.3.1  Address alignment]{usage:aaddr},
-	\wref{core:2!}{2!}.
+	\xalso{usage:aaddr}
+	\walso{core:2!}{2!}.
 
 	\begin{testing} % T.6.1.0350 2@
 		See \tref{core:,}{,}.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0370}{2DROP}[two-drop]
 \item \stack{x_1 x_2}{}
 
@@ -788,7 +783,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0380}{2DUP}[two-dupe]
 \item \stack{x_1 x_2}{x_1 x_2 x_1 x_2}
 
@@ -799,7 +794,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0400}{2OVER}[two-over]
 \item \stack{x_1 x_2 x_3 x_4}{x_1 x_2 x_3 x_4 x_1 x_2}
 
@@ -821,7 +816,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}\enlargethispage{4ex}
 \begin{worddef}{0450}{:}[colon]
 \item \stack[C]{"<spaces>name"}{colon-sys}
 
@@ -850,14 +845,13 @@
 	\param{i*x} and \param{j*x} represent arguments to and
 	results from \param{name}, respectively.
 
-\see \xref[3.4 The Forth text interpreter]{usage:interpret},
-	\xref[3.4.1 Parsing]{usage:parsing},
-	\xref[3.4.5 Compilation]{usage:compilation},
-	\wref{core:DOES}{DOES>},
-	\wref{core:[}{[},
-	\wref{core:]}{]},
-	\wref{tools:;CODE}{;CODE},
-	\rref{core::}{}.
+	\xalso{usage:interpret}
+	\xalso{usage:parsing}
+	\xalso{usage:compilation}
+	\walso{core:DOES}
+	\walso{core:[}
+	\walso{core:]}
+	\walso{tools:;CODE}
 
 	\begin{rationale} % A.6.1.0450 :
 		% define "colon definition" for uses in the rest of
@@ -892,7 +886,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+\vspace*{-1.5ex}
 \begin{worddef}{0460}{;}[semicolon]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -916,9 +910,8 @@
 
 	Return to the calling definition specified by \param{nest-sys}.
 
-\see \xref[3.4 The Forth text interpreter]{usage:command},
-	\xref[3.4.5 Compilation]{usage:compilation},
-	\rref{core:;}{}.
+	\xalso{usage:command}
+	\xalso{usage:compilation}
 
 	\begin{rationale} % A.6.1.0460 ;
 		Typical use:
@@ -947,7 +940,7 @@
 	\param{flag} is true if and only if \param{n_1} is less than
 	\param{n_2}.
 
-\see \wref{core:Uless}{U<}.
+	\walso{core:Uless}
 
 	\begin{testing} % T.6.1.0480 <
 		\test{      0       1 \word{less}}{<TRUE> } \\
@@ -969,15 +962,15 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}\enlargethispage{6ex}
 \begin{worddef}[num-start]{0490}{<\num}[less-number-sign]
 \item \stack{}{}
 
 	Initialize the pictured numeric output conversion process.
 
-\see \wref{core:num}{\num},
-	\wref{core:num-end}{\num>},
-	\wref{core:numS}{\num{}S}.
+	\walso{core:num}
+	\walso{core:num-end}
+	\walso{core:numS}
 
 	\begin{testing} % T.6.1.0490 <#
 		See \tref{core:num}{\num},
@@ -987,7 +980,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0530}{=}[equals]
 \item \stack{x_1 x_2}{flag}
 
@@ -1005,13 +998,13 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}[more]{0540}{>}[greater-than]
 \item \stack{n_1 n_2}{flag}
 
 	\param{flag} is true if and only if \param{n_1} is greater than \param{n_2}.
 
-\see \wref{core:Umore}{U>}.
+	\walso{core:Umore}
 
 	\begin{testing} % T.6.1.0540 >
 		\test{      0       1 \word{more}}{<FALSE>} \\
@@ -1033,7 +1026,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}[toBODY]{0550}{>BODY}[to-body]
 \item \stack{xt}{a-addr}
 
@@ -1041,8 +1034,7 @@
 	\param{xt}. An ambiguous condition exists if \param{xt} is not
 	for a word defined via \word{CREATE}.
 
-\see \xref[3.3.3 Data space]{usage:dataspace},
-	\rref{core:toBODY}{}.
+	\xalso{usage:dataspace}
 
 	\begin{rationale} % A.6.1.0550 >BODY
 		\param{a-addr} is the address that \word{HERE} would have
@@ -1056,7 +1048,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}[toIN]{0560}{>IN}[to-in]
 \item \stack{}{a-addr}
 
@@ -1102,7 +1094,7 @@
 	characters in the string. An ambiguous condition exists if
 	\param{ud_2} overflows during the conversion.
 
-\see \xref[3.2.1.2 Digit conversion]{usage:digits}.
+	\xalso{usage:digits}
 
 	\begin{testing} % T.6.1.0570 >NUMBER
 		\ttfamily
@@ -1146,7 +1138,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}\enlargethispage{4ex}
 \begin{worddef}[toR]{0580}{>R}[to-r]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1157,12 +1149,12 @@
 
 	Move \param{x} to the return stack.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:Rfrom}{R>},
-	\wref{core:R@}{R@},
-	\wref{core:2toR}{2>R},
-	\wref{core:2Rfrom}{2R>},
-	\wref{core:2R@}{2R@}.
+	\xalso{usage:returnstack}
+	\walso{core:Rfrom}
+	\walso{core:R@}
+	\walso{core:2toR}
+	\walso{core:2Rfrom}
+	\walso{core:2R@}
 
 	\begin{testing} % T.6.1.0580 >R
 		% TESTING \word{toR} \word{Rfrom} \word{R@}
@@ -1175,7 +1167,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}[qDUP]{0630}{?DUP}[question-dupe]
 \item \stack{x}{0 | x x}
 
@@ -1188,20 +1180,20 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0650}{@}[fetch]
 \item \stack{a-addr}{x}
 
 	\param{x} is the value stored at \param{a-addr}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0650 @
 		See \tref{core:,}{,}.
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0670}{ABORT}
 \item \stack{i*x}{}
 	\stack[R]{j*x}{}
@@ -1210,7 +1202,7 @@
 	which includes emptying the return stack, without displaying
 	a message.
 
-\see \wref{exception:ABORT}{ABORT}.
+	\walso{exception:ABORT}
 \end{worddef}
 
 
@@ -1233,9 +1225,8 @@
 	zero, display \param{ccc} and perform an implementation-defined
 	abort sequence that includes the function of \word{ABORT}.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{exception:ABORTq}{9.6.2.0680 ABORT"},
-	\rref{core:ABORTq}{}.
+	\xalso{usage:parsing}
+	\walso{exception:ABORTq}
 
 	\begin{rationale} % A.6.1.0680 ABORT"
 		Typical use:
@@ -1245,7 +1236,7 @@
 	\end{rationale}
 \end{worddef}
 
-
+\enlargethispage{4ex}
 \begin{worddef}{0690}{ABS}[abs]
 \item \stack{n}{u}
 
@@ -1276,8 +1267,6 @@
 	and the display is maintained in an implementation-defined way.
 
 	\param{+n_2} is the length of the string stored at \param{c-addr}.
-
-\see \rref{core:ACCEPT}{}.
 
 	\begin{rationale} % A.6.1.0695 ACCEPT
 		Specification of a non-zero, positive integer count (\param{+n_1})
@@ -1323,9 +1312,8 @@
 	If the data-space pointer is not aligned, reserve enough space
 	to align it.
 
-\see \xref[3.3.3 Data space]{usage:dataspace},
-	\xref[3.3.3.1 Address alignment]{usage:aaddr},
-	\rref{core:ALIGN}{}.
+	\xalso{usage:dataspace}
+	\xalso{usage:aaddr}
 
 	\begin{rationale} % A.6.1.0705 ALIGN
 		In this standard we have attempted to provide transportability
@@ -1353,17 +1341,18 @@
 \end{worddef}
 
 
+\vspace*{-6ex}
 \begin{worddef}{0706}{ALIGNED}
 \item \stack{addr}{a-addr}
 
 	\param{a-addr} is the first aligned address greater than or equal
 	to \param{addr}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr},
-	\wref{core:ALIGN}{}.
+	\xalso{usage:aaddr}
+	\walso{core:ALIGN}
 \end{worddef}
 
-\vspace*{-1ex}
+\vspace*{-2.5ex}\enlargethispage{10ex}
 \begin{worddef}{0710}{ALLOT}
 \item \stack{n}{}
 
@@ -1381,7 +1370,7 @@
 	execution, it will remain character aligned when \word{ALLOT}
 	finishes execution.
 
-\see \xref[3.3.3 Data space]{usage:dataspace}.
+	\xalso{usage:dataspace}
 
 	\begin{testing} % T.6.1.0710 ALLOT
 		\ttfamily
@@ -1395,7 +1384,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+\vspace*{-2.5ex}
 \begin{worddef}{0720}{AND}
 \item \stack{x_1 x_2}{x_3}
 
@@ -1418,7 +1407,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+\vspace*{-2.5ex}
 \begin{worddef}{0750}{BASE}
 \item \stack{}{a-addr}
 
@@ -1436,8 +1425,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
-\enlargethispage{8ex}
+\vspace*{-2.5ex}
 \begin{worddef}{0760}{BEGIN}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1454,11 +1442,10 @@
 
 	Continue execution.
 
-\see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
-	\wref{core:REPEAT}{REPEAT},
-	\wref{core:UNTIL}{UNTIL},
-	\wref{core:WHILE}{WHILE}, \\
-	\rref{core:BEGIN}{}.
+	\xalso{usage:controlstack}
+	\walso{core:REPEAT}
+	\walso{core:UNTIL}
+	\walso{core:WHILE}
 
 	\begin{rationale} % A.6.1.0760 BEGIN
 		Typical use:
@@ -1488,8 +1475,6 @@
 
 	\param{char} is the character value for a space.
 
-\see \rref{core:BL}{}.
-
 	\begin{rationale} % A.6.1.0770 BL
 		Because space is used throughout Forth as the standard
 		delimiter, this word is the only way a program has to find and
@@ -1510,7 +1495,7 @@
 	than cell size, only the number of low-order bits corresponding to
 	character size are transferred.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0850 C!
 		See \tref{core:C,}{C,}.
@@ -1528,8 +1513,8 @@
 	An ambiguous condition exists if the data-space pointer is not
 	character-aligned prior to execution of \word{C,}.
 
-\see \xref[3.3.3 Data space]{usage:dataspace},
-	\xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:dataspace}
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0860 C,
 		\ttfamily
@@ -1557,7 +1542,7 @@
 	greater than character size, the unused high-order bits are all
 	zeroes.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.2.0870 C@
 		See \tref{core:C,}{C,}.
@@ -1571,8 +1556,7 @@
 	Add the size in address units of a cell to \param{a-addr_1}, giving
 	\param{a-addr_2}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr},
-	\rref{core:CELL+}{}.
+	\xalso{usage:aaddr}
 
 	\begin{rationale} % A.6.1.0880 CELL+
 		As with \word{ALIGN} and \word{ALIGNED}, the words \word{CELLS}
@@ -1602,7 +1586,7 @@
 
 	\param{n_2} is the size in address units of \param{n_1} cells.
 
-\see \rref{core:CELL+}{}, \rref{core:CELLS}{}.
+	\ralso{core:CELL+}
 
 	\begin{rationale} % A.6.1.0890 CELLS
 		Example:
@@ -1629,16 +1613,15 @@
 	\end{testing}
 \end{worddef}
 
-
+\enlargethispage{8ex}
 \begin{worddef}{0895}{CHAR}[char]
 \item \stack{"<spaces>name"}{char}
 
 	Skip leading space delimiters. Parse \param{name} delimited by
 	a space. Put the value of its first character onto the stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:[CHAR]}{[CHAR]},
-	\rref{core:CHAR}{}.
+	\xalso{usage:parsing}
+	\walso{core:[CHAR]}
 
 	\begin{rationale} % A.6.1.0895 CHAR
 		Typical use: {\ldots}
@@ -1658,7 +1641,7 @@
 	Add the size in address units of a character to
 	\param{c-addr_1}, giving \param{c-addr_2}.
 
-\see \xref[3.3.3.1 Address alignment]{usage:aaddr}.
+	\xalso{usage:aaddr}
 
 	\begin{testing} % T.6.1.0897 CHAR+
 		\test{0 \word{CHAR+} 1 \word{=}}{<TRUE>}
@@ -1684,7 +1667,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-6ex}
+
 \begin{worddef}{0950}{CONSTANT}
 \item \stack{x "<spaces>name"}{}
 
@@ -1699,8 +1682,7 @@
 
 	Place \param{x} on the stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\rref{core:CONSTANT}{}.
+	\xalso{usage:parsing}
 
 	\begin{rationale} % A.6.1.0950 CONSTANT
 		Typical use: {\ldots}
@@ -1718,7 +1700,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{0980}{COUNT}
 \item \stack{c-addr_1}{c-addr_2 u}
 
@@ -1733,7 +1715,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-1ex}
 \begin{worddef}{0990}{CR}[c-r]
 \item \stack{}{}
 
@@ -1745,7 +1727,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-1ex}
 \begin{worddef}{1000}{CREATE}
 \item \stack{"<spaces>name"}{}
 
@@ -1764,9 +1746,8 @@
 	The execution semantics of \param{name} may be extended by
 	using \word{DOES}.
 
-\see \xref[3.3.3 Data space]{usage:dataspace},
-	\wref{core:DOES}{DOES>},
-	\rref{core:CREATE}{}.
+	\xalso{usage:dataspace}
+	\walso{core:DOES}
 
 	\begin{rationale} % A.6.1.1000 CREATE
 		The data-field address of a word defined by \word{CREATE} is
@@ -1786,8 +1767,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{10ex}
+\vspace*{-1ex}\enlargethispage{10ex}
 \begin{worddef}{1170}{DECIMAL}
 \item \stack{}{}
 
@@ -1798,7 +1778,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
 \begin{worddef}{1200}{DEPTH}
 \item \stack{}{+n}
 
@@ -1811,6 +1791,7 @@
 		\test{    \word{DEPTH}}{0    }
 	\end{testing}
 \end{worddef}
+
 
 \begin{worddef}{1240}{DO}
 \interpret
@@ -1834,10 +1815,9 @@
 	type. Anything already on the return stack becomes unavailable
 	until the loop-control parameters are discarded.
 
-\see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
-	\wref{core:+LOOP}{+LOOP},
-	\wref{core:LOOP}{LOOP},
-	\rref{core:DO}{}.
+	\xalso{usage:controlstack}
+	\walso{core:+LOOP}
+	\walso{core:LOOP}
 
 	\begin{rationale} % A.6.1.1240 DO
 		Typical use:
@@ -1866,6 +1846,7 @@
 	\end{testing}
 \end{worddef}
 
+\enlargethispage{10ex}
 \begin{worddef}[DOES]{1250}{DOES>}[does]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -1913,9 +1894,8 @@
 	The \word{DOES} part inside a quotation
 	end with the terminating \word[tools]{;]}.
 	
-\see \wref{core:CREATE}{CREATE},
-	\wref{tools:;]}{},
-	\rref{core:DOES}{}.
+	\walso{core:CREATE}
+	\walso{tools:;]}
 
 	\begin{rationale} % A.6.1.1250 DOES>
 		Typical use:
@@ -1952,7 +1932,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-6ex}
+
 \begin{worddef}{1260}{DROP}
 \item \stack{x}{}
 
@@ -1964,7 +1944,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{1290}{DUP}[dupe]
 \item \stack{x}{x x}
 
@@ -1975,7 +1955,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{1310}{ELSE}
 \vspace*{-2ex}
 \interpret
@@ -1997,9 +1977,8 @@
 	Continue execution at the location given by the resolution of
 	\param{orig_2}.
 
-\see \wref{core:IF}{IF},
-	\wref{core:THEN}{THEN},
-	\rref{core:ELSE}{}.
+	\walso{core:IF}
+	\walso{core:THEN}
 
 	\begin{rationale} % A.6.1.1310 ELSE
 		Typical use:
@@ -2014,7 +1993,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{1320}{EMIT}
 \item \stack{x}{}
 
@@ -2031,7 +2010,7 @@
 	an environmental dependency. Each EMIT deals with only one
 	character.
 
-\see \wref{core:TYPE}{TYPE}.
+	\walso{core:TYPE}
 
 	\begin{testing} % T.6.1.1320 EMIT
 		\ttfamily
@@ -2063,8 +2042,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{6ex}
+
 \begin{worddef}[ENVIRONMENTq]{1345}{ENVIRONMENT?}[environment-query]
 \item \stack{c-addr u}{false | i*x true}
 
@@ -2078,8 +2056,6 @@
 	attribute as unknown, the returned flag is \param{false};
 	otherwise, the flag is \param{true} and the \param{i*x} returned
 	is of the type specified in the table for the attribute queried.
-
-\see \rref{core:ENVIRONMENTq}{}.
 
 	\begin{rationale} % A.6.1.1345 ENVIRONMENT?
 		In a Standard System that contains only the Core word set,
@@ -2140,8 +2116,8 @@
 	identified by it. Other stack effects are due to the word
 	\word{EXECUTE}d.
 
-\see \wref{core:'}{'},
-	\wref{core:[']}{[']}.
+	\walso{core:'}
+	\walso{core:[']}
 
 	\begin{testing} % T.6.1.1370 EXECUTE
 		See \tref{core:'}{'} and \tref{core:[']}{[']}.
@@ -2162,9 +2138,8 @@
 	do-loop, a program shall discard the loop-control parameters
 	by executing \word{UNLOOP}.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:UNLOOP}{UNLOOP},
-	\rref{core:EXIT}{}.
+	\xalso{usage:returnstack}
+	\walso{core:UNLOOP}
 
 	\begin{rationale} % A.6.1.1380 EXIT
 		Typical use:
@@ -2199,7 +2174,7 @@
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{4ex}
+\vspace*{-1ex}\enlargethispage{8ex}
 \begin{worddef}{1550}{FIND}
 \item \stack{c-addr}{c-addr 0 | xt 1 | xt -1}
 
@@ -2211,15 +2186,12 @@
 	the values returned by \word{FIND} while compiling may differ
 	from those returned while not compiling.
 
-\see \xref[3.4.2 Finding definition names]{usage:find},
-	\place{x:rule-of-find}{
-		\wref{tools:[DEFINED]}{},
-		\wref{search:FIND}{},
-	}
-	\rref{core:'}{'},
-	\rref{core:FIND}{},
-	\rref{core:POSTPONE}{POSTPONE},
-	\rref{core:[']}{[']}.
+	\xalso{usage:find}
+	\walso[+]{tools:[DEFINED]}
+	\walso[+]{search:FIND}
+	\ralso{core:'}
+	\ralso{core:POSTPONE}
+	\ralso{core:[']}
 
 	\begin{rationale} % A.6.1.1550 FIND
 		One of the more difficult issues which the committee took on
@@ -2289,7 +2261,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1561}{FM/MOD}[f-m-slash-mod]
 \item \stack{d_1 n_1}{n_2 n_3}
 
@@ -2299,10 +2271,9 @@
 	\param{n_1} is zero or if the quotient lies outside the range of
 	a single-cell signed integer.
 
-\see \xref[3.2.2.1 Integer division]{usage:div},
-	\wref{core:SM/REM}{6.1.2214 SM/REM},
-	\wref{core:UM/MOD}{6.1.2370 UM/MOD},
-	\rref{core:FM/MOD}{}.
+	\xalso{usage:div}
+	\walso{core:SM/REM}
+	\walso{core:UM/MOD}
 
 	\begin{rationale} % A.6.1.1561 FM/MOD
 		By introducing the requirement for ``floored'' division,
@@ -2387,13 +2358,13 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1650}{HERE}
 \item \stack{}{addr}
 
 	\param{addr} is the data-space pointer.
 
-\see \xref[3.3.3.2 Contiguous regions]{usage:contiguous}.
+	\xalso{usage:contiguous}
 
 	\begin{testing} % T.6.1.1650 HERE
 		See \tref{core:,}{,},
@@ -2402,7 +2373,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1670}{HOLD}
 \item \stack{char}{}
 
@@ -2440,7 +2411,7 @@
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{2ex}
+
 \begin{worddef}{1700}{IF}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2460,10 +2431,9 @@
 	If all bits of \param{x} are zero, continue execution at the
 	location specified by the resolution of \param{orig}.
 
-\see \xref[3.2.3.2 Control flow stack]{usage:controlstack},
-	\wref{core:ELSE}{ELSE},
-	\wref{core:THEN}{THEN},
-	\rref{core:IF}{}.
+	\xalso{usage:controlstack}
+	\walso{core:ELSE}
+	\walso{core:THEN}
 
 	\begin{rationale} % A.6.1.1700 IF
 		Typical use:
@@ -2497,7 +2467,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-6ex}
+
 \begin{worddef}{1710}{IMMEDIATE}
 \item \stack{}{}
 
@@ -2505,8 +2475,7 @@
 	condition exists if the most recent definition does not have a
 	name or if it was defined as a \word[tools]{SYNONYM}.
 
-\see \wref{tools:SYNONYM},
-	\rref{core:IMMEDIATE}{}.
+	\walso{tools:SYNONYM}
 
 	\begin{rationale} % A.6.1.1710 IMMEDIATE
 		Typical use:
@@ -2542,16 +2511,15 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{1720}{INVERT}
 \item \stack{x_1}{x_2}
 
 	Invert all bits of \param{x_1}, giving its logical inverse
 	\param{x_2}.
 
-\see \wref{core:NEGATE}{NEGATE},
-	\wref{core:0=}{0=},
-	\rref{core:INVERT}{}.
+	\walso{core:NEGATE}
+	\walso{core:0=}
 
 	\begin{rationale} % A.6.1.1720 INVERT
 		The word \texttt{NOT} was originally provided in Forth as a
@@ -2603,7 +2571,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{1730}{J}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2615,8 +2583,6 @@
 	\param{n|u} is a copy of the next-outer loop index. An
 	ambiguous condition exists if the loop control parameters of
 	the next-outer loop, \param{loop-sys_1}, are unavailable.
-
-\see \rref{core:J}{}.
 
 	\begin{rationale} % A.6.1.1730 J
 		\word{J} may only be used with a nested
@@ -2648,7 +2614,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}\enlargethispage{8ex}
 \begin{worddef}{1750}{KEY}
 \item \stack{}{char}
 
@@ -2666,10 +2632,9 @@
 	Programs that require the ability to receive control characters
 	have an environmental dependency.
 
-\see \wref{facility:EKEY}{EKEY},
-	\wref{facility:EKEYq}{KEY?},
-	\wref{facility:KEYq}{},
-	\rref{core:KEY}{}.
+	\walso{facility:EKEY}
+	\walso{facility:EKEYq}
+	\walso{facility:KEYq}
 
 	\begin{rationale} % KEY
 		Use of \word{KEY} indicates that the application is processing
@@ -2682,8 +2647,7 @@
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-2ex}
-\enlargethispage{6ex}
+\vspace*{-1ex}
 \begin{worddef}{1760}{LEAVE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2697,10 +2661,9 @@
 	following the innermost syntactically enclosing
 	\word{DO}\ldots\word{LOOP} or \word{DO}\ldots\word{+LOOP}.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:+LOOP}{+LOOP},
-	\wref{core:LOOP}{LOOP},
-	\rref{core:LEAVE}{}.
+	\xalso{usage:returnstack}
+	\walso{core:+LOOP}
+	\walso{core:LOOP}
 
 	\begin{rationale} % A.6.1.1760 LEAVE
 		Note that \word{LEAVE} immediately exits the loop. No words
@@ -2724,7 +2687,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{1780}{LITERAL}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -2738,8 +2701,6 @@
 	\stack{}{x}
 
 	Place \param{x} on the stack.
-
-\see \rref{core:LITERAL}{}.
 
 	\begin{rationale} % A.6.1.1780 LITERAL
 		Typical use:
@@ -2778,10 +2739,9 @@
 	execution immediately following the loop. Otherwise continue
 	execution at the beginning of the loop.
 
-\see \wref{core:DO}{DO},
-	\wref{core:I}{I},
-	\wref{core:LEAVE}{LEAVE}%
-	\rref{core:LOOP}{}.
+	\walso{core:DO}
+	\walso{core:I}
+	\walso{core:LEAVE}
 
 	\begin{rationale} % A.6.1.1800 LOOP
 		\enlargethispage{2ex}
@@ -2810,7 +2770,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}\enlargethispage{8ex}
 \begin{worddef}{1805}{LSHIFT}[l-shift]
 \item \stack{x_1 u}{x_2}
 
@@ -2830,13 +2790,11 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{1810}{M*}[m-star]
 \item \stack{n_1 n_2}{d}
 
 	\param{d} is the signed product of \param{n_1} times \param{n_2}.
-
-\see \rref{core:M*}{}.
 
 	\begin{rationale} % A.6.1.1810 M*
 		This word is a useful early step in calculation, going to
@@ -2866,7 +2824,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{1870}{MAX}
 \item \stack{n_1 n_2}{n_3}
 
@@ -2892,7 +2850,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{1880}{MIN}
 \item \stack{n_1 n_2}{n_3}
 
@@ -2931,7 +2889,7 @@
 	or the phrase
 	\word{toR} \word{StoD} \word{Rfrom} \word{SM/REM} \word{DROP}.
 
-\see \xref[3.2.2.1 Integer division]{usage:div}.
+	\xalso{usage:div}
 
 	\begin{testing} % T.6.1.1890 MOD
 		\ttfamily
@@ -2973,9 +2931,8 @@
 	contain exactly what the \param{u} consecutive address units at
 	\param{addr_1} contained before the move.
 
-\see	\wref{string:CMOVE}{CMOVE},
-	\wref{string:CMOVEtop}{CMOVE>},
-	\rref{core:MOVE}{}.
+	\walso{string:CMOVE}
+	\walso{string:CMOVEtop}
 
 	\begin{rationale} % A.6.1.1900 MOVE
 		\word[string]{CMOVE} and \word[string]{CMOVEtop} are the primary
@@ -3011,14 +2968,13 @@
 	\end{testing}
 \end{worddef}
 
-\enlargethispage{4ex}
 \begin{worddef}{1910}{NEGATE}
 \item \stack{n_1}{n_2}
 
 	Negate \param{n_1}, giving its arithmetic inverse \param{n_2}.
 
-\see \wref{core:INVERT}{INVERT},
-	\wref{core:0=}{0=}.
+	\walso{core:INVERT}
+	\walso{core:0=}
 
 	\begin{implement} % I.6.1.1910 NEGATE
 		\word{:} \word{NEGATE} \word{p} n1 -{}- n2 ) \\
@@ -3050,7 +3006,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-6ex}
+
 \begin{worddef}{1990}{OVER}
 \item \stack{x_1 x_2}{x_1 x_2 x_1}
 
@@ -3061,7 +3017,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2033}{POSTPONE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3074,8 +3030,7 @@
 	\param{name} to the current definition. An ambiguous condition
 	exists if \param{name} is not found.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\rref{core:POSTPONE}{}.
+	\xalso{usage:parsing}
 
 	\begin{rationale} % A.6.1.2033 POSTPONE
 		Typical use:
@@ -3134,7 +3089,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}\enlargethispage{8ex}
 \begin{worddef}{2050}{QUIT}
 \item \stack{}{}
 	\stack[R]{i*x}{}
@@ -3143,6 +3098,7 @@
 	present, make the user input device the input source, and enter
 	interpretation state. Do not display a message. Repeat the
 	following:
+
 	\begin{itemize}
 	\item Accept a line from the input source into the input buffer,
 		set \word{toIN} to zero, and interpret.
@@ -3151,7 +3107,7 @@
 		and no ambiguous condition exists.
 	\end{itemize}
 
-\see \xref[3.4 The Forth text interpreter]{usage:command}.
+	\xalso{usage:command}
 
 	\begin{implement} % I.6.1.2050 QUIT
 		\word{:} \word{QUIT} \\
@@ -3179,7 +3135,7 @@
 	\end{implement}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-1ex}
 \begin{worddef}[Rfrom]{2060}{R>}[r-from]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3190,20 +3146,19 @@
 
 	Move \param{x} from the return stack to the data stack.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:toR}{>R},
-	\wref{core:R@}{R@},
-	\wref{core:2toR}{2>R},
-	\wref{core:2Rfrom}{2R>},
-	\wref{core:2R@}{2R@}.
+	\xalso{usage:returnstack}
+	\walso{core:toR}
+	\walso{core:R@}
+	\walso{core:2toR}
+	\walso{core:2Rfrom}
+	\walso{core:2R@}
 
 	\begin{testing} % T.6.1.2060 R>
 		See \tref{core:toR}{>R}.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
-\enlargethispage{4ex}
+\vspace*{-1ex}
 \begin{worddef}{2070}{R@}[r-fetch]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3214,12 +3169,12 @@
 
 	Copy \param{x} from the return stack to the data stack.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:toR}{>R},
-	\wref{core:Rfrom}{R>},
-	\wref{core:2toR}{2>R},
-	\wref{core:2Rfrom}{2R>},
-	\wref{core:2R@}{2R@}.
+	\xalso{usage:returnstack}
+	\walso{core:toR}
+	\walso{core:Rfrom}
+	\walso{core:2toR}
+	\walso{core:2Rfrom}
+	\walso{core:2R@}
 
 	\begin{testing} % T.6.1.2070 R@
 		See \tref{core:toR}{>R}.
@@ -3241,10 +3196,9 @@
 	If inside a quotation, calls the quotation directly surrounding
 	the \word{RECURSE}, not the containing colon definition.
 
-\see \wref{core:DOES}{},
-	\wref{core:RECURSE}{},
-	\wref{tools:[:}{},
-	\rref{core:RECURSE}{}.
+	\walso{core:DOES}
+	\walso{core:RECURSE}
+	\walso{tools:[:}
 
 	\begin{rationale} % A.6.1.2120 RECURSE
 		Typical use:
@@ -3324,9 +3278,8 @@
 
 	Continue execution at the location given by \param{dest}.
 
-\see \wref{core:BEGIN}{BEGIN},
-	\wref{core:WHILE}{WHILE},
-	\rref{core:REPEAT}{}.
+	\walso{core:BEGIN}
+	\walso{core:WHILE}
 
 	\begin{rationale} % A.6.1.2140 REPEAT
 		Typical use:
@@ -3379,7 +3332,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}[Sq]{2165}{S"}[s-quote]
 \interpret
 	\stack{"ccc<quote>"}{c-addr u}
@@ -3401,11 +3354,10 @@
 	consisting of the characters \param{ccc}. A program shall
 	not alter the returned string.
 
-\see \xref{usage:"literal},
-	\xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:Cq}{C"},
-	\wref{core:Seq}{},
-	\rref{core:Sq}{}.
+	\xalso{usage:"literal}
+	\xalso{usage:parsing}
+	\walso{core:Cq}
+	\walso{core:Seq}
 
 	\begin{rationale} % A.6.1.2165 S"
 		Typical use: \\
@@ -3448,7 +3400,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}[StoD]{2170}{S>D}[s-to-d]
 \item \stack{n}{d}
 
@@ -3466,7 +3418,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{2210}{SIGN}
 \item \stack{n}{}
 
@@ -3482,7 +3434,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{2214}{SM/REM}[s-m-slash-rem]
 \item \stack{d_1 n_1}{n_2 n_3}
 
@@ -3492,10 +3444,9 @@
 	is zero or if the quotient lies outside the range of a single-cell
 	signed integer.
 
-\see \xref[3.2.2.1 Integer division]{usage:div},
-	\wref{core:FM/MOD}{FM/MOD},
-	\wref{core:UM/MOD}{UM/MOD},
-	\rref{core:SM/REM}{}.
+	\xalso{usage:div}
+	\walso{core:FM/MOD}
+	\walso{core:UM/MOD}
 
 	\begin{rationale} % A.6.1.2214 SM/REM
 		See the previous discussion of division under \word{FM/MOD}.
@@ -3559,14 +3510,12 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-1ex}
+
 \begin{worddef}{2216}{SOURCE}
 \item \stack{}{c-addr u}
 
 	\param{c-addr} is the address of, and \param{u} is the number of
 	characters in, the input buffer.
-
-\see \rref{core:SOURCE}{}.
 
 	\begin{rationale} % A.6.1.2216 SOURCE
 		\word{SOURCE} simplifies the process of directly accessing the
@@ -3632,16 +3581,15 @@
 \note
 	A program shall not directly alter the contents of \word{STATE}.
 
-\see \xref[3.4 The Forth text interpreter]{usage:command},
-	\wref{core::}{:},
-	\wref{core:;}{;}
-	\wref{core:ABORT}{ABORT},
-	\wref{core:QUIT}{QUIT},
-	\wref{core:[}{[},
-	\wref{core:]}{]},
-	\wref{core::NONAME}{:NONAME},
-	\wref{tools:STATE}{STATE},
-	\rref{core:STATE}{}.
+	\xalso{usage:command}
+	\walso{core::}
+	\walso{core:;}
+	\walso{core:ABORT}
+	\walso{core:QUIT}
+	\walso{core:[}
+	\walso{core:]}
+	\walso{core::NONAME}
+	\walso{tools:STATE}
 
 	\begin{rationale} % A.6.1.2250 STATE
 		Although
@@ -3725,9 +3673,8 @@
 
 	Continue execution.
 
-\see \wref{core:ELSE}{ELSE},
-	\wref{core:IF}{IF},
-	\rref{core:THEN}{}.
+	\walso{core:ELSE}
+	\walso{core:IF}
 
 	\begin{rationale} % A.6.1.2270 THEN
 		Typical use:
@@ -3748,7 +3695,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-6ex}
+
 \begin{worddef}{2310}{TYPE}
 \item \stack{c-addr u}{}
 
@@ -3763,14 +3710,14 @@
 	control characters, programs that use control characters to
 	perform specific functions have an environmental dependency.
 
-\see \wref{core:EMIT}{EMIT}.
+	\walso{core:EMIT}
 
 	\begin{testing} % T.6.1.2310 TYPE
 		See \tref{core:EMIT}{EMIT}.
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}[Ud]{2320}{U.{}}[u-dot]
 \item \stack{u}{}
 
@@ -3781,14 +3728,14 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}[Uless]{2340}{U<}[u-less-than]
 \item \stack{u_1 u_2}{flag}
 
 	\param{flag} is true if and only if \param{u_1} is less than
 	\param{u_2}.
 
-\see \wref{core:less}{<}.
+	\walso{core:less}
 
 	\begin{testing} % T.6.1.2340 U<
 		\test{       0        1 \word{Uless}}{<TRUE> } \\
@@ -3806,7 +3753,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+\pagebreak
 \begin{worddef}{2360}{UM*}[u-m-star]
 \item \stack{u_1 u_2}{ud}
 
@@ -3829,7 +3776,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2370}{UM/MOD}[u-m-slash-mod]
 \item \stack{ud u_1}{u_2 u_3}
 
@@ -3839,9 +3786,9 @@
 	if the quotient lies outside the range of a single-cell unsigned
 	integer.
 
-\see \xref[3.2.2.1 Integer division]{usage:div},
-	\wref{core:FM/MOD}{FM/MOD},
-	\wref{core:SM/REM}{SM/REM}.
+	\xalso{usage:div}
+	\walso{core:FM/MOD}
+	\walso{core:SM/REM}
 
 	\begin{testing} % T.6.1.2370 UM/MOD
 		\test{       0            0        1 \word{UM/MOD}}{0        0} \\
@@ -3854,8 +3801,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{8ex}
+
 \begin{worddef}{2380}{UNLOOP}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3869,8 +3815,7 @@
 	before the definition may be \word{EXIT}ed. An ambiguous
 	condition exists if the loop-control parameters are unavailable.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\rref{core:UNLOOP}{}.
+	\xalso{usage:returnstack}
 
 	\begin{rationale} % A.6.1.2380 UNLOOP
 		Typical use:
@@ -3904,7 +3849,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-6ex}
+
 \begin{worddef}{2390}{UNTIL}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3921,8 +3866,7 @@
 	If all bits of \param{x} are zero, continue execution at the
 	location specified by \param{dest}.
 
-\see \wref{core:BEGIN}{BEGIN},
-	\rref{core:UNTIL}{}.
+	\walso{core:BEGIN}
 
 	\begin{rationale} % A.6.1.2390 UNTIL
 		Typical use:
@@ -3939,7 +3883,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2410}{VARIABLE}
 \item \stack{"<spaces>name"}{}
 
@@ -3957,8 +3901,7 @@
 	is responsible for initializing the contents of the reserved
 	cell.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\rref{core:VARIABLE}{}.
+	\xalso{usage:parsing}
 
 	\begin{rationale} % A.6.1.2410 VARIABLE
 		Typical use:
@@ -3972,7 +3915,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2430}{WHILE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -3992,8 +3935,6 @@
 
 	If all bits of \param{x} are zero, continue execution at the
 	location specified by the resolution of \param{orig}.
-
-\see \rref{core:WHILE}{}.
 
 	\begin{rationale} % A.6.1.2430 WHILE
 		Typical use:
@@ -4022,7 +3963,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2ex}
+
 \begin{worddef}{2450}{WORD}
 \item \stack{char "<chars>ccc<char>"}{c-addr}
 
@@ -4037,9 +3978,8 @@
 	resulting string has a zero length.
 	A program may replace characters within the string.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient},
-	\xref[3.4.1 Parsing]{usage:parsing},
-	\rref{core:WORD}{}.
+	\xalso{usage:transient}
+	\xalso{usage:parsing}
 
 	\begin{rationale} % A.6.1.2450 WORD
 		Typical use: \emph{char} \word{WORD} \emph{ccc}\arg{char}
@@ -4054,7 +3994,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2490}{XOR}[x-or]
 \item \stack{x_1 x_2}{x_3}
 
@@ -4069,7 +4009,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-2ex}\enlargethispage{8ex}
 \begin{worddef}{2500}{[}[left-bracket]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4082,10 +4022,9 @@
 
 	Enter interpretation state. \word{[} is an immediate word.
 
-\see \xref[The Forth text interpreter]{usage:command},
-	\xref[3.4.5 Compilation]{usage:compilation},
-	\wref{core:]}{]},
-	\rref{core:[}{}.
+	\xalso{usage:command}
+	\xalso{usage:compilation}
+	\walso{core:]}
 
 	\begin{rationale} % A.6.1.2500 [
 		Typical use:
@@ -4100,7 +4039,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+\vspace*{-2ex}
 \begin{worddef}{2510}{[']}[bracket-tick]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4122,11 +4061,10 @@
 	``\word{[']} \texttt{X}'' is the same value returned by
 	``\word{'} \texttt{X}'' outside of compilation state.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:FIND}{},
-	\rref{core:'}{'}
-	\rref{core:POSTPONE}{POSTPONE},\newline
-	\rref{core:[']}{}.
+	\xalso{usage:parsing}
+	\walso{core:FIND}
+	\ralso{core:'}
+	\ralso{core:POSTPONE}
 
 	\begin{rationale} % A.6.1.2510 [']
 		Typical use:
@@ -4144,8 +4082,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{6ex}
+\vspace*{-2ex}
 \begin{worddef}{2520}{[CHAR]}[bracket-char]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4163,9 +4100,8 @@
 	Place \param{char}, the value of the first character of
 	\param{name}, on the stack.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:CHAR}{CHAR},
-	\rref{core:[CHAR]}{}.
+	\xalso{usage:parsing}
+	\walso{core:CHAR}
 
 	\begin{rationale} % A.6.1.2520 [CHAR]
 		Typical use:
@@ -4182,16 +4118,15 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2540}{]}[right-bracket]
 \item \stack{}{}
 
 	Enter compilation state.
 
-\see \xref[3.4 The Forth text interpreter]{usage:command},
-	\xref[3.4.5 Compilation]{usage:compilation},
-	\wref{core:[}{[},
-	\rref{core:]}{}.
+	\xalso{usage:command}
+	\xalso{usage:compilation}
+	\walso{core:[}
 
 	\begin{rationale} % A.6.1.2540 ]
 		Typical use:
@@ -4207,9 +4142,9 @@
 
 
 \section{Core extension words} % 6.2
-\extended
+\extended\vspace{1ex}
 
-% Output core-ext rationale to a seperate file
+% Output core-ext rationale to a separate file
 
 \ifanswerfiles
 	\Closesolutionfile{rationale}
@@ -4248,9 +4183,8 @@
 	Parse and display \param{ccc} delimited by \texttt{)} (right
 	parenthesis). \word{.p} is an immediate word.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:.q}{."},
-	\rref{core:.p}{}.
+	\xalso{usage:parsing}
+	\walso{core:.q}
 
 	\begin{rationale} % A.6.2.0200 .
 		Typical use:
@@ -4258,7 +4192,7 @@
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-2.5ex}\enlargethispage{10ex}
 \begin{worddef}{0210}{.R}[dot-r]
 \item \stack{n_1 n_2}{}
 
@@ -4267,14 +4201,12 @@
 	\param{n_1} is greater than \param{n_2}, all digits are displayed
 	with no leading spaces in a field as wide as necessary.
 
-\see \rref{core:.R}{}.
-
 	\begin{rationale} % A.6.2.0210 .R
 		In \word{.R}, ``R'' is short for RIGHT.
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-2.5ex}
 \begin{worddef}[0ne]{0260}{0<>}[zero-not-equals]
 \item \stack{x}{flag}
 
@@ -4282,7 +4214,7 @@
 	zero.
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-2.5ex}
 \begin{worddef}[0more]{0280}{0>}[zero-greater]
 \item \stack{n}{flag}
 
@@ -4290,7 +4222,7 @@
 	zero.
 \end{worddef}
 
-\vspace*{-2ex}
+\vspace*{-2.5ex}
 \begin{worddef}[2toR]{0340}{2>R}[two-to-r]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4302,13 +4234,12 @@
 	Transfer cell pair \param{x_1 x_2} to the return stack.
 	Semantically equivalent to \word{SWAP} \word{toR} \word{toR}.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:toR}{>R},
-	\wref{core:Rfrom}{R>},
-	\wref{core:R@}{R@},
-	\wref{core:2Rfrom}{2R>},
-	\wref{core:2R@}{2R@},
-	\rref{core:2toR}{}.
+	\xalso{usage:returnstack}
+	\walso{core:toR}
+	\walso{core:Rfrom}
+	\walso{core:R@}
+	\walso{core:2Rfrom}
+	\walso{core:2R@}
 
 	\begin{rationale} % A.6.2.0340 2>R
 		The primary advantage of \word{2toR} is that it puts the top
@@ -4331,13 +4262,12 @@
 	Transfer cell pair \param{x_1 x_2} from the return stack.
 	Semantically equivalent to \word{Rfrom} \word{Rfrom} \word{SWAP}.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:toR}{>R}
-	\wref{core:Rfrom}{R>}
-	\wref{core:R@}{R@}
-	\wref{core:2toR}{2>R},
-	\wref{core:2R@}{2R@},
-	\rref{core:2Rfrom}{}.
+	\xalso{usage:returnstack}
+	\walso{core:toR}
+	\walso{core:Rfrom}
+	\walso{core:R@}
+	\walso{core:2toR}
+	\walso{core:2R@}
 
 	\begin{rationale} % A.6.2.0410 2R>
 		Note that \word{2Rfrom} is not equivalent to \word{Rfrom} \word{Rfrom}.
@@ -4359,12 +4289,12 @@
 	Semantically equivalent to \word{Rfrom} \word{Rfrom} \word{2DUP}
 	\word{toR} \word{toR} \word{SWAP}.
 
-\see \xref[3.2.3.3 Return stack]{usage:returnstack},
-	\wref{core:toR}{>R},
-	\wref{core:Rfrom}{R>},
-	\wref{core:R@}{R@},
-	\wref{core:2toR}{2>R},
-	\wref{core:2Rfrom}{2R>}.
+	\xalso{usage:returnstack}
+	\walso{core:toR}
+	\walso{core:Rfrom}
+	\walso{core:R@}
+	\walso{core:2toR}
+	\walso{core:2Rfrom}
 \end{worddef}
 
 
@@ -4400,8 +4330,6 @@
 	effects \param{i*x} and \param{j*x} represent arguments to
 	and results from \param{xt}, respectively.
 
-\see \rref{core::NONAME}{}.
-
 	\begin{rationale} % A.6.2.0455 :NONAME
 		Typical use:
 
@@ -4429,7 +4357,7 @@
 	the same as \param{x_2}.
 \end{worddef}
 
-
+\vspace*{-1ex}\enlargethispage{8ex}
 \begin{worddef}[qDO]{0620}{?DO}[question-do]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4456,14 +4384,13 @@
 	exists if \param{n_1|u_1} and \param{n_2|u_2} are not both of
 	the same type.
 
-\see \xref[3.2.3.2 Control-flow stack]{usage:controlstack},
-	\wref{core:+LOOP}{+LOOP},
-	\wref{core:DO}{DO},
-	\wref{core:I}{I}, \\
-	\wref{core:LEAVE}{LEAVE},
-	\wref{core:LOOP}{LOOP},
-	\wref{core:UNLOOP}{UNLOOP},
-	\rref{core:qDO}{}.
+	\xalso{usage:controlstack}
+	\walso{core:+LOOP}
+	\walso{core:DO}
+	\walso{core:I}
+	\walso{core:LEAVE}
+	\walso{core:LOOP}
+	\walso{core:UNLOOP}
 
 	\begin{rationale} % A.6.2.0620 ?DO
 		Typical use:
@@ -4535,7 +4462,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1ex}
 \begin{worddef}{0698}{ACTION-OF}[]%[X:deferred]
 \interpret
 	\stack{"<spaces>name"}{xt}
@@ -4564,10 +4491,10 @@
 	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
 	\word{[']} or \word{'} is applied to \word{ACTION-OF}.
 
-\see \wref{core:DEFER}{DEFER},
-	\wref{core:DEFER!}{DEFER!},
-	\wref{core:DEFER@}{DEFER@},
-	\wref{core:IS}{IS}.
+	\walso{core:DEFER}
+	\walso{core:DEFER!}
+	\walso{core:DEFER@}
+	\walso{core:IS}
 
 \Writetofile{implementation}{\pagebreak}
 	\begin{implement} % I.6.2.0698 ACTION-OF
@@ -4613,8 +4540,7 @@
 	If no other control flow words are used, any program code
 	after \word{AGAIN} will not be executed.
 
-\see \wref{core:BEGIN}{BEGIN},
-	\rref{core:AGAIN}{}.
+	\walso{core:BEGIN}
 
 	\begin{rationale} % A.6.2.0700 AGAIN
 		Typical use:
@@ -4642,8 +4568,6 @@
 	\param{a-addr} is the address of the space reserved by \word{BUFFER:} when
 	it defined \param{name}.  The program is responsible for initializing the
 	contents.
-
-\see \rref{core:BUFFER:}{}.
 
 	\begin{rationale}
 		\word{BUFFER:} provides a means of defining an uninitialized buffer.
@@ -4734,11 +4658,10 @@
 	characters \param{ccc}. A program shall not alter the returned
 	string.
 
-\see \xref{usage:"literal},
-	\xref[3.4.1 Parsing]{usage:parsing},
-	\wref{core:Sq}{S"},
-	\wref{core:Seq}{},
-	\rref{core:Cq}{}.
+	\xalso{usage:"literal}
+	\xalso{usage:parsing}
+	\walso{core:Sq}
+	\walso{core:Seq}
 
 	\begin{rationale} % A.6.2.0855 C"
 		Typical use:
@@ -4757,7 +4680,7 @@
 	\end{testing}
 \end{worddef}
 
-\pagebreak
+
 \begin{worddef}{0873}{CASE}
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4775,10 +4698,9 @@
 
 	Continue execution.
 
-\see \wref{core:ENDCASE}{ENDCASE},
-	\wref{core:ENDOF}{ENDOF},
-	\wref{core:OF}{OF},
-	\rref{core:CASE}{}.
+	\walso{core:ENDCASE}
+	\walso{core:ENDOF}
+	\walso{core:OF}
 
 	\begin{rationale} % A.6.2.0873 CASE
 		Typical use:
@@ -4829,7 +4751,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-.5ex}\enlargethispage{8ex}
 \begin{worddef}{0945}{COMPILE,}[compile-comma]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -4840,8 +4762,6 @@
 	Append the execution semantics of the definition represented
 	by \param{xt} to the execution semantics of the current
 	definition.
-
-\see \rref{core:COMPILE,}{}.
 
 	\begin{rationale} % A.6.2.0945 COMPILE,
 		\word{COMPILE,} is the compilation equivalent of \word{EXECUTE}.
@@ -4925,8 +4845,8 @@
 %	\end{rationale}
 %\end{worddef}
 
-
-\begin{worddef}{1173}{DEFER}[]%[X:deferred]
+\vspace*{-.5ex}
+\begin{worddef}{1173}{DEFER}%[][X:deferred]
 \item \stack{"<spaces>name"}{}
 
 	Skip leading space delimiters.  Parse \param{name} delimited by a
@@ -4940,10 +4860,10 @@
 	An ambiguous condition exists if \param{name} has not been
 	set to execute an \param{xt}.
 
-\see \wref{core:ACTION-OF}{ACTION-OF},
-	\wref{core:DEFER!}{DEFER!},
-	\wref{core:DEFER@}{DEFER@},
-	\wref{core:IS}{IS}.
+	\walso{core:ACTION-OF}
+	\walso{core:DEFER!}
+	\walso{core:DEFER@}
+	\walso{core:IS}
 
 	\begin{implement} % I.6.2.1173 DEFER
 		\word{:} \word{DEFER} \word{p} "name" -{}- ) \\
@@ -4962,7 +4882,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-.5ex}
 \begin{worddef}{1175}{DEFER!}[defer-store]%[X:deferred]
 \item \stack{xt_2 xt_1}{}
 
@@ -4970,10 +4890,10 @@
 	condition exists if \param{xt_1} is not for a word defined by
 	\word{DEFER}.
 
-\see \wref{core:ACTION-OF}{ACTION-OF},
-	\wref{core:DEFER}{DEFER},
-	\wref{core:DEFER@}{DEFER@},
-	\wref{core:IS}{IS}.
+	\walso{core:ACTION-OF}
+	\walso{core:DEFER}
+	\walso{core:DEFER@}
+	\walso{core:IS}
 
 	\begin{implement} % I.6.2.1175 DEFER!
 		\word{:} \word{DEFER!} \word{p} xt2 xt1 -{}- ) \\
@@ -5000,10 +4920,10 @@
 	the execution token of a word defined by \word{DEFER},
 	or if \param{xt_1} has not been set to execute an xt. 
 
-\see \wref{core:ACTION-OF}{ACTION-OF},
-	\wref{core:DEFER}{DEFER},
-	\wref{core:DEFER!}{DEFER!},
-	\wref{core:IS}{IS}.
+	\walso{core:ACTION-OF}
+	\walso{core:DEFER}
+	\walso{core:DEFER!}
+	\walso{core:IS}
 
 	\begin{implement} % I.6.2.1177 DEFER@
 		\word{:} \word{DEFER@} \word{p} xt1 -{}- xt2 ) \\
@@ -5023,7 +4943,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}\enlargethispage{8ex}
 \begin{worddef}{1342}{ENDCASE}[end-case]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -5042,10 +4962,9 @@
 
 	Discard the case selector \param{x} and continue execution.
 
-\see \wref{core:CASE}{CASE},
-	\wref{core:ENDOF}{ENDOF},
-	\wref{core:OF}{OF},
-	\rref{core:ENDCASE}{}.
+	\walso{core:CASE}
+	\walso{core:ENDOF}
+	\walso{core:OF}
 
 	\begin{rationale} % A.6.2.1342 ENDCASE
 		Typical use:
@@ -5065,7 +4984,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{1343}{ENDOF}[end-of]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -5086,10 +5005,9 @@
 	Continue execution at the location specified by the consumer
 	of \param{case-sys_2}.
 
-\see \wref{core:CASE}{CASE},
-	\wref{core:ENDCASE}{ENDCASE},
-	\wref{core:OF}{OF},
-	\rref{core:ENDOF}{}.
+	\walso{core:CASE}
+	\walso{core:ENDCASE}
+	\walso{core:OF}
 
 	\begin{rationale} % A.6.2.1343 ENDOF
 		Typical use:
@@ -5109,7 +5027,7 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-1.5ex}
 \begin{worddef}{1350}{ERASE}
 \item \stack{addr u}{}
 
@@ -5159,7 +5077,7 @@
 
 	Return a \param{false} flag.
 
-\see \xref[3.1.3.1 Flags]{usage:flags}
+	\xalso{usage:flags}
 
 	\begin{testing}
 	\test{\word{FALSE}}{0} \\
@@ -5187,7 +5105,7 @@
 	output string.  An ambiguous condition exists if \word{HOLDS} executes
 	outside of a \word{num-start} \word{num-end} delimited number conversion.
 
-\see \wref{core:HOLD}{}.
+	\walso{core:HOLD}
 
 	\begin{implement} % I.6.2.1675 HOLDS
 	\word{:} \word{HOLDS} \word{p} addr u -{}- ) \\
@@ -5228,10 +5146,10 @@
 	An ambiguous condition exists if \word{POSTPONE}, \word{[COMPILE]},
 	\word{[']} or \word{'} is applied to \word{IS}.
 
-\see \wref{core:ACTION-OF}{ACTION-OF},
-	\wref{core:DEFER}{DEFER},
-	\wref{core:DEFER!}{DEFER!},
-	\wref{core:DEFER@}{DEFER@}.
+	\walso{core:ACTION-OF}
+	\walso{core:DEFER}
+	\walso{core:DEFER!}
+	\walso{core:DEFER@}
 
 	\begin{implement} % I.6.2.1725 IS
 		\word{:} \word{IS} \\
@@ -5254,7 +5172,7 @@
 	\end{testing}
 \end{worddef}
 
-\newpage
+
 \begin{worddef}{1850}{MARKER}
 \item \stack{"<spaces>name"}{}
 
@@ -5273,9 +5191,8 @@
 	not necessarily provided. No other contextual information such
 	as numeric base is affected.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\wref{tools:FORGET}{FORGET},
-	\rref{core:MARKER}{}.
+	\xalso{usage:parsing}
+	\walso{tools:FORGET}
 
 	\begin{rationale} % A.6.2.1850 MARKER
 		As dictionary implementations have become more elaborate
@@ -5289,7 +5206,7 @@
 	\end{rationale}
 \end{worddef}
 
-
+\enlargethispage{8ex}
 \begin{worddef}{1930}{NIP}
 \item \stack{x_1 x_2}{x_2}
 
@@ -5318,10 +5235,9 @@
 	\word{ENDOF}. Otherwise, discard both values and continue
 	execution in line.
 
-\see \wref{core:CASE}{CASE},
-	\wref{core:ENDCASE}{ENDCASE},
-	\wref{core:ENDOF}{ENDOF},
-	\rref{core:OF}{}.
+	\walso{core:CASE}
+	\walso{core:ENDCASE}
+	\walso{core:ENDOF}
 
 	\begin{rationale} % A.6.2.1950 OF
 		Typical use:
@@ -5348,8 +5264,7 @@
 	\param{c-addr} is the address of a transient region that can
 	be used to hold data for intermediate processing.
 
-\see \xref[3.3.3.6 Other transient regions]{usage:transient},
-	\rref{core:PAD}{}.
+	\xalso{usage:transient}
 
 	\begin{rationale} % A.6.2.2000 PAD
 		\word{PAD} has been available as scratch storage for strings
@@ -5363,7 +5278,6 @@
 \end{worddef}
 
 
-\vspace*{-6ex}
 \begin{worddef}{2008}{PARSE}
 \item \stack{char "ccc<char>"}{c-addr u}
 
@@ -5373,8 +5287,7 @@
 	\param{u} is the length of the parsed string. If the parse area
 	was empty, the resulting string has a zero length.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\rref{core:PARSE}{}.
+	\xalso{usage:parsing}
 
 	\begin{rationale} % A.6.2.2008 PARSE
 		Typical use: \emph{char} \word{PARSE} \emph{ccc}\arg{char}
@@ -5457,7 +5370,7 @@
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2020}{PARSE-NAME}[]%[X:parse-name]
 \item \stack{"<spaces>name<space>"}{c-addr u}
 
@@ -5519,15 +5432,13 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-3ex}
+
 \begin{worddef}{2030}{PICK}
 \item \stack{x_u{\ldots}x_1 x_0 u}{x_u{\ldots}x_1 x_0 x_u}
 
 	Remove \param{u}. Copy the \param{x_u} to the top of the stack.
 	An ambiguous condition exists if there are less than \param{u}+2
 	items on the stack before \word{PICK} is executed.
-
-\see \rref{core:PICK}{}.
 
 	\begin{rationale} % A.6.2.2030 PICK
 		\texttt{0} \word{PICK} is equivalent to \word{DUP} and
@@ -5555,7 +5466,6 @@
 %\end{worddef}
 
 
-\vspace*{-3ex}
 \begin{worddef}{2125}{REFILL}
 \item \stack{}{flag}
 
@@ -5572,9 +5482,8 @@
 	When the input source is a string from \word{EVALUATE}, return
 	\emph{false} and perform no other action.
 
-\see \wref{block:REFILL}{REFILL},
-	\wref{file:REFILL}{REFILL},
-	\rref{core:REFILL}{}.
+	\walso{block:REFILL}
+	\walso{file:REFILL}
 
 	\begin{rationale} % A.6.2.2125 REFILL
 		\word{REFILL} is designed to behave reasonably for all possible
@@ -5585,8 +5494,7 @@
 	\end{rationale}
 \end{worddef}
 
-\vspace*{-3ex}
-\enlargethispage{8ex}
+
 \begin{worddef}{2148}{RESTORE-INPUT}
 \item \stack{x_n {\ldots} x_1 n}{flag}
 
@@ -5597,19 +5505,17 @@
 	An ambiguous condition exists if the input source represented
 	by the arguments is not the same as the current input source.
 
-\see \wref{tools:NtoR}{}, \wref{tools:NRfrom}{},
-	  \rref{core:SAVE-INPUT}{SAVE-INPUT}.
+	\walso{tools:NtoR}
+	\walso{tools:NRfrom}
 \end{worddef}
 
-\vspace*{-6ex}
+\vspace*{-1ex}
 \begin{worddef}{2150}{ROLL}
 \item \stack{x_u x_{u-1} {\ldots} x_0 u}{x_{u-1} {\ldots} x_0 x_u}
 
 	Remove \param{u}. Rotate \param{u}+1 items on the top of the stack.
 	An ambiguous condition exists if there are less than \param{u}+2
 	items on the stack before \word{ROLL} is executed.
-
-\see \rref{core:ROLL}{}.
 
 	\begin{rationale} % A.6.2.2150 ROLL
 		\texttt{2} \word{ROLL} is equivalent to \word{ROT},
@@ -5619,7 +5525,7 @@
 \end{worddef}
 
 % -------------------------------------------------------------------
-\enlargethispage{12ex}
+\vspace*{-1ex}\enlargethispage{12ex}
 \begin{worddef}[Seq]{2266}{S\bs"}[s-backslash-quote]%[X:escaped-strings]
 
 \interpret
@@ -5640,30 +5546,38 @@
 	parsing and substituting one or more \linebreak characters as follows, where
 	the character after the backslash is case sensitive:
 
-	\begin{tabular}{llll}
-		\verb|\a|	& BEL		& (alert,		& ASCII 7) \\
-		\verb|\b|	& BS		& (backspace,	& ASCII 8) \\
-		\verb|\e|	& ESC		& (escape,		& ASCII 27) \\
-		\verb|\f|	& FF		& (form feed,	& ASCII 12) \\
-		\verb|\l|	& LF		& (line feed,	& ASCII 10) \\
-		\verb|\m|	& CR/LF	& pair			& (ASCII 13, 10) \\
-		\verb|\n|	& newline& \multicolumn{2}{l}{(implementation dependent , e.g., CR/LF, CR, LF, LF/CR)} \\
-		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
-		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
-		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
-		\verb|\v|	& VT		& (vertical tab,		& ASCII 11) \\
-		\verb|\z|	& NUL		& (no character,		& ASCII 0) \\
-	\end{tabular}
-
-	\begin{tabular}{llll}
-		\verb|\"|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
+\cbstart\patch{ed21}
+	\begin{tabular}{llllllll}
+		\verb|\a|	& BEL	& alert,		& ASCII 7 		& \verb|\q|& \multicolumn{2}{l}{double-quote} & ASCII 34\\
+		\verb|\b|	& BS		& backspace,	& ASCII 8 		& \verb|\r| & CR	& ASCII 13 \\
+		\verb|\e|	& ESC	& escape,		& ASCII 27	& \verb|\t| & HT 	& horizontal tab	& ASCII 9 \\
+		\verb|\f|	& FF		& form feed,	& ASCII 12	& \verb|\v| & VT 	& vertical tab 		& ASCII 11 \\
+		\verb|\l|	& LF		& line feed,	& ASCII 10	& \verb|\z| & NUL 	& no character 		& ASCII 0 \\
+		\verb|\m|	& CR/LF	& pair		& ASCII 13, 10 	& \verb|\"| & \multicolumn{2}{l}{double-quote} & ASCII 34 \\
+		\verb|\n|	& newline& \multicolumn{6}{l}{implementation dependent , e.g., CR/LF, CR, LF, LF/CR} \\
+%		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
+%		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
+%		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
+%		\verb|\v|	& VT		& (vertical tab,		& ASCII 11) \\
+%		\verb|\z|	& NUL		& (no character,		& ASCII 0) \\
 		\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
-		&&\multicolumn{2}{p{27em}}{
+		&\multicolumn{7}{p{33em}}{
 			The resulting character is the conversion of these two hexadecimal
 			digits. An ambiguous conditions exists if \texttt{\bs{x}} is not
 			followed by two hexadecimal characters.} \\
-		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & (ASCII 92)
+		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & ASCII 92
 	\end{tabular}
+\cbend
+
+%	\begin{tabular}{llll}
+%		\verb|\"|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
+%		\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
+%		&&\multicolumn{2}{p{27em}}{
+%			The resulting character is the conversion of these two hexadecimal
+%			digits. An ambiguous conditions exists if \texttt{\bs{x}} is not
+%			followed by two hexadecimal characters.} \\
+%		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & (ASCII 92)
+%	\end{tabular}
 
 	An ambiguous condition exists if a \bs{} is placed before any character,
 	other than those defined in here.
@@ -5682,14 +5596,15 @@
 
 % -------------------------------------------------------------------
 
+\enlargethispage{8ex}
 \begin{worddef}{2182}{SAVE-INPUT}
 \item \stack{}{x_n {\ldots} x_1 n}
 
 	\param{x_1} through \param{x_n} describe the current state of the
 	input source specification for later use by \word{RESTORE-INPUT}.
 
-\see \wref{tools:NtoR}{}, \wref{tools:NRfrom}{},
-	  \rref{core:SAVE-INPUT}{}.
+	\walso{tools:NtoR}
+	\walso{tools:NRfrom}
 
 	\begin{rationale} % A.6.2.2182 SAVE-INPUT
 		\word{SAVE-INPUT} and \word{RESTORE-INPUT} allow the same
@@ -5888,7 +5803,7 @@
 		\end{tabular}
 	\end{center}
 
-\see \wref{file:SOURCE-ID}{SOURCE-ID}.
+	\walso{file:SOURCE-ID}
 \end{worddef}
 
 
@@ -5921,7 +5836,7 @@
 %	\end{rationale}
 %\end{worddef}
 
-\enlargethispage{4ex}
+
 \begin{worddef}{2295}{TO}
 \interpret
 	\stack{i*x "<spaces>name"}{}
@@ -5947,11 +5862,10 @@
 	\word{[COMPILE]}, \word{'} or \word{[']} are applied to
 	\word{TO}.
 
-\see \wref{core:VALUE}{VALUE},
-	\wref{double:2VALUE}{2VALUE},
-	\wref{floating:FVALUE}{FVALUE},
-	\wref{local:LOCAL}{(LOCAL)},
-	\rref{core:TO}{}.
+	\walso{core:VALUE}
+	\walso{double:2VALUE}
+	\walso{floating:FVALUE}
+	\walso{local:LOCAL}
 
 	\begin{rationale} % A.6.2.2295 TO
 		Typical use: \texttt{x} \word{TO} \emph{name}
@@ -5968,15 +5882,14 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-6ex}
 \begin{worddef}{2298}{TRUE}
 \item \stack{}{true}
 
 	Return a \param{true} flag, a single-cell value with all
 	bits set.
 
-\see \xref[3.1.3.1 Flags]{usage:flags},
-	\rref{core:TRUE}{}.
+	\xalso{usage:flags}
 
 	\begin{rationale} % A.6.2.2298 TRUE
 		\word{TRUE} is equivalent to the phrase
@@ -5989,14 +5902,14 @@
 	\end{testing}
 \end{worddef}
 
-
+\vspace*{-2ex}\enlargethispage{10ex}
 \begin{worddef}{2300}{TUCK}
 \item \stack{x_1 x_2}{x_2 x_1 x_2}
 
 	Copy the first (top) stack item below the second stack item.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2330}{U.R}[u-dot-r]
 \item \stack{u n}{}
 
@@ -6006,17 +5919,17 @@
 	spaces in a field as wide as necessary.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}[Umore]{2350}{U>}[u-greater-than]
 \item \stack{u_1 u_2}{flag}
 
 	\param{flag} is true if and only if \param{u_1} is greater than
 	\param{u_2}.
 
-\see \wref{core:more}{>}.
+	\walso{core:more}
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2395}{UNUSED}
 \item \stack{}{u}
 
@@ -6024,7 +5937,7 @@
 	by \word{HERE}, in address units.
 \end{worddef}
 
-
+\vspace*{-2ex}
 \begin{worddef}{2405}{VALUE}
 \item \stack{x "<spaces>name"}{}
 
@@ -6099,8 +6012,6 @@
 	\emph{false} otherwise. An ambiguous condition exists
 	\param{n_1|u_1}, \param{n_2|u_2}, and \param{n_3|u_3} are not
 	all the same type.
-
-\see \rref{core:WITHIN}{}.
 
 	\begin{rationale} % A.6.2.2440 WITHIN
 		We describe \word{WITHIN} without mentioning circular number
@@ -6199,8 +6110,7 @@
 \note This word is obsolescent and is included as a concession to
 	existing implementations.
 
-\see \xref[3.4.1 Parsing]{usage:parsing},
-	\rref{core:[COMPILE]}{}.
+	\xalso{usage:parsing}
 
 	\begin{rationale} % A.6.2.2530 [COMPILE]
 		Typical use:
@@ -6237,8 +6147,7 @@
 	Parse and discard the remainder of the parse area.
 	\word{bs} is an immediate word.
 
-\see \wref{block:bs}{\bs},
-	\rref{core:bs}{}.
+	\walso{block:bs}
 
 	\begin{rationale} % A.6.2.2535 \
 		Typical use:
