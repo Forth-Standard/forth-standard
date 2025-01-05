@@ -1423,8 +1423,8 @@ fntd}{fnt6} \\
 	found; otherwise return a false flag.
 	\word{[DEFINED]} is an immediate word.
 
-	\xalso[+]{core:FIND}
-	\xalso[+]{search:FIND}
+	\xalso[+][x:rule-of-find]{core:FIND}
+	\xalso[+][x:rule-of-find]{search:FIND}
 
 	\begin{implement} % I.15.6.2.2540.30 [DEFINED]
 		\word{:} \word{[DEFINED]} \word{BL} \word{WORD} \word{FIND} \word{NIP} \word{0ne} \word{;} \word{IMMEDIATE}
@@ -1450,6 +1450,7 @@ fntd}{fnt6} \\
 	\xalso{usage:parsing}
 	\walso[+]{tools:[IF]}
 	\walso[+]{tools:[THEN]}
+	\talso[+][x:simplify-bracket-else]{tools:[THEN]}
 
 	\begin{rationale} % A.15.6.2.2531 [ELSE]
 		Typical use:
@@ -1532,6 +1533,8 @@ fntd}{fnt6} \\
 	\xalso{usage:parsing}
 	\walso[+]{tools:[ELSE]}
 	\walso[+]{tools:[THEN]}
+	\ialso[+][simplify-bracket-else]{tools:[ELSE]}
+	\talso[+][simplify-bracket-else]{tools:[THEN]}
 
 	\begin{rationale} % A.15.6.2.2532 [IF]
 		Typical use:
@@ -1558,9 +1561,9 @@ fntd}{fnt6} \\
 
 	Does nothing. \word{[THEN]} is an immediate word.
 
-	\ralso{tools:[THEN]}
 	\walso[+]{tools:[IF]}
 	\walso[+]{tools:[ELSE]}	
+	\ialso[+][x:simplify-bracket-else]{tools:[ELSE]}
 
 	\begin{rationale} % A.15.6.2.2533 [THEN]
 		Typical use:
