@@ -267,13 +267,13 @@
 % \interpret		Interpretation semantics
 % \note[<number>]	Note with an optional <number>
 % \runtime[<type>]	Run-time semantics, with a given <type>
-% \see				Deprecated in favour of also
+% \see				See references (not to be used with also macros)
 %
-% \walso[<change>]{<label>}	Add word reference <label> to see also list
-% \ralso[<change>]{<label>}	Add rational reference <label> to see also list
-% \ialso[<change>]{<label>}	Add implementation reference <label> to see also
-% \talso[<change>]{<label>}	Add testing reference <label> to see also list
-% \xalso[<change>]{<label>}	Add <label> to see also list with <change> control
+% \walso[+/-][<prop>]{<label>}	Add word reference <label> to see also list
+% \ralso[+/-][<prop>]{<label>}	Add rational reference <label> to see also list
+% \ialso[+/-][<prop>]{<label>}	Add implementation reference <label> to see also list
+% \talso[+/-][<prop>]{<label>}	Add testing reference <label> to see also list
+% \xalso[+/-][<prop>]{<label>}	Add <label> to see also list
 %
 % \item[<name>]		None standard section "<name>:"
 %
@@ -615,9 +615,11 @@
 % This cleans up after the header and body
 
 \newcommand{\word@def@end}{%
+	\let\also@error=\also@ignore
 	\ralso{\word@list:\word@label}
 	\ialso{\word@list:\word@label}
 	\talso{\word@list:\word@label}
+	\let\also@error=\also@report
 	% \item[debug] \alsolist
 	\alsoevaluate
 	%
@@ -661,7 +663,7 @@
 \newcommand{\interpret}{\samepage\item[Interpretation]}
 \newcommand{\note}[1][\empty]{\item[Note\ifx#1\empty\else\ #1\fi]}
 \newcommand{\runtime}[1][]{\pagebreak[3]\item[#1 Run-time]}
-\newcommand{\see}{\samepage\item[See]\@latex@warning{see has been deprecated in favour of also}}
+\newcommand{\see}{\samepage\item[See]}
 
 
 % ==== Stack Descriptions ====
@@ -674,7 +676,7 @@
 
 \newcommand{\stack@sub}[1]{\raisebox{-0.4ex}{\scriptsize #1}}	% _
 \newcommand{\stack@sup}[1]{\raisebox{0.8ex}{\scriptsize #1}}	% ^
-%\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}		% *
+%\newcommand{\stack@mul}{\ensuremath{\mathbin\times}}			% *
 \newcommand{\stack@mul}{\,*\,}									% *
 \newcommand{\stack@bar}{~\textbar~}								% |
 \newcommand{\stack@opa}{\ensuremath{\langle}}					% <
@@ -839,7 +841,7 @@
 		\def\@currentHref{#1.\word@list.\word@label}
 		% Finally, the label itself
 		\label{#1:\word@list:\word@label}
-		% \also@c{#1:}{\word@list:\word@label}
+		% \also@code{#1:}{1}{\word@list:\word@label}
 	}
 
 	% \begin{rationale} ... \end{rationale}
@@ -1356,37 +1358,64 @@
 \def\also@list{}
 \newcommand{\also@init}{\gdef\also@list{}}
 
+% When processing the automatic referenes for the current word the error
+% reporting for missing references is surpress (\also@ignore).  However,
+% for user added entries we render a reference error (?? <label>) when the
+% referenced label is not defined (\also@report).
+% This is controlled by the \also@error macro.
+
+\newcommand{\also@report}[1]{\textbf{#1}}
+\newcommand{\also@ignore}[1]{}
+\let\also@error=\also@report
+
 % To add a reference to the list use one of the following:
 %
-% \ralso[+/-]{label}		- Reference the rationale for the label
-% \ialso[+/-]{label}		- Reference the implementation of the label
-% \talso[+/-]{label}		- Reference the testing for the label
-% \walso[+/-]{label}		- Reference to a word defintion with the label
-% \xalso[+/-]{label}		- Normal cross reference
+% \ralso[+/-][prop]{label}	- Reference the rationale for the label
+% \ialso[+/-][prop]{label}	- Reference the implementation of the label
+% \talso[+/-][prop]{label}	- Reference the testing for the label
+% \walso[+/-][prop]{label}	- Reference to a word defintion with the label
+% \xalso[+/-][prop]{label}	- Normal cross reference
 %
-% The optional [+/-] argument will mark the references as being added (+)
-% or removed (-) and place the change bars the ed<year> marginal note.
+% The optional [+/-] argument will mark the references as being a change
+% + for addition and - for removal.  If given then the second optional
+% argument (prop) is the name of the proposal, ed<year> will be used if no
+% prosal name is given.
 %
 % The code references (\ralso, \ialso, \talso and \walso) all format the
-% name of the label in teletype, while \xalso does not.
+% title of the label in teletype (1), while \xalso uses roman (0).
 
-\newcommand{\ralso}{\also@c{rat:}}
-\newcommand{\ialso}{\also@c{imp:}}	
-\newcommand{\talso}{\also@c{test:}}
-\newcommand{\walso}{\also@c{}}
-\newcommand{\xalso}[2][!]{\also@v{#1}{@}{#2}}
+\newcommand{\ralso}{\also@code{rat:}{1}}
+\newcommand{\ialso}{\also@code{imp:}{1}}
+\newcommand{\talso}{\also@code{test:}{1}}
+\newcommand{\walso}{\also@code{}{1}}
+\newcommand{\xalso}{\also@code{}{0}}
 
-\newcommand{\also@c}[1]{\edef\temp@a{#1}\also@d}
-\newcommand{\also@d}[2][!]{\also@v{#1}{!}{\temp@a#2}}
-\newcommand{\also@v}[3]{%
-	\expandafter\ifx\csname r@#3\endcsname\relax\else%
-		\edef\also@list{\also@list,{#1}{#2}{#3}}
-	\fi%
+\newcommand{\also@code}[2]{
+	\edef\also@s{#1}
+	\edef\also@t{#2}
+	\also@change
 }
 
-% The \alsolist macro is designed to process the \also@list and render the
-% arguments, it is a debug tool used to check we can process the list
-% correctly.
+\newcommand{\also@change}[1][!]{
+	\edef\also@c{#1}
+	\also@data
+}
+	
+\newcommand{\also@data}[2][ed\shortyear{\the\year}]{
+	\expandafter\ifx\csname r@\also@s#2\endcsname\relax
+		\also@error{[?? \also@s#2]}
+	\else
+		\expandafter\expandafter\expandafter\also@value\csname r@\also@s#2\endcsname{\also@c}{#1}{\also@t}
+	\fi
+}
+
+\newcommand{\also@value}[8]{
+	\edef\also@list{\also@list,{#2}{#4}{#1}{#3}{#6}{#7}{#8}}
+}
+
+% The \alsolist macro is designed to process the list of see also references
+% rendering each entry, it is a debug tool used to check we can process the
+% list correctly.
 
 \newcommand{\alsolist}{%
 	\@for\temp@a:=\also@list\do{
@@ -1395,69 +1424,76 @@
 		\fi
 	}
 }
-\newcommand{\also@format}[3]{[#1#2 #3]}
+\newcommand{\also@format}[7]{[#1][#2][#3][#4][#5][#6][#7]\\}
 
 % \alsoevaluate is called by the end definition code to go though the
 % \also@list one page at a time rendering all defintions on that page
 % by calling \also@eval for each entry in the list.
 % I know this is a very poor method of filtering/sorting the list but
-% it works and does not take up too much time.
+% it works and does not take up too much time.  Note the magic number
+% representing the total number of pages in the document.
 
 \newcounter{also}
 \newif\ifalso@first\also@firsttrue
-\newcommand{\alsoevaluate}{%
-	\setcounter{also}{0}%
-	\loop%
-		\@for\temp@a:=\also@list\do{%
-			\ifx\temp@a\empty\else%
-				\expandafter\also@eval\temp@a%
+\newcommand{\alsoevaluate}{
+	\setcounter{also}{1}
+	\also@firsttrue
+	\loop
+		\@for\tmp@a:=\also@list\do{%
+			\ifx\tmp@a\empty\else%
+				\expandafter\also@eval\tmp@a%
 			\fi%
 		}%
 		\stepcounter{also}%
-	\ifnum\c@also<1000\repeat%
+	\ifnum\c@also<1000\repeat% <=== magic number - total number of pages
 	\ifalso@first\else.\fi
 }
 
-% Process the three parameters that form the entry.
-% #1 - the cange control is copied into the \temp@b macro.
-% #2 - the formatting control is copied into the \temp@c macro.
-% #3 - label for the item being evaluated,
-%		this is expanded and passed to \also@ref for further processing.
-\newcommand{\also@eval}[3]{% <change> <format> <label>
-	\let\temp@b=\relax%
-	\let\temp@c=\relax%
-	\ifx+#1\let\temp@b=\uline\fi%
-	\ifx-#1\let\temp@b=\sout\fi%
-	\ifx!#2\let\temp@c=\texttt\fi%
-	\expandafter\expandafter\expandafter\also@ref\csname r@#3\endcsname%
-}
-
-% If the label is on the current page it will generate the cross reference
-% for the label.
-% #1 - Section number for the item.
-% #2 - Page the section is defined on.
-% #3 - Title of the definition.
-% #4 - The hyper reference target
-%
-% If this is the first item to be generated it will add the "See also" label
-% otherwise add a comma to the output.  If a change control (\temp@b) was
-% given it will add the change bars and the ed<year> marginal note.  It uses
-% use \temp@c macro to format the name of the link.
-\newcommand{\also@ref}[4]{% <number> <page> <title> <target>
-	\expandafter\ifnum#2=\c@also%
-		\ifalso@first%
-			\samepage\item[See also]
-			\also@firstfalse
-		\else, \fi
+% Process the each entry from the list.
+% #1 - page number
+% #2 - hyper link
+% #3 - section number
+% #4 - title
+% #5 - change control + (addition), - (removeal), ! (no-change)
+% #6 - propoal
+% #7 - format of title 1 (code), 0 (roman)
+\newcommand{\also@eval}[7]{%
+	\expandafter\ifnum#1=\c@also
 		%
-		\ifx\temp@b\relax\else\cbstart\fi%
-		\temp@b{%
-			\hyperref{}{}{#4}{#1} \linebreak[3]
-			\hyperref{}{}{#4}{\temp@c{#3}} \linebreak[3]
-			(page \hyperref{}{}{#4}{#2})%
+		% Title format
+		%
+		\let\also@t=\textrm%
+		\ifx1#7\let\also@t\texttt\fi%
+		%
+		% Change formatting
+		%
+		\let\also@c=\relax%
+		\ifx+#5\let\also@c\uline\fi%
+		\ifx-#5\let\also@c\sout\fi%
+		%
+		% If first output, add See also else add comma
+		\ifalso@first%
+			\also@firstfalse%
+			\item[See also]%
+		\else, \linebreak[3]
+		\fi%
+		%
+		% Change bar start
+		%
+		\ifx\also@c\relax\else\cbstart\patch{#6}\fi%
+		%
+		% Render reference
+		%
+		\also@c{%
+			\hyperref{}{}{#2}{#3}
+			\hyperref{}{}{#2}{\also@t{#4}}
+			(page~\hyperref{}{}{#2}{#1})%
 		}%
-		\ifx\temp@b\relax\else\cbend\patch{ed\shortyear{\the\year}}\fi%
-	\fi%
+		%
+		% Change bar end
+		%
+		\ifx\also@c\relax\else\cbend\fi%
+	\fi
 }
 
 % helper macros used for taking the first two digits of off the current year
