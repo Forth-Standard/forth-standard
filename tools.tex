@@ -1383,17 +1383,17 @@ fntd}{fnt6} \\
 	\begin{implement}
 		\textdf{%
 			It in not possible to define quotations in ISO Forth.  The following
-			is an outline definition where \word{save-definition-state} and
-			\word{restore-definition-state} require carnal knowledge of the
+			is an outline definition where \texttt{save-definition-state} and
+			\texttt{restore-definition-state} require carnal knowledge of the
 			system and are left to the implementor.
 		}
 		
 		\word{:} \word{[:} \word{p} C: -{}- quotation-sys colon-sys ) \\
-		\tab \word{POSTPONE} \word{AHEAD} \word{save-definition-state} \word{:NONAME} \\
+		\tab \word{POSTPONE} \word{AHEAD} save-definition-state \word{:NONAME} \\
 		\word{;} \word{IMMEDIATE}
 		
 		\word{:} \word{;]} \word{p} C: quotation-sys colon-sys -{}- ) ( -{}- xt ) \\
-		\tab \word{POSTPONE} \word{;} \word{toR} \word{restore-definition-state} \\
+		\tab \word{POSTPONE} \word{;} \word{toR} restore-definition-state \\
 		\tab \word{POSTPONE} \word{THEN} \word{Rfrom} \word{POSTPONE} \word{LITERAL} \\
 		\word{;} \word{IMMEDIATE}
 	\end{implement}

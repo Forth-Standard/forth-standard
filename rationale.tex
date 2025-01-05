@@ -626,7 +626,7 @@ control structures shown in figure~\textbf{\ref{fig:basic}}.
 
 \begin{figure}[ht]
   \begin{center}
-	\fbox{\includegraphics[bb=0 0 658 202,width=0.8\textwidth]{basic.png}}
+	\fbox{\includegraphics[viewport=0 0 658 202,width=0.8\textwidth]{basic.png}}
 	\caption{The basic control-flow patterns}
 	\label{fig:basic}
   \end{center}
@@ -712,7 +712,7 @@ stack notation used here for immediate words is ( \emph{compilation
 
 \begin{figure}[ht]
   \begin{center}
-	\fbox{\includegraphics[bb=0 0 529 262,width=0.8\textwidth]{additional.png}}
+	\fbox{\includegraphics[viewport=0 0 529 262,width=0.8\textwidth]{additional.png}}
 	\caption{Additional basic control-flow patterns}
 	\label{fig:additional}
   \end{center}
@@ -742,7 +742,7 @@ actions are all specified after the body of the loop.
 
 \begin{figure}[ht]
   \begin{center}
-	\fbox{\includegraphics[bb=0 0 598 462, width=0.8\textwidth]{extended.png}}
+	\fbox{\includegraphics[viewport=0 0 598 462, width=0.8\textwidth]{extended.png}}
 	\caption{Extended control-flow patterns}
 	\label{fig:extended}
   \end{center}
@@ -994,7 +994,7 @@ Additional transient buffers are provided for use by \word{Cq}, \word{Sq} and
 allowing the command line:
 
 \begin{quote}
-	\texttt{\word[core]{Sq} name1" \word[core]{Sq} name2" \word{RENAME-FILE}}
+	\texttt{\word{Sq} name1" \word{Sq} name2" \word[file]{RENAME-FILE}}
 \end{quote}
 
 The buffers may be implemented in a circular arrangement, where a string
