@@ -150,8 +150,8 @@
 % ======================================
 \usepackage{xcolor}
 \usepackage[colorlinks,
-	linkcolor = blue!60,
-	urlcolor  = blue,
+	linkcolor = blue!80!green,
+	urlcolor  = blue!60!green,
 	citecolor = blue,
 	anchorcolor = blue,
 %	linkbordercolor=blue,
@@ -615,13 +615,6 @@
 % This cleans up after the header and body
 
 \newcommand{\word@def@end}{%
-	\let\also@error=\also@ignore
-	\ralso{\word@list:\word@label}
-	\ialso{\word@list:\word@label}
-	\talso{\word@list:\word@label}
-	\let\also@error=\also@report
-	% \item[debug] \alsolist
-	\alsoevaluate
 	%
 	% Extend the normal "missing \item" error message to
 	% tell us which word is in error.
@@ -629,8 +622,21 @@
 	\def\@noitemerr{\word@error{Something wrong here --- perhaps a
 		missing \string\item}}
 	%
-	% End the list started by \word@def@body
+	% Add Rational, Implementation and Testing to the see also list
 	%
+	\let\also@error=\also@ignore
+	\ralso{\word@list:\word@label}
+	\ialso{\word@list:\word@label}
+	\talso{\word@list:\word@label}
+	\let\also@error=\also@report
+	%\item[debug] \alsolist
+	%
+	% Generate the see also list
+	%
+	\alsoevaluate
+	%
+	% End the list started by \word@def@body
+	%1440
 	\end{list}
 	%
 	% End the change bar, if it was enabled
@@ -1160,7 +1166,7 @@
 
 \newcommand{\word@word}[4]{% {number}{page}{name}{link}
 	\hyperref{}{}{#4}{%
-		\textbf{\texttt{%
+		\texttt{%
 			\frenchspacing%
 			\ifshowref
 				\underline{#3}%
@@ -1168,7 +1174,7 @@
 				{#3}%
 			\fi%
 			\nonfrenchspacing
-		}}%
+		}%
 	}%
 }
 
@@ -1253,10 +1259,8 @@
 % title (#3)
 
 \newcommand{\word@xref}[4]{% {number}{page}{name}{link}
-	\textbf{%
-		\hyperref{}{}{#4}{#1} \linebreak[3]
-		\hyperref{}{}{#4}{#3}%
-	}%
+	\hyperref{}{}{#4}{#1}
+	\hyperref{}{}{#4}{#3}%
 }
 
 \newcommand{\xref}[2][??]{% [<text>]{<label>}
@@ -1279,7 +1283,7 @@
 %	<name>	is the LaTeX which will be typeset for the word reference
 
 \newcommand{\word@ref}[4]{% <section> <page> <name> <label>
-	\hyperref{}{}{#4}{\textbf{#1}} \linebreak[3]
+	\hyperref{}{}{#4}{#1}
 	\hyperref{}{}{#4}{\texttt{#3}}%
 }
 
