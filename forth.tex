@@ -1455,7 +1455,7 @@
 		}%
 		\stepcounter{also}%
 	\ifnum\c@also<1000\repeat% <=== magic number - total number of pages
-	\ifalso@first\else.\fi
+	\ifalso@first\else\linebreak[0].\fi
 }
 
 % Process the each entry from the list.
@@ -1484,7 +1484,7 @@
 		\ifalso@first%
 			\also@firstfalse%
 			\item[See also]%
-		\else, \linebreak[3]
+		\else\linebreak[0], \linebreak[3]
 		\fi%
 		%
 		% Change bar start
@@ -1494,9 +1494,9 @@
 		% Render reference
 		%
 		\also@c{%
-			\expandafter\ifx#3\empty\else\hyperref{}{}{#2}{#3}\fi
+			\expandafter\ifx#3\empty\else\hyperref{}{}{#2}{#3}\space\fi
 			\hyperref{}{}{#2}{\also@t{#4}}
-			(page~\hyperref{}{}{#2}{#1})%
+			(page \hyperref{}{}{#2}{#1})\linebreak[0]%
 		}%
 		%
 		% Change bar end
