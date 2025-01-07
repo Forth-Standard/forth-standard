@@ -21,6 +21,18 @@
 \newif\ifrelease		% Draft/Release version
 \input{config}
 
+% =========== Under-/Over-full box ==========
+
+% The following disables the underfull box error reports
+
+\hbadness=99999
+\vbadness=99999
+
+% The following removes the overfull box error reports
+
+\hfuzz=16383pt
+\setlength\marginparwidth{100pt}
+
 % =================================================
 
 % Tell LaTeX to record a list of all the files
@@ -463,13 +475,6 @@
 	%
 	% Word number and name
 	%
-%\@tempswbfalse
-%\ifrelease\else
-%	\ifx\empty\word@prop\else
-%		\cbstart\marginpar{\tiny{\color{white}c:b}}
-%		\@tempswbtrue
-%	\fi
-%\fi
 	\makebox[0.5\textwidth][l]{%
 		\makebox[6.0em][l]{% <== Magic Number, width of section number
 			% Switch to a bold font
@@ -1563,7 +1568,7 @@
 	\edef\temp@b{\thepage.#1}
 	\ifx\temp@b\@history@label
 		% Label already used on this page
-		\marginpar{\tiny{\color{white}c:b}}
+		\marginpar{\tiny\color{white}c:b}
 	\else
 		% New label for this page
 		\marginpar{%
