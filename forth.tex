@@ -1614,6 +1614,21 @@
 % ========================================================
 
 \begin{document}
+%
+% Because some people are unable to handle the concept of sheet numbers being
+% different to page numbers we have to forgo the conventional book practice of
+% of front, main and back matter, and set the entire document as main matter,
+% with the title page being sheet/page 1.  This way the page and sheet numbers
+% are syncronised.  When these users view the pdf with an inferior viewer the
+% the goto sheet number function, which they think is a goto page number
+% function, will work in the way they expect.
+%
+\makeatletter
+\cleardoublepage
+\@tempcnta = \c@page
+\mainmatter
+\c@page = \@tempcnta
+\makeatother
 
 % \nochangebars\rule{\linewidth}{1pt}\hspace*{-\linewidth}\rule[3pt]{\linewidth}{1pt}
 
@@ -1621,16 +1636,6 @@
 \include{titlepage}
 \thispagestyle{empty}
 \def\includefile{}
-
-% Change style of page numbering without changing the page number.
-% What used to be \frontmatter is now this crap:
-
-\makeatletter
-\cleardoublepage
-\@tempcnta = \c@page
-\frontmatter
-\c@page = \@tempcnta
-\makeatother
 
 \setcounter{tocdepth}{2}
 {\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
@@ -1646,20 +1651,6 @@
 \fi
 \include{members-2x}
 %\include{members-x3}
-
-% Because some people are unable to handle the concept of sheet
-% numbers being different to page numbers we have to bastardise
-% the page numbering by preserving the page number between
-% the font and main matter, converting page number into sheet
-% numbering.
-% What used to be \mainmatter is now this crap:
-
-\makeatletter
-\cleardoublepage
-\@tempcnta = \c@page
-\mainmatter
-\c@page = \@tempcnta
-\makeatother
 
 % Part I: Introduction
 
