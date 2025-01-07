@@ -90,7 +90,8 @@ and \ref{annex:implement} respectivly).
 	% Word Name - Hyperlinked to its definition
 	%
 	\makebox[\alpha@length][l]{%
-		\hyperref{}{#5}{#8}{\textbf{\texttt{#4}}}
+		\expandafter\ifx#7\empty\else\hspace*{-10pt}\fi%
+		\hyperref{}{#5}{#8}{\texttt{#4}}
 		\quad
 		\dotfill
 	}%
