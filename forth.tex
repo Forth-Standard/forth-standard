@@ -6,13 +6,13 @@
 % ========== Page Size ==========
 % (taken from a4wide.sty, but now applied to US Letter Paper)
 
-    \oddsidemargin		0.15 in 	% Left margin on odd-numbered pages.
-    \evensidemargin	0.35 in 	% Left margin on even-numbered pages.
-    \marginparwidth	1 in		% Width of marginal notes.
-    \oddsidemargin		0.25 in 	% Note that \oddsidemargin = \evensidemargin
-    \evensidemargin	0.25 in
-    \marginparwidth	0.75 in
-    \textwidth			5.875 in	% Width of text line.
+\oddsidemargin		0.15 in 	% Left margin on odd-numbered pages.
+\evensidemargin	0.35 in 	% Left margin on even-numbered pages.
+\marginparwidth	1 in		% Width of marginal notes.
+\oddsidemargin		0.25 in 	% Note that \oddsidemargin = \evensidemargin
+\evensidemargin	0.25 in
+\marginparwidth	0.75 in
+\textwidth			5.875 in	% Width of text line.
 
 % ========== Document Organisation Flags ==========
 
@@ -1264,7 +1264,7 @@
 % title (#3)
 
 \newcommand{\word@xref}[4]{% {number}{page}{name}{link}
-	\hyperref{}{}{#4}{#1}
+	\expandafter\ifx#1\empty\else\hyperref{}{}{#4}{#1}\fi
 	\hyperref{}{}{#4}{#3}%
 }
 
@@ -1373,7 +1373,7 @@
 % referenced label is not defined (\also@report).
 % This is controlled by the \also@error macro.
 
-\newcommand{\also@report}[1]{\textbf{#1}}
+\newcommand{\also@report}[1]{\textbf{[?? #1]}}
 \newcommand{\also@ignore}[1]{}
 \let\also@error=\also@report
 
@@ -1412,7 +1412,7 @@
 	
 \newcommand{\also@data}[2][ed\shortyear{\the\year}]{
 	\expandafter\ifx\csname r@\also@s#2\endcsname\relax
-		\also@error{[?? \also@s#2]}
+		\also@error{\also@s#2}
 	\else
 		\expandafter\expandafter\expandafter\also@value\csname r@\also@s#2\endcsname{\also@c}{#1}{\also@t}
 	\fi
@@ -1494,7 +1494,7 @@
 		% Render reference
 		%
 		\also@c{%
-			\hyperref{}{}{#2}{#3}
+			\expandafter\ifx#3\empty\else\hyperref{}{}{#2}{#3}\fi
 			\hyperref{}{}{#2}{\also@t{#4}}
 			(page~\hyperref{}{}{#2}{#1})%
 		}%
