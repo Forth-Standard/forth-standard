@@ -1493,8 +1493,10 @@
 		%
 		% Render reference
 		%
+		\def\also@n{#3}
+		\ifx\also@n\empty\relax\else\def\also@n{\hyperref{}{}{#2}{#3}\space}\fi
 		\also@c{%
-			\expandafter\ifx#3\empty\else\hyperref{}{}{#2}{#3}\space\fi
+			\also@n
 			\hyperref{}{}{#2}{\also@t{#4}}
 			(page \hyperref{}{}{#2}{#1})\linebreak[0]%
 		}%
