@@ -1625,20 +1625,18 @@
 % the goto sheet number function, which they think is a goto page number
 % function, will work in the way they expect.
 %
-\makeatletter
 \cleardoublepage
-\@tempcnta = \c@page
 \mainmatter
-\c@page = \@tempcnta
-\makeatother
+\setcounter{page}{1}
 
 % \nochangebars\rule{\linewidth}{1pt}\hspace*{-\linewidth}\rule[3pt]{\linewidth}{1pt}
 
 \include{hyphenation}
-\include{titlepage}
 \thispagestyle{empty}
-\def\includefile{}
+\include{titlepage}
 
+\def\includefile{}
+\setcounter{page}{2}
 \setcounter{tocdepth}{2}
 {\parskip 0pt \tableofcontents}	\addcontentsline{toc}{chapter}{\contentsname}
 %%{\parskip 0pt \listoftables}	\addcontentsline{toc}{chapter}{\listtablename}
@@ -1646,6 +1644,7 @@
 %%{\parskip 0pt \listofprograms}	\addcontentsline{toc}{chapter}{\listprogramname}
 
 %\newpage
+\cleardoublepage
 \include{foreword}
 %\include{foreword-ans}
 \ifrelease\else
