@@ -1,0 +1,10 @@
+Support
+*.dia
+*.png
+*.sty
+*.tex
+include.txt
+make.bat
+Makefile
+README
+SortIndex.fs
