@@ -5509,7 +5509,7 @@
 	\walso{tools:NRfrom}
 \end{worddef}
 
-\vspace*{-1ex}
+\vspace{2ex}\enlargethispage{-8ex}
 \begin{worddef}{2150}{ROLL}
 \item \stack{x_u x_{u-1} {\ldots} x_0 u}{x_{u-1} {\ldots} x_0 x_u}
 
@@ -5524,10 +5524,8 @@
 	\end{rationale}
 \end{worddef}
 
-% -------------------------------------------------------------------
-\vspace*{-1ex}\enlargethispage{12ex}
+\vspace{2ex}
 \begin{worddef}[Seq]{2266}{S\bs"}[s-backslash-quote]%[X:escaped-strings]
-
 \interpret
 	\stack{"ccc<quote>"}{c-addr u}
 
@@ -5543,60 +5541,59 @@
 \item[Translation rules]
 	Characters are processed one at a time and appended to the compiled
 	string. If the character is a `\bs' character it is processed by
-	parsing and substituting one or more \linebreak characters as follows, where
-	the character after the backslash is case sensitive:
-
-\cbstart\patch{ed21}
-	\begin{tabular}{llllllll}
-		\verb|\a|	& BEL	& alert,		& ASCII 7 		& \verb|\q|& \multicolumn{2}{l}{double-quote} & ASCII 34\\
-		\verb|\b|	& BS		& backspace,	& ASCII 8 		& \verb|\r| & CR	& ASCII 13 \\
-		\verb|\e|	& ESC	& escape,		& ASCII 27	& \verb|\t| & HT 	& horizontal tab	& ASCII 9 \\
-		\verb|\f|	& FF		& form feed,	& ASCII 12	& \verb|\v| & VT 	& vertical tab 		& ASCII 11 \\
-		\verb|\l|	& LF		& line feed,	& ASCII 10	& \verb|\z| & NUL 	& no character 		& ASCII 0 \\
-		\verb|\m|	& CR/LF	& pair		& ASCII 13, 10 	& \verb|\"| & \multicolumn{2}{l}{double-quote} & ASCII 34 \\
-		\verb|\n|	& newline& \multicolumn{6}{l}{implementation dependent , e.g., CR/LF, CR, LF, LF/CR} \\
-%		\verb|\q|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
-%		\verb|\r|	& CR		& (carriage return,	& ASCII 13) \\
-%		\verb|\t|	& HT		& (horizontal tab,	& ASCII 9) \\
-%		\verb|\v|	& VT		& (vertical tab,		& ASCII 11) \\
-%		\verb|\z|	& NUL		& (no character,		& ASCII 0) \\
-		\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
-		&\multicolumn{7}{p{30em}}{
-			The resulting character is the conversion of these two hexadecimal
-			digits. An ambiguous conditions exists if \texttt{\bs{x}} is not
-			followed by two hexadecimal characters.} \\
-		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & ASCII 92
-	\end{tabular}
-\cbend
-
-%	\begin{tabular}{llll}
-%		\verb|\"|	& \multicolumn{2}{l}{double-quote} & (ASCII 34) \\
-%		\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
-%		&&\multicolumn{2}{p{27em}}{
-%			The resulting character is the conversion of these two hexadecimal
-%			digits. An ambiguous conditions exists if \texttt{\bs{x}} is not
-%			followed by two hexadecimal characters.} \\
-%		\texttt{\bs\bs} & \multicolumn{2}{l}{backslash itself} & (ASCII 92)
-%	\end{tabular}
+	parsing and substituting one or more characters as
+	\replace{ed21}{follows}{given in table \ref{table:Seq}}, where
+	the character after the backslash is case sensitive.
 
 	An ambiguous condition exists if a \bs{} is placed before any character,
-	other than those defined in here.
+	other than those defined \replace{ed21}{in here}{in the table}.
+
+	\begin{table}[ht]
+		\caption{\word{Seq} escape sequences}
+		\label{table:Seq}
+		\begin{center}
+\cbstart
+			\begin{tabular}[ht]{llll}
+				\hline\hline
+				\verb|\a|	& BEL		& alert,					& ASCII 7  \\
+				\verb|\b|	& BS		& backspace,				& ASCII 8  \\
+				\verb|\e|	& ESC		& escape,					& ASCII 27 \\
+				\verb|\f|	& FF		& form feed,				& ASCII 12 \\
+				\verb|\l|	& LF		& line feed,				& ASCII 10 \\
+				\verb|\m|	& CR/LF	& pair						& ASCII 13, 10 \\
+				\verb|\n|	& newline& implementation dependent \\
+							&			& \multicolumn{2}{l}{(e.g., CR/LF, CR, LF, LF/CR)} \\
+				\verb|\q|	&			& double-quote			& ASCII 34 \\
+				\verb|\r|	& CR		& carriage return 		& ASCII 13 \\
+				\verb|\t|	& HT 		& horizontal tab		& ASCII 9  \\
+				\verb|\v|	& VT 		& vertical tab 			& ASCII 11 \\
+				\multicolumn{3}{l}{\texttt{\bs{}x}\arg{hexdigit}\arg{hexdigit}} \\
+					&\multicolumn{3}{p{21em}}{
+						The resulting character is the conversion of these two
+						hexadecimal digits. An ambiguous conditions exists if
+						\texttt{\bs{x}} is not followed by two hexadecimal characters.} \\
+				\verb|\z|	& NUL 		& no character 			& ASCII 0	 \\
+				\verb|\"|	& 			& double-quote			& ASCII 34 \\
+				\verb|\\|	&			& backslash itself		& ASCII 92 \\
+				\hline\hline
+			\end{tabular}
+\cbend
+		\end{center}
+	\end{table}
 
 \runtime \stack{}{c-addr u} \\
 	Return \param{c-addr} and \param{u} describing a string consisting of
 	the translation of the characters \param{ccc}.  A program shall not
 	alter the returned string.
 
-\see \xref{usage:"literal},
-	\xref{usage:parsing},
-	\wref{core:Cq}{},
-	\wref{core:Sq}{},
-	\rref{core:Sq}{}.
+	\xalso{usage:"literal}
+	\xalso{usage:parsing}
+	\walso{core:Cq}
+	\walso{core:Sq}
+	\ralso{core:Sq}
 \end{worddef}
 
-% -------------------------------------------------------------------
 
-\enlargethispage{8ex}
 \begin{worddef}{2182}{SAVE-INPUT}
 \item \stack{}{x_n {\ldots} x_1 n}
 
@@ -5792,6 +5789,7 @@
 \item \stack{}{0 | -1 }
 
 	Identifies the input source as follows:
+
 	\begin{center}
 		\begin{tabular}{cl}
 		\hline\hline
@@ -5836,7 +5834,7 @@
 %	\end{rationale}
 %\end{worddef}
 
-
+\newpage
 \begin{worddef}{2295}{TO}
 \interpret
 	\stack{i*x "<spaces>name"}{}
@@ -5882,7 +5880,7 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-6ex}
+\vspace*{-1ex}
 \begin{worddef}{2298}{TRUE}
 \item \stack{}{true}
 
@@ -5902,14 +5900,14 @@
 	\end{testing}
 \end{worddef}
 
-\vspace*{-2.5ex}\enlargethispage{10ex}
+\vspace*{-1ex}
 \begin{worddef}{2300}{TUCK}
 \item \stack{x_1 x_2}{x_2 x_1 x_2}
 
 	Copy the first (top) stack item below the second stack item.
 \end{worddef}
 
-\vspace*{-2.5ex}
+\vspace*{-1ex}
 \begin{worddef}{2330}{U.R}[u-dot-r]
 \item \stack{u n}{}
 
@@ -5919,7 +5917,7 @@
 	spaces in a field as wide as necessary.
 \end{worddef}
 
-\vspace*{-2.5ex}
+\vspace*{-1ex}
 \begin{worddef}[Umore]{2350}{U>}[u-greater-than]
 \item \stack{u_1 u_2}{flag}
 
@@ -5929,7 +5927,7 @@
 	\walso{core:more}
 \end{worddef}
 
-\vspace*{-2.5ex}
+
 \begin{worddef}{2395}{UNUSED}
 \item \stack{}{u}
 
@@ -5937,7 +5935,7 @@
 	by \word{HERE}, in address units.
 \end{worddef}
 
-\vspace*{-2.5ex}
+
 \begin{worddef}{2405}{VALUE}
 \item \stack{x "<spaces>name"}{}
 
@@ -6092,7 +6090,7 @@
 	\end{implement}
 \end{worddef}
 
-
+\pagebreak
 \begin{worddef}{2530}{[COMPILE]}[bracket-compile]
 \interpret
 	Interpretation semantics for this word are undefined.
@@ -6156,3 +6154,5 @@
 		\end{quote}
 	\end{rationale}
 \end{worddef}
+
+\endinput
