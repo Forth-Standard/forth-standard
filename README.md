@@ -470,8 +470,8 @@ in which case this label is used `<wordlist>:<label>`.
 I have been developing the document on a Windows 10 system using the
 following utilities:
 
-- [MiKTeX](www.miktex.org)				- 2.9
-- [TeXWorks](www.tug.org/texworks)		- 0.6.1
-- [Notepad++](notepad-plus-plus.org)	- 7.3.3
-- [SwiftForth](www.forth.com)			- 3.6.3
-- [Dia](live.gnome.org/Dia)				- 0.97.2
+- [MiKTeX](https://www.miktex.org)				- 2.9
+- [TeXWorks](https://www.tug.org/texworks)		- 0.6.1
+- [Notepad++](https://notepad-plus-plus.org)	- 7.3.3
+- [SwiftForth](https://www.forth.com)			- 3.6.3
+- [Dia](https://live.gnome.org/Dia)				- 0.97.2
